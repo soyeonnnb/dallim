@@ -7,6 +7,7 @@ class test {
                 println(str)
             }else{
                 print(str)
+                print(str)
             }
         }
     }

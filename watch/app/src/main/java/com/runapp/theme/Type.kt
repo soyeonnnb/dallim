@@ -1,4 +1,4 @@
-package com.runapp.presentation.theme
+package com.runapp.theme
 
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily

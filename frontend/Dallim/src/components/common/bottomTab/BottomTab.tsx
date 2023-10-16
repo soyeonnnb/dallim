@@ -11,7 +11,15 @@ const Tab = createBottomTabNavigator();
 
 function BottomTab() {
     return (
-        <Tab.Navigator screenOptions={{ tabBarShowLabel: false, headerShown: false }}>
+        <Tab.Navigator screenOptions={{
+            tabBarShowLabel: false, headerShown: false,
+            tabBarStyle: {
+                height: 50,
+                backgroundColor: 'black',
+            }
+        }}
+
+        >
             <Tab.Screen
                 name="Chart"
                 component={Chart}
@@ -19,9 +27,9 @@ function BottomTab() {
                     tabBarIcon: ({ focused }) => (
                         <S.TabIcon
                             source={require('../../../assets/icons/chart-icon.png')}
-                            tintColor={focused ? 'blue' : 'gray'}
+                            tintColor={focused ? 'white' : 'gray'}
                         />
-                    ),
+                    )
                 }}
             />
             <Tab.Screen
@@ -31,7 +39,7 @@ function BottomTab() {
                     tabBarIcon: ({ focused }) => (
                         <S.TabIcon
                             source={require('../../../assets/icons/social-icon.png')}
-                            tintColor={focused ? 'blue' : 'gray'}
+                            tintColor={focused ? 'white' : 'gray'}
                         />
                     ),
                 }}
@@ -43,7 +51,7 @@ function BottomTab() {
                     tabBarIcon: ({ focused }) => (
                         <S.TabIcon
                             source={require('../../../assets/icons/main-icon.png')}
-                            tintColor={focused ? 'blue' : 'gray'}
+                            tintColor={focused ? 'white' : 'gray'}
                         />
                     ),
                 }}
@@ -55,7 +63,7 @@ function BottomTab() {
                     tabBarIcon: ({ focused }) => (
                         <S.TabIcon
                             source={require('../../../assets/icons/edit-icon.png')}
-                            tintColor={focused ? 'blue' : 'gray'}
+                            tintColor={focused ? 'white' : 'gray'}
                         />
                     ),
                 }}
@@ -67,7 +75,7 @@ function BottomTab() {
                     tabBarIcon: ({ focused }) => (
                         <S.TabIcon
                             source={require('../../../assets/icons/profile-icon.png')}
-                            tintColor={focused ? 'blue' : 'gray'}
+                            tintColor={focused ? 'white' : 'gray'}
                         />
                     ),
                 }}

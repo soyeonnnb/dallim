@@ -1,4 +1,4 @@
-package com.runapp.presentation.theme
+package com.runapp.theme
 
 class test {
     class Person(

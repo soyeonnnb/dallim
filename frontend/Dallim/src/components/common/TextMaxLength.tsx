@@ -1,3 +1,5 @@
+// 글자 수 제한 컴포넌트
+
 type PropsType = {
     text: string;
     maxLength: number;

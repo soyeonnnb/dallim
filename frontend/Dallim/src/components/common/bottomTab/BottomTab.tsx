@@ -11,7 +11,7 @@ const Tab = createBottomTabNavigator();
 
 function BottomTab() {
     return (
-        <Tab.Navigator screenOptions={{ tabBarShowLabel: false }}>
+        <Tab.Navigator screenOptions={{ tabBarShowLabel: false, headerShown: false }}>
             <Tab.Screen
                 name="Chart"
                 component={Chart}

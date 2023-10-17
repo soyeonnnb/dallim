@@ -143,7 +143,7 @@ public class  OAuth2Controller {
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            // 오류 처리
+
             isProcessing = false;
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

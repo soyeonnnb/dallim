@@ -148,6 +148,78 @@ public class  OAuth2Controller {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+
+
+    private boolean isProcessingTwo = false;
+    @PostMapping("oauth2/code/naver")
+    public ResponseEntity<?> exchangeNaverCodeForAccessToken(@RequestParam("code") String code) {
+        try {
+            System.out.println(code);
+            if (isProcessingTwo) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 이미 처리 중인 경우 409 Conflict 반환
+            }
+            isProcessingTwo = true;
+            // 엑세스 토큰 저장
+            String accessToken = userService.getNaverAccessToken(code);
+            // 여기서 accessToken을 사용자 정보 가져오는데 사용할 것입니다.
+            System.out.println(accessToken);
+
+            // 엑세스 토큰을 클라이언트 앱으로 반환하거나 필요한 작업 수행
+            Map<String, String> result = userService.getNaverUserInfo(accessToken);
+
+            String email = result.get("user_email");
+            String profileImage = result.get("profile_image");
+            String provider = "naver";
+
+            Optional<User> optionalUser = userRepository.findByEmailAndAccountType(email, "naver");
+            User user = null;
+
+            if(optionalUser.isEmpty()){
+                //유저 생성
+                user = User.builder()
+                    .accountType(provider)
+                    .email(email)
+                    .nickname(nNick())
+                    .profileImage(profileImage)
+                    .accessToken(accessToken)
+                    .privateAccess(encoder.encode(accessToken))
+                    .build();
+                log.info(user.toString());
+                user = userRepository.save(user);
+                log.info("save 실행됨");
+
+            }else{
+                log.info("2222");
+                // 최근 로그인 시간 갱신
+                user = optionalUser.get();
+                user.updateLastLoginDate();
+                user.updateAccessToken(accessToken);
+                user.updatePrivateAccessToken(encoder.encode(accessToken));
+                userRepository.save(user);
+            }
+            isProcessing = false;
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("accessToken", accessToken);
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+
+            isProcessingTwo = false;
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
     public String nNick() {
         String text;
         do {

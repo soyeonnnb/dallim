@@ -88,22 +88,22 @@ public class  OAuth2Controller {
         return new ResponseEntity<>(result, httpHeaders, HttpStatus.SEE_OTHER);
     }
 
-    //백엔드에서 수동으로 엑세스 토큰을 처리하기 위한 코드
+    //백엔드에서 수동으로 엑세스 토큰을
+    // 처리하기 위한 코드
+    private boolean isProcessing = false;
     @PostMapping("oauth2/code/kakao")
     public ResponseEntity<?> exchangeKakaoCodeForAccessToken(@RequestParam("code") String code) {
         try {
-
-            log.info(code.toString());
-            // System.out.println("여기까지 일단 들어올까?");
-            // 엑세스 코드로 엑세스 토큰 요청
-            // OAuth2AccessTokenResponse tokenResponse = UserService.exchangeCodeForAccessToken(code);
-            // System.out.println(code);
+            if (isProcessing) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 이미 처리 중인 경우 409 Conflict 반환
+            }
+            isProcessing = true;
             // 엑세스 토큰 저장
             String accessToken = userService.getKakaoAccessToken(code);
             // 여기서 accessToken을 사용자 정보 가져오는데 사용할 것입니다.
+            System.out.println(accessToken);
 
             // 엑세스 토큰을 클라이언트 앱으로 반환하거나 필요한 작업 수행
-            System.out.println(accessToken);
             Map<String, String> result = userService.getKakaoUserInfo(accessToken);
 
             String email = result.get("user_email");
@@ -113,11 +113,7 @@ public class  OAuth2Controller {
             Optional<User> optionalUser = userRepository.findByEmailAndAccountType(email, "kakao");
             User user = null;
 
-            System.out.println(optionalUser);
-            System.out.println(optionalUser.isEmpty());
-
             if(optionalUser.isEmpty()){
-                log.info("1111");
                 //유저 생성
                 user = User.builder()
                     .accountType(provider)
@@ -140,12 +136,11 @@ public class  OAuth2Controller {
                 user.updatePrivateAccessToken(encoder.encode(accessToken));
                 userRepository.save(user);
             }
-
+            isProcessing = false;
             return ResponseEntity.ok().build();
         } catch (Exception e) {
-            log.info("error 발생됨");
-            log.info(e.getMessage());
             // 오류 처리
+            isProcessing = false;
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

@@ -61,9 +61,10 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
           },
         }}
         javaScriptEnabled={true}
+        saveFormData={false}
         // onMessage={event => {
         //   console.log('찍' + event.nativeEvent.url);
-        //   // parseAuthCode(event.nativeEvent['url']);
+        //   parseAuthCode(event.nativeEvent.url);
         // }}
         onNavigationStateChange={navState => {
           // URL 변경 시 콘솔에 로그 출력

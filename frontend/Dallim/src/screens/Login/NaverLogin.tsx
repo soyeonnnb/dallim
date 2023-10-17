@@ -32,7 +32,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
           },
         })
         .then(async res => {
-          const accessToken = res.data.access_token;
+          const accessToken = res.data.accessToken;
           await AsyncStorage.setItem('accessToken', accessToken);
           console.log('Access Token: ', accessToken);
         })

@@ -198,7 +198,7 @@ public class  OAuth2Controller {
                 user.updatePrivateAccessToken(encoder.encode(accessToken));
                 userRepository.save(user);
             }
-            isProcessing = false;
+            isProcessingTwo = false;
 
             Map<String, Object> response = new HashMap<>();
             response.put("accessToken", accessToken);

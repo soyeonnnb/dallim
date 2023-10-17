@@ -369,7 +369,7 @@ public class UserService {
 
             // 결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
-            // System.out.println(responseCode);
+            System.out.println(responseCode);
             if (responseCode == 200) {
                 System.out.println("여기???");
                 // 요청을 통해 얻은 JSON 타입의 Response 메세지 읽어오기

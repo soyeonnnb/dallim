@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text} from 'react-native';
 import WebView from 'react-native-webview';
-import * as S from './Login.styles'; // 스타일 컴포넌트 import
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -17,13 +16,6 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
     const startIndex = url.indexOf(exp); //url에서 "code="으로 시작하는 index를 찾지 못하면 -1반환
     if (startIndex !== -1) {
       const authCode = url.substring(startIndex + exp.length);
-      console.log('access code :: ' + authCode);
-
-      console.log(
-        'Request URL: ',
-        'http://10.0.2.2:8080/api/oauth2/code/kakao',
-      );
-      console.log('Request Data: ', {params: {code: authCode}});
 
       await axios
         .post('http://10.0.2.2:8080/api/oauth2/code/kakao', null, {

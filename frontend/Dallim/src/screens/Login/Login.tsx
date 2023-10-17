@@ -11,8 +11,8 @@ const Login = ({navigation}: LoginProps) => {
     <S.Container>
       <S.Title>Login Screen</S.Title>
       <Button
-        title="Go back to Home"
-        onPress={() => navigation.navigate('Home')}
+        title="Go back to Main"
+        onPress={() => navigation.navigate('Main')}
       />
       <Button
         title="카카오 로그인 버튼"

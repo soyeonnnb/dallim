@@ -39,39 +39,39 @@ privateApi.interceptors.response.use(
     return response;
   },
 
-  async error => {
-    const {config} = error;
-    if (error.response.status === 401) {
-      const originRequest = config;
-      try {
-        const response = await postRefreshToken();
-        const newAccessToken = response.headers['authorization'];
-        console.log(newAccessToken, 'newAccessToken');
+  // async error => {
+  //   const {config} = error;
+  //   if (error.response.status === 401) {
+  //     const originRequest = config;
+  //     try {
+  //       const response = await postRefreshToken();
+  //       const newAccessToken = response.headers['authorization'];
+  //       console.log(newAccessToken, 'newAccessToken');
 
-        // AsyncStorage를 사용하여 액세스 토큰 및 리프레시 토큰 저장
-        await AsyncStorage.setItem('accessToken', newAccessToken);
-        await AsyncStorage.setItem(
-          'refreshToken',
-          response.headers['authorization-refresh'],
-        );
+  //       // AsyncStorage를 사용하여 액세스 토큰 및 리프레시 토큰 저장
+  //       await AsyncStorage.setItem('accessToken', newAccessToken);
+  //       await AsyncStorage.setItem(
+  //         'refreshToken',
+  //         response.headers['authorization-refresh'],
+  //       );
 
-        // Axios의 기본 헤더에 액세스 토큰 설정
-        axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
-        originRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        console.log('토큰 재발급 완료');
+  //       // Axios의 기본 헤더에 액세스 토큰 설정
+  //       axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
+  //       originRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+  //       console.log('토큰 재발급 완료');
 
-        // 수정된 originRequest로 Axios 요청 재시도
-        return axios(originRequest);
-      } catch {
-        console.log('catch 에러');
+  //       // 수정된 originRequest로 Axios 요청 재시도
+  //       return axios(originRequest);
+  //     } catch {
+  //       console.log('catch 에러');
 
-        // AsyncStorage에서 토큰 제거
-        await AsyncStorage.removeItem('accessToken');
-        await AsyncStorage.removeItem('refreshToken');
-      }
-    }
-    return Promise.reject(error);
-  },
+  //       // AsyncStorage에서 토큰 제거
+  //       await AsyncStorage.removeItem('accessToken');
+  //       await AsyncStorage.removeItem('refreshToken');
+  //     }
+  //   }
+  //   return Promise.reject(error);
+  // },
 );
 
 export {privateApi};

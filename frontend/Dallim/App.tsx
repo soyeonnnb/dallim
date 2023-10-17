@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
 import BottomTab from './src/components/common/bottomTab/BottomTab';
-import Kakao from './src/screens/Login/KakaoLogin';
-import Login from './src/screens/Login/Login';
+import Kakao from './src/screens/login/KakaoLogin';
+import Login from './src/screens/login/Login';
 import NotFound from './src/screens/notFound/NotFound';
 
 const Stack = createStackNavigator();
@@ -15,12 +15,23 @@ function App() {
         <Stack.Screen
           name="BottomTab"
           component={BottomTab}
-          options={{ headerShown: false }}  // BottomTab의 헤더 숨기기
+          options={{headerShown: false}} // BottomTab의 헤더 숨기기
         />
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        <Stack.Screen name="NotFound" component={NotFound} options={{ headerShown: false }} />
-        <Stack.Screen name="Kakao" component={Kakao} options={{ headerShown: false }}/>
-        
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="NotFound"
+          component={NotFound}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Kakao"
+          component={Kakao}
+          options={{headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

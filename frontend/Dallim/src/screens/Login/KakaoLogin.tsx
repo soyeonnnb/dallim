@@ -39,7 +39,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
           console.error('Axios Error: ', error);
         });
 
-      navigation.navigate('Home', {screen: 'Home'});
+      navigation.navigate('Main', {screen: 'Main'});
     }
   };
 

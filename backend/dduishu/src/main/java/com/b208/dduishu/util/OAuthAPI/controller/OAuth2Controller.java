@@ -190,7 +190,7 @@ public class  OAuth2Controller {
                 log.info("save 실행됨");
 
             }else{
-                log.info("2222");
+
                 // 최근 로그인 시간 갱신
                 user = optionalUser.get();
                 user.updateLastLoginDate();

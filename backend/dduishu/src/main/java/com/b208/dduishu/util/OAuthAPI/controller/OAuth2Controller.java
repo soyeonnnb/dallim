@@ -137,7 +137,11 @@ public class  OAuth2Controller {
                 userRepository.save(user);
             }
             isProcessing = false;
-            return ResponseEntity.ok().build();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("accessToken", accessToken);
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             // 오류 처리
             isProcessing = false;

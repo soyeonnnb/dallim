@@ -5,7 +5,7 @@
 // Delete : delete___
 
 // CRUD 예시
-import {privateApi} from './index';
+import {privateApi} from './Index';
 
 // 등록 예시
 export const postBBTITResult = async (memberId: number, bbtiList: string[]) => {

@@ -1,4 +1,4 @@
-package com.b208.dduishu.domain.user.dto;
+package com.b208.dduishu.domain.user.dto.response;
 
 import lombok.Builder;
 import lombok.Data;

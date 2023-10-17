@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.b208.dduishu.domain.user.dto.request.UserPoint;
+import com.b208.dduishu.domain.user.dto.response.IsDuplicateNickName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -28,8 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.b208.dduishu.domain.user.GetUser;
-import com.b208.dduishu.domain.user.dto.UserLoginResponseDTO;
-import com.b208.dduishu.domain.user.dto.UserUpdateRequestDTO;
+import com.b208.dduishu.domain.user.dto.response.UserLoginResponseDTO;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.exception.UserNotFoundException;
 import com.b208.dduishu.domain.user.repository.UserRepository;
@@ -178,25 +179,22 @@ public class UserService {
 
     // 유저 닉네임 변경
     @Transactional
-    public Map<String, Object> userNicknameUpdate(UserUpdateRequestDTO userUpdateRequestDTO) {
+    public void updateUserNickname(String nickName) {
         User user = getUser.getUser();
 
-        user.updateNickname(userUpdateRequestDTO.getNickname());
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("message", "닉네임 변경 성공");
-
-        return result;
+        user.updateNickname(nickName);
     }
 
     // 유저 닉네임 중복체크
-    public boolean userCheckNickname(String nickname) {
-        User user = getUser.getUser();
-
+    public IsDuplicateNickName checkUserNickname(String nickname) {
         boolean flag = userRepository.existsByNickname(nickname);
 
-        return flag;
+        IsDuplicateNickName res = IsDuplicateNickName.builder().IsDuplicate(flag).build();
+
+        return res;
     }
+
+
 
 
     // 유저 프로필사진 변경
@@ -342,6 +340,11 @@ public class UserService {
     }
 
 
+    public UserPoint getUserPoint() {
+        User user = getUser.getUser();
 
+        UserPoint res = UserPoint.builder().point(user.getPoint()).build();
 
+        return res;
+    }
 }

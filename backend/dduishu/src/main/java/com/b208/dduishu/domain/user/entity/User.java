@@ -13,7 +13,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.b208.dduishu.domain.user.dto.UserDTO;
+import com.b208.dduishu.domain.user.dto.request.UserDTO;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -34,6 +34,8 @@ public class User {
     private String email;
     @Column(nullable = false, unique = true)
     private String nickname;
+
+    private int point;
     @Column(nullable = false)
     private String profileImage;
     @Column(nullable = false)
@@ -55,11 +57,12 @@ public class User {
     public User() {
     }
 
-    public User(Long userId, String accountType, String email, String nickname, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
+    public User(Long userId, String accountType, String email, String nickname, int point, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
         this.userId = userId;
         this.accountType = accountType;
         this.email = email;
         this.nickname = nickname;
+        this.point = point;
         this.profileImage = profileImage;
         this.privateAccess = privateAccess;
         this.registDate = registDate;

@@ -44,7 +44,7 @@ public class JwtFilter extends OncePerRequestFilter { // 모든 요청에 대해
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
         return path.startsWith("/api/oauth/login") || path.startsWith("/login/") || path.startsWith("/api/oauth2/authorization/") ||
-                path.startsWith("/api/login/oauth2/") || path.startsWith("/api/oauth/logout") || path.startsWith("/favicon.ico");
+            path.startsWith("/api/login/oauth2/") || path.startsWith("/api/oauth/logout") || path.startsWith("/favicon.ico")||path.startsWith("/api/oauth2/code/kakao");
     }
 
     @Override
@@ -92,16 +92,16 @@ public class JwtFilter extends OncePerRequestFilter { // 모든 요청에 대해
 
             Cookie cookie = new Cookie("refreshToken", refreshJwt);
 
-        // expires in 7 days
-        cookie.setMaxAge(14 * 24 * 60 * 60);
+            // expires in 7 days
+            cookie.setMaxAge(14 * 24 * 60 * 60);
 
-        // optional properties
-        cookie.setSecure(false); // 이거 https 적용해서 서버로 올리면 true로 바꿔야한다. 지금은 로컬에서 테스트라서 false로 해놓음
-        cookie.setHttpOnly(true); // http only로 설정해서 javascript로 접근 못하도록 막음
-        cookie.setPath("/");
+            // optional properties
+            cookie.setSecure(false); // 이거 https 적용해서 서버로 올리면 true로 바꿔야한다. 지금은 로컬에서 테스트라서 false로 해놓음
+            cookie.setHttpOnly(true); // http only로 설정해서 javascript로 접근 못하도록 막음
+            cookie.setPath("/");
 
-        // add cookie to response
-        response.addCookie(cookie);
+            // add cookie to response
+            response.addCookie(cookie);
 
             String jsonResponse = "{\"accessToken\":\"" + accessJwt + "\"}";
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -118,7 +118,7 @@ public class JwtFilter extends OncePerRequestFilter { // 모든 요청에 대해
 
         // 권한 부여
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userId, null, List.of(new SimpleGrantedAuthority("USER")));
+            new UsernamePasswordAuthenticationToken(userId, null, List.of(new SimpleGrantedAuthority("USER")));
         // Detail을 넣어준다.
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);

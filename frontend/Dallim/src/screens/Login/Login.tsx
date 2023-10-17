@@ -18,6 +18,10 @@ const Login = ({navigation}: LoginProps) => {
         title="카카오 로그인 버튼"
         onPress={() => navigation.navigate('Kakao')}
       />
+      <Button
+        title="네이버 로그인 버튼"
+        onPress={() => navigation.navigate('Naver')}
+      />
     </S.Container>
   );
 };

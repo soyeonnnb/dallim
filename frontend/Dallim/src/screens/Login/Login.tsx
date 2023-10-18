@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button } from 'react-native';
+import {Button} from 'react-native';
 import * as S from './Login.styles';
+
 import Moon from '../../assets/images/LoginMoon.png';
 import NaverIcon from '../../assets/icons/NaverIcon.png';
 import KakaoIcon from '../../assets/icons/KakaoIcon.png';
@@ -9,7 +10,7 @@ interface LoginProps {
   navigation: any;
 }
 
-const Login = ({ navigation }: LoginProps) => {
+const Login = ({navigation}: LoginProps) => {
   return (
     <S.Container>
       <S.BackgroundVideo
@@ -23,20 +24,19 @@ const Login = ({ navigation }: LoginProps) => {
 
       <S.Body>
         <S.StyledImage source={Moon} />
-        
+
         {/* 임시버튼 */}
         <Button
           title="Go to Main"
           onPress={() => {
             navigation.reset({
               index: 0,
-              routes: [{ name: 'BottomTab', params: { screen: 'Main' } }],
+              routes: [{name: 'BottomTab', params: {screen: 'Main'}}],
             });
           }}
         />
       </S.Body>
       <S.Bottom>
-
         <S.NaverButton onPress={() => navigation.navigate('Naver')}>
           <S.Icon source={NaverIcon} />
           <S.NaverText>네이버로 시작하기</S.NaverText>

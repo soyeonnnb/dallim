@@ -19,7 +19,8 @@ public class RunningRecordInfo {
     private RunningType type;
     private ObjectId rivalRecordId;
 
-    private List<RunningRecordDistanceInfo> runningRecordDistanceInfoList;
+    private List<RunningRecordDistanceInfo> runningRecordDistanceInfos;
+    private List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos;
 
     public RunningRecord toRunningRecord(User user, Character character, RunningRecord rivalRecord){
         return RunningRecord.builder()
@@ -27,17 +28,12 @@ public class RunningRecordInfo {
                 .character(character)
                 .type(this.type)
                 .rivalRecord(rivalRecord)
-                .totalTime(0)
-                .totalDistance(0)
+                .runningRecordDistanceInfos(this.runningRecordDistanceInfos)
+                .runningRecordHeartRateInfos(this.runningRecordHeartRateInfos)
+                .totalTime(10)
+                .totalDistance(100)
                 .averageSpeed(0)
                 .averageCalory(0)
                 .build();
-    }
-
-    public RunningRecordDistance toRunningRecordDistance() {
-
-
-
-        return RunningRecordDistance.builder().second()build();
     }
 }

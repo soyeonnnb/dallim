@@ -1,26 +1,20 @@
-package com.b208.dduishu.domain.runningRecord.document;
+package com.b208.dduishu.domain.runningRecord.dto.request;
 
 import com.b208.dduishu.domain.character.entity.Character;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDistanceInfo;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordHeartRateInfo;
+import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.entity.RunningType;
 import com.b208.dduishu.domain.user.entity.User;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
 import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@Document(collection = "runningRecord")
-@ToString
-public class RunningRecord {
+@Data
+public class RunningRecordDetail {
 
-    @Id
     private ObjectId id;
     private User user;
     private Character character;
@@ -28,7 +22,6 @@ public class RunningRecord {
     private RunningRecord rivalRecord;
     private List<RunningRecordDistanceInfo> runningRecordDistanceInfos;
     private List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos;
-
     private int totalTime;
     private int totalDistance;
     private int averageSpeed;
@@ -36,17 +29,18 @@ public class RunningRecord {
     private LocalDateTime createdAt;
 
     @Builder
-    public RunningRecord(User user, Character character, RunningType type, RunningRecord rivalRecord, List<RunningRecordDistanceInfo> runningRecordDistanceInfos, List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos,int totalTime, int totalDistance, int averageSpeed, int averageCalory) {
+    public RunningRecordDetail(ObjectId id, User user, Character character, RunningType type, RunningRecord rivalRecord, List<RunningRecordDistanceInfo> runningRecordDistanceInfos, List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos, int totalTime, int totalDistance, int averageSpeed, int averageCalory, LocalDateTime createdAt) {
+        this.id = id;
         this.user = user;
         this.character = character;
         this.type = type;
         this.rivalRecord = rivalRecord;
         this.runningRecordDistanceInfos = runningRecordDistanceInfos;
         this.runningRecordHeartRateInfos = runningRecordHeartRateInfos;
-        this.totalDistance = totalDistance;
         this.totalTime = totalTime;
+        this.totalDistance = totalDistance;
         this.averageSpeed = averageSpeed;
         this.averageCalory = averageCalory;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = createdAt;
     }
 }

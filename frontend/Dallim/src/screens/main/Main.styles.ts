@@ -15,16 +15,16 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const Header = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   width: 100%;
-  height: 20%;
+  height: 15%;
 `;
 
 export const HeaderLeft = styled.View`
-  border-width: 1px;
-  border-color: yellow;
+  /* border-width: 1px;
+  border-color: yellow; */
   width: 40%;
   height: 100%;
   justify-content: flex-end;
@@ -33,6 +33,7 @@ export const HeaderLeft = styled.View`
 export const ToggleButtonWrapper = styled(TouchableOpacity)`
   border-width: 1px;
   border-radius: 100px;  
+  border-color: transparent;
   padding: 4px; 
   width: 80px;
   height: 40px;
@@ -40,16 +41,16 @@ export const ToggleButtonWrapper = styled(TouchableOpacity)`
   background-color: rgba(255, 255, 255, 0.3);
 `;
 
-export const ToggleButton = styled(Animated.View)`
+export const ToggleButton = styled(Animated.View)<{ isOn?: boolean }>`
   width: 30px;
   height: 30px;
   border-radius: 100px;
-  background-color: white;
+  background-color: ${props => (props.isOn ? '#F5DA25' : 'white')};
 `;
 
 export const HeaderRight = styled.View`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   flex-direction: row;
   width: 60%;
   height: 100%;
@@ -57,30 +58,30 @@ export const HeaderRight = styled.View`
   align-items: flex-end;
 `;
 
-export const LevelText = styled.Text`
+export const LevelText = styled.Text<{ isOn?: boolean }>`
   font-size: 20px;
-  color: white;
+  color: ${props => (props.isOn ? 'black' : 'white')};
   margin-right: 10%;
 `;
 
-export const PointText = styled.Text`
+export const PointText = styled.Text<{ isOn?: boolean }>`
   font-size: 20px;
-  color: white;
+  color: ${props => (props.isOn ? 'black' : 'white')};
   margin-right: 10%;
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 80%;
+  height: 85%;
 `;
 
 export const ThemeBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 90%;
   height: 60%;
 `;

@@ -31,7 +31,7 @@ function Main({ navigation }: MainProps) {
   return (
     <S.Container>
       <S.BackgroundImage
-        source={require('../../assets/images/MainBackground.png')} // 이미지 경로를 여기에 입력하세요
+        source={isOn ? require('../../assets/images/MainBackground2.png') : require('../../assets/images/MainBackground1.png')}
         resizeMode="cover"
       >
 
@@ -42,14 +42,14 @@ function Main({ navigation }: MainProps) {
                 transform: [{
                   translateX: animatedValue,
                 }]
-              }} />
+              }} isOn={isOn}/>
             </S.ToggleButtonWrapper>
           </S.HeaderLeft>
           <S.HeaderRight>
-            <S.LevelText>
+            <S.LevelText isOn={isOn}>
               Lv. {TempLv}
             </S.LevelText>
-            <S.PointText>
+            <S.PointText isOn={isOn}>
               {TempPoint} P
             </S.PointText>
           </S.HeaderRight>
@@ -57,7 +57,7 @@ function Main({ navigation }: MainProps) {
         <S.Body>
           {/* Body 내용 */}
           <S.ThemeBox>
-          <S.StyledImage source={RoomSample} />
+            <S.StyledImage source={RoomSample} />
           </S.ThemeBox>
         </S.Body>
       </S.BackgroundImage>

@@ -23,7 +23,8 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
         body: JSON.stringify({access: token}),
       });
       const data = await response.json();
-      console.log(data);
+
+      await AsyncStorage.setItem('accessToken', data.accessToken);
     } catch (error) {
       console.error('Error during login request:', error);
       throw error; // 또는 적절한 에러 처리
@@ -52,8 +53,6 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
         })
         .then(async res => {
           const accessToken = res.data.accessToken;
-          console.log(res.data.accessToken);
-          // await AsyncStorage.setItem('accessToken', accessToken);
 
           await sendLoginRequest(accessToken);
         })

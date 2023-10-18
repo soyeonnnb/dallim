@@ -2,6 +2,7 @@ package com.b208.dduishu.domain.user.repository;
 
 import java.util.Optional;
 
+import com.b208.dduishu.domain.user.dto.response.IsDuplicateNickName;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

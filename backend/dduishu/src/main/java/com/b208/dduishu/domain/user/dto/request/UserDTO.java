@@ -1,4 +1,4 @@
-package com.b208.dduishu.domain.user.dto;
+package com.b208.dduishu.domain.user.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

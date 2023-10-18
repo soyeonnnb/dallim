@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { Animated, Easing } from 'react-native';
+import { Animated, Easing, TouchableOpacity } from 'react-native';
 import * as S from './SocialBody.styles';
 import QuestionIcon from '../../assets/icons/QuestionIcon.png';
 import RankInfoBox from './RankInfoBox';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 function SocialHeader() {
 
@@ -33,12 +34,16 @@ function SocialHeader() {
         });
     };
 
+    const [showAlert, setShowAlert] = useState(false);
+
     return (
         <S.Container>
             <S.Top>
                 <S.TopLeft>
                     <S.DateText>{DateMonth}월 {DateWeek}주차 랭킹  </S.DateText>
-                    <S.QuestionImage source={QuestionIcon} />
+                    <TouchableOpacity onPress={() => setShowAlert(true)}>
+                        <S.QuestionImage source={QuestionIcon} />
+                    </TouchableOpacity>
                 </S.TopLeft>
                 <S.ToggleButtonWrapper onPress={toggleHandle}>
                     <S.ToggleButton
@@ -62,7 +67,28 @@ function SocialHeader() {
                 <RankInfoBox />
                 <RankInfoBox />
             </S.Body>
+
+            <AwesomeAlert
+                show={showAlert}
+                showProgress={false}
+                title="안내사항"
+                message="상위 20명의 거리 기준 랭킹입니다."
+                closeOnTouchOutside={true}
+                closeOnHardwareBackPress={false}
+                // showCancelButton={true}
+                // cancelText="No, cancel"
+                // onCancelPressed={() => {
+                //     setShowAlert(false);
+                // }}
+                showConfirmButton={true}
+                confirmText="확인"
+                confirmButtonColor="blue"
+                onConfirmPressed={() => {
+                    setShowAlert(false);
+                }}
+            />
         </S.Container>
+
     );
 };
 

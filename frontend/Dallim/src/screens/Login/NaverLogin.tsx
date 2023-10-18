@@ -31,7 +31,8 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
         })
         .then(async res => {
           const accessToken = res.data.accessToken;
-          await AsyncStorage.setItem('accessToken', accessToken);
+          console.log(res.data.accessToken);
+          // await AsyncStorage.setItem('accessToken', accessToken);
         })
         .catch(error => {
           console.error('Axios Error: ', error);

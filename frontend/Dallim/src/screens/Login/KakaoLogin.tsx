@@ -27,6 +27,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
         })
         .then(async res => {
           await AsyncStorage.setItem('accessToken', res.data.accessToken);
+          console.log(res.data.accessToken);
         })
         .catch(error => {
           console.error('Axios Error: ', error);

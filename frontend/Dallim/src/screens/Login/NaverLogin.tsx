@@ -1,32 +1,37 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {View, ActivityIndicator} from 'react-native';
 import WebView from 'react-native-webview';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-interface KakaoLoginProps {
+interface NaverLoginProps {
   navigation: any;
 }
 
-const KakaoLogin = ({navigation}: KakaoLoginProps) => {
+const NaverLogin = ({navigation}: NaverLoginProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const parseAuthCode = async (url: string) => {
     const exp = 'code=';
     const startIndex = url.indexOf(exp);
     if (startIndex !== -1) {
-      const authCode = url.substring(startIndex + exp.length);
+      const endIndex = url.indexOf('&', startIndex);
+      const authCode = url.substring(
+        startIndex + exp.length,
+        endIndex !== -1 ? endIndex : undefined,
+      );
 
       setIsLoading(true);
 
       await axios
-        .post('http://10.0.2.2:8080/api/oauth2/code/kakao', null, {
+        .post('http://10.0.2.2:8080/api/oauth2/code/naver', null, {
           params: {
             code: authCode,
           },
         })
         .then(async res => {
-          await AsyncStorage.setItem('accessToken', res.data.accessToken);
+          const accessToken = res.data.accessToken;
+          await AsyncStorage.setItem('accessToken', accessToken);
         })
         .catch(error => {
           console.error('Axios Error: ', error);
@@ -34,7 +39,6 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
         .finally(() => {
           setIsLoading(false);
         });
-
       navigation.navigate('Main', {screen: 'Main'});
     }
   };
@@ -49,12 +53,16 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
           scalesPageToFit={false}
           style={{marginTop: 30}}
           source={{
-            uri: 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=e9cb9f18c757bb2e5ec1c811a9fbe5d1&redirect_uri=http://localhost:8080/login/oauth2/code/kakao',
-
+            uri: 'https://nid.naver.com/oauth2.0/authorize?client_id=U981wCCDuUbK6_3C3WJo&response_type=code&redirect_uri=http://localhost:8080/login/oauth2/code/naver', // 네이버 로그인 페이지 URL
             headers: {
               'Accept-Language': 'ko-KR,ko',
             },
           }}
+          method="GET"
+          headers={{
+            'Accept-Language': 'ko-KR,ko',
+          }}
+          body={null}
           javaScriptEnabled={true}
           saveFormData={false}
           onNavigationStateChange={navState => {
@@ -66,4 +74,4 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
   );
 };
 
-export default KakaoLogin;
+export default NaverLogin;

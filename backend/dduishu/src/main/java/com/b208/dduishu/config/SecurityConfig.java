@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtFilter(userService, jwtUtil, secretKey), UsernamePasswordAuthenticationFilter.class)
                 // request authorization
                 .authorizeRequests()
-                .antMatchers("/api/oauth/login", "/login/**", "/oauth2/**", "/chat-gpt/question").permitAll() // 회원가입과 로그인은 언제나 가능
+                .antMatchers("/api/oauth/login", "/login/**", "/oauth2/**", "/chat-gpt/question", "/api/oauth2/code/kakao").permitAll() // 회원가입과 로그인은 언제나 가능
                 .and()
                 // oauth2 login
                 .oauth2Login()

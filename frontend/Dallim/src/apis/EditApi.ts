@@ -1,1 +1,1 @@
-import { privateApi } from "./index";
+import { privateApi } from "./Index";

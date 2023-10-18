@@ -12,6 +12,24 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCodeSent, setIsCodeSent] = useState(false);
 
+  const sendLoginRequest = async token => {
+    try {
+      const response = await fetch('http://10.0.2.2:8080/api/oauth/login', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({access: token}),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error('Error during login request:', error);
+      throw error; // 또는 적절한 에러 처리
+    }
+  };
+
   const parseAuthCode = async (url: string) => {
     if (isCodeSent) return;
     const exp = 'code=';
@@ -36,6 +54,8 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
           const accessToken = res.data.accessToken;
           console.log(res.data.accessToken);
           // await AsyncStorage.setItem('accessToken', accessToken);
+
+          await sendLoginRequest(accessToken);
         })
         .catch(error => {
           console.error('Axios Error: ', error);

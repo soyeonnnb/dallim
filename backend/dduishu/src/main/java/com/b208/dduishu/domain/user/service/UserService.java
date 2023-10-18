@@ -223,7 +223,7 @@ public class UserService {
                 cookie.setMaxAge(0); // 쿠키의 유효 기간을 0으로 설정하여 즉시 만료시킵니다.
                 cookie.setValue(null);
                 cookie.setPath("/");
-                response.addCookie(cookie); // 무효화된 쿠키를 응답에 추가합니다.
+                response.addCookie(cookie);
             }
         }
 

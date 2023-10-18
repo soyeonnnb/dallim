@@ -1,6 +1,7 @@
 import React from 'react';
 import * as S from './Social.styles'; // 스타일 컴포넌트 import
 import SocialHeader from '../../components/socialComponent/SocialHeader';
+import SocialBody from '../../components/socialComponent/SocialBody';
 
 function Social() {
     return (
@@ -11,7 +12,9 @@ function Social() {
                 <S.Top>
                     <SocialHeader />
                 </S.Top>
-                <S.Middle></S.Middle>
+                <S.Middle>
+                    <SocialBody />
+                </S.Middle>
                 <S.Bottom></S.Bottom>
             </S.BackgroundImage>
         </S.Container>

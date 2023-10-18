@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.b208.dduishu.domain.user.dto.response.UserLoginResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -28,8 +29,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.b208.dduishu.domain.user.GetUser;
-import com.b208.dduishu.domain.user.dto.UserLoginResponseDTO;
-import com.b208.dduishu.domain.user.dto.UserUpdateRequestDTO;
 import com.b208.dduishu.domain.user.dto.request.UserPoint;
 import com.b208.dduishu.domain.user.dto.response.IsDuplicateNickName;
 import com.b208.dduishu.domain.user.entity.User;

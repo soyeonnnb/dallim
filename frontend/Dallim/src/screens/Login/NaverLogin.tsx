@@ -43,7 +43,6 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
         .finally(() => {
           setIsLoading(false);
         });
-      // navigation.navigate('Main', {screen: 'Main'});
       navigation.navigate('BottomTab', {
         screen: 'Main',
       });

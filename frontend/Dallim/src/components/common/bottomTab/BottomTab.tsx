@@ -1,23 +1,33 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import * as S from './BottomTab.styles';
+import * as varStyles from '../styles';
+import {useState} from 'react';
 
+// components
 import Main from '../../../screens/main/Main';
 import Chart from '../../../screens/chart/Chart';
 import Social from '../../../screens/social/Social';
 import Edit from '../../../screens/edit/Edit';
 import Profile from '../../../screens/profile/Profile';
 
+// icon
+import BottomTabIcon from './BottomTabIcon';
+
 const Tab = createBottomTabNavigator();
 
 function BottomTab() {
+  const [darkMode, setDarkMode] = useState(false);
+
   return (
     <Tab.Navigator
       screenOptions={{
         tabBarShowLabel: false,
         headerShown: false,
         tabBarStyle: {
-          height: 50,
-          backgroundColor: 'black',
+          height: 60,
+          backgroundColor: varStyles.colors.lightLavender,
+          borderTopLeftRadius: varStyles.borderRadius.large,
+          borderTopEndRadius: varStyles.borderRadius.large,
         },
       }}>
       <Tab.Screen
@@ -25,10 +35,7 @@ function BottomTab() {
         component={Chart}
         options={{
           tabBarIcon: ({focused}) => (
-            <S.TabIcon
-              source={require('../../../assets/icons/chart-icon.png')}
-              tintColor={focused ? 'white' : 'gray'}
-            />
+            <BottomTabIcon darkMode={darkMode} focused={focused} type="chart" />
           ),
         }}
       />
@@ -37,9 +44,10 @@ function BottomTab() {
         component={Social}
         options={{
           tabBarIcon: ({focused}) => (
-            <S.TabIcon
-              source={require('../../../assets/icons/social-icon.png')}
-              tintColor={focused ? 'white' : 'gray'}
+            <BottomTabIcon
+              darkMode={darkMode}
+              focused={focused}
+              type="social"
             />
           ),
         }}
@@ -49,10 +57,7 @@ function BottomTab() {
         component={Main}
         options={{
           tabBarIcon: ({focused}) => (
-            <S.TabIcon
-              source={require('../../../assets/icons/main-icon.png')}
-              tintColor={focused ? 'white' : 'gray'}
-            />
+            <BottomTabIcon darkMode={darkMode} focused={focused} type="main" />
           ),
         }}
       />
@@ -61,10 +66,7 @@ function BottomTab() {
         component={Edit}
         options={{
           tabBarIcon: ({focused}) => (
-            <S.TabIcon
-              source={require('../../../assets/icons/edit-icon.png')}
-              tintColor={focused ? 'white' : 'gray'}
-            />
+            <BottomTabIcon darkMode={darkMode} focused={focused} type="edit" />
           ),
         }}
       />
@@ -73,9 +75,10 @@ function BottomTab() {
         component={Profile}
         options={{
           tabBarIcon: ({focused}) => (
-            <S.TabIcon
-              source={require('../../../assets/icons/profile-icon.png')}
-              tintColor={focused ? 'white' : 'gray'}
+            <BottomTabIcon
+              darkMode={darkMode}
+              focused={focused}
+              type="profile"
             />
           ),
         }}

@@ -27,7 +27,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
       await AsyncStorage.setItem('accessToken', data.accessToken);
     } catch (error) {
       console.error('Error during login request:', error);
-      throw error; // 또는 적절한 에러 처리
+      throw error;
     }
   };
 

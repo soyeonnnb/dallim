@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Animated, Easing } from 'react-native';
+import React, {useRef, useState} from 'react';
+import {Animated, Easing} from 'react-native';
 import * as S from './Main.styles';
 import RoomSample from '../../assets/Theme/RoomSample.png';
 
@@ -7,8 +7,7 @@ interface MainProps {
   navigation: any; // navigation prop 타입은 실제 사용하는 라이브러리에 따라 다를 수 있습니다.
 }
 
-function Main({ navigation }: MainProps) {
-
+function Main({navigation}: MainProps) {
   const TempLv = '67';
   const TempPoint = '3000';
 
@@ -27,31 +26,33 @@ function Main({ navigation }: MainProps) {
     });
   };
 
-
   return (
     <S.Container>
       <S.BackgroundImage
-        source={isOn ? require('../../assets/images/MainBackground2.png') : require('../../assets/images/MainBackground1.png')}
-        resizeMode="cover"
-      >
-
+        source={
+          isOn
+            ? require('../../assets/images/MainBackground2.png')
+            : require('../../assets/images/MainBackground1.png')
+        }
+        resizeMode="cover">
         <S.Header>
           <S.HeaderLeft>
             <S.ToggleButtonWrapper onPress={toggleHandle}>
-              <S.ToggleButton style={{
-                transform: [{
-                  translateX: animatedValue,
-                }]
-              }} isOn={isOn}/>
+              <S.ToggleButton
+                style={{
+                  transform: [
+                    {
+                      translateX: animatedValue,
+                    },
+                  ],
+                }}
+                isOn={isOn}
+              />
             </S.ToggleButtonWrapper>
           </S.HeaderLeft>
           <S.HeaderRight>
-            <S.LevelText isOn={isOn}>
-              Lv. {TempLv}
-            </S.LevelText>
-            <S.PointText isOn={isOn}>
-              {TempPoint} P
-            </S.PointText>
+            <S.LevelText isOn={isOn}>Lv. {TempLv}</S.LevelText>
+            <S.PointText isOn={isOn}>{TempPoint} P</S.PointText>
           </S.HeaderRight>
         </S.Header>
         <S.Body>
@@ -61,9 +62,8 @@ function Main({ navigation }: MainProps) {
           </S.ThemeBox>
         </S.Body>
       </S.BackgroundImage>
-
     </S.Container>
   );
-};
+}
 
 export default Main;

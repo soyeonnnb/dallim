@@ -10,11 +10,14 @@ interface NaverLoginProps {
 
 const NaverLogin = ({navigation}: NaverLoginProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isCodeSent, setIsCodeSent] = useState(false);
 
   const parseAuthCode = async (url: string) => {
+    if (isCodeSent) return;
     const exp = 'code=';
     const startIndex = url.indexOf(exp);
     if (startIndex !== -1) {
+      setIsCodeSent(true);
       const endIndex = url.indexOf('&', startIndex);
       const authCode = url.substring(
         startIndex + exp.length,
@@ -31,7 +34,8 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
         })
         .then(async res => {
           const accessToken = res.data.accessToken;
-          await AsyncStorage.setItem('accessToken', accessToken);
+          console.log(res.data.accessToken);
+          // await AsyncStorage.setItem('accessToken', accessToken);
         })
         .catch(error => {
           console.error('Axios Error: ', error);
@@ -39,7 +43,9 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
         .finally(() => {
           setIsLoading(false);
         });
-      navigation.navigate('Main', {screen: 'Main'});
+      navigation.navigate('BottomTab', {
+        screen: 'Main',
+      });
     }
   };
 

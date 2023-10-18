@@ -25,7 +25,7 @@ const Profile = ({navigation}: ProfileProps) => {
           {},
           {
             headers: {
-              Authorization: 'Bearer ' + token, // 이전에 검색한 토큰을 사용합니다.
+              Authorization: 'Bearer ' + token,
             },
             withCredentials: true,
           },

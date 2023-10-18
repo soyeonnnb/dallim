@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as S from './SocialBottom.styles';
+import FriendListModal from './socialModal/FriendListModal';
 
 function SocialBottom() {
-
+    const [modalVisible, setModalVisible] = useState(false);
     return (
         <S.Container>
             <S.Box>
                 <S.Manage onPress={() => {
-                    console.log("팔로잉 관리 버튼 클릭확인");
+                    console.log("친구 관리 버튼 클릭확인");
+                    setModalVisible(true);
                 }}>
-                    <S.ManageText>팔로잉 관리</S.ManageText>
+                    <S.ManageText>친구 관리</S.ManageText>
                 </S.Manage>
             </S.Box>
+
+            <FriendListModal
+                isVisible={modalVisible}
+                onClose={() => setModalVisible(false)}
+            />
         </S.Container>
     );
 };

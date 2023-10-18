@@ -47,6 +47,8 @@ dependencies {
 	implementation 'com.theokanning.openai-gpt3-java:service:0.16.0'
 	implementation 'javax.validation:validation-api:2.0.1.Final'
 
+	//mongoDB
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 
 	//JWT
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'

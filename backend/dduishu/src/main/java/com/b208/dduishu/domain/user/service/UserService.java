@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.b208.dduishu.domain.user.dto.response.UserLoginResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -28,8 +29,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.b208.dduishu.domain.user.GetUser;
-import com.b208.dduishu.domain.user.dto.UserLoginResponseDTO;
-import com.b208.dduishu.domain.user.dto.UserUpdateRequestDTO;
+import com.b208.dduishu.domain.user.dto.request.UserPoint;
+import com.b208.dduishu.domain.user.dto.response.IsDuplicateNickName;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.exception.UserNotFoundException;
 import com.b208.dduishu.domain.user.repository.UserRepository;
@@ -178,24 +179,19 @@ public class UserService {
 
     // 유저 닉네임 변경
     @Transactional
-    public Map<String, Object> userNicknameUpdate(UserUpdateRequestDTO userUpdateRequestDTO) {
+    public void updateUserNickname(String nickName) {
         User user = getUser.getUser();
 
-        user.updateNickname(userUpdateRequestDTO.getNickname());
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("message", "닉네임 변경 성공");
-
-        return result;
+        user.updateNickname(nickName);
     }
 
     // 유저 닉네임 중복체크
-    public boolean userCheckNickname(String nickname) {
-        User user = getUser.getUser();
-
+    public IsDuplicateNickName checkUserNickname(String nickname) {
         boolean flag = userRepository.existsByNickname(nickname);
 
-        return flag;
+        IsDuplicateNickName res = IsDuplicateNickName.builder().IsDuplicate(flag).build();
+
+        return res;
     }
 
 
@@ -340,6 +336,129 @@ public class UserService {
 
         return userInfo;
     }
+
+
+
+    public String getNaverAccessToken(String code) {
+        String access_Token = "";
+        String reqURL = "https://nid.naver.com/oauth2.0/token";
+
+        try {
+            // System.out.println("여기는?");
+            URL url = new URL(reqURL);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            StringBuilder sb = new StringBuilder();
+
+            // POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
+            sb.append("grant_type=authorization_code");
+            sb.append("&client_id=U981wCCDuUbK6_3C3WJo"); // 여기에 Naver API의 클라이언트 ID
+            sb.append("&client_secret=D6aepx5XBX"); // 여기에 Kakao API의 클라이언트 시크릿
+            sb.append("&redirect_url=http://localhost:8080/login/oauth2/code/naver"); // 여기에 리다이렉트 URI
+            sb.append("&code=" + code);
+            bw.write(sb.toString());
+            bw.flush();
+
+
+            // 결과 코드가 200이라면 성공
+            int responseCode = conn.getResponseCode();
+            System.out.println(responseCode);
+            if (responseCode == 200) {
+                System.out.println("여기???");
+                // 요청을 통해 얻은 JSON 타입의 Response 메세지 읽어오기
+                BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                String line;
+                StringBuilder result = new StringBuilder();
+
+                while ((line = br.readLine()) != null) {
+                    result.append(line);
+                }
+                br.close();
+
+                // JSON 파싱
+                ObjectMapper objectMapper = new ObjectMapper();
+                Map<String, Object> jsonMap = objectMapper.readValue(
+                    result.toString(), new TypeReference<Map<String, Object>>() {}
+                );
+
+                access_Token = jsonMap.get("access_token").toString();
+                // System.out.println(access_Token);
+            }
+
+            bw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return access_Token;
+    }
+
+
+
+
+    public Map<String, String> getNaverUserInfo(String access_token) {
+        String reqUrl = "https://openapi.naver.com/v1/nid/me";
+        Map<String, String> userInfo = new HashMap<>();
+
+        try {
+            URL url = new URL(reqUrl);
+
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestProperty("Authorization", "Bearer " + access_token);
+            urlConnection.setRequestMethod("GET");
+
+            int responseCode = urlConnection.getResponseCode();
+            log.info("responseCode = " + responseCode);
+
+            if (responseCode == 200) {
+                BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                String line = "";
+                StringBuilder result = new StringBuilder();
+
+                while ((line = br.readLine()) != null) {
+                    result.append(line);
+                }
+                log.info("result = " + result);
+
+                JSONParser parser = new JSONParser();
+                JSONObject obj = (JSONObject) parser.parse(result.toString());
+
+                JSONObject response = (JSONObject) obj.get("response");
+
+                log.info("response = " + response);
+
+                String nickname = response.get("name").toString();
+                String profile_image = response.get("profile_image").toString();
+                String user_email = response.get("email").toString();
+
+                userInfo.put("nickname", nickname);
+                userInfo.put("profile_image", profile_image);
+                userInfo.put("user_email", user_email);
+                System.out.println(nickname);
+                System.out.println(profile_image);
+                System.out.println(user_email);
+                br.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (com.nimbusds.jose.shaded.json.parser.ParseException e) {
+            e.printStackTrace();
+        }
+
+        return userInfo;
+    }
+
+    public UserPoint getUserPoint() {
+        User user = getUser.getUser();
+
+        UserPoint res = UserPoint.builder().point(user.getPoint()).build();
+
+        return res;
+    }
+
 
 
 

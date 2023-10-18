@@ -23,7 +23,9 @@ const Login = ({ navigation }: LoginProps) => {
 
       <S.Body>
         <S.StyledImage source={Moon} />
-        {/* <Button
+        
+        {/* 임시버튼 */}
+        <Button
           title="Go to Main"
           onPress={() => {
             navigation.reset({
@@ -31,7 +33,7 @@ const Login = ({ navigation }: LoginProps) => {
               routes: [{ name: 'BottomTab', params: { screen: 'Main' } }],
             });
           }}
-        /> */}
+        />
       </S.Body>
       <S.Bottom>
 

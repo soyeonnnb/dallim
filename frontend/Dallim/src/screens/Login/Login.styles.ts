@@ -80,6 +80,7 @@ export const KakaoButton = styled.TouchableOpacity`
 export const KakaoText = styled.Text`
   color: black;
   font-size: 16px;
+  color: #191919;
 `;
 
 export const Icon = styled(Image)`

@@ -1,11 +1,11 @@
 package com.b208.dduishu.domain.character.repository;
 
-import com.b208.dduishu.domain.character.dto.request.CharacterInfo;
-import com.b208.dduishu.domain.character.entity.Character;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
+import com.b208.dduishu.domain.character.entity.Character;
 
 public interface CharacterRepository extends JpaRepository<Character, Long> {
 

@@ -1,17 +1,18 @@
 package com.b208.dduishu.domain.character.service;
 
+import static java.util.stream.Collectors.*;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.b208.dduishu.domain.character.dto.request.CharacterInfo;
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.entity.User;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor

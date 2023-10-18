@@ -1,14 +1,15 @@
 package com.b208.dduishu.domain.character.controller;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.b208.dduishu.domain.character.dto.request.CharacterInfo;
 import com.b208.dduishu.domain.character.service.CharacterService;
 import com.b208.dduishu.util.response.ApiResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.b208.dduishu.domain.character.entity.Character;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package com.runapp.theme
+package com.runapp.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 import androidx.wear.compose.material.Colors

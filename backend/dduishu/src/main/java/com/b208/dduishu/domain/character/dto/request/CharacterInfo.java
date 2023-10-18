@@ -2,7 +2,7 @@ package com.b208.dduishu.domain.character.dto.request;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.entity.CharacterState;
-import lombok.Builder;
+
 import lombok.Data;
 
 @Data

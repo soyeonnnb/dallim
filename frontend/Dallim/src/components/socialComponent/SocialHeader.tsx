@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './SocialHeader.style';
+import * as S from './SocialHeader.styles';
 
 function SocialHeader() {
     const Nickname = "하늘을 나는 병아리";

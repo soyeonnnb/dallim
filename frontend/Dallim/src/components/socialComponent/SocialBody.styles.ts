@@ -65,6 +65,8 @@ export const Body = styled.View`
   border-color: red;
   width: 90%;
   height: 90%;
+  padding-top: 20px;
   /* justify-content: center;
   align-items: center; */
 `;
+

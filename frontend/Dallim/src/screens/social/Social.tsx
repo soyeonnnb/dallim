@@ -2,6 +2,7 @@ import React from 'react';
 import * as S from './Social.styles'; // 스타일 컴포넌트 import
 import SocialHeader from '../../components/socialComponent/SocialHeader';
 import SocialBody from '../../components/socialComponent/SocialBody';
+import SocialBottom from '../../components/socialComponent/SocialBottom';
 
 function Social() {
     return (
@@ -15,7 +16,9 @@ function Social() {
                 <S.Middle>
                     <SocialBody />
                 </S.Middle>
-                <S.Bottom></S.Bottom>
+                <S.Bottom>
+                    <SocialBottom />
+                </S.Bottom>
             </S.BackgroundImage>
         </S.Container>
     );

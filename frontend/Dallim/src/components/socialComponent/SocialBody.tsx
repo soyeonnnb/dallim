@@ -1,7 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { Animated, Easing } from 'react-native';
-import * as S from './SocialBody.style';
+import * as S from './SocialBody.styles';
 import QuestionIcon from '../../assets/icons/QuestionIcon.png';
+import RankInfoBox from './RankInfoBox';
 
 function SocialHeader() {
 
@@ -54,7 +55,12 @@ function SocialHeader() {
                 </S.ToggleButtonWrapper>
             </S.Top>
             <S.Body>
-
+                {/* 나중에 데이터 불러와서 스크롤 적용 예정 */}
+                <RankInfoBox />
+                <RankInfoBox />
+                <RankInfoBox />
+                <RankInfoBox />
+                <RankInfoBox />
             </S.Body>
         </S.Container>
     );

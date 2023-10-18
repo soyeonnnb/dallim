@@ -1,9 +1,3 @@
-/* While this template provides a good starting point for using Wear Compose, you can always
- * take a look at https://github.com/android/wear-os-samples/tree/main/ComposeStarter and
- * https://github.com/android/wear-os-samples/tree/main/ComposeAdvanced to find the most up to date
- * changes to the libraries and their usages.
- */
-
 package com.runapp
 
 import android.annotation.SuppressLint
@@ -19,18 +13,58 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.preference.PreferenceManager
+import com.runapp.databinding.ActivityMainBinding
 import java.util.Timer
 import kotlin.concurrent.timer
 
 class MainActivity : ComponentActivity(){
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        startButton()
+    private lateinit var binding: ActivityMainBinding
+
+    private fun saveData(height: Float, weight: Float){
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        val editor = pref.edit()
+
+        editor.putFloat("KEY_HEIGHT", height)
+            .putFloat("KEY_WEIGHT", weight)
+            .apply()
     }
 
-    fun startButton(){
-        val button = findViewById<Button>(R.id.btn_play)
+    private fun loadData(){
+        val pref = PreferenceManager.getDefaultSharedPreferences(this)
+        val height = pref.getFloat("KEY_HEIGHT", 0f)
+        val weight = pref.getFloat("KEY_WEIGHT", 0f)
+
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.btnStart.setOnClickListener{
+            startActivity(Intent(this, RunningActivity::class.java))
+        }
+
+//        loadData()
+//
+//        binding.btnResult.setOnClickListener {
+//            if (binding.weight.text.isNotBlank() && binding.height.text.isNotBlank()) {
+//
+//                saveData(
+//                    binding.height.text.toString().toFloat(),
+//                    binding.weight.text.toString().toFloat(),
+//                )
+//
+//                val intent = Intent(this, ResultActivity::class.java).apply {
+//                    putExtra("weight", binding.weight.text.toString().toFloat())
+//                    putExtra("height", binding.height.text.toString().toFloat())
+//                }
+//
+//                startActivity(intent)
+//            }
+//        }
+    }
+
 }

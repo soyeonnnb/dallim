@@ -57,6 +57,7 @@ export const NaverButton = styled.TouchableOpacity`
   height: 50px;
   background-color: #00c73c;
   margin-bottom: 20px;
+  elevation: 5; // 그림자
 `;
 
 export const NaverText = styled.Text`
@@ -73,7 +74,7 @@ export const KakaoButton = styled.TouchableOpacity`
   height: 50px;
   background-color: #fee500;
   margin-bottom: 20px;
-  elevation: 10; // 그림자
+  elevation: 5; 
 `;
 
 export const KakaoText = styled.Text`
@@ -82,7 +83,7 @@ export const KakaoText = styled.Text`
 `;
 
 export const Icon = styled(Image)`
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   margin-right: 30px;
 `;

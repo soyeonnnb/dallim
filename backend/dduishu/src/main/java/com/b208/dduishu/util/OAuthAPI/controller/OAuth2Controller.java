@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.b208.dduishu.domain.refreshtoken.repository.RefreshTokenRepository;
-import com.b208.dduishu.domain.user.dto.UserLoginResponseDTO;
+import com.b208.dduishu.domain.user.dto.response.UserLoginResponseDTO;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.repository.UserRepository;
 import com.b208.dduishu.domain.user.service.UserService;

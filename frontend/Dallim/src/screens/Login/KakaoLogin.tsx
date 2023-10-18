@@ -10,11 +10,14 @@ interface KakaoLoginProps {
 
 const KakaoLogin = ({navigation}: KakaoLoginProps) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isCodeSent, setIsCodeSent] = useState(false);
 
   const parseAuthCode = async (url: string) => {
+    if (isCodeSent) return;
     const exp = 'code=';
     const startIndex = url.indexOf(exp);
     if (startIndex !== -1) {
+      setIsCodeSent(true);
       const authCode = url.substring(startIndex + exp.length);
 
       setIsLoading(true);
@@ -28,6 +31,9 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
         .then(async res => {
           await AsyncStorage.setItem('accessToken', res.data.accessToken);
           console.log(res.data.accessToken);
+          navigation.navigate('BottomTab', {
+            screen: 'Main',
+          });
         })
         .catch(error => {
           console.error('Axios Error: ', error);
@@ -36,7 +42,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
           setIsLoading(false);
         });
 
-      navigation.navigate('Main', {screen: 'Main'});
+      // navigation.navigate('Main', {screen: 'Main'});
     }
   };
 

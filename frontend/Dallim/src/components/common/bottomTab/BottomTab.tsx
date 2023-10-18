@@ -1,4 +1,4 @@
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as S from './BottomTab.styles';
 
 import Main from '../../../screens/main/Main';
@@ -24,7 +24,7 @@ function BottomTab() {
         name="Chart"
         component={Chart}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <S.TabIcon
               source={require('../../../assets/icons/chart-icon.png')}
               tintColor={focused ? 'white' : 'gray'}
@@ -36,7 +36,7 @@ function BottomTab() {
         name="Social"
         component={Social}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <S.TabIcon
               source={require('../../../assets/icons/social-icon.png')}
               tintColor={focused ? 'white' : 'gray'}
@@ -48,7 +48,7 @@ function BottomTab() {
         name="Main"
         component={Main}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <S.TabIcon
               source={require('../../../assets/icons/main-icon.png')}
               tintColor={focused ? 'white' : 'gray'}
@@ -60,7 +60,7 @@ function BottomTab() {
         name="Edit"
         component={Edit}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <S.TabIcon
               source={require('../../../assets/icons/edit-icon.png')}
               tintColor={focused ? 'white' : 'gray'}
@@ -72,7 +72,7 @@ function BottomTab() {
         name="Profile"
         component={Profile}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <S.TabIcon
               source={require('../../../assets/icons/profile-icon.png')}
               tintColor={focused ? 'white' : 'gray'}

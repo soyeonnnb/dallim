@@ -165,7 +165,7 @@ public class  OAuth2Controller {
             // 여기서 accessToken을 사용자 정보 가져오는데 사용할 것입니다.
             System.out.println(accessToken);
 
-            // 엑세스 토큰을 클라이언트 앱으로 반환하거나 필요한 작업 수행
+
             Map<String, String> result = userService.getNaverUserInfo(accessToken);
 
             String email = result.get("user_email");

@@ -1,13 +1,19 @@
 package com.b208.dduishu.domain.follow.entity;
 
 import com.b208.dduishu.domain.user.entity.User;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Follow {
 
     @Id

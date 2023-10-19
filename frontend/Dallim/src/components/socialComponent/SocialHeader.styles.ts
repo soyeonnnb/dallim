@@ -15,8 +15,8 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const Left = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 30%;
   height: 80%;
   justify-content: center;
@@ -29,8 +29,8 @@ export const CharacterImage = styled(Image)`
 `;
 
 export const Middle = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 40%;
   height: 80%;
   justify-content: center;
@@ -48,8 +48,8 @@ export const LevelText = styled.Text`
 `;
 
 export const Right = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 30%;
   height: 80%;
   justify-content: center;

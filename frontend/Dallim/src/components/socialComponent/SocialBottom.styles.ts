@@ -8,8 +8,8 @@ export const Container = styled.View`
 `;
 
 export const Box = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 90%;
   height: 100%;
   justify-content: center;

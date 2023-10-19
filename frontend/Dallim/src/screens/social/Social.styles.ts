@@ -14,24 +14,24 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const Top = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
   width: 100%;
   height: 25%;
 `;
 
 export const Middle = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   width: 100%;
   height: 65%;
 `;
 
 export const Bottom = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
   width: 100%;
   height: 10%;

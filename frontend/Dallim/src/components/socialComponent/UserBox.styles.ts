@@ -59,7 +59,7 @@ export const Right = styled.View`
   align-items: center;
 `;
 
-export const FriendRemoveButton = styled(TouchableOpacity)`
+export const FriendAddButton = styled(TouchableOpacity)`
   /* border-width: 1px;
   border-color: blue; */
   width: 50%;
@@ -68,7 +68,7 @@ export const FriendRemoveButton = styled(TouchableOpacity)`
   align-items: center;
 `;
 
-export const FriendRemoveImage = styled(Image)`
+export const FriendAddImage = styled(Image)`
   width: 80%;
   height: 80%;
 `;

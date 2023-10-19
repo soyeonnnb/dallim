@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {Animated, TouchableOpacity, TextInput} from 'react-native';
+import {Animated, TouchableOpacity, TextInput, Image} from 'react-native';
 
 export const ModalContainer = styled.View`
   flex: 1;
@@ -17,8 +17,8 @@ export const ModalContent = styled.View`
 `;
 
 export const Top = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
   width: 100%;
   height: 10%;
@@ -27,8 +27,8 @@ export const Top = styled.View`
 `;
 
 export const Empty = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 30px;
   height: 30px;
 `;
@@ -58,8 +58,8 @@ export const ToggleButtonText = styled.Text`
 `;
 
 export const CloseButton = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 30px;
   height: 30px;
 `;
@@ -70,22 +70,37 @@ export const CloseImage = styled.Image`
 `;
 
 export const Middle = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 80%;
-  justify-content: center;
   align-items: center;
 `;
+export const UserBox = styled.View`
+  /* border-width: 1px;
+  border-color: green; */
+  width: 100%;
+  height: 60px;
+  margin-bottom: 10px;
+`;
 
-export const Image = styled.Image`
+export const FriendBox = styled.View`
+  /* border-width: 1px;
+  border-color: green; */
+  width: 100%;
+  height: 60px;
+  margin-bottom: 10px;
+`;
+
+export const EmptyImage = styled.Image`
   /* border-width: 1px;
   border-color: red; */
   width: 50%;
   height: 40%;
+  margin-top: 20%;
 `;
 
-export const Text = styled.Text`
+export const EmptyText = styled.Text`
   font-size: 10px;
   color: #8c8c8c;
   text-align: center;
@@ -93,17 +108,17 @@ export const Text = styled.Text`
 
 export const Bottom = styled.View`
   border-width: 1px;
-  border-color: 707070;
+  border-color: gray;
   flex-direction: row;
-  border-radius: 10px;
+  border-radius: 15px;
   width: 100%;
   height: 10%;
   align-items: center;
 `;
 
 export const BottomLeft = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   width: 15%;
   height: 100%;
@@ -117,8 +132,8 @@ export const SearchIcon = styled(Image)`
 `;
 
 export const BottomMiddle = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   width: 65%;
   height: 100%;
@@ -129,15 +144,15 @@ export const BottomMiddle = styled.View`
 export const SearchBox = styled(TextInput)`
   height: 100%;
   width: 100%;
-  border: 1px solid #8c8c8c;
+  /* border: 1px solid #8c8c8c; */
   /* border-radius: 20px;  */
   font-size: 14px;
   color: #8c8c8c;
 `;
 
 export const BottomRight = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   width: 20%;
   height: 100%;
@@ -146,8 +161,8 @@ export const BottomRight = styled.View`
 `;
 
 export const SendButton = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   border-radius: 5px;
   align-items: center;
   justify-content: center;

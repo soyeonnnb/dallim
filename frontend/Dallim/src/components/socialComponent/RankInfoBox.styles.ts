@@ -17,8 +17,8 @@ export const Box = styled.View`
 `;
 
 export const Left = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   width: 20%;
   height: 100%;
   justify-content: center;
@@ -31,15 +31,15 @@ export const RankText = styled.Text`
 `;
 
 export const Middle = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   width: 65%;
   height: 100%;
 `;
 
 export const Header = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 45%;
   padding-top: 5;
@@ -51,8 +51,8 @@ export const DistanceText = styled.Text`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
   align-items: flex-end;
   width: 100%;
@@ -71,8 +71,8 @@ export const LevelText = styled.Text`
 `;
 
 export const Right = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   width: 15%;
   height: 100%;
   justify-content: center;

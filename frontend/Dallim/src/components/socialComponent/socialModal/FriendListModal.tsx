@@ -6,7 +6,7 @@ import NoFriendImage from '../../../assets/images/NoFriend.png';
 import NoSearchImage from '../../../assets/images/NoSearch.png';
 import SearchIcon from '../../../assets/icons/SearchIcon.png';
 import FriendBox from '../FriendBox';
-import SearchBox from '../SearchBox';
+import UserBox from '../UserBox';
 
 type Props = {
     isVisible: boolean;
@@ -71,21 +71,30 @@ const FriendListModal: React.FC<Props> = ({ isVisible, onClose }) => {
                     <S.Middle>
                         {isOn ? (
                             User ? (
-                                <SearchBox />
+                                <>
+                                    <S.UserBox>
+                                        <UserBox />
+                                    </S.UserBox>
+                                </>
                             ) : (
                                 <>
-                                    <S.Image source={NoSearchImage} resizeMode="contain" />
-                                    <S.Text>검색된 유저가 없어요.</S.Text>
-                                    <S.Text style={{ marginTop: 5 }}>정확한 유저의 닉네임을 입력해주세요.</S.Text>
+                                    <S.EmptyImage source={NoSearchImage} resizeMode="contain" />
+                                    <S.EmptyText>검색된 유저가 없어요.</S.EmptyText>
+                                    <S.EmptyText style={{ marginTop: 5 }}>정확한 유저의 닉네임을 입력해주세요.</S.EmptyText>
                                 </>
                             )
                         ) : (
                             Friend ? (
-                                <FriendBox />
+                                // DB데이터에서 나중에 받아와서 스크롤 적용 예정
+                                <>
+                                    <S.FriendBox>
+                                        <FriendBox />
+                                    </S.FriendBox>
+                                </>
                             ) : (
                                 <>
-                                    <S.Image source={NoFriendImage} resizeMode="contain" />
-                                    <S.Text style={{ marginRight: 10 }}>친구가 없어요.</S.Text>
+                                    <S.EmptyImage source={NoFriendImage} resizeMode="contain" />
+                                    <S.EmptyText style={{ marginRight: 10 }}>친구가 없어요.</S.EmptyText>
                                 </>
                             )
                         )}

@@ -8,9 +8,9 @@ export const Container = styled.View`
 `;
 
 export const Top = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
-  border-width: 1px;
-  border-color: red;
   width: 90%;
   height: 10%;
   justify-content: space-between;
@@ -18,9 +18,9 @@ export const Top = styled.View`
 `;
 
 export const TopLeft = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
-  border-width: 1px;
-  border-color: red;
   height: 100%;
   width: 50%;
   align-items: center;
@@ -62,12 +62,10 @@ export const ToggleButtonText = styled.Text`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 90%;
   height: 90%;
   padding-top: 20px;
-  /* justify-content: center;
-  align-items: center; */
 `;
 

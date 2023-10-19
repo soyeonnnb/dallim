@@ -2,17 +2,21 @@ package com.b208.dduishu.domain.character.dto.request;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.entity.CharacterState;
-
+import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
+import com.b208.dduishu.domain.user.entity.User;
+import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.*;
+
 @Data
-public class CharacterInfo {
+public class CharacterInfoDetail {
 
     private final static int FIRST_STEP = 1;
     private final static int SECOND_STEP = 2;
     private final static int THIRD_STEP = 3;
 
-    private Long characterId;
+    private Long id;
     private String imageUrl;
     private String name;
     private CharacterState state;
@@ -20,8 +24,10 @@ public class CharacterInfo {
     private Long exp;
     private boolean isMainCharacter;
 
-    public CharacterInfo(Character character) {
-        this.characterId = character.getId();
+
+    @Builder
+    public CharacterInfoDetail(Character character) {
+        this.id = character.getId();
         this.imageUrl = findImageUrl(character);
         this.name = character.getCharacterInfo().getName();
         this.state = character.getState();
@@ -53,5 +59,4 @@ public class CharacterInfo {
             return THIRD_STEP;
         }
     }
-
 }

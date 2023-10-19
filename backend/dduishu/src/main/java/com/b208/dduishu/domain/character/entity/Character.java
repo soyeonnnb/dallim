@@ -3,12 +3,14 @@ package com.b208.dduishu.domain.character.entity;
 import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import lombok.Getter;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Table(name = "characters")
+@ToString
 public class Character {
 
     @Id
@@ -32,5 +34,9 @@ public class Character {
     private Long exp;
 
     private boolean isMainCharacter;
+
+    public void setMainCharacter(boolean isMainCharacter) {
+        this.isMainCharacter = isMainCharacter;
+    }
 
 }

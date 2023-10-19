@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { Animated, Easing, TouchableOpacity } from 'react-native';
+import { Animated, Easing, TouchableOpacity, ScrollView } from 'react-native';
 import * as S from './SocialBody.styles';
 import QuestionIcon from '../../assets/icons/QuestionIcon.png';
 import RankInfoBox from './RankInfoBox';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
-function SocialHeader() {
+function SocialBody() {
 
     const NowDate = new Date();
     // const DateMonth = NowDate.getMonth() + 1;  // getMonth는 0부터 시작하기 때문
@@ -61,14 +61,31 @@ function SocialHeader() {
                 </S.ToggleButtonWrapper>
             </S.Top>
             <S.Body>
-                {/* 나중에 데이터 불러와서 스크롤 적용 예정 */}
-                <RankInfoBox />
-                <RankInfoBox />
-                <RankInfoBox />
-                <RankInfoBox />
-                <RankInfoBox />
+                <ScrollView>
+                    {/* 나중에 데이터 불러와서 스크롤 적용 예정 */}
+                    <S.RankInfoBox>
+                        <RankInfoBox />
+                    </S.RankInfoBox>
+                    <S.RankInfoBox>
+                        <RankInfoBox />
+                    </S.RankInfoBox>
+                    <S.RankInfoBox>
+                        <RankInfoBox />
+                    </S.RankInfoBox>
+                    <S.RankInfoBox>
+                        <RankInfoBox />
+                    </S.RankInfoBox>
+                    <S.RankInfoBox>
+                        <RankInfoBox />
+                    </S.RankInfoBox>
+                    <S.RankInfoBox>
+                        <RankInfoBox />
+                    </S.RankInfoBox>
+                    <S.RankInfoBox>
+                        <RankInfoBox />
+                    </S.RankInfoBox>
+                </ScrollView>
             </S.Body>
-
             <AwesomeAlert
                 show={showAlert}
                 showProgress={false}
@@ -91,4 +108,4 @@ function SocialHeader() {
     );
 };
 
-export default SocialHeader;
+export default SocialBody;

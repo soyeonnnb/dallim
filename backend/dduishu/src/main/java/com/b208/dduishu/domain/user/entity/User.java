@@ -27,6 +27,7 @@ import lombok.ToString;
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
     @Column(nullable = false)
     private String accountType;
@@ -35,6 +36,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String nickname;
 
+    private int level;
+    private int cumulativeDistance;
     private int point;
     @Column(nullable = false)
     private String profileImage;
@@ -57,11 +60,13 @@ public class User {
     public User() {
     }
 
-    public User(Long userId, String accountType, String email, String nickname, int point, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
+    public User(Long userId, String accountType, String email, String nickname, int level, int cumulativeDistance,int point, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
         this.userId = userId;
         this.accountType = accountType;
         this.email = email;
         this.nickname = nickname;
+        this.cumulativeDistance = cumulativeDistance;
+        this.level = level;
         this.point = point;
         this.profileImage = profileImage;
         this.privateAccess = privateAccess;

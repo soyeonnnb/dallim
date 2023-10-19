@@ -7,15 +7,18 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalAdjusters;
+import java.util.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
+import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
+import com.b208.dduishu.domain.user.dto.request.UserRankingInfo;
 import com.b208.dduishu.domain.user.dto.response.UserLoginResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,6 +47,8 @@ import com.nimbusds.jose.shaded.json.parser.JSONParser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -67,6 +72,8 @@ public class UserService {
     private final GetUser getUser;
     @Autowired
     private RestTemplate restTemplate;
+
+    private final RunningRecordRepository runningRecordRepository;
 
     // 소셜 로그인
     @Transactional
@@ -460,7 +467,46 @@ public class UserService {
     }
 
 
+    public List<UserRankingInfo> getWeeklyRankingWithFollower(int year, int month, int week) {
 
+        User user = getUser.getUser();
 
+        List<User> res = userRepository.getUserIdAndFollowerId(user.getUserId());
 
+        List<Long> userIds = res
+                .stream()
+                .map(o -> {
+                    return o.getUserId();
+                })
+                .collect(toList());
+
+        // 나 + 팔로워 달리기 기록 가져오기
+        LocalDateTime start = LocalDateTime.of(year, month, 1, 0, 0);
+        start = start.with(TemporalAdjusters.firstInMonth(start.getDayOfWeek()));
+        start = start.plusWeeks(week - 1);
+
+        LocalDateTime end = start.plusWeeks(1);
+
+        List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserIdInAndCreatedAtBetween(userIds,start,end);
+
+        Map<Long, UserRankingInfo> userIdToInfoMap = new HashMap<>();
+
+        findRunningRecord.forEach(record -> {
+            Long userId = record.getUser().getUserId();
+            UserRankingInfo userRankingInfo = userIdToInfoMap.get(userId);
+
+            if (userRankingInfo == null) {
+                // userId가 없는 경우, 새 UserRankingInfo 객체를 만들어 Map에 추가
+                userRankingInfo = new UserRankingInfo(record);
+                userIdToInfoMap.put(userId, userRankingInfo);
+            } else {
+                // userId가 있는 경우, cumulativeDistance를 업데이트
+                userRankingInfo.setCumulativeDistance(userRankingInfo.getCumulativeDistance() + record.getTotalDistance());
+            }
+        });
+
+        List<UserRankingInfo> resultList = new ArrayList<>(userIdToInfoMap.values());
+        resultList.sort(Comparator.comparing(UserRankingInfo::getCumulativeDistance).reversed());
+        return resultList;
+    }
 }

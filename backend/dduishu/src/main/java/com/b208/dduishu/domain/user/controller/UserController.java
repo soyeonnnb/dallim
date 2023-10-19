@@ -1,10 +1,12 @@
 package com.b208.dduishu.domain.user.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import com.b208.dduishu.domain.user.dto.request.UserNickName;
 import com.b208.dduishu.domain.user.dto.request.UserPoint;
+import com.b208.dduishu.domain.user.dto.request.UserRankingInfo;
 import com.b208.dduishu.domain.user.dto.response.IsDuplicateNickName;
 import com.b208.dduishu.util.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +60,17 @@ public class UserController {
         Map<String, Object> result = userService.userProfileImage(multipartFile);
 
         return ResponseEntity.status(200).body(result);
+    }
+
+    @GetMapping("/api/v1/user/ranking")
+    public ApiResponse<?> getWeeklyRankingWithFollower(@RequestParam int year, @RequestParam int month, @RequestParam int week) {
+        try {
+            List<UserRankingInfo> res = userService.getWeeklyRankingWithFollower(year, month, week);
+
+            return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
     }
 
 }

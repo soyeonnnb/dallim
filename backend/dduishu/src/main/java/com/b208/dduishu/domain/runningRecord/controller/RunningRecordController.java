@@ -6,7 +6,6 @@ import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDetail;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
-import com.b208.dduishu.domain.runningRecord.dto.request.fetchType;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
 import com.b208.dduishu.domain.runningRecord.service.RunningRecordService;
 import com.b208.dduishu.domain.runningRecordDistance.document.RunningRecordDistance;

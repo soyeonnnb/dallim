@@ -12,7 +12,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCodeSent, setIsCodeSent] = useState(false);
 
-  const sendLoginRequest = async token => {
+  const sendLoginRequest = async (token: string) => {
     try {
       const response = await fetch('http://10.0.2.2:8080/api/oauth/login', {
         method: 'POST',

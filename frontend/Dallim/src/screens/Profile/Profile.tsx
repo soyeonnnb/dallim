@@ -5,6 +5,8 @@ import {requestWithTokenRefresh} from '../../apis/requestWithTokenRefresh ';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import WebView from 'react-native-webview';
+import {CommonActions} from '@react-navigation/native';
+import Login from '../login/Login';
 
 interface ProfileProps {
   navigation: any; // navigation prop 타입은 실제 사용하는 라이브러리에 따라 다를 수 있습니다.
@@ -16,7 +18,14 @@ const Profile = ({navigation}: ProfileProps) => {
 
   const handleConfirmLogout = () => {
     AsyncStorage.getItem('accessToken').then(token => {
-      console.log('엑세스토큰 웨얼?', token);
+      AsyncStorage.getAllKeys()
+        .then(keys => {
+          console.log('저장된 모든 키:', keys);
+          console.log('키값');
+        })
+        .catch(error => {
+          console.log('키를 가져오는 중 오류 발생:', error);
+        });
 
       // token 값을 이용하여 로그아웃 요청을 보냅니다.
       requestWithTokenRefresh(() => {
@@ -32,14 +41,14 @@ const Profile = ({navigation}: ProfileProps) => {
         );
       })
         .then(response => {
-          console.log(response);
+          console.log(response.data);
+          console.log(response.data.logoutUrl);
+          console.log(response.data.logoutUrl);
           if (response.data.logoutUrl) {
             setLogoutUrl(response.data.logoutUrl);
             setModalVisible(true);
           } else if (response.data.naver) {
-            navigation.navigate('BottomTab', {
-              screen: 'Main',
-            });
+            navigation.navigate('Main');
           }
           AsyncStorage.removeItem('accessToken'); // 액세스 토큰 제거
           for (let key in AsyncStorage) {
@@ -70,7 +79,20 @@ const Profile = ({navigation}: ProfileProps) => {
           onRequestClose={() => {
             setModalVisible(false); // 모달을 닫을 때 상태를 업데이트합니다.
           }}>
-          <WebView source={{uri: logoutUrl}} />
+          <WebView
+            source={{
+              uri: logoutUrl,
+              headers: {
+                'Accept-Language': 'ko-KR,ko',
+              },
+            }}
+            onNavigationStateChange={navState => {
+              if (navState.url.includes('logout_success')) {
+                setModalVisible(false); // WebView 모달을 닫습니다.
+                navigation.navigate('Main'); // 로그아웃 후 Login 페이지로 이동합니다.
+              }
+            }}
+          />
         </Modal>
       )}
     </S.Container>

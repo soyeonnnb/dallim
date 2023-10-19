@@ -2,7 +2,7 @@
 import React from 'react';
 import { Modal, TouchableOpacity, Text, View } from 'react-native';
 import { BlurView } from '@react-native-community/blur';
-import * as S from './SampleModal.styles';
+import * as S from './VersusModal.styles';
 
 interface Props {
     isVisible: boolean;

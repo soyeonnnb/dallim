@@ -76,7 +76,7 @@ const FriendListModal: React.FC<Props> = ({ isVisible, onClose }) => {
                                         <S.UserBox>
                                             <UserBox />
                                         </S.UserBox>
-                                    </ScrollView>
+                                    </ScrollView> 
                                 </>
                             ) : (
                                 <>

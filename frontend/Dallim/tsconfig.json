@@ -8,5 +8,9 @@
       "@model": ["./src/model"]
     },
     "types": ["styled-components-react-native"]
-  }
+  },
+  "include": [
+    "./src/**/*",
+    "./declarations.d.ts"
+  ]
 }

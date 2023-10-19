@@ -5,13 +5,14 @@ import BottomTab from './src/components/common/bottomTab/BottomTab';
 import Kakao from './src/screens/login/KakaoLogin';
 import Login from './src/screens/login/Login';
 import NotFound from './src/screens/notFound/NotFound';
+import Naver from './src/screens/login/NaverLogin';
 
 const Stack = createStackNavigator();
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="BottomTab">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="BottomTab"
           component={BottomTab}
@@ -30,6 +31,11 @@ function App() {
         <Stack.Screen
           name="Kakao"
           component={Kakao}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Naver"
+          component={Naver}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

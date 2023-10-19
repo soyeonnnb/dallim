@@ -1,14 +1,12 @@
 package com.b208.dduishu.domain.user.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import com.b208.dduishu.domain.character.entity.Character;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -23,7 +21,6 @@ import lombok.ToString;
 @Getter
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-@Builder
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +32,9 @@ public class User {
     private String email;
     @Column(nullable = false, unique = true)
     private String nickname;
+
+    @OneToMany(mappedBy = "user")
+    private List<Character> characterList = new ArrayList<>();
 
     private int level;
     private int cumulativeDistance;
@@ -60,6 +60,7 @@ public class User {
     public User() {
     }
 
+    @Builder
     public User(Long userId, String accountType, String email, String nickname, int level, int cumulativeDistance,int point, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
         this.userId = userId;
         this.accountType = accountType;

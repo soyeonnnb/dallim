@@ -42,7 +42,7 @@ export const Header = styled.View`
   border-color: red; */
   width: 100%;
   height: 45%;
-  padding-top: 5;
+  padding-top: 10px;
 `;
 
 export const DistanceText = styled.Text`
@@ -57,7 +57,7 @@ export const Body = styled.View`
   align-items: flex-end;
   width: 100%;
   height: 55%;
-  padding-bottom: 5;
+  padding-bottom: 10px;
 `;
 
 export const NickNameText = styled.Text`

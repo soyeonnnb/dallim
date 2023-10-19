@@ -8,7 +8,8 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 function SocialHeader() {
 
     const NowDate = new Date();
-    const DateMonth = NowDate.getMonth() + 1;  // getMonth는 0부터 시작하기 때문
+    // const DateMonth = NowDate.getMonth() + 1;  // getMonth는 0부터 시작하기 때문
+    const DateYear = NowDate.getFullYear();
 
     const startOfYear = new Date(NowDate.getFullYear(), 0, 1);
     const daysPassedSinceStartOfYear = Math.floor((NowDate - startOfYear) / (24 * 60 * 60 * 1000));
@@ -40,7 +41,7 @@ function SocialHeader() {
         <S.Container>
             <S.Top>
                 <S.TopLeft>
-                    <S.DateText>{DateMonth}월 {DateWeek}주차 랭킹  </S.DateText>
+                    <S.DateText>{DateYear}년 {DateWeek}주차 랭킹</S.DateText>
                     <TouchableOpacity onPress={() => setShowAlert(true)}>
                         <S.QuestionImage source={QuestionIcon} />
                     </TouchableOpacity>

@@ -1,7 +1,5 @@
 import styled from 'styled-components/native';
-import {Animated} from 'react-native';
-import {TouchableOpacity} from 'react-native';
-import {Image} from 'react-native';
+import {Animated, TouchableOpacity, Image} from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
@@ -19,15 +17,18 @@ export const Top = styled.View`
   align-items: center;
 `;
 
-export const TopLeft = styled.Text`
+export const TopLeft = styled.View`
+  flex-direction: row;
   border-width: 1px;
   border-color: red;
   height: 100%;
   width: 50%;
+  align-items: center;
 `;
 
 export const DateText = styled.Text`
   font-size: 14px;
+  margin-right: 10px;
   color: white;
 `;
 

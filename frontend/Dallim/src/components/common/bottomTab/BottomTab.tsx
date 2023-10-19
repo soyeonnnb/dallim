@@ -230,7 +230,7 @@ const App = () => {
   const [darkMode, setDarkMode] = useState(false);
   return (
     <NavigationContainer independent={true}>
-      <Tab.Navigator tabBar={props => <AnimatedTabBar {...props} />} screenOptions={{ headerShown: false }}>
+      <Tab.Navigator tabBar={props => <AnimatedTabBar {...props} />} screenOptions={{ headerShown: false }} initialRouteName="Main">
         <Tab.Screen
           name="Chart"
           component={Chart}

@@ -29,7 +29,7 @@
         <activity
             android:name=".RunningActivity"
             android:exported="false"
-            android:theme="@android:style/Theme.DeviceDefault"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
         <uses-library
             android:name="com.google.android.wearable"

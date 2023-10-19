@@ -74,9 +74,12 @@ dependencies {
     implementation("androidx.wear.compose:compose-foundation:1.2.0")
     implementation("androidx.wear.compose:compose-navigation:1.2.0")
     implementation("androidx.activity:activity-compose:1.5.1")
-    // viewPager-watch
-    implementation("com.google.accompanist:accompanist-pager:0.20.1")
-    implementation("com.google.accompanist:accompanist-pager-indicators:0.20.1")
+    // viewPager-watch(jetpack compose쓰면 이거 사용)
+//    implementation("com.google.accompanist:accompanist-pager:0.20.1")
+//    implementation("com.google.accompanist:accompanist-pager-indicators:0.20.1")
+    // viewPager2
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
     // 사용자의 건강 정보에 접근하게 해주는 API
     implementation("androidx.health.connect:connect-client:1.0.0-alpha11")
     implementation("androidx.health:health-services-client:1.0.0-beta02")
@@ -86,4 +89,12 @@ dependencies {
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.gms:play-services-maps:18.1.0")
+
+    // 이미지 라이브러리
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+    // 원형 이미지뷰 라이브러리
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
+
 }

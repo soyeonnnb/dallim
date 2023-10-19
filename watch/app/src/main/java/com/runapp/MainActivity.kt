@@ -22,22 +22,6 @@ class MainActivity : ComponentActivity(){
 
     private lateinit var binding: ActivityMainBinding
 
-    private fun saveData(height: Float, weight: Float){
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-        val editor = pref.edit()
-
-        editor.putFloat("KEY_HEIGHT", height)
-            .putFloat("KEY_WEIGHT", weight)
-            .apply()
-    }
-
-    private fun loadData(){
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-        val height = pref.getFloat("KEY_HEIGHT", 0f)
-        val weight = pref.getFloat("KEY_WEIGHT", 0f)
-
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -46,25 +30,6 @@ class MainActivity : ComponentActivity(){
         binding.btnStart.setOnClickListener{
             startActivity(Intent(this, RunningActivity::class.java))
         }
-
-//        loadData()
-//
-//        binding.btnResult.setOnClickListener {
-//            if (binding.weight.text.isNotBlank() && binding.height.text.isNotBlank()) {
-//
-//                saveData(
-//                    binding.height.text.toString().toFloat(),
-//                    binding.weight.text.toString().toFloat(),
-//                )
-//
-//                val intent = Intent(this, ResultActivity::class.java).apply {
-//                    putExtra("weight", binding.weight.text.toString().toFloat())
-//                    putExtra("height", binding.height.text.toString().toFloat())
-//                }
-//
-//                startActivity(intent)
-//            }
-//        }
     }
 
 }

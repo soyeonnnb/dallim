@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Modal, View, Text, TouchableOpacity, Animated, Easing } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, Animated, Easing, ScrollView } from 'react-native';
 import * as S from './FriendListModal.styles';
 import CloseIcon from '../../../assets/icons/CloseIcon.png';
 import NoFriendImage from '../../../assets/images/NoFriend.png';
@@ -72,9 +72,11 @@ const FriendListModal: React.FC<Props> = ({ isVisible, onClose }) => {
                         {isOn ? (
                             User ? (
                                 <>
-                                    <S.UserBox>
-                                        <UserBox />
-                                    </S.UserBox>
+                                    <ScrollView>
+                                        <S.UserBox>
+                                            <UserBox />
+                                        </S.UserBox>
+                                    </ScrollView>
                                 </>
                             ) : (
                                 <>
@@ -85,11 +87,12 @@ const FriendListModal: React.FC<Props> = ({ isVisible, onClose }) => {
                             )
                         ) : (
                             Friend ? (
-                                // DB데이터에서 나중에 받아와서 스크롤 적용 예정
                                 <>
-                                    <S.FriendBox>
-                                        <FriendBox />
-                                    </S.FriendBox>
+                                    <ScrollView>
+                                        <S.FriendBox>
+                                            <FriendBox />
+                                        </S.FriendBox>
+                                    </ScrollView>
                                 </>
                             ) : (
                                 <>

@@ -5,6 +5,7 @@ import RoomSample from '../../assets/Theme/RoomSample.png';
 import StampIcon from '../../assets/icons/StampIcon.png';
 import CloseIcon from '../../assets/icons/CloseIcon.png';
 import StampModal from '../../components/mainComponent/StampModal';
+import { CommonActions } from '@react-navigation/native';
 
 function Main({ navigation }: any) {
   const TempLv = '67';
@@ -36,7 +37,11 @@ function Main({ navigation }: any) {
   // 로그인으로 보내기 (삭제예정)
   function linkLogin() {
     console.log("로그인으로 보내는 버튼 눌림!");
-    navigation.navigate('Login');
+    // navigation.navigate('Login');
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Login' }],
+    });
   };
 
   return (

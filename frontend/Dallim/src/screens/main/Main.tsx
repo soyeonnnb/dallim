@@ -60,7 +60,7 @@ function Main({ navigation }: any) {
         <S.Header>
           <S.HeaderLeft>
             <S.ToggleButtonBackground onPress={toggleHandle}>
-              <S.ToggleButtonWrapper >
+              <S.ToggleButtonWrapper isOn={isOn}>
                 <S.ToggleButton
                   source={isOn ? Moon1 : Moon2}
                   style={{

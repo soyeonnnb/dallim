@@ -34,10 +34,10 @@ export const HeaderLeft = styled.View`
 
 export const ToggleButtonWrapper = styled.ImageBackground.attrs({
   source: StarBackground,
-})`
+})<{isOn?: boolean}>`
   border-width: 1px;
   border-radius: 100px;
-  border-color: white;
+  border-color: ${props => (props.isOn ? 'gray' : 'white')};
   padding: 4px;
   width: 80px;
   height: 40px;

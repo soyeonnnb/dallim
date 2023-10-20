@@ -2,6 +2,7 @@ package com.b208.dduishu.domain.character.entity;
 
 import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
 import com.b208.dduishu.domain.user.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -10,7 +11,6 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Table(name = "characters")
-@ToString
 public class Character {
 
     @Id
@@ -18,11 +18,11 @@ public class Character {
     @Column(name = "character_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "character_info_id")
     private CharacterInfo characterInfo;
 

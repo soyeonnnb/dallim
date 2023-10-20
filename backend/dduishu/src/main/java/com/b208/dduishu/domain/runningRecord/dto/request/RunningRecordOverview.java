@@ -16,6 +16,7 @@ import java.util.List;
 public class RunningRecordOverview {
 
     private ObjectId id;
+    private Long userId;
     private RunningType type;
     private int totalTime;
     private int totalDistance;
@@ -25,6 +26,7 @@ public class RunningRecordOverview {
 
     public RunningRecordOverview(RunningRecord runningRecord) {
         this.id = runningRecord.getId();
+        this.userId = runningRecord.getUser().getUserId();
         this.type = runningRecord.getType();
         this.totalTime = runningRecord.getTotalTime();
         this.totalDistance = runningRecord.getTotalDistance();

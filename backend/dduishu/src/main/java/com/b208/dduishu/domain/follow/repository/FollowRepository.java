@@ -8,4 +8,6 @@ import java.util.List;
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 
     List<Follow> findAllByFromUserUserId(Long userId);
+
+    void deleteByFromUserUserIdAndToUserUserId(Long fromUserId, Long toUserId);
 }

@@ -33,6 +33,9 @@ public class RunningRecordController {
     public ApiResponse<?> getRunningRecordDetail(@PathVariable ObjectId id) {
 
         try {
+
+            System.out.println(id);
+
             RunningRecordDetail res = runningRecordService.getRunningRecordDetail(id);
 
             return ApiResponse.createSuccess(res);
@@ -66,9 +69,9 @@ public class RunningRecordController {
     }
 
     @GetMapping("/api/v1/running/recent")
-    public ApiResponse<?> getTop10RecentRunningRecord() {
+    public ApiResponse<?> getTop10RecentRunningRecord(@RequestParam String type, @RequestParam Long userId) {
         try {
-            List<RunningRecordOverview> res =  runningRecordService.getTop10RecentRunningRecord();
+            List<RunningRecordOverview> res =  runningRecordService.getTop10RecentRunningRecord(type, userId);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -77,9 +80,9 @@ public class RunningRecordController {
     }
 
     @GetMapping("/api/v1/running/time")
-    public ApiResponse<?> getTop10TimeRunningRecord() {
+    public ApiResponse<?> getTop10TimeRunningRecord(@RequestParam String type, @RequestParam Long userId) {
         try {
-            List<RunningRecordOverview> res =  runningRecordService.getTop10TimeRunningRecord();
+            List<RunningRecordOverview> res =  runningRecordService.getTop10TimeRunningRecord(type, userId);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -88,9 +91,9 @@ public class RunningRecordController {
     }
 
     @GetMapping("/api/v1/running/distance")
-    public ApiResponse<?> getTop10DistanceRunningRecord() {
+    public ApiResponse<?> getTop10DistanceRunningRecord(@RequestParam String type, @RequestParam Long userId) {
         try {
-            List<RunningRecordOverview> res =  runningRecordService.getTop10DistanceRunningRecord();
+            List<RunningRecordOverview> res =  runningRecordService.getTop10DistanceRunningRecord(type, userId);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -99,9 +102,9 @@ public class RunningRecordController {
     }
 
     @GetMapping("/api/v1/running/speed")
-    public ApiResponse<?> getTop10SpeedRunningRecord() {
+    public ApiResponse<?> getTop10SpeedRunningRecord(@RequestParam String type, @RequestParam Long userId) {
         try {
-            List<RunningRecordOverview> res =  runningRecordService.getTop10SpeedRunningRecord();
+            List<RunningRecordOverview> res =  runningRecordService.getTop10SpeedRunningRecord(type, userId);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {

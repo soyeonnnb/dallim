@@ -6,6 +6,8 @@ import StampDarkIcon from '../../assets/icons/StampDarkIcon.png';
 import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
 import CloseIcon from '../../assets/icons/CloseIcon.png';
 import StampModal from '../../components/mainComponent/StampModal';
+import Moon1 from '../../assets/images/Moon1.png';
+import Moon2 from '../../assets/images/Moon2.png';
 
 function Main({ navigation }: any) {
   const TempPoint = '3000';
@@ -57,18 +59,21 @@ function Main({ navigation }: any) {
         resizeMode="cover">
         <S.Header>
           <S.HeaderLeft>
-            <S.ToggleButtonWrapper onPress={toggleHandle}>
-              <S.ToggleButton
-                style={{
-                  transform: [
-                    {
-                      translateX: animatedValue,
-                    },
-                  ],
-                }}
-                isOn={isOn}
-              />
-            </S.ToggleButtonWrapper>
+            <S.ToggleButtonBackground onPress={toggleHandle}>
+              <S.ToggleButtonWrapper >
+                <S.ToggleButton
+                  source={isOn ? Moon1 : Moon2}
+                  style={{
+                    transform: [
+                      {
+                        translateX: animatedValue,
+                      },
+                    ],
+                  }}
+                  isOn={isOn}
+                />
+              </S.ToggleButtonWrapper>
+            </S.ToggleButtonBackground>
           </S.HeaderLeft>
           <S.HeaderRight>
             <S.PointText isOn={isOn}>{TempPoint} P</S.PointText>

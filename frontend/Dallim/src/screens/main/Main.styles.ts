@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import {ImageBackground, Image} from 'react-native';
 import {Animated} from 'react-native';
 import {TouchableOpacity} from 'react-native';
+import StarBackground from '../../assets/images/StarBackground.png';
 
 export const Container = styled.View`
   flex: 1;
@@ -31,22 +32,39 @@ export const HeaderLeft = styled.View`
   justify-content: flex-end;
 `;
 
-export const ToggleButtonWrapper = styled(TouchableOpacity)`
+export const ToggleButtonWrapper = styled.ImageBackground.attrs({
+  source: StarBackground,
+})`
   border-width: 1px;
   border-radius: 100px;
-  border-color: transparent;
+  border-color: white;
   padding: 4px;
   width: 80px;
   height: 40px;
   margin-left: 20px;
-  background-color: rgba(255, 255, 255, 0.3);
 `;
 
-export const ToggleButton = styled(Animated.View)<{isOn?: boolean}>`
+export const ToggleButtonBackground = styled(TouchableOpacity)`
+  /* border-width: 1px;
+  border-color: green; */
+  flex: 1;
+  justify-content: flex-end;
+  align-items: flex-start;
+`;
+
+// export const ToggleButton = styled(Animated.View)<{isOn?: boolean}>`
+//   width: 30px;
+//   height: 30px;
+//   border-radius: 100px;
+//   background-color: ${props => (props.isOn ? '#F5DA25' : 'white')};
+// `;
+
+// Main.styles.ts
+export const ToggleButton = styled(Animated.createAnimatedComponent(ImageBackground))<{isOn?: boolean}>`
   width: 30px;
   height: 30px;
   border-radius: 100px;
-  background-color: ${props => (props.isOn ? '#F5DA25' : 'white')};
+  background-color: transparent; // 배경색을 투명하게 설정
 `;
 
 export const HeaderRight = styled.View`
@@ -58,8 +76,6 @@ export const HeaderRight = styled.View`
   justify-content: flex-end;
   align-items: flex-end;
 `;
-
-
 
 export const PointText = styled.Text<{isOn?: boolean}>`
   font-size: 20px;

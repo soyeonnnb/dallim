@@ -3,9 +3,10 @@ import { Animated, Easing } from 'react-native';
 import * as S from './Main.styles';
 import RoomSample from '../../assets/Theme/RoomSample.png';
 import StampIcon from '../../assets/icons/StampIcon.png';
+import CloseIcon from '../../assets/icons/CloseIcon.png';
 import StampModal from '../../components/mainComponent/StampModal';
 
-function Main() {
+function Main({ navigation }: any) {
   const TempLv = '67';
   const TempPoint = '3000';
 
@@ -28,9 +29,15 @@ function Main() {
     console.log("출석체크 버튼 눌림!");
     setStampModalVisible(true);
   };
-  
+
   // Stamp 모달
   const [isStampModalVisible, setStampModalVisible] = useState(false);
+
+  // 로그인으로 보내기 (삭제예정)
+  function linkLogin() {
+    console.log("로그인으로 보내는 버튼 눌림!");
+    navigation.navigate('Login');
+  };
 
   return (
     <S.Container>
@@ -65,6 +72,12 @@ function Main() {
           <S.Stamp>
             <S.SendButton onPress={handleSend}>
               <S.StampImage source={StampIcon} />
+            </S.SendButton>
+          </S.Stamp>
+          {/* 임시 버튼 : 로그인 스크린으로 보내기 도전 */}
+          <S.Stamp>
+            <S.SendButton onPress={linkLogin}>
+              <S.StampImage source={CloseIcon} />
             </S.SendButton>
           </S.Stamp>
         </S.StampBox>

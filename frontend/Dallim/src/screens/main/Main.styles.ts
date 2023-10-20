@@ -78,6 +78,7 @@ export const StampBox = styled.View`
   align-items: flex-end;
   width: 90%;
   height: 10%;
+  flex-direction: row;
 `;
 
 export const Stamp = styled.View`

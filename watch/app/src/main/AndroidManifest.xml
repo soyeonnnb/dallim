@@ -34,6 +34,10 @@
             android:name=".activity.RunningActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".activity.CountdownActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
         <uses-library
             android:name="com.google.android.wearable"

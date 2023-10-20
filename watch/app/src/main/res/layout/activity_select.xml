@@ -16,54 +16,100 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <LinearLayout
         android:id="@+id/btn_single"
-        android:layout_width="102dp"
-        android:layout_height="26dp"
-        android:layout_marginBottom="124dp"
-        android:alpha="0.5"
+        android:layout_width="125dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="120dp"
         android:background="@drawable/rounded_button"
-        android:backgroundTint="@color/black"
-        android:text="혼자 달리기"
-        android:textColor="@color/white"
-        android:textSize="10dp"
-        android:textStyle="bold"
+        android:backgroundTint="#80000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Button
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/rabbit" />
+
+        <TextView
+            android:layout_width="69dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:text="혼자 달리기"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="10dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/btn_multi"
-        android:layout_width="102dp"
-        android:layout_height="26dp"
-        android:layout_marginBottom="96dp"
-        android:alpha="0.5"
+        android:layout_width="125dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="72dp"
         android:background="@drawable/rounded_button"
-        android:backgroundTint="@color/black"
-        android:text="함께 달리기"
-        android:textColor="@color/white"
-        android:textSize="10dp"
-        android:textStyle="bold"
+        android:backgroundTint="#80000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <Button
+        <ImageView
+            android:layout_width="41dp"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            android:src="@drawable/two_rabbit" />
+
+        <TextView
+            android:layout_width="69dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:text="함께 달리기"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="10dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/btn_my_record"
-        android:layout_width="102dp"
-        android:layout_height="26dp"
-        android:layout_marginBottom="68dp"
-        android:alpha="0.5"
+        android:layout_width="125dp"
+        android:layout_height="41dp"
+        android:layout_marginBottom="28dp"
         android:background="@drawable/rounded_button"
-        android:backgroundTint="@color/black"
-        android:text="함께 달리기"
-        android:textColor="@color/white"
-        android:textSize="10dp"
-        android:textStyle="bold"
+        android:backgroundTint="#80000000"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/penguin" />
+
+        <TextView
+            android:layout_width="69dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:text="나의 기록 보기"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="10dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

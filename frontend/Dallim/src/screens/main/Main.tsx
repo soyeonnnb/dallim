@@ -5,11 +5,11 @@ import RoomSample from '../../assets/Theme/RoomSample.png';
 import StampIcon from '../../assets/icons/StampIcon.png';
 import CloseIcon from '../../assets/icons/CloseIcon.png';
 import StampModal from '../../components/mainComponent/StampModal';
-import { CommonActions } from '@react-navigation/native';
 
 function Main({ navigation }: any) {
-  const TempLv = '67';
   const TempPoint = '3000';
+  const TempLv = '67';
+  const TempNickname = '하늘을 나는 병아리';
 
   const [isOn, setIsOn] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -50,7 +50,8 @@ function Main({ navigation }: any) {
         source={
           isOn
             ? require('../../assets/images/MainBackground2.png')
-            : require('../../assets/images/MainBackground1.png')
+            // : require('../../assets/images/MainBackground1.png')
+            : require('../../assets/images/MainBackground3.png')
         }
         resizeMode="cover">
         <S.Header>
@@ -69,7 +70,6 @@ function Main({ navigation }: any) {
             </S.ToggleButtonWrapper>
           </S.HeaderLeft>
           <S.HeaderRight>
-            <S.LevelText isOn={isOn}>Lv. {TempLv}</S.LevelText>
             <S.PointText isOn={isOn}>{TempPoint} P</S.PointText>
           </S.HeaderRight>
         </S.Header>
@@ -91,6 +91,13 @@ function Main({ navigation }: any) {
             <S.StyledImage source={RoomSample} />
           </S.ThemeBox>
         </S.Body>
+        <S.Bottom>
+          <S.BottomBox>
+            <S.LevelText isOn={isOn}>Lv. {TempLv}</S.LevelText>
+            <S.NicknameText isOn={isOn}>{TempNickname}</S.NicknameText>
+          </S.BottomBox>
+        </S.Bottom>
+
       </S.BackgroundImage>
 
       <StampModal

@@ -16,8 +16,8 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const Header = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
+  border-width: 1px;
+  border-color: blue;
   flex-direction: row;
   width: 100%;
   height: 15%;
@@ -50,8 +50,8 @@ export const ToggleButton = styled(Animated.View)<{isOn?: boolean}>`
 `;
 
 export const HeaderRight = styled.View`
-  /* border-width: 1px;
-  border-color: green; */
+  border-width: 1px;
+  border-color: green;
   flex-direction: row;
   width: 60%;
   height: 100%;
@@ -59,11 +59,7 @@ export const HeaderRight = styled.View`
   align-items: flex-end;
 `;
 
-export const LevelText = styled.Text<{isOn?: boolean}>`
-  font-size: 20px;
-  color: ${props => (props.isOn ? 'black' : 'white')};
-  margin-right: 10%;
-`;
+
 
 export const PointText = styled.Text<{isOn?: boolean}>`
   font-size: 20px;
@@ -72,8 +68,8 @@ export const PointText = styled.Text<{isOn?: boolean}>`
 `;
 
 export const StampBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   justify-content: flex-end;
   align-items: flex-end;
   width: 90%;
@@ -100,22 +96,49 @@ export const SendButton = styled.TouchableOpacity`
 `;
 
 export const Body = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 75%;
+  height: 60%;
 `;
 
 export const ThemeBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 90%;
+  border-width: 1px;
+  border-color: red;
+  width: 80%;
   height: 80%;
 `;
 
 export const StyledImage = styled(Image)`
   width: 100%;
   height: 100%;
+`;
+
+export const Bottom = styled.View`
+  border-width: 1px;
+  border-color: red;
+  width: 100%;
+  height: 15%;
+`;
+
+export const BottomBox = styled.View`
+  border-width: 1px;
+  border-color: red;
+  justify-content: center;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+`;
+
+export const LevelText = styled.Text<{isOn?: boolean}>`
+  font-size: 20px;
+  color: ${props => (props.isOn ? 'black' : 'white')};
+  margin-right: 3%;
+`;
+
+export const NicknameText = styled.Text<{isOn?: boolean}>`
+  font-size: 20px;
+  color: ${props => (props.isOn ? 'black' : 'white')};
 `;

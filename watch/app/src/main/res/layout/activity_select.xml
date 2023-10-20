@@ -20,8 +20,8 @@
         android:id="@+id/btn_single"
         android:layout_width="125dp"
         android:layout_height="41dp"
-        android:layout_marginBottom="120dp"
-        android:background="@drawable/rounded_button"
+        android:layout_marginBottom="124dp"
+        android:background="@drawable/round_check_btn"
         android:backgroundTint="#80000000"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -32,10 +32,10 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
+            android:id="@+id/single_gif"
             android:layout_width="35dp"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:src="@drawable/rabbit" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:layout_width="69dp"
@@ -52,8 +52,8 @@
         android:id="@+id/btn_multi"
         android:layout_width="125dp"
         android:layout_height="41dp"
-        android:layout_marginBottom="72dp"
-        android:background="@drawable/rounded_button"
+        android:layout_marginBottom="76dp"
+        android:background="@drawable/round_check_btn"
         android:backgroundTint="#80000000"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -85,7 +85,7 @@
         android:layout_width="125dp"
         android:layout_height="41dp"
         android:layout_marginBottom="28dp"
-        android:background="@drawable/rounded_button"
+        android:background="@drawable/round_check_btn"
         android:backgroundTint="#80000000"
         android:gravity="center_vertical"
         android:orientation="horizontal"

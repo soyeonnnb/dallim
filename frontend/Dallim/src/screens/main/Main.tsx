@@ -2,7 +2,8 @@ import React, { useRef, useState } from 'react';
 import { Animated, Easing } from 'react-native';
 import * as S from './Main.styles';
 import RoomSample from '../../assets/Theme/RoomSample.png';
-import StampIcon from '../../assets/icons/StampIcon.png';
+import StampDarkIcon from '../../assets/icons/StampDarkIcon.png';
+import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
 import CloseIcon from '../../assets/icons/CloseIcon.png';
 import StampModal from '../../components/mainComponent/StampModal';
 
@@ -74,17 +75,19 @@ function Main({ navigation }: any) {
           </S.HeaderRight>
         </S.Header>
         <S.StampBox>
-          <S.Stamp>
-            <S.SendButton onPress={handleSend}>
-              <S.StampImage source={StampIcon} />
-            </S.SendButton>
-          </S.Stamp>
           {/* 임시 버튼 : 로그인 스크린으로 보내기 도전 */}
           <S.Stamp>
             <S.SendButton onPress={linkLogin}>
               <S.StampImage source={CloseIcon} />
             </S.SendButton>
           </S.Stamp>
+
+          <S.Stamp>
+            <S.SendButton onPress={handleSend}>
+              <S.StampImage source={isOn ? StampDarkIcon : StampWhiteIcon} />
+            </S.SendButton>
+          </S.Stamp>
+
         </S.StampBox>
         <S.Body>
           <S.ThemeBox>

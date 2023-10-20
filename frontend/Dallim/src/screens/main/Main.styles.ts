@@ -16,8 +16,8 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const Header = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   width: 100%;
   height: 15%;
@@ -50,8 +50,8 @@ export const ToggleButton = styled(Animated.View)<{isOn?: boolean}>`
 `;
 
 export const HeaderRight = styled.View`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   flex-direction: row;
   width: 60%;
   height: 100%;
@@ -68,9 +68,12 @@ export const PointText = styled.Text<{isOn?: boolean}>`
 `;
 
 export const StampBox = styled.View`
-  border-width: 1px;
-  border-color: red;
-  justify-content: flex-end;
+  /* border-width: 1px;
+  border-color: red; */
+
+  /* 임시버튼 있는 경우 */
+  justify-content: space-between;
+  /* justify-content: flex-end; */
   align-items: flex-end;
   width: 90%;
   height: 10%;
@@ -81,8 +84,8 @@ export const Stamp = styled.View`
   /* border-width: 1px;
   border-color: blue; */
   /* align-items: center; */
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
 `;
 
 export const StampImage = styled.Image`
@@ -96,8 +99,8 @@ export const SendButton = styled.TouchableOpacity`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -105,8 +108,8 @@ export const Body = styled.View`
 `;
 
 export const ThemeBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 80%;
   height: 80%;
 `;
@@ -117,15 +120,15 @@ export const StyledImage = styled(Image)`
 `;
 
 export const Bottom = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 15%;
 `;
 
 export const BottomBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: center;
   flex-direction: row;
   width: 100%;

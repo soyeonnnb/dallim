@@ -1,18 +1,18 @@
 import styled from 'styled-components/native';
 import {ImageBackground, Image} from 'react-native';
-import { Animated } from 'react-native';
-import { TouchableOpacity } from 'react-native';
+import {Animated} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
-  justify-content: center;
-  align-items: center;
 `;
 
 export const BackgroundImage = styled(ImageBackground)`
   flex: 1;
   width: 100%;
   height: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Header = styled.View`
@@ -33,16 +33,16 @@ export const HeaderLeft = styled.View`
 
 export const ToggleButtonWrapper = styled(TouchableOpacity)`
   border-width: 1px;
-  border-radius: 100px;  
+  border-radius: 100px;
   border-color: transparent;
-  padding: 4px; 
+  padding: 4px;
   width: 80px;
   height: 40px;
   margin-left: 20px;
   background-color: rgba(255, 255, 255, 0.3);
 `;
 
-export const ToggleButton = styled(Animated.View)<{ isOn?: boolean }>`
+export const ToggleButton = styled(Animated.View)<{isOn?: boolean}>`
   width: 30px;
   height: 30px;
   border-radius: 100px;
@@ -59,16 +59,43 @@ export const HeaderRight = styled.View`
   align-items: flex-end;
 `;
 
-export const LevelText = styled.Text<{ isOn?: boolean }>`
+export const LevelText = styled.Text<{isOn?: boolean}>`
   font-size: 20px;
   color: ${props => (props.isOn ? 'black' : 'white')};
   margin-right: 10%;
 `;
 
-export const PointText = styled.Text<{ isOn?: boolean }>`
+export const PointText = styled.Text<{isOn?: boolean}>`
   font-size: 20px;
   color: ${props => (props.isOn ? 'black' : 'white')};
   margin-right: 10%;
+`;
+
+export const StampBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 90%;
+  height: 10%;
+`;
+
+export const Stamp = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
+  /* align-items: center; */
+  width: 50px;
+  height: 50px;
+`;
+
+export const StampImage = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
+
+export const SendButton = styled.TouchableOpacity`
+  width: 100%;
+  height: 100%;
 `;
 
 export const Body = styled.View`
@@ -77,14 +104,14 @@ export const Body = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 85%;
+  height: 75%;
 `;
 
 export const ThemeBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 90%;
-  height: 60%;
+  height: 80%;
 `;
 
 export const StyledImage = styled(Image)`

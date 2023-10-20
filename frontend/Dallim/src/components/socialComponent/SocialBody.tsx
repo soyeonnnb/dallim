@@ -56,7 +56,7 @@ function SocialBody() {
                             ],
                         }}
                     >
-                        <S.ToggleButtonText>{isOn ? "팔로잉" : "전체"}</S.ToggleButtonText>
+                        <S.ToggleButtonText>{isOn ? "친구" : "전체"}</S.ToggleButtonText>
                     </S.ToggleButton>
                 </S.ToggleButtonWrapper>
             </S.Top>

@@ -1,7 +1,9 @@
-import React, {useRef, useState} from 'react';
-import {Animated, Easing} from 'react-native';
+import React, { useRef, useState } from 'react';
+import { Animated, Easing } from 'react-native';
 import * as S from './Main.styles';
 import RoomSample from '../../assets/Theme/RoomSample.png';
+import StampIcon from '../../assets/icons/StampIcon.png';
+import StampModal from '../../components/mainComponent/StampModal';
 
 function Main() {
   const TempLv = '67';
@@ -21,6 +23,14 @@ function Main() {
       return !prevIsOn;
     });
   };
+
+  function handleSend() {
+    console.log("출석체크 버튼 눌림!");
+    setStampModalVisible(true);
+  };
+  
+  // Stamp 모달
+  const [isStampModalVisible, setStampModalVisible] = useState(false);
 
   return (
     <S.Container>
@@ -51,13 +61,25 @@ function Main() {
             <S.PointText isOn={isOn}>{TempPoint} P</S.PointText>
           </S.HeaderRight>
         </S.Header>
+        <S.StampBox>
+          <S.Stamp>
+            <S.SendButton onPress={handleSend}>
+              <S.StampImage source={StampIcon} />
+            </S.SendButton>
+          </S.Stamp>
+        </S.StampBox>
         <S.Body>
-          {/* Body 내용 */}
           <S.ThemeBox>
             <S.StyledImage source={RoomSample} />
           </S.ThemeBox>
         </S.Body>
       </S.BackgroundImage>
+
+      <StampModal
+        isVisible={isStampModalVisible}
+        onClose={() => setStampModalVisible(false)}
+      />
+
     </S.Container>
   );
 }

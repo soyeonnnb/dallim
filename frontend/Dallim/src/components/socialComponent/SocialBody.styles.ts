@@ -66,6 +66,11 @@ export const Body = styled.View`
   border-color: red; */
   width: 90%;
   height: 90%;
-  padding-top: 20px;
 `;
 
+export const RankInfoBox = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
+  width: 100%;
+  height: 80px;
+`;

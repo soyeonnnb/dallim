@@ -97,5 +97,9 @@ dependencies {
     // 원형 이미지뷰 라이브러리
     implementation("de.hdodenhof:circleimageview:3.1.0")
 
+    // room
+    implementation("androidx.room:room-runtime:2.5.0")
+    annotationProcessor("androidx.room:room-compiler:2.5.0")
+
 
 }

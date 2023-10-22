@@ -16,8 +16,8 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 90%;
   justify-content: center;
@@ -25,8 +25,8 @@ export const Body = styled.View`
 `;
 
 export const BodyBox = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   border-radius: 20px;
   width: 90%;
   height: 80%;
@@ -37,23 +37,23 @@ export const BodyBox = styled.View`
 `;
 
 export const Top = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 20%;
 `;
 
 export const CharacterBox = styled.View`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   width: 100%;
   height: 70%;
   align-items: center;
 `;
 
 export const Cycle = styled.View`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   width: 120px;
   height: 120px;
   top: -60px;
@@ -69,8 +69,8 @@ export const CharacterImage = styled.Image`
 `;
 
 export const NicknameBox = styled.View`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   width: 100%;
   height: 30%;
   justify-content: center;
@@ -83,8 +83,8 @@ export const NicknameText = styled.Text`
 `;
 
 export const Middle = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 80%;
   justify-content: center;
@@ -92,8 +92,8 @@ export const Middle = styled.View`
 `;
 
 export const TabBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 10%;
 `;

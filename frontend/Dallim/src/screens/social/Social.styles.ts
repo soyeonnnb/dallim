@@ -31,16 +31,16 @@ export const Middle = styled.View`
 `;
 
 export const Bottom = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
   width: 100%;
   height: 10%;
 `;
 
 export const TabBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 10%;
 `;

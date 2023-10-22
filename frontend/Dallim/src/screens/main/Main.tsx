@@ -8,6 +8,9 @@ import CloseIcon from '../../assets/icons/CloseIcon.png';
 import StampModal from '../../components/mainComponent/StampModal';
 import Moon1 from '../../assets/images/Moon1.png';
 import Moon2 from '../../assets/images/Moon2.png';
+import Sun from '../../assets/images/Sun.png';
+import SunBackground from '../../assets/images/SunBackground.png';
+import MoonBackground from '../../assets/images/MoonBackground.png';
 
 function Main({ navigation }: any) {
   const TempPoint = '3000';
@@ -60,9 +63,9 @@ function Main({ navigation }: any) {
         <S.Header>
           <S.HeaderLeft>
             <S.ToggleButtonBackground onPress={toggleHandle}>
-              <S.ToggleButtonWrapper isOn={isOn}>
+              <S.ToggleButtonWrapper source={isOn ? SunBackground : MoonBackground} isOn={isOn} >
                 <S.ToggleButton
-                  source={isOn ? Moon1 : Moon2}
+                  source={isOn ? Sun : Moon2}
                   style={{
                     transform: [
                       {

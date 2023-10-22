@@ -2,8 +2,6 @@ import styled from 'styled-components/native';
 import {ImageBackground, Image} from 'react-native';
 import {Animated} from 'react-native';
 import {TouchableOpacity} from 'react-native';
-import StarBackground from '../../assets/images/StarBackground.png';
-// import ShineBackground from '../../assets/images/ShineBackground.png';
 
 export const Container = styled.View`
   flex: 1;
@@ -18,8 +16,8 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const Header = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   width: 100%;
   height: 10%;
@@ -33,16 +31,15 @@ export const HeaderLeft = styled.View`
   justify-content: flex-end;
 `;
 
-export const ToggleButtonWrapper = styled.ImageBackground.attrs({
-  source: StarBackground,
-})<{isOn?: boolean}>`
+export const ToggleButtonWrapper = styled(ImageBackground)<{ isOn?: boolean }>`
   border-width: 1px;
   border-radius: 100px;
-  border-color: ${props => (props.isOn ? 'gray' : 'white')};
+  border-color: ${props => (props.isOn ? 'white' : 'gray')};
   padding: 4px;
   width: 80px;
   height: 40px;
   margin-left: 20px;
+  overflow: hidden;
 `;
 
 export const ToggleButtonBackground = styled(TouchableOpacity)`
@@ -53,7 +50,6 @@ export const ToggleButtonBackground = styled(TouchableOpacity)`
   align-items: flex-start;
 `;
 
-// Main.styles.ts
 export const ToggleButton = styled(Animated.createAnimatedComponent(ImageBackground))<{isOn?: boolean}>`
   width: 30px;
   height: 30px;
@@ -78,8 +74,8 @@ export const PointText = styled.Text<{isOn?: boolean}>`
 `;
 
 export const StampBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
 
   /* 임시버튼 있는 경우 */
   justify-content: space-between;
@@ -109,8 +105,8 @@ export const SendButton = styled.TouchableOpacity`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -118,8 +114,8 @@ export const Body = styled.View`
 `;
 
 export const ThemeBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 80%;
   height: 80%;
 `;
@@ -130,8 +126,8 @@ export const StyledImage = styled(Image)`
 `;
 
 export const Bottom = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 10%;
 `;
@@ -157,8 +153,8 @@ export const NicknameText = styled.Text<{isOn?: boolean}>`
 `;
 
 export const TabBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 10%;
 `;

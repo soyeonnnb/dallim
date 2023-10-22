@@ -3,6 +3,7 @@ import {ImageBackground, Image} from 'react-native';
 import {Animated} from 'react-native';
 import {TouchableOpacity} from 'react-native';
 import StarBackground from '../../assets/images/StarBackground.png';
+// import ShineBackground from '../../assets/images/ShineBackground.png';
 
 export const Container = styled.View`
   flex: 1;
@@ -51,13 +52,6 @@ export const ToggleButtonBackground = styled(TouchableOpacity)`
   justify-content: flex-end;
   align-items: flex-start;
 `;
-
-// export const ToggleButton = styled(Animated.View)<{isOn?: boolean}>`
-//   width: 30px;
-//   height: 30px;
-//   border-radius: 100px;
-//   background-color: ${props => (props.isOn ? '#F5DA25' : 'white')};
-// `;
 
 // Main.styles.ts
 export const ToggleButton = styled(Animated.createAnimatedComponent(ImageBackground))<{isOn?: boolean}>`

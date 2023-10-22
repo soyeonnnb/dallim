@@ -36,6 +36,7 @@ import BottomTabIcon from './BottomTabIcon';
 
 const Tab = createBottomTabNavigator();
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
+const AnimatedPath = Animated.createAnimatedComponent(Path);
 
 const AnimatedTabBar = ({
   state: {index: activeIndex, routes},
@@ -64,35 +65,107 @@ const AnimatedTabBar = ({
       transform: [{translateX: withTiming(xOffset.value, {duration: 150})}],
     };
   });
+  // return (
+  //   <View style={[{paddingBottom: bottom, bottom: 20, position: 'relative'}]}>
+  //     <AnimatedSvg
+  //       width={110}
+  //       height={60}
+  //       viewBox="0 0 110 60"
+  //       style={[styles.activeBackground, animatedStyles]}>
+  //       <Path
+  //         fill="#ffffff"
+  //         d="M20 0H0c11.046 0 20 8.953 20 20v5c0 19.33 15.67 35 35 35s35-15.67 35-35v-5c0-11.045 8.954-20 20-20H20z"
+  //       />
+  //     </AnimatedSvg>
+
+  //     <View style={styles.tabBarContainer}>
+  //       {routes.map((route, index) => {
+  //         const active = index === activeIndex;
+  //         const {options} = descriptors[route.key];
+
+  //         return (
+  //           <TabBarComponent
+  //             key={route.key}
+  //             active={active}
+  //             options={options}
+  //             onLayout={e => handleLayout(e, index)}
+  //             onPress={() => navigation.navigate(route.name)}
+  //           />
+  //         );
+  //       })}
+  //     </View>
+  //   </View>
+  // );
 
   return (
+    // <View
+    //   id="mainContainer"
+    //   style={[
+    //     {
+    //       paddingBottom: bottom,
+    //       backgroundColor: 'transparent',
+    //     },
+    //   ]}>
+    //   <Animated.View style={[styles.activeBackground, animatedStyles]}>
+    //     <AnimatedSvg height="60" width="110" viewBox="0 0 110 60">
+    //       <Path
+    //         d="M20 0H0c11.046 0 20 8.953 20 20v5c0 19.33 15.67 35 35 35s35-15.67 35-35v-5c0-11.045 8.954-20 20-20H20z"
+    //         fill="#fff"
+    //         id="toDelete"
+    //       />
+    //     </AnimatedSvg>
+    //   </Animated.View>
+
+    //   {/* Your existing tab bar container */}
+    //   <View style={styles.tabBarContainer} id="redContainer">
+    //     {routes.map((route, index) => {
+    //       const active = index === activeIndex;
+    //       const {options} = descriptors[route.key];
+
+    //       return (
+    //         <TabBarComponent
+    //           key={route.key}
+    //           active={active}
+    //           options={options}
+    //           onLayout={e => handleLayout(e, index)}
+    //           onPress={() => navigation.navigate(route.name)}
+    //         />
+    //       );
+    //     })}
+    //   </View>
+    // </View>
     <View
+      id="mainContainer"
       style={[
         {
-          backgroundColor: 'transparent',
           paddingBottom: bottom,
+          bottom: 20,
+          backgroundColor: 'transparent',
         },
       ]}>
-      <Animated.View style={[styles.activeBackground, animatedStyles]}>
-        <AnimatedSvg height="100%" width="100%">
-          <Defs>
-            <Mask id="navbarMask">
-              <Rect width="100%" height="100%" fill="#fff" />
-              <Path
-                d="M20 0H0c11.046 0 20 8.953 20 20v5c0 19.33 15.67 35 35 35s35-15.67 35-35v-5c0-11.045 8.954-20 20-20H20z"
-                fill="#000"
-              />
-            </Mask>
-          </Defs>
-          <Rect
-            width="100%"
-            height="100%"
-            fill="blue"
-            mask="url(#navbarMask)"
-          />
-        </AnimatedSvg>
-      </Animated.View>
-      <View style={styles.tabBarContainer}>
+      {/* 마스크를 적용할 전체 View를 감싸는 SVG 컴포넌트 */}
+      <Svg height="100%" width="100%" style={{position: 'absolute'}}>
+        <Defs>
+          <Mask id="myMask" x="0" y="0" height="100%" width="100%">
+            {/* 마스크 영역을 정의합니다. Path 영역을 제외한 모든 영역을 투명하게 처리합니다. */}
+            <Rect height="100%" width="100%" fill="#fff" />
+            <AnimatedPath
+              d="M20 0H0c11.046 0 20 8.953 20 20v5c0 19.33 15.67 35 35 35s35-15.67 35-35v-5c0-11.045 8.954-20 20-20H20z"
+              fill="#000"
+            />
+          </Mask>
+        </Defs>
+
+        {/* 실제 마스크를 적용합니다. 'myMask' 마스크 참조를 사용합니다. */}
+        <Rect height="100%" width="100%" fill="green" mask="url(#myMask)" />
+      </Svg>
+
+      {/* 기타 컴포넌트들 */}
+      <View
+        style={[styles.tabBarContainer, {backgroundColor: 'transparent'}]}
+        id="redContainer">
+        {/* 이 부분에서 탭 바 아이템을 렌더링합니다. */}
+
         {routes.map((route, index) => {
           const active = index === activeIndex;
           const {options} = descriptors[route.key];
@@ -125,13 +198,6 @@ const TabBarComponent = ({
   onLayout,
   onPress,
 }: TabBarComponentProps) => {
-  // const ref = useRef(null);
-  // useEffect(() => {
-  //   if (active && ref?.current) {
-  //     ref.current.play();
-  //   }
-  // }, [active]);
-
   const animatedComponentCircleStyles = useAnimatedStyle(() => {
     return {
       transform: [
@@ -178,21 +244,28 @@ const TabBarComponent = ({
 };
 
 const styles = StyleSheet.create({
-  tabBar: {},
   activeBackground: {
     position: 'absolute',
+    // backgroundColor: 'blue',
+    // top: 0,
+    bottom: 0,
   },
   tabBarContainer: {
     flexDirection: 'row',
+    width: '100%',
     justifyContent: 'space-evenly',
-    backgroundColor: varStyles.colors.lightPurple,
+    backgroundColor: 'red',
     borderTopEndRadius: 20,
     borderTopStartRadius: 20,
+    zIndex: 2,
+    position: 'absolute',
+    bottom: 0,
+    flex: 1,
   },
   component: {
     height: 60,
     width: 60,
-    marginTop: -5,
+    // marginTop: -5,
   },
   componentCircle: {
     flex: 1,

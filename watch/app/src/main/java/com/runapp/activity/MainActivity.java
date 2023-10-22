@@ -1,26 +1,55 @@
 package com.runapp.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivityMainBinding;
+import com.runapp.model.RunningData;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends ComponentActivity {
+    // 클래스 멤버로 Executor 정의
+    private final Executor executor = Executors.newSingleThreadExecutor();
     private ActivityMainBinding binding;
+    private AppDatabase db;
+    static int MULTIPLE_PERMISSIONS_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        db = AppDatabase.getDatabase(getApplicationContext());
+
         super.onCreate(savedInstanceState);
+
+        // 러닝데이터 db에서 출력용(디비에 접근하려면 메인 스레드에서 하면 안된다)
+//        executor.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                // 백그라운드 스레드에서 데이터베이스 접근
+//                List<RunningData> runningDataList = db.runningDataDAO().getAll();
+//
+//                // 데이터베이스에서 받은 데이터를 로그로 출력
+//                for (RunningData runningData : runningDataList) {
+//                    Log.d("MyRecordActivity", "Running Data: " + runningData.speed);
+//                }
+//            }
+//        });
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         // 레이아웃의 최상위 뷰를 가져옴
@@ -34,12 +63,23 @@ public class MainActivity extends ComponentActivity {
             Intent intent = new Intent(MainActivity.this, SelectActivity.class);
             startActivity(intent);
         });
+
+        binding.data.setOnClickListener(v->{
+            addDummyData();
+        });
+
+        binding.btnDeleteAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteAllData();
+            }
+        });
     }
 
 
     private void checkPermission(){
 
-        int MULTIPLE_PERMISSIONS_CODE = 100;
+
         // 필요한 권한(퍼미션)들
         String[] requiredPermissions = {
                 Manifest.permission.ACCESS_FINE_LOCATION,
@@ -68,20 +108,86 @@ public class MainActivity extends ComponentActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-//    // ActivityResultLauncher를 생성합니다.
-//    private ActivityResultLauncher<String[]> requestPermissionLauncher =
-//            registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
-//                // 권한 요청 결과를 처리합니다.
-//                if (result.containsValue(false)) {
-//                    // 사용자가 필요한 권한을 모두 승인하지 않은 경우 앱을 종료합니다.
-//                    new AlertDialog.Builder(MainActivity.this)
-//                            .setMessage("이 앱은 모든 필요한 권한이 승인되어야 정상적으로 작동합니다. 권한을 부여해주세요.")
-//                            .setPositiveButton("종료", (dialog, which) -> finish())
-//                            .setNegativeButton("다시 시도", (dialog, which) -> checkPermission())
-//                            .create()
-//                            .show();
-//                }
-//            });
+        if (requestCode == MULTIPLE_PERMISSIONS_CODE) {
+            boolean allPermissionsGranted = true;
+            // 모든 권한이 승인되었는지 확인
+            for (int grantResult : grantResults) {
+                if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+
+            if (!allPermissionsGranted) {
+                // 하나 이상의 권한이 거부된 경우 사용자에게 알림
+                new AlertDialog.Builder(MainActivity.this)
+                        .setMessage("설정에서 모든 권한을 허용하고 다시 실행해주세요.")
+                        .setPositiveButton("종료", (dialog, which) -> finish())
+                        .setOnDismissListener(dialog -> finish()) // 사용자가 알람 닫으면 앱 꺼버림
+                        .create()
+                        .show();
+            } else {
+                // 필요한 모든 권한이 승인된 경우
+                // 권한이 승인된 후 수행해야 하는 작업을 여기에 추가할 수 있습니다.
+            }
+        }
+    }
+
+    private void addDummyData() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (db.runningDataDAO().getAll().isEmpty()) { // 데이터베이스가 비어있는 경우에만 더미 데이터 추가
+                    RunningData data1 = new RunningData();
+                    data1.date = new Date();
+                    data1.distance = 5.5f;
+                    data1.speed = 3.5f;
+                    data1.heartRate = 80;
+                    data1.time = 1000L;
+
+                    RunningData data2 = new RunningData();
+                    data2.date = new Date();
+                    data2.distance = 3.7f;
+                    data2.speed = 2.8f;
+                    data2.heartRate = 76;
+                    data2.time = 800L;
+
+                    RunningData data3 = new RunningData();
+                    data3.date = new Date();
+                    data3.distance = 6.3f;
+                    data3.speed = 4.2f;
+                    data3.heartRate = 85;
+                    data3.time = 1200L;
+
+                    db.runningDataDAO().insert(data1);
+                    db.runningDataDAO().insert(data2);
+                    db.runningDataDAO().insert(data3);
+                }
+            }
+        });
+
+    }
+
+    private void deleteAllData() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                // 데이터베이스의 모든 데이터 삭제
+                db.runningDataDAO().deleteAll();
+
+                // (선택사항) UI 스레드에서 사용자에게 데이터가 삭제되었음을 알리는 토스트 메시지 표시
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "All data has been deleted.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
 
 }

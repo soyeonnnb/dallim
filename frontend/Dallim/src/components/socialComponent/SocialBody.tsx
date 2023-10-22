@@ -8,7 +8,6 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 function SocialBody() {
 
     const NowDate = new Date();
-    // const DateMonth = NowDate.getMonth() + 1;  // getMonth는 0부터 시작하기 때문
     const DateYear = NowDate.getFullYear();
 
     const startOfYear = new Date(NowDate.getFullYear(), 0, 1);
@@ -90,7 +89,7 @@ function SocialBody() {
                 show={showAlert}
                 showProgress={false}
                 title="안내사항"
-                message="상위 20명의 거리 기준 랭킹입니다."
+                message={isOn ? "친구 거리 기준 랭킹입니다." : "상위 20명의 거리 기준 랭킹입니다."}
                 closeOnTouchOutside={true}
                 onDismiss={() => {
                     setShowAlert(false);

@@ -30,7 +30,7 @@ export const RankText = styled.Text`
   color: black;
 `;
 
-export const Middle = styled.View`
+export const Middle = styled(TouchableOpacity)`
   /* border-width: 1px;
   border-color: blue; */
   width: 65%;

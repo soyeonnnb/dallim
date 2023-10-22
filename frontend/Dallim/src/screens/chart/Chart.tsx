@@ -42,6 +42,7 @@ function Chart() {
                         </S.Middle>
                     </S.BodyBox>
                 </S.Body>
+                <S.TabBox />
             </S.BackgroundImage>
         </S.Container>
     );

@@ -17,11 +17,11 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const Header = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
+  border-width: 1px;
+  border-color: blue;
   flex-direction: row;
   width: 100%;
-  height: 15%;
+  height: 10%;
 `;
 
 export const HeaderLeft = styled.View`
@@ -84,8 +84,8 @@ export const PointText = styled.Text<{isOn?: boolean}>`
 `;
 
 export const StampBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
 
   /* 임시버튼 있는 경우 */
   justify-content: space-between;
@@ -115,8 +115,8 @@ export const SendButton = styled.TouchableOpacity`
 `;
 
 export const Body = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -124,8 +124,8 @@ export const Body = styled.View`
 `;
 
 export const ThemeBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   width: 80%;
   height: 80%;
 `;
@@ -136,10 +136,10 @@ export const StyledImage = styled(Image)`
 `;
 
 export const Bottom = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   width: 100%;
-  height: 15%;
+  height: 10%;
 `;
 
 export const BottomBox = styled.View`
@@ -160,4 +160,11 @@ export const LevelText = styled.Text<{isOn?: boolean}>`
 export const NicknameText = styled.Text<{isOn?: boolean}>`
   font-size: 20px;
   color: ${props => (props.isOn ? 'black' : 'white')};
+`;
+
+export const TabBox = styled.View`
+  border-width: 1px;
+  border-color: red;
+  width: 100%;
+  height: 10%;
 `;

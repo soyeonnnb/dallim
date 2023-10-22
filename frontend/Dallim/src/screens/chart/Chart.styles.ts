@@ -19,7 +19,7 @@ export const Body = styled.View`
   border-width: 1px;
   border-color: red;
   width: 100%;
-  height: 100%;
+  height: 90%;
   justify-content: center;
   align-items: center;
 `;
@@ -89,4 +89,11 @@ export const Middle = styled.View`
   height: 80%;
   justify-content: center;
   align-items: center;
+`;
+
+export const TabBox = styled.View`
+  border-width: 1px;
+  border-color: red;
+  width: 100%;
+  height: 10%;
 `;

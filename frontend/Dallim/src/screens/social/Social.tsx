@@ -19,6 +19,7 @@ function Social() {
                 <S.Bottom>
                     <SocialBottom />
                 </S.Bottom>
+                <S.TabBox />
             </S.BackgroundImage>
         </S.Container>
     );

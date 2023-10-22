@@ -106,6 +106,7 @@ function Main({ navigation }: any) {
           </S.BottomBox>
         </S.Bottom>
 
+        <S.TabBox /> 
       </S.BackgroundImage>
 
       <StampModal

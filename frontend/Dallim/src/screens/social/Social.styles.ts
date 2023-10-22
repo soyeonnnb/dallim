@@ -18,6 +18,7 @@ export const Top = styled.View`
   border-color: red; */
   flex-direction: row;
   width: 100%;
+  /* height: 25%; */
   height: 175px;
 `;
 
@@ -34,5 +35,5 @@ export const Bottom = styled.View`
   border-color: red; */
   flex-direction: row;
   width: 100%;
-  height: 40px;
+  height: 50px;
 `;

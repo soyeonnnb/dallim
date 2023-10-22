@@ -290,7 +290,9 @@ const styles = StyleSheet.create({
 function BottompTab() {
   const [darkMode, setDarkMode] = useState(false);
   return (
-    <NavigationContainer independent={true}>
+    // 이걸 넣으면 Login으로 안가요
+    // 부모의 컨텍스트 영향을 받지 않고 독립적으로 작동한대요
+    // <NavigationContainer independent={true}>
       <Tab.Navigator
         tabBar={props => <AnimatedTabBar {...props} />}
         screenOptions={{headerShown: false}}
@@ -361,7 +363,7 @@ function BottompTab() {
           }}
         />
       </Tab.Navigator>
-    </NavigationContainer>
+    // </NavigationContainer>
   );
 }
 

@@ -17,19 +17,49 @@ export const Container = styled.View`
   /* background-color: transparent; */
 `;
 
+export const Top = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 20%;
+`;
+
+export const TitleBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  align-items: center;
+  width: 200px;
+  height: 30px;
+`;
+
+export const TitleImage = styled(Image)`
+  width: 90%;
+  height: 100%;
+`;
+
 export const Body = styled.View`
   /* border-width: 1px;
   border-color: red; */
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 70%;
+  height: 50%;
+`;
+
+export const BodyBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 85%;
 `;
 
 export const StyledImage = styled(Image)`
-  margin-top: 20%;
-  width: 60%;
-  height: 60%;
+  width: 250px;
+  height: 330px;
 `;
 
 export const Title = styled.Text`

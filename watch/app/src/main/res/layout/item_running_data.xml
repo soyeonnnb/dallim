@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="10sp"
+        android:text="10월 19일 (목)" />
+
+    <LinearLayout
+        android:layout_width="139dp"
+        android:layout_height="113dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/rounded_button"
+        android:backgroundTint="#D9D9D9"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Distance"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/heartRate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Heart Rate"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Speed"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Time"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+        />
+    </LinearLayout>
+
+
+
+</RelativeLayout>

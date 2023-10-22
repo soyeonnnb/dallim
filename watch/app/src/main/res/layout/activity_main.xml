@@ -11,7 +11,7 @@
     <Button
         android:id="@+id/btn_start"
         android:layout_width="58dp"
-        android:layout_height="26dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="60dp"
         android:alpha="0.5"
         android:background="@drawable/round_check_btn"
@@ -23,7 +23,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/data"
         tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btnDeleteAll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="58dp"
+        android:text="삭제"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView3"
@@ -35,6 +46,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="42dp"
+        android:text="데이터 추가"
+        app:layout_constraintBottom_toTopOf="@+id/btn_start"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

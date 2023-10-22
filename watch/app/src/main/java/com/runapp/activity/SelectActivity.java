@@ -41,6 +41,7 @@ public class SelectActivity extends ComponentActivity {
                         .load(R.drawable.run_character)
                                 .into(imageViewOne);
 
+        // 혼자 달리기 눌렀을 경우
         binding.btnSingle.setOnClickListener(v ->{
             // AlertDialog.Builder 인스턴스 생성
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
@@ -79,6 +80,7 @@ public class SelectActivity extends ComponentActivity {
             dialog.show();
         });
 
+        // 함께 달리기 눌렀을 경우
         binding.btnMulti.setOnClickListener(v ->{
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
 
@@ -112,6 +114,12 @@ public class SelectActivity extends ComponentActivity {
             });
 
             dialog.show();
+        });
+
+        // 나의 기록 보기
+        binding.btnMyRecord.setOnClickListener(v ->{
+            Intent intent = new Intent(this, MyRecordActivity.class);
+            startActivity(intent);
         });
     }
 

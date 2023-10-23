@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.b208.dduishu.domain.character.entity.Character;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,7 +20,6 @@ import lombok.ToString;
 
 @Entity
 @Getter
-@ToString
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
@@ -33,6 +33,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String nickname;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Character> characterList = new ArrayList<>();
 

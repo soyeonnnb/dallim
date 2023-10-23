@@ -16,6 +16,7 @@ import com.b208.dduishu.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -80,41 +81,59 @@ public class RunningRecordService {
                 .collect(toList());
     }
 
-    public List<RunningRecordOverview> getTop10RecentRunningRecord() {
+    public List<RunningRecordOverview> getTop10RecentRunningRecord(String type, Long userId) {
 
         User user = getUser.getUser();
+        List<RunningRecord> res;
+        if (type.equals(FIND_MY_RECORD)) {
+            res = runningRecordRepository.findTop10ByCreatedAtLessThanEqualAndUserUserIdOrderByCreatedAtDesc(LocalDateTime.now(), user.getUserId());
+        } else {
+            res = runningRecordRepository.findTop10ByCreatedAtLessThanEqualAndUserUserIdOrderByCreatedAtDesc(LocalDateTime.now(), userId);
+        }
+        return res.stream()
+                .map(o -> new RunningRecordOverview(o))
+                .collect(toList());
+    }
 
-        List<RunningRecord> res = runningRecordRepository.findTop10ByCreatedAtLessThanEqualAndUserUserIdOrderByCreatedAtDesc(LocalDateTime.now(), user.getUserId());
+    public List<RunningRecordOverview> getTop10TimeRunningRecord(String type, Long userId) {
+        User user = getUser.getUser();
+
+        List<RunningRecord> res;
+        if (type.equals(FIND_MY_RECORD)) {
+            res = runningRecordRepository.findTop10ByUserUserIdOrderByTotalTimeDesc(user.getUserId());
+        } else {
+            res = runningRecordRepository.findTop10ByUserUserIdOrderByTotalTimeDesc(userId);
+        }
 
         return res.stream()
                 .map(o -> new RunningRecordOverview(o))
                 .collect(toList());
     }
 
-    public List<RunningRecordOverview> getTop10TimeRunningRecord() {
+    public List<RunningRecordOverview> getTop10DistanceRunningRecord(String type, Long userId) {
         User user = getUser.getUser();
 
-        List<RunningRecord> res = runningRecordRepository.findTop10ByUserUserIdOrderByTotalTimeDesc(user.getUserId());
+        List<RunningRecord> res;
+        if (type.equals(FIND_MY_RECORD)) {
+            res = runningRecordRepository.findTop10ByUserUserIdOrderByTotalDistanceDesc(user.getUserId());
+        } else {
+            res = runningRecordRepository.findTop10ByUserUserIdOrderByTotalDistanceDesc(userId);
+        }
 
         return res.stream()
                 .map(o -> new RunningRecordOverview(o))
                 .collect(toList());
     }
 
-    public List<RunningRecordOverview> getTop10DistanceRunningRecord() {
+    public List<RunningRecordOverview> getTop10SpeedRunningRecord(String type, Long userId) {
         User user = getUser.getUser();
 
-        List<RunningRecord> res = runningRecordRepository.findTop10ByUserUserIdOrderByTotalDistanceDesc(user.getUserId());
-
-        return res.stream()
-                .map(o -> new RunningRecordOverview(o))
-                .collect(toList());
-    }
-
-    public List<RunningRecordOverview> getTop10SpeedRunningRecord() {
-        User user = getUser.getUser();
-
-        List<RunningRecord> res = runningRecordRepository.findTop10ByUserUserIdOrderByAverageSpeedDesc(user.getUserId());
+        List<RunningRecord> res;
+        if (type.equals(FIND_MY_RECORD)) {
+            res = runningRecordRepository.findTop10ByUserUserIdOrderByAverageSpeedDesc(user.getUserId());
+        } else {
+            res = runningRecordRepository.findTop10ByUserUserIdOrderByAverageSpeedDesc(userId);
+        }
 
         return res.stream()
                 .map(o -> new RunningRecordOverview(o))
@@ -122,6 +141,9 @@ public class RunningRecordService {
     }
 
     public RunningRecordDetail getRunningRecordDetail(ObjectId id) {
+
+        System.out.println(id);
+
         RunningRecord res = runningRecordRepository.findById(id).orElseThrow(() -> {
             throw new NullPointerException();
         });

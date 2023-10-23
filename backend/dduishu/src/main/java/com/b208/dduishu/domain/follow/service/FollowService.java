@@ -1,6 +1,6 @@
 package com.b208.dduishu.domain.follow.service;
 
-import com.b208.dduishu.domain.follow.dto.request.CreateFollowInfo;
+import com.b208.dduishu.domain.follow.dto.request.CreateFollowerInfo;
 import com.b208.dduishu.domain.follow.dto.request.FollowerInfo;
 import com.b208.dduishu.domain.follow.entity.Follow;
 import com.b208.dduishu.domain.follow.repository.FollowRepository;
@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -27,18 +26,21 @@ public class FollowService {
     private final GetUser getUser;
 
     @Transactional
-    public void createFollower(CreateFollowInfo req) {
+    public void createFollower(CreateFollowerInfo req) {
 
-        User fromUser = userRepository.findByUserId(req.getFromUserId()).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
+        User user = getUser.getUser();
+
+        System.out.println("여기>?");
+        System.out.println(user);
 
         User toUser = userRepository.findByUserId(req.getToUserId()).orElseThrow(() -> {
             throw new NullPointerException();
         });
 
+        System.out.println("여긴가?");
+
         Follow follow = Follow.builder()
-                .fromUser(fromUser)
+                .fromUser(user)
                 .toUser(toUser)
                 .createdAt(LocalDateTime.now())
                 .build();
@@ -53,7 +55,7 @@ public class FollowService {
 
         List<User> followUsers = res.stream()
                 .map(o -> {
-                    return userRepository.findByUserId(o.getId()).orElseThrow(() -> {
+                    return userRepository.findByUserId(o.getToUser().getUserId()).orElseThrow(() -> {
                         throw new NullPointerException();
                     });
                 })
@@ -64,5 +66,12 @@ public class FollowService {
                     return new FollowerInfo(o);
                 })
                 .collect(toList());
+    }
+
+    @Transactional
+    public void deleteFollower(Long toUserId) {
+        User user = getUser.getUser();
+
+        followRepository.deleteByFromUserUserIdAndToUserUserId(user.getUserId(), toUserId);
     }
 }

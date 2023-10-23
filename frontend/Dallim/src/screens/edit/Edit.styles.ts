@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {ImageBackground} from 'react-native';
+import {ImageBackground, TouchableOpacity} from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
@@ -24,8 +24,42 @@ export const Top = styled.View`
 export const Body = styled.View`
   border-width: 1px;
   border-color: blue;
+  flex-direction: row;
   width: 100%;
   height: 75%;
+`;
+
+export const RotationBox = styled(TouchableOpacity)`
+  border-width: 1px;
+  border-color: red;
+  width: 50%;
+  height: 10%;
+`;
+
+
+export const BodyLeft = styled.View`
+  border-width: 1px;
+  border-color: red;
+  justify-content: center;
+  align-items: center;
+  width: 15%;
+  height: 100%;
+`;
+
+export const BodyCenter = styled.View`
+  border-width: 1px;
+  border-color: red;
+  width: 70%;
+  height: 100%;
+`;
+
+export const BodyRight = styled.View`
+  border-width: 1px;
+  border-color: red;
+  justify-content: center;
+  align-items: center;
+  width: 15%;
+  height: 100%;
 `;
 
 export const TabBox = styled.View`

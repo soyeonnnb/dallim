@@ -1,44 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import * as S from './CharacterEdit.styles'; // 스타일 컴포넌트 import
-import FirstCharacter from './characterBox/FirstCharacter';
-import SecondCharacter from './characterBox/SecondCharacter';
-import ThirdCharacter from './characterBox/ThirdCharacter';
-import FourthCharacter from './characterBox/FourthCharacter';
+import * as S from './CharacterEdit.styles';
+import CharacterBox from './CharacterBox';
 
-function CharacterEdit() {
+type CharacterEditProps = {
+    onCharacterChange: (index: number) => void;
+    characterIndex: number;
+}
+
+function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps) {
 
     const SelectText = '친구를 선택하세요';
 
-    const [selectedCharacterIndex, setSelectedCharacterIndex] = useState(0); // 초기 선택 캐릭터 인덱스
-    const characters = [
-        <FirstCharacter />,
-        <SecondCharacter />,
-        <ThirdCharacter />,
-        <FourthCharacter />
-    ];
+    const [selectedCharacterIndex, setSelectedCharacterIndex] = useState(characterIndex);
 
     useEffect(() => {
-        // 캐릭터 선택 변경 시 수행되는 로직 (필요하다면)
-        console.log(`Selected character index: ${selectedCharacterIndex}`);
+        console.log("대표 캐릭터가 바꼈어요 : " + selectedCharacterIndex);
     }, [selectedCharacterIndex]);
 
     function handleCharacterChange(index: number) {
-        console.log(index +"번째 캐릭터가 눌렸습니다!")
+        console.log(index + "번째 캐릭터가 눌렸습니다!")
         setSelectedCharacterIndex(index);
+        onCharacterChange(index); // 상위 컴포넌트로 전달
+        // 여기에 캐릭터 Axios put 예정 
     }
 
     return (
         <S.Container>
             <S.Top>
-                <S.SideBox />
                 <S.TitleBox>
                     <S.SelectText>{SelectText}</S.SelectText>
                 </S.TitleBox>
-                <S.SideBox ></S.SideBox>
             </S.Top>
             <S.Body>
                 <S.CharacterBox>
-                    {characters[selectedCharacterIndex]}
+                    <CharacterBox index={characterIndex} />
                 </S.CharacterBox>
             </S.Body>
             <S.Bottom>

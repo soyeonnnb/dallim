@@ -18,7 +18,7 @@ export const CharacterBox = styled.View`
   height: 100%;
 `;
 
-export const Rabbit = styled.Image`
+export const CharacterImage = styled.Image`
   width: 100%;
   height: 100%;
 `;

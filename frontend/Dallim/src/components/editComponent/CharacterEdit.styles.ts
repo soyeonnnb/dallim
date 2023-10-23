@@ -16,21 +16,12 @@ export const Top = styled.View`
   height: 20%;
 `;
 
-export const SideBox = styled.View`
-  border-width: 1px;
-  border-color: blue;
-  justify-content: center;
-  align-items: center;
-  width: 20%;
-  height: 100%;
-`;
-
 export const TitleBox = styled.View`
   border-width: 1px;
   border-color: blue;
   justify-content: center;
   align-items: center;
-  width: 60%;
+  width: 100%;
   height: 100%;
 `;
 
@@ -51,8 +42,8 @@ export const Body = styled.View`
 export const CharacterBox = styled.View`
   border-width: 1px;
   border-color: green;
-  width: 70%;
-  height: 80%;
+  width: 80%;
+  height: 90%;
 `;
 
 export const Bottom = styled.View`
@@ -70,8 +61,8 @@ export const ButtonBox = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   background-color: #2a2c45;
-  width: 60%;
-  height: 80%;
+  width: 80%;
+  height: 70%;
 `;
 
 export const ButtonText = styled.Text`

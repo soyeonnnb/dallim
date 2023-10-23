@@ -9,10 +9,8 @@ import com.b208.dduishu.util.response.ApiResponse;
 import com.google.protobuf.Api;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import retrofit2.http.Path;
 
 import java.util.List;
 
@@ -39,6 +37,17 @@ public class RunningMateController {
             List<RunningMateInfo> res = runningMateService.getAllRunningMate();
 
             return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/api/v1/running-mate/{id}")
+    public ApiResponse<?> deleteRunningMate(@PathVariable ObjectId id){
+        try {
+            runningMateService.deleteRunningMate(id);
+
+            return ApiResponse.createSuccess(true);
         } catch (Exception e) {
             return ApiResponse.createError(e.getMessage());
         }

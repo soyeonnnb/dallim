@@ -18,6 +18,7 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -30,20 +31,21 @@ public class RunningRecordService {
 
     private static final String FIND_MY_RECORD = "me";
     private static final String FIND_FOLLOWER_RECORD = "follow";
-
     private final GetUser getUser;
     private final RunningRecordRepository runningRecordRepository;
     private final UserRepository userRepository;
     private final CharacterRepository characterRepository;
+    @Transactional
     public void createRunningRecord(RunningRecordInfo req) {
         saveRunningRecord(req);
     }
 
-    private void saveRunningRecord(RunningRecordInfo req) {
+    public void saveRunningRecord(RunningRecordInfo req) {
         // user, character, rivalRunningRecord 가져오기
         User user = userRepository.findByUserId(req.getUserId()).orElseThrow(() -> {
             throw new NullPointerException();
         });
+
         Character character = characterRepository.findById(req.getCharacterId()).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -53,11 +55,22 @@ public class RunningRecordService {
                 throw new NullPointerException();
             });
         }
+        // .totalTime(10)
+        // .totalDistance(100)
+        // .averageSpeed(0)
+        // .averageCalory(0)
+
+        // 총 시간, 총 이동거리, 평균 속도, 평균 칼로리 계싼
+        user.addCumulativeDistance(1111);
+
+        // 경험치 정산
+        user.addExp(10);
+
+        // 포인트 정산
+        user.addPoint(100);
 
         // dto to entity
         RunningRecord res = req.toRunningRecord(user, character, rivalRunningRecord);
-
-        System.out.println(res.toString());
 
         // runningRecord 저장
         runningRecordRepository.save(res);
@@ -147,6 +160,8 @@ public class RunningRecordService {
         RunningRecord res = runningRecordRepository.findById(id).orElseThrow(() -> {
             throw new NullPointerException();
         });
+
+        System.out.println(res.getId());
 
         return RunningRecordDetail.builder()
                 .id(res.getId())

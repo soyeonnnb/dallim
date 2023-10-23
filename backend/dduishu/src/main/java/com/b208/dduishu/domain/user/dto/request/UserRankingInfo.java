@@ -8,11 +8,13 @@ import lombok.Data;
 @Data
 public class UserRankingInfo {
 
+    private Long userId;
     private String nickname;
     private int cumulativeDistance;
     private int level;
 
     public UserRankingInfo(RunningRecord runningRecord) {
+        this.userId = runningRecord.getUser().getUserId();
         this.nickname = runningRecord.getUser().getNickname();
         this.cumulativeDistance = runningRecord.getTotalDistance();
         this.level = runningRecord.getUser().getLevel();

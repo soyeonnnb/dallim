@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -33,10 +34,10 @@ public class User {
     @Column(nullable = false, unique = true)
     private String nickname;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Character> characterList = new ArrayList<>();
 
+    private int exp;
     private int level;
     private int cumulativeDistance;
     private int point;
@@ -109,6 +110,15 @@ public class User {
         this.privateAccess = privateAccessToken;
     }
 
+    public void addPoint(int point) {
+        this.point += point;
+    }
+    public void addCumulativeDistance(int distance){
+        this.cumulativeDistance += distance;
+    }
 
+    public void addExp(int exp ) {
+        this.exp += exp;
+    }
 
 }

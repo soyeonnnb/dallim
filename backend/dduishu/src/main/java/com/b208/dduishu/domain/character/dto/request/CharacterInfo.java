@@ -3,9 +3,13 @@ package com.b208.dduishu.domain.character.dto.request;
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.entity.CharacterState;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CharacterInfo {
 
     private final static int FIRST_STEP = 1;

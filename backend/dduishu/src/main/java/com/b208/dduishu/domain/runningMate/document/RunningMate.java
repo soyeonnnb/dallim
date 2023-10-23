@@ -2,9 +2,11 @@ package com.b208.dduishu.domain.runningMate.document;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
+import com.b208.dduishu.domain.runningRecord.dto.request.RivalRunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDistanceInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordHeartRateInfo;
 import com.b208.dduishu.domain.runningRecord.entity.RunningType;
+import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import lombok.*;
 import org.bson.types.ObjectId;
@@ -23,12 +25,12 @@ public class RunningMate {
 
     @Id
     private ObjectId id;
-    private User user;
-    private RunningRecord rivalRecord;
+    private UserInfo user;
+    private RivalRunningRecordInfo rivalRecord;
     private LocalDateTime createdAt;
 
     @Builder
-    public RunningMate(User user, RunningRecord rivalRecord) {
+    public RunningMate(UserInfo user, RivalRunningRecordInfo rivalRecord) {
         this.user = user;
         this.rivalRecord = rivalRecord;
         this.createdAt = LocalDateTime.now();

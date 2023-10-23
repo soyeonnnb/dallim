@@ -5,8 +5,10 @@ import com.b208.dduishu.domain.runningMate.dto.request.CreateRunningMateInfo;
 import com.b208.dduishu.domain.runningMate.dto.request.RunningMateInfo;
 import com.b208.dduishu.domain.runningMate.repository.RunningMateRepository;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
+import com.b208.dduishu.domain.runningRecord.dto.request.RivalRunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
 import com.b208.dduishu.domain.user.GetUser;
+import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,9 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -32,10 +37,24 @@ public class RunningMateService {
         });
 
         RunningMate runningMate = RunningMate.builder()
-                .user(user)
-                .rivalRecord(record)
+                .user(new UserInfo(user))
+                .rivalRecord(new RivalRunningRecordInfo(record))
                 .build();
 
         runningMateRepository.save(runningMate);
+    }
+
+    public List<RunningMateInfo> getAllRunningMate() {
+        User user = getUser.getUser();
+
+        List<RunningMate> res = runningMateRepository.findAllByUserUserId(user.getUserId());
+
+        return res.stream()
+                .map(o -> new RunningMateInfo(o))
+                .collect(toList());
+    }
+
+    public void deleteRunningMate(ObjectId id) {
+        runningMateRepository.deleteById(id);
     }
 }

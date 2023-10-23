@@ -1,12 +1,16 @@
 package com.b208.dduishu.domain.runningRecord.document;
 
+import com.b208.dduishu.domain.character.dto.request.CharacterInfo;
 import com.b208.dduishu.domain.character.entity.Character;
+import com.b208.dduishu.domain.runningRecord.dto.request.RivalRunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDistanceInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordHeartRateInfo;
 import com.b208.dduishu.domain.runningRecord.entity.RunningType;
+import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import lombok.*;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
@@ -22,10 +26,10 @@ public class RunningRecord {
 
     @Id
     private ObjectId id;
-    private User user;
-    private Character character;
+    private UserInfo user;
+    private CharacterInfo character;
     private RunningType type;
-    private RunningRecord rivalRecord;
+    private RivalRunningRecordInfo rivalRecord;
     private List<RunningRecordDistanceInfo> runningRecordDistanceInfos;
     private List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos;
 
@@ -36,7 +40,7 @@ public class RunningRecord {
     private LocalDateTime createdAt;
 
     @Builder
-    public RunningRecord(User user, Character character, RunningType type, RunningRecord rivalRecord, List<RunningRecordDistanceInfo> runningRecordDistanceInfos, List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos,int totalTime, int totalDistance, int averageSpeed, int averageCalory) {
+    public RunningRecord(UserInfo user, CharacterInfo character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordDistanceInfo> runningRecordDistanceInfos, List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos,int totalTime, int totalDistance, int averageSpeed, int averageCalory) {
         this.user = user;
         this.character = character;
         this.type = type;

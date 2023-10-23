@@ -1,8 +1,10 @@
 package com.b208.dduishu.domain.runningRecord.dto.request;
 
+import com.b208.dduishu.domain.character.dto.request.CharacterInfo;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.entity.RunningType;
 import com.b208.dduishu.domain.runningRecordDistance.document.RunningRecordDistance;
+import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.character.entity.Character;
 import lombok.Data;
@@ -23,11 +25,18 @@ public class RunningRecordInfo {
     private List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos;
 
     public RunningRecord toRunningRecord(User user, Character character, RunningRecord rivalRecord){
+
+        UserInfo userInfo = new UserInfo(user);
+        CharacterInfo characterInfo = new CharacterInfo(character);
+        RivalRunningRecordInfo rivalRunningRecordInfo = null;
+        if (rivalRecord != null) {
+            rivalRunningRecordInfo = new RivalRunningRecordInfo(rivalRecord);
+        }
         return RunningRecord.builder()
-                .user(user)
-                .character(character)
+                .user(userInfo)
+                .character(characterInfo)
                 .type(this.type)
-                .rivalRecord(rivalRecord)
+                .rivalRecord(rivalRunningRecordInfo)
                 .runningRecordDistanceInfos(this.runningRecordDistanceInfos)
                 .runningRecordHeartRateInfos(this.runningRecordHeartRateInfos)
                 .totalTime(10)

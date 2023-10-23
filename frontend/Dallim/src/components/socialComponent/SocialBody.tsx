@@ -86,7 +86,6 @@ function SocialBody() {
                 </ScrollView>
             </S.Body>
 
-            
             <AwesomeAlert
                 show={showAlert}
                 showProgress={false}

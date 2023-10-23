@@ -85,6 +85,7 @@ function SocialBody() {
                     </S.RankInfoBox>
                 </ScrollView>
             </S.Body>
+
             
             <AwesomeAlert
                 show={showAlert}

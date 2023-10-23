@@ -18,23 +18,14 @@ export const Top = styled.View`
   border-color: red;
   flex-direction: row;
   width: 100%;
-  height: 25%;
+  height: 15%;
 `;
 
-export const Middle = styled.View`
+export const Body = styled.View`
   border-width: 1px;
   border-color: blue;
-  flex-direction: row;
   width: 100%;
-  height: 55%;
-`;
-
-export const Bottom = styled.View`
-  border-width: 1px;
-  border-color: red;
-  flex-direction: row;
-  width: 100%;
-  height: 10%;
+  height: 75%;
 `;
 
 export const TabBox = styled.View`

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,4 +29,9 @@ public class Follow {
     private User toUser;
 
     private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
+    private FollowState state;
+
+
 }

@@ -28,6 +28,6 @@ public class FollowerInfo {
                                 }
                             })
                             .findFirst()
-                            .get();
+                .orElse(null);
     }
 }

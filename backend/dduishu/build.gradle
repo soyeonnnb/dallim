@@ -40,10 +40,6 @@ dependencies {
 	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
 	implementation group: 'commons-io', name: 'commons-io', version: '2.4'
 
-	// junit5
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-
 	implementation 'com.theokanning.openai-gpt3-java:service:0.16.0'
 	implementation 'javax.validation:validation-api:2.0.1.Final'
 

@@ -9,13 +9,22 @@ public class RunningViewModel extends ViewModel {
     private final MutableLiveData<Float> heartRate = new MutableLiveData<>();
     private final MutableLiveData<String> elapsedTime = new MutableLiveData<>();
     private final MutableLiveData<Float> speed = new MutableLiveData<>();
-
+    private final MutableLiveData<Float> distance = new MutableLiveData<>();
+    private final MutableLiveData<Float> stepCounter = new MutableLiveData<>();
     public void setHeartRate(float rate) {
         heartRate.setValue(rate);
     }
 
     public LiveData<Float> getHeartRate() {
         return heartRate;
+    }
+
+    public void setDistance(float value) {
+        distance.setValue(value);
+    }
+
+    public LiveData<Float> getDistance() {
+        return distance;
     }
 
     public void setElapsedTime(String time) {
@@ -32,5 +41,12 @@ public class RunningViewModel extends ViewModel {
 
     public LiveData<Float> getSpeed() {
         return speed;
+    }
+    public void setStepCounter(float value) {
+        this.stepCounter.setValue(value);
+    }
+
+    public LiveData<Float> getStepCounter() {
+        return stepCounter;
     }
 }

@@ -2,8 +2,11 @@ package com.runapp.activity;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,18 +37,28 @@ public class MainActivity extends ComponentActivity {
     private AppDatabase db;
     static int MULTIPLE_PERMISSIONS_CODE = 100;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         db = AppDatabase.getDatabase(getApplicationContext());
-
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(
+                    "location_channel",
+                    "Location Service Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
+        }
 
 //         러닝데이터 db에서 출력용(디비에 접근하려면 메인 스레드에서 하면 안된다)
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                // 백그라운드 스레드에서 데이터베이스 접근
+                // 백그라운드 스레드에서 데이터베이스 접근    `
                 List<RunningData> runningDataList = db.runningDataDAO().getAll();
 
                 // 데이터베이스에서 받은 데이터를 로그로 출력
@@ -99,7 +112,8 @@ public class MainActivity extends ComponentActivity {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACTIVITY_RECOGNITION,
-                Manifest.permission.BODY_SENSORS
+                Manifest.permission.BODY_SENSORS,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
         };
 
         // 거절되었거나 아직 수락하지 않은 권한(퍼미션)을 저장할 문자열 리스트

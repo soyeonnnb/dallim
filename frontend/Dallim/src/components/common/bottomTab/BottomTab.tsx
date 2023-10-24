@@ -53,7 +53,7 @@ const AnimatedTabBar = ({
           backgroundColor: 'white',
         },
       ]}>
-      <View style={[styles.tabBarContainer]} id="redContainer">
+      <View style={[styles.tabBarContainer]}>
         {routes.map((route, index) => {
           const active = index === activeIndex;
           const {options} = descriptors[route.key];

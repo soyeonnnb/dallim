@@ -61,8 +61,43 @@ export const ButtonBox = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   background-color: #2a2c45;
-  width: 80%;
+  width: 100%;
   height: 50%;
+`;
+
+export const ButtomLevel = styled.View`
+  /* border-width: 1px;
+  border-color: white; */
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+`;
+
+export const LevelText = styled.Text`
+  font-size: 15px;
+  color: black;
+`;
+
+export const LevelBox = styled.View`
+  /* border-width: 1px;
+  border-color: white; */
+  border-radius: 20px;
+  background-color: white;
+  width: 70%;
+  height: 30%;
+`;
+
+type ExperienceBarProps = {
+  percentage: number;
+};
+
+export const ExperienceBar = styled.View<ExperienceBarProps>`
+  background-color: black;
+  width: ${props => props.percentage}%;
+  height: 100%;
+  border-radius: 20px;
 `;
 
 export const ButtonText = styled.Text`

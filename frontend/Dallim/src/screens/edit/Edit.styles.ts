@@ -22,6 +22,29 @@ export const Top = styled.View`
   height: 15%;
 `;
 
+export const TopMiddle = styled.View`
+  border-width: 1px;
+  border-color: red;
+  flex-direction: row;
+  width: 40%;
+  height: 100%;
+`;
+
+export const TopSide = styled.View`
+  border-width: 1px;
+  border-color: blue;
+  flex-direction: row;
+  width: 30%;
+  height: 100%;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
+export const PointText = styled.Text`
+  font-size: 20px;
+  color: white;
+`;
+
 export const Body = styled.View`
   border-width: 1px;
   border-color: blue;
@@ -49,14 +72,14 @@ export const BodyLeft = styled.View`
   border-color: red;
   justify-content: center;
   align-items: center;
-  width: 15%;
+  width: 20%;
   height: 100%;
 `;
 
 export const BodyCenter = styled.View`
   border-width: 1px;
   border-color: red;
-  width: 70%;
+  width: 60%;
   height: 100%;
 `;
 
@@ -65,7 +88,7 @@ export const BodyRight = styled.View`
   border-color: red;
   justify-content: center;
   align-items: center;
-  width: 15%;
+  width: 20%;
   height: 100%;
 `;
 

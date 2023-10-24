@@ -10,6 +10,9 @@ type CharacterEditProps = {
 function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps) {
 
     const SelectText = '친구를 선택하세요';
+    const Level = '10';
+    const Experience = 40; 
+    const experiencePercentage = (Experience / 100) * 100; 
 
     const [selectedCharacterIndex, setSelectedCharacterIndex] = useState(characterIndex);
 
@@ -44,6 +47,12 @@ function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps
                 <S.ButtonBox onPress={() => handleCharacterChange((selectedCharacterIndex) % 4)}>
                     <S.ButtonText>선택</S.ButtonText>
                 </S.ButtonBox>
+                <S.ButtomLevel>
+                    <S.LevelText>Level {Level}</S.LevelText>
+                    <S.LevelBox>
+                        <S.ExperienceBar percentage={experiencePercentage}></S.ExperienceBar>
+                    </S.LevelBox>
+                </S.ButtomLevel>
             </S.Bottom>
         </S.Container>
     );

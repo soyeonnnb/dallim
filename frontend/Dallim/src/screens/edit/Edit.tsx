@@ -24,12 +24,19 @@ function Edit() {
         setCharacterIndex(prevIndex);
     };
 
+    const TempPoint = '3000';
+
     return (
         <S.Container>
             <S.BackgroundImage
                 source={characterData[characterIndex].background}
                 resizeMode="cover">
                 <S.Top>
+                    <S.TopSide></S.TopSide>
+                    <S.TopMiddle></S.TopMiddle>
+                    <S.TopSide>
+                        <S.PointText>{TempPoint}P</S.PointText>
+                    </S.TopSide>
                 </S.Top>
                 <S.Body>
                     <S.BodyLeft>

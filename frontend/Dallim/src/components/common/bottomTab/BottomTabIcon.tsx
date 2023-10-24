@@ -24,7 +24,7 @@ const getNavIconColor = (darkMode: boolean, focused: boolean) => {
   } else {
     iconColor = focused
       ? varStyles.colors.lightPurple
-      : varStyles.colors.darkBlue; // 보라 분홍
+      : varStyles.colors.darkBlue;
   }
   return iconColor;
 };

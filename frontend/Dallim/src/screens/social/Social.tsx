@@ -8,7 +8,7 @@ function Social() {
     return (
         <S.Container>
             <S.BackgroundImage
-                source={require('../../assets/images/MainBackground1.png')}
+                source={require('../../assets/images/MainBackground3.png')}
                 resizeMode="cover">
                 <S.Top>
                     <SocialHeader />
@@ -19,6 +19,7 @@ function Social() {
                 <S.Bottom>
                     <SocialBottom />
                 </S.Bottom>
+                <S.TabBox />
             </S.BackgroundImage>
         </S.Container>
     );

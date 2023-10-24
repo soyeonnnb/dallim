@@ -47,6 +47,10 @@ public class RunningStateFragment extends Fragment {
             speedView.setText(String.format(Locale.getDefault(), "%.2f km/h", speedKmH));
         });
 
+        runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance ->{
+            TextView distanceView = view.findViewById(R.id.tv_distance);
+            distanceView.setText(distance.toString());
+        });
         return view;
     }
 

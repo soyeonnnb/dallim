@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -15,11 +16,14 @@ import androidx.core.content.ContextCompat;
 
 import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivityMainBinding;
+import com.runapp.model.RiverData;
 import com.runapp.model.RunningData;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -37,19 +41,19 @@ public class MainActivity extends ComponentActivity {
 
         super.onCreate(savedInstanceState);
 
-        // 러닝데이터 db에서 출력용(디비에 접근하려면 메인 스레드에서 하면 안된다)
-//        executor.execute(new Runnable() {
-//            @Override
-//            public void run() {
-//                // 백그라운드 스레드에서 데이터베이스 접근
-//                List<RunningData> runningDataList = db.runningDataDAO().getAll();
-//
-//                // 데이터베이스에서 받은 데이터를 로그로 출력
-//                for (RunningData runningData : runningDataList) {
-//                    Log.d("MyRecordActivity", "Running Data: " + runningData.speed);
-//                }
-//            }
-//        });
+//         러닝데이터 db에서 출력용(디비에 접근하려면 메인 스레드에서 하면 안된다)
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                // 백그라운드 스레드에서 데이터베이스 접근
+                List<RunningData> runningDataList = db.runningDataDAO().getAll();
+
+                // 데이터베이스에서 받은 데이터를 로그로 출력
+                for (RunningData runningData : runningDataList) {
+                    Log.d("MyRecordActivity", "Running Data: " + runningData.formattedDate);
+                }
+            }
+        });
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         // 레이아웃의 최상위 뷰를 가져옴
@@ -64,18 +68,28 @@ public class MainActivity extends ComponentActivity {
             startActivity(intent);
         });
 
-        binding.data.setOnClickListener(v->{
-            addDummyData();
+        binding.myRecordData.setOnClickListener(v->{
+            addMyRecordDummyData();
         });
 
-        binding.btnDeleteAll.setOnClickListener(new View.OnClickListener() {
+        binding.myRecordDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteAllData();
+                deleteMyRecordAllData();
+            }
+        });
+
+        binding.riverRecordAdd.setOnClickListener(v->{
+            addRiverRecordDummyData();
+        });
+
+        binding.riverRecordDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteRiverRecordAllData();
             }
         });
     }
-
 
     private void checkPermission(){
 
@@ -137,53 +151,118 @@ public class MainActivity extends ComponentActivity {
         }
     }
 
-    private void addDummyData() {
+    private void addMyRecordDummyData() {
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 if (db.runningDataDAO().getAll().isEmpty()) { // 데이터베이스가 비어있는 경우에만 더미 데이터 추가
                     RunningData data1 = new RunningData();
                     data1.date = new Date();
+                    data1.formattedDate = formatDate(data1.date);
                     data1.distance = 5.5f;
                     data1.speed = 3.5f;
                     data1.heartRate = 80;
-                    data1.time = 1000L;
+                    data1.time = 120300L;
+                    data1.character = "chick";
 
                     RunningData data2 = new RunningData();
                     data2.date = new Date();
+                    data2.formattedDate = formatDate(data2.date);
                     data2.distance = 3.7f;
                     data2.speed = 2.8f;
                     data2.heartRate = 76;
-                    data2.time = 800L;
+                    data2.time = 360040L;
+                    data2.character = "penguin";
 
                     RunningData data3 = new RunningData();
                     data3.date = new Date();
+                    data3.formattedDate = formatDate(data3.date);
                     data3.distance = 6.3f;
                     data3.speed = 4.2f;
                     data3.heartRate = 85;
-                    data3.time = 1200L;
+                    data3.time = 5003040L;
+                    data3.character = "panda";
 
                     db.runningDataDAO().insert(data1);
                     db.runningDataDAO().insert(data2);
                     db.runningDataDAO().insert(data3);
+
+                    // 추가되었다고 알려줌~
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "더미데이터 추가 완료~", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             }
         });
-
     }
 
-    private void deleteAllData() {
+    private void addRiverRecordDummyData() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (db.riverDataDAO().getAll().isEmpty()) { // 데이터베이스가 비어있는 경우에만 더미 데이터 추가
+                    RiverData data1 = new RiverData();
+                    data1.date = new Date();
+                    data1.formattedDate = formatDate(data1.date);
+                    data1.distance = 5.5f;
+                    data1.speed = 3.5f;
+                    data1.nickname = "최규호구";
+                    data1.time = 3910300L;
+                    data1.character = "chick";
+
+                    db.riverDataDAO().insert(data1);
+
+                    // 추가되었다고 알려줌~
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "더미데이터 추가 완료~", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    // 날짜 형식 변환해주는 메서드
+    private String formatDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM월 dd일 (E)", Locale.KOREAN);
+        return dateFormat.format(date);
+    }
+
+    private void deleteMyRecordAllData() {
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 // 데이터베이스의 모든 데이터 삭제
                 db.runningDataDAO().deleteAll();
 
-                // (선택사항) UI 스레드에서 사용자에게 데이터가 삭제되었음을 알리는 토스트 메시지 표시
+                // 삭제되었다고 알려주자~
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(MainActivity.this, "All data has been deleted.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "더미데이터 전부 삭제~", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    private void deleteRiverRecordAllData() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                // 데이터베이스의 모든 데이터 삭제
+                db.riverDataDAO().deleteAll();
+
+                // 삭제되었다고 알려주자~
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "더미데이터 전부 삭제~", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

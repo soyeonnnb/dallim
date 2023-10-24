@@ -509,4 +509,12 @@ public class UserService {
         resultList.sort(Comparator.comparing(UserRankingInfo::getCumulativeDistance).reversed());
         return resultList;
     }
+
+    public String getAccessToken(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
+
+        return jwtUtil.createAccessJwt(user.getUserId(), secretKey);
+    }
 }

@@ -21,6 +21,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByNickname(String nickname);
 
+    Optional<User> findByEmail(String email);
+
     @Query("SELECT u FROM User u WHERE u.userId = :userId OR u.userId IN (SELECT f.toUser.userId FROM Follow f WHERE f.fromUser.userId = :userId)")
     List<User> getUserIdAndFollowerId(Long userId);
 }

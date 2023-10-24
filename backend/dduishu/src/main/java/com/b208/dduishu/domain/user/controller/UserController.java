@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import com.b208.dduishu.domain.user.dto.request.UserEmail;
 import com.b208.dduishu.domain.user.dto.request.UserNickName;
 import com.b208.dduishu.domain.user.dto.request.UserPoint;
 import com.b208.dduishu.domain.user.dto.request.UserRankingInfo;
@@ -23,6 +24,16 @@ public class UserController {
 
     private final UserService userService;
 
+    @PostMapping("/api/v1/user/token")
+    public ApiResponse<?> getAccessToken(@RequestBody UserEmail req) {
+        try {
+            String token = userService.getAccessToken(req.getEmail());
+
+            return ApiResponse.createSuccess(token);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
     // 닉네임 중복 체크
     @PostMapping("/api/v1/user/check-nickname")
     public ApiResponse<?> checkUserNickname(@RequestBody UserNickName req){

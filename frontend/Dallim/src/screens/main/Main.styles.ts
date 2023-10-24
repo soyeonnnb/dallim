@@ -54,7 +54,7 @@ export const ToggleButton = styled(Animated.createAnimatedComponent(ImageBackgro
   width: 30px;
   height: 30px;
   border-radius: 100px;
-  background-color: transparent; // 배경색을 투명하게 설정
+  background-color: transparent;
 `;
 
 export const HeaderRight = styled.View`

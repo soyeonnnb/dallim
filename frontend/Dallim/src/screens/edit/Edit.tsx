@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import * as S from './Edit.styles';
+import { Animated, Easing } from 'react-native';
 import CharacterEdit from '../../components/editComponent/CharacterEdit';
 import { characterData } from '../../components/editComponent/CharacterData';
 import Left from '../../assets/icons/DirectionLeft.png';
 import Right from '../../assets/icons/DirectionRight.png';
+import Sun from '../../assets/images/Sun.png';
+import ToggleRoom from '../../assets/images/ToggleRoom.png'
 
 function Edit() {
+
+    const TempPoint = '3000';
+    const [isOn, setIsOn] = useState(false);
+    const animatedValue = useRef(new Animated.Value(0)).current;
+
+
     const [characterIndex, setCharacterIndex] = useState(0); // 초기 캐릭터 인덱스
 
     const handleCharacterChange = (characterIndex: number) => {
@@ -24,7 +33,17 @@ function Edit() {
         setCharacterIndex(prevIndex);
     };
 
-    const TempPoint = '3000';
+    const toggleHandle = () => {
+        setIsOn(prevIsOn => {
+            Animated.timing(animatedValue, {
+                toValue: prevIsOn ? 0 : 50,
+                duration: 100,
+                easing: Easing.bounce,
+                useNativeDriver: true,
+            }).start();
+            return !prevIsOn;
+        });
+    };
 
     return (
         <S.Container>
@@ -33,7 +52,22 @@ function Edit() {
                 resizeMode="cover">
                 <S.Top>
                     <S.TopSide></S.TopSide>
-                    <S.TopMiddle></S.TopMiddle>
+                    <S.TopMiddle>
+                        <S.ToggleButtonWrapper onPress={toggleHandle}>
+                            <S.ToggleButton
+                                style={{
+                                    transform: [
+                                        {
+                                            translateX: animatedValue,
+                                        },
+                                    ],
+                                }}
+                                isOn={isOn}
+                            >
+                                <S.ToggleImage source={isOn ? ToggleRoom : Sun} />
+                            </S.ToggleButton>
+                        </S.ToggleButtonWrapper>
+                    </S.TopMiddle>
                     <S.TopSide>
                         <S.PointText>{TempPoint}P</S.PointText>
                     </S.TopSide>

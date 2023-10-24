@@ -27,7 +27,7 @@ public class CountdownTimerView extends View {
         paint.setColor(context.getResources().getColor(android.R.color.holo_blue_light));
 
         // 원의 테두리를 위한 사각형 만들기
-        rectF = new RectF(strokeWidth, strokeWidth, 305 + strokeWidth, 305 + strokeWidth); // 원하는 크기로 조정할 수 있습니다.
+        rectF = new RectF();
 
         // 각도 초기화
         angle = 360;
@@ -37,6 +37,14 @@ public class CountdownTimerView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawArc(rectF, -90, angle, false, paint);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        // 뷰의 너비와 높이를 기반으로 RectF 경계 설정
+        int strokeWidth = (int) paint.getStrokeWidth();
+        rectF.set(strokeWidth, strokeWidth, w - strokeWidth, h - strokeWidth);
     }
 
     public void setColor(int color){

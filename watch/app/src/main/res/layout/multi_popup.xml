@@ -31,15 +31,14 @@
             android:orientation="vertical"
             android:layout_marginLeft="10dp">
         <ImageView
-            android:id="@+id/target_img"
+            android:id="@+id/river_record_character"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:background="@drawable/panda"
             android:scaleType="fitXY" />
             <TextView
+                android:id="@+id/nickname"
                 android:layout_width="50dp"
                 android:layout_height="10dp"
-                android:text="우당탕탕 박기현"
                 android:textColor="@color/black"
                 android:textSize="7dp"
                 android:gravity="center"/>
@@ -51,28 +50,28 @@
             android:orientation="vertical"
             android:layout_marginLeft="10dp">
             <TextView
+                android:id="@+id/time"
                 android:layout_width="69dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
-                android:text="Time : 15:00"
                 android:textColor="@color/black"
                 android:textSize="10dp"
                 android:layout_marginTop="7dp"
                 android:textStyle="bold" />
             <TextView
+                android:id="@+id/speed"
                 android:layout_width="69dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
-                android:text="Speed : 5Km/h"
                 android:textColor="@color/black"
                 android:textSize="10dp"
                 android:layout_marginTop="7dp"
                 android:textStyle="bold" />
             <TextView
+                android:id="@+id/distance"
                 android:layout_width="69dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="7"
-                android:text="distance : 5Km"
                 android:textColor="@color/black"
                 android:textSize="10dp"
                 android:layout_marginTop="7dp"

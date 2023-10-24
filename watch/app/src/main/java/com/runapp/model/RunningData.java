@@ -14,10 +14,14 @@ public class RunningData {
     public float distance;
     @ColumnInfo(name = "speed")
     public float speed;
-    @ColumnInfo(name = "heartRate")
+    @ColumnInfo(name = "heart_rate")
     public int heartRate;
     @ColumnInfo(name = "time")
     public long time;
     @ColumnInfo(name = "date")
     public Date date;
+    @ColumnInfo(name = "formatted_date")
+    public String formattedDate;
+    @ColumnInfo(name = "character")
+    public String character;
 }

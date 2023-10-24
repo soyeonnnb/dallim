@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" /> <!-- 사용자의 대략적인 위치에 접근, 수백 미터 정도의 위치 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 사용자의 보다 정확한 위치에 접근, 수십 미터 정도의 위치 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <queries>
         <package android:name="com.google.android.wearable.healthservices" />

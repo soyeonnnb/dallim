@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="217dp"
-        android:layout_height="216dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:src="@drawable/background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,16 +20,18 @@
         android:id="@+id/btn_single"
         android:layout_width="125dp"
         android:layout_height="41dp"
-        android:layout_marginBottom="124dp"
         android:background="@drawable/round_check_btn"
-        android:backgroundTint="#80000000"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_multi"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.5">
 
         <ImageView
             android:id="@+id/single_gif"
@@ -52,16 +54,16 @@
         android:id="@+id/btn_multi"
         android:layout_width="125dp"
         android:layout_height="41dp"
-        android:layout_marginBottom="76dp"
         android:background="@drawable/round_check_btn"
-        android:backgroundTint="#80000000"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_single"
+        app:layout_constraintBottom_toTopOf="@id/btn_my_record">
 
         <ImageView
             android:layout_width="41dp"
@@ -84,16 +86,16 @@
         android:id="@+id/btn_my_record"
         android:layout_width="125dp"
         android:layout_height="41dp"
-        android:layout_marginBottom="28dp"
         android:background="@drawable/round_check_btn"
-        android:backgroundTint="#80000000"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="15dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_multi"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
             android:layout_width="28dp"

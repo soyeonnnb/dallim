@@ -21,6 +21,11 @@ public class RunningRecordInfo {
     private RunningType type;
     private ObjectId rivalRecordId;
 
+
+    //러닝 데이터 받아오기
+    // 운동일시, 총 시간, 평균 속력, 이동 거리, 평균 심박수
+    // + 위치정보
+    // + 생체정보 +a
     private List<RunningRecordDistanceInfo> runningRecordDistanceInfos;
     private List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos;
 
@@ -42,7 +47,7 @@ public class RunningRecordInfo {
                 .totalTime(10)
                 .totalDistance(100)
                 .averageSpeed(0)
-                .averageCalory(0)
+                .averageCalorie(0)
                 .build();
     }
 }

@@ -10,14 +10,14 @@ export const backgroundImage = {
 export const roomData: RoomType[] = [
   {
     Room: require('../../assets/Theme/RoomSample_1.png'),
-    Theme: require('../../assets/character/토끼_배경.png')
+    Theme: require('../../assets/Theme/ThemeSample_1.png')
   },
   {
     Room: require('../../assets/Theme/RoomSample_2.png'),
-    Theme: require('../../assets/character/펭귄_배경.png')
+    Theme: require('../../assets/Theme/ThemeSample_2.png')
   },
   {
     Room: require('../../assets/Theme/RoomSample_3.png'),
-    Theme: require('../../assets/character/병아리_배경.png')
+    Theme: require('../../assets/Theme/ThemeSample_3.png')
   },
 ];

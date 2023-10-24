@@ -11,15 +11,14 @@ type RoomEditProps = {
 
 function RoomEdit({ onRoomChange, roomIndex, isOn }: RoomEditProps) {
 
-
   const [selectedRoomIndex, setSelectedRoomIndex] = useState(roomIndex);
 
   useEffect(() => {
-    console.log("대표 방이 바꼈어요 : " + selectedRoomIndex);
+    console.log("대표 방이 바꼈어요(Index) : " + selectedRoomIndex);
   }, [selectedRoomIndex]);
 
   function handleRoomChange(index: number) {
-    console.log(index + "번째 방이 눌렸습니다!")
+    console.log(index + "번째 방이 눌렸습니다!(Index)")
     setSelectedRoomIndex(index);
     onRoomChange(index); // 상위 컴포넌트로 전달
     // 여기에 캐릭터 Axios put 예정 
@@ -46,7 +45,7 @@ function RoomEdit({ onRoomChange, roomIndex, isOn }: RoomEditProps) {
       <S.Body>
         <S.RoomBox isOn={isOn}>
           <RoomBox index={roomIndex} />
-        </S.RoomBox>
+        </S.RoomBox> 
       </S.Body>
       <S.Bottom>
         <S.ButtonBox onPress={() => confirmCharacterChange()}>

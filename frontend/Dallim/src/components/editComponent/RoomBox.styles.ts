@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { TouchableOpacity } from 'react-native';
 
 export const Container = styled.View`
   border-width: 1px;
@@ -8,17 +9,28 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const Text = styled.Text`
-  font-size: 20px;
-  color: white;
+export const RoomBox = styled.View`
+  width: 100%;
+  height: 100%;
+  position: relative;
 `;
 
-export const RoomBox = styled.View`
+export const RoomImage = styled.Image`
   width: 100%;
   height: 100%;
 `;
 
-export const RoomImage = styled.Image`
+export const ThemeButton = styled(TouchableOpacity)`
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  background-color: blue;
+  position: absolute;
+  top: 65%;
+  left: 80%;
+`;
+
+export const ThemeIcon = styled.Image`
   width: 100%;
   height: 100%;
 `;

@@ -36,11 +36,11 @@ public class RunningRecord {
     private int totalTime;
     private int totalDistance;
     private int averageSpeed;
-    private int averageCalory;
+    private int averageCalorie;
     private LocalDateTime createdAt;
 
     @Builder
-    public RunningRecord(UserInfo user, CharacterInfo character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordDistanceInfo> runningRecordDistanceInfos, List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos,int totalTime, int totalDistance, int averageSpeed, int averageCalory) {
+    public RunningRecord(UserInfo user, CharacterInfo character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordDistanceInfo> runningRecordDistanceInfos, List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos,int totalTime, int totalDistance, int averageSpeed, int averageCalorie) {
         this.user = user;
         this.character = character;
         this.type = type;
@@ -50,7 +50,7 @@ public class RunningRecord {
         this.totalDistance = totalDistance;
         this.totalTime = totalTime;
         this.averageSpeed = averageSpeed;
-        this.averageCalory = averageCalory;
+        this.averageCalorie = averageCalorie;
         this.createdAt = LocalDateTime.now();
     }
 }

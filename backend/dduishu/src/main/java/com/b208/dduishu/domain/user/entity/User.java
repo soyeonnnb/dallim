@@ -22,6 +22,7 @@ import lombok.ToString;
 
 @Entity
 @Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 public class User {
 
@@ -38,9 +39,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Character> characterList = new ArrayList<>();
 
-    private int exp;
-    private int level;
     private int cumulativeDistance;
+    private int cumulativeRunningTime;
+    private int cumulativeCalorie;
     private int point;
     @Column(nullable = false)
     private String profileImage;
@@ -59,18 +60,28 @@ public class User {
     @Column(nullable = false)
     private int createCount;
 
+    @Enumerated(EnumType.STRING)
+    private UserState state;
+
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_level_id")
+    private UserLevel userLevel;
+
+
 
     public User() {
     }
 
     @Builder
-    public User(Long userId, String accountType, String email, String nickname, int level, int cumulativeDistance,int point, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
+    public User(Long userId, String accountType, String email, String nickname, int level, int cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
         this.userId = userId;
         this.accountType = accountType;
         this.email = email;
         this.nickname = nickname;
         this.cumulativeDistance = cumulativeDistance;
-        this.level = level;
+        this.cumulativeRunningTime = cumulativeRunningTime;
+        this.cumulativeCalorie = cumulativeCalorie;
         this.point = point;
         this.profileImage = profileImage;
         this.privateAccess = privateAccess;
@@ -118,9 +129,21 @@ public class User {
         this.cumulativeDistance += distance;
     }
 
-    public void addExp(int exp ) {
-        this.exp += exp;
+    public void addCumulativeRunningTime(int time){
+        this.cumulativeRunningTime += time;
     }
+
+    public void addCumulativeCalorie(int calorie){
+        this.cumulativeCalorie += calorie;
+    }
+
+
+
+
+
+//    public void addExp(int exp ) {
+//        this.exp += exp;
+//    }
 
 
     @Override

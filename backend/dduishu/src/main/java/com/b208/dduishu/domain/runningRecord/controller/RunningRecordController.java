@@ -56,6 +56,17 @@ public class RunningRecordController {
         }
     }
 
+    @PostMapping("/api/v1/running/start")
+    public ApiResponse<?> startRunning() {
+        try {
+            runningRecordService.updateUserState(true);
+
+            return ApiResponse.createSuccess(true);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
     @GetMapping("/api/v1/running")
     public ApiResponse<?> getRunningRecordFor30Days(@RequestParam String type, @RequestParam Long userId) {
         try {

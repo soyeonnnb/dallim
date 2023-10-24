@@ -12,6 +12,7 @@ import com.b208.dduishu.domain.runningRecordDistance.repository.RunningRecordDis
 import com.b208.dduishu.domain.runningRecordHeartRate.repository.RunningRecordHeartRateRepository;
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.entity.User;
+import com.b208.dduishu.domain.user.entity.UserState;
 import com.b208.dduishu.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
@@ -35,10 +36,25 @@ public class RunningRecordService {
     private final RunningRecordRepository runningRecordRepository;
     private final UserRepository userRepository;
     private final CharacterRepository characterRepository;
+
+
+
+
+
+
     @Transactional
     public void createRunningRecord(RunningRecordInfo req) {
+        updateUserState(false);
         saveRunningRecord(req);
     }
+    public void updateUserState(boolean run){
+        if(run){
+            getUser.getUser().setState(UserState.running);
+        }else{
+            getUser.getUser().setState(UserState.standard);
+        }
+    }
+
 
     public void saveRunningRecord(RunningRecordInfo req) {
         // user, character, rivalRunningRecord 가져오기
@@ -60,13 +76,21 @@ public class RunningRecordService {
         // .averageSpeed(0)
         // .averageCalory(0)
 
-        // 총 시간, 총 이동거리, 평균 속도, 평균 칼로리 계싼
+
+        // 유저 누적시간, 누적이동거리, 누적칼로리 계산
         user.addCumulativeDistance(1111);
+        user.addCumulativeRunningTime(1111);
+        user.addCumulativeCalorie(1111);
 
-        // 경험치 정산
-        user.addExp(10);
+        // 경험치 정산 - 이동거리
+        character.getCharacterLevel().addExp(10);
+        int totalExp = 0;
+        for(Character c : user.getCharacterList()){
+            totalExp += c.getCharacterLevel().getExp();
+        }
+        user.getUserLevel().setTotalExp(totalExp);
 
-        // 포인트 정산
+        // 포인트 정산 - 이동 거리 + a
         user.addPoint(100);
 
         // dto to entity
@@ -174,7 +198,7 @@ public class RunningRecordService {
                 .totalTime(res.getTotalTime())
                 .totalDistance(res.getTotalDistance())
                 .averageSpeed(res.getAverageSpeed())
-                .averageCalory(res.getAverageCalory())
+                .averageCalory(res.getAverageCalorie())
                 .createdAt(res.getCreatedAt())
                 .build();
     }

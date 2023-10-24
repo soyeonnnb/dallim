@@ -26,17 +26,23 @@ public class Character {
     @JoinColumn(name = "character_info_id")
     private CharacterInfo characterInfo;
 
-    @Enumerated(EnumType.STRING)
-    private CharacterState state;
 
-    private int level;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "character_level_id")
+    private CharacterLevel characterLevel;
 
-    private Long exp;
+
+//    @Enumerated(EnumType.STRING)
+//    private CharacterState state;
 
     private boolean isMainCharacter;
 
     public void setMainCharacter(boolean isMainCharacter) {
         this.isMainCharacter = isMainCharacter;
+    }
+
+    public void setCharacterLevel(CharacterLevel characterLevel) {
+        this.characterLevel = characterLevel;
     }
 
 }

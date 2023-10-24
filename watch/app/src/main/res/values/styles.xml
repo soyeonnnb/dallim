@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 기타 스타일 정의 -->
+
+    <style name="CustomDialogTheme" parent="Theme.AppCompat.Dialog">
+        <!-- 배경 투명하게 설정 -->
+        <item name="android:windowBackground">@android:color/transparent</item>
+
+        <!-- 다른 스타일 속성 -->
+    </style>
+
+</resources>

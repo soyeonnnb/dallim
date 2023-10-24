@@ -14,14 +14,14 @@ public class FollowerInfo {
     public FollowerInfo(User user) {
         System.out.println("111");
         this.nickname = user.getNickname();
-        this.level = user.getLevel();
+        this.level = user.getUserLevel().getLevel();
         this.imageUrl = user.getCharacterList()
                             .stream()
                             .filter(Character::isMainCharacter)
                             .map(o -> {
-                                if (1 <= o.getLevel() && o.getLevel() <= 20) {
+                                if (1 <= o.getCharacterLevel().getLevel() && o.getCharacterLevel().getLevel() <= 20) {
                                     return o.getCharacterInfo().getFirstGifUrl();
-                                } else if (21 <= o.getLevel() && o.getLevel() <= 40) {
+                                } else if (21 <= o.getCharacterLevel().getLevel() && o.getCharacterLevel().getLevel() <= 40) {
                                     return o.getCharacterInfo().getSecondGifUrl();
                                 } else {
                                     return o.getCharacterInfo().getThirdGifUrl();

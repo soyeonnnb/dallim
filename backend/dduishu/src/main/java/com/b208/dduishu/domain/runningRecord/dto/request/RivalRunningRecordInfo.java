@@ -41,7 +41,7 @@ public class RivalRunningRecordInfo {
         this.totalTime = runningRecord.getTotalTime();
         this.totalDistance = runningRecord.getTotalDistance();
         this.averageSpeed = runningRecord.getAverageSpeed();
-        this.averageCalory = runningRecord.getAverageCalory();
+        this.averageCalory = runningRecord.getAverageCalorie();
         this.createdAt = runningRecord.getCreatedAt();
     }
 }

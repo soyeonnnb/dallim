@@ -17,6 +17,6 @@ public class UserInfo {
         this.userId = user.getUserId();
         this.nickname = user.getNickname();
         this.point = user.getPoint();
-        this.level = user.getLevel();
+        this.level = user.getUserLevel().getLevel();
     }
 }

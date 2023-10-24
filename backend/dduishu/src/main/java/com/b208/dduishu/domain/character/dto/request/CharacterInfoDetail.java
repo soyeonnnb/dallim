@@ -19,9 +19,8 @@ public class CharacterInfoDetail {
     private Long id;
     private String imageUrl;
     private String name;
-    private CharacterState state;
     private int level;
-    private Long exp;
+    private int exp;
     private boolean isMainCharacter;
 
 
@@ -30,14 +29,13 @@ public class CharacterInfoDetail {
         this.id = character.getId();
         this.imageUrl = findImageUrl(character);
         this.name = character.getCharacterInfo().getName();
-        this.state = character.getState();
-        this.level = character.getLevel();
-        this.exp = character.getExp();
+        this.level = character.getCharacterLevel().getLevel();
+        this.exp = character.getCharacterLevel().getExp();
         this.isMainCharacter = character.isMainCharacter();
     }
 
     private String findImageUrl(Character character) {
-        int level = character.getLevel();
+        int level = character.getCharacterLevel().getLevel();
 
         int step = findCharacterStep(level);
 

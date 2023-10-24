@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import * as S from './Edit.styles';
 import CharacterEdit from '../../components/editComponent/CharacterEdit';
 import { characterData } from '../../components/editComponent/CharacterData';
+import Left from '../../assets/icons/DirectionLeft.png';
+import Right from '../../assets/icons/DirectionRight.png';
 
 function Edit() {
-    const [characterIndex, setCharacterIndex] = useState(2); // 초기 캐릭터 인덱스
+    const [characterIndex, setCharacterIndex] = useState(0); // 초기 캐릭터 인덱스
 
     const handleCharacterChange = (characterIndex: number) => {
         setCharacterIndex(characterIndex);
@@ -15,7 +17,10 @@ function Edit() {
         setCharacterIndex(nextIndex);
     };
     const handlePreviousCharacter = () => {
-        const prevIndex = (characterIndex - 1 + characterData.length) % characterData.length;
+        let prevIndex = characterIndex - 1;
+        if (prevIndex < 0) {
+            prevIndex = characterData.length - 1;
+        }
         setCharacterIndex(prevIndex);
     };
 
@@ -29,6 +34,7 @@ function Edit() {
                 <S.Body>
                     <S.BodyLeft>
                         <S.RotationBox onPress={handlePreviousCharacter}>
+                            <S.DirectionIcon source={Left} />
                         </S.RotationBox>
                     </S.BodyLeft>
                     <S.BodyCenter>
@@ -36,6 +42,7 @@ function Edit() {
                     </S.BodyCenter>
                     <S.BodyRight>
                         <S.RotationBox onPress={handleNextCharacter}>
+                            <S.DirectionIcon source={Right} />
                         </S.RotationBox>
                     </S.BodyRight>
                 </S.Body>

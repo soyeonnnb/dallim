@@ -13,7 +13,7 @@ export const Top = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 20%;
+  height: 15%;
 `;
 
 export const TitleBox = styled.View`
@@ -50,7 +50,7 @@ export const Bottom = styled.View`
   border-width: 1px;
   border-color: red;
   width: 100%;
-  height: 15%;
+  height: 20%;
   align-items: center;
 `;
 
@@ -62,7 +62,7 @@ export const ButtonBox = styled.TouchableOpacity`
   align-items: center;
   background-color: #2a2c45;
   width: 80%;
-  height: 70%;
+  height: 50%;
 `;
 
 export const ButtonText = styled.Text`

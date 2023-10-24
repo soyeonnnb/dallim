@@ -24,6 +24,10 @@ function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps
         // 여기에 캐릭터 Axios put 예정 
     }
 
+    useEffect(() => {
+        setSelectedCharacterIndex(characterIndex);
+    }, [characterIndex]);
+
     return (
         <S.Container>
             <S.Top>

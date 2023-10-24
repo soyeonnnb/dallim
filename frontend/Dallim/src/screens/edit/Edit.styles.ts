@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import {Image} from 'react-native';
 import {ImageBackground, TouchableOpacity} from 'react-native';
 
 export const Container = styled.View`
@@ -32,10 +33,16 @@ export const Body = styled.View`
 export const RotationBox = styled(TouchableOpacity)`
   border-width: 1px;
   border-color: red;
-  width: 50%;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
   height: 10%;
 `;
 
+export const DirectionIcon = styled(Image)`
+  width: 20px;
+  height: 30px;
+`;
 
 export const BodyLeft = styled.View`
   border-width: 1px;

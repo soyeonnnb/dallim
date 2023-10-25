@@ -13,9 +13,9 @@ interface Props {
 
 const VersusModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
-    const MyCharacterImage = require('../../../assets/character/병아리.png');
+    const MyCharacterImage = require('../../../assets/character/병아리_선택.png');
     const MyNickName = "나는야 펭소";
-    const OtherCharacterImage = require('../../../assets/character/팬더.png');
+    const OtherCharacterImage = require('../../../assets/character/팬더_선택.png');
     const OtherNickname = "배고픈 하마";
 
     // 임시 데이터

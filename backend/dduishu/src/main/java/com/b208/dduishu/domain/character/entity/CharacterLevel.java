@@ -1,11 +1,14 @@
 package com.b208.dduishu.domain.character.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class CharacterLevel {
 
     @Id
@@ -17,7 +20,11 @@ public class CharacterLevel {
 
     private int exp=0;
 
-
+    @Builder
+    public CharacterLevel(int level, int exp) {
+        this.level = level;
+        this.exp = exp;
+    }
 
     public void addExp(int exp ) {
         this.exp += exp;

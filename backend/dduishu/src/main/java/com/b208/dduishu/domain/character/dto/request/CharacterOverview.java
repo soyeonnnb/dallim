@@ -1,7 +1,6 @@
 package com.b208.dduishu.domain.character.dto.request;
 
 import com.b208.dduishu.domain.character.entity.Character;
-import com.b208.dduishu.domain.character.entity.CharacterState;
 
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CharacterInfo {
+public class CharacterOverview {
 
     private final static int FIRST_STEP = 1;
     private final static int SECOND_STEP = 2;
@@ -27,7 +26,7 @@ public class CharacterInfo {
     private int exp;
 
     @Builder
-    public CharacterInfo(CharacterName name) {
+    public CharacterOverview(CharacterName name) {
         this.characterId = -1L;
         this.characterIndex = getCharacterIndex(name);
         this.name = name;
@@ -37,7 +36,7 @@ public class CharacterInfo {
         this.exp = -1;
     }
 
-    public CharacterInfo(Character character) {
+    public CharacterOverview(Character character) {
         this.characterId = character.getId();
         this.characterIndex = getCharacterIndex(character.getCharacterInfo().getName());
         this.name = character.getCharacterInfo().getName();

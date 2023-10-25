@@ -1,12 +1,11 @@
 package com.b208.dduishu.domain.character.controller;
 
-import java.util.List;
-
+import com.b208.dduishu.domain.character.dto.request.CharacterId;
 import com.b208.dduishu.domain.character.dto.request.CharacterInfoDetail;
-import com.b208.dduishu.domain.character.dto.request.MainCharacterInfo;
+import com.b208.dduishu.domain.character.dto.request.PurchaseCharacterName;
+import com.b208.dduishu.domain.character.dto.response.CharacterInfoResult;
 import org.springframework.web.bind.annotation.*;
 
-import com.b208.dduishu.domain.character.dto.request.CharacterInfo;
 import com.b208.dduishu.domain.character.service.CharacterService;
 import com.b208.dduishu.util.response.ApiResponse;
 
@@ -21,7 +20,8 @@ public class CharacterController {
     @GetMapping("/api/v1/character")
     public ApiResponse<?> getAllCharacterInfo() {
         try {
-            List<CharacterInfo> ret = characterService.getCharacterInfo();
+
+            CharacterInfoResult ret = characterService.getCharacterInfo();
 
             return ApiResponse.createSuccess(ret);
         } catch (Exception e) {
@@ -41,9 +41,20 @@ public class CharacterController {
     }
 
     @PatchMapping("/api/v1/character")
-    public ApiResponse<?> updateMainCharacter(@RequestBody MainCharacterInfo req) {
+    public ApiResponse<?> updateMainCharacter(@RequestBody CharacterId req) {
         try {
             characterService.updateMainCharacter(req);
+
+            return ApiResponse.createSuccess(true);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
+    @PostMapping("/api/v1/character")
+    public ApiResponse<?> purchaseCharacter(@RequestBody PurchaseCharacterName req) {
+        try {
+            characterService.purchaseCharacter(req);
 
             return ApiResponse.createSuccess(true);
         } catch (Exception e) {

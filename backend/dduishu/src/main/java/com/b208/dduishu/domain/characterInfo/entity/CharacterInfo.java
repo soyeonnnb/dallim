@@ -17,6 +17,8 @@ public class CharacterInfo {
     @Enumerated(EnumType.STRING)
     private CharacterName name;
 
+    private int price;
+
     private String firstGifUrl;
 
     private String secondGifUrl;

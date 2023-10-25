@@ -6,11 +6,10 @@ import StampDarkIcon from '../../assets/icons/StampDarkIcon.png';
 import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
 import CloseIcon from '../../assets/icons/CloseIcon.png';
 import StampModal from '../../components/mainComponent/StampModal';
-import Moon1 from '../../assets/images/Moon1.png';
-import Moon2 from '../../assets/images/Moon2.png';
+import Moon from '../../assets/images/Moon.png';
 import Sun from '../../assets/images/Sun.png';
-import SunBackground from '../../assets/images/SunBackground.png';
-import MoonBackground from '../../assets/images/MoonBackground.png';
+import SunToggleBackground from '../../assets/images/SunToggleBackground.png';
+import MoonToggleBackground from '../../assets/images/MoonToggleBackground.png';
 
 function Main({ navigation }: any) {
   const TempPoint = '3000';
@@ -63,9 +62,9 @@ function Main({ navigation }: any) {
         <S.Header>
           <S.HeaderLeft>
             <S.ToggleButtonBackground onPress={toggleHandle}>
-              <S.ToggleButtonWrapper source={isOn ? SunBackground : MoonBackground} isOn={isOn} >
+              <S.ToggleButtonWrapper source={isOn ? SunToggleBackground : MoonToggleBackground} isOn={isOn} >
                 <S.ToggleButton
-                  source={isOn ? Sun : Moon2}
+                  source={isOn ? Sun : Moon}
                   style={{
                     transform: [
                       {

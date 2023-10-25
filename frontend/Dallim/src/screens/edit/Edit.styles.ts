@@ -40,11 +40,10 @@ export const ToggleButtonWrapper = styled(TouchableOpacity)`
   padding: 4px;
   width: 120px;
   height: 50px;
-  margin-left: 20px;
   overflow: hidden;
 `;
 
-export const ToggleButton = styled(Animated.View)<{isOn?: boolean}>`
+export const ToggleButton = styled(Animated.View)`
   width: 60px;
   height: 40px;
   border-radius: 100px;

@@ -9,10 +9,15 @@ import com.runapp.fragment.RunningStateFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+* ViewPager2에서 표시될 프래그먼트를 관리해준다.
+* 우리 서비스는 RunningActivity에서 2개의 프래그먼트를 사용한다.
+*/
 public class ViewPagerAdapter extends FragmentStateAdapter {
 
     private final List<Fragment> fragmentList;
 
+    // Activity에 보여줄 프래그먼트를 리스트에 정의해 놓는다.
     public ViewPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
         fragmentList = new ArrayList<>();
@@ -26,6 +31,7 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
         return fragmentList.size();
     }
 
+    // 주어진 위치에 해당하는 프래그먼트를 반환한다. 0은 State, 1은 Ani
     @NonNull
     @Override
     public Fragment createFragment(int position) {

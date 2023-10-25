@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import {ImageBackground, Image} from 'react-native';
 import {Animated} from 'react-native';
 import {TouchableOpacity} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 export const Container = styled.View`
   flex: 1;
@@ -118,11 +119,22 @@ export const ThemeBox = styled.View`
   border-color: red; */
   width: 80%;
   height: 80%;
+  position: relative;
 `;
 
 export const StyledImage = styled(Image)`
   width: 100%;
   height: 100%;
+`;
+
+export const StyledGif = styled(FastImage)`
+ /* border-width: 1px;
+  border-color: red; */
+  width: 100px;
+  height: 100px;
+  top: 60%;
+  left: 35%;
+  position: absolute;
 `;
 
 export const Bottom = styled.View`

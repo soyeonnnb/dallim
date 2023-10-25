@@ -3,6 +3,11 @@ export type CharacterType = {
   background: any;
 }
 
+// 임시 저장된 캐릭터 인덱스
+export const selectedRoom = {
+  index: 2
+}
+
 export const characterData: CharacterType[] = [
   {
     character: require('../../assets/character/토끼_선택.png'),

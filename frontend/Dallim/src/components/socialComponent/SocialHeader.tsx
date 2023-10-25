@@ -14,7 +14,7 @@ function SocialHeader() {
                 source={require('../../assets/images/SocialHeaderBackground.png')}
                 resizeMode="cover">
                 <S.Left>
-                    <S.CharacterImage source={require('../../assets/character/병아리.png')} />
+                    <S.CharacterImage source={require('../../assets/character/병아리_선택.png')} />
                 </S.Left>
                 <S.Middle>
                     <S.NicknameText>{Nickname}</S.NicknameText>

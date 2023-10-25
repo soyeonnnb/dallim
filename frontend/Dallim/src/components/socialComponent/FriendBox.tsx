@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './FriendBox.styles';
-import Character from '../../assets/character/팬더.png';
+import Character from '../../assets/character/팬더_선택.png';
 import UserDetailModal from './socialModal/UserDetailModal';
 
 function FriendBox() {

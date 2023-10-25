@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as S from './RoomEdit.styles';
 import RoomBox from './RoomBox';
 import { roomData } from './RoomData';
+import RoomSelectModal from './editModal/RoomSelectModal';
 
 type RoomEditProps = {
   onRoomChange: (index: number) => void;
@@ -12,6 +13,7 @@ type RoomEditProps = {
 function RoomEdit({ onRoomChange, roomIndex, isOn }: RoomEditProps) {
 
   const [selectedRoomIndex, setSelectedRoomIndex] = useState(roomIndex);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     console.log("대표 방이 바꼈어요(Index 기준) : " + selectedRoomIndex);
@@ -28,9 +30,13 @@ function RoomEdit({ onRoomChange, roomIndex, isOn }: RoomEditProps) {
     setSelectedRoomIndex(roomIndex);
   }, [roomIndex]);
 
+  function confirmRoomChange() {
+    toggleModal();
+    handleRoomChange(selectedRoomIndex % 5);
+  }
 
-  function confirmCharacterChange() {
-    handleRoomChange(selectedRoomIndex % 4);
+  function toggleModal() {
+    setShowModal(!showModal);
   }
 
   return (
@@ -45,13 +51,20 @@ function RoomEdit({ onRoomChange, roomIndex, isOn }: RoomEditProps) {
       <S.Body>
         <S.RoomBox isOn={isOn}>
           <RoomBox index={roomIndex} />
-        </S.RoomBox> 
+        </S.RoomBox>
       </S.Body>
       <S.Bottom>
-        <S.ButtonBox onPress={() => confirmCharacterChange()}>
+        <S.ButtonBox onPress={toggleModal}>
           <S.ButtonText>선택</S.ButtonText>
         </S.ButtonBox>
       </S.Bottom>
+
+      <RoomSelectModal
+        showModal={showModal}
+        toggleModal={toggleModal}
+        confirmRoomChange={confirmRoomChange}
+        roomIndex={roomIndex}
+      />
 
     </S.Container>
   );

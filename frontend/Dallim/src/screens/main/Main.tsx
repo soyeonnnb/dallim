@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Animated, Easing } from 'react-native';
 import * as S from './Main.styles';
-import RoomSample from '../../assets/Theme/RoomSample.png';
+import RoomSample from '../../assets/Theme/RoomSample_1.png';
 import StampDarkIcon from '../../assets/icons/StampDarkIcon.png';
 import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
 import CloseIcon from '../../assets/icons/CloseIcon.png';
@@ -48,6 +48,14 @@ function Main({ navigation }: any) {
       routes: [{ name: 'Login' }],
     });
   };
+
+  // Test
+  const gifSources = {
+    1: require('../../assets/character/펭런_1.gif'),
+    2: require('../../assets/character/펭런_2.gif'),
+    3: require('../../assets/character/펭런_3.gif')
+  };
+  const gifSourcesIndex = 3;
 
   return (
     <S.Container>
@@ -99,6 +107,7 @@ function Main({ navigation }: any) {
         <S.Body>
           <S.ThemeBox>
             <S.StyledImage source={RoomSample} />
+            <S.StyledGif source={gifSources[gifSourcesIndex]} />
           </S.ThemeBox>
         </S.Body>
         <S.Bottom>
@@ -108,7 +117,7 @@ function Main({ navigation }: any) {
           </S.BottomBox>
         </S.Bottom>
 
-        <S.TabBox /> 
+        <S.TabBox />
       </S.BackgroundImage>
 
       <StampModal

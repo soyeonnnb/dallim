@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './UserBox.styles';
-import Character from '../../assets/character/펭귄.png';
+import Character from '../../assets/character/펭귄_선택.png';
 import UserDetailModal from './socialModal/UserDetailModal';
 
 function UserBox() {

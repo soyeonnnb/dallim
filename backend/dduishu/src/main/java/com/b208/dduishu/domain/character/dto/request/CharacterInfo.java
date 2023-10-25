@@ -3,7 +3,9 @@ package com.b208.dduishu.domain.character.dto.request;
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.entity.CharacterState;
 
+import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,19 +19,46 @@ public class CharacterInfo {
     private final static int THIRD_STEP = 3;
 
     private Long characterId;
-    private String imageUrl;
-    private String name;
+    private int characterIndex;
+    private CharacterName name;
+    private boolean isMainCharacter;
+    private boolean isPurchased;
     private int level;
     private int exp;
-    private boolean isMainCharacter;
+
+    @Builder
+    public CharacterInfo(CharacterName name) {
+        this.characterId = -1L;
+        this.characterIndex = getCharacterIndex(name);
+        this.name = name;
+        this.isMainCharacter = false;
+        this.isPurchased = false;
+        this.level = -1;
+        this.exp = -1;
+    }
 
     public CharacterInfo(Character character) {
         this.characterId = character.getId();
-        this.imageUrl = findImageUrl(character);
+        this.characterIndex = getCharacterIndex(character.getCharacterInfo().getName());
         this.name = character.getCharacterInfo().getName();
+        this.isMainCharacter = character.isMainCharacter();
+        this.isPurchased = true;
         this.level = character.getCharacterLevel().getLevel();
         this.exp = character.getCharacterLevel().getExp();
-        this.isMainCharacter = character.isMainCharacter();
+    }
+
+    private int getCharacterIndex(CharacterName name) {
+
+        if (name.equals(CharacterName.RABBIT)) {
+            return 0;
+        } else if (name.equals(CharacterName.Penguin)) {
+            return 1;
+        } else if (name.equals(CharacterName.Panda)) {
+            return 2;
+        } else if (name.equals(CharacterName.Chicken)) {
+            return 3;
+        }
+        return -1;
     }
 
     private String findImageUrl(Character character) {

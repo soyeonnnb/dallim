@@ -2,6 +2,7 @@ package com.b208.dduishu.domain.character.dto.request;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.entity.CharacterState;
+import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import lombok.Builder;
@@ -18,7 +19,7 @@ public class CharacterInfoDetail {
 
     private Long id;
     private String imageUrl;
-    private String name;
+    private CharacterName name;
     private int level;
     private int exp;
     private boolean isMainCharacter;

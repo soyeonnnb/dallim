@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterInfoDetail;
 import com.b208.dduishu.domain.character.dto.request.MainCharacterInfo;
+import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import org.springframework.stereotype.Service;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterInfo;
@@ -23,6 +24,8 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class CharacterService {
 
+    private static final List<CharacterName> baseCharacterNames = List.of(CharacterName.RABBIT, CharacterName.Penguin, CharacterName.Panda, CharacterName.Chicken);
+
     private final CharacterRepository characterRepository;
     private final GetUser getUser;
 
@@ -33,9 +36,20 @@ public class CharacterService {
 
         List<Character> findAllCharacterInfo = characterRepository.findAllCharacterInfo(user.getUserId());
 
+        List<CharacterName> characterNames = findAllCharacterInfo.stream()
+                .map(o -> o.getCharacterInfo().getName())
+                .collect(toList());
+
         List<CharacterInfo> collect = findAllCharacterInfo.stream()
                 .map(o -> new CharacterInfo(o))
                 .collect(toList());
+
+        baseCharacterNames.stream()
+                        .forEach(o -> {
+                            if(!characterNames.contains(o)) {
+                                collect.add(CharacterInfo.builder().name(o).build());
+                            }
+                        });
 
         return collect;
     }

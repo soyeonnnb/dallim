@@ -1,5 +1,6 @@
 package com.b208.dduishu.domain.characterInfo.entity;
 
+import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -13,7 +14,8 @@ public class CharacterInfo {
     @Column(name = "character_info_id")
     private Long id;
 
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private CharacterName name;
 
     private String firstGifUrl;
 

@@ -53,8 +53,7 @@ export const ChangeBoxStyle = styled.View`
   height: 40%;
 `;
 
-export const RoomImage = styled.Image`
-
+export const Image = styled.Image`
   width: 100%;
   height: 100%;
 `;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as S from './RoomBox.styles';
 import { roomData } from './RoomData';
-import WatchThemeModal from './WatchThemeModal';
+import WatchThemeModal from './editModal/WatchThemeModal';
 
 interface Props {
   index: number;

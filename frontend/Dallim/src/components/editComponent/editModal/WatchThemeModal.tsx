@@ -1,8 +1,8 @@
 import React from 'react';
 import * as S from './WatchThemeModal.styles';
 import { Modal } from 'react-native';
-import { roomData } from './RoomData';
-import CloseIcon from '../../assets/icons/CloseIcon_2.png';
+import { roomData } from '../RoomData';
+import CloseIcon from '../../../assets/icons/CloseIcon_2.png';
 
 type Props = {
     isVisible: boolean;

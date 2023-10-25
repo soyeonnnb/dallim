@@ -3,6 +3,7 @@ import { Modal } from 'react-native';
 import * as S from './SelectModal.styles'; // 스타일 컴포넌트 임포트
 import { selectedRoom } from '../RoomData';
 import { characterData } from '../CharacterData';
+import FastImage from 'react-native-fast-image';
 
 type ModalComponentProps = {
     showModal: boolean;
@@ -26,15 +27,18 @@ const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, 
                     </S.ModalHeader>
                     <S.ModalBody>
                         <S.BoxStyle >
-                            <S.RoomImage source={characterData[characterIndex].character} resizeMode="contain" />
+                            <S.Image source={characterData[selectedRoom.index].character} resizeMode="contain" />
                         </S.BoxStyle>
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>
-                                <S.ChangeIcon source={require('../../../assets/icons/ArrowIcon.png')} />
+                                <FastImage
+                                    source={require('../../../assets/icons/ArrowIcon.gif')}
+                                    style={{ width: 25, height: 25 }}
+                                />
                             </S.ChangeBox>
                         </S.ChangeBoxStyle>
                         <S.BoxStyle >
-                            <S.RoomImage source={characterData[selectedRoom.index].character} resizeMode="contain" />
+                            <S.Image source={characterData[characterIndex].character} resizeMode="contain" />
                         </S.BoxStyle>
 
                     </S.ModalBody>

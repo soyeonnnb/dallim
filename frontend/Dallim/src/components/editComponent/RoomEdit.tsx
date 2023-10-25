@@ -14,7 +14,7 @@ function RoomEdit({ onRoomChange, roomIndex, isOn }: RoomEditProps) {
   const [selectedRoomIndex, setSelectedRoomIndex] = useState(roomIndex);
 
   useEffect(() => {
-    console.log("대표 방이 바꼈어요(Index) : " + selectedRoomIndex);
+    console.log("대표 방이 바꼈어요(Index 기준) : " + selectedRoomIndex);
   }, [selectedRoomIndex]);
 
   function handleRoomChange(index: number) {

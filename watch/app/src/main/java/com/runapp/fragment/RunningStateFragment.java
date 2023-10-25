@@ -41,12 +41,34 @@ public class RunningStateFragment extends Fragment {
             timeView.setText(elapsedTime);
         });
 
+        final double MAX_REALISTIC_PACE = 20.0;
+
         runningViewModel.getSpeed().observe(getViewLifecycleOwner(), speed ->{
-            float speedKmH = speed * 3.6f;
+
+            if (speed <= 0) {
+                TextView speedView = view.findViewById(R.id.tv_speed);
+                speedView.setText("0''0'");
+                return;
+            }
+            double paceMinutes = (1000 / speed) / 60; // m/s를 분/km로 변환
+
+            if (paceMinutes > MAX_REALISTIC_PACE) {
+                TextView speedView = view.findViewById(R.id.tv_speed);
+                speedView.setText("정지");
+                return;
+            }
+
+            int wholeMinutes = (int) paceMinutes;
+            int seconds = (int) ((paceMinutes - wholeMinutes) * 60);
+
             TextView speedView = view.findViewById(R.id.tv_speed);
-            speedView.setText(String.format(Locale.getDefault(), "%.2f km/h", speedKmH));
+            speedView.setText(String.format(Locale.getDefault(), "%d''%02d'", wholeMinutes, seconds));
         });
 
+        runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance ->{
+            TextView distanceView = view.findViewById(R.id.tv_distance);
+            distanceView.setText(distance.toString());
+        });
         return view;
     }
 

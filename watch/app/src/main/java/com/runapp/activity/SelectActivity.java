@@ -27,8 +27,6 @@ public class SelectActivity extends ComponentActivity {
 
     private ActivitySelectBinding binding;
     private RiverDataDAO riverDataDAO;
-    ImageView imageViewOne;
-    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +38,10 @@ public class SelectActivity extends ComponentActivity {
 
         setContentView(view);
 
-        context = SelectActivity.this;
-        imageViewOne = binding.singleGif;
+        Context context = SelectActivity.this;
+        ImageView imageViewOne = binding.singleGif;
 
+        // 움짤 표시
         Glide.with(context)
                         .load(R.drawable.run_character)
                                 .into(imageViewOne);
@@ -53,37 +52,32 @@ public class SelectActivity extends ComponentActivity {
             AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
 
             LayoutInflater inflater = getLayoutInflater();
+            // single_popup.xml을 가져와서 객체로 생성
             View customView = inflater.inflate(R.layout.single_popup, null);
 
             builder.setView(customView);
 
-            // AlertDialog 생성
+            // builder 내용으로 AlertDialog 생성
             AlertDialog dialog = builder.create();
+
+            // AlertDialog 보이기
+            dialog.show();
 
             Button btnCancel = customView.findViewById(R.id.single_cancel);
             Button btnStart = customView.findViewById(R.id.single_start);
 
             // 취소 버튼에 대한 클릭 리스너
-            btnCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
+            btnCancel.setOnClickListener(b ->{
+                dialog.dismiss();
             });
 
             // 확인 버튼에 대한 클릭 리스너
-            btnStart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
-                    countdownActivityResultLauncher.launch(intent);
-                    dialog.dismiss();
-                }
+            btnStart.setOnClickListener(b-> {
+                // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
+                Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
+                countdownActivityResultLauncher.launch(intent);
+                dialog.dismiss();
             });
-
-
-            // AlertDialog 보이기
-            dialog.show();
         });
 
         // 함께 달리기 눌렀을 경우
@@ -106,28 +100,23 @@ public class SelectActivity extends ComponentActivity {
             // AlertDialog 생성
             AlertDialog dialog = builder.create();
 
+            dialog.show();
+
             Button btnCancel = customView.findViewById(R.id.multi_cancel);
             Button btnStart = customView.findViewById(R.id.multi_start);
 
             // 취소 버튼에 대한 클릭 리스너
-            btnCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
+            btnCancel.setOnClickListener(b ->{
+                dialog.dismiss();
             });
 
             // 확인 버튼에 대한 클릭 리스너
-            btnStart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
-                    countdownActivityResultLauncher.launch(intent);
-                    dialog.dismiss();
-                }
+            btnStart.setOnClickListener(b-> {
+                // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
+                Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
+                countdownActivityResultLauncher.launch(intent);
+                dialog.dismiss();
             });
-
-            dialog.show();
         });
 
         // 나의 기록 보기
@@ -137,11 +126,12 @@ public class SelectActivity extends ComponentActivity {
         });
     }
 
+    // 카운트다운이 끝났을 때 메서드
     ActivityResultLauncher<Intent> countdownActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
-                    // CountdownActivity가 성공적으로 끝났을 때의 작업을 수행합니다.
+                    // 카운트다운 액티비티가 끝나면 셀렉트 액티비티에서 러닝 액티비티로 바뀜.
                     Intent nextActivityIntent = new Intent(SelectActivity.this, RunningActivity.class);
                     startActivity(nextActivityIntent);
                 }

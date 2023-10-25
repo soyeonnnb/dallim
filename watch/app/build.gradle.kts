@@ -105,5 +105,8 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata:2.4.0") // LiveData 의존성
     implementation ("androidx.lifecycle:lifecycle-runtime:2.4.0") // Lifecycle-runtime 의존성
 
+    implementation("com.google.android.gms:play-services-fitness:21.1.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
 
 }

@@ -137,8 +137,9 @@ public class User {
         this.cumulativeCalorie += calorie;
     }
 
-
-
+    public void reducePoint(int point) {
+        this.point -= point;
+    }
 
 
 //    public void addExp(int exp ) {

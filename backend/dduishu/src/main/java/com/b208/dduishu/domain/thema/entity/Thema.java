@@ -1,15 +1,16 @@
 package com.b208.dduishu.domain.thema.entity;
 
-import com.b208.dduishu.domain.character.entity.CharacterLevel;
-import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
 import com.b208.dduishu.domain.user.entity.User;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Table(name = "thema")
+@NoArgsConstructor
 public class Thema {
 
     @Id
@@ -21,10 +22,21 @@ public class Thema {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Enumerated(EnumType.STRING)
-    private ThemaName name;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "thema_info_id")
+    private ThemaInfo themaInfo;
 
     private boolean isMainThema;
 
-    private int price;
+    @Builder
+    public Thema(Long id, User user, ThemaInfo themaInfo, boolean isMainThema) {
+        this.id = id;
+        this.user = user;
+        this.themaInfo = themaInfo;
+        this.isMainThema = isMainThema;
+    }
+
+    public void setMainThema(boolean thema) {
+        this.isMainThema = thema;
+    }
 }

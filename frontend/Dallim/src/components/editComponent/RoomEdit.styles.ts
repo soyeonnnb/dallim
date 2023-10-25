@@ -28,10 +28,9 @@ export const TopBox = styled.View`
 export const Dot = styled.View<{isActive: boolean}>`
   width: 10px;
   height: 10px;
-  border-radius: 5px; 
-  background-color: ${props =>
-    props.isActive ? '#6099AD' : 'white'};
-  margin: 0 5px; 
+  border-radius: 5px;
+  background-color: ${props => (props.isActive ? '#6099AD' : 'white')};
+  margin: 0 5px;
 `;
 
 export const SelectText = styled.Text`
@@ -77,4 +76,70 @@ export const ButtonBox = styled.TouchableOpacity`
 export const ButtonText = styled.Text`
   font-size: 15px;
   color: white;
+`;
+
+export const ModalContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ModalContent = styled.View`
+  background-color: white;
+  align-items: center;
+  padding: 20px;
+  border-radius: 15px;
+  width: 70%;
+  height: 200px;
+`;
+
+export const ModalHeader = styled.View`
+  border-width: 1px;
+  border-color: red;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+`;
+
+export const ModalBody = styled.View`
+  border-width: 1px;
+  border-color: red;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+  height: 50%;
+`;
+
+export const ModalText = styled.Text`
+  font-size: 15px;
+  color: black;
+`;
+
+export const ModalButton = styled.TouchableOpacity`
+  border-width: 1px;
+  border-color: white;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  background-color: #315182;
+  width: 60px;
+  height: 30px;
+`;
+
+export const ModalButtonText = styled.Text`
+  font-size: 15px;
+  color: white;
+`;
+
+export const ModalCancelButton = styled.TouchableOpacity`
+  border-width: 1px;
+  border-color: white;
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  background-color: #E36F6F;
+  width: 60px;
+  height: 30px;
 `;

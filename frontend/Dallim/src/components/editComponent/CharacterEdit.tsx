@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './CharacterEdit.styles';
 import CharacterBox from './CharacterBox';
-import AwesomeAlert from 'react-native-awesome-alerts';
+import CharacterSelectModal from './editModal/CharacterSelectModal';
 
 type CharacterEditProps = {
   onCharacterChange: (index: number) => void;
@@ -16,9 +16,10 @@ function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps
   const experiencePercentage = (Experience / 100) * 100;
 
   const [selectedCharacterIndex, setSelectedCharacterIndex] = useState(characterIndex);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    console.log("대표 캐릭터가 바꼈어요 : " + selectedCharacterIndex);
+    console.log("대표 캐릭터가 바꼈어요(Index 기준) : " + selectedCharacterIndex);
   }, [selectedCharacterIndex]);
 
   function handleCharacterChange(index: number) {
@@ -32,11 +33,13 @@ function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps
     setSelectedCharacterIndex(characterIndex);
   }, [characterIndex]);
 
-  const [showAlert, setShowAlert] = useState(false);
-
   function confirmCharacterChange() {
-    setShowAlert(false);
+    toggleModal();
     handleCharacterChange(selectedCharacterIndex % 4);
+  }
+
+  function toggleModal() {
+    setShowModal(!showModal);
   }
 
   return (
@@ -52,7 +55,7 @@ function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps
         </S.CharacterBox>
       </S.Body>
       <S.Bottom>
-        <S.ButtonBox onPress={() => setShowAlert(true)}>
+        <S.ButtonBox onPress={toggleModal}>
           <S.ButtonText>선택</S.ButtonText>
         </S.ButtonBox>
         <S.ButtomLevel>
@@ -63,26 +66,13 @@ function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps
         </S.ButtomLevel>
       </S.Bottom>
 
-      <AwesomeAlert
-        show={showAlert}
-        title="캐릭터 선택"
-        message="정말로 이 캐릭터를 선택하시겠습니까?"
-
-        // AwesomeAlert 라이브러리 특성 상 취소랑 확인을 임의로 바꿔서 사용하겠습니다.
-        confirmText="취소"
-        cancelText="확인"
-        onConfirmPressed={() => setShowAlert(false)} // 기능 변경
-        onCancelPressed={confirmCharacterChange} // 기능 변경
-        showConfirmButton={true}
-        showCancelButton={true}
-
-        contentContainerStyle={{
-          backgroundColor: 'white',
-          borderRadius: 15, // 둥글게 만들기 위한 설정
-        }}
-        confirmButtonStyle={{ backgroundColor: '#E36F6F' }} // 확인 버튼 배경색 변경
-        cancelButtonStyle={{ backgroundColor: '#315182' }} // 취소 버튼 배경색 변경
+      <CharacterSelectModal
+        showModal={showModal}
+        toggleModal={toggleModal}
+        confirmCharacterChange={confirmCharacterChange}
+        characterIndex={characterIndex}
       />
+
     </S.Container>
   );
 };

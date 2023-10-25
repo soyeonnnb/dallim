@@ -45,7 +45,6 @@ public class RunningActivity extends AppCompatActivity {
     private LocationManager lm;
     private Location previousLocation;
     private float totalDistance;
-
     private float initialStepCount = -1;
 
 
@@ -55,23 +54,27 @@ public class RunningActivity extends AppCompatActivity {
         binding = ActivityRunningBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // 러닝 뷰 모델을 생성한다.
         runningViewModel = new ViewModelProvider(this).get(RunningViewModel.class);
 
-        // Set up the ViewPager with the sections adapter.
+        // 뷰페이저2를 생성(activity_running.xml에서 가져옴)
         ViewPager2 viewPager = binding.viewPager;
+        // 뷰페이저 어댑터 생성하고 설정
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(viewPagerAdapter);
 
+        // 시스템에서 센서 매니저 서비스를 가져온다.
         SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         initializeSensorListener();
-
-        Intent serviceIntent = new Intent(this, LocationService.class);
-        ContextCompat.startForegroundService(this, serviceIntent);
 
         // SensorService 생성 및 센서 등록
         sensorService = new SensorService(sensorManager, universalSensorListener);
         sensorService.registerHeartRateSensor();
         sensorService.registerStepCounterSensor();
+
+        // 위치 서비스에 대한 Intent를 생성하고 ForegroundService로 시작한다.
+        Intent serviceIntent = new Intent(this, LocationService.class);
+        ContextCompat.startForegroundService(this, serviceIntent);
 
         // TimerService 생성 및 시작
         Handler timerHandler = new Handler(Looper.getMainLooper());
@@ -84,8 +87,10 @@ public class RunningActivity extends AppCompatActivity {
         });
         timerService.startTimer();
 
+        // 시스템에서 위치서비스 가져옴.
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
+        // 29버전 이상이면
         if ( Build.VERSION.SDK_INT >= 29 &&
                 ContextCompat.checkSelfPermission( getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
             ActivityCompat.requestPermissions( RunningActivity.this, new String[] {
@@ -94,13 +99,13 @@ public class RunningActivity extends AppCompatActivity {
             Log.d("위치정보", "정보 들어옴");
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     1000,
-                    1,
+                    0,
                     gpsLocationListener);
         }else{
             Log.d("위치정보", "정보 들어옴");
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     1000,
-                    1,
+                    0,
                     gpsLocationListener);
         }
     }
@@ -122,7 +127,8 @@ public class RunningActivity extends AppCompatActivity {
             float speed = location.getSpeed();// 속도정보
             Log.d("현재 속도", String.valueOf(speed));
             runningViewModel.setSpeed(speed);
-        } public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {
 
         } public void onProviderEnabled(String provider) {
 
@@ -144,19 +150,25 @@ public class RunningActivity extends AppCompatActivity {
 
 
     /*
-        센서이벤트리스너를 만들어서 변경사항을 추적함.
+        센서 이벤트 리스너를 만들어서 변경사항을 추적함.
         현재 발걸음 센서, 심박수 센서 관리중.
         센서 발걸음을 쓰면 장치가 재부팅 된 이후부터의 발걸음을 관리해서 현재 발걸음을 추적하기 위해
         (현재 발걸음 - 초기 발걸음)을 통해 계산함.
          */
     private void initializeSensorListener() {
         universalSensorListener = new SensorEventListener() {
+            // 센서의 값이 변경될 때마다 실행되는 메서드이다.
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
+                // 센서의 타입이 심박수면
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_HEART_RATE) {
+                    // 센서값을 꺼내서 뷰모델에 갱신해준다.
                     float heartRate = sensorEvent.values[0];
                     runningViewModel.setHeartRate(heartRate);
-                }else if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER){
+                }
+                // 센서의 타입이 발걸음이면
+                else if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER){
+                    // 발걸음을 계산해서 뷰모델에 갱신해준다.
                     float currentTotalSteps = sensorEvent.values[0];
                     if(initialStepCount == -1){
                         initialStepCount = currentTotalSteps;
@@ -179,6 +191,9 @@ public class RunningActivity extends AppCompatActivity {
         int seconds = (int) (millis / 1000);
         int minutes = seconds / 60;
         seconds = seconds % 60;
+
+        String formattedTime = String.format(Locale.getDefault(), "%02d분 %02d초", minutes, seconds);
+        Log.d("시간", formattedTime);
 
         runningViewModel.setElapsedTime(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
     }

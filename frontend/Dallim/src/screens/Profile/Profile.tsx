@@ -1,4 +1,5 @@
 import * as S from './Profile.styles'
+import { useState } from 'react'
 import ChangeNicknameIcon from '../../assets/icons/ChangeNicknameIcon.png'
 import ManageRunningMateIcon from '../../assets/icons/ManageRunningMateIcon.png'
 import NotificationIcon from '../../assets/icons/NotificationIcon.png'
@@ -7,28 +8,24 @@ import LogoutIcon from '../../assets/icons/LogoutIcon.png'
 import ProfileCard from '../../components/profileComponent/ProfileCard'
 // import Logout from "../../components/profileComponent/Logout";
 
+import NicknameChangeModal from '../../components/profileComponent/profileModal/NicknameChangeModal'
+import RunningMateModal from '../../components/profileComponent/profileModal/RunningMateModal'
+import NotificationModal from '../../components/profileComponent/profileModal/NotificationModal'
+import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal'
 
 function Profile() {
 
   // 임시 데이터
-  const RoomIndex = 4;
+  const RoomIndex = 2;
   const CharacterIndex = 1;
   const Nickname = "펭소시치";
   const UserLevel = 54;
   const experiencePercentage = 65.2;
 
-  function button_A() {
-    console.log("닉네임 변경 버튼이 눌렸습니다.")
-  }
-  function button_B() {
-    console.log("러닝메이트 버튼이 눌렸습니다.")
-  }
-  function button_C() {
-    console.log("운동 알림 버튼이 눌렸습니다.")
-  }
-  function button_D() {
-    console.log("로그아웃 버튼이 눌렸습니다.")
-  }
+  const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
+  const [showRunningMateModal, setShowRunningMateModal] = useState(false);
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   return (
     <S.Container>
@@ -50,7 +47,7 @@ function Profile() {
           </S.TitleSetBox>
 
           <S.SetBox>
-            <S.ButtonBox onPress={button_A}>
+            <S.ButtonBox onPress={() => setShowNicknameChangeModal(true)}>
               <S.IconBox>
                 <S.ButtonIcon source={ChangeNicknameIcon} />
               </S.IconBox>
@@ -59,7 +56,7 @@ function Profile() {
               </S.TextBox>
             </S.ButtonBox>
 
-            <S.ButtonBox onPress={button_B}>
+            <S.ButtonBox onPress={() => setShowRunningMateModal(true)}>
               <S.IconBox>
                 <S.ButtonIcon source={ManageRunningMateIcon} />
               </S.IconBox>
@@ -68,7 +65,7 @@ function Profile() {
               </S.TextBox>
             </S.ButtonBox>
 
-            <S.ButtonBox onPress={button_C}>
+            <S.ButtonBox onPress={() => setShowNotificationModal(true)}>
               <S.IconBox>
                 <S.ButtonIcon source={NotificationIcon} />
               </S.IconBox>
@@ -77,7 +74,7 @@ function Profile() {
               </S.TextBox>
             </S.ButtonBox>
 
-            <S.DeleteButtonBox onPress={button_D}>
+            <S.DeleteButtonBox onPress={() => setShowLogoutModal(true)}>
               <S.IconBox>
                 <S.ButtonIcon source={LogoutIcon} />
               </S.IconBox>
@@ -91,6 +88,12 @@ function Profile() {
 
         <S.TabBox />
       </S.BackgroundImage>
+
+      <NicknameChangeModal showModal={showNicknameChangeModal} toggleModal={() => setShowNicknameChangeModal(!showNicknameChangeModal)} Nickname={Nickname} />
+      <RunningMateModal showModal={showRunningMateModal} toggleModal={() => setShowRunningMateModal(!showRunningMateModal)} />
+      <NotificationModal showModal={showNotificationModal} toggleModal={() => setShowNotificationModal(!showNotificationModal)} />
+      <LogoutModal showModal={showLogoutModal} toggleModal={() => setShowLogoutModal(!showLogoutModal)} />
+
     </S.Container>
   );
 };

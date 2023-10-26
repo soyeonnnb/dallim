@@ -12,8 +12,8 @@ export const CardBox = styled.ImageBackground`
 `;
 
 export const Header = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: flex-end;
   align-items: flex-start;
   width: 100%;

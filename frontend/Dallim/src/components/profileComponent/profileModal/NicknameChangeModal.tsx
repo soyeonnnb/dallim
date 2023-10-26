@@ -17,25 +17,25 @@ const NicknameChangeModal = ({ showModal, toggleModal, Nickname }: ModalComponen
     const handleConfirm = () => {
         if (Nickname === newNickname) {
             Toast.show({
-                type: 'info',
+                type: 'error',
                 position: 'top',
-                text1: '알림',
-                text2: '닉네임이 기존과 동일합니다.',
+                text1: '닉네임 중복 발생 !',
+                // text2: '부제',
                 visibilityTime: 4000,
                 autoHide: true,
-                topOffset: 30,
-                bottomOffset: 40
+                topOffset: 10,
+                // bottomOffset: 40
             });
         } else {
             Toast.show({
                 type: 'success',
                 position: 'top',
-                text1: '알림',
-                text2: '닉네임이 변경되었습니다.',
+                text1: '변경 완료 !',
+                // text2: '부제',
                 visibilityTime: 4000,
                 autoHide: true,
-                topOffset: 30,
-                bottomOffset: 40
+                topOffset: 10,
+                // bottomOffset: 40
             });
         }
         toggleModal();

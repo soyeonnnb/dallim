@@ -108,5 +108,9 @@ dependencies {
     implementation("com.google.android.gms:play-services-fitness:21.1.0")
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
+    // GSON
+    implementation("com.google.code.gson:gson:2.10.1")
+
+
 
 }

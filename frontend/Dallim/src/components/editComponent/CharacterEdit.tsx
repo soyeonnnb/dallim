@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './CharacterEdit.styles';
-import CharacterBox from './CharacterBox';
+import Character from './CharacterBox';
 import CharacterSelectModal from './editModal/CharacterSelectModal';
 import { characterData } from './CharacterData';
 type CharacterEditProps = {
@@ -54,7 +54,7 @@ function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps
 
       <S.Body>
         <S.CharacterBox>
-          <CharacterBox index={characterIndex} />
+          <Character index={characterIndex} />
         </S.CharacterBox>
       </S.Body>
 

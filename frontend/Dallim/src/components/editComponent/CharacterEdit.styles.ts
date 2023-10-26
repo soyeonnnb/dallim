@@ -6,9 +6,9 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const Top = styled.View`
-  border-width: 1px;
-  border-color: red;
+export const Header = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -16,23 +16,27 @@ export const Top = styled.View`
   height: 15%;
 `;
 
-export const TitleBox = styled.View`
-  border-width: 1px;
-  border-color: blue;
+export const DotBox = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
+  flex-direction: row;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
   height: 100%;
 `;
 
-export const SelectText = styled.Text`
-  font-size: 20px;
-  color: white;
+export const Dot = styled.View<{isActive: boolean}>`
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: ${props => (props.isActive ? 'black' : 'white')};
+  margin: 0 5px;
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -40,23 +44,23 @@ export const Body = styled.View`
 `;
 
 export const CharacterBox = styled.View`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   width: 80%;
   height: 90%;
 `;
 
-export const Bottom = styled.View`
-  border-width: 1px;
-  border-color: red;
+export const Footer = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 20%;
   align-items: center;
 `;
 
 export const ButtonBox = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: white;
+  /* border-width: 1px;
+  border-color: white; */
   border-radius: 20px;
   justify-content: center;
   align-items: center;
@@ -80,7 +84,7 @@ export const LevelText = styled.Text`
   color: black;
 `;
 
-export const LevelBox = styled.View`
+export const ExperienceBox = styled.View`
   /* border-width: 1px;
   border-color: white; */
   border-radius: 20px;
@@ -89,11 +93,11 @@ export const LevelBox = styled.View`
   height: 30%;
 `;
 
-type ExperienceBarProps = {
+type ExperienceProps = {
   percentage: number;
 };
 
-export const ExperienceBar = styled.View<ExperienceBarProps>`
+export const Experience = styled.View<ExperienceProps>`
   background-color: black;
   width: ${props => props.percentage}%;
   height: 100%;

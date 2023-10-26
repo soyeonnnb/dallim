@@ -2,8 +2,8 @@ import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
 
 export const Container = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   flex: 1;
   justify-content: center;
   align-items: center;

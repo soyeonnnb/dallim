@@ -13,7 +13,7 @@ export const BackgroundImage = styled(ImageBackground)`
   height: 100%;
 `;
 
-export const Top = styled.View`
+export const Header = styled.View`
   /* border-width: 1px;
   border-color: red; */
   flex-direction: row;
@@ -22,7 +22,7 @@ export const Top = styled.View`
   /* height: 175px; */
 `;
 
-export const Middle = styled.View`
+export const Body = styled.View`
   /* border-width: 1px;
   border-color: blue; */
   flex-direction: row;
@@ -30,7 +30,7 @@ export const Middle = styled.View`
   height: 55%;
 `;
 
-export const Bottom = styled.View`
+export const Footer = styled.View`
   /* border-width: 1px;
   border-color: red; */
   flex-direction: row;

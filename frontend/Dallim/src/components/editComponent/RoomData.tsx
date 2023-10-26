@@ -17,7 +17,7 @@ export const backgroundImage = {
 export const roomData: RoomType[] = [
   {
     Room: require('../../assets/Theme/RoomSample_1.png'),
-    Theme: require('../../assets/Theme/ThemeRed.png')
+    Theme: require('../../assets/Theme/ThemeBlack.png')
   },
   {
     Room: require('../../assets/Theme/RoomSample_2.png'),

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import * as S from './SocialBottom.styles';
+import * as S from './SocialFooter.styles';
 import FriendListModal from './socialModal/FriendListModal';
 
 function SocialBottom() {

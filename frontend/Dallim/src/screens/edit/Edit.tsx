@@ -68,8 +68,8 @@ function Edit() {
             <S.BackgroundImage
                 source={isOn ? backgroundImage.image : characterData[characterIndex].background}
                 resizeMode="cover">
-                <S.Top>
-                    <S.TopSide></S.TopSide>
+                <S.Header>
+                    <S.HeaderSide />
                     <S.TopMiddle>
                         <S.ToggleButtonWrapper onPress={toggleHandle}>
                             <S.ToggleButton
@@ -85,15 +85,16 @@ function Edit() {
                             </S.ToggleButton>
                         </S.ToggleButtonWrapper>
                     </S.TopMiddle>
-                    <S.TopSide>
+                    <S.HeaderSide>
                         <S.PointText>{TempPoint}P</S.PointText>
-                    </S.TopSide>
-                </S.Top>
+                    </S.HeaderSide>
+                </S.Header>
+
                 <S.Body>
                     <S.BodyLeft>
-                        <S.RotationBox onPress={isOn ? handlePreviousRoom : handlePreviousCharacter}>
-                            <S.DirectionIcon source={Left} />
-                        </S.RotationBox>
+                        <S.DirectionBox onPress={isOn ? handlePreviousRoom : handlePreviousCharacter}>
+                            <S.Direction source={Left} />
+                        </S.DirectionBox>
                     </S.BodyLeft>
                     <S.BodyCenter>
                         {
@@ -104,11 +105,12 @@ function Edit() {
                     </S.BodyCenter>
 
                     <S.BodyRight>
-                        <S.RotationBox onPress={isOn ? handleNextRoom : handleNextCharacter}>
-                            <S.DirectionIcon source={Right} />
-                        </S.RotationBox>
+                        <S.DirectionBox onPress={isOn ? handleNextRoom : handleNextCharacter}>
+                            <S.Direction source={Right} />
+                        </S.DirectionBox>
                     </S.BodyRight>
                 </S.Body>
+
                 <S.TabBox />
             </S.BackgroundImage>
         </S.Container>

@@ -15,17 +15,17 @@ export const BackgroundImage = styled(ImageBackground)`
   height: 100%;
 `;
 
-export const Top = styled.View`
-  border-width: 1px;
-  border-color: red;
+export const Header = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
   width: 100%;
   height: 15%;
 `;
 
 export const TopMiddle = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: flex-end;
   align-items: center;
   width: 40%;
@@ -57,9 +57,9 @@ export const ToggleImage = styled(Image)`
   height: 30px;
 `;
 
-export const TopSide = styled.View`
-  border-width: 1px;
-  border-color: blue;
+export const HeaderSide = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   width: 30%;
   height: 100%;
@@ -73,30 +73,30 @@ export const PointText = styled.Text`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   width: 100%;
   height: 75%;
 `;
 
-export const RotationBox = styled(TouchableOpacity)`
-  border-width: 1px;
-  border-color: red;
+export const DirectionBox = styled(TouchableOpacity)`
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: center;
   align-items: center;
   width: 80%;
   height: 10%;
 `;
 
-export const DirectionIcon = styled(Image)`
+export const Direction = styled(Image)`
   width: 20px;
   height: 30px;
 `;
 
 export const BodyLeft = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: center;
   align-items: center;
   width: 20%;
@@ -104,15 +104,15 @@ export const BodyLeft = styled.View`
 `;
 
 export const BodyCenter = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 60%;
   height: 100%;
 `;
 
 export const BodyRight = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: center;
   align-items: center;
   width: 20%;
@@ -120,8 +120,8 @@ export const BodyRight = styled.View`
 `;
 
 export const TabBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 10%;
 `;

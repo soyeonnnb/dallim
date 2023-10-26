@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as S from './CharacterEdit.styles';
 import CharacterBox from './CharacterBox';
 import CharacterSelectModal from './editModal/CharacterSelectModal';
-
+import { characterData } from './CharacterData';
 type CharacterEditProps = {
   onCharacterChange: (index: number) => void;
   characterIndex: number;
@@ -10,7 +10,6 @@ type CharacterEditProps = {
 
 function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps) {
 
-  const SelectText = '친구를 선택하세요';
   const Level = '10';
   const Experience = 40;
   const experiencePercentage = (Experience / 100) * 100;
@@ -44,27 +43,33 @@ function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps
 
   return (
     <S.Container>
-      <S.Top>
-        <S.TitleBox>
-          <S.SelectText>{SelectText}</S.SelectText>
-        </S.TitleBox>
-      </S.Top>
+
+      <S.Header>
+        <S.DotBox>
+          {characterData.map((_, index) => (
+            <S.Dot key={index} isActive={selectedCharacterIndex === index} />
+          ))}
+        </S.DotBox>
+      </S.Header>
+
       <S.Body>
         <S.CharacterBox>
           <CharacterBox index={characterIndex} />
         </S.CharacterBox>
       </S.Body>
-      <S.Bottom>
+
+      <S.Footer>
         <S.ButtonBox onPress={toggleModal}>
           <S.ButtonText>선택</S.ButtonText>
         </S.ButtonBox>
+
         <S.ButtomLevel>
           <S.LevelText>Level {Level}</S.LevelText>
-          <S.LevelBox>
-            <S.ExperienceBar percentage={experiencePercentage}></S.ExperienceBar>
-          </S.LevelBox>
+          <S.ExperienceBox>
+            <S.Experience percentage={experiencePercentage}></S.Experience>
+          </S.ExperienceBox>
         </S.ButtomLevel>
-      </S.Bottom>
+      </S.Footer>
 
       <CharacterSelectModal
         showModal={showModal}

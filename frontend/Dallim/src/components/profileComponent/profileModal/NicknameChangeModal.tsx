@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Alert, Modal } from 'react-native';
+import { Modal } from 'react-native';
 import * as S from './NicknameChangeModal.styles';
+import Toast from 'react-native-toast-message';
 
 type ModalComponentProps = {
     showModal: boolean;
@@ -12,14 +13,33 @@ const NicknameChangeModal = ({ showModal, toggleModal, Nickname }: ModalComponen
 
     const NoticeText = "닉네임은 한글/영문/숫자로 최대 5자까지 입력 가능합니다.";
     const [newNickname, setNewNickname] = useState(Nickname);
-    
+
     const handleConfirm = () => {
-        if (Nickname !== newNickname) {
-            Alert.alert('알림', '닉네임이 변경되었습니다.');
+        if (Nickname === newNickname) {
+            Toast.show({
+                type: 'info',
+                position: 'top',
+                text1: '알림',
+                text2: '닉네임이 기존과 동일합니다.',
+                visibilityTime: 4000,
+                autoHide: true,
+                topOffset: 30,
+                bottomOffset: 40
+            });
+        } else {
+            Toast.show({
+                type: 'success',
+                position: 'top',
+                text1: '알림',
+                text2: '닉네임이 변경되었습니다.',
+                visibilityTime: 4000,
+                autoHide: true,
+                topOffset: 30,
+                bottomOffset: 40
+            });
         }
         toggleModal();
     };
-
     return (
         <Modal
             transparent={true}

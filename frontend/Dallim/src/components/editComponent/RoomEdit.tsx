@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './RoomEdit.styles';
-import RoomBox from './RoomBox';
+import Room from './RoomBox';
 import { roomData } from './RoomData';
 import RoomSelectModal from './editModal/RoomSelectModal';
 
@@ -23,7 +23,6 @@ function RoomEdit({ onRoomChange, roomIndex, isOn }: RoomEditProps) {
     console.log(index + "번째 방이 눌렸습니다!(Index)")
     setSelectedRoomIndex(index);
     onRoomChange(index); // 상위 컴포넌트로 전달
-    // 여기에 캐릭터 Axios put 예정 
   }
 
   useEffect(() => {
@@ -41,23 +40,26 @@ function RoomEdit({ onRoomChange, roomIndex, isOn }: RoomEditProps) {
 
   return (
     <S.Container>
-      <S.Top>
-        <S.TopBox>
+
+      <S.Header>
+        <S.DotBox>
           {roomData.map((_, index) => (
             <S.Dot key={index} isActive={selectedRoomIndex === index} />
           ))}
-        </S.TopBox>
-      </S.Top>
+        </S.DotBox>
+      </S.Header>
+
       <S.Body>
         <S.RoomBox isOn={isOn}>
-          <RoomBox index={roomIndex} />
+          <Room index={roomIndex} />
         </S.RoomBox>
       </S.Body>
-      <S.Bottom>
+
+      <S.Footer>
         <S.ButtonBox onPress={toggleModal}>
           <S.ButtonText>선택</S.ButtonText>
         </S.ButtonBox>
-      </S.Bottom>
+      </S.Footer>
 
       <RoomSelectModal
         showModal={showModal}

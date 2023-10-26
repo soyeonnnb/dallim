@@ -42,7 +42,6 @@ function Main({ navigation }: any) {
   // 로그인으로 보내기 (삭제예정)
   function linkLogin() {
     console.log("로그인으로 보내는 버튼 눌림!");
-    // navigation.navigate('Login');
     navigation.reset({
       index: 0,
       routes: [{ name: 'Login' }],
@@ -63,7 +62,6 @@ function Main({ navigation }: any) {
         source={
           isOn
             ? require('../../assets/images/MainBackground2.png')
-            // : require('../../assets/images/MainBackground1.png')
             : require('../../assets/images/MainBackground3.png')
         }
         resizeMode="cover">
@@ -85,12 +83,14 @@ function Main({ navigation }: any) {
               </S.ToggleButtonWrapper>
             </S.ToggleButtonBackground>
           </S.HeaderLeft>
+
           <S.HeaderRight>
             <S.PointText isOn={isOn}>{TempPoint} P</S.PointText>
           </S.HeaderRight>
+
         </S.Header>
+
         <S.StampBox>
-          {/* 임시 버튼 : 로그인 스크린으로 보내기 도전 */}
           <S.Stamp>
             <S.SendButton onPress={linkLogin}>
               <S.StampImage source={CloseIcon} />
@@ -104,12 +104,14 @@ function Main({ navigation }: any) {
           </S.Stamp>
 
         </S.StampBox>
+
         <S.Body>
           <S.ThemeBox>
             <S.StyledImage source={RoomSample} />
             <S.StyledGif source={gifSources[gifSourcesIndex]} />
           </S.ThemeBox>
         </S.Body>
+
         <S.Bottom>
           <S.BottomBox>
             <S.LevelText isOn={isOn}>Lv. {TempLv}</S.LevelText>

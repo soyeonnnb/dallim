@@ -6,18 +6,18 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const Top = styled.View`
-  border-width: 1px;
-  border-color: red;
+export const Header = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 15%;
 `;
 
-export const TopBox = styled.View`
-  border-width: 1px;
-  border-color: blue;
+export const DotBox = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   justify-content: center;
   align-items: flex-end;
@@ -39,8 +39,8 @@ export const SelectText = styled.Text`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -48,23 +48,23 @@ export const Body = styled.View`
 `;
 
 export const RoomBox = styled.View<{isOn?: boolean}>`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   width: ${props => (props.isOn ? '100%' : '80%')};
   height: 90%;
 `;
 
-export const Bottom = styled.View`
-  border-width: 1px;
-  border-color: red;
+export const Footer = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 20%;
   align-items: center;
 `;
 
 export const ButtonBox = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: white;
+  /* border-width: 1px;
+  border-color: white; */
   border-radius: 20px;
   justify-content: center;
   align-items: center;
@@ -76,70 +76,4 @@ export const ButtonBox = styled.TouchableOpacity`
 export const ButtonText = styled.Text`
   font-size: 15px;
   color: white;
-`;
-
-export const ModalContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const ModalContent = styled.View`
-  background-color: white;
-  align-items: center;
-  padding: 20px;
-  border-radius: 15px;
-  width: 70%;
-  height: 200px;
-`;
-
-export const ModalHeader = styled.View`
-  border-width: 1px;
-  border-color: red;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 50%;
-`;
-
-export const ModalBody = styled.View`
-  border-width: 1px;
-  border-color: red;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 70%;
-  height: 50%;
-`;
-
-export const ModalText = styled.Text`
-  font-size: 15px;
-  color: black;
-`;
-
-export const ModalButton = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: white;
-  border-radius: 20px;
-  justify-content: center;
-  align-items: center;
-  background-color: #315182;
-  width: 60px;
-  height: 30px;
-`;
-
-export const ModalButtonText = styled.Text`
-  font-size: 15px;
-  color: white;
-`;
-
-export const ModalCancelButton = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: white;
-  border-radius: 20px;
-  justify-content: center;
-  align-items: center;
-  background-color: #E36F6F;
-  width: 60px;
-  height: 30px;
 `;

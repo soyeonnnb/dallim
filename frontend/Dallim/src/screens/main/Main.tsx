@@ -112,12 +112,12 @@ function Main({ navigation }: any) {
           </S.ThemeBox>
         </S.Body>
 
-        <S.Bottom>
-          <S.BottomBox>
+        <S.Footer>
+          <S.FooterBox>
             <S.LevelText isOn={isOn}>Lv. {TempLv}</S.LevelText>
             <S.NicknameText isOn={isOn}>{TempNickname}</S.NicknameText>
-          </S.BottomBox>
-        </S.Bottom>
+          </S.FooterBox>
+        </S.Footer>
 
         <S.TabBox />
       </S.BackgroundImage>

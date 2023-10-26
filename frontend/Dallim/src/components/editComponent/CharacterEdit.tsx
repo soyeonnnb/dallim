@@ -63,12 +63,12 @@ function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps
           <S.ButtonText>선택</S.ButtonText>
         </S.ButtonBox>
 
-        <S.ButtomLevel>
+        <S.LevelBox>
           <S.LevelText>Level {Level}</S.LevelText>
           <S.ExperienceBox>
             <S.Experience percentage={experiencePercentage}></S.Experience>
           </S.ExperienceBox>
-        </S.ButtomLevel>
+        </S.LevelBox>
       </S.Footer>
 
       <CharacterSelectModal

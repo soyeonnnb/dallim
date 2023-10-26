@@ -7,11 +7,7 @@ import Moon from '../../assets/images/LoginMoon.png';
 import NaverIcon from '../../assets/icons/NaverIcon.png';
 import KakaoIcon from '../../assets/icons/KakaoIcon.png';
 
-interface LoginProps {
-  navigation: any;
-}
-
-const Login = ({ navigation }: LoginProps) => {
+const Login = ({ navigation }: any) => {
   return (
     <S.Container>
       <S.BackgroundVideo

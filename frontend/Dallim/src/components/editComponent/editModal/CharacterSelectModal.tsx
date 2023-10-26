@@ -1,9 +1,10 @@
 import React from 'react';
 import { Modal } from 'react-native';
-import * as S from './SelectModal.styles'; // 스타일 컴포넌트 임포트
+import * as S from './SelectModal.styles';
 import { selectedRoom } from '../RoomData';
 import { characterData } from '../CharacterData';
 import FastImage from 'react-native-fast-image';
+import Toast from 'react-native-toast-message';
 
 type ModalComponentProps = {
     showModal: boolean;
@@ -13,6 +14,20 @@ type ModalComponentProps = {
 };
 
 const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, characterIndex }: ModalComponentProps) => {
+
+    const handleConfirmCharacterChange = () => {
+        Toast.show({
+            type: 'success',
+            position: 'top',
+            text1: '대표 캐릭터 변경 완료 !',
+            visibilityTime: 3000,
+            autoHide: true,
+            topOffset: 10,
+        });
+
+        confirmCharacterChange();
+    };
+
 
     return (
         <Modal
@@ -43,7 +58,7 @@ const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, 
 
                     </S.ModalBody>
                     <S.ModalFooter>
-                        <S.ModalButton onPress={confirmCharacterChange}>
+                        <S.ModalButton onPress={handleConfirmCharacterChange}>
                             <S.ModalButtonText>확인</S.ModalButtonText>
                         </S.ModalButton>
                         <S.ModalCancelButton onPress={toggleModal}>

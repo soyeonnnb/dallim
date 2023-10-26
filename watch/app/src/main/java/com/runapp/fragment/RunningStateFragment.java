@@ -13,12 +13,15 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.runapp.R;
 import com.runapp.model.RunningViewModel;
+import com.runapp.util.Conversion;
 
 import java.util.Locale;
+import java.util.Map;
 
 public class RunningStateFragment extends Fragment {
 
     private RunningViewModel runningViewModel;
+    private Conversion conversion = new Conversion();
 
     @Nullable
     @Override
@@ -41,12 +44,37 @@ public class RunningStateFragment extends Fragment {
             timeView.setText(elapsedTime);
         });
 
-        runningViewModel.getSpeed().observe(getViewLifecycleOwner(), speed ->{
-            float speedKmH = speed * 3.6f;
-            TextView speedView = view.findViewById(R.id.tv_speed);
-            speedView.setText(String.format(Locale.getDefault(), "%.2f km/h", speedKmH));
+        final double MAX_REALISTIC_PACE = 20.0;
+
+        // ms로 들어옴
+        runningViewModel.getMsPace().observe(getViewLifecycleOwner(), speed ->{
+            TextView paceView = view.findViewById(R.id.tv_pace);
+            if (speed <= 0) {
+                paceView.setText("0'0''");
+                return;
+            }
+            Map<String, Object> result;
+            int minute = 0;
+            int second = 0;
+
+            if(speed != 0f){
+                result = conversion.msToPace(speed);
+                minute = (int) result.get("minutes");
+                second = (int) result.get("seconds");
+            }
+
+            if (minute > MAX_REALISTIC_PACE) {
+                paceView.setText("정지");
+                return;
+            }
+
+            paceView.setText(String.format(Locale.getDefault(), "%d'%02d''", minute, second));
         });
 
+        runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance ->{
+            TextView distanceView = view.findViewById(R.id.tv_distance);
+            distanceView.setText(distance.toString());
+        });
         return view;
     }
 

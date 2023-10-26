@@ -12,11 +12,11 @@ public class Conversion {
         // m/s를 분으로 변환
         float paceMinutesFloat = (1000 / speed) / 60;
         int minutes = (int) paceMinutesFloat; // 정수 부분
-        result.put("minutes", paceMinutesFloat);
+        result.put("minutes", minutes);
 
         // m/s를 초로 변환
-        float seconds = (paceMinutesFloat - minutes) * 60;
-        result.put("seconds", seconds);
+        int secondsInt = Math.round((paceMinutesFloat - minutes) * 60);
+        result.put("seconds", secondsInt);
 
         return result;
     }

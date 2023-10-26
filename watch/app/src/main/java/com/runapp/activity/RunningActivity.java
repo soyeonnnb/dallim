@@ -35,9 +35,12 @@ import com.runapp.service.LocationService;
 import com.runapp.service.SensorService;
 import com.runapp.service.TimerService;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Executor;
@@ -53,13 +56,16 @@ public class RunningActivity extends AppCompatActivity {
     private LocationManager lm;
     private Location previousLocation;
     private float totalDistance = 0f;
-    private float initialStepCount = -1;
+    private float initialStepCount = 0f;
     private List<RunDetail> runDetailsList = new ArrayList<>();
     private AppDatabase db;
     private RunningData runningData;
     private final Executor executor = Executors.newSingleThreadExecutor();
-    private Long totalTime = 0L;
+    private Long totalTime = 1L;
     private float totalSpeed = 0f;
+    // 심박수 평균을 위한 카운트
+    private int heartCountTime = 0;
+    private float totalHeartRate = 0f;
 
 
     @Override
@@ -72,13 +78,23 @@ public class RunningActivity extends AppCompatActivity {
 
         runningData = new RunningData();
         runningData.setUserId(1L);
-        runningData.setDate(LocalDateTime.now());
+        runningData.setDate(new Date());
         runningData.setFormattedDate(formatDate(runningData.getDate()));
         runningData.setCharacter("pen");
+
+        // 혼자달리기인지 함께달리기인지 구분
+        String type = getIntent().getStringExtra("run_type");
+        if(type.equals("PAIR")){
+            runningData.setType("PAIR");
+        }else if(type.equals("ALONE")){
+            runningData.setType("ALONE");
+        }
 
         // 러닝 뷰 모델을 생성한다.
         runningViewModel = new ViewModelProvider(this).get(RunningViewModel.class);
         runningViewModel.getRunningData().setValue(runningData);
+        runningViewModel.setDistance(0f);
+        runningViewModel.setMsPace(0f);
 
         // 뷰페이저2를 생성(activity_running.xml에서 가져옴)
         ViewPager2 viewPager = binding.viewPager;
@@ -114,17 +130,17 @@ public class RunningActivity extends AppCompatActivity {
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         // 29버전 이상이면
-        if ( Build.VERSION.SDK_INT >= 29 &&
-                ContextCompat.checkSelfPermission( getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED ) {
-            ActivityCompat.requestPermissions( RunningActivity.this, new String[] {
-                    android.Manifest.permission.ACCESS_FINE_LOCATION}, 0 );
+        if (Build.VERSION.SDK_INT >= 29 &&
+                ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(RunningActivity.this, new String[]{
+                    android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
             // 위치정보를 원하는 시간, 거리마다 갱신해준다.
             Log.d("위치정보", "정보 들어옴");
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     1000,
                     1,
                     gpsLocationListener);
-        }else{
+        } else {
             Log.d("위치정보", "정보 들어옴");
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     1000,
@@ -152,40 +168,19 @@ public class RunningActivity extends AppCompatActivity {
             Log.d("현재 속도", String.valueOf(speed));
             runningViewModel.setMsPace(speed);
         }
+
         public void onStatusChanged(String provider, int status, Bundle extras) {
 
-        } public void onProviderEnabled(String provider) {
+        }
 
-        } public void onProviderDisabled(String provider) {
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        public void onProviderDisabled(String provider) {
 
         }
     };
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        sensorService.unregisterSensors(); // 센서 리스너 등록 해제
-        timerService.stopTimer(); // 타이머 중지
-
-        // LocationService 종료
-        Intent serviceIntent = new Intent(this, LocationService.class);
-        stopService(serviceIntent);
-
-        // 위치 업데이트 종료시킴
-        if (lm != null && gpsLocationListener != null) {
-            lm.removeUpdates(gpsLocationListener);
-        }
-
-        runningData.setDetails(runDetailsList);
-        runningData.setStepCounter(initialStepCount);
-
-        // 최종 시간 업데이트
-        long elapsedTime = timerService.getElapsedTime();
-        runningData.setTotalTime(totalTime);
-
-        addRunningData(runningData);
-    }
-
 
     /*
         센서 이벤트 리스너를 만들어서 변경사항을 추적함.
@@ -202,13 +197,17 @@ public class RunningActivity extends AppCompatActivity {
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_HEART_RATE) {
                     // 센서값을 꺼내서 뷰모델에 갱신해준다.
                     float heartRate = sensorEvent.values[0];
+                    if(heartRate != 0){
+                        heartCountTime++;
+                        totalHeartRate += heartRate;
+                    }
                     runningViewModel.setHeartRate(heartRate);
                 }
                 // 센서의 타입이 발걸음이면
-                else if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER){
+                else if (sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
                     // 발걸음을 계산해서 뷰모델에 갱신해준다.
                     float currentTotalSteps = sensorEvent.values[0];
-                    if(initialStepCount == -1){
+                    if (initialStepCount == 0) {
                         initialStepCount = currentTotalSteps;
                     }
 
@@ -217,6 +216,7 @@ public class RunningActivity extends AppCompatActivity {
                     runningViewModel.setStepCounter(sessionSteps);
                 }
             }
+
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
                 // 필요에 따라 정확도 변경 처리
@@ -224,6 +224,7 @@ public class RunningActivity extends AppCompatActivity {
         };
     }
 
+    // 시간 업데이트 메서드
     private void updateTimer() {
         long millis = timerService.getElapsedTime();
         int seconds = (int) (millis / 1000);
@@ -275,18 +276,50 @@ public class RunningActivity extends AppCompatActivity {
     }
 
     // 날짜 형식 변환해주는 메서드
-    private String formatDate(LocalDateTime date) {
+    private String formatDate(Date date) {
+        Instant instant = date.toInstant();
+        ZoneId zoneId = ZoneId.systemDefault();
+        LocalDateTime localDateTime = instant.atZone(zoneId).toLocalDateTime();
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 (E)", Locale.KOREAN);
-        return date.format(formatter);
+        return localDateTime.format(formatter);
     }
 
     // 데이터 추가(메인 스레드에서 분리하기 위해서)
-    private void addRunningData(RunningData runningData){
+    private void addRunningData(RunningData runningData) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
                 db.runningDataDAO().insert(runningData);
             }
         });
+    }
+
+    // 종료
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sensorService.unregisterSensors(); // 센서 리스너 등록 해제
+        timerService.stopTimer(); // 타이머 중지
+
+        // LocationService 종료
+        Intent serviceIntent = new Intent(this, LocationService.class);
+        stopService(serviceIntent);
+
+        // 위치 업데이트 종료시킴
+        if (lm != null && gpsLocationListener != null) {
+            lm.removeUpdates(gpsLocationListener);
+        }
+
+        runningData.setDetails(runDetailsList);
+        runningData.setStepCounter(runningViewModel.getStepCounter().getValue());
+        runningData.setTotalDistance(runningViewModel.getDistance().getValue());
+        runningData.setAvgHeartRate((float) (Math.round((totalHeartRate/heartCountTime) * 1000) / 1000.0));
+
+        // 최종 시간 업데이트
+        long elapsedTime = timerService.getElapsedTime();
+        runningData.setTotalTime(totalTime - 1);
+
+        addRunningData(runningData);
     }
 }

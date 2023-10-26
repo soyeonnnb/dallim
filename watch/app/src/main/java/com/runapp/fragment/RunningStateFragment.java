@@ -15,6 +15,7 @@ import com.runapp.R;
 import com.runapp.model.RunningViewModel;
 import com.runapp.util.Conversion;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -53,14 +54,14 @@ public class RunningStateFragment extends Fragment {
                 paceView.setText("0'0''");
                 return;
             }
-            Map<String, Object> result;
+            Map<String, Object> result = new HashMap<>();
             int minute = 0;
             int second = 0;
 
-            if(speed != 0f){
+            if(speed != 0){
                 result = conversion.msToPace(speed);
-                minute = (int) result.get("minutes");
-                second = (int) result.get("seconds");
+                minute = (int) ((Float) result.get("minutes")).floatValue();
+                second = (int) ((Float) result.get("seconds")).floatValue();
             }
 
             if (minute > MAX_REALISTIC_PACE) {

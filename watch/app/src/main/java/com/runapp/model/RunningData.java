@@ -7,7 +7,9 @@ import androidx.room.TypeConverters;
 
 import com.runapp.database.RunningDataConverters;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,7 +19,7 @@ public class RunningData {
     @ColumnInfo(name = "user_id")
     private Long userId; // 유저 ID값
     @ColumnInfo(name = "date")
-    private LocalDateTime date; // 저장 날짜
+    private Date date; // 저장 날짜
     @ColumnInfo(name = "formatted_date")
     private String formattedDate; // 변환된 날짜
     @ColumnInfo(name = "total_distance")
@@ -33,7 +35,7 @@ public class RunningData {
     @ColumnInfo(name = "avg_heart_rate")
     private float avgHeartRate; // 평균 심박수
     @ColumnInfo(name = "type")
-    private boolean type; // 혼자뛰었는지 같이 뛰었는지
+    private String type; // 혼자뛰었는지 같이 뛰었는지
     @ColumnInfo(name = "rival_id")
     private String rivalId;
     @TypeConverters(RunningDataConverters.class)
@@ -64,11 +66,11 @@ public class RunningData {
         this.userId = userId;
     }
 
-    public LocalDateTime getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -88,11 +90,11 @@ public class RunningData {
         this.avgHeartRate = avgHeartRate;
     }
 
-    public boolean isType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(boolean type) {
+    public void setType(String type) {
         this.type = type;
     }
 

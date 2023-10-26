@@ -26,13 +26,22 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.runapp.adapter.ViewPagerAdapter;
+import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivityRunningBinding;
+import com.runapp.model.RunDetail;
+import com.runapp.model.RunningData;
 import com.runapp.model.RunningViewModel;
 import com.runapp.service.LocationService;
 import com.runapp.service.SensorService;
 import com.runapp.service.TimerService;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class RunningActivity extends AppCompatActivity {
 
@@ -41,11 +50,16 @@ public class RunningActivity extends AppCompatActivity {
     private SensorService sensorService;
     private TimerService timerService;
     private SensorEventListener universalSensorListener;
-    private long startTime;
     private LocationManager lm;
     private Location previousLocation;
-    private float totalDistance;
+    private float totalDistance = 0f;
     private float initialStepCount = -1;
+    private List<RunDetail> runDetailsList = new ArrayList<>();
+    private AppDatabase db;
+    private RunningData runningData;
+    private final Executor executor = Executors.newSingleThreadExecutor();
+    private Long totalTime = 0L;
+    private float totalSpeed = 0f;
 
 
     @Override
@@ -54,8 +68,17 @@ public class RunningActivity extends AppCompatActivity {
         binding = ActivityRunningBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        db = AppDatabase.getDatabase(getApplicationContext());
+
+        runningData = new RunningData();
+        runningData.setUserId(1L);
+        runningData.setDate(LocalDateTime.now());
+        runningData.setFormattedDate(formatDate(runningData.getDate()));
+        runningData.setCharacter("pen");
+
         // 러닝 뷰 모델을 생성한다.
         runningViewModel = new ViewModelProvider(this).get(RunningViewModel.class);
+        runningViewModel.getRunningData().setValue(runningData);
 
         // 뷰페이저2를 생성(activity_running.xml에서 가져옴)
         ViewPager2 viewPager = binding.viewPager;
@@ -73,8 +96,8 @@ public class RunningActivity extends AppCompatActivity {
         sensorService.registerStepCounterSensor();
 
         // 위치 서비스에 대한 Intent를 생성하고 ForegroundService로 시작한다.
-        Intent serviceIntent = new Intent(this, LocationService.class);
-        ContextCompat.startForegroundService(this, serviceIntent);
+//        Intent serviceIntent = new Intent(this, LocationService.class);
+//        ContextCompat.startForegroundService(this, serviceIntent);
 
         // TimerService 생성 및 시작
         Handler timerHandler = new Handler(Looper.getMainLooper());
@@ -99,13 +122,13 @@ public class RunningActivity extends AppCompatActivity {
             Log.d("위치정보", "정보 들어옴");
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     1000,
-                    0,
+                    1,
                     gpsLocationListener);
         }else{
             Log.d("위치정보", "정보 들어옴");
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER,
                     1000,
-                    0,
+                    1,
                     gpsLocationListener);
         }
     }
@@ -125,8 +148,9 @@ public class RunningActivity extends AppCompatActivity {
             previousLocation = location;
 
             float speed = location.getSpeed();// 속도정보
+            totalSpeed += speed; // 평균 속도를 구하기 위해서 계속 더해줌
             Log.d("현재 속도", String.valueOf(speed));
-            runningViewModel.setSpeed(speed);
+            runningViewModel.setMsPace(speed);
         }
         public void onStatusChanged(String provider, int status, Bundle extras) {
 
@@ -146,6 +170,20 @@ public class RunningActivity extends AppCompatActivity {
         // LocationService 종료
         Intent serviceIntent = new Intent(this, LocationService.class);
         stopService(serviceIntent);
+
+        // 위치 업데이트 종료시킴
+        if (lm != null && gpsLocationListener != null) {
+            lm.removeUpdates(gpsLocationListener);
+        }
+
+        runningData.setDetails(runDetailsList);
+        runningData.setStepCounter(initialStepCount);
+
+        // 최종 시간 업데이트
+        long elapsedTime = timerService.getElapsedTime();
+        runningData.setTotalTime(totalTime);
+
+        addRunningData(runningData);
     }
 
 
@@ -195,6 +233,22 @@ public class RunningActivity extends AppCompatActivity {
         String formattedTime = String.format(Locale.getDefault(), "%02d분 %02d초", minutes, seconds);
         Log.d("시간", formattedTime);
 
+        RunDetail detail = new RunDetail();
+        if (runningViewModel.getDistance().getValue() != null) {
+            detail.setDistance(runningViewModel.getDistance().getValue());
+        }
+        if (runningViewModel.getMsPace().getValue() != null) {
+            detail.setPace(runningViewModel.getMsPace().getValue());
+        }
+        if (runningViewModel.getHeartRate().getValue() != null) {
+            detail.setHeartRate(runningViewModel.getHeartRate().getValue());
+        }
+        detail.setTime(totalTime++);
+
+        runDetailsList.add(detail);
+
+        Log.d("리스트", runDetailsList.toString());
+
         runningViewModel.setElapsedTime(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
     }
 
@@ -218,5 +272,21 @@ public class RunningActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(locationUpdateReceiver);
+    }
+
+    // 날짜 형식 변환해주는 메서드
+    private String formatDate(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 (E)", Locale.KOREAN);
+        return date.format(formatter);
+    }
+
+    // 데이터 추가(메인 스레드에서 분리하기 위해서)
+    private void addRunningData(RunningData runningData){
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.runningDataDAO().insert(runningData);
+            }
+        });
     }
 }

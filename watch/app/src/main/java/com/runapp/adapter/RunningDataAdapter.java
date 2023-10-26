@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.runapp.R;
+import com.runapp.model.RunDetail;
 import com.runapp.model.RunningData;
 
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.ViewHolder> {
 
     private List<RunningData> runningDataList;
+    private RunDetail runDetail;
 
     public RunningDataAdapter(List<RunningData> runningDataList) {
         this.runningDataList = runningDataList;
@@ -35,12 +37,12 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RunningData runningData = runningDataList.get(position);
-        String character = runningData.character;
+        String character = runningData.getCharacter();
         // 데이터를 ViewHolder의 뷰에 바인딩합니다.
-        holder.formattedDate.setText(String.valueOf(runningData.formattedDate));
+        holder.formattedDate.setText(String.valueOf(runningData.getFormattedDate()));
 
         // heartRate에 "bpm"을 포함한 문자열을 설정하고, "bpm" 부분의 글자 크기를 조정합니다.
-        String distanceText = String.valueOf(runningData.distance) + " km";
+        String distanceText = String.valueOf(runDetail.getDistance()) + " km";
         SpannableString spannableDistance = new SpannableString(distanceText);
         int indexOfDISTANCE = distanceText.indexOf("km");
         if (indexOfDISTANCE != -1) {
@@ -49,7 +51,7 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
         holder.distance.setText(spannableDistance);
 
         // heartRate에 "bpm"을 포함한 문자열을 설정하고, "bpm" 부분의 글자 크기를 조정합니다.
-        String speedText = String.valueOf(runningData.speed) + " min/km";
+        String speedText = String.valueOf(runDetail.getPace()) + " min/km";
         SpannableString spannableSpeed = new SpannableString(speedText);
         int indexOfSPEED = speedText.indexOf("min/km");
         if (indexOfSPEED != -1) {
@@ -58,14 +60,14 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
         holder.speed.setText(spannableSpeed);
 
         // heartRate에 "bpm"을 포함한 문자열을 설정하고, "bpm" 부분의 글자 크기를 조정합니다.
-        String heartRateText = String.valueOf(runningData.heartRate) + " bpm";
+        String heartRateText = String.valueOf(runDetail.getHeartRate()) + " bpm";
         SpannableString spannableHeartRate = new SpannableString(heartRateText);
         int indexOfBPM = heartRateText.indexOf("bpm");
         if (indexOfBPM != -1) {
             spannableHeartRate.setSpan(new RelativeSizeSpan(0.70f), indexOfBPM, indexOfBPM + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         holder.heartRate.setText(spannableHeartRate);
-        holder.time.setText(convertTime(runningData.time));
+        holder.time.setText(convertTime(runDetail.getTime()));
         int resId = holder.itemView.getContext().getResources().getIdentifier(character, "drawable", holder.itemView.getContext().getPackageName());
         holder.myRecordCharacter.setImageResource(resId);
     }

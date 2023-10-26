@@ -137,14 +137,14 @@ export const StyledGif = styled(FastImage)`
   position: absolute;
 `;
 
-export const Bottom = styled.View`
+export const Footer = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
   height: 10%;
 `;
 
-export const BottomBox = styled.View`
+export const FooterBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   justify-content: center;

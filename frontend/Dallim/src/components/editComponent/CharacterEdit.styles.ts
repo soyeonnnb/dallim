@@ -69,7 +69,7 @@ export const ButtonBox = styled.TouchableOpacity`
   height: 50%;
 `;
 
-export const ButtomLevel = styled.View`
+export const LevelBox = styled.View`
   /* border-width: 1px;
   border-color: white; */
   flex-direction: row;
@@ -107,11 +107,4 @@ export const Experience = styled.View<ExperienceProps>`
 export const ButtonText = styled.Text`
   font-size: 15px;
   color: white;
-`;
-
-export const TabBox = styled.View`
-  border-width: 1px;
-  border-color: red;
-  width: 100%;
-  height: 10%;
 `;

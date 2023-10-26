@@ -17,16 +17,16 @@ public class UserLevel {
 
     private int level=1;
 
-    private int totalExp=0;
+    private int exp=0;
 
 
-    public void setTotalExp(int totalExp){
-        this.totalExp = totalExp;
+    public void addExp(int exp){
+        this.exp += exp;
         setUserLevel();
     }
 
     private void setUserLevel(){
-        int e = this.totalExp;
+        int e = this.exp;
 
         int lv = 1;
         if(e<500){

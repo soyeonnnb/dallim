@@ -472,6 +472,11 @@ public class UserService {
         User user = getUser.getUser();
 
         List<User> res = userRepository.getUserIdAndFollowerId(user.getUserId());
+        Map<Long, User> users = new HashMap<>();
+        res.stream()
+                .forEach(o -> {
+                    users.put(o.getUserId(), o);
+                });
 
         List<Long> userIds = res
                 .stream()
@@ -497,7 +502,8 @@ public class UserService {
 
             if (userRankingInfo == null) {
                 // userId가 없는 경우, 새 UserRankingInfo 객체를 만들어 Map에 추가
-                userRankingInfo = new UserRankingInfo(record);
+                User one = users.get(record.getUser().getUserId());
+                userRankingInfo = new UserRankingInfo(record, one);
                 userIdToInfoMap.put(userId, userRankingInfo);
             } else {
                 // userId가 있는 경우, cumulativeDistance를 업데이트
@@ -516,5 +522,52 @@ public class UserService {
         });
 
         return jwtUtil.createAccessJwt(user.getUserId(), secretKey);
+    }
+
+    public List<UserRankingInfo> getWeeklyRankingWithAll(int year, int month, int week) {
+        List<User> res = userRepository.findAll();
+        Map<Long, User> users = new HashMap<>();
+        res.stream()
+            .forEach(o -> {
+                users.put(o.getUserId(), o);
+            });
+
+        List<Long> userIds = res
+                .stream()
+                .map(o -> {
+                    return o.getUserId();
+                })
+                .collect(toList());
+
+        // 나 + 모든 유저 달리기 기록 가져오기
+        LocalDateTime start = LocalDateTime.of(year, month, 1, 0, 0);
+        start = start.with(TemporalAdjusters.firstInMonth(start.getDayOfWeek()));
+        start = start.plusWeeks(week - 1);
+
+        LocalDateTime end = start.plusWeeks(1);
+
+        List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserIdInAndCreatedAtBetween(userIds,start,end);
+
+        Map<Long, UserRankingInfo> userIdToInfoMap = new HashMap<>();
+
+        findRunningRecord.forEach(record -> {
+            Long userId = record.getUser().getUserId();
+            UserRankingInfo userRankingInfo = userIdToInfoMap.get(userId);
+
+            if (userRankingInfo == null) {
+                // userId가 없는 경우, 새 UserRankingInfo 객체를 만들어 Map에 추가
+                User user = users.get(record.getUser().getUserId());
+                userRankingInfo = new UserRankingInfo(record, user);
+                userIdToInfoMap.put(userId, userRankingInfo);
+            } else {
+                // userId가 있는 경우, cumulativeDistance를 업데이트
+                userRankingInfo.setCumulativeDistance(userRankingInfo.getCumulativeDistance() + record.getTotalDistance());
+            }
+        });
+
+        List<UserRankingInfo> resultList = new ArrayList<>(userIdToInfoMap.values());
+        resultList.sort(Comparator.comparing(UserRankingInfo::getCumulativeDistance).reversed());
+        return resultList;
+
     }
 }

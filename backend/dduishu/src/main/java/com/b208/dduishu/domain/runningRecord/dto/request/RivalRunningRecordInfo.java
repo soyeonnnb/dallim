@@ -1,6 +1,7 @@
 package com.b208.dduishu.domain.runningRecord.dto.request;
 
-import com.b208.dduishu.domain.character.dto.request.CharacterInfo;
+import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
+import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.entity.RunningType;
 import com.b208.dduishu.domain.user.dto.request.UserInfo;
@@ -20,14 +21,12 @@ public class RivalRunningRecordInfo {
 
     private String id;
     private UserInfo user;
-    private CharacterInfo character;
+    private CharacterOverview character;
     private RunningType type;
-    private List<RunningRecordDistanceInfo> runningRecordDistanceInfos;
-    private List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos;
+    private List<RunningRecordOverallInfo> runningRecordInfos;
     private int totalTime;
     private int totalDistance;
     private int averageSpeed;
-    private int averageCalory;
     private LocalDateTime createdAt;
 
     @Builder
@@ -36,12 +35,10 @@ public class RivalRunningRecordInfo {
         this.user = runningRecord.getUser();
         this.character = runningRecord.getCharacter();
         this.type = runningRecord.getType();
-        this.runningRecordDistanceInfos = runningRecord.getRunningRecordDistanceInfos();
-        this.runningRecordHeartRateInfos = runningRecord.getRunningRecordHeartRateInfos();
+        this.runningRecordInfos = runningRecord.getRunningRecordInfos();
         this.totalTime = runningRecord.getTotalTime();
         this.totalDistance = runningRecord.getTotalDistance();
         this.averageSpeed = runningRecord.getAverageSpeed();
-        this.averageCalory = runningRecord.getAverageCalorie();
         this.createdAt = runningRecord.getCreatedAt();
     }
 }

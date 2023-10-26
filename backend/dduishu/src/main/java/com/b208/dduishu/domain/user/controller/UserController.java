@@ -73,10 +73,21 @@ public class UserController {
         return ResponseEntity.status(200).body(result);
     }
 
-    @GetMapping("/api/v1/user/ranking")
+    @GetMapping("/api/v1/user/follow-ranking")
     public ApiResponse<?> getWeeklyRankingWithFollower(@RequestParam int year, @RequestParam int month, @RequestParam int week) {
         try {
             List<UserRankingInfo> res = userService.getWeeklyRankingWithFollower(year, month, week);
+
+            return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
+    @GetMapping("/api/v1/user/all-ranking")
+    public ApiResponse<?> getWeeklyRankingWithAll(@RequestParam int year, @RequestParam int month, @RequestParam int week) {
+        try {
+            List<UserRankingInfo> res = userService.getWeeklyRankingWithAll(year, month, week);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {

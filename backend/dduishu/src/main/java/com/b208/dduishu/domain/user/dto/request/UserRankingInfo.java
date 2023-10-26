@@ -13,10 +13,10 @@ public class UserRankingInfo {
     private int cumulativeDistance;
     private int level;
 
-    public UserRankingInfo(RunningRecord runningRecord) {
-        this.userId = runningRecord.getUser().getUserId();
-        this.nickname = runningRecord.getUser().getNickname();
+    public UserRankingInfo(RunningRecord runningRecord, User user) {
+        this.userId = user.getUserId();
+        this.nickname = user.getNickname();
         this.cumulativeDistance = runningRecord.getTotalDistance();
-        this.level = runningRecord.getUser().getLevel();
+        this.level = user.getUserLevel().getLevel();
     }
 }

@@ -1,6 +1,6 @@
 package com.b208.dduishu.domain.runningRecord.dto.request;
 
-import com.b208.dduishu.domain.character.dto.request.CharacterInfo;
+import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.entity.RunningType;
 import com.b208.dduishu.domain.runningRecordDistance.document.RunningRecordDistance;
@@ -20,19 +20,19 @@ public class RunningRecordInfo {
     private Long characterId;
     private RunningType type;
     private ObjectId rivalRecordId;
-
-
+    private int totalTime;
+    private int totalDistance;
+    private int averageSpeed;
     //러닝 데이터 받아오기
     // 운동일시, 총 시간, 평균 속력, 이동 거리, 평균 심박수
     // + 위치정보
     // + 생체정보 +a
-    private List<RunningRecordDistanceInfo> runningRecordDistanceInfos;
-    private List<RunningRecordHeartRateInfo> runningRecordHeartRateInfos;
+    private List<RunningRecordOverallInfo> runningRecordInfos;
 
     public RunningRecord toRunningRecord(User user, Character character, RunningRecord rivalRecord){
 
         UserInfo userInfo = new UserInfo(user);
-        CharacterInfo characterInfo = new CharacterInfo(character);
+        CharacterOverview characterInfo = new CharacterOverview(character);
         RivalRunningRecordInfo rivalRunningRecordInfo = null;
         if (rivalRecord != null) {
             rivalRunningRecordInfo = new RivalRunningRecordInfo(rivalRecord);
@@ -42,12 +42,10 @@ public class RunningRecordInfo {
                 .character(characterInfo)
                 .type(this.type)
                 .rivalRecord(rivalRunningRecordInfo)
-                .runningRecordDistanceInfos(this.runningRecordDistanceInfos)
-                .runningRecordHeartRateInfos(this.runningRecordHeartRateInfos)
-                .totalTime(10)
-                .totalDistance(100)
-                .averageSpeed(0)
-                .averageCalorie(0)
+                .runningRecordInfos(this.runningRecordInfos)
+                .totalTime(this.totalTime)
+                .totalDistance(this.totalDistance)
+                .averageSpeed(this.averageSpeed)
                 .build();
     }
 }

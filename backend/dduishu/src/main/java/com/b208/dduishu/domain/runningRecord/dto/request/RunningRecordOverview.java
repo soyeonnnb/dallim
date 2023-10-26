@@ -21,7 +21,6 @@ public class RunningRecordOverview {
     private int totalTime;
     private int totalDistance;
     private int averageSpeed;
-    private int averageCalory;
     private LocalDateTime createdAt;
 
     public RunningRecordOverview(RunningRecord runningRecord) {
@@ -31,7 +30,6 @@ public class RunningRecordOverview {
         this.totalTime = runningRecord.getTotalTime();
         this.totalDistance = runningRecord.getTotalDistance();
         this.averageSpeed = runningRecord.getAverageSpeed();
-        this.averageCalory = runningRecord.getAverageCalorie();
         this.createdAt = runningRecord.getCreatedAt();
     }
 

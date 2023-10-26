@@ -56,6 +56,7 @@ public class RunningRecordService {
     }
 
 
+    @Transactional
     public void saveRunningRecord(RunningRecordInfo req) {
         // user, character, rivalRunningRecord 가져오기
         User user = userRepository.findByUserId(req.getUserId()).orElseThrow(() -> {
@@ -71,27 +72,18 @@ public class RunningRecordService {
                 throw new NullPointerException();
             });
         }
-        // .totalTime(10)
-        // .totalDistance(100)
-        // .averageSpeed(0)
-        // .averageCalory(0)
-
 
         // 유저 누적시간, 누적이동거리, 누적칼로리 계산
-        user.addCumulativeDistance(1111);
-        user.addCumulativeRunningTime(1111);
-        user.addCumulativeCalorie(1111);
+        user.addCumulativeDistance(req.getTotalDistance());
+        user.addCumulativeRunningTime(req.getTotalTime());
+        //user.addCumulativeCalorie(req.);
 
         // 경험치 정산 - 이동거리
-        character.getCharacterLevel().addExp(10);
-        int totalExp = 0;
-        for(Character c : user.getCharacterList()){
-            totalExp += c.getCharacterLevel().getExp();
-        }
-        user.getUserLevel().setTotalExp(totalExp);
+        character.getCharacterLevel().addExp(req.getTotalDistance());
+        user.getUserLevel().addExp(req.getTotalDistance());
 
         // 포인트 정산 - 이동 거리 + a
-        user.addPoint(100);
+        user.addPoint(req.getTotalDistance());
 
         // dto to entity
         RunningRecord res = req.toRunningRecord(user, character, rivalRunningRecord);
@@ -193,12 +185,10 @@ public class RunningRecordService {
                 .character(res.getCharacter())
                 .rivalRecord(res.getRivalRecord())
                 .type(res.getType())
-                .runningRecordDistanceInfos(res.getRunningRecordDistanceInfos())
-                .runningRecordHeartRateInfos(res.getRunningRecordHeartRateInfos())
+                .runningRecordInfos(res.getRunningRecordInfos())
                 .totalTime(res.getTotalTime())
                 .totalDistance(res.getTotalDistance())
                 .averageSpeed(res.getAverageSpeed())
-                .averageCalory(res.getAverageCalorie())
                 .createdAt(res.getCreatedAt())
                 .build();
     }

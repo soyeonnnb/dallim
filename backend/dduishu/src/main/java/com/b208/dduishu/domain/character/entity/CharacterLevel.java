@@ -28,6 +28,7 @@ public class CharacterLevel {
 
     public void addExp(int exp ) {
         this.exp += exp;
+        checkLevel();
     }
 
     public int checkLevel(){

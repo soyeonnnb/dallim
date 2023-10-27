@@ -16,6 +16,7 @@ import com.b208.dduishu.util.response.ApiResponse;
 import com.google.protobuf.Api;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class RunningRecordController {
     private final RunningRecordService runningRecordService;
 
@@ -48,6 +50,8 @@ public class RunningRecordController {
     @PostMapping("/api/v1/running")
     public ApiResponse<?> createRunningRecord(@RequestBody RunningRecordInfo req) {
         try {
+            log.info(req.toString());
+
             runningRecordService.createRunningRecord(req);
 
             return ApiResponse.createSuccess(true);

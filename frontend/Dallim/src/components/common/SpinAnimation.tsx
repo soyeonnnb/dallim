@@ -10,7 +10,7 @@ const SpinAnimation: React.FC<SpinAnimationProps> = ({ duration = 4000, children
     const animatedRotation = useRef(new Animated.Value(0)).current;
     const spin = animatedRotation.interpolate({
         inputRange: [0, 1],
-        outputRange: ['0deg', '360deg'],
+        outputRange: ['360deg', '0deg'],
     });
 
     useEffect(() => {

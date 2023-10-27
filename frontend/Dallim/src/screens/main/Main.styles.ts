@@ -77,10 +77,7 @@ export const PointText = styled.Text<{isOn?: boolean}>`
 export const StampBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-
-  /* 임시버튼 있는 경우 */
-  justify-content: space-between;
-  /* justify-content: flex-end; */
+  justify-content: flex-end;
   align-items: flex-end;
   width: 90%;
   height: 10%;

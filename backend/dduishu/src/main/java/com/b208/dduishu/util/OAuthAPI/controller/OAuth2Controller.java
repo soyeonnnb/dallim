@@ -2,23 +2,17 @@ package com.b208.dduishu.util.OAuthAPI.controller;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.b208.dduishu.domain.user.service.UserSocialLoginService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,14 +48,14 @@ public class  OAuth2Controller {
     private final UserRepository userRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
-    private final UserService userService;
+    private final UserSocialLoginService userSocialLoginService;
     private final BCryptPasswordEncoder encoder;
 
     // 소셜 로그인
     @PostMapping("oauth/login")
     public ResponseEntity<?> Login(@RequestBody Map<String, Object> data, HttpServletResponse response) throws IOException {
         System.out.println("여기 들어올까요");
-        UserLoginResponseDTO user = userService.oauthLogin((String) data.get("access"), response);
+        UserLoginResponseDTO user = userSocialLoginService.oauthLogin((String) data.get("access"), response);
 
         return ResponseEntity.status(200).body(user);
     }
@@ -70,7 +64,7 @@ public class  OAuth2Controller {
     @PostMapping("oauth/social/logout")
     public ResponseEntity<?> LogoutKakao(HttpServletRequest request, HttpServletResponse response){
 
-        Map<String, Object> result = userService.socialLogout(request, response);
+        Map<String, Object> result = userSocialLoginService.socialLogout(request, response);
 
         return ResponseEntity.ok(result);
     }
@@ -79,7 +73,7 @@ public class  OAuth2Controller {
     @GetMapping("oauth/logout")
     public ResponseEntity<?> Logout(HttpServletRequest request, HttpServletResponse response){
         System.out.println("들어옴");
-        Map<String, Object> result = userService.logout(request, response);
+        Map<String, Object> result = userSocialLoginService.logout(request, response);
         URI redirectUri = URI.create("http://localhost:3000");
         //        URI redirectUri = URI.create("https://j9b302.p.ssafy.io");
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -99,12 +93,12 @@ public class  OAuth2Controller {
             }
             isProcessing = true;
             // 엑세스 토큰 저장
-            String accessToken = userService.getKakaoAccessToken(code);
+            String accessToken = userSocialLoginService.getKakaoAccessToken(code);
             // 여기서 accessToken을 사용자 정보 가져오는데 사용할 것입니다.
             System.out.println(accessToken);
 
             // 엑세스 토큰을 클라이언트 앱으로 반환하거나 필요한 작업 수행
-            Map<String, String> result = userService.getKakaoUserInfo(accessToken);
+            Map<String, String> result = userSocialLoginService.getKakaoUserInfo(accessToken);
 
             String email = result.get("user_email");
             String profileImage = result.get("profile_image");
@@ -161,12 +155,12 @@ public class  OAuth2Controller {
             }
             isProcessingTwo = true;
             // 엑세스 토큰 저장
-            String accessToken = userService.getNaverAccessToken(code);
+            String accessToken = userSocialLoginService.getNaverAccessToken(code);
             // 여기서 accessToken을 사용자 정보 가져오는데 사용할 것입니다.
             System.out.println(accessToken);
 
 
-            Map<String, String> result = userService.getNaverUserInfo(accessToken);
+            Map<String, String> result = userSocialLoginService.getNaverUserInfo(accessToken);
 
             String email = result.get("user_email");
             String profileImage = result.get("profile_image");

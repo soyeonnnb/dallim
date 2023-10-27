@@ -3,14 +3,12 @@ package com.b208.dduishu.domain.runningRecord.dto.request;
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.entity.RunningType;
-import com.b208.dduishu.domain.runningRecordDistance.document.RunningRecordDistance;
 import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.character.entity.Character;
 import lombok.Data;
 import org.bson.types.ObjectId;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data

@@ -8,7 +8,6 @@ import java.util.Objects;
 import javax.persistence.*;
 
 import com.b208.dduishu.domain.character.entity.Character;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -18,7 +17,6 @@ import com.b208.dduishu.domain.user.dto.request.UserDTO;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
 @Entity
 @Getter
@@ -39,6 +37,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Character> characterList = new ArrayList<>();
 
+    private int cumulativeDay;
+    private int averageSpeed;
     private int cumulativeDistance;
     private int cumulativeRunningTime;
     private int cumulativeCalorie;
@@ -63,22 +63,21 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserState state;
 
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_level_id")
     private UserLevel userLevel;
-
-
 
     public User() {
     }
 
     @Builder
-    public User(Long userId, String accountType, String email, String nickname, int level, int cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
+    public User(Long userId, String accountType, String email, String nickname, int cumulativeDay, int averageSpeed, int cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
         this.userId = userId;
         this.accountType = accountType;
         this.email = email;
         this.nickname = nickname;
+        this.cumulativeDay = cumulativeDay;
+        this.averageSpeed = averageSpeed;
         this.cumulativeDistance = cumulativeDistance;
         this.cumulativeRunningTime = cumulativeRunningTime;
         this.cumulativeCalorie = cumulativeCalorie;
@@ -140,11 +139,6 @@ public class User {
     public void reducePoint(int point) {
         this.point -= point;
     }
-
-
-//    public void addExp(int exp ) {
-//        this.exp += exp;
-//    }
 
 
     @Override

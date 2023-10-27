@@ -14,7 +14,6 @@ public class UserLevel {
     @Column(name = "user_level_id")
     private Long id;
 
-
     private int level=1;
 
     private int exp=0;

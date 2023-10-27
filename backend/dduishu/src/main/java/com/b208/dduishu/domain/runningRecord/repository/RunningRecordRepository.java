@@ -19,4 +19,5 @@ public interface RunningRecordRepository extends MongoRepository<RunningRecord, 
     List<RunningRecord> findTop10ByUserUserIdOrderByAverageSpeedDesc(Long userId);
 
     List<RunningRecord> findByUserUserIdInAndCreatedAtBetween(List<Long> userIds, LocalDateTime start, LocalDateTime end);
+    List<RunningRecord> findByUserUserIdAndCreatedAtBetween(Long userIds, LocalDateTime start, LocalDateTime end);
 }

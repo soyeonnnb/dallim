@@ -8,7 +8,10 @@ import com.b208.dduishu.domain.user.dto.request.UserEmail;
 import com.b208.dduishu.domain.user.dto.request.UserNickName;
 import com.b208.dduishu.domain.user.dto.request.UserPoint;
 import com.b208.dduishu.domain.user.dto.request.UserRankingInfo;
+import com.b208.dduishu.domain.user.dto.response.CompareUserProfile;
 import com.b208.dduishu.domain.user.dto.response.IsDuplicateNickName;
+import com.b208.dduishu.domain.user.dto.response.UserProfile;
+import com.b208.dduishu.domain.user.service.UserRankingService;
 import com.b208.dduishu.util.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
     private final UserService userService;
+    private final UserRankingService userRankingService;
 
     @PostMapping("/api/v1/user/token")
     public ApiResponse<?> getAccessToken(@RequestBody UserEmail req) {
@@ -76,7 +80,7 @@ public class UserController {
     @GetMapping("/api/v1/user/follow-ranking")
     public ApiResponse<?> getWeeklyRankingWithFollower(@RequestParam int year, @RequestParam int month, @RequestParam int week) {
         try {
-            List<UserRankingInfo> res = userService.getWeeklyRankingWithFollower(year, month, week);
+            List<UserRankingInfo> res = userRankingService.getWeeklyRankingWithFollower(year, month, week);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -87,7 +91,40 @@ public class UserController {
     @GetMapping("/api/v1/user/all-ranking")
     public ApiResponse<?> getWeeklyRankingWithAll(@RequestParam int year, @RequestParam int month, @RequestParam int week) {
         try {
-            List<UserRankingInfo> res = userService.getWeeklyRankingWithAll(year, month, week);
+            List<UserRankingInfo> res = userRankingService.getWeeklyRankingWithAll(year, month, week);
+
+            return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
+    @GetMapping("/api/v1/user/profile/me")
+    public ApiResponse<?> getMyProfile() {
+        try {
+            UserProfile res = userService.getMyProfile();
+
+            return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
+    @GetMapping("/api/v1/user/profile/{id}")
+    public ApiResponse<?> getUserProfile(@PathVariable Long id) {
+        try {
+            UserProfile res = userService.getUserProfile(id);
+
+            return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
+    @GetMapping("/api/v1/user/compare/{id}")
+    public ApiResponse<?> compareUserProfile(@PathVariable Long id) {
+        try {
+            CompareUserProfile res = userService.compareUserProfile(id);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {

@@ -31,7 +31,7 @@ public class RunningRecordInfo {
     // + 위치정보
     // + 생체정보 +a
     private List<RunningRecordOverallInfo> runningRecordInfos;
-    private Long date;
+    private Date date;
     private String formattedDate;
 
     public RunningRecord toRunningRecord(User user, Character character, RunningRecord rivalRecord){

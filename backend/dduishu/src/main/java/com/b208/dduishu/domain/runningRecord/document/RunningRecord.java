@@ -48,7 +48,7 @@ public class RunningRecord {
     private String formattedDate;
 
     @Builder
-    public RunningRecord(UserInfo user, CharacterOverview character, Long createdAt, float stepCount, String averagePace, float averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, float totalDistance, float averageSpeed) {
+    public RunningRecord(UserInfo user, CharacterOverview character, Date createdAt, float stepCount, String averagePace, float averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, float totalDistance, float averageSpeed) {
         this.user = user;
         this.character = character;
         this.type = type;
@@ -64,11 +64,11 @@ public class RunningRecord {
         this.createdAt = toLocalDateTime(createdAt);
     }
 
-    private static LocalDateTime toLocalDateTime(Long unixTime) {
-        Instant instant = Instant.ofEpochMilli(unixTime);
-
-        // Instant를 LocalDateTime로 변환
-        LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+    private static LocalDateTime toLocalDateTime(Date date) {
+        // Date를 LocalDateTime으로 변환 (서울 시간대)
+        LocalDateTime localDateTime = date.toInstant()
+                .atZone(ZoneId.of("Asia/Seoul"))
+                .toLocalDateTime();
 
         return localDateTime;
     }

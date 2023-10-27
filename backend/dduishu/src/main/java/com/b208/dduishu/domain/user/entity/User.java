@@ -120,9 +120,15 @@ public class User {
     public void updatePrivateAccessToken(String privateAccessToken){
         this.privateAccess = privateAccessToken;
     }
+    public void updateAverageSpeed(int averageSpeed) {
+        this.averageSpeed = averageSpeed;
+    }
 
     public void addPoint(int point) {
         this.point += point;
+    }
+    public void addCumulativeDay(int day) {
+        this.cumulativeDay += day;
     }
     public void addCumulativeDistance(int distance){
         this.cumulativeDistance += distance;

@@ -7,9 +7,6 @@ import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDetail;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
-import com.b208.dduishu.domain.runningRecordDistance.document.RunningRecordDistance;
-import com.b208.dduishu.domain.runningRecordDistance.repository.RunningRecordDistanceRepository;
-import com.b208.dduishu.domain.runningRecordHeartRate.repository.RunningRecordHeartRateRepository;
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.entity.UserState;
@@ -17,12 +14,12 @@ import com.b208.dduishu.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.stream.Collectors.toList;
 
@@ -62,7 +59,6 @@ public class RunningRecordService {
         User user = userRepository.findByUserId(req.getUserId()).orElseThrow(() -> {
             throw new NullPointerException();
         });
-
         Character character = characterRepository.findById(req.getCharacterId()).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -71,6 +67,26 @@ public class RunningRecordService {
             rivalRunningRecord = runningRecordRepository.findById(req.getRivalRecordId()).orElseThrow(() -> {
                 throw new NullPointerException();
             });
+        }
+
+        // 유저 평균 스피드 정산, 누적 운동 날짜 정산
+        List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserId(user.getUserId());
+        AtomicInteger averageSpeedSum = new AtomicInteger(0);
+        AtomicBoolean hasRunningRecord = new AtomicBoolean(false);
+        findRunningRecord.stream()
+                .forEach(o -> {
+                    if (LocalDateTime.now().toLocalDate().equals(o.getCreatedAt().toLocalDate())) {
+                        hasRunningRecord.set(true);
+                    }
+                    averageSpeedSum.addAndGet(o.getAverageSpeed());
+                });
+        if (hasRunningRecord.get() == false) {
+            user.addCumulativeDay(1);
+        }
+        if (findRunningRecord.size() == 0) {
+            user.updateAverageSpeed(req.getAverageSpeed());
+        } else {
+            user.updateAverageSpeed(averageSpeedSum.get()/findRunningRecord.size());
         }
 
         // 유저 누적시간, 누적이동거리, 누적칼로리 계산

@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import { TouchableOpacity } from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
@@ -39,6 +40,10 @@ export const HeaderRight = styled.View`
   width: 30%;
   height: 100%;
   padding-right: 5%;
+`;
+
+export const ManageButton = styled(TouchableOpacity)`
+  background-color: transparent;
 `;
 
 export const ManageText = styled.Text`

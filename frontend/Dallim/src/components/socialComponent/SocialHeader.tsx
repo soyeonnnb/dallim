@@ -10,7 +10,7 @@ function SocialHeader() {
     const NowDate = new Date();
     const nowTimestamp = NowDate.getTime();
     const DateYear = NowDate.getFullYear();
-    
+
     const startOfYear = new Date(NowDate.getFullYear(), 0, 1);
     const startOfYearTimestamp = startOfYear.getTime();
     const daysPassedSinceStartOfYear = Math.floor((nowTimestamp - startOfYearTimestamp) / (24 * 60 * 60 * 1000));
@@ -31,7 +31,9 @@ function SocialHeader() {
                     <S.DateText>{DateYear}년 {DateWeek}주차 랭킹</S.DateText>
                 </S.HeaderLeft>
                 <S.HeaderRight>
-                    <S.ManageText>친구관리</S.ManageText>
+                    <S.ManageButton onPress={() => setModalVisible(true)}>
+                        <S.ManageText>친구관리</S.ManageText>
+                    </S.ManageButton>
                 </S.HeaderRight>
 
             </S.Header>

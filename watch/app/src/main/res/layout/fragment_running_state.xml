@@ -55,7 +55,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/tv_speed"
+            android:id="@+id/tv_pace"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -91,7 +91,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_speed_word"
+            android:id="@+id/tv_pace_word"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

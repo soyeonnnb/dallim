@@ -9,6 +9,7 @@ import com.b208.dduishu.domain.character.entity.Character;
 import lombok.Data;
 import org.bson.types.ObjectId;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class RunningRecordInfo {
     // + 위치정보
     // + 생체정보 +a
     private List<RunningRecordOverallInfo> runningRecordInfos;
-    private Date date;
+    private LocalDateTime date;
     private String formattedDate;
 
     public RunningRecord toRunningRecord(User user, Character character, RunningRecord rivalRecord){

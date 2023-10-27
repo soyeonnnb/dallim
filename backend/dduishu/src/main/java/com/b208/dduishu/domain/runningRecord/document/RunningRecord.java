@@ -12,6 +12,7 @@ import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import lombok.*;
 import org.bson.types.ObjectId;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -47,7 +48,7 @@ public class RunningRecord {
     private String formattedDate;
 
     @Builder
-    public RunningRecord(UserInfo user, CharacterOverview character, Date createdAt, float stepCount, String averagePace, float averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, float totalDistance, float averageSpeed) {
+    public RunningRecord(UserInfo user, CharacterOverview character, Long createdAt, float stepCount, String averagePace, float averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, float totalDistance, float averageSpeed) {
         this.user = user;
         this.character = character;
         this.type = type;
@@ -60,12 +61,11 @@ public class RunningRecord {
         this.averageHeartRate = averageHeartRate;
         this.formattedDate = formattedDate;
         this.averageSpeed = averageSpeed;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = toLocalDateTime(createdAt);
     }
 
-    private static LocalDateTime toLocalDateTime(Date date) {
-        // Date를 Instant로 변환
-        Instant instant = date.toInstant();
+    private static LocalDateTime toLocalDateTime(Long unixTime) {
+        Instant instant = Instant.ofEpochMilli(unixTime);
 
         // Instant를 LocalDateTime로 변환
         LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();

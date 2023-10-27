@@ -31,7 +31,7 @@ public class RunningRecordInfo {
     // + 위치정보
     // + 생체정보 +a
     private List<RunningRecordOverallInfo> runningRecordInfos;
-    private LocalDateTime date;
+    private Long date;
     private String formattedDate;
 
     public RunningRecord toRunningRecord(User user, Character character, RunningRecord rivalRecord){
@@ -53,6 +53,7 @@ public class RunningRecordInfo {
                 .averageSpeed(this.averageSpeed)
                 .averagePace(this.averagePace)
                 .averageHeartRate(this.averageHeartRate)
+                .createdAt(this.date)
                 .formattedDate(this.formattedDate)
                 .stepCount(this.stepCount)
                 .build();

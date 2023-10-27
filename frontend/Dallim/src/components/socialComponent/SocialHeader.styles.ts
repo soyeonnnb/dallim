@@ -7,8 +7,8 @@ export const Container = styled.View`
 `;
 
 export const Header = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
@@ -16,8 +16,8 @@ export const Header = styled.View`
 `;
 
 export const HeaderLeft = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: flex-end;
   align-items: flex-start;
   width: 50%;
@@ -32,8 +32,8 @@ export const DateText = styled.Text`
 `;
 
 export const HeaderRight = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: flex-end;
   align-items: flex-end;
   width: 30%;
@@ -47,38 +47,39 @@ export const ManageText = styled.Text`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 50%;
+
+`;
+
+export const BodyBox = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
+  justify-content: flex-end;
+  align-items: center;
+  width: 40%;
+  height: 100%;
 `;
 
 export const BodySideBox = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-end;
+  padding-bottom: 2%;
   width: 30%;
   height: 100%;
 `;
 
-
 export const QuestionImage = styled.Image`
   width: 20px;
   height: 20px;
-`;
-
-export const BodyBox = styled.View`
-  border-width: 1px;
-  border-color: blue;
-  justify-content: center;
-  align-items: center;
-  width: 40%;
-  height: 100%;
 `;
 
 export const RankText = styled.Text`

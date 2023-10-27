@@ -46,7 +46,7 @@ function SocialBody() {
       <S.Body>
         <ScrollView>
           {/* 나중에 데이터 불러와서 스크롤 적용 예정 */}
-          <S.RankInfoBox>
+          <S.RankInfoBox >
             <RankInfoBox />
           </S.RankInfoBox>
           <S.RankInfoBox>

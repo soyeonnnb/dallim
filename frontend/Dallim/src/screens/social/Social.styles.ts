@@ -14,29 +14,21 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const Header = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 15%;
+  height: 20%;
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
   width: 100%;
-  height: 75%;
-`;
-
-export const Footer = styled.View`
-  border-width: 1px;
-  border-color: red;
-  flex-direction: row;
-  width: 100%;
-  height: 10%;
+  height: 70%;
 `;
 
 export const TabBox = styled.View`

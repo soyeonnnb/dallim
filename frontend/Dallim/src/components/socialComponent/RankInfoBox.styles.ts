@@ -6,14 +6,29 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const Box = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+type BoxProps = {
+  rank: number;
+};
+
+export const Box = styled.View<BoxProps>`
+  border-width: 3px;
+  border-color: ${props => {
+    switch (props.rank) {
+      case 1:
+        return '#FFED71';
+      case 2:
+        return '#8C8C8C';
+      case 3:
+        return '#CD6035';
+      default:
+        return 'black';
+    }
+  }};
+  background-color: white;
   flex-direction: row;
   border-radius: 18px;
   width: 100%;
-  height: 60px;
-  background-color: white;
+  height: 70px;
 `;
 
 export const Left = styled.View`
@@ -25,9 +40,20 @@ export const Left = styled.View`
   align-items: center;
 `;
 
-export const RankText = styled.Text`
+export const RankText = styled.Text<BoxProps>`
   font-size: 40px;
-  color: black;
+  color: ${props => {
+    switch (props.rank) {
+      case 1:
+        return '#FFED71';
+      case 2:
+        return '#8C8C8C';
+      case 3:
+        return '#CD6035';
+      default:
+        return 'black';
+    }
+  }};
 `;
 
 export const Middle = styled(TouchableOpacity)`
@@ -67,7 +93,7 @@ export const NickNameText = styled.Text`
 
 export const LevelText = styled.Text`
   font-size: 10px;
-  color: #ffcc00;
+  color: #474A65;
 `;
 
 export const Right = styled.View`

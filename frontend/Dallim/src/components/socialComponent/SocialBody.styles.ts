@@ -8,8 +8,8 @@ export const Container = styled.View`
 `;
 
 export const Top = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -18,8 +18,8 @@ export const Top = styled.View`
 `;
 
 export const TopBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -66,8 +66,8 @@ export const FixedTextRight = styled(FixedTextLeft)`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   width: 90%;
   height: 85%;
 `;
@@ -76,5 +76,5 @@ export const RankInfoBox = styled.View`
   /* border-width: 1px;
   border-color: blue; */
   width: 100%;
-  height: 80px;
+  height: 85px;
 `;

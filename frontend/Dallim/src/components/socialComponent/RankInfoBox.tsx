@@ -8,14 +8,14 @@ function RankInfoBox() {
     const Nickname = "배고픈 하마";
     const Level = 66;
 
-     // Versus 모달
-     const [isVersusModalVisible, setVersusModalVisible] = useState(false);
+    // Versus 모달
+    const [isVersusModalVisible, setVersusModalVisible] = useState(false);
 
     return (
         <S.Container>
-            <S.Box>
+            <S.Box rank={Rank}>
                 <S.Left>
-                    <S.RankText>{Rank}</S.RankText>
+                    <S.RankText rank={Rank}>{Rank}</S.RankText>
                 </S.Left>
                 <S.Middle onPress={() => setVersusModalVisible(true)}>
                     <S.Header>
@@ -26,14 +26,13 @@ function RankInfoBox() {
                         <S.LevelText>Lv. {Level}</S.LevelText>
                     </S.Body>
                 </S.Middle>
-                <S.Right>
-                    {/* 친구가 아닌경우에만 생성되게 할 예정 */}
+                {/* <S.Right>
                     <S.AddFriendButton onPress={() => {
                         console.log("친구 추가 버튼 눌림확인");
                     }}>
                         <S.AddFriendImage source={require('../../assets/icons/AddFriendIcon.png')} />
                     </S.AddFriendButton>
-                </S.Right>
+                </S.Right> */}
             </S.Box>
             <VersusModal
                 isVisible={isVersusModalVisible}

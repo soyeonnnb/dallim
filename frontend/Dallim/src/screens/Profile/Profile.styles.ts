@@ -12,6 +12,7 @@ export const BackgroundImage = styled(ImageBackground)`
   height: 100%;
   justify-content: center;
   align-items: center;
+  object-fit: contain;
 `;
 
 export const Header = styled.View`

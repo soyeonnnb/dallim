@@ -1,7 +1,7 @@
 import React from 'react';
 import * as S from './WatchThemeModal.styles';
 import { Modal } from 'react-native';
-import { roomData } from '../RoomData';
+import { planetData } from '../../common/PlanetData';
 import CloseIcon from '../../../assets/icons/CloseIcon_2.png';
 
 type Props = {
@@ -23,7 +23,7 @@ const WatchThemeModal: React.FC<Props> = ({ isVisible, onClose, index }) => {
         >
             <S.ModalContainer>
                 <S.ModalContent>
-                    <S.BackgroundImage source={roomData[index].Theme} >
+                    <S.BackgroundImage source={planetData[index].Theme} >
                         <S.Header>
                             <S.HeaderSide />
                             <S.HeaderMiddle>

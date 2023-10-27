@@ -9,13 +9,13 @@ export const Container = styled.View`
   align-items: center;
 `;
 
-export const RoomBox = styled.View`
+export const PlanetBox = styled.View`
   width: 100%;
   height: 100%;
   position: relative;
 `;
 
-export const RoomImage = styled.Image`
+export const PlanetImage = styled.Image`
   width: 100%;
   height: 100%;
 `;

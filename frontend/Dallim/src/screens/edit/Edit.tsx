@@ -2,14 +2,15 @@ import React, { useRef, useState } from 'react';
 import * as S from './Edit.styles';
 import { Animated, Easing } from 'react-native';
 import CharacterEdit from '../../components/editComponent/CharacterEdit';
-import RoomEdit from '../../components/editComponent/RoomEdit';
-import { characterData } from '../../components/editComponent/CharacterData';
-import { backgroundImage } from '../../components/editComponent/RoomData';
-import { roomData } from '../../components/editComponent/RoomData';
+import PlanetEdit from '../../components/editComponent/PlanetEdit';
+import { characterData } from '../../components/common/CharacterData';
+import { backgroundImage } from '../../components/common/PlanetData';
+import { planetData } from '../../components/common/PlanetData';
 import Left from '../../assets/icons/DirectionLeft.png';
 import Right from '../../assets/icons/DirectionRight.png';
-import Sun from '../../assets/images/Sun.png';
-import ToggleRoom from '../../assets/images/ToggleRoom.png'
+
+import BasicCharacter from '../../assets/characters/토끼_선택.png'
+import BasicPlanet from '../../assets/planets/PlanetBlack.png';
 
 function Edit() {
 
@@ -47,20 +48,20 @@ function Edit() {
     };
 
     // 방
-    const [roomIndex, setRoomIndex] = useState(0); // 초기 방 인덱스
-    const handleRoomChange = (roomIndex: number) => {
-        setRoomIndex(roomIndex);
+    const [planetIndex, setPlanetIndex] = useState(0); // 초기 방 인덱스
+    const handlePlanetChange = (planetIndex: number) => {
+        setPlanetIndex(planetIndex);
     };
-    const handleNextRoom = () => {
-        const nextIndex = (roomIndex + 1) % roomData.length;
-        setRoomIndex(nextIndex);
+    const handleNextPlanet = () => {
+        const nextIndex = (planetIndex + 1) % planetData.length;
+        setPlanetIndex(nextIndex);
     };
-    const handlePreviousRoom = () => {
-        let prevIndex = roomIndex - 1;
+    const handlePreviousPlanet = () => {
+        let prevIndex = planetIndex - 1;
         if (prevIndex < 0) {
-            prevIndex = roomData.length - 1;
+            prevIndex = planetData.length - 1;
         }
-        setRoomIndex(prevIndex);
+        setPlanetIndex(prevIndex);
     };
 
     return (
@@ -81,7 +82,7 @@ function Edit() {
                                     ],
                                 }}
                             >
-                                <S.ToggleImage source={isOn ? ToggleRoom : Sun} />
+                                <S.ToggleImage source={isOn ? BasicPlanet : BasicCharacter} />
                             </S.ToggleButton>
                         </S.ToggleButtonWrapper>
                     </S.TopMiddle>
@@ -92,20 +93,20 @@ function Edit() {
 
                 <S.Body>
                     <S.BodyLeft>
-                        <S.DirectionBox onPress={isOn ? handlePreviousRoom : handlePreviousCharacter}>
+                        <S.DirectionBox onPress={isOn ? handlePreviousPlanet : handlePreviousCharacter}>
                             <S.Direction source={Left} />
                         </S.DirectionBox>
                     </S.BodyLeft>
                     <S.BodyCenter>
                         {
                             isOn
-                                ? <RoomEdit onRoomChange={handleRoomChange} roomIndex={roomIndex} isOn={isOn}/>
+                                ? <PlanetEdit onPlanetChange={handlePlanetChange} planetIndex={planetIndex} isOn={isOn}/>
                                 : <CharacterEdit onCharacterChange={handleCharacterChange} characterIndex={characterIndex} />
                         }
                     </S.BodyCenter>
 
                     <S.BodyRight>
-                        <S.DirectionBox onPress={isOn ? handleNextRoom : handleNextCharacter}>
+                        <S.DirectionBox onPress={isOn ? handleNextPlanet : handleNextCharacter}>
                             <S.Direction source={Right} />
                         </S.DirectionBox>
                     </S.BodyRight>

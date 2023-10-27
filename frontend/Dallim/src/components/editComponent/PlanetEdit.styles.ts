@@ -47,7 +47,7 @@ export const Body = styled.View`
   height: 65%;
 `;
 
-export const RoomBox = styled.View<{isOn?: boolean}>`
+export const PlanetBox = styled.View<{isOn?: boolean}>`
   /* border-width: 1px;
   border-color: green; */
   width: ${props => (props.isOn ? '100%' : '80%')};

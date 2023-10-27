@@ -1,25 +1,29 @@
 import React, { useRef, useState } from 'react';
 import { Animated, Easing } from 'react-native';
 import * as S from './Main.styles';
-import planetSample from '../../assets/Theme/RoomSample_1.png';
 import StampDarkIcon from '../../assets/icons/StampDarkIcon.png';
 import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
-import CloseIcon from '../../assets/icons/CloseIcon.png';
 import StampModal from '../../components/mainComponent/StampModal';
 import Moon from '../../assets/images/Moon.png';
 import Sun from '../../assets/images/Sun.png';
 import SunToggleBackground from '../../assets/images/SunToggleBackground.png';
 import MoonToggleBackground from '../../assets/images/MoonToggleBackground.png';
+import SpinAnimation from '../../components/common/SpinAnimation';
+import { characterData } from '../../components/common/CharacterData';
+import planetSample from '../../assets/planets/PlanetBlack.png';
 
-function Main({ navigation }: any) {
+function Main() {
   const TempPoint = '3000';
   const TempLv = '67';
   const TempNickname = '하늘을 나는 병아리';
+  const TempGif = 1;
+  const selectedGif = characterData[TempGif].gif;
 
   const [isOn, setIsOn] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
+  const [isStampModalVisible, setStampModalVisible] = useState(false);
 
-  const toggleHandle = () => {
+  function toggleHandle() {
     setIsOn(prevIsOn => {
       Animated.timing(animatedValue, {
         toValue: prevIsOn ? 0 : 40,
@@ -36,25 +40,10 @@ function Main({ navigation }: any) {
     setStampModalVisible(true);
   };
 
-  // Stamp 모달
-  const [isStampModalVisible, setStampModalVisible] = useState(false);
-
-  // 로그인으로 보내기 (삭제예정)
-  function linkLogin() {
-    console.log("로그인으로 보내는 버튼 눌림!");
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Login' }],
-    });
+  function Start() {
+    console.log("시작 버튼 눌림!");
   };
 
-  // Test
-  const gifSources = {
-    1: require('../../assets/character/펭런_1.gif'),
-    2: require('../../assets/character/펭런_2.gif'),
-    3: require('../../assets/character/펭런_3.gif')
-  };
-  const gifSourcesIndex = 3;
 
   return (
     <S.Container>
@@ -83,32 +72,25 @@ function Main({ navigation }: any) {
               </S.ToggleButtonWrapper>
             </S.ToggleButtonBackground>
           </S.HeaderLeft>
-
           <S.HeaderRight>
             <S.PointText isOn={isOn}>{TempPoint} P</S.PointText>
           </S.HeaderRight>
-
         </S.Header>
 
         <S.StampBox>
-          <S.Stamp>
-            <S.SendButton onPress={linkLogin}>
-              <S.StampImage source={CloseIcon} />
-            </S.SendButton>
-          </S.Stamp>
-
           <S.Stamp>
             <S.SendButton onPress={handleSend}>
               <S.StampImage source={isOn ? StampDarkIcon : StampWhiteIcon} />
             </S.SendButton>
           </S.Stamp>
-
         </S.StampBox>
 
         <S.Body>
           <S.ThemeBox>
-            <S.StyledImage source={planetSample} />
-            <S.StyledGif source={gifSources[gifSourcesIndex]} />
+            <SpinAnimation>
+              <S.StyledImage source={planetSample} />
+            </SpinAnimation>
+            <S.StyledGif source={selectedGif} resizeMode="contain"/>
           </S.ThemeBox>
         </S.Body>
 
@@ -117,6 +99,13 @@ function Main({ navigation }: any) {
             <S.LevelText isOn={isOn}>Lv. {TempLv}</S.LevelText>
             <S.NicknameText isOn={isOn}>{TempNickname}</S.NicknameText>
           </S.FooterBox>
+
+          <S.StartBox>
+            <S.StartButton onPress={Start}>
+              <S.StartText >시작하기</S.StartText>
+            </S.StartButton>
+          </S.StartBox>
+
         </S.Footer>
 
         <S.TabBox />

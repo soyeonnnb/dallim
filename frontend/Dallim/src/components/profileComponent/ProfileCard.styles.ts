@@ -9,7 +9,7 @@ export const CardBox = styled.ImageBackground`
   height: 100%;
   justify-content: center;
   align-items: flex-start;
-`;
+  `;
 
 export const Header = styled.View`
   /* border-width: 1px;
@@ -27,7 +27,7 @@ export const Body = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
-  width: 70%;
+  width: 65%;
   height: 65%;
   padding-left: 10px;
 `;
@@ -67,7 +67,7 @@ export const Footer = styled.View`
   border-color: red; */
   justify-content: center;
   align-items: center;
-  width: 70%;
+  width: 65%;
   height: 20%;
   padding-left: 10px;
 `;
@@ -88,7 +88,7 @@ export const ExperienceBox = styled.View`
   border-radius: 20px;
   background-color: white;
   width: 100%;
-  height: 40%;
+  height: 30%;
 `;
 
 type ExperienceProps = {

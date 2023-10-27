@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
-import * as S from './RoomBox.styles';
-import { roomData } from './RoomData';
+import * as S from './PlanetBox.styles';
+import { planetData } from '../common/PlanetData';
 import WatchThemeModal from './editModal/WatchThemeModal';
 
 interface Props {
   index: number;
 }
 
-function RoomBox({ index }: Props) {
+function PlanetBox({ index }: Props) {
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <S.Container>
-      <S.RoomBox>
-        <S.RoomImage source={roomData[index].Room} resizeMode="contain" />
+      <S.PlanetBox>
+        <S.PlanetImage source={planetData[index].Planet} resizeMode="contain" />
         <S.ThemeButton onPress={() => {
           console.log("테마 선택 버튼 클릭확인");
           setModalVisible(true);
         }}>
           <S.ThemeIcon source={require('../../assets/icons/ThemeSelectIcon.png')} />
         </S.ThemeButton>
-      </S.RoomBox>
+      </S.PlanetBox>
 
       <WatchThemeModal
         isVisible={modalVisible}
@@ -30,4 +30,4 @@ function RoomBox({ index }: Props) {
   );
 }
 
-export default RoomBox;
+export default PlanetBox;

@@ -1,21 +1,21 @@
 import React from 'react';
 import { Modal } from 'react-native';
 import * as S from './SelectModal.styles'; // 스타일 컴포넌트 임포트
-import { roomData } from '../RoomData';
-import { selectedRoom } from '../RoomData';
+import { planetData } from '../../common/PlanetData';
+import { selectedPlanet } from '../../common/PlanetData';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
 type ModalComponentProps = {
     showModal: boolean;
     toggleModal: () => void;
-    confirmRoomChange: () => void;
-    roomIndex: number;
+    confirmPlanetChange: () => void;
+    planetIndex: number;
 };
 
-const RoomSelectModal = ({ showModal, toggleModal, confirmRoomChange, roomIndex }: ModalComponentProps) => {
+const planetSelectModal = ({ showModal, toggleModal, confirmPlanetChange, planetIndex }: ModalComponentProps) => {
 
-    const handleConfirmRoomChange = () => {
+    const handleConfirmPlanetChange = () => {
         Toast.show({
             type: 'success',
             position: 'top',
@@ -25,7 +25,7 @@ const RoomSelectModal = ({ showModal, toggleModal, confirmRoomChange, roomIndex 
             topOffset: 10,
         });
 
-        confirmRoomChange();
+        confirmPlanetChange();
     };
 
     return (
@@ -42,7 +42,7 @@ const RoomSelectModal = ({ showModal, toggleModal, confirmRoomChange, roomIndex 
                     <S.ModalBody>
 
                         <S.BoxStyle >
-                            <S.Image source={roomData[selectedRoom.index].Room} resizeMode="contain" />
+                            <S.Image source={planetData[selectedPlanet.index].Planet} resizeMode="contain" />
                         </S.BoxStyle>
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>
@@ -53,12 +53,12 @@ const RoomSelectModal = ({ showModal, toggleModal, confirmRoomChange, roomIndex 
                             </S.ChangeBox>
                         </S.ChangeBoxStyle>
                         <S.BoxStyle >
-                            <S.Image source={roomData[roomIndex].Room} resizeMode="contain" />
+                            <S.Image source={planetData[planetIndex].Planet} resizeMode="contain" />
                         </S.BoxStyle>
 
                     </S.ModalBody>
                     <S.ModalFooter>
-                        <S.ModalButton onPress={handleConfirmRoomChange}>
+                        <S.ModalButton onPress={handleConfirmPlanetChange}>
                             <S.ModalButtonText>확인</S.ModalButtonText>
                         </S.ModalButton>
                         <S.ModalCancelButton onPress={toggleModal}>
@@ -72,4 +72,4 @@ const RoomSelectModal = ({ showModal, toggleModal, confirmRoomChange, roomIndex 
     );
 };
 
-export default RoomSelectModal;
+export default planetSelectModal;

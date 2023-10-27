@@ -1,19 +1,19 @@
 import React from 'react';
 import * as S from './ProfileCard.styles';
-import { roomData } from '../../components/editComponent/RoomData';
+import { planetData } from '../common/PlanetData';
 
 interface Props {
-    RoomIndex: number;
+    PlanetIndex: number;
     Nickname: string;
     UserLevel: number;
     experiencePercentage: number
 }
 
-function ProfileCard({ RoomIndex, Nickname, UserLevel, experiencePercentage }: Props) {
+function ProfileCard({ PlanetIndex, Nickname, UserLevel, experiencePercentage }: Props) {
 
     return (
         <S.Container>
-            <S.CardBox source={roomData[RoomIndex].ThemeCard} resizeMode="cover" >
+            <S.CardBox source={planetData[PlanetIndex].Card} resizeMode="cover" >
 
                 <S.Header>
                     <S.LevelText>Level {UserLevel}</S.LevelText>

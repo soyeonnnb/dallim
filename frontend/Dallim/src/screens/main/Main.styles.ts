@@ -20,7 +20,7 @@ export const Header = styled.View`
   /* border-width: 1px;
   border-color: blue; */
   flex-direction: row;
-  width: 100%;
+  width: 90%;
   height: 10%;
 `;
 
@@ -32,14 +32,13 @@ export const HeaderLeft = styled.View`
   justify-content: flex-end;
 `;
 
-export const ToggleButtonWrapper = styled(ImageBackground)<{ isOn?: boolean }>`
+export const ToggleButtonWrapper = styled(ImageBackground)<{isOn?: boolean}>`
   border-width: 1px;
   border-radius: 100px;
   border-color: ${props => (props.isOn ? 'white' : 'gray')};
   padding: 4px;
   width: 80px;
   height: 40px;
-  margin-left: 20px;
   overflow: hidden;
 `;
 
@@ -51,7 +50,9 @@ export const ToggleButtonBackground = styled(TouchableOpacity)`
   align-items: flex-start;
 `;
 
-export const ToggleButton = styled(Animated.createAnimatedComponent(ImageBackground))<{isOn?: boolean}>`
+export const ToggleButton = styled(
+  Animated.createAnimatedComponent(ImageBackground),
+)<{isOn?: boolean}>`
   width: 30px;
   height: 30px;
   border-radius: 100px;
@@ -71,16 +72,12 @@ export const HeaderRight = styled.View`
 export const PointText = styled.Text<{isOn?: boolean}>`
   font-size: 20px;
   color: ${props => (props.isOn ? 'black' : 'white')};
-  margin-right: 10%;
 `;
 
 export const StampBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-
-  /* 임시버튼 있는 경우 */
-  justify-content: space-between;
-  /* justify-content: flex-end; */
+  justify-content: flex-end;
   align-items: flex-end;
   width: 90%;
   height: 10%;
@@ -111,29 +108,31 @@ export const Body = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 60%;
+  height: 50%;
 `;
 
 export const ThemeBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 80%;
-  height: 80%;
+  width: 60%;
+  height: 60%;
   position: relative;
+  margin-top: 10%;
 `;
 
 export const StyledImage = styled(Image)`
   width: 100%;
   height: 100%;
+  object-fit: contain;
 `;
 
 export const StyledGif = styled(FastImage)`
- /* border-width: 1px;
+  /* border-width: 1px;
   border-color: red; */
-  width: 100px;
-  height: 100px;
-  top: 60%;
-  left: 35%;
+  width: 120px;
+  height: 120px;
+  top: -40%;
+  left: 25%;
   position: absolute;
 `;
 
@@ -141,7 +140,7 @@ export const Footer = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
-  height: 10%;
+  height: 20%;
 `;
 
 export const FooterBox = styled.View`
@@ -150,7 +149,7 @@ export const FooterBox = styled.View`
   justify-content: center;
   flex-direction: row;
   width: 100%;
-  height: 100%;
+  height: 30%;
 `;
 
 export const LevelText = styled.Text<{isOn?: boolean}>`
@@ -162,6 +161,31 @@ export const LevelText = styled.Text<{isOn?: boolean}>`
 export const NicknameText = styled.Text<{isOn?: boolean}>`
   font-size: 20px;
   color: ${props => (props.isOn ? 'black' : 'white')};
+`;
+
+export const StartBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 70%;
+`;
+
+export const StartButton = styled.TouchableOpacity`
+  border-width: 1px;
+  border-color: white;
+  border-radius: 20px;
+  background-color: #2A2C45;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 60%;
+`;
+
+export const StartText = styled.Text`
+  font-size: 20px;
+  color: white;
 `;
 
 export const TabBox = styled.View`

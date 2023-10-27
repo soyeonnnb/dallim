@@ -10,7 +10,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,11 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
 import com.runapp.adapter.ViewPagerAdapter;
 import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivityRunningBinding;
@@ -41,6 +36,7 @@ import com.runapp.service.SensorService;
 import com.runapp.service.TimerService;
 import com.runapp.util.ApiUtil;
 import com.runapp.util.Conversion;
+import com.runapp.util.LocationHelper;
 import com.runapp.util.NetworkUtil;
 
 import java.time.Instant;
@@ -66,7 +62,6 @@ public class RunningActivity extends AppCompatActivity {
     private SensorService sensorService;
     private TimerService timerService;
     private SensorEventListener universalSensorListener;
-    private LocationManager lm;
     private Location previousLocation;
     private float totalDistance = 0f;
     private float initialStepCount = 0f;
@@ -81,7 +76,7 @@ public class RunningActivity extends AppCompatActivity {
     private int heartCountTime = 0;
     private float totalHeartRate = 0f;
     private Conversion conversion;
-    private FusedLocationProviderClient fusedLocationClient; // 위치정보 가져오기
+    private LocationHelper locationHelper;
 
 
     @Override
@@ -89,8 +84,7 @@ public class RunningActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityRunningBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-
+        locationHelper = new LocationHelper(this);
 
         db = AppDatabase.getDatabase(getApplicationContext());
 
@@ -134,10 +128,6 @@ public class RunningActivity extends AppCompatActivity {
         sensorService.registerHeartRateSensor();
         sensorService.registerStepCounterSensor();
 
-        // 위치 서비스에 대한 Intent를 생성하고 ForegroundService로 시작한다.
-//        Intent serviceIntent = new Intent(this, LocationService.class);
-//        ContextCompat.startForegroundService(this, serviceIntent);
-
         // TimerService 생성 및 시작
         Handler timerHandler = new Handler(Looper.getMainLooper());
         timerService = new TimerService(timerHandler, new Runnable() {
@@ -149,88 +139,17 @@ public class RunningActivity extends AppCompatActivity {
         });
         timerService.startTimer();
 
-        // 시스템에서 위치서비스 가져옴.
-        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setInterval(1000); // 위치 업데이트 간격
-        locationRequest.setFastestInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         if (Build.VERSION.SDK_INT >= 29 &&
                 ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(RunningActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         } else {
-            fusedLocationClient.requestLocationUpdates(locationRequest, gpsLocationCallback, Looper.myLooper());
+            locationHelper.startLocationUpdates();
         }
     }
-
-    private final LocationCallback gpsLocationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            super.onLocationResult(locationResult);
-            if (locationResult == null) {
-                return;
-            }
-            for (Location location : locationResult.getLocations()) {
-                // 위치 변경 시 수행될 로직
-                if (previousLocation != null) {
-                    float distance = location.distanceTo(previousLocation);
-                    totalDistance += distance;
-                    Log.d("거리", String.valueOf(distance));
-                    Log.d("총거리", String.valueOf(totalDistance));
-                    runningViewModel.setDistance(totalDistance);
-                }
-                previousLocation = location;
-
-
-
-                float speed = location.getSpeed();
-                Log.d("속도", String.valueOf(speed));
-                if(speed != 0){
-                    totalSpeed += speed;
-                    speedCountTime++;
-                }
-                runningViewModel.setMsSpeed(speed);
-            }
-        }
-    };
-
-//    // 위치 정보가 업데이트 될 때마다 호출되는 콜백 인터페이스이다.
-//    final LocationListener gpsLocationListener = new LocationListener() {
-//        // 콜백 메서드
-//        public void onLocationChanged(Location location) {
-//            if (previousLocation != null) {
-//                // 이전 위치와 현재 위치 사이의 거리를 미터 단위로 계산합니다.
-//                float distance = location.distanceTo(previousLocation);
-//                distance = (float) Math.round((distance * 100) / 100.0);
-//                totalDistance += distance;  // 총 거리에 추가
-//                Log.d("거리", String.valueOf(distance));
-//                runningViewModel.setDistance(totalDistance);  // 뷰 모델에 총 거리 업데이트
-//            }
-//            previousLocation = location;
-//
-//            float speed = (float) (Math.round(location.getSpeed() * 100)/100.0);// 속도정보
-//            Log.d("속도", String.valueOf(speed));
-//            if(speed != 0){
-//                totalSpeed += speed; // 평균 속도를 구하기 위해서 계속 더해줌
-//                speedCountTime++;
-//            }
-//            runningViewModel.setMsSpeed(speed);
-//        }
-//
-//        public void onStatusChanged(String provider, int status, Bundle extras) {
-//
-//        }
-//
-//        public void onProviderEnabled(String provider) {
-//
-//        }
-//
-//        public void onProviderDisabled(String provider) {
-//
-//        }
-//    };
 
     /*
         센서 이벤트 리스너를 만들어서 변경사항을 추적함.
@@ -356,9 +275,6 @@ public class RunningActivity extends AppCompatActivity {
         // LocationService 종료
         Intent serviceIntent = new Intent(this, LocationService.class);
         stopService(serviceIntent);
-
-        // 위치 업데이트 종료시킴
-        fusedLocationClient.removeLocationUpdates(gpsLocationCallback);
 
 
         // float speed = (float) Math.round(location.getSpeed() * 1000) / 1000f;

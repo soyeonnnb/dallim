@@ -6,11 +6,13 @@ import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
 import com.b208.dduishu.domain.user.dto.response.CompareUserProfile;
+import com.b208.dduishu.domain.user.dto.response.SearchUserProfile;
 import com.b208.dduishu.domain.user.dto.response.UserProfile;
 import com.b208.dduishu.domain.user.entity.BaseLevel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ import com.b208.dduishu.util.jwt.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
@@ -210,5 +214,13 @@ public class UserService {
         });
 
         return new CompareUserProfile(user, pair);
+    }
+
+    public List<SearchUserProfile> searchUserProfile(String q) {
+        List<User> findUser = userRepository.findByNicknameContaining(q);
+
+        return findUser.stream()
+                .map(o -> new SearchUserProfile(o))
+                .collect(toList());
     }
 }

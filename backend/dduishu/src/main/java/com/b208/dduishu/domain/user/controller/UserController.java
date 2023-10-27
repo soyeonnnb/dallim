@@ -10,6 +10,7 @@ import com.b208.dduishu.domain.user.dto.request.UserPoint;
 import com.b208.dduishu.domain.user.dto.request.UserRankingInfo;
 import com.b208.dduishu.domain.user.dto.response.CompareUserProfile;
 import com.b208.dduishu.domain.user.dto.response.IsDuplicateNickName;
+import com.b208.dduishu.domain.user.dto.response.SearchUserProfile;
 import com.b208.dduishu.domain.user.dto.response.UserProfile;
 import com.b208.dduishu.domain.user.service.UserRankingService;
 import com.b208.dduishu.util.response.ApiResponse;
@@ -132,4 +133,14 @@ public class UserController {
         }
     }
 
+    @GetMapping("/api/v1/user/search")
+    public ApiResponse<?> searchUserProfile(@RequestParam String q) {
+        try {
+            List<SearchUserProfile> res = userService.searchUserProfile(q);
+
+            return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
 }

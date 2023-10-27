@@ -3,6 +3,7 @@ package com.b208.dduishu.domain.character.dto.request;
 import com.b208.dduishu.domain.character.entity.Character;
 
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
+import com.b208.dduishu.domain.user.entity.BaseLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,7 +44,8 @@ public class CharacterOverview {
         this.isMainCharacter = character.isMainCharacter();
         this.isPurchased = true;
         this.level = character.getCharacterLevel().getLevel();
-        this.exp = character.getCharacterLevel().getExp();
+        BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(character.getCharacterLevel().getExp());
+        this.exp = levelInfo.getExp();
     }
 
     private int getCharacterIndex(CharacterName name) {

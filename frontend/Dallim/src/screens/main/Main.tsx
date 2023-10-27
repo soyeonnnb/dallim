@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Animated, Easing } from 'react-native';
 import * as S from './Main.styles';
-import RoomSample from '../../assets/Theme/RoomSample_1.png';
+import planetSample from '../../assets/Theme/RoomSample_1.png';
 import StampDarkIcon from '../../assets/icons/StampDarkIcon.png';
 import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
 import CloseIcon from '../../assets/icons/CloseIcon.png';
@@ -107,7 +107,7 @@ function Main({ navigation }: any) {
 
         <S.Body>
           <S.ThemeBox>
-            <S.StyledImage source={RoomSample} />
+            <S.StyledImage source={planetSample} />
             <S.StyledGif source={gifSources[gifSourcesIndex]} />
           </S.ThemeBox>
         </S.Body>

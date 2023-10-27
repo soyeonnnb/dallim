@@ -12,6 +12,7 @@ import NicknameChangeModal from '../../components/profileComponent/profileModal/
 import RunningMateModal from '../../components/profileComponent/profileModal/RunningMateModal'
 import NotificationModal from '../../components/profileComponent/profileModal/NotificationModal'
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal'
+import { characterData } from '../../components/editComponent/CharacterData';
 
 function Profile() {
 
@@ -37,7 +38,7 @@ function Profile() {
             <S.Text>My Profile</S.Text>
           </S.TitleProfileBox>
           <S.ProfileBox>
-            <ProfileCard RoomIndex={RoomIndex} CharacterIndex={CharacterIndex} Nickname={Nickname} UserLevel={UserLevel} experiencePercentage={experiencePercentage} />
+            <ProfileCard RoomIndex={RoomIndex} Nickname={Nickname} UserLevel={UserLevel} experiencePercentage={experiencePercentage} />
           </S.ProfileBox>
         </S.Header>
 
@@ -88,6 +89,10 @@ function Profile() {
 
         <S.TabBox />
       </S.BackgroundImage>
+
+      <S.ImageBox>
+        <S.CharacterImage source={characterData[CharacterIndex].character} />
+      </S.ImageBox>
 
       <NicknameChangeModal showModal={showNicknameChangeModal} toggleModal={() => setShowNicknameChangeModal(!showNicknameChangeModal)} Nickname={Nickname} />
       <RunningMateModal showModal={showRunningMateModal} toggleModal={() => setShowRunningMateModal(!showRunningMateModal)} />

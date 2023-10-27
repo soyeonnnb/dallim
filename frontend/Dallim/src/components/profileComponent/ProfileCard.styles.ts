@@ -8,7 +8,7 @@ export const CardBox = styled.ImageBackground`
   width: 100%;
   height: 100%;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 export const Header = styled.View`
@@ -16,34 +16,9 @@ export const Header = styled.View`
   border-color: red; */
   justify-content: flex-end;
   align-items: flex-start;
-  width: 100%;
-  height: 40%;
-`;
-
-type ImageBoxProps = {
-  UserLevel: number;
-};
-export const ImageBox = styled.View<ImageBoxProps>`
-  border-width: 2px;
-  border-color: ${props => {
-    if (props.UserLevel <= 20) return 'gray';
-    if (props.UserLevel <= 40) return 'lime';
-    if (props.UserLevel <= 60) return 'blue';
-    if (props.UserLevel <= 80) return 'purple';
-    return 'red';
-  }};
-  justify-content: center;
-  align-items: center;
-  width: 70px;
-  height: 70px;
-  border-radius: 35px;
-  margin-left: 5%;
-  background-color: white;
-`;
-
-export const CharacterImage = styled.Image`
-  width: 80%;
-  height: 80%;
+  width: 90%;
+  height: 15%;
+  padding-left: 10px;
 `;
 
 export const Body = styled.View`
@@ -52,8 +27,9 @@ export const Body = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
-  width: 90%;
-  height: 40%;
+  width: 70%;
+  height: 65%;
+  padding-left: 10px;
 `;
 
 export const LeftBox = styled.View`
@@ -65,7 +41,7 @@ export const LeftBox = styled.View`
 `;
 
 export const NicknameText = styled.Text`
-  font-size: 20px;
+  font-size: 25px;
   color: white;
 `;
 
@@ -91,8 +67,9 @@ export const Footer = styled.View`
   border-color: red; */
   justify-content: center;
   align-items: center;
-  width: 90%;
+  width: 70%;
   height: 20%;
+  padding-left: 10px;
 `;
 
 export const LevelBox = styled.View`

@@ -8,8 +8,9 @@ import { backgroundImage } from '../../components/common/PlanetData';
 import { planetData } from '../../components/common/PlanetData';
 import Left from '../../assets/icons/DirectionLeft.png';
 import Right from '../../assets/icons/DirectionRight.png';
-import Sun from '../../assets/images/Sun.png';
-import TogglePlanet from '../../assets/images/Moon.png'
+
+import BasicCharacter from '../../assets/characters/토끼_선택.png'
+import BasicPlanet from '../../assets/planets/PlanetBlack.png';
 
 function Edit() {
 
@@ -81,7 +82,7 @@ function Edit() {
                                     ],
                                 }}
                             >
-                                <S.ToggleImage source={isOn ? TogglePlanet : Sun} />
+                                <S.ToggleImage source={isOn ? BasicPlanet : BasicCharacter} />
                             </S.ToggleButton>
                         </S.ToggleButtonWrapper>
                     </S.TopMiddle>

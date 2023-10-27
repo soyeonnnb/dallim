@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Animated, Easing } from 'react-native';
 import * as S from './Main.styles';
-import planetSample from '../../assets/Theme/PlanetBlack.png';
 import StampDarkIcon from '../../assets/icons/StampDarkIcon.png';
 import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
 import StampModal from '../../components/mainComponent/StampModal';
@@ -11,6 +10,7 @@ import SunToggleBackground from '../../assets/images/SunToggleBackground.png';
 import MoonToggleBackground from '../../assets/images/MoonToggleBackground.png';
 import SpinAnimation from '../../components/common/SpinAnimation';
 import { characterData } from '../../components/common/CharacterData';
+import planetSample from '../../assets/planets/PlanetBlack.png';
 
 function Main() {
   const TempPoint = '3000';

@@ -3,6 +3,7 @@ import {ImageBackground} from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
+  position: relative;
 `;
 
 export const BackgroundImage = styled(ImageBackground)`
@@ -128,4 +129,21 @@ export const TabBox = styled.View`
   border-color: red; */
   width: 100%;
   height: 10%;
+`;
+
+// 캐릭터 띄우기
+export const ImageBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 35%;
+  height: 25%;
+  position: absolute;
+  top: 18%;
+  left: 65%;
+`;
+
+export const CharacterImage = styled.Image`
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 `;

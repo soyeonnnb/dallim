@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-native';
 import * as S from './NicknameChangeModal.styles';
-import Toast from 'react-native-toast-message';
+import CustomToast from '../../../components/common/CustomToast';
 
 type ModalComponentProps = {
     showModal: boolean;
@@ -16,30 +16,13 @@ const NicknameChangeModal = ({ showModal, toggleModal, Nickname }: ModalComponen
 
     const handleConfirm = () => {
         if (Nickname === newNickname) {
-            Toast.show({
-                type: 'error',
-                position: 'top',
-                text1: '닉네임 중복 발생 !',
-                // text2: '부제',
-                visibilityTime: 4000,
-                autoHide: true,
-                topOffset: 10,
-                // bottomOffset: 40
-            });
+            CustomToast({ type: "error", text1: "닉네임 중복 발생 !" });
         } else {
-            Toast.show({
-                type: 'success',
-                position: 'top',
-                text1: '변경 완료 !',
-                // text2: '부제',
-                visibilityTime: 4000,
-                autoHide: true,
-                topOffset: 10,
-                // bottomOffset: 40
-            });
+            CustomToast({ type: "success", text1: "변경 완료 !" });
         }
         toggleModal();
     };
+
     return (
         <Modal
             transparent={true}

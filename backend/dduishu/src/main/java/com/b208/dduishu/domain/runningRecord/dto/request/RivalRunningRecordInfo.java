@@ -23,9 +23,9 @@ public class RivalRunningRecordInfo {
     private CharacterOverview character;
     private RunningType type;
     private List<RunningRecordOverallInfo> runningRecordInfos;
-    private int totalTime;
-    private int totalDistance;
-    private int averageSpeed;
+    private float totalTime;
+    private float totalDistance;
+    private float averageSpeed;
     private LocalDateTime createdAt;
 
     @Builder

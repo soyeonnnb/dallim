@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
@@ -131,10 +131,10 @@ public class UserService {
 
         List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserIdAndCreatedAtBetween(user.getUserId(), startOfWeek, now);
 
-        AtomicInteger weekDistance = new AtomicInteger();
+        AtomicReference<Float> weekDistance = new AtomicReference<>((float) 0.0);
         findRunningRecord.stream()
                 .forEach(o -> {
-                    weekDistance.addAndGet(o.getTotalDistance());
+                    weekDistance.updateAndGet(v -> new Float((float) (v + (o.getTotalDistance()))));
                 });
 
         BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(user.getUserLevel().getExp());
@@ -185,10 +185,10 @@ public class UserService {
 
         List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserIdAndCreatedAtBetween(user.getUserId(), startOfWeek, now);
 
-        AtomicInteger weekDistance = new AtomicInteger();
+        AtomicReference<Float> weekDistance = new AtomicReference<>((float) 0.0);
         findRunningRecord.stream()
                 .forEach(o -> {
-                    weekDistance.addAndGet(o.getTotalDistance());
+                    weekDistance.updateAndGet(v -> new Float((float) (v + (o.getTotalDistance()))));
                 });
 
         BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(user.getUserLevel().getExp());

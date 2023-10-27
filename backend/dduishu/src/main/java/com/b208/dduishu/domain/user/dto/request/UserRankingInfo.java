@@ -10,7 +10,7 @@ public class UserRankingInfo {
 
     private Long userId;
     private String nickname;
-    private int cumulativeDistance;
+    private float cumulativeDistance;
     private int level;
 
     public UserRankingInfo(RunningRecord runningRecord, User user) {

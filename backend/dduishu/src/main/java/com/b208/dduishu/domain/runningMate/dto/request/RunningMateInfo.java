@@ -13,9 +13,9 @@ public class RunningMateInfo {
     private String id;
     private String imageUrl;
     private LocalDateTime createdAt;
-    private int averageSpeed;
-    private int totalDistance;
-    private int totalTime;
+    private float averageSpeed;
+    private float totalDistance;
+    private float totalTime;
 
     @Builder
     public RunningMateInfo(RunningMate runningMate) {

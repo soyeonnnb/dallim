@@ -38,8 +38,8 @@ public class User {
     private List<Character> characterList = new ArrayList<>();
 
     private int cumulativeDay;
-    private int averageSpeed;
-    private int cumulativeDistance;
+    private float averageSpeed;
+    private float cumulativeDistance;
     private int cumulativeRunningTime;
     private int cumulativeCalorie;
     private int point;
@@ -71,7 +71,7 @@ public class User {
     }
 
     @Builder
-    public User(Long userId, String accountType, String email, String nickname, int cumulativeDay, int averageSpeed, int cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
+    public User(Long userId, String accountType, String email, String nickname, int cumulativeDay, float averageSpeed, float cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
         this.userId = userId;
         this.accountType = accountType;
         this.email = email;
@@ -120,17 +120,17 @@ public class User {
     public void updatePrivateAccessToken(String privateAccessToken){
         this.privateAccess = privateAccessToken;
     }
-    public void updateAverageSpeed(int averageSpeed) {
+    public void updateAverageSpeed(float averageSpeed) {
         this.averageSpeed = averageSpeed;
     }
 
-    public void addPoint(int point) {
+    public void addPoint(float point) {
         this.point += point;
     }
     public void addCumulativeDay(int day) {
         this.cumulativeDay += day;
     }
-    public void addCumulativeDistance(int distance){
+    public void addCumulativeDistance(float distance){
         this.cumulativeDistance += distance;
     }
 

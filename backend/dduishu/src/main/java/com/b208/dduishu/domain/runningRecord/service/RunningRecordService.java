@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static java.util.stream.Collectors.toList;
 
@@ -71,14 +71,14 @@ public class RunningRecordService {
 
         // 유저 평균 스피드 정산, 누적 운동 날짜 정산
         List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserId(user.getUserId());
-        AtomicInteger averageSpeedSum = new AtomicInteger(0);
+        AtomicReference<Float> averageSpeedSum = new AtomicReference<>((float) 0.0);
         AtomicBoolean hasRunningRecord = new AtomicBoolean(false);
         findRunningRecord.stream()
                 .forEach(o -> {
                     if (LocalDateTime.now().toLocalDate().equals(o.getCreatedAt().toLocalDate())) {
                         hasRunningRecord.set(true);
                     }
-                    averageSpeedSum.addAndGet(o.getAverageSpeed());
+                    averageSpeedSum.updateAndGet(v -> new Float((float) (v + (o.getAverageSpeed()))));
                 });
         if (hasRunningRecord.get() == false) {
             user.addCumulativeDay(1);

@@ -9,6 +9,7 @@ import com.b208.dduishu.domain.character.entity.Character;
 import lombok.Data;
 import org.bson.types.ObjectId;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -19,13 +20,18 @@ public class RunningRecordInfo {
     private RunningType type;
     private ObjectId rivalRecordId;
     private int totalTime;
-    private int totalDistance;
-    private int averageSpeed;
+    private float totalDistance;
+    private float stepCount;
+    private String averagePace;
+    private float averageSpeed;
+    private float averageHeartRate;
     //러닝 데이터 받아오기
     // 운동일시, 총 시간, 평균 속력, 이동 거리, 평균 심박수
     // + 위치정보
     // + 생체정보 +a
     private List<RunningRecordOverallInfo> runningRecordInfos;
+    private Date date;
+    private String formattedDate;
 
     public RunningRecord toRunningRecord(User user, Character character, RunningRecord rivalRecord){
 
@@ -44,6 +50,10 @@ public class RunningRecordInfo {
                 .totalTime(this.totalTime)
                 .totalDistance(this.totalDistance)
                 .averageSpeed(this.averageSpeed)
+                .averagePace(this.averagePace)
+                .averageHeartRate(this.averageHeartRate)
+                .formattedDate(this.formattedDate)
+                .stepCount(this.stepCount)
                 .build();
     }
 }

@@ -16,7 +16,10 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -34,13 +37,17 @@ public class RunningRecord {
     private RivalRunningRecordInfo rivalRecord;
     private List<RunningRecordOverallInfo> runningRecordInfos;
 
+    private float stepCount;
+    private String averagePace;
     private int totalTime;
-    private int totalDistance;
-    private int averageSpeed;
+    private float totalDistance;
+    private float averageSpeed;
+    private float averageHeartRate;
     private LocalDateTime createdAt;
+    private String formattedDate;
 
     @Builder
-    public RunningRecord(UserInfo user, CharacterOverview character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, int totalDistance, int averageSpeed) {
+    public RunningRecord(UserInfo user, CharacterOverview character, Date createdAt, float stepCount, String averagePace, float averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, float totalDistance, float averageSpeed) {
         this.user = user;
         this.character = character;
         this.type = type;
@@ -48,7 +55,21 @@ public class RunningRecord {
         this.runningRecordInfos = runningRecordInfos;
         this.totalDistance = totalDistance;
         this.totalTime = totalTime;
+        this.stepCount = stepCount;
+        this.averagePace = averagePace;
+        this.averageHeartRate = averageHeartRate;
+        this.formattedDate = formattedDate;
         this.averageSpeed = averageSpeed;
         this.createdAt = LocalDateTime.now();
+    }
+
+    private static LocalDateTime toLocalDateTime(Date date) {
+        // Date를 Instant로 변환
+        Instant instant = date.toInstant();
+
+        // Instant를 LocalDateTime로 변환
+        LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+        return localDateTime;
     }
 }

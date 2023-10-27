@@ -22,13 +22,13 @@ public class RunningRecordDetail {
     private RivalRunningRecordInfo rivalRecord;
     private List<RunningRecordOverallInfo> runningRecordInfos;
     private int totalTime;
-    private int totalDistance;
-    private int averageSpeed;
+    private float totalDistance;
+    private float averageSpeed;
     private int averageCalory;
     private LocalDateTime createdAt;
 
     @Builder
-    public RunningRecordDetail(ObjectId id, UserInfo user, CharacterOverview character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, int totalDistance, int averageSpeed, int averageCalory, LocalDateTime createdAt) {
+    public RunningRecordDetail(ObjectId id, UserInfo user, CharacterOverview character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, float totalDistance, float averageSpeed, int averageCalory, LocalDateTime createdAt) {
         this.id = id.toString();
         this.user = user;
         this.character = character;

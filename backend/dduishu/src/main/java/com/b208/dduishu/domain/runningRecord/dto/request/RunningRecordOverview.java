@@ -19,8 +19,8 @@ public class RunningRecordOverview {
     private Long userId;
     private RunningType type;
     private int totalTime;
-    private int totalDistance;
-    private int averageSpeed;
+    private float totalDistance;
+    private float averageSpeed;
     private LocalDateTime createdAt;
 
     public RunningRecordOverview(RunningRecord runningRecord) {

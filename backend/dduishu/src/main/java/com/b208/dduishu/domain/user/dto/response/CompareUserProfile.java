@@ -20,10 +20,10 @@ public class CompareUserProfile {
     private int pairDay;
     private int myTime;
     private int pairTime;
-    private int myDistance;
-    private int pairDistance;
-    private int mySpeed;
-    private int pairSpeed;
+    private float myDistance;
+    private float pairDistance;
+    private float mySpeed;
+    private float pairSpeed;
 
     public CompareUserProfile(User user , User pair) {
         this.myProfileIndex = getProfileIndex(user);
@@ -61,7 +61,7 @@ public class CompareUserProfile {
         return ret.get();
     }
 
-    private int getPercent(int me, int pair) {
+    private int getPercent(float me, float pair) {
         return (int)((double) me / (me + pair) * 100 + 0.5);
     }
 }

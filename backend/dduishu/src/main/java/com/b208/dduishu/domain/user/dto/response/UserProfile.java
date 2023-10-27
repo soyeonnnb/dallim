@@ -12,11 +12,11 @@ public class UserProfile {
     private int exp;
     private int curExp;
     private int EndExp;
-    private int cumulativeDistance;
-    private int cumulativeWeekDistance;
+    private float cumulativeDistance;
+    private float cumulativeWeekDistance;
 
     @Builder
-    public UserProfile(int profileIndex, String nickname, int level, int exp, int curExp, int endExp, int cumulativeDistance, int cumulativeWeekDistance) {
+    public UserProfile(int profileIndex, String nickname, int level, int exp, int curExp, int endExp, float cumulativeDistance, float cumulativeWeekDistance) {
         this.profileIndex = profileIndex;
         this.nickname = nickname;
         this.level = level;

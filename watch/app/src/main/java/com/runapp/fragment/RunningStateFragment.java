@@ -15,6 +15,7 @@ import com.runapp.R;
 import com.runapp.model.RunningViewModel;
 import com.runapp.util.Conversion;
 
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -47,28 +48,29 @@ public class RunningStateFragment extends Fragment {
         final double MAX_REALISTIC_PACE = 20.0;
 
         // ms로 들어옴
-        runningViewModel.getMsPace().observe(getViewLifecycleOwner(), speed ->{
+        runningViewModel.getMsSpeed().observe(getViewLifecycleOwner(), speed ->{
             TextView paceView = view.findViewById(R.id.tv_pace);
             if (speed <= 0) {
                 paceView.setText("0'0''");
                 return;
             }
-            Map<String, Object> result;
+            Map<String, Integer> result = new HashMap<>();
             int minute = 0;
             int second = 0;
 
-            if(speed != 0f){
+            if(speed != 0){
                 result = conversion.msToPace(speed);
-                minute = (int) result.get("minutes");
-                second = (int) result.get("seconds");
+                minute = result.get("minutes");
+                second = result.get("seconds");
             }
 
             if (minute > MAX_REALISTIC_PACE) {
                 paceView.setText("정지");
                 return;
             }
-
-            paceView.setText(String.format(Locale.getDefault(), "%d'%02d''", minute, second));
+            String format = String.format(Locale.getDefault(), "%d'%02d''", minute, second);
+            runningViewModel.setMsPace(format);
+            paceView.setText(format);
         });
 
         runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance ->{

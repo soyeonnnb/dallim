@@ -1,24 +1,33 @@
 package com.runapp.model;
 
 public class RunDetail {
-    private long time;   // 해당 기록이 기록된 시간
-    private float pace; // 속도(m/k)
+    private Long second;   // 해당 기록이 기록된 시간
+    private float speed; // 속도(m/s)
+    private String pace; // 페이스(m/k)
     private float distance; // 거리(m)
     private float heartRate; // 심박수
 
-    public long getTime() {
-        return time;
+    public Long getSecond() {
+        return second;
     }
 
-    public void setTime(long time) {
-        this.time = time;
+    public void setSecond(Long second) {
+        this.second = second;
     }
 
-    public float getPace() {
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public String getPace() {
         return pace;
     }
 
-    public void setPace(float pace) {
+    public void setPace(String pace) {
         this.pace = pace;
     }
 
@@ -41,7 +50,7 @@ public class RunDetail {
     @Override
     public String toString() {
         return "RunDetail{" +
-                "time=" + time +
+                "time=" + second +
                 ", pace=" + pace +
                 ", distance=" + distance +
                 ", heartRate=" + heartRate +

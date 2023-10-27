@@ -101,7 +101,6 @@ public class CountdownActivity extends ComponentActivity {
                 // 시간을 계산하여 텍스트 뷰 업데이트
                 int secondsRemaining = countdownTime - (int)(fraction * countdownTime);
                 if (secondsRemaining == 0) {
-                    System.out.println("dg");
                     countdownText.setText("시작");
                     countdownText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
                     countdownTimerView.setAngle(360);
@@ -109,7 +108,9 @@ public class CountdownActivity extends ComponentActivity {
                     countdownTimerView.invalidate();
 
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        String type = getIntent().getStringExtra("run_type");
                         Intent returnIntent = new Intent();
+                        returnIntent.putExtra("run_type", type);
                         setResult(Activity.RESULT_OK, returnIntent);
                         finish();
                     }, 1000);

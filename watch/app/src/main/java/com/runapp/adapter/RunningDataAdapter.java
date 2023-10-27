@@ -37,7 +37,7 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RunningData runningData = runningDataList.get(position);
-        String character = runningData.getCharacter();
+        int character = runningData.getCharacterId();
         // 데이터를 ViewHolder의 뷰에 바인딩합니다.
         holder.formattedDate.setText(String.valueOf(runningData.getFormattedDate()));
 
@@ -67,9 +67,9 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
             spannableHeartRate.setSpan(new RelativeSizeSpan(0.70f), indexOfBPM, indexOfBPM + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         holder.heartRate.setText(spannableHeartRate);
-        holder.time.setText(convertTime(runDetail.getTime()));
-        int resId = holder.itemView.getContext().getResources().getIdentifier(character, "drawable", holder.itemView.getContext().getPackageName());
-        holder.myRecordCharacter.setImageResource(resId);
+        holder.time.setText(convertTime(runDetail.getSecond()));
+//        int resId = holder.itemView.getContext().getResources().getIdentifier(character, "drawable", holder.itemView.getContext().getPackageName());
+//        holder.myRecordCharacter.setImageResource(resId);
     }
 
     @Override

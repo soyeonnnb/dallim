@@ -75,6 +75,8 @@ public class SelectActivity extends ComponentActivity {
             btnStart.setOnClickListener(b-> {
                 // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
                 Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
+                // 다른 액티비티로 값을 넘길 때 쓴다. 키 밸류로 구분
+                intent.putExtra("run_type", "ALONE");
                 countdownActivityResultLauncher.launch(intent);
                 dialog.dismiss();
             });
@@ -114,6 +116,7 @@ public class SelectActivity extends ComponentActivity {
             btnStart.setOnClickListener(b-> {
                 // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
                 Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
+                intent.putExtra("run_type", "PAIR"); // 인자로 넘겨줌
                 countdownActivityResultLauncher.launch(intent);
                 dialog.dismiss();
             });
@@ -126,13 +129,15 @@ public class SelectActivity extends ComponentActivity {
         });
     }
 
-    // 카운트다운이 끝났을 때 메서드
+    // 카운트다운이 끝났을 때 콜백 메서드
     ActivityResultLauncher<Intent> countdownActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
+                    String runType = result.getData().getStringExtra("run_type");
                     // 카운트다운 액티비티가 끝나면 셀렉트 액티비티에서 러닝 액티비티로 바뀜.
                     Intent nextActivityIntent = new Intent(SelectActivity.this, RunningActivity.class);
+                    nextActivityIntent.putExtra("run_type", runType);
                     startActivity(nextActivityIntent);
                 }
             });

@@ -10,11 +10,14 @@ import Sun from '../../assets/images/Sun.png';
 import SunToggleBackground from '../../assets/images/SunToggleBackground.png';
 import MoonToggleBackground from '../../assets/images/MoonToggleBackground.png';
 import SpinAnimation from '../../components/common/SpinAnimation';
+import { characterData } from '../../components/common/CharacterData';
 
 function Main() {
   const TempPoint = '3000';
   const TempLv = '67';
   const TempNickname = '하늘을 나는 병아리';
+  const TempGif = 1;
+  const selectedGif = characterData[TempGif].gif;
 
   const [isOn, setIsOn] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -41,13 +44,6 @@ function Main() {
     console.log("시작 버튼 눌림!");
   };
 
-  // Test
-  const gifSources = {
-    1: require('../../assets/character/펭런_1.gif'),
-    2: require('../../assets/character/펭런_2.gif'),
-    3: require('../../assets/character/펭런_3.gif')
-  };
-  const gifSourcesIndex = 3;
 
   return (
     <S.Container>
@@ -76,22 +72,17 @@ function Main() {
               </S.ToggleButtonWrapper>
             </S.ToggleButtonBackground>
           </S.HeaderLeft>
-
           <S.HeaderRight>
             <S.PointText isOn={isOn}>{TempPoint} P</S.PointText>
           </S.HeaderRight>
-
         </S.Header>
 
         <S.StampBox>
-        
-
           <S.Stamp>
             <S.SendButton onPress={handleSend}>
               <S.StampImage source={isOn ? StampDarkIcon : StampWhiteIcon} />
             </S.SendButton>
           </S.Stamp>
-
         </S.StampBox>
 
         <S.Body>
@@ -99,7 +90,7 @@ function Main() {
             <SpinAnimation>
               <S.StyledImage source={planetSample} />
             </SpinAnimation>
-            <S.StyledGif source={gifSources[gifSourcesIndex]} />
+            <S.StyledGif source={selectedGif} resizeMode="contain"/>
           </S.ThemeBox>
         </S.Body>
 

@@ -129,10 +129,10 @@ export const StyledImage = styled(Image)`
 export const StyledGif = styled(FastImage)`
   /* border-width: 1px;
   border-color: red; */
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   top: -40%;
-  left: 30%;
+  left: 25%;
   position: absolute;
 `;
 

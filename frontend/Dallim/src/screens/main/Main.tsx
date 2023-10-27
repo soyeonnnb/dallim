@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Animated, Easing } from 'react-native';
 import * as S from './Main.styles';
-import planetSample from '../../assets/Theme/RoomSample_1.png';
+import planetSample from '../../assets/Theme/PlanetBlack.png';
 import StampDarkIcon from '../../assets/icons/StampDarkIcon.png';
 import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
 import CloseIcon from '../../assets/icons/CloseIcon.png';
@@ -10,6 +10,7 @@ import Moon from '../../assets/images/Moon.png';
 import Sun from '../../assets/images/Sun.png';
 import SunToggleBackground from '../../assets/images/SunToggleBackground.png';
 import MoonToggleBackground from '../../assets/images/MoonToggleBackground.png';
+import SpinAnimation from '../../components/common/SpinAnimation';
 
 function Main({ navigation }: any) {
   const TempPoint = '3000';
@@ -46,6 +47,10 @@ function Main({ navigation }: any) {
       index: 0,
       routes: [{ name: 'Login' }],
     });
+  };
+
+  function Start() {
+    console.log("시작 버튼 눌림!");
   };
 
   // Test
@@ -107,7 +112,9 @@ function Main({ navigation }: any) {
 
         <S.Body>
           <S.ThemeBox>
-            <S.StyledImage source={planetSample} />
+            <SpinAnimation>
+              <S.StyledImage source={planetSample} />
+            </SpinAnimation>
             <S.StyledGif source={gifSources[gifSourcesIndex]} />
           </S.ThemeBox>
         </S.Body>
@@ -117,6 +124,13 @@ function Main({ navigation }: any) {
             <S.LevelText isOn={isOn}>Lv. {TempLv}</S.LevelText>
             <S.NicknameText isOn={isOn}>{TempNickname}</S.NicknameText>
           </S.FooterBox>
+
+          <S.StartBox>
+            <S.StartButton onPress={Start}>
+              <S.StartText >시작하기</S.StartText>
+            </S.StartButton>
+          </S.StartBox>
+
         </S.Footer>
 
         <S.TabBox />

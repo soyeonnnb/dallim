@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as S from './CharacterEdit.styles';
 import Character from './CharacterBox';
 import CharacterSelectModal from './editModal/CharacterSelectModal';
-import { characterData } from './CharacterData';
+import { characterData } from '../common/CharacterData';
 type CharacterEditProps = {
   onCharacterChange: (index: number) => void;
   characterIndex: number;

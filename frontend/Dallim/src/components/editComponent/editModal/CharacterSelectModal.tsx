@@ -1,8 +1,8 @@
 import React from 'react';
 import { Modal } from 'react-native';
 import * as S from './SelectModal.styles';
-import { selectedRoom } from '../RoomData';
-import { characterData } from '../CharacterData';
+import { selectedPlanet } from '../../common/PlanetData';
+import { characterData } from '../../common/CharacterData';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
@@ -42,7 +42,7 @@ const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, 
                     </S.ModalHeader>
                     <S.ModalBody>
                         <S.BoxStyle >
-                            <S.Image source={characterData[selectedRoom.index].character} resizeMode="contain" />
+                            <S.Image source={characterData[selectedPlanet.index].character} resizeMode="contain" />
                         </S.BoxStyle>
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>

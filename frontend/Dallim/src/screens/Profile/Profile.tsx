@@ -12,12 +12,12 @@ import NicknameChangeModal from '../../components/profileComponent/profileModal/
 import RunningMateModal from '../../components/profileComponent/profileModal/RunningMateModal'
 import NotificationModal from '../../components/profileComponent/profileModal/NotificationModal'
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal'
-import { characterData } from '../../components/editComponent/CharacterData';
+import { characterData } from '../../components/common/CharacterData';
 
 function Profile() {
 
   // 임시 데이터
-  const RoomIndex = 2;
+  const PlanetIndex = 2;
   const CharacterIndex = 1;
   const Nickname = "펭소시치";
   const UserLevel = 54;
@@ -38,7 +38,7 @@ function Profile() {
             <S.Text>My Profile</S.Text>
           </S.TitleProfileBox>
           <S.ProfileBox>
-            <ProfileCard RoomIndex={RoomIndex} Nickname={Nickname} UserLevel={UserLevel} experiencePercentage={experiencePercentage} />
+            <ProfileCard PlanetIndex={PlanetIndex} Nickname={Nickname} UserLevel={UserLevel} experiencePercentage={experiencePercentage} />
           </S.ProfileBox>
         </S.Header>
 

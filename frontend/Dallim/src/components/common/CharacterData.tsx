@@ -4,7 +4,7 @@ export type CharacterType = {
 }
 
 // 임시 저장된 캐릭터 인덱스
-export const selectedRoom = {
+export const selectedPlanet = {
   index: 2
 }
 

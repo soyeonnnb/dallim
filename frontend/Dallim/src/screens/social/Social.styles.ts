@@ -14,25 +14,26 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const Header = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  height: 25%;
-  /* height: 175px; */
+  height: 15%;
 `;
 
 export const Body = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
+  border-width: 1px;
+  border-color: red;
   flex-direction: row;
   width: 100%;
-  height: 55%;
+  height: 75%;
 `;
 
 export const Footer = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   flex-direction: row;
   width: 100%;
   height: 10%;

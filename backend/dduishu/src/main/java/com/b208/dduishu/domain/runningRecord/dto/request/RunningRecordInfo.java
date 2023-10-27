@@ -22,17 +22,17 @@ public class RunningRecordInfo {
     private ObjectId rivalRecordId;
     private int totalTime;
     private float totalDistance;
-    private float stepCount;
-    private String averagePace;
     private float averageSpeed;
     private float averageHeartRate;
+    private String averagePace;
+    private float stepCount;
     //러닝 데이터 받아오기
     // 운동일시, 총 시간, 평균 속력, 이동 거리, 평균 심박수
     // + 위치정보
     // + 생체정보 +a
-    private List<RunningRecordOverallInfo> runningRecordInfos;
     private Date date;
     private String formattedDate;
+    private List<RunningRecordOverallInfo> runningRecordInfos;
 
     public RunningRecord toRunningRecord(User user, Character character, RunningRecord rivalRecord){
 

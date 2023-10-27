@@ -9,16 +9,16 @@ public class RunningRecordOverallInfo {
 
     private int second;
     private float heartRate;
-    private float cumulativeDistance;
+    private float distance;
     private float speed;
-    private RunningOrWalk type;
+    private String pace;
 
     @Builder
-    public RunningRecordOverallInfo(int second, float heartRate, float cumulativeDistance, float speed, RunningOrWalk type) {
+    public RunningRecordOverallInfo(int second, float heartRate, float distance, float speed, String pace) {
         this.second = second;
         this.heartRate = heartRate;
-        this.cumulativeDistance = cumulativeDistance;
+        this.distance = distance;
         this.speed = speed;
-        this.type = type;
+        this.pace = pace;
     }
 }

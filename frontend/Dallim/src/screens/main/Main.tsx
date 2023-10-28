@@ -16,7 +16,7 @@ function Main() {
   const TempPoint = '3000';
   const TempLv = '67';
   const TempNickname = '하늘을 나는 병아리';
-  const TempGif = 1;
+  const TempGif = 3;
   const selectedGif = characterData[TempGif].gif;
 
   const [isOn, setIsOn] = useState(false);

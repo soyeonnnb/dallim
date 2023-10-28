@@ -13,7 +13,7 @@ export const characterData: CharacterType[] = [
   {
     character: require('../../assets/characters/토끼_선택.png'),
     background: require('../../assets/characters/토끼_배경.png'),
-    gif: require('../../assets/characters/펭귄_Running_1.gif')
+    gif: require('../../assets/characters/토끼_Running_1.gif')
   },
   {
     character: require('../../assets/characters/펭귄_선택.png'),
@@ -23,12 +23,12 @@ export const characterData: CharacterType[] = [
   {
     character: require('../../assets/characters/팬더_선택.png'),
     background: require('../../assets/characters/팬더_배경.png'),
-    gif: require('../../assets/characters/펭귄_Running_1.gif')
+    gif: require('../../assets/characters/팬더_Running_1.gif')
   },
   {
     character: require('../../assets/characters/병아리_선택.png'),
     background: require('../../assets/characters/병아리_배경.png'),
-    gif: require('../../assets/characters/펭귄_Running_1.gif')
+    gif: require('../../assets/characters/병아리_Running_1.gif')
 
   }
 ];

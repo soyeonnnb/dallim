@@ -9,7 +9,7 @@ import EditIcon from '../../../assets/icons/EditIcon';
 import ProfileIcon from '../../../assets/icons/ProfileIcon';
 
 // styles
-import * as varStyles from '../styles';
+import * as varStyles from './styles';
 
 interface NavIconProps {
   focused: boolean;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, ScrollView } from 'react-native';
 import * as S from './UserDetailModal.styles';
 import CloseIcon from '../../../assets/icons/CloseIcon.png';
-import Character from '../../../assets/character/팬더.png';
+import Character from '../../../assets/characters/팬더_선택.png';
 import RunningDataBox from '../RunningDataBox';
 import VersusModal from './VersusModal';
 

@@ -32,12 +32,14 @@ public class LocationHelper {
         initLocationCallback();
     }
 
+    // 위치 관련 서비스를 초기화 시킴
     private void initLocationClient() {
+        // 앱의 위치를 가져오는 데 사용됨.
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
 
         LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(1000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(1000); // 위치 업데이트 간격은 1초
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // 높은 정확도로 가져옴
 
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
                 .addLocationRequest(locationRequest);
@@ -62,15 +64,32 @@ public class LocationHelper {
 
     private void initLocationCallback() {
         locationCallback = new LocationCallback() {
+            // 위치 정보가 업데이트될 때마다 호출된다.
             @Override
             public void onLocationResult(LocationResult locationResult) {
+                // null이면 콜백 종료
                 if (locationResult == null) return;
+                // 위치 정보 리스트를 순회한다.
                 for (Location location : locationResult.getLocations()) {
+                    // 위치 정보 업데이트 메서드 동작.
                     onLocationUpdated(location);
                     break;
                 }
             }
         };
+    }
+
+    // 위치 정보 업데이트 메서드
+    private void onLocationUpdated(Location location) {
+        // 이전 위치가 null이 아니면
+        if (lastLocation != null) {
+            // 현재 위치와 이전 위치 사이의 거리를 미터로 계산한다.
+            float distance = lastLocation.distanceTo(location);
+            // 현재 속도를 m/s 단위로 가져온다.
+            float speed = location.getSpeed();
+            Log.d(TAG, "이동거리: " + distance + " M, 속도: " + speed + " m/s");
+        }
+        lastLocation = location;
     }
 
     public void startLocationUpdates() {
@@ -83,12 +102,5 @@ public class LocationHelper {
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 
-    private void onLocationUpdated(Location location) {
-        if (lastLocation != null) {
-            float distanceInMeters = lastLocation.distanceTo(location);
-            float speed = distanceInMeters / 1;  // Since updates are every 1 second
-            Log.d(TAG, "Distance: " + distanceInMeters + " meters, Speed: " + speed + " m/s");
-        }
-        lastLocation = location;
-    }
+
 }

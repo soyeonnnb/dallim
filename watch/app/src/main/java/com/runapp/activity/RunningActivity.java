@@ -4,26 +4,21 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.gms.location.LocationRequest;
 import com.runapp.adapter.ViewPagerAdapter;
 import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivityRunningBinding;
@@ -39,10 +34,6 @@ import com.runapp.util.Conversion;
 import com.runapp.util.LocationHelper;
 import com.runapp.util.NetworkUtil;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -75,7 +66,7 @@ public class RunningActivity extends AppCompatActivity {
     // 심박수 평균을 위한 카운트
     private int heartCountTime = 0;
     private float totalHeartRate = 0f;
-    private Conversion conversion;
+    private Conversion conversion = new Conversion();
     private LocationHelper locationHelper;
 
 
@@ -91,7 +82,7 @@ public class RunningActivity extends AppCompatActivity {
         runningData = new RunningData();
         runningData.setUserId(1L);
         runningData.setDate(new Date());
-        runningData.setFormattedDate(formatDate(runningData.getDate()));
+        runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
         runningData.setCharacterId(1);
         runningData.setAveragePace("0'00''");
         runningData.setAverageSpeed(0f);
@@ -139,16 +130,10 @@ public class RunningActivity extends AppCompatActivity {
         });
         timerService.startTimer();
 
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(1000); // 위치 업데이트 간격
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        if (Build.VERSION.SDK_INT >= 29 &&
-                ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(RunningActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-        } else {
-            locationHelper.startLocationUpdates();
-        }
+//        LocationRequest locationRequest = LocationRequest.create();
+//        locationRequest.setInterval(1000); // 위치 업데이트 간격
+//        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationHelper.startLocationUpdates();
     }
 
     /*
@@ -244,16 +229,6 @@ public class RunningActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(locationUpdateReceiver);
     }
 
-    // 날짜 형식 변환해주는 메서드
-    private String formatDate(Date date) {
-        Instant instant = date.toInstant();
-        ZoneId zoneId = ZoneId.systemDefault();
-        LocalDateTime localDateTime = instant.atZone(zoneId).toLocalDateTime();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 (E)", Locale.KOREAN);
-        return localDateTime.format(formatter);
-    }
-
     // 데이터 추가(메인 스레드에서 분리하기 위해서)
     private void addRunningData(RunningData runningData) {
         executor.execute(new Runnable() {
@@ -270,7 +245,6 @@ public class RunningActivity extends AppCompatActivity {
         super.onDestroy();
         sensorService.unregisterSensors(); // 센서 리스너 등록 해제
         timerService.stopTimer(); // 타이머 중지
-        conversion = new Conversion();
 
         // LocationService 종료
         Intent serviceIntent = new Intent(this, LocationService.class);

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Easing } from 'react-native';
 import * as S from './Main.styles';
 import StampDarkIcon from '../../assets/icons/StampDarkIcon.png';
@@ -12,7 +12,34 @@ import SpinAnimation from '../../components/common/SpinAnimation';
 import { characterData } from '../../components/common/CharacterData';
 import planetSample from '../../assets/planets/PlanetBlack.png';
 
+// import { fetchUserProfile } from '../../apis';
+// type UserProfile = {
+//   profileIndex: number;
+//   nickname: string;
+//   level: number;
+//   exp: number;
+//   curExp: number;
+//   cumulativeDistance: number;
+//   cumulativeWeekDistance: number;
+//   endExp: number;
+// };
+
 function Main() {
+  // const [userInfo, setUserInfo] = useState<UserProfile | null>(null);
+  // useEffect(() => {
+  //   const loadUserProfile = async () => {
+  //     try {
+  //       const data = await fetchUserProfile();
+  //       console.error("유저정보 불러오기 성공 !");
+  //       setUserInfo(data);
+  //     } catch (error) {
+  //       console.error("유저 불러오려는데 찍 :", error);
+  //     }
+  //   };
+
+  //   loadUserProfile();
+  // }, []);
+
   const TempPoint = '3000';
   const TempLv = '67';
   const TempNickname = '하늘을 나는 병아리';
@@ -43,7 +70,6 @@ function Main() {
   function Start() {
     console.log("시작 버튼 눌림!");
   };
-
 
   return (
     <S.Container>
@@ -90,7 +116,7 @@ function Main() {
             <SpinAnimation>
               <S.StyledImage source={planetSample} />
             </SpinAnimation>
-            <S.StyledGif source={selectedGif} resizeMode="contain"/>
+            <S.StyledGif source={selectedGif} resizeMode="contain" />
           </S.ThemeBox>
         </S.Body>
 
@@ -98,6 +124,7 @@ function Main() {
           <S.FooterBox>
             <S.LevelText isOn={isOn}>Lv. {TempLv}</S.LevelText>
             <S.NicknameText isOn={isOn}>{TempNickname}</S.NicknameText>
+            {/* <S.NicknameText isOn={isOn}>{userInfo ? userInfo.nickname : "Loading..."}</S.NicknameText> */}
           </S.FooterBox>
 
           <S.StartBox>

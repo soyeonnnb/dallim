@@ -2,7 +2,6 @@ import React from 'react';
 import { Modal } from 'react-native';
 import * as S from './SelectModal.styles'; // 스타일 컴포넌트 임포트
 import { planetData } from '../../common/PlanetData';
-import { selectedPlanet } from '../../common/PlanetData';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
@@ -24,9 +23,10 @@ const planetSelectModal = ({ showModal, toggleModal, confirmPlanetChange, planet
             autoHide: true,
             topOffset: 10,
         });
-
         confirmPlanetChange();
     };
+
+    const selectedPlanet = 1; // 임시 메인 행성
 
     return (
         <Modal
@@ -42,7 +42,7 @@ const planetSelectModal = ({ showModal, toggleModal, confirmPlanetChange, planet
                     <S.ModalBody>
 
                         <S.BoxStyle >
-                            <S.Image source={planetData[selectedPlanet.index].Planet} resizeMode="contain" />
+                            <S.Image source={planetData[selectedPlanet].Planet} resizeMode="contain" />
                         </S.BoxStyle>
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>

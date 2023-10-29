@@ -1,7 +1,6 @@
 import React from 'react';
 import { Modal } from 'react-native';
 import * as S from './SelectModal.styles';
-import { selectedPlanet } from '../../common/PlanetData';
 import { characterData } from '../../common/CharacterData';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
@@ -11,9 +10,10 @@ type ModalComponentProps = {
     toggleModal: () => void;
     confirmCharacterChange: () => void;
     characterIndex: number;
+    characterLevel: number;
 };
 
-const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, characterIndex }: ModalComponentProps) => {
+const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, characterIndex, characterLevel }: ModalComponentProps) => {
 
     const handleConfirmCharacterChange = () => {
         Toast.show({
@@ -28,6 +28,8 @@ const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, 
         confirmCharacterChange();
     };
 
+    const selectedCharacter = 1; // 임시 메인 캐릭터
+    const selectedCharacterLevel = 0;
 
     return (
         <Modal
@@ -42,7 +44,7 @@ const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, 
                     </S.ModalHeader>
                     <S.ModalBody>
                         <S.BoxStyle >
-                            <S.Image source={characterData[selectedPlanet.index].character} resizeMode="contain" />
+                            <S.Image source={characterData[selectedCharacter].levels[selectedCharacterLevel].front} resizeMode="contain" />
                         </S.BoxStyle>
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>
@@ -53,7 +55,7 @@ const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, 
                             </S.ChangeBox>
                         </S.ChangeBoxStyle>
                         <S.BoxStyle >
-                            <S.Image source={characterData[characterIndex].character} resizeMode="contain" />
+                            <S.Image source={characterData[characterIndex].levels[characterLevel].front} resizeMode="contain" />
                         </S.BoxStyle>
 
                     </S.ModalBody>

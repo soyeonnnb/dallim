@@ -10,7 +10,7 @@ import SunToggleBackground from '../../assets/images/SunToggleBackground.png';
 import MoonToggleBackground from '../../assets/images/MoonToggleBackground.png';
 import SpinAnimation from '../../components/common/SpinAnimation';
 import { characterData } from '../../components/common/CharacterData';
-import planetSample from '../../assets/planets/PlanetBlack.png';
+import planetSample from '@/assets/planets/PlanetBlack.png';
 
 // import { fetchUserProfile } from '../../apis';
 // type UserProfile = {
@@ -36,15 +36,16 @@ function Main() {
   //       console.error("유저 불러오려는데 찍 :", error);
   //     }
   //   };
-
   //   loadUserProfile();
   // }, []);
 
-  const TempPoint = '3000';
-  const TempLv = '67';
-  const TempNickname = '하늘을 나는 병아리';
-  const TempGif = 3;
-  const selectedGif = characterData[TempGif].gif;
+  const TempPoint = '3000'; // 유저 포인트
+  const TempLv = '67'; // 유저 레벨
+  const TempNickname = '하늘을 나는 병아리'; // 유저 닉네임
+  const TempSelectCharacter = 0; // 유저가 장착한 캐릭터
+  const TempSelectCharacterLevel = 0; // 유저가 장착한 캐릭터 레벨 : 0 OR 1   
+  const selectedCharacter = characterData[TempSelectCharacter];
+  const selectedCharacterLevelData = selectedCharacter.levels[TempSelectCharacterLevel];
 
   const [isOn, setIsOn] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -116,7 +117,7 @@ function Main() {
             <SpinAnimation>
               <S.StyledImage source={planetSample} />
             </SpinAnimation>
-            <S.StyledGif source={selectedGif} resizeMode="contain" />
+            <S.StyledGif source={selectedCharacterLevelData.running} resizeMode="contain" />
           </S.ThemeBox>
         </S.Body>
 

@@ -1,12 +1,13 @@
 import React from 'react';
 import * as S from './CharacterBox.styles';
-import { characterData } from '../../components/editComponent/CharacterData';
+import { characterData } from '../common/CharacterData';
 
 interface Props {
     index: number;
 }
 
 function CharacterBox({ index }: Props) {
+
     return (
         <S.Container>
             <S.CharacterBox>

@@ -6,9 +6,10 @@ import { characterData } from '../common/CharacterData';
 type CharacterEditProps = {
   onCharacterChange: (index: number) => void;
   characterIndex: number;
+  characterLevel: number;
 }
 
-function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps) {
+function CharacterEdit({ onCharacterChange, characterIndex, characterLevel }: CharacterEditProps) {
 
   const Level = '10';
   const Experience = 40;
@@ -54,7 +55,7 @@ function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps
 
       <S.Body>
         <S.CharacterBox>
-          <Character index={characterIndex} />
+          <Character characterIndex={characterIndex} characterLevel={characterLevel}/>
         </S.CharacterBox>
       </S.Body>
 
@@ -76,6 +77,7 @@ function CharacterEdit({ onCharacterChange, characterIndex }: CharacterEditProps
         toggleModal={toggleModal}
         confirmCharacterChange={confirmCharacterChange}
         characterIndex={characterIndex}
+        characterLevel={characterLevel}
       />
 
     </S.Container>

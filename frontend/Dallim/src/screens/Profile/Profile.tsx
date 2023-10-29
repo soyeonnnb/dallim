@@ -17,11 +17,15 @@ import { characterData } from '../../components/common/CharacterData';
 function Profile() {
 
   // 임시 데이터
-  const PlanetIndex = 2;
-  const CharacterIndex = 1;
-  const Nickname = "펭소시치";
-  const UserLevel = 54;
-  const experiencePercentage = 65.2;
+  const PlanetIndex = 2; // 유저가 장착한 행성
+  const TempSelectCharacter = 3; // 유저가 장착한 캐릭터
+  const TempSelectCharacterLevel = 1; // 유저가 장착한 캐릭터 레벨 : 0 OR 1   
+  const selectedCharacter = characterData[TempSelectCharacter];
+  const selectedCharacterLevelData = selectedCharacter.levels[TempSelectCharacterLevel];
+
+  const Nickname = "펭소시치"; // 유저 닉네임
+  const UserLevel = 54; // 유저 레벨 
+  const experiencePercentage = 65.2; // 유저 해당하는 레벨의 경험치
 
   const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
   const [showRunningMateModal, setShowRunningMateModal] = useState(false);
@@ -91,7 +95,7 @@ function Profile() {
       </S.BackgroundImage>
 
       <S.ImageBox>
-        <S.CharacterImage source={characterData[CharacterIndex].character} />
+        <S.CharacterImage source={selectedCharacterLevelData.front} />
       </S.ImageBox>
 
       <NicknameChangeModal showModal={showNicknameChangeModal} toggleModal={() => setShowNicknameChangeModal(!showNicknameChangeModal)} Nickname={Nickname} />

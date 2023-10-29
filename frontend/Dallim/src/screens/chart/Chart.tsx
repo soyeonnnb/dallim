@@ -2,7 +2,7 @@ import React from 'react';
 import * as S from './Chart.styles'; // 스타일 컴포넌트 import
 import Carousel from 'react-native-reanimated-carousel';
 import { Dimensions } from 'react-native';
-import Character from '../../assets/characters/펭귄_선택.png';
+import Character from '@/assets/characters/Penguin.png';
 
 import FirstChart from '../../components/chartComponent/FirstChart';
 import SecondChart from '../../components/chartComponent/SecondChart';

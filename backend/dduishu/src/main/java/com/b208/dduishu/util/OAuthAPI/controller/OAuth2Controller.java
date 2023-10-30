@@ -85,7 +85,8 @@ public class  OAuth2Controller {
     //백엔드에서 수동으로 엑세스 토큰을
     // 처리하기 위한 코드
     private boolean isProcessing = false;
-    @PostMapping("oauth2/code/kakao")
+    // @GetMapping("oauth2/code/kakao")
+    @GetMapping("oauth2/code/kakao")
     public ResponseEntity<?> exchangeKakaoCodeForAccessToken(@RequestParam("code") String code) {
         try {
             if (isProcessing) {

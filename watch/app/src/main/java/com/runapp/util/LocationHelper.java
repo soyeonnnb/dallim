@@ -18,6 +18,9 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.Task;
+import com.runapp.model.RunningViewModel;
+
+import java.util.Map;
 
 public class LocationHelper {
 
@@ -25,8 +28,13 @@ public class LocationHelper {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Context context;
     private Location lastLocation;
+    private RunningViewModel runningViewModel;
+    private float totalDistance = 0f;
+    private Conversion conversion;
 
-    public LocationHelper(Context context) {
+    public LocationHelper(Context context, RunningViewModel runningViewModel) {
+        conversion = new Conversion();
+        this.runningViewModel = runningViewModel;
         this.context = context;
         initLocationClient();
         initLocationCallback();
@@ -85,8 +93,21 @@ public class LocationHelper {
         if (lastLocation != null) {
             // 현재 위치와 이전 위치 사이의 거리를 미터로 계산한다.
             float distance = lastLocation.distanceTo(location);
+            totalDistance += Math.round(distance * 100) / 100.0;
+            runningViewModel.setDistance(totalDistance);
+
             // 현재 속도를 m/s 단위로 가져온다.
             float speed = location.getSpeed();
+
+            if(speed != 0){
+                speed = (float) (Math.round(speed * 100) / 100.0);
+                runningViewModel.setMsSpeed(speed);
+                Map<String, Integer> result = conversion.msToPace(speed);
+                Integer minutes = result.get("minutes");
+                Integer seconds = result.get("seconds");
+                String format = String.format("%d'%02d''", minutes, seconds);
+                runningViewModel.setMsPace(format);
+            }
             Log.d(TAG, "이동거리: " + distance + " M, 속도: " + speed + " m/s");
         }
         lastLocation = location;
@@ -100,6 +121,13 @@ public class LocationHelper {
         locationRequest.setInterval(1000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+    }
+
+    // 위치 서비스 중단
+    public void stopLocationUpdates(){
+        if(locationCallback != null && fusedLocationProviderClient != null){
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        }
     }
 
 

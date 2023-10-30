@@ -114,7 +114,6 @@ public class FollowService {
     public List<FollowerInfo> getAllWatingFollowInfo() {
         User user = getUser.getUser();
 
-        System.out.println("22222"+user);
         // fromUser가 아니라 toUser 기준으로 조회하며 state가 waiting인 것만 필터링
         List<Follow> waitingFollows = followRepository.findAllByToUserUserIdAndState(user.getUserId(), FollowState.waiting);
 
@@ -126,9 +125,6 @@ public class FollowService {
         List<FollowerInfo> followDTO = followUsers.stream()
                 .map(FollowerInfo::new)
                 .collect(toList());
-        for(FollowerInfo f : followDTO){
-            System.out.println( f.toString());
-        }
         return followDTO;
     }
 

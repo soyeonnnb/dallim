@@ -59,7 +59,6 @@ public class FollowController {
     @GetMapping("/api/v1/follow/waiting")
     public ApiResponse<?> getAllWatingFollowInfo(){
         try {
-            System.out.println(11111);
             List<FollowerInfo> res = followService.getAllWatingFollowInfo();
 
             return ApiResponse.createSuccess(res);

@@ -10,11 +10,11 @@ import {
   View,
   Text,
   LayoutChangeEvent,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-
+import * as S from './BottomTab.styles';
 // components
 import Main from '../../../screens/main/Main';
 import Chart from '../../../screens/chart/ChartMain';
@@ -32,25 +32,15 @@ const AnimatedTabBar = ({
   navigation,
   descriptors,
 }: BottomTabBarProps) => {
-  const {bottom} = useSafeAreaInsets();
-
-  const reducer = (state: any, action: {x: number; index: number}) => {
-    return [...state, {x: action.x, index: action.index}];
+  const handleTabPress = (routeName: string) => {
+    navigation.navigate(routeName);
   };
-
-  const [layout, dispatch] = useReducer(reducer, []);
-
-  const handleLayout = (event: LayoutChangeEvent, index: number) => {
-    dispatch({x: event.nativeEvent.layout.x, index});
-  };
-
   return (
     <View
-      id="mainContainer"
       style={[
         {
-          paddingBottom: bottom,
-          backgroundColor: 'white',
+          paddingBottom: 0,
+          backgroundColor: 'red',
         },
       ]}>
       <View style={[styles.tabBarContainer]}>
@@ -63,8 +53,7 @@ const AnimatedTabBar = ({
               key={route.key}
               active={active}
               options={options}
-              onLayout={e => handleLayout(e, index)}
-              onPress={() => navigation.navigate(route.name)}
+              onPress={() => handleTabPress(route.name)}
             />
           );
         })}
@@ -76,16 +65,10 @@ const AnimatedTabBar = ({
 type TabBarComponentProps = {
   active?: boolean;
   options: BottomTabNavigationOptions;
-  onLayout: (e: LayoutChangeEvent) => void;
   onPress: () => void;
 };
 
-const TabBarComponent = ({
-  active,
-  options,
-  onLayout,
-  onPress,
-}: TabBarComponentProps) => {
+const TabBarComponent = ({active, options, onPress}: TabBarComponentProps) => {
   const animatedComponentCircleStyles = useAnimatedStyle(() => {
     return {
       transform: [
@@ -111,69 +94,60 @@ const TabBarComponent = ({
   });
 
   return (
-    <Pressable onPress={onPress} onLayout={onLayout} style={styles.component}>
-      <Animated.View
-        style={[styles.componentCircle, animatedComponentCircleStyles]}
-      />
-      <Animated.View
-        style={[styles.iconContainer, animatedIconContainerStyles]}>
-        {options.tabBarIcon && typeof options.tabBarIcon === 'function' ? (
-          options.tabBarIcon({
-            focused: active ? active : false,
-            color: '#000',
-            size: 25,
-          })
-        ) : (
-          <Text>No Icon</Text>
-        )}
-      </Animated.View>
-    </Pressable>
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View>
+        <Animated.View
+          style={[styles.componentCircle, animatedComponentCircleStyles]}
+        />
+        <Animated.View
+          style={[styles.iconContainer, animatedIconContainerStyles]}>
+          {options.tabBarIcon && typeof options.tabBarIcon === 'function' ? (
+            options.tabBarIcon({
+              focused: active ? active : false,
+              color: '#000',
+              size: 25,
+            })
+          ) : (
+            <Text>No Icon</Text>
+          )}
+        </Animated.View>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
-  activeBackground: {
-    position: 'absolute',
-    bottom: 0,
-  },
   tabBarContainer: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-evenly',
-    backgroundColor: 'white',
+    backgroundColor: 'red',
     borderTopEndRadius: 45,
     borderTopStartRadius: 45,
     zIndex: 2,
     position: 'absolute',
     bottom: 0,
-    flex: 1,
-  },
-  component: {
-    height: 60,
-    width: 60,
   },
   componentCircle: {
     flex: 1,
     borderRadius: 30,
     backgroundColor: 'black',
+    height: 60,
+    width: 60,
   },
   iconContainer: {
     position: 'absolute',
-    top: 0,
     left: 0,
     right: 0,
+    top: 0,
     bottom: 0,
+    backgroundColor: 'yellow',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  icon: {
-    height: 36,
-    width: 36,
   },
 });
 
 function BottompTab() {
-  const [darkMode, setDarkMode] = useState(false);
   return (
     <Tab.Navigator
       tabBar={props => <AnimatedTabBar {...props} />}
@@ -184,7 +158,7 @@ function BottompTab() {
         component={Chart}
         options={{
           tabBarIcon: ({focused}) => (
-            <BottomTabIcon darkMode={darkMode} focused={focused} type="chart" />
+            <BottomTabIcon focused={focused} type="chart" />
           ),
         }}
       />
@@ -193,11 +167,7 @@ function BottompTab() {
         component={Social}
         options={{
           tabBarIcon: ({focused}) => (
-            <BottomTabIcon
-              darkMode={darkMode}
-              focused={focused}
-              type="social"
-            />
+            <BottomTabIcon focused={focused} type="social" />
           ),
         }}
       />
@@ -206,7 +176,7 @@ function BottompTab() {
         component={Main}
         options={{
           tabBarIcon: ({focused}) => (
-            <BottomTabIcon darkMode={darkMode} focused={focused} type="main" />
+            <BottomTabIcon focused={focused} type="main" />
           ),
         }}
       />
@@ -215,7 +185,7 @@ function BottompTab() {
         component={Edit}
         options={{
           tabBarIcon: ({focused}) => (
-            <BottomTabIcon darkMode={darkMode} focused={focused} type="edit" />
+            <BottomTabIcon focused={focused} type="edit" />
           ),
         }}
       />
@@ -224,11 +194,7 @@ function BottompTab() {
         component={Profile}
         options={{
           tabBarIcon: ({focused}) => (
-            <BottomTabIcon
-              darkMode={darkMode}
-              focused={focused}
-              type="profile"
-            />
+            <BottomTabIcon focused={focused} type="profile" />
           ),
         }}
       />

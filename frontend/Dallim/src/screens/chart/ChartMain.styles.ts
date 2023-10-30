@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
 import {ImageBackground} from 'react-native';
-import be from 'date-fns/locale/be/index.js';
 
 export const Container = styled.View`
   flex: 1;

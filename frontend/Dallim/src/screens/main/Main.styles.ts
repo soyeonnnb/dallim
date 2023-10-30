@@ -113,7 +113,6 @@ export const ThemeBox = styled.View`
 export const StyledImage = styled(Image)`
   width: 100%;
   height: 100%;
-  object-fit: contain;
 `;
 
 export const StyledGif = styled(FastImage)`

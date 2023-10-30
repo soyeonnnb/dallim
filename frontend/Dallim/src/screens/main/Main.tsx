@@ -56,7 +56,7 @@ function Main() {
         <S.Body>
           <S.ThemeBox>
             <SpinAnimation>
-              <S.StyledImage source={planetData[TempSelectPlanet].Planet} />
+              <S.StyledImage source={planetData[TempSelectPlanet].Planet} resizeMode='contain'/>
             </SpinAnimation>
             <S.StyledGif source={selectedCharacterLevelData.running} resizeMode="contain" />
           </S.ThemeBox>

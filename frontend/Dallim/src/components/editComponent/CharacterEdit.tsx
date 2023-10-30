@@ -77,7 +77,7 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
           </>
         ) : (
           <S.LockButtonBox onPress={handlePurchaseCheck}>
-            <S.LockedImage source={require('@/assets/icons/LockIcon.png')} />
+            <S.LockedImage source={require('@/assets/icons/LockIcon.png')} resizeMode='contain'/>
             <S.LockedText>2000 포인트</S.LockedText>
           </S.LockButtonBox>
         )}

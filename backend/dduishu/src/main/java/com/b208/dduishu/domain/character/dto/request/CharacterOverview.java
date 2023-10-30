@@ -4,6 +4,8 @@ import com.b208.dduishu.domain.character.entity.Character;
 
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.user.entity.BaseLevel;
+import com.b208.dduishu.util.Util;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,38 +16,38 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CharacterOverview {
 
-    private final static int FIRST_STEP = 1;
-    private final static int SECOND_STEP = 2;
-    private final static int THIRD_STEP = 3;
-
-    private Long characterId;
     private int characterIndex;
-    private CharacterName name;
-    private boolean isMainCharacter;
+    @JsonProperty("isPurchased")
     private boolean isPurchased;
     private int level;
     private int exp;
+    private int evolutionStage;
+
 
     @Builder
     public CharacterOverview(CharacterName name) {
-        this.characterId = -1L;
         this.characterIndex = getCharacterIndex(name);
-        this.name = name;
-        this.isMainCharacter = false;
         this.isPurchased = false;
         this.level = -1;
         this.exp = -1;
+        this.evolutionStage = -1;
     }
 
     public CharacterOverview(Character character) {
-        this.characterId = character.getId();
-        this.characterIndex = getCharacterIndex(character.getCharacterInfo().getName());
-        this.name = character.getCharacterInfo().getName();
-        this.isMainCharacter = character.isMainCharacter();
+        this.characterIndex = Util.getCharacterIndexByCharacter(character);
         this.isPurchased = true;
         this.level = character.getCharacterLevel().getLevel();
         BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(character.getCharacterLevel().getExp());
         this.exp = levelInfo.getExp();
+        this.evolutionStage = getEvolutionStage(character.getCharacterLevel().getLevel());
+    }
+
+    public int getEvolutionStage(int level) {
+        if (level < 10) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 
     private int getCharacterIndex(CharacterName name) {
@@ -61,29 +63,4 @@ public class CharacterOverview {
         }
         return -1;
     }
-
-    private String findImageUrl(Character character) {
-        int level = character.getCharacterLevel().getLevel();
-
-        int step = findCharacterStep(level);
-
-        if (step == FIRST_STEP) {
-            return character.getCharacterInfo().getFirstGifUrl();
-        } else if (step == SECOND_STEP) {
-            return character.getCharacterInfo().getSecondGifUrl();
-        } else {
-            return character.getCharacterInfo().getThirdGifUrl();
-        }
-    }
-
-    private int findCharacterStep(int level) {
-        if ( 1 <= level && level <= 20) {
-            return FIRST_STEP;
-        } else if ( 21 <= level && level <= 40 ) {
-            return SECOND_STEP;
-        } else {
-            return THIRD_STEP;
-        }
-    }
-
 }

@@ -8,10 +8,7 @@ import com.b208.dduishu.domain.user.dto.request.UserEmail;
 import com.b208.dduishu.domain.user.dto.request.UserNickName;
 import com.b208.dduishu.domain.user.dto.request.UserPoint;
 import com.b208.dduishu.domain.user.dto.request.UserRankingInfo;
-import com.b208.dduishu.domain.user.dto.response.CompareUserProfile;
-import com.b208.dduishu.domain.user.dto.response.IsDuplicateNickName;
-import com.b208.dduishu.domain.user.dto.response.SearchUserProfile;
-import com.b208.dduishu.domain.user.dto.response.UserProfile;
+import com.b208.dduishu.domain.user.dto.response.*;
 import com.b208.dduishu.domain.user.service.UserRankingService;
 import com.b208.dduishu.util.response.ApiResponse;
 import io.swagger.annotations.ApiOperation;
@@ -87,9 +84,9 @@ public class UserController {
 
     @ApiOperation(value="주간 랭킹 조회 - 팔로워", notes="주간 랭킹을 팔로워 기준 조회한다.")
     @GetMapping("/api/v1/user/follow-ranking")
-    public ApiResponse<?> getWeeklyRankingWithFollower(@ApiParam(example = "2023") @RequestParam int year, @ApiParam(example = "10") @RequestParam int month, @ApiParam(example = "4") @RequestParam int week) {
+    public ApiResponse<?> getWeeklyRankingWithFollower() {
         try {
-            List<UserRankingInfo> res = userRankingService.getWeeklyRankingWithFollower(year, month, week);
+            AllUserRankingInfo res = userRankingService.getWeeklyRankingWithFollower();
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -99,9 +96,31 @@ public class UserController {
 
     @ApiOperation(value="주간 랭킹 조회 - 전체", notes="주간 랭킹을 전체 기준 조회한다.")
     @GetMapping("/api/v1/user/all-ranking")
-    public ApiResponse<?> getWeeklyRankingWithAll(@ApiParam(example = "2023") @RequestParam int year, @ApiParam(example = "10") @RequestParam int month, @ApiParam(example = "4") @RequestParam int week) {
+    public ApiResponse<?> getWeeklyRankingWithAll() {
         try {
-            List<UserRankingInfo> res = userRankingService.getWeeklyRankingWithAll(year, month, week);
+            AllUserRankingInfo res = userRankingService.getWeeklyRankingWithAll();
+
+            return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
+    @GetMapping("/api/v1/user/main")
+    public ApiResponse<?> getUserMainPageInfo() {
+        try {
+            UserMainPageInfo res = userService.getUserMainPageInfo();
+
+            return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
+    @GetMapping("/api/v1/user/edit")
+    public ApiResponse<?> getUserEditPageInfo() {
+        try {
+            UserEditPageInfo res = userService.getUserEditPageInfo();
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {

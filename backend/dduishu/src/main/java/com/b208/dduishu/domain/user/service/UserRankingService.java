@@ -4,6 +4,7 @@ import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.dto.request.UserRankingInfo;
+import com.b208.dduishu.domain.user.dto.response.AllUserRankingInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.repository.UserRepository;
 import com.b208.dduishu.util.S3.service.S3UploadService;
@@ -14,6 +15,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
@@ -28,15 +31,9 @@ public class UserRankingService {
     private final GetUser getUser;
     private final RunningRecordRepository runningRecordRepository;
 
-    public List<UserRankingInfo> getWeeklyRankingWithAll(int year, int month, int week) {
-        List<User> res = userRepository.findAll();
-        Map<Long, User> users = new HashMap<>();
-        res.stream()
-                .forEach(o -> {
-                    users.put(o.getUserId(), o);
-                });
+    public List<RunningRecord> findRunningRecord(List<User> users) {
 
-        List<Long> userIds = res
+        List<Long> userIds = users
                 .stream()
                 .map(o -> {
                     return o.getUserId();
@@ -44,84 +41,101 @@ public class UserRankingService {
                 .collect(toList());
 
         // 나 + 모든 유저 달리기 기록 가져오기
-        LocalDateTime start = LocalDateTime.of(year, month, 1, 0, 0);
-        start = start.with(TemporalAdjusters.firstInMonth(start.getDayOfWeek()));
-        start = start.plusWeeks(week - 1);
-
-        LocalDateTime end = start.plusWeeks(1);
+        // 현재 날짜와 시간 가져오기
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        // 이번 주의 시작일 (일요일) 계산
+        LocalDateTime start = currentDateTime.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).withHour(0).withMinute(0).withSecond(0);
+        // 이번 주의 종료일 (토요일) 계산
+        LocalDateTime end = currentDateTime.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY)).withHour(23).withMinute(59).withSecond(59);
 
         List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserIdInAndCreatedAtBetween(userIds,start,end);
 
-        Map<Long, UserRankingInfo> userIdToInfoMap = new HashMap<>();
-
-        findRunningRecord.forEach(record -> {
-            Long userId = record.getUser().getUserId();
-            UserRankingInfo userRankingInfo = userIdToInfoMap.get(userId);
-
-            if (userRankingInfo == null) {
-                // userId가 없는 경우, 새 UserRankingInfo 객체를 만들어 Map에 추가
-                User user = users.get(record.getUser().getUserId());
-                userRankingInfo = new UserRankingInfo(record, user);
-                userIdToInfoMap.put(userId, userRankingInfo);
-            } else {
-                // userId가 있는 경우, cumulativeDistance를 업데이트
-                userRankingInfo.setCumulativeDistance(userRankingInfo.getCumulativeDistance() + record.getTotalDistance());
-            }
-        });
-
-        List<UserRankingInfo> resultList = new ArrayList<>(userIdToInfoMap.values());
-        resultList.sort(Comparator.comparing(UserRankingInfo::getCumulativeDistance).reversed());
-        return resultList;
-
+        return findRunningRecord;
     }
 
-    public List<UserRankingInfo> getWeeklyRankingWithFollower(int year, int month, int week) {
+    public Map<Long, User> getUserInfoMap(List<User> users) {
+        Map<Long, User> ret = new HashMap<>();
+        users.stream()
+                .forEach(o -> {
+                    ret.put(o.getUserId(), o);
+                });
+        return ret;
+    }
+
+    public Map<Long, UserRankingInfo> computeUserRankingInfo(List<RunningRecord> findRunningRecord, Map<Long, User> users, List<User> findFollower) {
+        Map<Long, UserRankingInfo> userIdToInfoMap = new HashMap<>();
+        findRunningRecord
+                .stream()
+                .forEach(record -> {
+                    Long userId = record.getUser().getUserId();
+                    UserRankingInfo userRankingInfo = userIdToInfoMap.get(userId);
+
+                    if (userRankingInfo == null) {
+                        // userId가 없는 경우, 새 UserRankingInfo 객체를 만들어 Map에 추가
+                        User one = users.get(record.getUser().getUserId());
+                        if (findFollower == null) {
+                            userRankingInfo = new UserRankingInfo(record, one);
+                        } else {
+                            userRankingInfo = new UserRankingInfo(record, one, findFollower);
+                        }
+                        userIdToInfoMap.put(userId, userRankingInfo);
+                    } else {
+                        // userId가 있는 경우, cumulativeDistance를 업데이트
+                        userRankingInfo.setCumulativeDistance(userRankingInfo.getCumulativeDistance() + record.getTotalDistance());
+                    }
+                });
+        return userIdToInfoMap;
+    }
+
+    public AllUserRankingInfo getWeeklyRankingWithAll() {
+        User user = getUser.getUser();
+        List<User> res = userRepository.findAll();
+        Map<Long, User> users = getUserInfoMap(res);
+
+        List<RunningRecord> findRunningRecord = findRunningRecord(res);
+
+        List<User> findFollower = userRepository.getUserByFollowerUserId(user.getUserId());
+
+        Map<Long, UserRankingInfo> userIdToInfoMap = computeUserRankingInfo(findRunningRecord, users, findFollower);
+
+        List<UserRankingInfo> rankingInfos = new ArrayList<>(userIdToInfoMap.values());
+        rankingInfos.sort(Comparator.comparing(UserRankingInfo::getCumulativeDistance).reversed());
+        // 나 + 모든 유저 달리기 기록 가져오기
+        // 현재 월 가져오기, 현재 주차 계산
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        int month = currentDateTime.getMonthValue();
+        LocalDate firstDayOfMonth = LocalDate.of(currentDateTime.getYear(), month, 1);
+        int week = (currentDateTime.getDayOfMonth() + firstDayOfMonth.getDayOfWeek().getValue() - 2) / 7 + 1;
+        return AllUserRankingInfo.builder()
+                .month(month)
+                .week(week)
+                .rankingInfos(rankingInfos)
+                .build();
+    }
+
+    public AllUserRankingInfo getWeeklyRankingWithFollower() {
 
         User user = getUser.getUser();
 
         List<User> res = userRepository.getUserIdAndFollowerId(user.getUserId());
-        Map<Long, User> users = new HashMap<>();
-        res.stream()
-                .forEach(o -> {
-                    users.put(o.getUserId(), o);
-                });
+        Map<Long, User> users = getUserInfoMap(res);
 
-        List<Long> userIds = res
-                .stream()
-                .map(o -> {
-                    return o.getUserId();
-                })
-                .collect(toList());
+        List<RunningRecord> findRunningRecord = findRunningRecord(res);
 
-        // 나 + 팔로워 달리기 기록 가져오기
-        LocalDateTime start = LocalDateTime.of(year, month, 1, 0, 0);
-        start = start.with(TemporalAdjusters.firstInMonth(start.getDayOfWeek()));
-        start = start.plusWeeks(week - 1);
+        Map<Long, UserRankingInfo> userIdToInfoMap = computeUserRankingInfo(findRunningRecord, users, null);
 
-        LocalDateTime end = start.plusWeeks(1);
-
-        List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserIdInAndCreatedAtBetween(userIds,start,end);
-
-        Map<Long, UserRankingInfo> userIdToInfoMap = new HashMap<>();
-
-        findRunningRecord.forEach(record -> {
-            Long userId = record.getUser().getUserId();
-            UserRankingInfo userRankingInfo = userIdToInfoMap.get(userId);
-
-            if (userRankingInfo == null) {
-                // userId가 없는 경우, 새 UserRankingInfo 객체를 만들어 Map에 추가
-                User one = users.get(record.getUser().getUserId());
-                userRankingInfo = new UserRankingInfo(record, one);
-                userIdToInfoMap.put(userId, userRankingInfo);
-            } else {
-                // userId가 있는 경우, cumulativeDistance를 업데이트
-                userRankingInfo.setCumulativeDistance(userRankingInfo.getCumulativeDistance() + record.getTotalDistance());
-            }
-        });
-
-        List<UserRankingInfo> resultList = new ArrayList<>(userIdToInfoMap.values());
-        resultList.sort(Comparator.comparing(UserRankingInfo::getCumulativeDistance).reversed());
-        return resultList;
+        List<UserRankingInfo> rankingInfos = new ArrayList<>(userIdToInfoMap.values());
+        rankingInfos.sort(Comparator.comparing(UserRankingInfo::getCumulativeDistance).reversed());
+        // 현재 월 가져오기, 현재 주차 계산
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        int month = currentDateTime.getMonthValue();
+        LocalDate firstDayOfMonth = LocalDate.of(currentDateTime.getYear(), month, 1);
+        int week = (currentDateTime.getDayOfMonth() + firstDayOfMonth.getDayOfWeek().getValue() - 2) / 7 + 1;
+        return AllUserRankingInfo.builder()
+                .month(month)
+                .week(week)
+                .rankingInfos(rankingInfos)
+                .build();
     }
 
 }

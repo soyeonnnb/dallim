@@ -2,32 +2,21 @@ package com.b208.dduishu.domain.follow.dto.request;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.user.entity.User;
+import com.b208.dduishu.util.Util;
 import lombok.Data;
 
 @Data
 public class FollowerInfo {
 
+    private Long userId;
+    private int characterIndex;
     private String nickname;
     private int level;
-    private String imageUrl;
 
     public FollowerInfo(User user) {
-        System.out.println("111");
+        this.userId = user.getUserId();
+        this.characterIndex = Util.getProfileIndexByUser(user);
         this.nickname = user.getNickname();
         this.level = user.getUserLevel().getLevel();
-        this.imageUrl = user.getCharacterList()
-                            .stream()
-                            .filter(Character::isMainCharacter)
-                            .map(o -> {
-                                if (1 <= o.getCharacterLevel().getLevel() && o.getCharacterLevel().getLevel() <= 20) {
-                                    return o.getCharacterInfo().getFirstGifUrl();
-                                } else if (21 <= o.getCharacterLevel().getLevel() && o.getCharacterLevel().getLevel() <= 40) {
-                                    return o.getCharacterInfo().getSecondGifUrl();
-                                } else {
-                                    return o.getCharacterInfo().getThirdGifUrl();
-                                }
-                            })
-                            .findFirst()
-                .orElse(null);
     }
 }

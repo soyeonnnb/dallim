@@ -2,36 +2,26 @@ package com.b208.dduishu.domain.thema.dto.response;
 
 import com.b208.dduishu.domain.thema.entity.Thema;
 import com.b208.dduishu.domain.thema.entity.ThemaName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 public class ThemaOverview {
 
-    private Long themaId;
-    private int themaIndex;
-    private ThemaName name;
-    private boolean isMainThema;
+    private int planetIndex;
+    @JsonProperty("isPurchased")
     private boolean isPurchased;
-    private int price;
 
     @Builder
     public ThemaOverview(ThemaName name) {
-        this.themaId = -1L;
-        this.themaIndex = getThemaIndex(name);
-        this.name = name;
-        this.isMainThema = false;
+        this.planetIndex = getThemaIndex(name);
         this.isPurchased = false;
-        this.price = 0;
     }
 
     public ThemaOverview(Thema thema) {
-        this.themaId = thema.getId();
-        this.themaIndex = getThemaIndex(thema.getThemaInfo().getName());
-        this.name = thema.getThemaInfo().getName();
-        this.isMainThema = thema.isMainThema();
+        this.planetIndex = getThemaIndex(thema.getThemaInfo().getName());
         this.isPurchased = true;
-        this.price = thema.getThemaInfo().getPrice();
     }
 
     private int getThemaIndex(ThemaName name) {

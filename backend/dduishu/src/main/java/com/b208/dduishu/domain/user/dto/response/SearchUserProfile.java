@@ -2,40 +2,31 @@ package com.b208.dduishu.domain.user.dto.response;
 
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.user.entity.User;
+import com.b208.dduishu.util.Util;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 public class SearchUserProfile {
+    private Long userId;
+    private int characterIndex;
     private String nickname;
-    private int profileIndex;
     private int level;
+    @JsonProperty("isFollower")
+    private boolean isFollower;
 
     @Builder
-    public SearchUserProfile(User user) {
+    public SearchUserProfile(User user, List<User> follower) {
+        this.userId = user.getUserId();
         this.nickname = user.getNickname();
-        this.profileIndex = getProfileIndex(user);
+        this.characterIndex = Util.getProfileIndexByUser(user);
         this.level = user.getUserLevel().getLevel();
+        this.isFollower = follower.stream()
+                .anyMatch(f -> f.getUserId().equals(this.userId));
     }
 
-    private int getProfileIndex(User user) {
-        AtomicInteger ret = new AtomicInteger(-1);
-        user.getCharacterList().stream()
-                .forEach(o -> {
-                    if (o.isMainCharacter() == true) {
-                        if (o.getCharacterInfo().getName().equals(CharacterName.RABBIT)) {
-                            ret.set(0);
-                        } else if (o.getCharacterInfo().getName().equals(CharacterName.Penguin)) {
-                            ret.set(1);
-                        } else if (o.getCharacterInfo().getName().equals(CharacterName.Panda)) {
-                            ret.set(2);
-                        } else if (o.getCharacterInfo().getName().equals(CharacterName.Chicken)) {
-                            ret.set(3);
-                        }
-                    }
-                });
-        return ret.get();
-    }
 }

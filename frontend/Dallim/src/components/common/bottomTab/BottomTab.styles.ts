@@ -3,7 +3,7 @@ import Animated from 'react-native-reanimated';
 
 export const TabBarContainer = styled.View`
   flex-direction: 'row';
-  width: '100%';
+  width: 100%;
   justify-content: 'space-evenly';
   background-color: 'white';
   border-top-left-radius: 45px;
@@ -20,4 +20,17 @@ export const ComponentCircle = styled(Animated.View)`
   height: 60px;
   position: 'absolute';
   background-color: 'black';
+`;
+export const Container = styled.View`
+  align-items: 'center';
+  justify-content: 'center';
+  overflow: 'visible';
+`;
+
+export const PressableContainer = styled.Pressable`
+  height: 60px;
+  width: 60px;
+  justify-content: 'center';
+  align-items: 'center';
+  z-index: 2;
 `;

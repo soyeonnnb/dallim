@@ -1,42 +1,45 @@
 /* eslint-disable curly */
-import React from 'react';
-import {SafeAreaView, StyleSheet, Text, TouchableOpacity} from 'react-native';
-import ActionSheet, {SheetManager} from 'react-native-actions-sheet';
-import {View} from 'react-native';
-const ExampleScreen = () => {
+import React, {useRef, useState, useMemo, useCallback, useEffect} from 'react';
+import BottomSheet from '@gorhom/bottom-sheet';
+import PreviewDaily from './PreviewDaily';
+import PreviewWeekly from './PreviewWeekly';
+import PreviewMonthly from './PreviewMonthly';
+import {CalendarType} from '@/components/common/CalendarData';
+
+interface Props {
+  isClicked?: boolean;
+  selectedDate?: CalendarType;
+}
+
+function Preview({isClicked, selectedDate}: Props) {
+  // ref
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const [isUp, setIsUp] = useState(false);
+
+  const snapPoints = useMemo(() => ['40%', '90%'], []); // 전체 화면에서 몇퍼센트 차지할
+  // useEffect(() => {}, [isClicked, selectedDate]);
+  // sheet size 수정 시 실행
+  const handleSheetChanges = useCallback((index: number) => {
+    if (index == 0) setIsUp(false); // 0이 40%
+    else setIsUp(true);
+  }, []);
+
   return (
-    <ActionSheet>
-      <View>
-        <Text>dsf</Text>
-      </View>
-    </ActionSheet>
+    <BottomSheet
+      ref={bottomSheetRef}
+      index={0} // default 사이즈 수정시
+      snapPoints={snapPoints} // sheet를 어느정도로 둘 것인지
+      onChange={handleSheetChanges} // sheet 사이즈 수정시
+    >
+      {isUp ? (
+        <PreviewMonthly></PreviewMonthly>
+      ) : isClicked ? (
+        <PreviewDaily date={selectedDate}></PreviewDaily>
+      ) : (
+        <PreviewWeekly></PreviewWeekly>
+      )}
+    </BottomSheet>
   );
-};
+}
 
-export default ExampleScreen;
-
-const styles = StyleSheet.create({
-  btn: {
-    height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    paddingHorizontal: 10,
-    borderRadius: 0,
-    width: '100%',
-    borderWidth: 2,
-    borderColor: 'white',
-  },
-  safeareview: {
-    flex: 1,
-    backgroundColor: '#e63946',
-    padding: 12,
-    paddingVertical: 20,
-    alignItems: 'center',
-    marginHorizontal: 12,
-  },
-  btnTitle: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-});
+export default Preview;

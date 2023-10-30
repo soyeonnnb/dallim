@@ -1,10 +1,15 @@
 import React from 'react';
-import * as S from './Preview.styles';
+import * as S from './PreviewDaily.styles';
+import {CalendarType} from '@/components/common/CalendarData';
 
-function PreviewMonthly() {
+interface Props {
+  date?: CalendarType;
+}
+
+function PreviewMonthly({date}: Props) {
   return (
     <S.Container>
-      <S.Text>Daliy</S.Text>
+      <S.Text>Daily: {date?.dateString}</S.Text>
     </S.Container>
   );
 }

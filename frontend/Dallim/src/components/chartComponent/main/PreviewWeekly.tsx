@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './Preview.styles';
+import * as S from './PreviewWeekly.styles';
 
 function PreviewWeekly() {
   return (

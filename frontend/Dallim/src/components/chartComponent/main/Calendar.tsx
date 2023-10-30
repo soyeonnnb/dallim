@@ -1,27 +1,52 @@
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import * as S from './Calendar.styles';
+import {getCurrentDate, CalendarType} from '@/components/common/CalendarData';
 
-function ChartCalendar() {
+interface Props {
+  isClicked?: boolean;
+  selectedDate?: CalendarType;
+  setIsClicked: any;
+  setSelectedDate: any;
+}
+
+function ChartCalendar({
+  isClicked,
+  selectedDate,
+  setIsClicked,
+  setSelectedDate,
+}: Props) {
+  // 특정 날짜 선택시
+  const handleClickedSelectedDate = (day: CalendarType) => {
+    if (
+      isClicked &&
+      selectedDate &&
+      selectedDate.dateString === day.dateString
+    ) {
+      setSelectedDate(null);
+      setIsClicked(false);
+    } else {
+      setSelectedDate(day);
+      setIsClicked(true);
+    }
+  };
+
   return (
     <S.Container>
-      <Calendar
-        // Customize the appearance of the calendar
-        style={{
-          backgroundColor: 'yellow',
-          width: '100%',
-        }}
-        // Specify the current date
-        current={'2012-03-01'}
-        // Callback that gets called when the user selects a day
+      <S.Calendar
+        // 현재 날짜
+        current={getCurrentDate()}
+        // 날짜 선택 시 실행
         onDayPress={day => {
-          console.log('selected day', day);
+          handleClickedSelectedDate(day);
         }}
-        // Mark specific dates as marked
-        markedDates={{
-          '2012-03-01': {selected: true, marked: true, selectedColor: 'blue'},
-          '2012-03-02': {marked: true},
-          '2012-03-03': {selected: true, marked: true, selectedColor: 'blue'},
-        }}
+        // 체크되어야 하는 날짜 지정
+        markedDates={
+          {
+            // '2023-10-01': {selected: true, marked: true, selectedColor: 'blue'},
+            // '2023-10-02': {marked: true},
+            // '2023-10-03': {selected: true, marked: true, selectedColor: 'blue'},
+          }
+        }
       />
     </S.Container>
   );

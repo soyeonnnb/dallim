@@ -1,5 +1,6 @@
 package com.runapp.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.runapp.R;
 import com.runapp.model.RunningViewModel;
 import com.runapp.util.Conversion;
-
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import com.runapp.util.MyApplication;
 
 public class RunningStateFragment extends Fragment {
 
@@ -48,29 +46,10 @@ public class RunningStateFragment extends Fragment {
         final double MAX_REALISTIC_PACE = 20.0;
 
         // ms로 들어옴
-        runningViewModel.getMsSpeed().observe(getViewLifecycleOwner(), speed ->{
+        runningViewModel.getMsPace().observe(getViewLifecycleOwner(), pace ->{
             TextView paceView = view.findViewById(R.id.tv_pace);
-            if (speed <= 0) {
-                paceView.setText("0'0''");
-                return;
-            }
-            Map<String, Integer> result = new HashMap<>();
-            int minute = 0;
-            int second = 0;
 
-            if(speed != 0){
-                result = conversion.msToPace(speed);
-                minute = result.get("minutes");
-                second = result.get("seconds");
-            }
-
-            if (minute > MAX_REALISTIC_PACE) {
-                paceView.setText("정지");
-                return;
-            }
-            String format = String.format(Locale.getDefault(), "%d'%02d''", minute, second);
-            runningViewModel.setMsPace(format);
-            paceView.setText(format);
+            paceView.setText(pace);
         });
 
         runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance ->{
@@ -83,7 +62,15 @@ public class RunningStateFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Activity activity = getActivity();
         // Activity와 동일한 ViewModel 인스턴스 가져오기
-        runningViewModel = new ViewModelProvider(requireActivity()).get(RunningViewModel.class);
+        if (activity != null) {
+            // 액티비티를 통해 애플리케이션의 Application 객체를 가져옵니다.
+            MyApplication myApplication = (MyApplication) activity.getApplication();
+
+            // ViewModel을 초기화할 때 애플리케이션의 Application 객체를 사용합니다.
+            runningViewModel = new ViewModelProvider(myApplication).get(RunningViewModel.class);
+        }
     }
+
 }

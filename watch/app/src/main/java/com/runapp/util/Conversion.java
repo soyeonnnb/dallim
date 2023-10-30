@@ -1,6 +1,12 @@
 package com.runapp.util;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 public class Conversion {
@@ -19,6 +25,16 @@ public class Conversion {
         result.put("seconds", secondsInt);
 
         return result;
+    }
+
+    // 날짜 형식 변환해주는 메서드
+    public String formatDate(Date date) {
+        Instant instant = date.toInstant();
+        ZoneId zoneId = ZoneId.systemDefault();
+        LocalDateTime localDateTime = instant.atZone(zoneId).toLocalDateTime();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 (E)", Locale.KOREAN);
+        return localDateTime.format(formatter);
     }
 
 

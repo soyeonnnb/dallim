@@ -5,9 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -141,27 +138,4 @@ public class SelectActivity extends ComponentActivity {
                     startActivity(nextActivityIntent);
                 }
             });
-
-    public SpannableString convertTime(Long time){
-        int totalSeconds = (int)(time / 1000);
-        int minutes = totalSeconds / 60;
-        int seconds = totalSeconds % 60;
-
-        String timeStr = String.format("%02d분 %02d초", minutes, seconds);
-        SpannableString spannableString = new SpannableString(timeStr);
-
-        // "분"과 "초"의 위치를 찾습니다.
-        int indexOfMinute = timeStr.indexOf("분");
-        int indexOfSecond = timeStr.indexOf("초");
-
-        // "분"과 "초"에 대해 RelativeSizeSpan을 적용하여 텍스트 크기를 줄입니다.
-        if(indexOfMinute != -1) {
-            spannableString.setSpan(new RelativeSizeSpan(0.60f), indexOfMinute, indexOfMinute+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        if(indexOfSecond != -1) {
-            spannableString.setSpan(new RelativeSizeSpan(0.60f), indexOfSecond, indexOfSecond+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        return spannableString;
-    }
 }

@@ -41,33 +41,41 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
         // 데이터를 ViewHolder의 뷰에 바인딩합니다.
         holder.formattedDate.setText(String.valueOf(runningData.getFormattedDate()));
 
-        // heartRate에 "bpm"을 포함한 문자열을 설정하고, "bpm" 부분의 글자 크기를 조정합니다.
-        String distanceText = String.valueOf(runDetail.getDistance()) + " km";
+        // 총 거리
+        String distanceText = String.valueOf(runningData.getTotalDistance()) + " m";
         SpannableString spannableDistance = new SpannableString(distanceText);
-        int indexOfDISTANCE = distanceText.indexOf("km");
+        int indexOfDISTANCE = distanceText.indexOf("m");
         if (indexOfDISTANCE != -1) {
-            spannableDistance.setSpan(new RelativeSizeSpan(0.70f), indexOfDISTANCE, indexOfDISTANCE + 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableDistance.setSpan(new RelativeSizeSpan(0.70f), indexOfDISTANCE, indexOfDISTANCE + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         holder.distance.setText(spannableDistance);
 
-        // heartRate에 "bpm"을 포함한 문자열을 설정하고, "bpm" 부분의 글자 크기를 조정합니다.
-        String speedText = String.valueOf(runDetail.getPace()) + " min/km";
+        // 페이스
+        String speedText = String.valueOf(runningData.getAveragePace());
         SpannableString spannableSpeed = new SpannableString(speedText);
-        int indexOfSPEED = speedText.indexOf("min/km");
-        if (indexOfSPEED != -1) {
-            spannableSpeed.setSpan(new RelativeSizeSpan(0.70f), indexOfSPEED, indexOfSPEED + 6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
         holder.speed.setText(spannableSpeed);
 
-        // heartRate에 "bpm"을 포함한 문자열을 설정하고, "bpm" 부분의 글자 크기를 조정합니다.
-        String heartRateText = String.valueOf(runDetail.getHeartRate()) + " bpm";
+        // 평균 심박수
+        String heartRateText = String.valueOf(runningData.getAverageHeartRate()) + " bpm";
         SpannableString spannableHeartRate = new SpannableString(heartRateText);
         int indexOfBPM = heartRateText.indexOf("bpm");
         if (indexOfBPM != -1) {
             spannableHeartRate.setSpan(new RelativeSizeSpan(0.70f), indexOfBPM, indexOfBPM + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         holder.heartRate.setText(spannableHeartRate);
-        holder.time.setText(convertTime(runDetail.getSecond()));
+
+        holder.time.setText(convertTime(runningData.getTotalTime()));
+        int characterId = runningData.getCharacterId();
+        if(characterId == 0){
+            holder.myRecordCharacter.setImageResource(R.drawable.rabbit);
+        }else if(characterId == 1){
+            holder.myRecordCharacter.setImageResource(R.drawable.penguin);
+        }else if(characterId == 2){
+            holder.myRecordCharacter.setImageResource(R.drawable.panda);
+        }else if(characterId == 3){
+            holder.myRecordCharacter.setImageResource(R.drawable.chick);
+        }
+
 //        int resId = holder.itemView.getContext().getResources().getIdentifier(character, "drawable", holder.itemView.getContext().getPackageName());
 //        holder.myRecordCharacter.setImageResource(resId);
     }
@@ -98,9 +106,8 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
 
     // ms를 분:초로 변환해주는 컨버터(ex 00:00)
     public SpannableString convertTime(Long time){
-        int totalSeconds = (int)(time / 1000);
-        int minutes = totalSeconds / 60;
-        int seconds = totalSeconds % 60;
+        int minutes = (int) (time / 60);
+        int seconds = (int) (time % 60);
 
         String timeStr = String.format("%02d분 %02d초", minutes, seconds);
         SpannableString spannableString = new SpannableString(timeStr);

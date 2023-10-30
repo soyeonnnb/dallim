@@ -1,85 +1,154 @@
 package com.runapp.service;
 
+import android.Manifest;
 import android.app.Notification;
-import android.app.PendingIntent;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+import android.os.Build;
 import android.os.IBinder;
+import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.runapp.R;
-import com.runapp.activity.RunningActivity;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.runapp.model.RunningViewModel;
+import com.runapp.util.Conversion;
+import com.runapp.util.MyApplication;
+
+import java.util.Map;
 
 public class LocationService extends Service {
-    public static final String ACTION_LOCATION_UPDATE = "com.runapp.activity.LocationService.LOCATION_UPDATE";
-    private LocationManager locationManager;
-    private LocationListener locationListener;
+
+    private static final String TAG = "LocationService";
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private Location lastLocation;
+    private float totalDistance = 0f;
+    private Conversion conversion;
+    private LocationCallback locationCallback;
+    private RunningViewModel runningViewModel;
+    private static final int NOTIFICATION_ID = 1;
+    private static final String CHANNEL_ID = "SensorServiceChannel";
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Location Service Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
+        }
+    }
+
+    private Notification getNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Location Service Running")
+                .setContentText("Location data is being collected.");
+        return builder.build();
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        // 위치 관리자 및 리스너 설정
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationListener = new LocationListener() {
+        runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
+
+
+        conversion = new Conversion();
+        initLocationClient();
+        initLocationCallback();
+        startLocationUpdates();
+    }
+
+    private void initLocationClient() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(1000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
+    private void initLocationCallback() {
+        locationCallback = new LocationCallback() {
             @Override
-            public void onLocationChanged(Location location) {
-                // 위치가 변경될 때마다 브로드캐스트 메시지를 전송하여 액티비티에서 업데이트를 받을 수 있도록 합니다.
-                Intent intent = new Intent(ACTION_LOCATION_UPDATE);
-                intent.putExtra("location", location);
-                LocalBroadcastManager.getInstance(LocationService.this).sendBroadcast(intent);
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) return;
+                for (Location location : locationResult.getLocations()) {
+                    onLocationUpdated(location);
+                    break;
+                }
+            }
+        };
+    }
+
+    private void onLocationUpdated(Location location) {
+
+        if (lastLocation != null) {
+            float distance = lastLocation.distanceTo(location);
+            totalDistance += Math.round(distance * 100) / 100.0;
+            runningViewModel.setDistance(totalDistance);
+
+            float speed = location.getSpeed();
+            if(speed != 0){
+                speed = (float) (Math.round(speed * 100) / 100.0);
+                runningViewModel.setMsSpeed(speed);
+                Map<String, Integer> result = conversion.msToPace(speed);
+                Integer minutes = result.get("minutes");
+                Integer seconds = result.get("seconds");
+                String format = String.format("%d'%02d''", minutes, seconds);
+                runningViewModel.setMsPace(format);
             }
 
-            // 다른 콜백 메서드들은 필요에 따라 구현하세요.
-        };
-
-        // 위치 업데이트 요청
-        try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, locationListener);
-        } catch (SecurityException e) {
-            e.printStackTrace(); // 실제 앱에서는 적절한 오류 처리를 수행해야 합니다.
+            Log.d(TAG, "이동거리: " + distance + " M, 속도: " + speed + " m/s");
         }
+        lastLocation = location;
+    }
+
+    public void startLocationUpdates() {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(1000);
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // Foreground 서비스 시작
-        startForeground(1, getNotification());
+        createNotificationChannel();
+        Notification notification = getNotification();
+        startForeground(NOTIFICATION_ID, notification);
 
-        // 이 서비스가 강제 종료된 경우 시스템이 다시 생성하지 않도록 합니다.
-        return START_NOT_STICKY;
-    }
-
-    private Notification getNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "location_channel")
-                .setContentTitle("거리 속도 서비스")
-                .setContentText("거리와 속도를 추적중입니다.")
-                .setSmallIcon(R.drawable.heart) // 알림 아이콘 설정
-                .setPriority(NotificationCompat.PRIORITY_LOW); // 알림 우선 순위 설정
-
-        Intent intent = new Intent(this, RunningActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        builder.setContentIntent(pendingIntent);
-
-        return builder.build();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        locationManager.removeUpdates(locationListener); // 위치 업데이트 중지
+        return START_STICKY;
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(locationCallback != null && fusedLocationProviderClient != null){
+            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+        }
     }
 }

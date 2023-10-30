@@ -4,7 +4,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+
 public class RunningViewModel extends ViewModel {
+    private static RunningViewModel instance;
+
+    public static RunningViewModel getInstance() {
+        if (instance == null) {
+            instance = new RunningViewModel();
+        }
+        return instance;
+    }
 
     private final MutableLiveData<Float> heartRate = new MutableLiveData<>();
     private final MutableLiveData<String> elapsedTime = new MutableLiveData<>();

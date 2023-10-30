@@ -49,7 +49,7 @@ export const userDataDummy: UserResponse = {
             {
                 "characterIndex": 3,
                 "level": 2,
-                "evolutionStage" : 0,
+                "evolutionStage" : 1,
                 "exp": 0,
                 "purchased": true
             },

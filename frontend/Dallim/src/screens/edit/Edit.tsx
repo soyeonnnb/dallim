@@ -76,6 +76,15 @@ function Edit() {
         setSelectedCharacterIndex(prevIndex);
     };
 
+    // 선택된 캐릭터 인덱스가 바뀔 때마다 관련 상태 업데이트
+    useEffect(() => {
+        const character = userData.characters[selectedCharacterIndex];
+        setSelectedCharacterLevel(character.level);
+        setSelectedEvolutionStage(character.evolutionStage);
+        setSelectedCharacterExp(character.exp);
+        setSelectedCharacterPurchased(character.purchased);
+    }, [selectedCharacterIndex]);
+
     // 행성 선택
     const handlePlanetChange = (selectedPlanetIndex: number) => {
         setSelectedPlanetIndex(selectedPlanetIndex);

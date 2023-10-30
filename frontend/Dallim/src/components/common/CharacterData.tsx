@@ -10,7 +10,7 @@ export type CharacterType = {
   background: any;  // 캐릭터의 배경
 }
 
-// 전체 캐릭터 데이터
+// 전체 캐릭터 데이터 characterData[캐릭터 인덱스][해당 캐릭터 레벨][앞모습 or 뛰는모습]
 export const characterData: CharacterType[] = [
   {
     levels: [

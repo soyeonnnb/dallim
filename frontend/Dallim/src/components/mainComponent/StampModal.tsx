@@ -21,7 +21,7 @@ interface Props {
 
 const StampModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
-    const tempMarkedDates = ['2023-10-05', '2023-10-09', '2023-10-15'];
+    const TempMarkedDates = ['2023-10-05', '2023-10-09', '2023-10-15'];
 
     const generateMarkedDatesFromList = (dates: string[]) => {
         const result: { [key: string]: { selected: boolean, marked?: boolean, dotColor?: string, activeOpacity?: number,selectedColor?: string } } = {};
@@ -33,7 +33,7 @@ const StampModal: React.FC<Props> = ({ isVisible, onClose }) => {
         });
         return result;
     }
-    const [markedDates, setMarkedDates] = React.useState(generateMarkedDatesFromList(tempMarkedDates));
+    const [markedDates, setMarkedDates] = React.useState(generateMarkedDatesFromList(TempMarkedDates));
 
     return (
         <Modal

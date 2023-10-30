@@ -1,19 +1,21 @@
 import * as S from './Main.styles';
 import React, { useState } from 'react';
-import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
+import { characterData } from '@/components/common/CharacterData';
+import { planetData } from '@/components/common/PlanetData';
 import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';
-import { characterData } from '@/components/common/CharacterData';
-import planetSample from '@/assets/planets/PlanetBlack.png';
 import CustomToast from '@/components/common/CustomToast';
+import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
+
 
 function Main() {
 
+  const TempNickname = '하늘을 나는 병아리'; // 유저 닉네임
   const TempPoint = '3000'; // 유저 포인트
   const TempLv = '67'; // 유저 레벨
-  const TempNickname = '하늘을 나는 병아리'; // 유저 닉네임
-  const TempSelectCharacter = 0; // 유저가 장착한 캐릭터
-  const TempSelectCharacterLevel = 1; // 유저가 장착한 캐릭터 레벨 : 0 OR 1   
+  const TempSelectCharacter = 0; // 유저가 장착한 캐릭터 인덱스 ( 0 ~ 3 )
+  const TempSelectCharacterLevel = 0; // 유저가 장착한 캐릭터 레벨 : 0 OR 1   
+  const TempSelectPlanet = 4; // 유저가 장착한 행성 ( 0 ~ 4 )
   const selectedCharacter = characterData[TempSelectCharacter];
   const selectedCharacterLevelData = selectedCharacter.levels[TempSelectCharacterLevel];
 
@@ -54,7 +56,7 @@ function Main() {
         <S.Body>
           <S.ThemeBox>
             <SpinAnimation>
-              <S.StyledImage source={planetSample} />
+              <S.StyledImage source={planetData[TempSelectPlanet].Planet} />
             </SpinAnimation>
             <S.StyledGif source={selectedCharacterLevelData.running} resizeMode="contain" />
           </S.ThemeBox>

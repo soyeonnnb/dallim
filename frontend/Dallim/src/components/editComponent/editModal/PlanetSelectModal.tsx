@@ -7,26 +7,25 @@ import Toast from 'react-native-toast-message';
 
 type ModalComponentProps = {
     showModal: boolean;
+    equippedPlanetIndex: number;
+    selectedPlanetIndex: number;
     toggleModal: () => void;
-    confirmPlanetChange: () => void;
-    planetIndex: number;
+    equippedPlanetChange: () => void;
 };
 
-const planetSelectModal = ({ showModal, toggleModal, confirmPlanetChange, planetIndex }: ModalComponentProps) => {
+function planetSelectModal ({ showModal, equippedPlanetIndex, selectedPlanetIndex, toggleModal, equippedPlanetChange }: ModalComponentProps) {
 
-    const handleConfirmPlanetChange = () => {
+    const handleEquippedPlanetChange = () => {
         Toast.show({
             type: 'success',
             position: 'top',
-            text1: '대표 방 변경 완료 !',
+            text1: '대표 행성 변경 완료 !',
             visibilityTime: 3000,
             autoHide: true,
             topOffset: 10,
         });
-        confirmPlanetChange();
+        equippedPlanetChange();
     };
-
-    const selectedPlanet = 1; // 임시 메인 행성
 
     return (
         <Modal
@@ -37,12 +36,12 @@ const planetSelectModal = ({ showModal, toggleModal, confirmPlanetChange, planet
             <S.ModalContainer>
                 <S.ModalContent>
                     <S.ModalHeader>
-                        <S.ModalText>이 방을 선택하시겠습니까?</S.ModalText>
+                        <S.ModalText>이 행성을 선택하시겠습니까?</S.ModalText>
                     </S.ModalHeader>
                     <S.ModalBody>
 
                         <S.BoxStyle >
-                            <S.Image source={planetData[selectedPlanet].Planet} resizeMode="contain" />
+                            <S.Image source={planetData[equippedPlanetIndex].Planet} resizeMode="contain" />
                         </S.BoxStyle>
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>
@@ -53,12 +52,12 @@ const planetSelectModal = ({ showModal, toggleModal, confirmPlanetChange, planet
                             </S.ChangeBox>
                         </S.ChangeBoxStyle>
                         <S.BoxStyle >
-                            <S.Image source={planetData[planetIndex].Planet} resizeMode="contain" />
+                            <S.Image source={planetData[selectedPlanetIndex].Planet} resizeMode="contain" />
                         </S.BoxStyle>
 
                     </S.ModalBody>
                     <S.ModalFooter>
-                        <S.ModalButton onPress={handleConfirmPlanetChange}>
+                        <S.ModalButton onPress={handleEquippedPlanetChange}>
                             <S.ModalButtonText>확인</S.ModalButtonText>
                         </S.ModalButton>
                         <S.ModalCancelButton onPress={toggleModal}>

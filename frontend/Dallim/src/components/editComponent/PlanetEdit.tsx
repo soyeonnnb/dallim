@@ -5,33 +5,30 @@ import { planetData } from '../common/PlanetData';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
 
 type PlanetEditProps = {
+  equippedPlanetIndex: number; // 장착된 행성 인덱스
+  selectedPlanetIndex: number; // 선택된 행성 인덱스
+  onEquippedChange: (index: number) => void;
   onPlanetChange: (index: number) => void;
-  planetIndex: number;
-  isOn: boolean;
 }
 
-function PlanetEdit({ onPlanetChange, planetIndex, isOn }: PlanetEditProps) {
+function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, onPlanetChange, onEquippedChange }: PlanetEditProps) {
 
-  const [selectedPlanetIndex, setSelectedPlanetIndex] = useState(planetIndex);
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    console.log("대표 행성이 바꼈어요(Index 기준) : " + selectedPlanetIndex);
-  }, [selectedPlanetIndex]);
+    console.log("대표 행성이 바꼈어요(Index 기준) : " + equippedPlanetIndex);
+  }, [equippedPlanetIndex]);
 
   function handlePlanetChange(index: number) {
     console.log(index + "번째 행성이 눌렸습니다!(Index)")
-    setSelectedPlanetIndex(index);
     onPlanetChange(index); // 상위 컴포넌트로 전달
   }
 
-  useEffect(() => {
-    setSelectedPlanetIndex(planetIndex);
-  }, [planetIndex]);
-
-  function confirmPlanetChange() {
+  function equippedPlanetChange() {
     toggleModal();
-    handlePlanetChange(selectedPlanetIndex % 5);
+    const planetCount = planetData.length;
+    onEquippedChange(equippedPlanetIndex % planetCount);
+    handlePlanetChange(selectedPlanetIndex % planetCount);
   }
 
   function toggleModal() {
@@ -50,22 +47,23 @@ function PlanetEdit({ onPlanetChange, planetIndex, isOn }: PlanetEditProps) {
       </S.Header>
 
       <S.Body>
-        <S.PlanetBox isOn={isOn}>
-          <Planet index={planetIndex} />
+        <S.PlanetBox >
+          <Planet index={selectedPlanetIndex} />
         </S.PlanetBox>
       </S.Body>
 
       <S.Footer>
-        <S.ButtonBox onPress={toggleModal}>
+        <S.ButtonBox onPress={equippedPlanetChange}>
           <S.ButtonText>선택</S.ButtonText>
         </S.ButtonBox>
       </S.Footer>
 
       <PlanetSelectModal
         showModal={showModal}
+        equippedPlanetIndex={equippedPlanetIndex}
+        selectedPlanetIndex={selectedPlanetIndex}
         toggleModal={toggleModal}
-        confirmPlanetChange={confirmPlanetChange}
-        planetIndex={planetIndex}
+        equippedPlanetChange={equippedPlanetChange}
       />
 
     </S.Container>

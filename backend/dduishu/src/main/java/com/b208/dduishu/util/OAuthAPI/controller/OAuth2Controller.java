@@ -133,7 +133,7 @@ public class  OAuth2Controller {
             isProcessing = false;
 
             Map<String, Object> response = new HashMap<>();
-            response.put("accessToken", accessToken);
+            response.put("accessToken", user.getPrivateAccess());
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -195,7 +195,7 @@ public class  OAuth2Controller {
             isProcessingTwo = false;
 
             Map<String, Object> response = new HashMap<>();
-            response.put("accessToken", accessToken);
+            response.put("accessToken", user.getPrivateAccess());
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {

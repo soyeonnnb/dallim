@@ -65,15 +65,15 @@ public class LocationService extends Service {
     public void onCreate() {
         super.onCreate();
 
+        // 액티비티랑 러닝뷰모델을 공통으로 씀
         runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
-
-
         conversion = new Conversion();
         initLocationClient();
         initLocationCallback();
         startLocationUpdates();
     }
 
+    // 초기 설정
     private void initLocationClient() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
@@ -99,11 +99,12 @@ public class LocationService extends Service {
 
         if (lastLocation != null) {
             float distance = lastLocation.distanceTo(location);
-            totalDistance += Math.round(distance * 100) / 100.0;
+            totalDistance += Math.round((distance / 1000) * 100) / 100.0;
             runningViewModel.setDistance(totalDistance);
 
             float speed = location.getSpeed();
-            if(speed != 0){
+            // 초속 0.4 이상이면 걷는 걸로 판단.
+            if(speed >= 0.4){
                 speed = (float) (Math.round(speed * 100) / 100.0);
                 runningViewModel.setMsSpeed(speed);
                 Map<String, Integer> result = conversion.msToPace(speed);
@@ -113,7 +114,7 @@ public class LocationService extends Service {
                 runningViewModel.setMsPace(format);
             }
 
-            Log.d(TAG, "이동거리: " + distance + " M, 속도: " + speed + " m/s");
+            Log.d(TAG,  "총 이동거리" + totalDistance + "KM, 이동거리: " + distance + " M, 속도: " + speed + " m/s");
         }
         lastLocation = location;
     }

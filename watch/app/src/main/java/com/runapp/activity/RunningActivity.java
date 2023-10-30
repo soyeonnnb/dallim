@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -56,10 +57,6 @@ public class RunningActivity extends AppCompatActivity {
     private Long totalTime = 1L;
     private int speedCountTime = 0;
     private float totalSpeed = 0f;
-    private float totalHeartRate = 0f;
-    private int heartCountTime = 0;
-    // 심박수 평균을 위한 카운트
-    private float avgHeartRate = 0f;
     private Conversion conversion = new Conversion();
     private float distance = 0;
     private Intent sensorIntent;
@@ -136,7 +133,6 @@ public class RunningActivity extends AppCompatActivity {
         int seconds = (int) (millis / 1000);
         int minutes = seconds / 60;
         seconds = seconds % 60;
-        Log.d("로그", String.valueOf(runningViewModel.getDistance().getValue()));
 
         RunDetail detail = new RunDetail();
         if (runningViewModel.getDistance().getValue() != null) {
@@ -147,7 +143,18 @@ public class RunningActivity extends AppCompatActivity {
             detail.setPace(runningViewModel.getMsPace().getValue().toString());
         }
         if (runningViewModel.getMsSpeed().getValue() != null) {
-            detail.setSpeed(runningViewModel.getMsSpeed().getValue());
+            float speed = runningViewModel.getMsSpeed().getValue();
+            detail.setSpeed(speed);
+            if(speed <= 0.4){
+                detail.setState("STOP");
+            }else if(speed > 0.4 && speed <= 1.5){
+                detail.setState("WALK");
+            }
+            else if(speed > 1.5 && speed <= 3.0){
+                detail.setState("RACEWALK");
+            }else{
+                detail.setState("RUN");
+            }
         }
         if (runningViewModel.getHeartRate().getValue() != null) {
             detail.setHeartRate(runningViewModel.getHeartRate().getValue());
@@ -174,29 +181,6 @@ public class RunningActivity extends AppCompatActivity {
         });
     }
 
-    private BroadcastReceiver dataReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if("sensorService".equals(intent.getAction())){
-                totalHeartRate = intent.getFloatExtra("totalHeartRate", 0);
-                heartCountTime = intent.getIntExtra("heartCountTime", 0);
-            }
-        }
-    };
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        IntentFilter filter = new IntentFilter("sensorService");
-        LocalBroadcastManager.getInstance(this).registerReceiver(dataReceiver, filter);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(dataReceiver);
-    }
-
     // 종료
     @Override
     protected void onDestroy() {
@@ -208,26 +192,26 @@ public class RunningActivity extends AppCompatActivity {
         stopService(locationIntent); // 위치서비스 중지
         timerService.stopTimer(); // 타이머 중지
 
-        System.out.println(heartCountTime);
-        System.out.println(totalHeartRate);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("SENSOR_DATA", MODE_PRIVATE);
+        float totalHeartRate = sharedPreferences.getFloat("totalHeartRate", 0);
+        int heartRateCount = sharedPreferences.getInt("heartCountTime", 0);
+        Log.d("심박1", String.valueOf(totalHeartRate));
+        Log.d("심박2", String.valueOf(heartRateCount));
 
         runningData.setRunningRecordInfos(runDetailsList);
         runningData.setStepCounter(runningViewModel.getStepCounter().getValue());
         float totalDistance = runningViewModel.getDistance().getValue();
         runningData.setTotalDistance((float) (Math.round(totalDistance * 100) / 100.0));
-        runningData.setAverageHeartRate(avgHeartRate);
-        Log.d("심박수", String.valueOf(avgHeartRate));
+        runningData.setAverageHeartRate((float) (Math.round((totalHeartRate/heartRateCount) * 100) / 100.0));
         float avgSpeed = (float) (Math.round((totalSpeed/speedCountTime) * 100) / 100.0);
         runningData.setAverageSpeed(avgSpeed);
-        Log.d("총속도", String.valueOf(totalSpeed));
-        Log.d("속도카운트", String.valueOf(speedCountTime));
         Map<String, Integer> result = conversion.msToPace((totalSpeed / speedCountTime));
         int minute = result.get("minutes");
         int second = result.get("seconds");
         runningData.setAveragePace(String.format(Locale.getDefault(), "%d'%02d''", minute, second));
 
         // 최종 시간 업데이트
-        long elapsedTime = timerService.getElapsedTime();
         runningData.setTotalTime(totalTime - 1);
 
         addRunningData(runningData);
@@ -242,7 +226,6 @@ public class RunningActivity extends AppCompatActivity {
             * */
 
             RunningDataDTO runningDataDTO = runningData.toDTO();
-            Log.d("타임스탬프", String.valueOf(runningDataDTO.getDate()));
             Log.d("보내는리스트", String.valueOf(runningDataDTO.toString()));
             ApiUtil.getApiService().postRunningData(token, runningDataDTO).enqueue(new Callback<Void>() {
                 // api 호출이 완료되면 콜백 실행

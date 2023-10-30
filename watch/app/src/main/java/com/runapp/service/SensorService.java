@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -31,6 +32,7 @@ public class SensorService extends Service {
     private int heartCountTime = 0;
     private static final int NOTIFICATION_ID = 1;
     private static final String CHANNEL_ID = "SensorServiceChannel";
+    private SharedPreferences preferences;
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -95,7 +97,6 @@ public class SensorService extends Service {
                     }
                     heartRate = (float) (Math.round(heartRate * 100) / 100.0);
                     runningViewModel.setHeartRate(heartRate);
-                    Log.d("심박수", String.valueOf(heartRate));
                 } else if (sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
                     float currentTotalSteps = sensorEvent.values[0];
                     if (initialStepCount == 0) {
@@ -137,13 +138,15 @@ public class SensorService extends Service {
 
     @Override
     public void onDestroy() {
-        Intent intent = new Intent("sensorService");
-        intent.putExtra("totalHeartRate", totalHeartRate);
-        intent.putExtra("heartCountTime", heartCountTime);
-        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-
         unregisterSensors();
         stopForeground(true);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("SENSOR_DATA", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putFloat("totalHeartRate", totalHeartRate);
+        editor.putInt("heartCountTime", heartCountTime);
+        editor.apply();
+
         super.onDestroy();
     }
 }

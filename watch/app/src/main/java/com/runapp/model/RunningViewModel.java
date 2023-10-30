@@ -6,14 +6,6 @@ import androidx.lifecycle.ViewModel;
 
 
 public class RunningViewModel extends ViewModel {
-    private static RunningViewModel instance;
-
-    public static RunningViewModel getInstance() {
-        if (instance == null) {
-            instance = new RunningViewModel();
-        }
-        return instance;
-    }
 
     private final MutableLiveData<Float> heartRate = new MutableLiveData<>();
     private final MutableLiveData<String> elapsedTime = new MutableLiveData<>();
@@ -22,6 +14,7 @@ public class RunningViewModel extends ViewModel {
     private final MutableLiveData<Float> distance = new MutableLiveData<>();
     private final MutableLiveData<Float> stepCounter = new MutableLiveData<>();
     private MutableLiveData<RunningData> runningData = new MutableLiveData<>();
+
     public MutableLiveData<RunningData> getRunningData() {
         return runningData;
     }
@@ -75,4 +68,6 @@ public class RunningViewModel extends ViewModel {
     public LiveData<Float> getStepCounter() {
         return stepCounter;
     }
+
+
 }

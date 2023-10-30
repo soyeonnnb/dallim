@@ -7,11 +7,12 @@ import PlanetSelectModal from './editModal/PlanetSelectModal';
 type PlanetEditProps = {
   equippedPlanetIndex: number; // 장착된 행성 인덱스
   selectedPlanetIndex: number; // 선택된 행성 인덱스
+  selectedPlanetPurchased: boolean;
   handleEquippedPlanetChange: (index: number) => void;
   onPlanetChange: (index: number) => void;
 }
 
-function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
+function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPurchased, onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
 
   const [showModal, setShowModal] = useState(false);
 
@@ -35,6 +36,10 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, onPlanetChange, 
     setShowModal(!showModal);
   }
 
+  function handlePurchaseCheck() {
+    console.log("행성을 구매할건지 체크");
+  }
+
   return (
     <S.Container>
 
@@ -48,14 +53,23 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, onPlanetChange, 
 
       <S.Body>
         <S.PlanetBox >
-          <Planet index={selectedPlanetIndex} />
+          <Planet selectedPlanetIndex={selectedPlanetIndex} selectedPlanetPurchased={selectedPlanetPurchased}/>
         </S.PlanetBox>
       </S.Body>
 
       <S.Footer>
-        <S.ButtonBox onPress={equippedPlanetChange}>
-          <S.ButtonText>선택</S.ButtonText>
-        </S.ButtonBox>
+        {selectedPlanetPurchased ? (
+          <>
+            <S.ButtonBox onPress={equippedPlanetChange}>
+              <S.ButtonText>선택</S.ButtonText>
+            </S.ButtonBox>
+          </>
+        ) : (
+          <S.LockButtonBox onPress={handlePurchaseCheck}>
+            <S.LockedImage source={require('@/assets/icons/LockIcon.png')} />
+            <S.LockedText>2000 포인트</S.LockedText>
+          </S.LockButtonBox>
+        )}
       </S.Footer>
 
       <PlanetSelectModal

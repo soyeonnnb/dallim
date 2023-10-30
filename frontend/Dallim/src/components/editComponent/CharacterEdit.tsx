@@ -30,9 +30,10 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
     // 여기에 캐릭터 Axios put 예정 
   }
 
-  function confirmCharacterChange() {
+  function equippedCharacterChange() {
     toggleModal();
-    handleCharacterChange(selectedCharacterIndex % 4);
+    const characterCount = characterData.length;
+    handleCharacterChange(selectedCharacterIndex % characterCount);
   }
 
   function toggleModal() {
@@ -86,7 +87,7 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
       <CharacterSelectModal
         showModal={showModal}
         toggleModal={toggleModal}
-        confirmCharacterChange={confirmCharacterChange}
+        equippedCharacterChange={equippedCharacterChange}
 
         equippedCharacterIndex={equippedCharacterIndex}
         equippedCharacterLevel={equippedCharacterLevel}

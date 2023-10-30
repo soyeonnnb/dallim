@@ -8,7 +8,7 @@ import Toast from 'react-native-toast-message';
 type ModalComponentProps = {
     showModal: boolean;
     toggleModal: () => void;
-    confirmCharacterChange: () => void;
+    equippedCharacterChange: () => void;
     equippedCharacterIndex: number;
     equippedCharacterLevel: number;
     equippedEvolutionStage: number;
@@ -17,9 +17,9 @@ type ModalComponentProps = {
     selectedEvolutionStage: number;
 };
 
-function CharacterSelectModal({ showModal, toggleModal, confirmCharacterChange, equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage }: ModalComponentProps) {
+function CharacterSelectModal({ showModal, toggleModal, equippedCharacterChange, equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage }: ModalComponentProps) {
 
-    const handleConfirmCharacterChange = () => {
+    const handleEquippedCharacterChange = () => {
         Toast.show({
             type: 'success',
             position: 'top',
@@ -28,8 +28,7 @@ function CharacterSelectModal({ showModal, toggleModal, confirmCharacterChange, 
             autoHide: true,
             topOffset: 10,
         });
-
-        confirmCharacterChange();
+        equippedCharacterChange();
     };
 
     return (
@@ -61,7 +60,7 @@ function CharacterSelectModal({ showModal, toggleModal, confirmCharacterChange, 
 
                     </S.ModalBody>
                     <S.ModalFooter>
-                        <S.ModalButton onPress={handleConfirmCharacterChange}>
+                        <S.ModalButton onPress={handleEquippedCharacterChange}>
                             <S.ModalButtonText>확인</S.ModalButtonText>
                         </S.ModalButton>
                         <S.ModalCancelButton onPress={toggleModal}>

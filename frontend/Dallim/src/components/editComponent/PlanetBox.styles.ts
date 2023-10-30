@@ -34,3 +34,7 @@ export const ThemeIcon = styled.Image`
   width: 100%;
   height: 100%;
 `;
+
+export const BlurredCharacterImage = styled(PlanetImage)`
+  opacity: 0.3;
+`;

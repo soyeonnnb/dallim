@@ -47,14 +47,14 @@ export const userDataDummy: UserResponse = {
         "purchased": true
       },
       {
-        "characterIndex": 3,
+        "characterIndex": 2,
         "level": 2,
         "evolutionStage": 1,
         "exp": 0,
         "purchased": true
       },
       {
-        "characterIndex": 2,
+        "characterIndex": 3,
         "level": -1,
         "evolutionStage": 0,
         "exp": -1,
@@ -69,7 +69,19 @@ export const userDataDummy: UserResponse = {
       {
         "planetIndex": 1,
         "purchased": false
-      }
+      },
+      {
+        "planetIndex": 2,
+        "purchased": true
+      },
+      {
+        "planetIndex": 3,
+        "purchased": false
+      },
+      {
+        "planetIndex": 4,
+        "purchased": true
+      },
     ]
   },
   "message": null

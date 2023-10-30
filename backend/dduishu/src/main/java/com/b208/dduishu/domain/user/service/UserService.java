@@ -8,12 +8,17 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
+import com.b208.dduishu.domain.character.entity.Character;
+import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
-import com.b208.dduishu.domain.user.dto.response.CompareUserProfile;
-import com.b208.dduishu.domain.user.dto.response.SearchUserProfile;
-import com.b208.dduishu.domain.user.dto.response.UserProfile;
+import com.b208.dduishu.domain.thema.dto.response.ThemaOverview;
+import com.b208.dduishu.domain.thema.entity.Thema;
+import com.b208.dduishu.domain.thema.entity.ThemaName;
+import com.b208.dduishu.domain.thema.repository.ThemaRepository;
+import com.b208.dduishu.domain.user.dto.response.*;
 import com.b208.dduishu.domain.user.entity.BaseLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.dto.request.UserPoint;
-import com.b208.dduishu.domain.user.dto.response.IsDuplicateNickName;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.repository.UserRepository;
 import com.b208.dduishu.util.S3.service.S3UploadService;
@@ -61,6 +65,12 @@ public class UserService {
     private RestTemplate restTemplate;
 
     private final RunningRecordRepository runningRecordRepository;
+    private final CharacterRepository characterRepository;
+    private final ThemaRepository themaRepository;
+
+    private static final List<CharacterName> baseCharacterNames = List.of(CharacterName.RABBIT, CharacterName.Penguin, CharacterName.Panda, CharacterName.Chicken);
+    private static final List<ThemaName> baseThemaNames = List.of(ThemaName.EARTH, ThemaName.MOON);
+
 
     // 유저 닉네임 변경
     @Transactional
@@ -112,15 +122,6 @@ public class UserService {
         return jwtUtil.createAccessJwt(user.getUserId(), secretKey);
     }
 
-    //    private int profileIndex;
-    //    private String nickname;
-    //    private int level;
-    //    private int exp;
-    //    private int curExp;
-    //    private int EndExp;
-    //    private int cumulativeDistance;
-    //    private int cumulativeWeekDistance;
-
     public UserProfile getMyProfile() {
         User user = getUser.getUser();
 
@@ -142,7 +143,7 @@ public class UserService {
         int profileIndex = getProfileIndex(user);
 
         return UserProfile.builder()
-                .profileIndex(profileIndex)
+                .characterIndex(profileIndex)
                 .nickname(user.getNickname())
                 .level(user.getUserLevel().getLevel())
                 .exp(levelInfo.getExp())
@@ -196,7 +197,7 @@ public class UserService {
         int profileIndex = getProfileIndex(user);
 
         return UserProfile.builder()
-                .profileIndex(profileIndex)
+                .characterIndex(profileIndex)
                 .nickname(user.getNickname())
                 .level(user.getUserLevel().getLevel())
                 .exp(levelInfo.getExp())
@@ -217,10 +218,94 @@ public class UserService {
     }
 
     public List<SearchUserProfile> searchUserProfile(String q) {
+        User user = getUser.getUser();
+        List<User> findFollower = userRepository.getUserByFollowerUserId(user.getUserId());
+
         List<User> findUser = userRepository.findByNicknameContaining(q);
 
         return findUser.stream()
-                .map(o -> new SearchUserProfile(o))
+                .map(o -> new SearchUserProfile(o, findFollower))
                 .collect(toList());
+    }
+
+    public UserMainPageInfo getUserMainPageInfo() {
+        User user = getUser.getUser();
+        List<Character> findCharacters = characterRepository.findAllByUserUserId(user.getUserId());
+        List<Thema> findThemas = themaRepository.findAllByUserUserId(user.getUserId());
+
+        Character mainCharacter = findCharacters.stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
+
+        Thema mainThema = findThemas.stream()
+                .filter(Thema::isMainThema)
+                .findFirst()
+                .orElse(null);
+
+        return UserMainPageInfo.builder()
+                .user(user)
+                .character(mainCharacter)
+                .thema(mainThema)
+                .build();
+    }
+
+    public List<CharacterOverview> convertCharacterOverView(List<Character> characters) {
+        List<CharacterOverview> characterOverviews = characters.stream()
+                .map(o -> new CharacterOverview(o))
+                .collect(toList());
+        List<CharacterName> characterNames = characters.stream()
+                .map(o -> o.getCharacterInfo().getName())
+                .collect(toList());
+        baseCharacterNames.stream()
+                .forEach(o -> {
+                    if(!characterNames.contains(o)) {
+                        characterOverviews.add(CharacterOverview.builder().name(o).build());
+                    }
+                });
+        return characterOverviews;
+    }
+
+    public List<ThemaOverview> converPlanetOverView(List<Thema> themas) {
+        List<ThemaOverview> themaOverviews = themas.stream()
+                .map(o -> new ThemaOverview(o))
+                .collect(toList());
+        List<ThemaName> ThemaNames = themas.stream()
+                .map(o -> o.getThemaInfo().getName())
+                .collect(toList());
+        baseThemaNames.stream()
+                .forEach(o -> {
+                    if(!ThemaNames.contains(o)) {
+                        themaOverviews.add(ThemaOverview.builder().name(o).build());
+                    }
+                });
+        return themaOverviews;
+    }
+    public UserEditPageInfo getUserEditPageInfo() {
+        User user = getUser.getUser();
+        List<Character> findCharacters = characterRepository.findAllCharacterInfo(user.getUserId());
+        List<Thema> findThemas = themaRepository.findAllByUserUserId(user.getUserId());
+
+        List<CharacterOverview> characterOverviews = convertCharacterOverView(findCharacters);
+        List<ThemaOverview> themaOverviews = converPlanetOverView(findThemas);
+
+        Character mainCharacter = findCharacters.stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
+
+        Thema mainThema = findThemas.stream()
+                .filter(Thema::isMainThema)
+                .findFirst()
+                .orElse(null);
+
+        return UserEditPageInfo.builder()
+                .user(user)
+                .character(mainCharacter)
+                .thema(mainThema)
+                .characters(characterOverviews)
+                .planets(themaOverviews)
+                .build();
+
     }
 }

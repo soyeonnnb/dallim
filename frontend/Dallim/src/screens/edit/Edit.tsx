@@ -9,7 +9,7 @@ import { planetData } from '../../components/common/PlanetData';
 import Left from '../../assets/icons/DirectionLeft.png';
 import Right from '../../assets/icons/DirectionRight.png';
 
-import BasicCharacter from '../../assets/characters/토끼_선택.png'
+import BasicCharacter from '@/assets/characters/Rabbit.png'
 import BasicPlanet from '../../assets/planets/PlanetBlack.png';
 
 function Edit() {
@@ -17,6 +17,8 @@ function Edit() {
     const TempPoint = '3000';
     const [isOn, setIsOn] = useState(false);
     const animatedValue = useRef(new Animated.Value(0)).current;
+
+    const characterLevel = 1; // 캐릭터 4개 각 레벨을 나중에 어떻게 받아와야할까...
 
     const toggleHandle = () => {
         setIsOn(prevIsOn => {
@@ -100,8 +102,8 @@ function Edit() {
                     <S.BodyCenter>
                         {
                             isOn
-                                ? <PlanetEdit onPlanetChange={handlePlanetChange} planetIndex={planetIndex} isOn={isOn}/>
-                                : <CharacterEdit onCharacterChange={handleCharacterChange} characterIndex={characterIndex} />
+                                ? <PlanetEdit onPlanetChange={handlePlanetChange} planetIndex={planetIndex} isOn={isOn} />
+                                : <CharacterEdit onCharacterChange={handleCharacterChange} characterIndex={characterIndex} characterLevel={characterLevel} />
                         }
                     </S.BodyCenter>
 

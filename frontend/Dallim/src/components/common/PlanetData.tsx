@@ -4,11 +4,6 @@ export type PlanetType = {
   Card: any;
 }
 
-// 임시 저장된 룸 인덱스
-export const selectedPlanet = {
-  index: 2
-}
-
 export const backgroundImage = {
   image: require('../../assets/images/MainBackground3.png')
 };

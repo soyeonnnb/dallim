@@ -18,6 +18,7 @@ export const Card = styled.TouchableOpacity`
   margin-right: 20px;
   width: 30%;
   border-width: 2px;
+  width: 90%;
 `;
 export const CardTitle = styled.Text`
   color: red;

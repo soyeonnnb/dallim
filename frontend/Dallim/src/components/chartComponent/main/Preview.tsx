@@ -33,11 +33,11 @@ function Preview({isClicked, selectedDate}: Props) {
       onChange={handleSheetChanges} // sheet 사이즈 수정시
     >
       <S.Container>
-        <PreviewMonthly isShow={isUp ? true : false} />
         <S.DownPreview isShow={isUp ? false : true}>
           <PreviewWeekly isShow={isClicked ? false : true} />
           <PreviewDaily date={selectedDate} isShow={isClicked ? true : false} />
         </S.DownPreview>
+        <PreviewMonthly isShow={isUp ? true : false} />
       </S.Container>
     </BottomSheet>
   );

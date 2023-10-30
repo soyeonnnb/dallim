@@ -29,7 +29,6 @@ const LogoutModal = ({showModal, toggleModal}: ModalComponentProps) => {
           console.log('키를 가져오는 중 오류 발생:', error);
         });
 
-      // token 값을 이용하여 로그아웃 요청을 보냅니다.
       requestWithTokenRefresh(() => {
         return axios.post(
           'http://10.0.2.2:8080/api/oauth/social/logout',

@@ -52,8 +52,11 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
           },
         })
         .then(async res => {
+          // const data = await res.data;
           const accessToken = res.data.accessToken;
 
+          await AsyncStorage.setItem('userId', String(res.data.uesrId));
+          console.log(res.data.uesrId);
           await sendLoginRequest(accessToken);
         })
         .catch(error => {

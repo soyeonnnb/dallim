@@ -91,9 +91,9 @@ function PreviewDaily({date, isShow}: Props) {
       <FlatList
         horizontal
         data={runningDatas}
-        keyExtractor={(item, index) => index.toString()}
+        keyExtractor={item => item.id.toString()}
         renderItem={RunningCard}
-        // showsHorizontalScrollIndicator={true} // 가로 스크롤바 표시
+        showsHorizontalScrollIndicator={false} // 가로 스크롤바 표시
         contentContainerStyle={{
           paddingHorizontal: screenWidth / 12,
         }} // 왼쪽과 오른쪽에 여백 추가

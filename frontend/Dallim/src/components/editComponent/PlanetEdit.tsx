@@ -3,6 +3,7 @@ import * as S from './PlanetEdit.styles';
 import Planet from './PlanetBox';
 import { planetData } from '../common/PlanetData';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
+import PurchaseCheckModal from './editModal/PurchaseCheckModal';
 
 type PlanetEditProps = {
   equippedPlanetIndex: number; // 장착된 행성 인덱스
@@ -14,7 +15,8 @@ type PlanetEditProps = {
 
 function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPurchased, onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
 
-  const [showModal, setShowModal] = useState(false);
+  const [planetSelectModalVisible, setPlanetSelectModalVisible] = useState(false); // 선택 확인 모달
+  const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
 
   useEffect(() => {
     console.log("대표 행성이 바꼈어요(Index 기준) : " + equippedPlanetIndex);
@@ -26,18 +28,28 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPu
   }
 
   function equippedPlanetChange() {
-    toggleModal();
+    togglePlanetSelectModal();
     const planetCount = planetData.length;
     handleEquippedPlanetChange(equippedPlanetIndex % planetCount);
     handlePlanetChange(selectedPlanetIndex % planetCount);
   }
 
-  function toggleModal() {
-    setShowModal(!showModal);
+  function togglePlanetSelectModal() {
+    setPlanetSelectModalVisible(!planetSelectModalVisible);
   }
 
   function handlePurchaseCheck() {
     console.log("행성을 구매할건지 체크");
+    setPurchaseModalVisible(true);
+  }
+  function handlePurchaseConfirm() {
+    console.log("구매 확인!");
+    // 구매 로직 추가 예정
+    setPurchaseModalVisible(false);
+  }
+  function handlePurchaseCancel() {
+    console.log("구매 취소!");
+    setPurchaseModalVisible(false);
   }
 
   return (
@@ -53,7 +65,7 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPu
 
       <S.Body>
         <S.PlanetBox >
-          <Planet selectedPlanetIndex={selectedPlanetIndex} selectedPlanetPurchased={selectedPlanetPurchased}/>
+          <Planet selectedPlanetIndex={selectedPlanetIndex} selectedPlanetPurchased={selectedPlanetPurchased} />
         </S.PlanetBox>
       </S.Body>
 
@@ -66,18 +78,24 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPu
           </>
         ) : (
           <S.LockButtonBox onPress={handlePurchaseCheck}>
-            <S.LockedImage source={require('@/assets/icons/LockIcon.png')} resizeMode='contain'/>
+            <S.LockedImage source={require('@/assets/icons/LockIcon.png')} resizeMode='contain' />
             <S.LockedText>2000 포인트</S.LockedText>
           </S.LockButtonBox>
         )}
       </S.Footer>
 
       <PlanetSelectModal
-        showModal={showModal}
+        planetSelectModalVisible={planetSelectModalVisible}
         equippedPlanetIndex={equippedPlanetIndex}
         selectedPlanetIndex={selectedPlanetIndex}
-        toggleModal={toggleModal}
+        togglePlanetSelectModal={togglePlanetSelectModal}
         equippedPlanetChange={equippedPlanetChange}
+      />
+
+      <PurchaseCheckModal
+        showModal={purchaseModalVisible}
+        handleConfirm={handlePurchaseConfirm}
+        handleCancel={handlePurchaseCancel}
       />
 
     </S.Container>

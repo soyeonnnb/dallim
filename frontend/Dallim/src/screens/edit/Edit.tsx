@@ -32,12 +32,12 @@ function Edit() {
   const [equippedPlanetIndex, setEquippedPlanetIndex] = useState<number>(userData.mainPlanetIndex); // 장착된 행성
 
   // 선택하는 중인 인덱스
-  const [selectedCharacterIndex, setSelectedCharacterIndex] = useState(0); // 선택된 캐릭터
+  const [selectedCharacterIndex, setSelectedCharacterIndex] = useState(equippedCharacterIndex || 0); // 선택된 캐릭터
   const [selectedCharacterLevel, setSelectedCharacterLevel] = useState<number>(userData.characters[selectedCharacterIndex].level); // 선택된 캐릭터 레벨
   const [selectedEvolutionStage, setSelectedEvolutionStage] = useState<number>(userData.characters[selectedCharacterIndex].evolutionStage); // 선택된 캐릭터 등급
   const [selectedCharacterExp, setSelectedCharacterExp] = useState<number>(userData.characters[selectedCharacterIndex].exp); // 선택된 캐릭터 경험치
   const [selectedCharacterPurchased, setSelectedCharacterPurchased] = useState<boolean>(userData.characters[selectedCharacterIndex].purchased); // 선택된 캐릭터 구매 여부
-  const [selectedPlanetIndex, setSelectedPlanetIndex] = useState(0); // 선택된 행성
+  const [selectedPlanetIndex, setSelectedPlanetIndex] = useState(equippedPlanetIndex || 0); // 선택된 행성
   const [selectedPlanetPurchased, setSelectedPlanetPurchased] = useState<boolean>(userData.planets[selectedPlanetIndex].purchased); // 선택된 행성 구매 여부
 
   const [isOn, setIsOn] = useState(false);
@@ -103,11 +103,11 @@ function Edit() {
     setSelectedPlanetIndex(prevIndex);
   };
 
-    // 선택된 행성 인덱스가 바뀔 때마다 관련 상태 업데이트
-    useEffect(() => {
-      const planet = userData.planets[selectedPlanetIndex];
-      setSelectedPlanetPurchased(planet.purchased);
-    }, [selectedPlanetIndex]);
+  // 선택된 행성 인덱스가 바뀔 때마다 관련 상태 업데이트
+  useEffect(() => {
+    const planet = userData.planets[selectedPlanetIndex];
+    setSelectedPlanetPurchased(planet.purchased);
+  }, [selectedPlanetIndex]);
 
   // 사용자가 장착하고 있는 행성의 상태 업데이트
   const handleEquippedPlanetChange = (index: number) => {

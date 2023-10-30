@@ -6,14 +6,14 @@ import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
 type ModalComponentProps = {
-    showModal: boolean;
+    planetSelectModalVisible: boolean;
     equippedPlanetIndex: number;
     selectedPlanetIndex: number;
-    toggleModal: () => void;
+    togglePlanetSelectModal: () => void;
     equippedPlanetChange: () => void;
 };
 
-function planetSelectModal ({ showModal, equippedPlanetIndex, selectedPlanetIndex, toggleModal, equippedPlanetChange }: ModalComponentProps) {
+function planetSelectModal ({ planetSelectModalVisible, equippedPlanetIndex, selectedPlanetIndex, togglePlanetSelectModal, equippedPlanetChange }: ModalComponentProps) {
 
     const handleEquippedPlanetChange = () => {
         Toast.show({
@@ -31,7 +31,7 @@ function planetSelectModal ({ showModal, equippedPlanetIndex, selectedPlanetInde
         <Modal
             transparent={true}
             animationType="fade"
-            visible={showModal}
+            visible={planetSelectModalVisible}
         >
             <S.ModalContainer>
                 <S.ModalContent>
@@ -60,7 +60,7 @@ function planetSelectModal ({ showModal, equippedPlanetIndex, selectedPlanetInde
                         <S.ModalButton onPress={handleEquippedPlanetChange}>
                             <S.ModalButtonText>확인</S.ModalButtonText>
                         </S.ModalButton>
-                        <S.ModalCancelButton onPress={toggleModal}>
+                        <S.ModalCancelButton onPress={togglePlanetSelectModal}>
                             <S.ModalButtonText>취소</S.ModalButtonText>
                         </S.ModalCancelButton>
                     </S.ModalFooter>

@@ -3,7 +3,7 @@ import * as S from './PlanetEdit.styles';
 import Planet from './PlanetBox';
 import { planetData } from '../common/PlanetData';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
-import PurchaseCheckModal from './editModal/PurchaseCheckModal';
+import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 
 type PlanetEditProps = {
   equippedPlanetIndex: number; // 장착된 행성 인덱스
@@ -92,8 +92,9 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPu
         equippedPlanetChange={equippedPlanetChange}
       />
 
-      <PurchaseCheckModal
-        showModal={purchaseModalVisible}
+      <PlanetPurchaseCheckModal
+        purchaseModalVisible={purchaseModalVisible}
+        selectedPlanetIndex={selectedPlanetIndex}
         handleConfirm={handlePurchaseConfirm}
         handleCancel={handlePurchaseCancel}
       />

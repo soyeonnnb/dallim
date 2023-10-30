@@ -1,9 +1,13 @@
 import React from 'react';
 import * as S from './PreviewMonthly.styles';
 
-function PreviewMonthly() {
+interface Props {
+  isShow: boolean;
+}
+
+function PreviewMonthly({isShow}: Props) {
   return (
-    <S.Container>
+    <S.Container isShow={isShow}>
       <S.Text>Monthly</S.Text>
     </S.Container>
   );

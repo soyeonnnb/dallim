@@ -1,12 +1,13 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const Container = styled.View<{isShow: boolean}>`
   border-width: 1px;
   justify-content: center;
   align-items: center;
   background-color: yellow;
   width: 100%;
-  flex: 0.4;
+  flex: 1;
+  display: ${props => (props.isShow ? 'block' : 'none')};
 `;
 
 export const Text = styled.Text`

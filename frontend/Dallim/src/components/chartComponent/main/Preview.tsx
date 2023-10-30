@@ -4,6 +4,7 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import PreviewDaily from './PreviewDaily';
 import PreviewWeekly from './PreviewWeekly';
 import PreviewMonthly from './PreviewMonthly';
+import * as S from './Preview.styles';
 import {CalendarType} from '@/components/common/CalendarData';
 
 interface Props {
@@ -31,13 +32,13 @@ function Preview({isClicked, selectedDate}: Props) {
       snapPoints={snapPoints} // sheet를 어느정도로 둘 것인지
       onChange={handleSheetChanges} // sheet 사이즈 수정시
     >
-      {isUp ? (
-        <PreviewMonthly></PreviewMonthly>
-      ) : isClicked ? (
-        <PreviewDaily date={selectedDate}></PreviewDaily>
-      ) : (
-        <PreviewWeekly></PreviewWeekly>
-      )}
+      <S.Container>
+        <PreviewMonthly isShow={isUp ? true : false} />
+        <S.DownPreview isShow={isUp ? false : true}>
+          <PreviewWeekly isShow={isClicked ? false : true} />
+          <PreviewDaily date={selectedDate} isShow={isClicked ? true : false} />
+        </S.DownPreview>
+      </S.Container>
     </BottomSheet>
   );
 }

@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import * as S from './ChartMain.styles'; // 스타일 컴포넌트 import
 
 import Calendar from '../../components/chartComponent/main/Calendar';

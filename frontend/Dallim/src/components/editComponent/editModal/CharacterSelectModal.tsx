@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
 type ModalComponentProps = {
-    showModal: boolean;
+    characterSelectModalVisible: boolean;
     toggleModal: () => void;
     equippedCharacterChange: () => void;
     equippedCharacterIndex: number;
@@ -17,7 +17,7 @@ type ModalComponentProps = {
     selectedEvolutionStage: number;
 };
 
-function CharacterSelectModal({ showModal, toggleModal, equippedCharacterChange, equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage }: ModalComponentProps) {
+function CharacterSelectModal({ characterSelectModalVisible, toggleModal, equippedCharacterChange, equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage }: ModalComponentProps) {
 
     const handleEquippedCharacterChange = () => {
         Toast.show({
@@ -35,7 +35,7 @@ function CharacterSelectModal({ showModal, toggleModal, equippedCharacterChange,
         <Modal
             transparent={true}
             animationType="fade"
-            visible={showModal}
+            visible={characterSelectModalVisible}
         >
             <S.ModalContainer>
                 <S.ModalContent>

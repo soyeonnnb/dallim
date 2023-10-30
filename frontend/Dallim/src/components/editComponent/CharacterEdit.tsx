@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import * as S from './CharacterEdit.styles';
 import Character from './CharacterBox';
 import CharacterSelectModal from './editModal/CharacterSelectModal';
+import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
+
 import { characterData } from '../common/CharacterData';
 type CharacterEditProps = {
   equippedCharacterIndex: number;
@@ -18,7 +20,8 @@ type CharacterEditProps = {
 
 function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage, selectedCharacterExp, selectedCharacterPurchased, handleEquippedCharacterChange, onCharacterChange }: CharacterEditProps) {
 
-  const [showModal, setShowModal] = useState(false);
+  const [characterSelectModalVisible, setCharacterSelectModalVisible] = useState(false); // 캐릭터 선택 확인 모달
+  const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
 
   useEffect(() => {
     console.log("선택 캐릭터가 바꼈어요(Index 기준) : " + selectedCharacterIndex);
@@ -31,17 +34,27 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
   }
 
   function equippedCharacterChange() {
-    toggleModal();
+    toggleCharacterSelectModal();
     const characterCount = characterData.length;
     handleCharacterChange(selectedCharacterIndex % characterCount);
   }
 
-  function toggleModal() {
-    setShowModal(!showModal);
+  function toggleCharacterSelectModal() {
+    setCharacterSelectModalVisible(!characterSelectModalVisible);
   }
 
   function handlePurchaseCheck() {
-    console.log("캐릭커를 구매할건지 체크");
+    console.log("캐릭터를 구매할건지 체크");
+    setPurchaseModalVisible(true);
+  }
+  function handlePurchaseConfirm() {
+    console.log("구매 확인!");
+    // 캐릭터 구매 로직 추가 예정
+    setPurchaseModalVisible(false);
+  }
+  function handlePurchaseCancel() {
+    console.log("구매 취소!");
+    setPurchaseModalVisible(false);
   }
 
   return (
@@ -57,14 +70,14 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
 
       <S.Body>
         <S.CharacterBox>
-          <Character selectedCharacterIndex={selectedCharacterIndex} selectedEvolutionStage={selectedEvolutionStage} selectedCharacterPurchased={selectedCharacterPurchased}/>
+          <Character selectedCharacterIndex={selectedCharacterIndex} selectedEvolutionStage={selectedEvolutionStage} selectedCharacterPurchased={selectedCharacterPurchased} />
         </S.CharacterBox>
       </S.Body>
 
       <S.Footer>
         {selectedCharacterPurchased ? (
           <>
-            <S.ButtonBox onPress={toggleModal}>
+            <S.ButtonBox onPress={toggleCharacterSelectModal}>
               <S.ButtonText>선택</S.ButtonText>
             </S.ButtonBox>
 
@@ -77,7 +90,7 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
           </>
         ) : (
           <S.LockButtonBox onPress={handlePurchaseCheck}>
-            <S.LockedImage source={require('@/assets/icons/LockIcon.png')} resizeMode='contain'/>
+            <S.LockedImage source={require('@/assets/icons/LockIcon.png')} resizeMode='contain' />
             <S.LockedText>2000 포인트</S.LockedText>
           </S.LockButtonBox>
         )}
@@ -85,15 +98,22 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
 
 
       <CharacterSelectModal
-        showModal={showModal}
-        toggleModal={toggleModal}
+        characterSelectModalVisible={characterSelectModalVisible}
+        toggleModal={toggleCharacterSelectModal}
         equippedCharacterChange={equippedCharacterChange}
-
         equippedCharacterIndex={equippedCharacterIndex}
         equippedCharacterLevel={equippedCharacterLevel}
         equippedEvolutionStage={equippedEvolutionStage}
         selectedCharacterIndex={selectedCharacterIndex}
         selectedCharacterLevel={selectedCharacterLevel}
+        selectedEvolutionStage={selectedEvolutionStage}
+      />
+
+      <CharacterPurchaseCheckModal
+        handleConfirm={handlePurchaseConfirm}
+        handleCancel={handlePurchaseCancel}
+        purchaseModalVisible={purchaseModalVisible}
+        selectedCharacterIndex={selectedCharacterIndex}
         selectedEvolutionStage={selectedEvolutionStage}
       />
 

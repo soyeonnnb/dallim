@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import FastImage from 'react-native-fast-image';
 
 export const ModalContainer = styled.View`
   flex: 1;
@@ -27,11 +28,15 @@ export const ModalHeader = styled.View`
 export const ImageBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
+  justify-content: center;
+  align-items: center;
   width: 80%;
-  height: 90%;
+  height: 100%;
 `;
 
-export const Image = styled.Image`
+export const StyledGif = styled(FastImage)`
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 100%;
 `;

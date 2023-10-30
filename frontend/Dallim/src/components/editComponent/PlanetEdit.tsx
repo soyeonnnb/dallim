@@ -4,6 +4,7 @@ import Planet from './PlanetBox';
 import { planetData } from '../common/PlanetData';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 type PlanetEditProps = {
   equippedPlanetIndex: number; // 장착된 행성 인덱스
@@ -15,8 +16,9 @@ type PlanetEditProps = {
 
 function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPurchased, onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
 
-  const [planetSelectModalVisible, setPlanetSelectModalVisible] = useState(false); // 선택 확인 모달
+  const [planetSelectModalVisible, setPlanetSelectModalVisible] = useState(false); // 행성 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     console.log("대표 행성이 바꼈어요(Index 기준) : " + equippedPlanetIndex);
@@ -44,7 +46,8 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPu
   }
   function handlePurchaseConfirm() {
     console.log("구매 확인!");
-    // 구매 로직 추가 예정
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 5000);
     setPurchaseModalVisible(false);
   }
   function handlePurchaseCancel() {
@@ -91,13 +94,19 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPu
         togglePlanetSelectModal={togglePlanetSelectModal}
         equippedPlanetChange={equippedPlanetChange}
       />
-
       <PlanetPurchaseCheckModal
         purchaseModalVisible={purchaseModalVisible}
         selectedPlanetIndex={selectedPlanetIndex}
         handleConfirm={handlePurchaseConfirm}
         handleCancel={handlePurchaseCancel}
       />
+      {showConfetti && (
+        <ConfettiCannon
+          count={200} // 컨페티의 개수
+          origin={{ x: -10, y: 0 }} // 시작 위치
+          fadeOut={true} // 사라지는 효과
+        />
+      )}
 
     </S.Container>
   );

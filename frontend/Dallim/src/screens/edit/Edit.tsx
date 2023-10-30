@@ -12,7 +12,7 @@ import Right from '@/assets/icons/DirectionRight.png';
 import BasicCharacter from '@/assets/characters/Rabbit.png'
 import BasicPlanet from '@/assets/planets/PlanetBlack.png';
 
-import { UserData, userDataDummy } from './dummyData'; // 임시 데이터
+import { UserData, userDataDummy } from './EditDummyData'; // 임시 데이터
 
 function Edit() {
 
@@ -28,11 +28,15 @@ function Edit() {
     const userPoint = userData.point; // 포인트
     const [equippedCharacterIndex, setEquippedCharacterIndex] = useState<number>(userData.mainCharacterIndex); // 장착된 캐릭터
     const [equippedCharacterLevel, setEquippedCharacterLevel] = useState<number>(userData.characters[userData.mainCharacterIndex].level); // 장착된 캐릭터 레벨
+    const [equippedEvolutionStage, setEquippedEvolutionStage] = useState<number>(userData.characters[userData.mainCharacterIndex].evolutionStage); // 장착된 캐릭터 등급
     const [equippedPlanetIndex, setEquippedPlanetIndex] = useState<number>(userData.mainPlanetIndex); // 장착된 행성
 
     // 선택하는 중인 인덱스
     const [selectedCharacterIndex, setSelectedCharacterIndex] = useState(0); // 선택된 캐릭터
     const [selectedCharacterLevel, setSelectedCharacterLevel] = useState<number>(userData.characters[selectedCharacterIndex].level); // 선택된 캐릭터 레벨
+    const [selectedEvolutionStage, setSelectedEvolutionStage] = useState<number>(userData.characters[selectedCharacterIndex].evolutionStage); // 선택된 캐릭터 등급
+    const [selectedCharacterExp, setSelectedCharacterExp] = useState<number>(userData.characters[selectedCharacterIndex].exp); // 선택된 캐릭터 경험치
+    const [selectedCharacterPurchased, setSelectedCharacterPurchased] = useState<boolean>(userData.characters[selectedCharacterIndex].purchased); // 선택된 캐릭터 구매 여부
     const [selectedPlanetIndex, setSelectedPlanetIndex] = useState(0); // 선택된 행성
 
     // 사용자가 장착하고 있는 행성의 상태 업데이트
@@ -122,16 +126,10 @@ function Edit() {
                         </S.DirectionBox>
                     </S.BodyLeft>
                     <S.BodyCenter>
-                        {/* {
+                        {
                             isOn
                                 ? <PlanetEdit equippedPlanetIndex={equippedPlanetIndex} selectedPlanetIndex={selectedPlanetIndex} onEquippedChange={handleEquippedPlanetChange} onPlanetChange={handlePlanetChange} />
-                                : <CharacterEdit onCharacterChange={handleCharacterChange} selectedCharacterIndex={selectedCharacterIndex} selectedCharacterLevel={selectedCharacterLevel}/>
-                        } */}
-                         {
-                            isOn
-                                ? <PlanetEdit equippedPlanetIndex={equippedPlanetIndex} selectedPlanetIndex={selectedPlanetIndex} onEquippedChange={handleEquippedPlanetChange} onPlanetChange={handlePlanetChange} />
-                                :                         <PlanetEdit equippedPlanetIndex={equippedPlanetIndex} selectedPlanetIndex={selectedPlanetIndex} onEquippedChange={handleEquippedPlanetChange} onPlanetChange={handlePlanetChange} />
-
+                                : <CharacterEdit equippedCharacterIndex={equippedCharacterIndex} equippedCharacterLevel={equippedCharacterLevel} equippedEvolutionStage={equippedEvolutionStage} selectedCharacterIndex={selectedCharacterIndex} selectedCharacterLevel={selectedCharacterLevel} selectedEvolutionStage={selectedEvolutionStage} selectedCharacterExp={selectedCharacterExp} selectedCharacterPurchased={selectedCharacterPurchased} onCharacterChange={handleCharacterChange} />
                         }
                     </S.BodyCenter>
 

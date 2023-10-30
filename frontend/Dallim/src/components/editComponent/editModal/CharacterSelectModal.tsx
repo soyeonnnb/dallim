@@ -9,11 +9,15 @@ type ModalComponentProps = {
     showModal: boolean;
     toggleModal: () => void;
     confirmCharacterChange: () => void;
-    characterIndex: number;
-    characterLevel: number;
+    equippedCharacterIndex: number;
+    equippedCharacterLevel: number;
+    equippedEvolutionStage: number;
+    selectedCharacterIndex: number;
+    selectedCharacterLevel: number;
+    selectedEvolutionStag: number;
 };
 
-const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, characterIndex, characterLevel }: ModalComponentProps) => {
+function CharacterSelectModal({ showModal, toggleModal, confirmCharacterChange, equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStag }: ModalComponentProps) {
 
     const handleConfirmCharacterChange = () => {
         Toast.show({
@@ -28,9 +32,6 @@ const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, 
         confirmCharacterChange();
     };
 
-    const selectedCharacter = 1; // 임시 메인 캐릭터
-    const selectedCharacterLevel = 0;
-
     return (
         <Modal
             transparent={true}
@@ -44,7 +45,7 @@ const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, 
                     </S.ModalHeader>
                     <S.ModalBody>
                         <S.BoxStyle >
-                            <S.Image source={characterData[selectedCharacter].levels[selectedCharacterLevel].front} resizeMode="contain" />
+                            <S.Image source={characterData[equippedCharacterIndex].levels[equippedEvolutionStage].front} resizeMode="contain" />
                         </S.BoxStyle>
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>
@@ -55,7 +56,7 @@ const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, 
                             </S.ChangeBox>
                         </S.ChangeBoxStyle>
                         <S.BoxStyle >
-                            <S.Image source={characterData[characterIndex].levels[characterLevel].front} resizeMode="contain" />
+                            <S.Image source={characterData[selectedCharacterIndex].levels[selectedEvolutionStag].front} resizeMode="contain" />
                         </S.BoxStyle>
 
                     </S.ModalBody>

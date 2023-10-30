@@ -1,6 +1,7 @@
 export interface Character {
     characterIndex: number;
     level: number;
+    evolutionStage: number;
     exp: number;
     purchased: boolean;
 }
@@ -28,30 +29,34 @@ export const userDataDummy: UserResponse = {
     "status": "success",
     "data": {
         "point": 267192,
-        "mainCharacterIndex": 1,
+        "mainCharacterIndex": 0,
         "mainPlanetIndex": 3,
         "characters": [
             {
                 "characterIndex": 0,
                 "level": 10,
+                "evolutionStage" : 1,
                 "exp": 0,
                 "purchased": true
             },
             {
                 "characterIndex": 1,
-                "level": 2000,
+                "level": 8,
+                "evolutionStage" : 1,
                 "exp": 50,
                 "purchased": true
             },
             {
                 "characterIndex": 3,
-                "level": 22,
+                "level": 2,
+                "evolutionStage" : 0,
                 "exp": 0,
                 "purchased": true
             },
             {
                 "characterIndex": 2,
                 "level": -1,
+                "evolutionStage" : 0,
                 "exp": -1,
                 "purchased": false
             }

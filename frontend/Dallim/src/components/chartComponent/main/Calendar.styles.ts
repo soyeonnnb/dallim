@@ -9,7 +9,6 @@ export const Container = styled.View`
 `;
 
 export const Text = styled.Text`
-  font-size: 20px;
   color: white;
 `;
 export const Calendar = styled(Cal)`

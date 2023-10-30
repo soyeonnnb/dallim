@@ -1,16 +1,26 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View<{isShow: boolean}>`
-  border-width: 1px;
-  justify-content: center;
-  align-items: center;
-  background-color: yellow;
-  width: 100%;
   flex: 1;
   display: ${props => (props.isShow ? 'block' : 'none')};
 `;
 
-export const Text = styled.Text`
+export const Title = styled.Text`
   font-size: 20px;
-  color: white;
+  font-weight: 800;
+  color: black;
+  margin-bottom: 20px;
+  padding-left: 30px;
 `;
+
+export const Card = styled.TouchableOpacity`
+  background-color: aqua;
+  margin-right: 20px;
+  width: 30%;
+  border-width: 2px;
+`;
+export const CardTitle = styled.Text`
+  color: red;
+`;
+export const CardDatas = styled.View``;
+export const CardData = styled.Text``;

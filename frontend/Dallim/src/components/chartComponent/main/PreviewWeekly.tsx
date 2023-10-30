@@ -19,7 +19,6 @@ function PreviewWeekly({isShow}: Props) {
     setTotalCount(5);
     setTotalDistance(15);
     setTotalTime(400);
-    console.log('업데이트');
   }, []);
 
   return (

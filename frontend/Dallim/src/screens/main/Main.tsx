@@ -78,7 +78,7 @@ function Main() {
         source={
           isOn
             ? require('../../assets/images/MainBackground2.png')
-            : require('../../assets/images/MainBackground3.png')
+            : require('../../assets/images/MainBackground4.png')
         }
         resizeMode="cover">
         <S.Header>

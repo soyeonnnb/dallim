@@ -12,18 +12,37 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCodeSent, setIsCodeSent] = useState(false);
 
+  // const sendLoginRequest = async (token: string) => {
+  //   try {
+  //     const response = await fetch('http://10.0.2.2:8080/api/oauth/login', {
+  //       method: 'POST',
+  //       credentials: 'include',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({access: token}),
+  //     });
+  //     const data = await response.json();
+
+  //     await AsyncStorage.setItem('accessToken', data.accessToken);
   const sendLoginRequest = async (token: string) => {
     try {
-      const response = await fetch('http://10.0.2.2:8080/api/oauth/login', {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await axios.get(
+        'http://k9b208.p.ssafy.io/api/oauth/login',
+        {
+          params: {
+            access: token,
+          },
+          withCredentials: true,
+          headers: {
+            'Content-Type': 'application/json',
+          },
         },
-        body: JSON.stringify({access: token}),
-      });
-      const data = await response.json();
+      );
 
+      const data = response.data;
+      console.log(data);
+      await AsyncStorage.setItem('userId', String(data.uesrId));
       await AsyncStorage.setItem('accessToken', data.accessToken);
     } catch (error) {
       console.error('Error during login request:', error);
@@ -46,7 +65,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
       setIsLoading(true);
 
       await axios
-        .post('http://10.0.2.2:8080/api/oauth2/code/naver', null, {
+        .get('http://k9b208.p.ssafy.io/api/oauth2/code/naver', {
           params: {
             code: authCode,
           },
@@ -55,8 +74,8 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
           // const data = await res.data;
           const accessToken = res.data.accessToken;
 
-          await AsyncStorage.setItem('userId', String(res.data.uesrId));
-          console.log(res.data.uesrId);
+          // await AsyncStorage.setItem('userId', String(res.data.uesrId));
+          // console.log(res.data.uesrId);
           await sendLoginRequest(accessToken);
         })
         .catch(error => {

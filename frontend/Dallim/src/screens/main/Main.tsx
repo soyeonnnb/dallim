@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Easing } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Animated, Easing} from 'react-native';
 import * as S from './Main.styles';
 import StampDarkIcon from '../../assets/icons/StampDarkIcon.png';
 import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
@@ -9,8 +9,9 @@ import Sun from '../../assets/images/Sun.png';
 import SunToggleBackground from '../../assets/images/SunToggleBackground.png';
 import MoonToggleBackground from '../../assets/images/MoonToggleBackground.png';
 import SpinAnimation from '../../components/common/SpinAnimation';
-import { characterData } from '../../components/common/CharacterData';
+import {characterData} from '../../components/common/CharacterData';
 import planetSample from '@/assets/planets/PlanetBlack.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // import { fetchUserProfile } from '../../apis';
 // type UserProfile = {
@@ -38,14 +39,26 @@ function Main() {
   //   };
   //   loadUserProfile();
   // }, []);
+  const retrieveStoredData = async () => {
+    try {
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      const id = await AsyncStorage.getItem('userId');
+
+      console.log('Stored Access Token:', accessToken);
+      console.log('Stored ID:', id);
+    } catch (error) {
+      console.error('Error retrieving data from AsyncStorage:', error);
+    }
+  };
 
   const TempPoint = '3000'; // 유저 포인트
   const TempLv = '67'; // 유저 레벨
   const TempNickname = '하늘을 나는 병아리'; // 유저 닉네임
   const TempSelectCharacter = 0; // 유저가 장착한 캐릭터
-  const TempSelectCharacterLevel = 0; // 유저가 장착한 캐릭터 레벨 : 0 OR 1   
+  const TempSelectCharacterLevel = 0; // 유저가 장착한 캐릭터 레벨 : 0 OR 1
   const selectedCharacter = characterData[TempSelectCharacter];
-  const selectedCharacterLevelData = selectedCharacter.levels[TempSelectCharacterLevel];
+  const selectedCharacterLevelData =
+    selectedCharacter.levels[TempSelectCharacterLevel];
 
   const [isOn, setIsOn] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -61,16 +74,17 @@ function Main() {
       }).start();
       return !prevIsOn;
     });
-  };
+  }
 
   function handleSend() {
-    console.log("출석체크 버튼 눌림!");
+    console.log('출석체크 버튼 눌림!');
+    retrieveStoredData();
     setStampModalVisible(true);
-  };
+  }
 
   function Start() {
-    console.log("시작 버튼 눌림!");
-  };
+    console.log('시작 버튼 눌림!');
+  }
 
   return (
     <S.Container>
@@ -84,7 +98,9 @@ function Main() {
         <S.Header>
           <S.HeaderLeft>
             <S.ToggleButtonBackground onPress={toggleHandle}>
-              <S.ToggleButtonWrapper source={isOn ? SunToggleBackground : MoonToggleBackground} isOn={isOn} >
+              <S.ToggleButtonWrapper
+                source={isOn ? SunToggleBackground : MoonToggleBackground}
+                isOn={isOn}>
                 <S.ToggleButton
                   source={isOn ? Sun : Moon}
                   style={{
@@ -117,7 +133,10 @@ function Main() {
             <SpinAnimation>
               <S.StyledImage source={planetSample} />
             </SpinAnimation>
-            <S.StyledGif source={selectedCharacterLevelData.running} resizeMode="contain" />
+            <S.StyledGif
+              source={selectedCharacterLevelData.running}
+              resizeMode="contain"
+            />
           </S.ThemeBox>
         </S.Body>
 
@@ -130,10 +149,9 @@ function Main() {
 
           <S.StartBox>
             <S.StartButton onPress={Start}>
-              <S.StartText >시작하기</S.StartText>
+              <S.StartText>시작하기</S.StartText>
             </S.StartButton>
           </S.StartBox>
-
         </S.Footer>
 
         <S.TabBox />
@@ -143,7 +161,6 @@ function Main() {
         isVisible={isStampModalVisible}
         onClose={() => setStampModalVisible(false)}
       />
-
     </S.Container>
   );
 }

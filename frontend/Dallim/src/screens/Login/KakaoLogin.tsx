@@ -79,6 +79,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
 
       const data = response.data;
       console.log(data);
+      console.log(data.uesrId);
       await AsyncStorage.setItem('userId', String(data.uesrId));
       await AsyncStorage.setItem('accessToken', data.accessToken);
     } catch (error) {

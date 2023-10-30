@@ -9,6 +9,7 @@ interface Props {
 
 function PlanetBox({ index }: Props) {
   const [modalVisible, setModalVisible] = useState(false);
+  
   return (
     <S.Container>
       <S.PlanetBox>

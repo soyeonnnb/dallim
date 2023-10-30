@@ -47,7 +47,7 @@ function Edit() {
         setCharacterIndex(prevIndex);
     };
 
-    // 방
+    // 행성
     const [planetIndex, setPlanetIndex] = useState(0); // 초기 방 인덱스
     const handlePlanetChange = (planetIndex: number) => {
         setPlanetIndex(planetIndex);

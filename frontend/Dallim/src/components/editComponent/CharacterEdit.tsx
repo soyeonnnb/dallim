@@ -12,13 +12,11 @@ type CharacterEditProps = {
   selectedEvolutionStage: number;
   selectedCharacterExp: number;
   selectedCharacterPurchased: boolean;
+  handleEquippedCharacterChange: (index: number) => void;
   onCharacterChange: (index: number) => void;
 }
 
-function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage, selectedCharacterExp, selectedCharacterPurchased, onCharacterChange }: CharacterEditProps) {
-
-  const Experience = selectedCharacterExp;
-  const experiencePercentage = (Experience / 100) * 100;
+function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage, selectedCharacterExp, selectedCharacterPurchased, handleEquippedCharacterChange, onCharacterChange }: CharacterEditProps) {
 
   const [showModal, setShowModal] = useState(false);
 
@@ -41,6 +39,10 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
     setShowModal(!showModal);
   }
 
+  function handlePurchaseCheck() {
+    console.log("캐릭커를 구매할건지 체크");
+  }
+
   return (
     <S.Container>
 
@@ -54,22 +56,32 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
 
       <S.Body>
         <S.CharacterBox>
-          <Character selectedCharacterIndex={selectedCharacterIndex} selectedEvolutionStage={selectedEvolutionStage} />
+          <Character selectedCharacterIndex={selectedCharacterIndex} selectedEvolutionStage={selectedEvolutionStage} selectedCharacterPurchased={selectedCharacterPurchased}/>
         </S.CharacterBox>
       </S.Body>
 
       <S.Footer>
-        <S.ButtonBox onPress={toggleModal}>
-          <S.ButtonText>선택</S.ButtonText>
-        </S.ButtonBox>
+        {selectedCharacterPurchased ? (
+          <>
+            <S.ButtonBox onPress={toggleModal}>
+              <S.ButtonText>선택</S.ButtonText>
+            </S.ButtonBox>
 
-        <S.LevelBox>
-          <S.LevelText>Level {selectedCharacterLevel}</S.LevelText>
-          <S.ExperienceBox>
-            <S.Experience percentage={experiencePercentage}></S.Experience>
-          </S.ExperienceBox>
-        </S.LevelBox>
+            <S.LevelBox>
+              <S.LevelText>Level {selectedCharacterLevel}</S.LevelText>
+              <S.ExperienceBox>
+                <S.Experience percentage={selectedCharacterExp}></S.Experience>
+              </S.ExperienceBox>
+            </S.LevelBox>
+          </>
+        ) : (
+          <S.LockButtonBox onPress={handlePurchaseCheck}>
+            <S.LockedImage source={require('@/assets/icons/LockIcon.png')} />
+            <S.LockedText>2000 포인트</S.LockedText>
+          </S.LockButtonBox>
+        )}
       </S.Footer>
+
 
       <CharacterSelectModal
         showModal={showModal}
@@ -81,7 +93,7 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
         equippedEvolutionStage={equippedEvolutionStage}
         selectedCharacterIndex={selectedCharacterIndex}
         selectedCharacterLevel={selectedCharacterLevel}
-        selectedEvolutionStag={selectedEvolutionStage}
+        selectedEvolutionStage={selectedEvolutionStage}
       />
 
     </S.Container>

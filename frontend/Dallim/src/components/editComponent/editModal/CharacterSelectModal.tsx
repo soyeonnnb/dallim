@@ -14,10 +14,10 @@ type ModalComponentProps = {
     equippedEvolutionStage: number;
     selectedCharacterIndex: number;
     selectedCharacterLevel: number;
-    selectedEvolutionStag: number;
+    selectedEvolutionStage: number;
 };
 
-function CharacterSelectModal({ showModal, toggleModal, confirmCharacterChange, equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStag }: ModalComponentProps) {
+function CharacterSelectModal({ showModal, toggleModal, confirmCharacterChange, equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage }: ModalComponentProps) {
 
     const handleConfirmCharacterChange = () => {
         Toast.show({
@@ -56,7 +56,7 @@ function CharacterSelectModal({ showModal, toggleModal, confirmCharacterChange, 
                             </S.ChangeBox>
                         </S.ChangeBoxStyle>
                         <S.BoxStyle >
-                            <S.Image source={characterData[selectedCharacterIndex].levels[selectedEvolutionStag].front} resizeMode="contain" />
+                            <S.Image source={characterData[selectedCharacterIndex].levels[selectedEvolutionStage].front} resizeMode="contain" />
                         </S.BoxStyle>
 
                     </S.ModalBody>

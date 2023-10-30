@@ -7,11 +7,11 @@ import PlanetSelectModal from './editModal/PlanetSelectModal';
 type PlanetEditProps = {
   equippedPlanetIndex: number; // 장착된 행성 인덱스
   selectedPlanetIndex: number; // 선택된 행성 인덱스
-  onEquippedChange: (index: number) => void;
+  handleEquippedPlanetChange: (index: number) => void;
   onPlanetChange: (index: number) => void;
 }
 
-function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, onPlanetChange, onEquippedChange }: PlanetEditProps) {
+function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
 
   const [showModal, setShowModal] = useState(false);
 
@@ -27,7 +27,7 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, onPlanetChange, 
   function equippedPlanetChange() {
     toggleModal();
     const planetCount = planetData.length;
-    onEquippedChange(equippedPlanetIndex % planetCount);
+    handleEquippedPlanetChange(equippedPlanetIndex % planetCount);
     handlePlanetChange(selectedPlanetIndex % planetCount);
   }
 

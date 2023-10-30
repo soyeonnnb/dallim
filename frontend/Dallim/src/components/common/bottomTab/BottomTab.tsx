@@ -10,11 +10,11 @@ import {
   View,
   Text,
   LayoutChangeEvent,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 
-import * as S from './BottomTab.styles';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
 // components
 import Main from '../../../screens/main/Main';
 import Chart from '../../../screens/chart/ChartMain';
@@ -32,18 +32,28 @@ const AnimatedTabBar = ({
   navigation,
   descriptors,
 }: BottomTabBarProps) => {
-  const handleTabPress = (routeName: string) => {
-    navigation.navigate(routeName);
+  const {bottom} = useSafeAreaInsets();
+
+  const reducer = (state: any, action: {x: number; index: number}) => {
+    return [...state, {x: action.x, index: action.index}];
   };
+
+  const [layout, dispatch] = useReducer(reducer, []);
+
+  const handleLayout = (event: LayoutChangeEvent, index: number) => {
+    dispatch({x: event.nativeEvent.layout.x, index});
+  };
+
   return (
     <View
+      id="mainContainer"
       style={[
         {
-          paddingBottom: 0,
-          backgroundColor: 'red',
+          paddingBottom: bottom,
+          backgroundColor: 'white',
         },
       ]}>
-      <View style={[styles.tabBarContainer]}>
+      <View style={[styles.tabBarContainer]} id="redContainer">
         {routes.map((route, index) => {
           const active = index === activeIndex;
           const {options} = descriptors[route.key];
@@ -53,7 +63,8 @@ const AnimatedTabBar = ({
               key={route.key}
               active={active}
               options={options}
-              onPress={() => handleTabPress(route.name)}
+              onLayout={e => handleLayout(e, index)}
+              onPress={() => navigation.navigate(route.name)}
             />
           );
         })}
@@ -65,8 +76,60 @@ const AnimatedTabBar = ({
 type TabBarComponentProps = {
   active?: boolean;
   options: BottomTabNavigationOptions;
+  onLayout: (e: LayoutChangeEvent) => void;
   onPress: () => void;
 };
+
+// const TabBarComponent = ({
+//   active,
+//   options,
+//   onLayout,
+//   onPress,
+// }: TabBarComponentProps) => {
+//   const animatedComponentCircleStyles = useAnimatedStyle(() => {
+//     return {
+//       transform: [
+//         {
+//           scale: withTiming(active ? 1 : 0, {duration: 250}),
+//         },
+//         {
+//           translateY: withTiming(active ? -15 : 0, {duration: 200}),
+//         },
+//       ],
+//     };
+//   });
+
+//   const animatedIconContainerStyles = useAnimatedStyle(() => {
+//     return {
+//       transform: [
+//         {
+//           translateY: withTiming(active ? -15 : 0, {duration: 200}),
+//         },
+//       ],
+//       opacity: withTiming(active ? 1 : 0.5, {duration: 200}),
+//     };
+//   });
+
+//   return (
+//     <Pressable onPress={onPress} onLayout={onLayout} style={styles.component}>
+//       <Animated.View
+//         style={[styles.componentCircle, animatedComponentCircleStyles]}
+//       />
+//       <Animated.View
+//         style={[styles.iconContainer, animatedIconContainerStyles]}>
+//         {options.tabBarIcon && typeof options.tabBarIcon === 'function' ? (
+//           options.tabBarIcon({
+//             focused: active ? active : false,
+//             color: '#000',
+//             size: 25,
+//           })
+//         ) : (
+//           <Text>No Icon</Text>
+//         )}
+//       </Animated.View>
+//     </Pressable>
+//   );
+// };
 
 const TabBarComponent = ({active, options, onPress}: TabBarComponentProps) => {
   const animatedComponentCircleStyles = useAnimatedStyle(() => {
@@ -94,11 +157,11 @@ const TabBarComponent = ({active, options, onPress}: TabBarComponentProps) => {
   });
 
   return (
-    <TouchableWithoutFeedback onPress={onPress}>
-      <View>
-        <Animated.View
-          style={[styles.componentCircle, animatedComponentCircleStyles]}
-        />
+    <View style={styles.container}>
+      <Animated.View
+        style={[styles.componentCircle, animatedComponentCircleStyles]}
+      />
+      <Pressable onPress={onPress} style={styles.pressable}>
         <Animated.View
           style={[styles.iconContainer, animatedIconContainerStyles]}>
           {options.tabBarIcon && typeof options.tabBarIcon === 'function' ? (
@@ -111,8 +174,8 @@ const TabBarComponent = ({active, options, onPress}: TabBarComponentProps) => {
             <Text>No Icon</Text>
           )}
         </Animated.View>
-      </View>
-    </TouchableWithoutFeedback>
+      </Pressable>
+    </View>
   );
 };
 
@@ -121,29 +184,49 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'space-evenly',
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     borderTopEndRadius: 45,
     borderTopStartRadius: 45,
     zIndex: 2,
     position: 'absolute',
     bottom: 0,
-  },
-  componentCircle: {
     flex: 1,
-    borderRadius: 30,
-    backgroundColor: 'black',
+  },
+  component: {
     height: 60,
     width: 60,
   },
+  componentCircle: {
+    borderRadius: 30,
+    width: 60,
+    height: 60,
+    position: 'absolute',
+    backgroundColor: 'black',
+  },
   iconContainer: {
     position: 'absolute',
+    top: 0,
     left: 0,
     right: 0,
-    top: 0,
     bottom: 0,
-    backgroundColor: 'yellow',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  icon: {
+    height: 36,
+    width: 36,
+  },
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'visible', // Ensure content outside of the container is visible
+  },
+  pressable: {
+    height: 60, // Adjust according to your needs
+    width: 60, // Adjust according to your needs
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 2, // Make sure the pressable is above the circle
   },
 });
 

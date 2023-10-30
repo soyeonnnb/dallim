@@ -8,17 +8,22 @@
     <!-- versionName: 앱의 버전 이름을 정의합니다. 이 이름은 사용자에게 표시됩니다. -->
     <uses-feature android:name="android.hardware.type.watch" />
 
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 사용자의 심박수에 접근 -->
-    <uses-permission android:name="android.permission.BODY_SENSORS" /> <!-- 기기가 절전 모드에 못 들어가게 하는 권한 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 기기가 인터넷에 접속이 가능하도록 허용 -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 기기가 사용자의 걸음 수, 활동을 감지하는 권한 허용 -->
-    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" /> <!-- 사용자의 대략적인 위치에 접근, 수백 미터 정도의 위치 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 사용자의 보다 정확한 위치에 접근, 수십 미터 정도의 위치 -->
+    <!-- 포그라운드 서비스 활성화 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <!-- 바디 센서에 접근(심박수, 발걸음) -->
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <!-- 기기가 절전 모드에 못 들어가게 하는 권한 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- 기기가 인터넷에 접속이 가능하도록 허용 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 활동 상태를 감지하는 권한 허용 -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <!-- 사용자의 대략적인 위치에 접근, 수백 미터 정도의 위치 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 사용자의 보다 정확한 위치에 접근, 수십 미터 정도의 위치 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <queries>
-        <package android:name="com.google.android.wearable.healthservices" />
-    </queries>
+    <!-- 백그라운드에서 위치 정보 얻도록 허용 -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -27,11 +32,19 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
         <activity
+            android:name=".activity.MyRecordActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
+        <activity
             android:name=".activity.SelectActivity"
             android:exported="false"
             android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
         <activity
             android:name=".activity.RunningActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".activity.CountdownActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 

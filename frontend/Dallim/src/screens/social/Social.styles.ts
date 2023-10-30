@@ -13,29 +13,22 @@ export const BackgroundImage = styled(ImageBackground)`
   height: 100%;
 `;
 
-export const Top = styled.View`
+export const Header = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 20%;
+`;
+
+export const Body = styled.View`
   /* border-width: 1px;
   border-color: red; */
   flex-direction: row;
   width: 100%;
-  height: 25%;
-  /* height: 175px; */
-`;
-
-export const Middle = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
-  flex-direction: row;
-  width: 100%;
-  height: 55%;
-`;
-
-export const Bottom = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  flex-direction: row;
-  width: 100%;
-  height: 10%;
+  height: 70%;
 `;
 
 export const TabBox = styled.View`

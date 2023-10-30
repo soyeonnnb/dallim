@@ -3,14 +3,12 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@component/": ["./src/component/"],
-      "@model/": ["./src/model/"],
-      "@model": ["./src/model"]
+      "@/apis/*": ["./src/apis/*"],
+      "@/assets/*": ["./src/assets/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/screens/*": ["./src/screens/*"]
     },
     "types": ["styled-components-react-native"]
   },
-  "include": [
-    "./src/**/*",
-    "./declarations.d.ts"
-  ]
+  "include": ["./src/**/*", "./declarations.d.ts"]
 }

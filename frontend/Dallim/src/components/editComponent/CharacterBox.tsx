@@ -1,19 +1,19 @@
 import React from 'react';
 import * as S from './CharacterBox.styles';
-import { characterData } from '../../components/editComponent/CharacterData';
+import { characterData } from '../common/CharacterData';
 
 interface Props {
-    index: number;
+    characterIndex: number;
+    characterLevel: number;
 }
 
-function CharacterBox({ index }: Props) {
+function CharacterBox({ characterIndex, characterLevel }: Props) {
     return (
         <S.Container>
             <S.CharacterBox>
-                <S.CharacterImage source={characterData[index].character} resizeMode="contain" />
+                <S.CharacterImage source={characterData[characterIndex].levels[characterLevel].front} resizeMode="contain" />
             </S.CharacterBox>
         </S.Container>
     );
 }
-
 export default CharacterBox;

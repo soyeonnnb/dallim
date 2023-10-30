@@ -9,6 +9,7 @@ android {
 
     buildFeatures{
         viewBinding = true
+        dataBinding = true
     }
 
     defaultConfig {
@@ -82,19 +83,34 @@ dependencies {
 
     // 사용자의 건강 정보에 접근하게 해주는 API
     implementation("androidx.health.connect:connect-client:1.0.0-alpha11")
-    implementation("androidx.health:health-services-client:1.0.0-beta02")
+    implementation("androidx.health:health-services-client:1.0.0-rc01")
     // 진행중인 사항을 사용자에게 보여줌
     implementation("androidx.wear:wear-ongoing:1.0.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     // 이미지 라이브러리
     implementation("com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
     // 원형 이미지뷰 라이브러리
     implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    // room
+    implementation("androidx.room:room-runtime:2.5.0")
+    annotationProcessor("androidx.room:room-compiler:2.5.0")
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel:2.4.0") // ViewModel 의존성
+    implementation ("androidx.lifecycle:lifecycle-livedata:2.4.0") // LiveData 의존성
+    implementation ("androidx.lifecycle:lifecycle-runtime:2.4.0") // Lifecycle-runtime 의존성
+
+    implementation("com.google.android.gms:play-services-fitness:21.1.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+    // GSON
+    implementation("com.google.code.gson:gson:2.10.1")
+
 
 
 }

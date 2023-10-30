@@ -17,7 +17,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 // components
 import Main from '../../../screens/main/Main';
-import Chart from '../../../screens/chart/Chart';
+import Chart from '../../../screens/chart/ChartMain';
 import Social from '../../../screens/social/Social';
 import Edit from '../../../screens/edit/Edit';
 import Profile from '../../../screens/profile/Profile';

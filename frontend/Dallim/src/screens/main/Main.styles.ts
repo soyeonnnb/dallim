@@ -32,15 +32,6 @@ export const HeaderLeft = styled.View`
   justify-content: flex-end;
 `;
 
-export const ToggleButtonWrapper = styled(ImageBackground)<{isOn?: boolean}>`
-  border-width: 1px;
-  border-radius: 100px;
-  border-color: ${props => (props.isOn ? 'white' : 'gray')};
-  padding: 4px;
-  width: 80px;
-  height: 40px;
-  overflow: hidden;
-`;
 
 export const ToggleButtonBackground = styled(TouchableOpacity)`
   /* border-width: 1px;
@@ -69,9 +60,9 @@ export const HeaderRight = styled.View`
   align-items: flex-end;
 `;
 
-export const PointText = styled.Text<{isOn?: boolean}>`
+export const PointText = styled.Text`
   font-size: 20px;
-  color: ${props => (props.isOn ? 'black' : 'white')};
+  color: white;
 `;
 
 export const StampBox = styled.View`
@@ -108,7 +99,7 @@ export const Body = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50%;
+  height: 45%;
 `;
 
 export const ThemeBox = styled.View`
@@ -116,7 +107,6 @@ export const ThemeBox = styled.View`
   border-color: red; */
   width: 60%;
   height: 60%;
-  position: relative;
   margin-top: 10%;
 `;
 
@@ -129,10 +119,10 @@ export const StyledImage = styled(Image)`
 export const StyledGif = styled(FastImage)`
   /* border-width: 1px;
   border-color: red; */
-  width: 120px;
-  height: 120px;
-  top: -40%;
-  left: 25%;
+  width: 80%;
+  height: 80%;
+  top: -65%;
+  left: 10%;
   position: absolute;
 `;
 
@@ -140,7 +130,7 @@ export const Footer = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
-  height: 20%;
+  height: 25%;
 `;
 
 export const FooterBox = styled.View`
@@ -152,15 +142,15 @@ export const FooterBox = styled.View`
   height: 30%;
 `;
 
-export const LevelText = styled.Text<{isOn?: boolean}>`
+export const LevelText = styled.Text`
   font-size: 20px;
-  color: ${props => (props.isOn ? 'black' : 'white')};
+  color: white;
   margin-right: 3%;
 `;
 
-export const NicknameText = styled.Text<{isOn?: boolean}>`
+export const NicknameText = styled.Text`
   font-size: 20px;
-  color: ${props => (props.isOn ? 'black' : 'white')};
+  color: white;
 `;
 
 export const StartBox = styled.View`
@@ -180,7 +170,7 @@ export const StartButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   width: 50%;
-  height: 60%;
+  height: 50%;
 `;
 
 export const StartText = styled.Text`

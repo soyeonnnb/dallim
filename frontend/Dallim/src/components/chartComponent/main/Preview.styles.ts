@@ -12,7 +12,7 @@ export const Text = styled.Text`
 `;
 export const DownPreview = styled.View<{isShow: boolean}>`
   width: 100%;
-  padding: 30px;
+  padding: 30px 0;
   justify-content: space;
   flex: 0.3;
   display: ${props => (props.isShow ? 'block' : 'none')};

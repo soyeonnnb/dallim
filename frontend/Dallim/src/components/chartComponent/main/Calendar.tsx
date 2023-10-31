@@ -135,6 +135,7 @@ function ChartCalendar({
             textDayHeaderFontSize: 17,
             dayTextColor: 'white', // 날짜 폰트 색깔
             weekVerticalMargin: 10,
+            // 어쩔 수 없는 에러. 타입스크립트로 인해 발생.
             'stylesheet.calendar.header': {
               header: {
                 flexDirection: 'row',

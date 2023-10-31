@@ -35,7 +35,6 @@ import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.dto.request.UserPoint;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.repository.UserRepository;
-import com.b208.dduishu.util.S3.service.S3UploadService;
 import com.b208.dduishu.util.jwt.JwtUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -50,7 +49,6 @@ public class UserService {
 
     @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String kakaoClientId;
-    //    @Value("${kakao.logout-redirect-uri}")
     private String kakaoLogoutRedirectUri = "http://localhost:8080/api/oauth/logout";
     @Value("${jwt.secret}")
     private String secretKey;
@@ -62,7 +60,6 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final RedisTemplate<String, String> redisTemplate;
-    private final S3UploadService s3UploadService;
     private final GetUser getUser;
     @Autowired
     private RestTemplate restTemplate;
@@ -91,23 +88,6 @@ public class UserService {
         IsDuplicateNickName res = IsDuplicateNickName.builder().IsDuplicate(flag).build();
 
         return res;
-    }
-
-
-    // 유저 프로필사진 변경
-    @Transactional
-    public Map<String, Object> userProfileImage(MultipartFile multipartFile) throws IOException {
-        User user = getUser.getUser();
-
-        String profileUrl = s3UploadService.profileSaveFile(multipartFile);
-
-        user.updateprofileImage(profileUrl);
-
-        Map<String, Object> result = new HashMap<>();
-
-        result.put("message", "프로필 사진 변경 성공");
-
-        return result;
     }
 
     public UserPoint getUserPoint() {

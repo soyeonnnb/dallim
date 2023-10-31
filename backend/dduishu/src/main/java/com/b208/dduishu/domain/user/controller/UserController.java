@@ -73,15 +73,6 @@ public class UserController {
         }
     }
 
-    // 프로필 사진 변경
-    @ApiOperation(value="유저 프로필 변경", notes="유저 프로필을 변경한다.")
-    @PutMapping("/user/profile/update")
-    public ResponseEntity<?> userProfileUpdate(@RequestParam("image") MultipartFile multipartFile) throws IOException {
-        Map<String, Object> result = userService.userProfileImage(multipartFile);
-
-        return ResponseEntity.status(200).body(result);
-    }
-
     @ApiOperation(value="주간 랭킹 조회 - 팔로워", notes="주간 랭킹을 팔로워 기준 조회한다.")
     @GetMapping("/api/v1/user/follow-ranking")
     public ApiResponse<?> getWeeklyRankingWithFollower() {

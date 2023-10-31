@@ -1,6 +1,5 @@
 package com.b208.dduishu.domain.user.entity;
 
-import groovy.lang.DelegatesTo;
 import lombok.Builder;
 import lombok.Data;
 

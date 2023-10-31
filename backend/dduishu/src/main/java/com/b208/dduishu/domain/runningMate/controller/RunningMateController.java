@@ -6,11 +6,9 @@ import com.b208.dduishu.domain.runningMate.service.RunningMateService;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.service.RunningRecordService;
 import com.b208.dduishu.util.response.ApiResponse;
-import com.google.protobuf.Api;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
-import retrofit2.http.Path;
 
 import java.util.List;
 

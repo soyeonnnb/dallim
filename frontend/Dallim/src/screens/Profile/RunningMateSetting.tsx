@@ -12,14 +12,9 @@ import NicknameChangeModal from '../../components/profileComponent/profileModal/
 import RunningMateModal from '../../components/profileComponent/profileModal/RunningMateModal';
 import NotificationModal from '../../components/profileComponent/profileModal/NotificationModal';
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
-import RunningMateSetting from './RunningMateSetting';
 import {characterData} from '../../components/common/CharacterData';
 
-interface ProfileProps {
-  navigation: any;
-}
-
-function Profile({navigation}: ProfileProps) {
+function RunningMateSetting() {
   // 임시 데이터
   const PlanetIndex = 2; // 유저가 장착한 행성
   const TempSelectCharacter = 3; // 유저가 장착한 캐릭터
@@ -70,34 +65,6 @@ function Profile({navigation}: ProfileProps) {
                 <S.ButtonText>닉네임 변경</S.ButtonText>
               </S.TextBox>
             </S.ButtonBox>
-
-            <S.ButtonBox
-              onPress={() => navigation.navigate('RunningMateSetting')}>
-              <S.IconBox>
-                <S.ButtonIcon source={ManageRunningMateIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>러닝메이트 관리</S.ButtonText>
-              </S.TextBox>
-            </S.ButtonBox>
-
-            <S.ButtonBox onPress={() => setShowNotificationModal(true)}>
-              <S.IconBox>
-                <S.ButtonIcon source={NotificationIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>운동 알림 설정</S.ButtonText>
-              </S.TextBox>
-            </S.ButtonBox>
-
-            <S.DeleteButtonBox onPress={() => setShowLogoutModal(true)}>
-              <S.IconBox>
-                <S.ButtonIcon source={LogoutIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>로그아웃</S.ButtonText>
-              </S.TextBox>
-            </S.DeleteButtonBox>
           </S.SetBox>
         </S.Body>
 
@@ -132,4 +99,4 @@ function Profile({navigation}: ProfileProps) {
   );
 }
 
-export default Profile;
+export default RunningMateSetting;

@@ -1,27 +1,20 @@
-import * as S from './Profile.styles';
+import * as S from './RunningMateSetting.styles';
 import {useState} from 'react';
-import ChangeNicknameIcon from '../../assets/icons/ChangeNicknameIcon.png';
-import ManageRunningMateIcon from '../../assets/icons/ManageRunningMateIcon.png';
-import NotificationIcon from '../../assets/icons/NotificationIcon.png';
-import LogoutIcon from '../../assets/icons/LogoutIcon.png';
 
-import ProfileCard from '../../components/profileComponent/ProfileCard';
-// import Logout from "../../components/profileComponent/Logout";
+//icon
+import BackButtonIcon from '../../assets/icons/BackButtonIcon.png';
 
-import NicknameChangeModal from '../../components/profileComponent/profileModal/NicknameChangeModal';
-import RunningMateModal from '../../components/profileComponent/profileModal/RunningMateModal';
-import NotificationModal from '../../components/profileComponent/profileModal/NotificationModal';
-import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
-import {characterData} from '../../components/common/CharacterData';
+//img
+// import Red
 
 function RunningMateSetting() {
   // 임시 데이터
   const PlanetIndex = 2; // 유저가 장착한 행성
   const TempSelectCharacter = 3; // 유저가 장착한 캐릭터
   const TempSelectCharacterLevel = 1; // 유저가 장착한 캐릭터 레벨 : 0 OR 1
-  const selectedCharacter = characterData[TempSelectCharacter];
-  const selectedCharacterLevelData =
-    selectedCharacter.levels[TempSelectCharacterLevel];
+  // const selectedCharacter = characterData[TempSelectCharacter];
+  // const selectedCharacterLevelData =
+  //   selectedCharacter.levels[TempSelectCharacterLevel];
 
   const Nickname = '펭소시치'; // 유저 닉네임
   const UserLevel = 54; // 유저 레벨
@@ -38,20 +31,23 @@ function RunningMateSetting() {
         source={require('../../assets/images/MainBackground4.png')}
         resizeMode="cover">
         <S.Header>
-          <S.TitleProfileBox>
-            <S.Text>My Profile</S.Text>
-          </S.TitleProfileBox>
-          <S.ProfileBox>
+          <S.BackButtonIconBox>
+            <S.BackButtonIcon source={BackButtonIcon}></S.BackButtonIcon>
+          </S.BackButtonIconBox>
+          <S.TitleRunningMateSettingBox>
+            <S.TitleText>러닝메이트 설정</S.TitleText>
+          </S.TitleRunningMateSettingBox>
+          {/* <S.ProfileBox>
             <ProfileCard
               PlanetIndex={PlanetIndex}
               Nickname={Nickname}
               UserLevel={UserLevel}
               experiencePercentage={experiencePercentage}
             />
-          </S.ProfileBox>
+          </S.ProfileBox> */}
         </S.Header>
 
-        <S.Body>
+        {/* <S.Body>
           <S.TitleSetBox>
             <S.Text>Setting</S.Text>
           </S.TitleSetBox>
@@ -66,35 +62,17 @@ function RunningMateSetting() {
               </S.TextBox>
             </S.ButtonBox>
           </S.SetBox>
-        </S.Body>
+        </S.Body> */}
 
         <S.TabBox />
       </S.BackgroundImage>
 
-      <S.ImageBox>
+      {/* <S.ImageBox>
         <S.CharacterImage
           source={selectedCharacterLevelData.front}
           resizeMode="contain"
         />
-      </S.ImageBox>
-
-      <NicknameChangeModal
-        showModal={showNicknameChangeModal}
-        toggleModal={() => setShowNicknameChangeModal(!showNicknameChangeModal)}
-        Nickname={Nickname}
-      />
-      {/* <RunningMateModal
-        showModal={showRunningMateModal}
-        toggleModal={() => setShowRunningMateModal(!showRunningMateModal)}
-      /> */}
-      <NotificationModal
-        showModal={showNotificationModal}
-        toggleModal={() => setShowNotificationModal(!showNotificationModal)}
-      />
-      <LogoutModal
-        showModal={showLogoutModal}
-        toggleModal={() => setShowLogoutModal(!showLogoutModal)}
-      />
+      </S.ImageBox> */}
     </S.Container>
   );
 }

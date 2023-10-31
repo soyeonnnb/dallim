@@ -6,16 +6,20 @@ import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
 type ModalComponentProps = {
-    showModal: boolean;
+    characterSelectModalVisible: boolean;
     toggleModal: () => void;
-    confirmCharacterChange: () => void;
-    characterIndex: number;
-    characterLevel: number;
+    equippedCharacterChange: () => void;
+    equippedCharacterIndex: number;
+    equippedCharacterLevel: number;
+    equippedEvolutionStage: number;
+    selectedCharacterIndex: number;
+    selectedCharacterLevel: number;
+    selectedEvolutionStage: number;
 };
 
-const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, characterIndex, characterLevel }: ModalComponentProps) => {
+function CharacterSelectModal({ characterSelectModalVisible, toggleModal, equippedCharacterChange, equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage }: ModalComponentProps) {
 
-    const handleConfirmCharacterChange = () => {
+    const handleEquippedCharacterChange = () => {
         Toast.show({
             type: 'success',
             position: 'top',
@@ -24,18 +28,14 @@ const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, 
             autoHide: true,
             topOffset: 10,
         });
-
-        confirmCharacterChange();
+        equippedCharacterChange();
     };
-
-    const selectedCharacter = 1; // 임시 메인 캐릭터
-    const selectedCharacterLevel = 0;
 
     return (
         <Modal
             transparent={true}
             animationType="fade"
-            visible={showModal}
+            visible={characterSelectModalVisible}
         >
             <S.ModalContainer>
                 <S.ModalContent>
@@ -44,7 +44,7 @@ const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, 
                     </S.ModalHeader>
                     <S.ModalBody>
                         <S.BoxStyle >
-                            <S.Image source={characterData[selectedCharacter].levels[selectedCharacterLevel].front} resizeMode="contain" />
+                            <S.Image source={characterData[equippedCharacterIndex].levels[equippedEvolutionStage].front} resizeMode="contain" />
                         </S.BoxStyle>
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>
@@ -55,12 +55,12 @@ const CharacterSelectModal = ({ showModal, toggleModal, confirmCharacterChange, 
                             </S.ChangeBox>
                         </S.ChangeBoxStyle>
                         <S.BoxStyle >
-                            <S.Image source={characterData[characterIndex].levels[characterLevel].front} resizeMode="contain" />
+                            <S.Image source={characterData[selectedCharacterIndex].levels[selectedEvolutionStage].front} resizeMode="contain" />
                         </S.BoxStyle>
 
                     </S.ModalBody>
                     <S.ModalFooter>
-                        <S.ModalButton onPress={handleConfirmCharacterChange}>
+                        <S.ModalButton onPress={handleEquippedCharacterChange}>
                             <S.ModalButtonText>확인</S.ModalButtonText>
                         </S.ModalButton>
                         <S.ModalCancelButton onPress={toggleModal}>

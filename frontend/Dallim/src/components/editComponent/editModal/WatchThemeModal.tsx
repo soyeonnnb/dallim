@@ -36,7 +36,9 @@ const WatchThemeModal: React.FC<Props> = ({ isVisible, onClose, index }) => {
                             </S.HeaderSide>
                         </S.Header>
                         <S.Body>
-                            <S.Watch></S.Watch>
+                            <S.Watch>
+                                <S.WatchImage source={planetData[index].watch} resizeMode="contain" />
+                            </S.Watch>
                         </S.Body>
                     </S.BackgroundImage>
                 </S.ModalContent>

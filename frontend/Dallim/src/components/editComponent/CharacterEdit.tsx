@@ -14,12 +14,12 @@ type CharacterEditProps = {
   selectedCharacterLevel: number;
   selectedEvolutionStage: number;
   selectedCharacterExp: number;
-  selectedCharacterPurchased: boolean;
+  selectedCharacterIsPurchased: boolean;
   handleEquippedCharacterChange: (index: number) => void;
   onCharacterChange: (index: number) => void;
 }
 
-function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage, selectedCharacterExp, selectedCharacterPurchased, handleEquippedCharacterChange, onCharacterChange }: CharacterEditProps) {
+function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage, selectedCharacterExp, selectedCharacterIsPurchased, handleEquippedCharacterChange, onCharacterChange }: CharacterEditProps) {
 
   const [characterSelectModalVisible, setCharacterSelectModalVisible] = useState(false); // 캐릭터 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
@@ -73,12 +73,12 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
 
       <S.Body>
         <S.CharacterBox>
-          <Character selectedCharacterIndex={selectedCharacterIndex} selectedEvolutionStage={selectedEvolutionStage} selectedCharacterPurchased={selectedCharacterPurchased} />
+          <Character selectedCharacterIndex={selectedCharacterIndex} selectedEvolutionStage={selectedEvolutionStage} selectedCharacterIsPurchased={selectedCharacterIsPurchased} />
         </S.CharacterBox>
       </S.Body>
 
       <S.Footer>
-        {selectedCharacterPurchased ? (
+        {selectedCharacterIsPurchased ? (
           <>
             <S.ButtonBox onPress={toggleCharacterSelectModal}>
               <S.ButtonText>선택</S.ButtonText>

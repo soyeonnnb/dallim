@@ -49,7 +49,7 @@ function CharacterSelectModal({ characterSelectModalVisible, toggleModal, equipp
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>
                                 <FastImage
-                                    source={require('../../../assets/icons/ArrowIcon.gif')}
+                                    source={require('@/assets/icons/ArrowIcon.gif')}
                                     style={{ width: 25, height: 25 }}
                                 />
                             </S.ChangeBox>

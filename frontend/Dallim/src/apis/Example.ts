@@ -22,7 +22,7 @@ export const postBBTITResult = async (memberId: number, bbtiList: string[]) => {
 };
 
 // 조회 예시
-export const featchRecodeList = async (memberId: number) => {
+export const fetchRecodeList = async (memberId: number) => {
   try {
     const response = await privateApi.get(`api/record/view-list/${memberId}`);
     return response.data;

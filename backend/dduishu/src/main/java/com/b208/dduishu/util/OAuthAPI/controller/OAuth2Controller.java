@@ -52,11 +52,19 @@ public class  OAuth2Controller {
     private final BCryptPasswordEncoder encoder;
 
     // 소셜 로그인
-    @PostMapping("oauth/login")
-    public ResponseEntity<?> Login(@RequestBody Map<String, Object> data, HttpServletResponse response) throws IOException {
-        System.out.println("여기 들어올까요");
-        UserLoginResponseDTO user = userSocialLoginService.oauthLogin((String) data.get("access"), response);
+    // @PostMapping("oauth/login")
+    // public ResponseEntity<?> Login(@RequestBody Map<String, Object> data, HttpServletResponse response) throws IOException {
+    //     System.out.println("여기 들어올까요");
+    //     UserLoginResponseDTO user = userSocialLoginService.oauthLogin((String) data.get("access"), response);
+    //
+    //     return ResponseEntity.status(200).body(user);
+    // }
 
+    //소셜로그인 이게될까
+    @GetMapping("oauth/login")
+    public ResponseEntity<?> Login(@RequestParam String access, HttpServletResponse response) throws IOException {
+        System.out.println("여기 들어올까요");
+        UserLoginResponseDTO user = userSocialLoginService.oauthLogin(access, response);
         return ResponseEntity.status(200).body(user);
     }
 
@@ -85,7 +93,8 @@ public class  OAuth2Controller {
     //백엔드에서 수동으로 엑세스 토큰을
     // 처리하기 위한 코드
     private boolean isProcessing = false;
-    @PostMapping("oauth2/code/kakao")
+
+    @GetMapping("oauth2/code/kakao")
     public ResponseEntity<?> exchangeKakaoCodeForAccessToken(@RequestParam("code") String code) {
         try {
             if (isProcessing) {
@@ -146,7 +155,7 @@ public class  OAuth2Controller {
 
 
     private boolean isProcessingTwo = false;
-    @PostMapping("oauth2/code/naver")
+    @GetMapping("oauth2/code/naver")
     public ResponseEntity<?> exchangeNaverCodeForAccessToken(@RequestParam("code") String code) {
         try {
             System.out.println(code);

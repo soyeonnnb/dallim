@@ -18,6 +18,8 @@ public class OAuthFailHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.info("OAuth2 로그인 실패: {}", exception.getMessage());
+        log.error("OAuth2 로그인 실패", exception);
+
 
         System.out.println("실패");
         // response.sendRedirect("http://10.0.2.2:8081");

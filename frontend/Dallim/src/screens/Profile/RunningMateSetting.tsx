@@ -30,7 +30,6 @@ function RunningMateSetting() {
   const experiencePercentage = 65.2; // 유저 해당하는 레벨의 경험치
 
   const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
-  // const [showRunningMateModal, setShowRunningMateModal] = useState(false);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 

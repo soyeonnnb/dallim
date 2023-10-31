@@ -3,6 +3,7 @@ import * as S from './CharacterEdit.styles';
 import Character from './CharacterBox';
 import CharacterSelectModal from './editModal/CharacterSelectModal';
 import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
+import BoomEffect from '@/components/common/BoomEffect';
 
 import { characterData } from '../common/CharacterData';
 type CharacterEditProps = {
@@ -22,6 +23,7 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
 
   const [characterSelectModalVisible, setCharacterSelectModalVisible] = useState(false); // 캐릭터 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     console.log("선택 캐릭터가 바꼈어요(Index 기준) : " + selectedCharacterIndex);
@@ -49,7 +51,8 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
   }
   function handlePurchaseConfirm() {
     console.log("구매 확인!");
-    // 캐릭터 구매 로직 추가 예정
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 5000);
     setPurchaseModalVisible(false);
   }
   function handlePurchaseCancel() {
@@ -116,7 +119,9 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
         selectedCharacterIndex={selectedCharacterIndex}
         selectedEvolutionStage={selectedEvolutionStage}
       />
-
+      {showConfetti && (
+        <BoomEffect show={showConfetti} />
+      )}
     </S.Container>
   );
 };

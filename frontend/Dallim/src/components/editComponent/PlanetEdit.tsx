@@ -4,7 +4,7 @@ import Planet from './PlanetBox';
 import { planetData } from '../common/PlanetData';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
-import ConfettiCannon from 'react-native-confetti-cannon';
+import BoomEffect from '@/components/common/BoomEffect';
 
 type PlanetEditProps = {
   equippedPlanetIndex: number; // 장착된 행성 인덱스
@@ -101,13 +101,8 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPu
         handleCancel={handlePurchaseCancel}
       />
       {showConfetti && (
-        <ConfettiCannon
-          count={200} // 컨페티의 개수
-          origin={{ x: -10, y: 0 }} // 시작 위치
-          fadeOut={true} // 사라지는 효과
-        />
+        <BoomEffect show={showConfetti} />
       )}
-
     </S.Container>
   );
 };

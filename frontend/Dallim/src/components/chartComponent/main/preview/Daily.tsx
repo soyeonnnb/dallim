@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import {View, Dimensions} from 'react-native';
-import * as S from './PreviewDaily.styles';
+import * as S from './Daily.styles';
 import {ScrollView, FlatList} from 'react-native-gesture-handler';
 import {CalendarType} from '@/components/common/CalendarData';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';

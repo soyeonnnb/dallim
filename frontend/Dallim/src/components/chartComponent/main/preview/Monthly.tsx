@@ -1,6 +1,9 @@
 import React from 'react';
 import * as S from './Monthly.styles';
 
+import MonthlyRecord from './MonthlyRecord';
+import MonthlyChart from './MonthlyChart';
+
 interface Props {
   isShow: boolean;
 }
@@ -8,8 +11,8 @@ interface Props {
 function PreviewMonthly({isShow}: Props) {
   return (
     <S.Container isShow={isShow}>
-      <S.Record></S.Record>
-      <S.Chart></S.Chart>
+      <MonthlyRecord />
+      <MonthlyChart />
     </S.Container>
   );
 }

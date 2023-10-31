@@ -1,9 +1,9 @@
 /* eslint-disable curly */
 import React, {useRef, useState, useMemo, useCallback, useEffect} from 'react';
 import BottomSheet from '@gorhom/bottom-sheet';
-import PreviewDaily from './Daily';
-import PreviewWeekly from './Weekly';
-import PreviewMonthly from './Monthly';
+import PreviewDaily from './preview/Daily';
+import PreviewWeekly from './preview/Weekly';
+import PreviewMonthly from './preview/Monthly';
 import * as S from './Preview.styles';
 import {CalendarType} from '@/components/common/CalendarData';
 

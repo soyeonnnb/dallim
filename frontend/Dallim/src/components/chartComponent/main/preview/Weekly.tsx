@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import * as S from './PreviewWeekly.styles';
+import * as S from './Weekly.styles';
 import {colors} from '@/components/common/globalStyles';
 
 // icons

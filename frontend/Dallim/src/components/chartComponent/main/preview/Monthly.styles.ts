@@ -4,7 +4,6 @@ export const Container = styled.View<{isShow: boolean}>`
   border-width: 1px;
   justify-content: center;
   align-items: center;
-  background-color: red;
   width: 100%;
   flex: 1;
   display: ${props => (props.isShow ? 'block' : 'none')};
@@ -12,12 +11,4 @@ export const Container = styled.View<{isShow: boolean}>`
 
 export const Text = styled.Text`
   color: white;
-`;
-export const Record = styled.View`
-  flex: 0.5;
-  background-color: yellow;
-`;
-export const Chart = styled.View`
-  flex: 0.5;
-  background-color: aliceblue;
 `;

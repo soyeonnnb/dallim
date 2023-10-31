@@ -1,123 +1,123 @@
-import React, { useRef, useState } from 'react';
-import { Animated, Easing } from 'react-native';
+import CustomToast from '@/components/common/CustomToast';
+import React, { useEffect, useState } from 'react';
 import * as S from './Main.styles';
-import StampDarkIcon from '../../assets/icons/StampDarkIcon.png';
 import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
 import StampModal from '../../components/mainComponent/StampModal';
-import Moon from '../../assets/images/Moon.png';
-import Sun from '../../assets/images/Sun.png';
-import SunToggleBackground from '../../assets/images/SunToggleBackground.png';
-import MoonToggleBackground from '../../assets/images/MoonToggleBackground.png';
 import SpinAnimation from '../../components/common/SpinAnimation';
 import { characterData } from '../../components/common/CharacterData';
-import planetSample from '../../assets/planets/PlanetBlack.png';
+import { planetData } from '@/components/common/PlanetData';
+import { fetchUserProfile } from '@/apis/MainApi';
 
 function Main() {
-  const TempPoint = '3000';
-  const TempLv = '67';
-  const TempNickname = '하늘을 나는 병아리';
-  const TempGif = 3;
-  const selectedGif = characterData[TempGif].gif;
+  const [isLoading, setIsLoading] = useState(true); // 로딩 확인
+  const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
 
-  const [isOn, setIsOn] = useState(false);
-  const animatedValue = useRef(new Animated.Value(0)).current;
-  const [isStampModalVisible, setStampModalVisible] = useState(false);
+  const [userNickname, setUserNickname] = useState<string | null>(null); // 유저 닉네임
+  const [userPoint, setUserPoint] = useState<number>(0); // 유저 포인트
+  const [userLevel, setUserLevel] = useState<number>(0); // 유저 레벨
+  const [userCharacterIndex, setUserCharacterIndex] = useState<number>(0); // 유저가 장착한 캐릭터 인덱스 ( 0 ~ 3 )
+  const [userEvolutionStage, setUserEvolutionStage] = useState<number>(0); // 유저가 장착한 캐릭터 레벨 : 0 OR 1 
+  const [userPlanetIndex, setUserPlanetIndex] = useState<number>(0); // 유저가 장착한 행성 ( 0 ~ 4 )
 
-  function toggleHandle() {
-    setIsOn(prevIsOn => {
-      Animated.timing(animatedValue, {
-        toValue: prevIsOn ? 0 : 40,
-        duration: 100,
-        easing: Easing.bounce,
-        useNativeDriver: true,
-      }).start();
-      return !prevIsOn;
-    });
-  };
+  useEffect(() => {
+    const loadUserInfo = async () => {
+      try {
+        const userInfo = await fetchUserProfile(); // API 함수 호출
+        console.log("Main : 정보 조회 Axios 성공 userInfo : ", userInfo);
+
+        if (userInfo) {
+          setUserNickname(userInfo.nickName);
+          setUserPoint(userInfo.point);
+          setUserLevel(userInfo.userLevel);
+          setUserCharacterIndex(userInfo.characterIndex);
+          setUserEvolutionStage(userInfo.evolutionStage);
+          setUserPlanetIndex(userInfo.planetIndex);
+        }
+      } catch (error) {
+        console.error("Main : 정보 조회 Axios 실패 ");
+      } finally {
+        setIsLoading(false);  // 데이터를 불러온 후 로딩 상태를 false로 변경
+      }
+    };
+    loadUserInfo();
+  }, []);
 
   function handleSend() {
-    console.log("출석체크 버튼 눌림!");
+    console.log('출석체크 버튼 눌림!');
     setStampModalVisible(true);
-  };
-
+  }
   function Start() {
     console.log("시작 버튼 눌림!");
+    CustomToast({ type: "error", text1: "아직 개발중입니다." });
   };
-
 
   return (
     <S.Container>
-      <S.BackgroundImage
-        source={
-          isOn
-            ? require('../../assets/images/MainBackground2.png')
-            : require('../../assets/images/MainBackground3.png')
-        }
-        resizeMode="cover">
-        <S.Header>
-          <S.HeaderLeft>
-            <S.ToggleButtonBackground onPress={toggleHandle}>
-              <S.ToggleButtonWrapper source={isOn ? SunToggleBackground : MoonToggleBackground} isOn={isOn} >
-                <S.ToggleButton
-                  source={isOn ? Sun : Moon}
-                  style={{
-                    transform: [
-                      {
-                        translateX: animatedValue,
-                      },
-                    ],
-                  }}
-                  isOn={isOn}
+      {isLoading ? (
+        <S.LoadingBox>
+          <S.LoadingText>로딩 중...</S.LoadingText>
+        </S.LoadingBox>
+      ) : (
+        <>
+          <S.BackgroundImage
+            source={require('@/assets/images/MainBackground4.png')}
+            resizeMode="cover">
+            <S.Header>
+              <S.HeaderLeft>
+
+              </S.HeaderLeft>
+              <S.HeaderRight>
+                <S.PointText>{userPoint} P</S.PointText>
+              </S.HeaderRight>
+            </S.Header>
+
+            <S.StampBox>
+              <S.Stamp>
+                <S.SendButton onPress={handleSend}>
+                  <S.StampImage source={StampWhiteIcon} />
+                </S.SendButton>
+              </S.Stamp>
+            </S.StampBox>
+
+            <S.Body>
+              <S.ThemeBox>
+                <SpinAnimation>
+                  <S.StyledImage source={planetData[userPlanetIndex].Planet} resizeMode='contain' />
+                </SpinAnimation>
+                <S.StyledGif
+                  source={characterData[userCharacterIndex].levels[userEvolutionStage].running}
+                  resizeMode="contain"
                 />
-              </S.ToggleButtonWrapper>
-            </S.ToggleButtonBackground>
-          </S.HeaderLeft>
-          <S.HeaderRight>
-            <S.PointText isOn={isOn}>{TempPoint} P</S.PointText>
-          </S.HeaderRight>
-        </S.Header>
+              </S.ThemeBox>
+            </S.Body>
 
-        <S.StampBox>
-          <S.Stamp>
-            <S.SendButton onPress={handleSend}>
-              <S.StampImage source={isOn ? StampDarkIcon : StampWhiteIcon} />
-            </S.SendButton>
-          </S.Stamp>
-        </S.StampBox>
+            <S.Footer>
+              <S.FooterBox>
+                <S.LevelText>Lv. {userLevel}</S.LevelText>
+                <S.NicknameText>{userNickname}</S.NicknameText>
+              </S.FooterBox>
 
-        <S.Body>
-          <S.ThemeBox>
-            <SpinAnimation>
-              <S.StyledImage source={planetSample} />
-            </SpinAnimation>
-            <S.StyledGif source={selectedGif} resizeMode="contain"/>
-          </S.ThemeBox>
-        </S.Body>
+              <S.StartBox>
+                <S.StartButton onPress={Start}>
+                  <S.StartText>시작하기</S.StartText>
+                </S.StartButton>
+              </S.StartBox>
+            </S.Footer>
 
-        <S.Footer>
-          <S.FooterBox>
-            <S.LevelText isOn={isOn}>Lv. {TempLv}</S.LevelText>
-            <S.NicknameText isOn={isOn}>{TempNickname}</S.NicknameText>
-          </S.FooterBox>
+            <S.TabBox />
+          </S.BackgroundImage>
 
-          <S.StartBox>
-            <S.StartButton onPress={Start}>
-              <S.StartText >시작하기</S.StartText>
-            </S.StartButton>
-          </S.StartBox>
-
-        </S.Footer>
-
-        <S.TabBox />
-      </S.BackgroundImage>
-
-      <StampModal
-        isVisible={isStampModalVisible}
-        onClose={() => setStampModalVisible(false)}
-      />
-
+          <StampModal
+            isVisible={isStampModalVisible}
+            onClose={() => setStampModalVisible(false)}
+          />
+        </>
+      )}
     </S.Container>
   );
 }
 
 export default Main;
+
+
+

@@ -4,15 +4,24 @@ import { planetData } from '../common/PlanetData';
 import WatchThemeModal from './editModal/WatchThemeModal';
 
 interface Props {
-  index: number;
+  selectedPlanetIndex: number;
+  selectedPlanetPurchased: boolean;
 }
 
-function PlanetBox({ index }: Props) {
+function PlanetBox({ selectedPlanetIndex, selectedPlanetPurchased }: Props) {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const planetImage = planetData[selectedPlanetIndex].Planet;
+
   return (
     <S.Container>
       <S.PlanetBox>
-        <S.PlanetImage source={planetData[index].Planet} resizeMode="contain" />
+        {selectedPlanetPurchased ? (
+          <S.PlanetImage source={planetImage} resizeMode="contain" />
+        ) : (
+          <S.BlurredCharacterImage source={planetImage} resizeMode="contain" />
+        )}
+        {/* <S.PlanetImage source={planetImage} resizeMode="contain" /> */}
         <S.ThemeButton onPress={() => {
           console.log("테마 선택 버튼 클릭확인");
           setModalVisible(true);
@@ -24,7 +33,7 @@ function PlanetBox({ index }: Props) {
       <WatchThemeModal
         isVisible={modalVisible}
         onClose={() => setModalVisible(false)}
-        index={index}
+        index={selectedPlanetIndex}
       />
     </S.Container>
   );

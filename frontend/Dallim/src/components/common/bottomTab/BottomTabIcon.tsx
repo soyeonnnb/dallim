@@ -9,34 +9,30 @@ import EditIcon from '../../../assets/icons/EditIcon';
 import ProfileIcon from '../../../assets/icons/ProfileIcon';
 
 // styles
-import * as varStyles from './styles';
+import * as varStyles from '../globalStyles';
 
 interface NavIconProps {
   focused: boolean;
-  darkMode: boolean;
   type: 'main' | 'social' | 'chart' | 'edit' | 'profile';
 }
 
-const getNavIconColor = (darkMode: boolean, focused: boolean) => {
+const getNavIconColor = (focused: boolean) => {
   let iconColor;
-  if (darkMode) {
-    iconColor = focused ? varStyles.colors.white : 'orange'; // 하양 주황
-  } else {
-    iconColor = focused
-      ? varStyles.colors.lightPurple
-      : varStyles.colors.darkBlue;
-  }
+
+  iconColor = focused
+    ? varStyles.colors.lightPurple
+    : varStyles.colors.darkBlue;
   return iconColor;
 };
 
-const NavIcon = ({focused, darkMode, type}: NavIconProps) => {
+const NavIcon = ({focused, type}: NavIconProps) => {
   let IconComponent;
 
   const [color, setColor] = useState('#F78CA2');
 
   useEffect(() => {
-    setColor(getNavIconColor(darkMode, focused));
-  }, [darkMode, focused]);
+    setColor(getNavIconColor(focused));
+  }, [focused]);
 
   switch (type) {
     case 'main':

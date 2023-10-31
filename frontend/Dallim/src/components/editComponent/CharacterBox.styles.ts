@@ -19,12 +19,6 @@ export const CharacterImage = styled.Image`
   height: 100%;
 `;
 
-// export const StyledGif = styled(FastImage)`
-//  /* border-width: 1px;
-//   border-color: red; */
-//   width: 200px;
-//   height: 200px;
-//   top: 20%;
-//   left: 0%;
-//   position: absolute;
-// `;
+export const BlurredCharacterImage = styled(CharacterImage)`
+  opacity: 0.3;
+`;

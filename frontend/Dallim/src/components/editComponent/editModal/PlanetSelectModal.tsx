@@ -2,47 +2,46 @@ import React from 'react';
 import { Modal } from 'react-native';
 import * as S from './SelectModal.styles'; // 스타일 컴포넌트 임포트
 import { planetData } from '../../common/PlanetData';
-import { selectedPlanet } from '../../common/PlanetData';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
 type ModalComponentProps = {
-    showModal: boolean;
-    toggleModal: () => void;
-    confirmPlanetChange: () => void;
-    planetIndex: number;
+    planetSelectModalVisible: boolean;
+    equippedPlanetIndex: number;
+    selectedPlanetIndex: number;
+    togglePlanetSelectModal: () => void;
+    equippedPlanetChange: () => void;
 };
 
-const planetSelectModal = ({ showModal, toggleModal, confirmPlanetChange, planetIndex }: ModalComponentProps) => {
+function planetSelectModal ({ planetSelectModalVisible, equippedPlanetIndex, selectedPlanetIndex, togglePlanetSelectModal, equippedPlanetChange }: ModalComponentProps) {
 
-    const handleConfirmPlanetChange = () => {
+    const handleEquippedPlanetChange = () => {
         Toast.show({
             type: 'success',
             position: 'top',
-            text1: '대표 방 변경 완료 !',
+            text1: '대표 행성 변경 완료 !',
             visibilityTime: 3000,
             autoHide: true,
             topOffset: 10,
         });
-
-        confirmPlanetChange();
+        equippedPlanetChange();
     };
 
     return (
         <Modal
             transparent={true}
             animationType="fade"
-            visible={showModal}
+            visible={planetSelectModalVisible}
         >
             <S.ModalContainer>
                 <S.ModalContent>
                     <S.ModalHeader>
-                        <S.ModalText>이 방을 선택하시겠습니까?</S.ModalText>
+                        <S.ModalText>이 행성을 선택하시겠습니까?</S.ModalText>
                     </S.ModalHeader>
                     <S.ModalBody>
 
                         <S.BoxStyle >
-                            <S.Image source={planetData[selectedPlanet.index].Planet} resizeMode="contain" />
+                            <S.Image source={planetData[equippedPlanetIndex].Planet} resizeMode="contain" />
                         </S.BoxStyle>
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>
@@ -53,15 +52,15 @@ const planetSelectModal = ({ showModal, toggleModal, confirmPlanetChange, planet
                             </S.ChangeBox>
                         </S.ChangeBoxStyle>
                         <S.BoxStyle >
-                            <S.Image source={planetData[planetIndex].Planet} resizeMode="contain" />
+                            <S.Image source={planetData[selectedPlanetIndex].Planet} resizeMode="contain" />
                         </S.BoxStyle>
 
                     </S.ModalBody>
                     <S.ModalFooter>
-                        <S.ModalButton onPress={handleConfirmPlanetChange}>
+                        <S.ModalButton onPress={handleEquippedPlanetChange}>
                             <S.ModalButtonText>확인</S.ModalButtonText>
                         </S.ModalButton>
-                        <S.ModalCancelButton onPress={toggleModal}>
+                        <S.ModalCancelButton onPress={togglePlanetSelectModal}>
                             <S.ModalButtonText>취소</S.ModalButtonText>
                         </S.ModalCancelButton>
                     </S.ModalFooter>

@@ -17,18 +17,17 @@ function Main() {
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
 
   const [userNickname, setUserNickname] = useState<string | null>(null); // 유저 닉네임
-  const [userPoint, setUserPoint] = useState<number | null>(null); // 유저 포인트
-  const [userLevel, setUserLevel] = useState<number | null>(null); // 유저 레벨
-  const [userCharacterIndex, setUserCharacterIndex] = useState<number | null>(null); // 유저가 장착한 캐릭터 인덱스 ( 0 ~ 3 )
-  const [userEvolutionStage, setUserEvolutionStage] = useState<number | null>(null); // 유저가 장착한 캐릭터 레벨 : 0 OR 1 
-  const [userPlanetIndex, setUserPlanetIndex] = useState<number | null>(null); // 유저가 장착한 행성 ( 0 ~ 4 )
+  const [userPoint, setUserPoint] = useState<number | null>(0); // 유저 포인트
+  const [userLevel, setUserLevel] = useState<number | null>(0); // 유저 레벨
+  const [userCharacterIndex, setUserCharacterIndex] = useState<number | null>(0); // 유저가 장착한 캐릭터 인덱스 ( 0 ~ 3 )
+  const [userEvolutionStage, setUserEvolutionStage] = useState<number | null>(0); // 유저가 장착한 캐릭터 레벨 : 0 OR 1 
+  const [userPlanetIndex, setUserPlanetIndex] = useState<number | null>(0); // 유저가 장착한 행성 ( 0 ~ 4 )
 
-  // const selectedCharacter = characterData[userCharacterIndex];
-  const selectedCharacter = userCharacterIndex !== null ? characterData[userCharacterIndex] : characterData[0];
-  // const selectedCharacterLevelData = selectedCharacter.levels[userEvolutionStage];
-  const selectedCharacterLevelData = selectedCharacter.levels[userEvolutionStage !== null ? userEvolutionStage : 0];
+  const selectedCharacter = characterData[userCharacterIndex];
+  const selectedCharacterLevelData = selectedCharacter.levels[userEvolutionStage];
 
   const [accessToken, setAccessToken] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchToken = async () => {
       const token = await AsyncStorage.getItem('accessToken');
@@ -47,8 +46,8 @@ function Main() {
               Authorization: `Bearer ${accessToken}`,
             },
           });
-          const userInfo = response.data;
-          console.log("Main : 정보 조회 Axios 성공 : ", userInfo);
+          const userInfo = response.data.data;
+          console.log("Main : 정보 조회 Axios 성공!! userInfo : ", userInfo);
 
           if (userInfo) {
             setUserNickname(userInfo.nickName);
@@ -59,7 +58,7 @@ function Main() {
             setUserPlanetIndex(userInfo.planetIndex);
           }
         } catch (error) {
-          console.error("Main : 정보 조회 Axios 실패 2");
+          console.error("Main : 정보 조회 Axios 실패 ");
         } finally {
           setIsLoading(false);  // 데이터를 불러온 후 로딩 상태를 false로 변경
         }
@@ -108,8 +107,7 @@ function Main() {
             <S.Body>
               <S.ThemeBox>
                 <SpinAnimation>
-                  {/* <S.StyledImage source={planetData[userPlanetIndex].Planet} resizeMode='contain' /> */}
-                  <S.StyledImage source={planetData[userPlanetIndex !== null ? userPlanetIndex : 0].Planet} resizeMode='contain' />
+                  <S.StyledImage source={planetData[userPlanetIndex].Planet} resizeMode='contain' />
                 </SpinAnimation>
                 <S.StyledGif
                   source={selectedCharacterLevelData.running}

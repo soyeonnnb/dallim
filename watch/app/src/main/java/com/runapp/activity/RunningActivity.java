@@ -1,9 +1,6 @@
 package com.runapp.activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,7 +11,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.runapp.adapter.ViewPagerAdapter;
@@ -160,6 +156,12 @@ public class RunningActivity extends AppCompatActivity {
             detail.setHeartRate(runningViewModel.getHeartRate().getValue());
         }
         detail.setSecond(totalTime++);
+        if(runningViewModel.getLongitude().getValue() != null){
+            detail.setLongitude(runningViewModel.getLongitude().getValue());
+        }
+        if(runningViewModel.getLatitude().getValue() != null){
+            detail.setLatitude(runningViewModel.getLatitude().getValue());
+        }
 
         runDetailsList.add(detail);
         if(runningViewModel.getMsSpeed().getValue() != 0){

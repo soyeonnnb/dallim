@@ -13,6 +13,8 @@ public class RunningViewModel extends ViewModel {
     private final MutableLiveData<Float> msSpeed = new MutableLiveData<>();
     private final MutableLiveData<Float> distance = new MutableLiveData<>();
     private final MutableLiveData<Float> stepCounter = new MutableLiveData<>();
+    private final MutableLiveData<Float> latitude = new MutableLiveData<>();
+    private final MutableLiveData<Float> longitude = new MutableLiveData<>();
     private MutableLiveData<RunningData> runningData = new MutableLiveData<>();
 
     public MutableLiveData<RunningData> getRunningData() {
@@ -69,5 +71,17 @@ public class RunningViewModel extends ViewModel {
         return stepCounter;
     }
 
+    public MutableLiveData<Float> getLatitude() {
+        return latitude;
+    }
 
+    public MutableLiveData<Float> getLongitude() {
+        return longitude;
+    }
+    public void setLatitude(float latitude){
+        this.latitude.setValue(latitude);
+    }
+    public void setLongitude(float longitude){
+        this.longitude.setValue(longitude);
+    }
 }

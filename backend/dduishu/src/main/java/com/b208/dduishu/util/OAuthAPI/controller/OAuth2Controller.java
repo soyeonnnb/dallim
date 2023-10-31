@@ -82,12 +82,13 @@ public class  OAuth2Controller {
     public ResponseEntity<?> Logout(HttpServletRequest request, HttpServletResponse response){
         System.out.println("들어옴");
         Map<String, Object> result = userSocialLoginService.logout(request, response);
-        URI redirectUri = URI.create("http://localhost:3000");
+//        URI redirectUri = URI.create("http://localhost:3000");
         //        URI redirectUri = URI.create("https://j9b302.p.ssafy.io");
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(redirectUri);
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setLocation(redirectUri);
 
-        return new ResponseEntity<>(result, httpHeaders, HttpStatus.SEE_OTHER);
+//        return new ResponseEntity<>(result, httpHeaders, HttpStatus.SEE_OTHER);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //백엔드에서 수동으로 엑세스 토큰을

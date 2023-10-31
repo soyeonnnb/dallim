@@ -22,9 +22,9 @@ public class RivalRunningRecordInfo {
     private CharacterOverview character;
     private RunningType type;
     private List<RunningRecordOverallInfo> runningRecordInfos;
-    private float totalTime;
-    private float totalDistance;
-    private float averageSpeed;
+    private double totalTime;
+    private double totalDistance;
+    private double averageSpeed;
     private LocalDateTime createdAt;
 
     @Builder

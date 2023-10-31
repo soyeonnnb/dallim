@@ -7,13 +7,13 @@ import lombok.Data;
 public class RunningRecordOverallInfo {
 
     private int second;
-    private float heartRate;
-    private float distance;
-    private float speed;
+    private double heartRate;
+    private double distance;
+    private double speed;
     private String pace;
 
     @Builder
-    public RunningRecordOverallInfo(int second, float heartRate, float distance, float speed, String pace) {
+    public RunningRecordOverallInfo(int second, double heartRate, double distance, double speed, String pace) {
         this.second = second;
         this.heartRate = heartRate;
         this.distance = distance;

@@ -29,17 +29,17 @@ public class RunningRecord {
     private RivalRunningRecordInfo rivalRecord;
     private List<RunningRecordOverallInfo> runningRecordInfos;
 
-    private float stepCount;
+    private double stepCount;
     private String averagePace;
     private int totalTime;
-    private float totalDistance;
-    private float averageSpeed;
-    private float averageHeartRate;
+    private double totalDistance;
+    private double averageSpeed;
+    private double averageHeartRate;
     private LocalDateTime createdAt;
     private String formattedDate;
 
     @Builder
-    public RunningRecord(UserInfo user, CharacterOverview character, Date createdAt, float stepCount, String averagePace, float averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, float totalDistance, float averageSpeed) {
+    public RunningRecord(UserInfo user, CharacterOverview character, Date createdAt, double stepCount, String averagePace, double averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed) {
         this.user = user;
         this.character = character;
         this.type = type;

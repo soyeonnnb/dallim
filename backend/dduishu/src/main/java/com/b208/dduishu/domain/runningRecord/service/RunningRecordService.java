@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -70,35 +71,17 @@ public class RunningRecordService {
             });
         }
 
-        // 유저 평균 스피드 정산, 누적 운동 날짜 정산
         List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserId(user.getUserId());
-        AtomicReference<Float> averageSpeedSum = new AtomicReference<>((float) 0.0);
-        AtomicBoolean hasRunningRecord = new AtomicBoolean(false);
-        findRunningRecord.stream()
-                .forEach(o -> {
-                    if (LocalDateTime.now().toLocalDate().equals(o.getCreatedAt().toLocalDate())) {
-                        hasRunningRecord.set(true);
-                    }
-                    averageSpeedSum.updateAndGet(v -> new Float((float) (v + (o.getAverageSpeed()))));
-                });
-        if (hasRunningRecord.get() == false) {
-            user.addCumulativeDay(1);
-        }
-        if (findRunningRecord.size() == 0) {
-            user.updateAverageSpeed(req.getAverageSpeed());
-        } else {
-            user.updateAverageSpeed(averageSpeedSum.get()/findRunningRecord.size());
-        }
-
-        // 유저 누적시간, 누적이동거리, 누적칼로리 계산
+        // 유저 평균 스피드 정산
+        computeUserAverageSpeed(user, findRunningRecord, req.getAverageSpeed());
+        // 누적 운동 날짜 정산
+        computeCumulativeRunningDays(user, findRunningRecord);
+        // 유저 누적시간, 누적이동거리
         user.addCumulativeDistance(req.getTotalDistance());
         user.addCumulativeRunningTime(req.getTotalTime());
-        //user.addCumulativeCalorie(req.);
-
         // 경험치 정산 - 이동거리
         character.getCharacterLevel().addExp(req.getTotalDistance());
         user.getUserLevel().addExp(req.getTotalDistance());
-
         // 포인트 정산 - 이동 거리 + a
         user.addPoint(req.getTotalDistance());
 
@@ -107,7 +90,29 @@ public class RunningRecordService {
 
         // runningRecord 저장
         runningRecordRepository.save(res);
+    }
 
+    private static void computeCumulativeRunningDays(User user, List<RunningRecord> runningRecords) {
+        // 오늘의 레코드 확인
+        LocalDate today = LocalDateTime.now().toLocalDate();
+        boolean hasTodayRecord = runningRecords.stream()
+                .anyMatch(o -> today.equals(o.getCreatedAt().toLocalDate()));
+
+        // 누적 운동 날짜 갱신
+        if (!hasTodayRecord) {
+            user.addCumulativeRunningDay(1);
+        }
+    }
+
+    public void computeUserAverageSpeed(final User user, final List<RunningRecord> runningRecords, final double averageSpeed) {
+        // 평균 속도 합산
+        double averageSpeedSum = runningRecords.stream()
+                .mapToDouble(RunningRecord::getAverageSpeed)
+                .sum();
+        
+        // 사용자의 평균 속도 업데이트
+        double newAverageSpeed = (runningRecords.isEmpty()) ? averageSpeed : averageSpeedSum / runningRecords.size();
+        user.updateAverageSpeed(newAverageSpeed);
     }
 
     public List<RunningRecordOverview> getRunningRecordFor30Days(String type, Long userId) {

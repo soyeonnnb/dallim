@@ -15,10 +15,9 @@ public class RunningRecordOverview {
     // 위치 정보
     private RunningType type;
     private int totalTime;
-    private float totalDistance;
-    private float averageSpeed;
+    private double totalDistance;
+    private double averageSpeed;
     private LocalDateTime createdAt;
-
     @JsonProperty("isRegistration")
     private boolean isRegistration;
 

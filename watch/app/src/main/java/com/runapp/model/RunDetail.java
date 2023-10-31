@@ -6,6 +6,7 @@ public class RunDetail {
     private String pace; // 페이스(m/k)
     private float distance; // 거리(m)
     private float heartRate; // 심박수
+    private String state;
 
     public Long getSecond() {
         return second;
@@ -47,13 +48,23 @@ public class RunDetail {
         this.heartRate = heartRate;
     }
 
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     @Override
     public String toString() {
         return "RunDetail{" +
-                "time=" + second +
-                ", pace=" + pace +
+                "second=" + second +
+                ", speed=" + speed +
+                ", pace='" + pace + '\'' +
                 ", distance=" + distance +
                 ", heartRate=" + heartRate +
+                ", state='" + state + '\'' +
                 '}';
     }
 }

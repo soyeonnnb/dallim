@@ -37,14 +37,13 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RunningData runningData = runningDataList.get(position);
-        int character = runningData.getCharacterId();
         // 데이터를 ViewHolder의 뷰에 바인딩합니다.
         holder.formattedDate.setText(String.valueOf(runningData.getFormattedDate()));
 
         // 총 거리
-        String distanceText = String.valueOf(runningData.getTotalDistance()) + " m";
+        String distanceText = String.valueOf(runningData.getTotalDistance()) + " km";
         SpannableString spannableDistance = new SpannableString(distanceText);
-        int indexOfDISTANCE = distanceText.indexOf("m");
+        int indexOfDISTANCE = distanceText.indexOf("km");
         if (indexOfDISTANCE != -1) {
             spannableDistance.setSpan(new RelativeSizeSpan(0.70f), indexOfDISTANCE, indexOfDISTANCE + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
@@ -75,9 +74,6 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
         }else if(characterId == 3){
             holder.myRecordCharacter.setImageResource(R.drawable.chick);
         }
-
-//        int resId = holder.itemView.getContext().getResources().getIdentifier(character, "drawable", holder.itemView.getContext().getPackageName());
-//        holder.myRecordCharacter.setImageResource(resId);
     }
 
     @Override

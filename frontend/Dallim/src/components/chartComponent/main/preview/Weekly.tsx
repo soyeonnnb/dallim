@@ -25,9 +25,15 @@ function PreviewWeekly({isShow}: Props) {
     <S.Container isShow={isShow}>
       <S.Title>이번주 기록</S.Title>
       <S.View>
-        <WeeklyRecord type="count" record={totalCount} />
-        <WeeklyRecord type="distance" record={totalDistance} />
-        <WeeklyRecord type="time" record={totalTime} />
+        <S.RecordContainer>
+          <WeeklyRecord type="count" record={totalCount} />
+        </S.RecordContainer>
+        <S.RecordContainer>
+          <WeeklyRecord type="distance" record={totalDistance} />
+        </S.RecordContainer>
+        <S.RecordContainer>
+          <WeeklyRecord type="time" record={totalTime} />
+        </S.RecordContainer>
       </S.View>
     </S.Container>
   );
@@ -38,7 +44,7 @@ interface RecordProps {
   record: number;
 }
 
-function WeeklyRecord({type, record}: RecordProps) {
+export function WeeklyRecord({type, record}: RecordProps) {
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
   const [color, setColor] = useState('red');

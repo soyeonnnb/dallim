@@ -5,7 +5,16 @@ import {useState} from 'react';
 import BackButtonIcon from '../../assets/icons/BackButtonIcon.png';
 
 //img
-// import Red
+import BlackCard from '../../assets/planets/ColumnCard/blackColumnCard.png';
+import YellowCard from '../../assets/planets/ColumnCard/yellowColumnCard.png';
+import BlueCard from '../../assets/planets/ColumnCard/blueColumnCard.png';
+import PurpleCard from '../../assets/planets/ColumnCard/purpleColumnCard.png';
+import RedCard from '../../assets/planets/ColumnCard/redColumnCard.png';
+
+//carousel
+import Carousel from '../../components/profileComponent/Carousel';
+import CardPage from '../../components/profileComponent/CardPage';
+import {Dimensions} from 'react-native';
 
 function RunningMateSetting() {
   // 임시 데이터
@@ -24,6 +33,17 @@ function RunningMateSetting() {
   // const [showRunningMateModal, setShowRunningMateModal] = useState(false);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+
+  //Carousel--------------
+  const PAGES = [
+    {num: 1, cardImage: BlackCard},
+    {num: 2, cardImage: YellowCard},
+    {num: 3, cardImage: BlueCard},
+    {num: 4, cardImage: PurpleCard},
+    {num: 5, cardImage: RedCard},
+  ];
+  const screenWidth = Dimensions.get('window').width;
+  // -----------------------
 
   return (
     <S.Container>
@@ -46,7 +66,12 @@ function RunningMateSetting() {
             />
           </S.ProfileBox> */}
         </S.Header>
-
+        <Carousel
+          gap={16}
+          offset={36}
+          pages={PAGES}
+          pageWidth={screenWidth - (16 + 36) * 2}
+        />
         {/* <S.Body>
           <S.TitleSetBox>
             <S.Text>Setting</S.Text>

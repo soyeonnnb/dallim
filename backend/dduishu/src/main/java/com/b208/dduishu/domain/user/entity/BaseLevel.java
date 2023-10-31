@@ -36,19 +36,17 @@ public class BaseLevel {
             );
 
     public static LevelInfo getLevelInfo(int exp) {
-        LevelInfo levelInfo = new LevelInfo();
-
-        baseLevels.stream()
-                .forEach(o -> {
-                    if (o.getStartExp() <= exp && exp <= o.getEndExp()) {
-                        levelInfo.setCurExp(exp - o.getStartExp());
-                        levelInfo.setEndExp(o.getEndExp());
-                        levelInfo.setExp((int)(((double)(exp - o.getStartExp()) / (o.getEndExp() - o.getStartExp())) * 100)
-                        );
-                    }
-                });
-
-        return levelInfo;
+        return baseLevels.stream()
+                .filter(o -> o.getStartExp() <= exp && exp <= o.getEndExp())
+                .map(o -> {
+                    LevelInfo levelInfo = new LevelInfo();
+                    levelInfo.setCurExp(exp - o.getStartExp());
+                    levelInfo.setEndExp(o.getEndExp());
+                    levelInfo.setExp((int)(((double)(exp - o.getStartExp()) / (o.getEndExp() - o.getStartExp())) * 100));
+                    return levelInfo;
+                })
+                .findFirst()
+                .orElse(new LevelInfo());
     }
 
     @Data

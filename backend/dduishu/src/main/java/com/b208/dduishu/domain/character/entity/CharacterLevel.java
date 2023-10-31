@@ -26,7 +26,7 @@ public class CharacterLevel {
         this.exp = exp;
     }
 
-    public void addExp(float exp ) {
+    public void addExp(double exp ) {
         this.exp += exp;
         checkLevel();
     }

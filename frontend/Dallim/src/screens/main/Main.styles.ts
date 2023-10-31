@@ -183,3 +183,8 @@ export const TabBox = styled.View`
   width: 100%;
   height: 10%;
 `;
+
+export const LoadingText = styled.Text`
+  font-size: 20px;
+  color: white;
+`;

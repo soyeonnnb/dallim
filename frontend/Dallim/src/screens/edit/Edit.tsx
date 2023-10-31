@@ -12,6 +12,7 @@ import Left from '@/assets/icons/DirectionLeft.png';
 import Right from '@/assets/icons/DirectionRight.png';
 import BasicCharacter from '@/assets/characters/Rabbit.png'
 import BasicPlanet from '@/assets/planets/PlanetBlack.png';
+import Loading from '@/components/common/Loading';
 
 interface Character {
   characterIndex: number;
@@ -52,6 +53,7 @@ function Edit() {
 
 
   useEffect(() => {
+
     if (userData) {
       setEquippedCharacterIndex(userData.mainCharacterIndex);
       setEquippedCharacterLevel(userData.characters[userData.mainCharacterIndex].level);
@@ -168,11 +170,7 @@ function Edit() {
 
   return (
     <S.Container>
-      {userData === null ? (
-        <S.LoadingBox>
-          <S.LoadingText>로딩 중...</S.LoadingText>
-        </S.LoadingBox>
-      ) : (
+      {userData === null ? (<Loading />) : (
         <>
           <S.BackgroundImage
             source={isOn ? backgroundImage.image : characterData[selectedCharacterIndex].background}

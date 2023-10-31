@@ -2,20 +2,23 @@
 import React, {useRef, useState, useMemo, useCallback, useEffect} from 'react';
 import BottomSheet from '@gorhom/bottom-sheet';
 import PreviewDaily from './preview/Daily';
-import PreviewWeekly from './preview/Weekly';
+import PreviewRecord from './preview/PreviewRecord';
 import PreviewMonthly from './preview/Monthly';
 import * as S from './Preview.styles';
 import {CalendarType} from '@/components/common/CalendarData';
+import {MonthlyRecords} from '@/apis/ChartApi';
 
 interface Props {
   isClicked?: boolean;
   selectedDate?: CalendarType;
+  everyRecords?: MonthlyRecords[];
 }
 
-function Preview({isClicked, selectedDate}: Props) {
+function Preview({isClicked, selectedDate, everyRecords}: Props) {
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [isUp, setIsUp] = useState(false);
+  const [dailyRecords, setDailyRecords] = useState();
 
   const snapPoints = useMemo(() => ['40%', '90%'], []); // 전체 화면에서 몇퍼센트 차지할
   // useEffect(() => {}, [isClicked, selectedDate]);
@@ -24,6 +27,11 @@ function Preview({isClicked, selectedDate}: Props) {
     if (index == 0) setIsUp(false); // 0이 40%
     else setIsUp(true);
   }, []);
+
+  // useEffect(()=>{
+  //   if (selectedDate == null) return;
+
+  // }, [selectedDate]);
 
   return (
     <BottomSheet
@@ -34,8 +42,12 @@ function Preview({isClicked, selectedDate}: Props) {
     >
       <S.Container>
         <S.DownPreview isShow={isUp ? false : true}>
-          <PreviewWeekly isShow={isClicked ? false : true} />
-          <PreviewDaily date={selectedDate} isShow={isClicked ? true : false} />
+          <PreviewRecord isShow={isClicked ? false : true} type="week" />
+          <PreviewDaily
+            // records={dailyRecords}
+            date={selectedDate}
+            isShow={isClicked ? true : false}
+          />
         </S.DownPreview>
         <PreviewMonthly isShow={isUp ? true : false} />
       </S.Container>

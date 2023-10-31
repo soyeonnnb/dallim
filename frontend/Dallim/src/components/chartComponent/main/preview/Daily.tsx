@@ -12,6 +12,7 @@ interface Props {
   date?: CalendarType;
   isShow: boolean;
 }
+
 interface DailyRecord {
   id: number;
   location: string; // 출발 위치

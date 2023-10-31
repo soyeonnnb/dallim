@@ -1,5 +1,5 @@
 import * as S from './MonthlyRecord.styles';
-import {WeeklyRecord} from './Weekly';
+import {WeeklyRecord} from './PreviewRecord';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 import {colors} from '@/components/common/globalStyles';

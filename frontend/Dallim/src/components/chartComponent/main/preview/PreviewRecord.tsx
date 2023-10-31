@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import * as S from './Weekly.styles';
+import * as S from './PreviewRecord.styles';
 import {colors} from '@/components/common/globalStyles';
 
 // icons
@@ -8,10 +8,13 @@ import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 
 interface Props {
+  type: 'week' | 'month';
+  year?: number;
+  month?: number;
   isShow: boolean;
 }
 
-function PreviewWeekly({isShow}: Props) {
+function PreviewWeekly({isShow, type, year, month}: Props) {
   const [totalCount, setTotalCount] = useState(0);
   const [totalDistance, setTotalDistance] = useState(0);
   const [totalTime, setTotalTime] = useState(0);
@@ -23,7 +26,9 @@ function PreviewWeekly({isShow}: Props) {
 
   return (
     <S.Container isShow={isShow}>
-      <S.Title>이번주 기록</S.Title>
+      <S.Title>
+        {type === 'week' ? '이번주' : `${year}년 ${month}월`} 기록
+      </S.Title>
       <S.View>
         <S.RecordContainer>
           <WeeklyRecord type="count" record={totalCount} />

@@ -7,6 +7,11 @@ interface Props {
   setMonth: any;
 }
 function MonthlyChart({year, month, setYear, setMonth}: Props) {
-  return <S.Container></S.Container>;
+  return (
+    <S.Container>
+      <S.Title>월별 현황</S.Title>
+      <S.ChartSheet></S.ChartSheet>
+    </S.Container>
+  );
 }
 export default MonthlyChart;

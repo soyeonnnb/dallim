@@ -6,13 +6,15 @@ import StampModal from '../../components/mainComponent/StampModal';
 import SpinAnimation from '../../components/common/SpinAnimation';
 import { characterData } from '../../components/common/CharacterData';
 import { planetData } from '@/components/common/PlanetData';
-import { fetchUserProfile } from '@/apis/MainApi';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// 저장된 토큰, Id 체크
+import axios from 'axios';
+
+// import { fetchUserProfile } from '@/apis/MainApi';
+// import { privateApi } from '@/apis/Index';
 
 function Main() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // 로딩 확인
+  const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
 
   const [userNickname, setUserNickname] = useState<string | null>(null); // 유저 닉네임
   const [userPoint, setUserPoint] = useState<number | null>(null); // 유저 포인트
@@ -26,59 +28,61 @@ function Main() {
   // const selectedCharacterLevelData = selectedCharacter.levels[userEvolutionStage];
   const selectedCharacterLevelData = selectedCharacter.levels[userEvolutionStage !== null ? userEvolutionStage : 0];
 
+  const [accessToken, setAccessToken] = useState<string | null>(null);
   useEffect(() => {
-    const loadUserInfo = async () => {
-      try {
-        const userInfo = await fetchUserProfile();
-        console.log("Main : 정보 조회 Axios 성공 2 : ", userInfo);
-
-        if (userInfo) {
-          setUserNickname(userInfo.nickName);
-          setUserPoint(userInfo.point);
-          setUserLevel(userInfo.userLevel);
-          setUserCharacterIndex(userInfo.characterIndex);
-          setUserEvolutionStage(userInfo.evolutionStage);
-          setUserPlanetIndex(userInfo.planetIndex);
-        }
-      } catch (error) {
-        console.error("Main : 정보 조회 Axios 실패 2");
-      } finally {
-        setIsLoading(false);  // 데이터를 불러온 후 로딩 상태를 false로 변경
-      }
+    const fetchToken = async () => {
+      const token = await AsyncStorage.getItem('accessToken');
+      console.log("accessToken:", token);
+      setAccessToken(token);  // accessToken 상태 설정
     };
-    loadUserInfo();
+    fetchToken();
   }, []);
 
-  const [isStampModalVisible, setStampModalVisible] = useState(false);
+  useEffect(() => {
+    if (accessToken) {
+      const loadUserInfo = async () => {
+        try {
+          const response = await axios.get(`https://k9b208.p.ssafy.io/api/v1/user/main`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+          const userInfo = response.data;
+          console.log("Main : 정보 조회 Axios 성공 : ", userInfo);
+
+          if (userInfo) {
+            setUserNickname(userInfo.nickName);
+            setUserPoint(userInfo.point);
+            setUserLevel(userInfo.userLevel);
+            setUserCharacterIndex(userInfo.characterIndex);
+            setUserEvolutionStage(userInfo.evolutionStage);
+            setUserPlanetIndex(userInfo.planetIndex);
+          }
+        } catch (error) {
+          console.error("Main : 정보 조회 Axios 실패 2");
+        } finally {
+          setIsLoading(false);  // 데이터를 불러온 후 로딩 상태를 false로 변경
+        }
+      };
+      loadUserInfo();
+    }
+  }, [accessToken]);
 
   function handleSend() {
     console.log('출석체크 버튼 눌림!');
-    retrieveStoredData(); // 토큰 체크 ( 나중에 삭제 )
     setStampModalVisible(true);
   }
-
   function Start() {
     console.log("시작 버튼 눌림!");
     CustomToast({ type: "error", text1: "아직 개발중입니다." });
   };
 
-
-  const retrieveStoredData = async () => {
-    try {
-      const accessToken = await AsyncStorage.getItem('accessToken');
-      const id = await AsyncStorage.getItem('userId');
-
-      console.log('Stored Access Token:', accessToken);
-    } catch (error) {
-      console.error('Error retrieving data from AsyncStorage:', error);
-    }
-  };
-
   return (
     <S.Container>
       {isLoading ? (
-        // 로딩 중일 때의 컴포넌트 또는 메시지
-        <S.LoadingText>로딩 중...</S.LoadingText>
+        <S.LoadingBox>
+          <S.LoadingText>로딩 중...</S.LoadingText>
+        </S.LoadingBox>
       ) : (
         <>
           <S.BackgroundImage
@@ -130,10 +134,10 @@ function Main() {
             <S.TabBox />
           </S.BackgroundImage>
 
-          <StampModal
+          {/* <StampModal
             isVisible={isStampModalVisible}
             onClose={() => setStampModalVisible(false)}
-          />
+          /> */}
         </>
       )}
     </S.Container>
@@ -141,3 +145,16 @@ function Main() {
 }
 
 export default Main;
+
+
+
+// const retrieveStoredData = async () => {
+//   try {
+//     const accessToken = await AsyncStorage.getItem('accessToken');
+//     const id = await AsyncStorage.getItem('userId');
+
+//     console.log('Stored Access Token:', accessToken);
+//   } catch (error) {
+//     console.error('Error retrieving data from AsyncStorage:', error);
+//   }
+// };

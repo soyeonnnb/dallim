@@ -13,3 +13,11 @@ export const Container = styled.View<{isShow: boolean}>`
 export const Text = styled.Text`
   color: white;
 `;
+export const Record = styled.View`
+  flex: 0.5;
+  background-color: yellow;
+`;
+export const Chart = styled.View`
+  flex: 0.5;
+  background-color: aliceblue;
+`;

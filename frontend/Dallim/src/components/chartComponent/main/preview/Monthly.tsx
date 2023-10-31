@@ -1,5 +1,5 @@
 import React from 'react';
-import * as S from './PreviewMonthly.styles';
+import * as S from './Monthly.styles';
 
 interface Props {
   isShow: boolean;
@@ -8,7 +8,8 @@ interface Props {
 function PreviewMonthly({isShow}: Props) {
   return (
     <S.Container isShow={isShow}>
-      <S.Text>Monthly</S.Text>
+      <S.Record></S.Record>
+      <S.Chart></S.Chart>
     </S.Container>
   );
 }

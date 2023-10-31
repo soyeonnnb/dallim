@@ -3,7 +3,7 @@ import React from 'react';
 import { Modal } from 'react-native';
 import * as S from './VersusModal.styles';
 
-const BackgroundImage = require('../../../assets/images/VersusBackground.png');
+const BackgroundImage = require('@/assets/images/VersusBackground.png');
 
 
 interface Props {
@@ -13,9 +13,9 @@ interface Props {
 
 const VersusModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
-    const MyCharacterImage = require('../../../assets/character/병아리.png');
+    const MyCharacterImage = require('@/assets/characters/Chick.png');
     const MyNickName = "나는야 펭소";
-    const OtherCharacterImage = require('../../../assets/character/팬더.png');
+    const OtherCharacterImage = require('@/assets/characters/Panda.png');
     const OtherNickname = "배고픈 하마";
 
     // 임시 데이터

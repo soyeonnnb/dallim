@@ -1,16 +1,12 @@
 import styled from 'styled-components/native';
+// import FastImage from 'react-native-fast-image';
 
 export const Container = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   flex: 1;
   justify-content: center;
   align-items: center;
-`;
-
-export const Text = styled.Text`
-  font-size: 20px;
-  color: white;
 `;
 
 export const CharacterBox = styled.View`
@@ -21,4 +17,8 @@ export const CharacterBox = styled.View`
 export const CharacterImage = styled.Image`
   width: 100%;
   height: 100%;
+`;
+
+export const BlurredCharacterImage = styled(CharacterImage)`
+  opacity: 0.3;
 `;

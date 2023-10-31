@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@android:color/background_dark">
+    android:background="@android:color/transparent">
 
     <TextView
         android:id="@+id/tv_date"
@@ -13,7 +13,7 @@
     android:background="@android:color/transparent"
     android:gravity="center_vertical"
     android:textColor="@color/light_blue_900"
-    android:textSize="20sp" />
+    android:textSize="14sp" />
     <LinearLayout
         android:id="@+id/gridview"
         android:layout_width="match_parent"
@@ -24,14 +24,16 @@
         <!-- 1주차 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:background="@android:color/transparent"
             android:orientation="horizontal">
 
             <!-- 일요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textColor="@color/light_blue_900"
                 android:textSize="12sp" />
@@ -39,8 +41,8 @@
             <!-- 월요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textColor="@color/light_blue_900"
                 android:textSize="12sp" />
@@ -48,8 +50,8 @@
             <!-- 화요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textColor="@color/light_blue_900"
                 android:textSize="12sp" />
@@ -57,8 +59,8 @@
             <!-- 수요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textColor="@color/light_blue_900"
                 android:textSize="12sp" />
@@ -66,8 +68,8 @@
             <!-- 목요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textColor="@color/light_blue_900"
                 android:textSize="12sp" />
@@ -75,8 +77,8 @@
             <!-- 금요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textColor="@color/light_blue_900"
                 android:textSize="12sp" />
@@ -84,8 +86,8 @@
             <!-- 토요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textColor="@color/light_blue_900"
                 android:textSize="12sp" />
@@ -95,65 +97,64 @@
         <!-- 2주차 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.16"
+            android:background="@android:color/transparent"
             android:orientation="horizontal">
 
             <!-- 일요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
-                android:textColor="@color/light_blue_900"
                 android:textSize="10sp" />
 
             <!-- 월요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
-                android:textColor="@color/light_blue_900"
                 android:textSize="10sp" />
 
             <!-- 화요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
-                android:textColor="@color/light_blue_900"
                 android:textSize="10sp" />
 
             <!-- 수요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 목요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 금요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 토요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -161,62 +162,64 @@
         <!-- 3주차 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.16"
+            android:background="@android:color/transparent"
             android:orientation="horizontal">
 
             <!-- 일요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 월요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 화요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 수요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 목요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 금요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 토요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -225,62 +228,64 @@
         <!-- 4주차 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.16"
+            android:background="@android:color/transparent"
             android:orientation="horizontal">
 
             <!-- 일요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 월요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 화요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 수요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 목요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 금요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 토요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -289,62 +294,64 @@
         <!-- 5주차 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.16"
+            android:background="@android:color/transparent"
             android:orientation="horizontal">
 
             <!-- 일요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 월요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 화요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 수요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 목요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 금요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 토요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -353,62 +360,64 @@
         <!-- 6주차 -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="0.16"
+            android:background="@android:color/transparent"
             android:orientation="horizontal">
 
             <!-- 일요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 월요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 화요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 수요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 목요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 금요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <!-- 토요일 -->
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
                 android:gravity="center"
                 android:textSize="10sp" />
         </LinearLayout>

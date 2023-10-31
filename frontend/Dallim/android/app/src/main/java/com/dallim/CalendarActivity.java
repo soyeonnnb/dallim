@@ -77,17 +77,19 @@ public class CalendarActivity extends Activity {
         int dayCounter = 1;
         boolean isDateSettingStarted = false;
 
-        for (int i = 0; i < linearLayout.getChildCount(); i++) {
-            View childView = linearLayout.getChildAt(i);
+        for (int i = 1; i < linearLayout.getChildCount(); i++) {
+            LinearLayout weekLayout = (LinearLayout) linearLayout.getChildAt(i);
+            Log.d("DDDDDDDDDD", "CalendarActivity - onCreate -childView" +weekLayout.toString());
 
-            if (childView instanceof LinearLayout) {
-                LinearLayout weekLayout = (LinearLayout) childView;
+//            if (childView instanceof LinearLayout) {
+//                LinearLayout weekLayout = (LinearLayout) childView;
                 Log.d("DDDDDDDDDD", "CalendarActivity - onCreate -weekLayout" +weekLayout.getChildCount());
                 for (int j = 0; j < weekLayout.getChildCount(); j++) {
                     if (dayCounter > daysInMonth) break;
 
-                    // 1주차는 건너뜀 (요일이므로)
-                    if (i == 0) continue;
+
+//                    // 1주차는 건너뜀 (요일이므로)
+//                    if (i == 0) continue;
 
                     // 2주차의 시작 TextView의 인덱스를 조정
                     if (!isDateSettingStarted) {
@@ -98,9 +100,10 @@ public class CalendarActivity extends Activity {
                     TextView dayView = (TextView) weekLayout.getChildAt(j);
                     dayView.setText(String.valueOf(dayCounter));
                     Log.d("DDDDDDDDDD", "CalendarActivity - onCreate -dayCounter" +String.valueOf(dayCounter));
+                    Log.d("DDDDDDDDDD", "CalendarActivity - onCreate -dayCounter" +dayView.toString()+" "+dayView.getId());
                     dayCounter++;
                 }
-            }
+//            }
         }
 
 }}

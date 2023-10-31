@@ -2,7 +2,7 @@ package com.b208.dduishu.domain.character.dto.response;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
-import com.b208.dduishu.domain.thema.entity.ThemaName;
+import com.b208.dduishu.domain.planet.entity.PlanetName;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,7 +16,7 @@ public class CharacterInfoResult {
     private List<CharacterOverview> characterInfo;
 
     @Builder
-    public CharacterInfoResult(CharacterName characterName, ThemaName themaName, List<CharacterOverview> characterInfo) {
+    public CharacterInfoResult(CharacterName characterName, PlanetName themaName, List<CharacterOverview> characterInfo) {
         this.mainCharacterIndex = getMainCharacterIndex(characterName);
         this.mainThemaIndex = getMainThemaIndex(themaName);
         this.characterInfo = characterInfo;
@@ -34,10 +34,10 @@ public class CharacterInfoResult {
         }
         return -1;
     }
-    private int getMainThemaIndex(ThemaName themaName) {
-        if (themaName.equals(ThemaName.EARTH)) {
+    private int getMainThemaIndex(PlanetName themaName) {
+        if (themaName.equals(PlanetName.EARTH)) {
             return 0;
-        } else if (themaName.equals(ThemaName.MOON)) {
+        } else if (themaName.equals(PlanetName.MOON)) {
             return 1;
         }
         return -1;

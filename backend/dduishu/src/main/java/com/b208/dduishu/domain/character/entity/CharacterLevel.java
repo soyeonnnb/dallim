@@ -31,7 +31,7 @@ public class CharacterLevel {
         checkLevel();
     }
 
-    public int checkLevel(){
+    public void checkLevel(){
         int e = this.exp;
         int lv = 1;
         if(e<500){
@@ -76,7 +76,7 @@ public class CharacterLevel {
             lv=20;
         }
 
-        return lv;
+        this.level = lv;
     }
 
 

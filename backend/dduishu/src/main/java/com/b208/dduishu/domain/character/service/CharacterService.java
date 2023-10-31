@@ -1,22 +1,16 @@
 package com.b208.dduishu.domain.character.service;
 
-import static java.util.stream.Collectors.*;
-
 import java.util.List;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterId;
 import com.b208.dduishu.domain.character.dto.request.CharacterInfoDetail;
-import com.b208.dduishu.domain.character.dto.response.CharacterInfoResult;
 import com.b208.dduishu.domain.character.entity.CharacterLevel;
 import com.b208.dduishu.domain.character.exception.InsufficientPointsException;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
 import com.b208.dduishu.domain.characterInfo.repository.CharacterInfoRepository;
-import com.b208.dduishu.domain.thema.dto.response.ThemaOverview;
-import com.b208.dduishu.domain.thema.entity.ThemaName;
-import com.b208.dduishu.domain.thema.service.ThemaService;
+import com.b208.dduishu.domain.planet.service.PlanetService;
 import org.springframework.stereotype.Service;
-import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.user.GetUser;
@@ -34,7 +28,7 @@ public class CharacterService {
 
     private final CharacterRepository characterRepository;
     private final CharacterInfoRepository characterInfoRepository;
-    private final ThemaService themaService;
+    private final PlanetService themaService;
     private final GetUser getUser;
 
 

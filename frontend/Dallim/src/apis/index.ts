@@ -1,14 +1,13 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export * from './Example';
-
-export * from './LoginApi';
-export * from './ChartApi';
-export * from './EditApi';
-export * from './MainApi';
-export * from './ProfileApi';
-export * from './SocialApi';
+// export * from './Example';
+// export * from './LoginApi';
+// export * from './ChartApi';
+// export * from './EditApi';
+// export * from './MainApi';
+// export * from './ProfileApi';
+// export * from './SocialApi';
 
 const BASE_URL = 'https://k9b208.p.ssafy.io';
 
@@ -70,3 +69,15 @@ export {privateApi};
 //     } catch (error) {
 //       console.error('Error fetching the token:', error);
 //     }
+
+// AsyncStorage 데이터 확인
+// const retrieveStoredData = async () => {
+//   try {
+//     const accessToken = await AsyncStorage.getItem('accessToken');
+//     const id = await AsyncStorage.getItem('userId');
+
+//     console.log('Stored Access Token:', accessToken);
+//   } catch (error) {
+//     console.error('Error retrieving data from AsyncStorage:', error);
+//   }
+// };

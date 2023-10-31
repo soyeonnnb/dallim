@@ -44,34 +44,24 @@ public class User {
     private int cumulativeCalorie;
     private int point;
     @Column(nullable = false)
-    private String profileImage;
-    @Column(nullable = false)
     private String privateAccess;
-    @CreatedDate
-    @Column()
-    private LocalDateTime registDate;
-    @LastModifiedDate
-    @Column()
-    private LocalDateTime lastLoginDate;
-    @Column(nullable = false)
-    private boolean deleteCheck;
     @Column(nullable = false)
     private String accessToken;
-    @Column(nullable = false)
-    private int createCount;
-
     @Enumerated(EnumType.STRING)
     private UserState state;
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_level_id")
     private UserLevel userLevel;
+    @CreatedDate
+    private LocalDateTime registDate;
+    @LastModifiedDate
+    private LocalDateTime lastLoginDate;
 
     public User() {
     }
 
     @Builder
-    public User(Long userId, String accountType, String email, String nickname, int cumulativeDay, float averageSpeed, float cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
+    public User(Long userId, String accountType, String email, String nickname, int cumulativeDay, float averageSpeed, float cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, String accessToken) {
         this.userId = userId;
         this.accountType = accountType;
         this.email = email;
@@ -82,31 +72,14 @@ public class User {
         this.cumulativeRunningTime = cumulativeRunningTime;
         this.cumulativeCalorie = cumulativeCalorie;
         this.point = point;
-        this.profileImage = profileImage;
         this.privateAccess = privateAccess;
+        this.accessToken = accessToken;
         this.registDate = registDate;
         this.lastLoginDate = lastLoginDate;
-        this.deleteCheck = deleteCheck;
-        this.accessToken = accessToken;
-        this.createCount = createCount;
     }
 
     public void updateNickname(String newNickname) {
         this.nickname = newNickname;
-    }
-
-    public void updateprofileImage(String profileImage){
-        this.profileImage = profileImage;
-    }
-
-    public UserDTO toUserDTO(){
-        return UserDTO.builder()
-            .userId(this.userId)
-            .accountType(this.accountType)
-            .email(this.email)
-            .nickname(this.nickname)
-            .profileImage(this.profileImage)
-            .build();
     }
 
     public void updateLastLoginDate() {

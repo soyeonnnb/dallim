@@ -48,7 +48,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         }
 
         String email = oAuth2UserInfo.getEmail();
-        String profileImage = oAuth2UserInfo.getImagePath();
         String accessToken = userRequest.getAccessToken().getTokenValue();
 
         Optional<User> optionalUser = userRepository.findByEmailAndAccountType(email, provider);
@@ -60,7 +59,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
                     .accountType(provider)
                     .email(email)
                     .nickname(nNick())
-                    .profileImage(profileImage)
                     .accessToken(accessToken)
                     .privateAccess(encoder.encode(accessToken))
                     .build();

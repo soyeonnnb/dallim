@@ -91,10 +91,9 @@ public class UserSocialLoginService {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .nickname(user.getNickname())
-                .profileImage(user.getProfileImage())
                 .accountType(user.getAccountType())
                 .uesrId(user.getUserId())
-                .createCount(user.getCreateCount()).build();
+                .build();
 
         if (user.getAccountType().equals("kakao")) {
             result.put("message", "카카오 로그인 성공");

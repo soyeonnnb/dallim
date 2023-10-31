@@ -123,7 +123,6 @@ public class  OAuth2Controller {
                     .accountType(provider)
                     .email(email)
                     .nickname(nNick())
-                    .profileImage(profileImage)
                     .accessToken(accessToken)
                     .privateAccess(encoder.encode(accessToken))
                     .build();
@@ -185,7 +184,6 @@ public class  OAuth2Controller {
                     .accountType(provider)
                     .email(email)
                     .nickname(nNick())
-                    .profileImage(profileImage)
                     .accessToken(accessToken)
                     .privateAccess(encoder.encode(accessToken))
                     .build();

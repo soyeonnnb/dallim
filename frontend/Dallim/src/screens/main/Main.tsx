@@ -45,7 +45,6 @@ function Main() {
       const id = await AsyncStorage.getItem('userId');
 
       console.log('Stored Access Token:', accessToken);
-      console.log('Stored ID:', id);
     } catch (error) {
       console.error('Error retrieving data from AsyncStorage:', error);
     }

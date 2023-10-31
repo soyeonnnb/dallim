@@ -1,16 +1,11 @@
 package com.b208.dduishu.domain.runningRecord.dto.request;
 
-import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.runningMate.document.RunningMate;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
-import com.b208.dduishu.domain.runningRecord.entity.RunningType;
-import com.b208.dduishu.domain.user.entity.User;
+import com.b208.dduishu.domain.runningRecord.document.RunningType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.Getter;
-import org.bson.types.ObjectId;
 
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 import java.util.List;
 

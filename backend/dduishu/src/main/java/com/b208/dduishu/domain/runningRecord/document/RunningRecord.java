@@ -1,23 +1,14 @@
 package com.b208.dduishu.domain.runningRecord.document;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
-import com.b208.dduishu.domain.character.entity.Character;
-import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RivalRunningRecordInfo;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDistanceInfo;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordHeartRateInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverallInfo;
-import com.b208.dduishu.domain.runningRecord.entity.RunningType;
 import com.b208.dduishu.domain.user.dto.request.UserInfo;
-import com.b208.dduishu.domain.user.entity.User;
 import lombok.*;
 import org.bson.types.ObjectId;
-import org.springframework.cglib.core.Local;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.*;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;

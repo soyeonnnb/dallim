@@ -2,8 +2,7 @@ package com.b208.dduishu.domain.runningRecord.dto.request;
 
 
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
-import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
-import com.b208.dduishu.domain.runningRecord.entity.RunningType;
+import com.b208.dduishu.domain.runningRecord.document.RunningType;
 import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import lombok.Builder;
 import lombok.Data;

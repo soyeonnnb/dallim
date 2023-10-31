@@ -1,6 +1,5 @@
 package com.b208.dduishu.domain.runningRecord.dto.request;
 
-import com.b208.dduishu.domain.runningRecord.entity.RunningOrWalk;
 import lombok.Builder;
 import lombok.Data;
 

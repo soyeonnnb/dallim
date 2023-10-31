@@ -1,9 +1,9 @@
-package com.b208.dduishu.domain.thema.controller;
+package com.b208.dduishu.domain.planet.controller;
 
-import com.b208.dduishu.domain.thema.dto.request.MainThemaInfo;
-import com.b208.dduishu.domain.thema.dto.request.PurchaseThemaName;
-import com.b208.dduishu.domain.thema.dto.response.ThemaOverview;
-import com.b208.dduishu.domain.thema.service.ThemaService;
+import com.b208.dduishu.domain.planet.dto.request.MainPlanetInfo;
+import com.b208.dduishu.domain.planet.dto.request.PurchasePlanetName;
+import com.b208.dduishu.domain.planet.dto.response.PlanetOverview;
+import com.b208.dduishu.domain.planet.service.PlanetService;
 import com.b208.dduishu.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +12,14 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class ThemaController {
+public class PlanetController {
 
-    private final ThemaService themaService;
+    private final PlanetService planetService;
 
     @GetMapping("/api/v1/thema")
     public ApiResponse<?> getAllThemaInfo() {
         try {
-            List<ThemaOverview> ret = themaService.getAllThemaInfo();
+            List<PlanetOverview> ret = planetService.getAllThemaInfo();
 
             return ApiResponse.createSuccess(ret);
         } catch (Exception e) {
@@ -29,9 +29,9 @@ public class ThemaController {
 
     // 대표 테마 변경
     @PatchMapping("/api/v1/thema")
-    public ApiResponse<?> updateMainThema(@RequestBody MainThemaInfo req) {
+    public ApiResponse<?> updateMainThema(@RequestBody MainPlanetInfo req) {
         try {
-            themaService.updateMainThema(req);
+            planetService.updateMainThema(req);
 
             return ApiResponse.createSuccess(true);
         } catch (Exception e) {
@@ -41,9 +41,9 @@ public class ThemaController {
 
     // 테마 구매
     @PostMapping("/api/v1/thema")
-    public ApiResponse<?> purchaseThema(@RequestBody PurchaseThemaName req) {
+    public ApiResponse<?> purchaseThema(@RequestBody PurchasePlanetName req) {
         try {
-            themaService.purchaseThema(req);
+            planetService.purchaseThema(req);
 
             return ApiResponse.createSuccess(true);
         } catch (Exception e) {

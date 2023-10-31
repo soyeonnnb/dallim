@@ -1,4 +1,4 @@
-package com.b208.dduishu.domain.thema.entity;
+package com.b208.dduishu.domain.planet.entity;
 
 import lombok.Getter;
 
@@ -6,16 +6,16 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Table(name = "thema_info")
-public class ThemaInfo {
+@Table(name = "planet_info")
+public class PlanetInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "thema_info_id")
+    @Column(name = "planet_info_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private ThemaName name;
+    private PlanetName name;
 
     private int price;
 }

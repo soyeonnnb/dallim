@@ -1,4 +1,4 @@
-package com.b208.dduishu.domain.thema.entity;
+package com.b208.dduishu.domain.planet.entity;
 
 import com.b208.dduishu.domain.user.entity.User;
 import lombok.Builder;
@@ -9,13 +9,13 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-@Table(name = "thema")
+@Table(name = "planet")
 @NoArgsConstructor
-public class Thema {
+public class Planet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "thema_id")
+    @Column(name = "planet_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,20 +23,20 @@ public class Thema {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "thema_info_id")
-    private ThemaInfo themaInfo;
+    @JoinColumn(name = "planet_info_id")
+    private PlanetInfo planetInfo;
 
-    private boolean isMainThema;
+    private boolean isMainPlanet;
 
     @Builder
-    public Thema(Long id, User user, ThemaInfo themaInfo, boolean isMainThema) {
+    public Planet(Long id, User user, PlanetInfo planetInfo, boolean isMainPlanet) {
         this.id = id;
         this.user = user;
-        this.themaInfo = themaInfo;
-        this.isMainThema = isMainThema;
+        this.planetInfo = planetInfo;
+        this.isMainPlanet = isMainPlanet;
     }
 
-    public void setMainThema(boolean thema) {
-        this.isMainThema = thema;
+    public void setMainPlanet(boolean planet) {
+        this.isMainPlanet = planet;
     }
 }

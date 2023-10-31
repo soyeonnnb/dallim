@@ -14,11 +14,20 @@ interface Props {
   everyRecords?: MonthlyRecords[];
 }
 
+export interface DailyRecord {
+  id: number;
+  location: string; // 출발 위치
+  distance: number; // 거리
+  hour: number; // 출발 기준 시
+  minute: number; // 출발 기준 분
+  time: number; // 얼마나 걸렸는지 (시간)
+}
+
 function Preview({isClicked, selectedDate, everyRecords}: Props) {
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [isUp, setIsUp] = useState(false);
-  const [dailyRecords, setDailyRecords] = useState();
+  const [dailyRecords, setDailyRecords] = useState<DailyRecord[]>();
 
   const snapPoints = useMemo(() => ['40%', '90%'], []); // 전체 화면에서 몇퍼센트 차지할
   // useEffect(() => {}, [isClicked, selectedDate]);
@@ -28,10 +37,31 @@ function Preview({isClicked, selectedDate, everyRecords}: Props) {
     else setIsUp(true);
   }, []);
 
-  // useEffect(()=>{
-  //   if (selectedDate == null) return;
-
-  // }, [selectedDate]);
+  useEffect(() => {
+    if (selectedDate == null) return;
+    let newDailyRecords: DailyRecord[] = [];
+    everyRecords?.map(monthData => {
+      if (
+        monthData.year === selectedDate.year &&
+        monthData.month === selectedDate.month
+      ) {
+        monthData.records.map(record => {
+          const recordDate = Number(record.createdAt.slice(8, 10));
+          if (selectedDate.day === recordDate) {
+            newDailyRecords.push({
+              id: record.id,
+              location: record.location,
+              distance: record.totalDistance,
+              hour: Number(record.createdAt.slice(11, 13)),
+              minute: Number(record.createdAt.slice(14, 16)),
+              time: record.totalTime,
+            });
+          }
+        });
+      }
+    });
+    setDailyRecords(newDailyRecords);
+  }, [selectedDate]);
 
   return (
     <BottomSheet
@@ -44,7 +74,7 @@ function Preview({isClicked, selectedDate, everyRecords}: Props) {
         <S.DownPreview isShow={isUp ? false : true}>
           <PreviewRecord isShow={isClicked ? false : true} type="week" />
           <PreviewDaily
-            // records={dailyRecords}
+            records={dailyRecords}
             date={selectedDate}
             isShow={isClicked ? true : false}
           />

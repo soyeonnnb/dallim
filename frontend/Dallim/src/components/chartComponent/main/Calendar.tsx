@@ -60,8 +60,6 @@ function ChartCalendar({
 
   // 달 바뀜
   const handleMonthChange = async (date: CalendarType) => {
-    console.log('now these months are visible', date);
-
     let marks = {};
   };
 

@@ -12,9 +12,14 @@ import NicknameChangeModal from '../../components/profileComponent/profileModal/
 import RunningMateModal from '../../components/profileComponent/profileModal/RunningMateModal';
 import NotificationModal from '../../components/profileComponent/profileModal/NotificationModal';
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
+import RunningMateSetting from './RunningMateSetting';
 import {characterData} from '../../components/common/CharacterData';
 
-function Profile() {
+interface ProfileProps {
+  navigation: any;
+}
+
+function Profile({navigation}: ProfileProps) {
   // 임시 데이터
   const PlanetIndex = 2; // 유저가 장착한 행성
   const TempSelectCharacter = 3; // 유저가 장착한 캐릭터
@@ -28,14 +33,15 @@ function Profile() {
   const experiencePercentage = 65.2; // 유저 해당하는 레벨의 경험치
 
   const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
-  const [showRunningMateModal, setShowRunningMateModal] = useState(false);
+  // const [showRunningMateModal, setShowRunningMateModal] = useState(false);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   return (
     <S.Container>
       <S.BackgroundImage
-        source={require('../../assets/images/MainBackground4.png')} resizeMode="cover">
+        source={require('../../assets/images/MainBackground4.png')}
+        resizeMode="cover">
         <S.Header>
           <S.TitleProfileBox>
             <S.Text>My Profile</S.Text>
@@ -65,7 +71,8 @@ function Profile() {
               </S.TextBox>
             </S.ButtonBox>
 
-            <S.ButtonBox onPress={() => setShowRunningMateModal(true)}>
+            <S.ButtonBox
+              onPress={() => navigation.navigate('RunningMateSetting')}>
               <S.IconBox>
                 <S.ButtonIcon source={ManageRunningMateIcon} />
               </S.IconBox>
@@ -98,7 +105,10 @@ function Profile() {
       </S.BackgroundImage>
 
       <S.ImageBox>
-        <S.CharacterImage source={selectedCharacterLevelData.front} resizeMode='contain'/>
+        <S.CharacterImage
+          source={selectedCharacterLevelData.front}
+          resizeMode="contain"
+        />
       </S.ImageBox>
 
       <NicknameChangeModal
@@ -106,10 +116,10 @@ function Profile() {
         toggleModal={() => setShowNicknameChangeModal(!showNicknameChangeModal)}
         Nickname={Nickname}
       />
-      <RunningMateModal
+      {/* <RunningMateModal
         showModal={showRunningMateModal}
         toggleModal={() => setShowRunningMateModal(!showRunningMateModal)}
-      />
+      /> */}
       <NotificationModal
         showModal={showNotificationModal}
         toggleModal={() => setShowNotificationModal(!showNotificationModal)}

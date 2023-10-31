@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
 import * as S from './CharacterEdit.styles';
-import Character from './CharacterBox';
-import CharacterSelectModal from './editModal/CharacterSelectModal';
-import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
-import BoomEffect from '@/components/common/BoomEffect';
-
 import { characterData } from '../common/CharacterData';
+import { useEffect, useState } from 'react';
+import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
+import CharacterSelectModal from './editModal/CharacterSelectModal';
+import BoomEffect from '@/components/common/BoomEffect';
+import Character from './CharacterBox';
+
 type CharacterEditProps = {
   equippedCharacterIndex: number;
   equippedCharacterLevel: number;
@@ -77,6 +77,7 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
         </S.CharacterBox>
       </S.Body>
 
+      {/* 내가 장착하고 있는건지도 확인하기 내일 */}
       <S.Footer>
         {selectedCharacterIsPurchased ? (
           <>

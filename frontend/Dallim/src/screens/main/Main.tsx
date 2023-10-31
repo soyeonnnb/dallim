@@ -1,12 +1,12 @@
-import CustomToast from '@/components/common/CustomToast';
-import React, { useEffect, useState } from 'react';
 import * as S from './Main.styles';
-import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
-import StampModal from '../../components/mainComponent/StampModal';
-import SpinAnimation from '../../components/common/SpinAnimation';
-import { characterData } from '../../components/common/CharacterData';
-import { planetData } from '@/components/common/PlanetData';
+import { useEffect, useState } from 'react';
 import { fetchUserProfile } from '@/apis/MainApi';
+import { characterData } from '@/components/common/CharacterData';
+import { planetData } from '@/components/common/PlanetData';
+import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
+import StampModal from '@/components/mainComponent/StampModal';
+import SpinAnimation from '@/components/common/SpinAnimation';
+import CustomToast from '@/components/common/CustomToast';
 import Loading from '@/components/common/Loading';
 
 function Main() {

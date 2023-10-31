@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
 import * as S from './PlanetBox.styles';
 import { planetData } from '../common/PlanetData';
+import { useState } from 'react';
 import WatchThemeModal from './editModal/WatchThemeModal';
 
 interface Props {

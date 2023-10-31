@@ -1,14 +1,13 @@
-import React from 'react';
+import * as S from './PlanetPurchaseCheckModal.styles'; 
 import { Modal } from 'react-native';
-import * as S from './PlanetPurchaseCheckModal.styles'; // 스타일 컴포넌트 임포트
-import { planetData } from '../../common/PlanetData';
+import { planetData } from '@/components/common/PlanetData';
 import SpinAnimation from '@/components/common/SpinAnimation';
 
 type ModalProps = {
-    purchaseModalVisible: boolean;
-    selectedPlanetIndex: number;
     handleConfirm: () => void;
     handleCancel: () => void;
+    purchaseModalVisible: boolean;
+    selectedPlanetIndex: number;
 };
 
 function PlanetPurchaseCheckModal({ purchaseModalVisible, selectedPlanetIndex, handleConfirm, handleCancel }: ModalProps) {

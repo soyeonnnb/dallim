@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
 import * as S from './PlanetEdit.styles';
-import Planet from './PlanetBox';
 import { planetData } from '../common/PlanetData';
-import PlanetSelectModal from './editModal/PlanetSelectModal';
+import { useEffect, useState } from 'react';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
+import PlanetSelectModal from './editModal/PlanetSelectModal';
 import BoomEffect from '@/components/common/BoomEffect';
+import Planet from './PlanetBox';
 
 type PlanetEditProps = {
   equippedPlanetIndex: number; // 장착된 행성 인덱스

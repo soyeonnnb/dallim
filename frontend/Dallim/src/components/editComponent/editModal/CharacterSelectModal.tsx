@@ -1,14 +1,13 @@
-import React from 'react';
-import { Modal } from 'react-native';
 import * as S from './SelectModal.styles';
-import { characterData } from '../../common/CharacterData';
+import { characterData } from '@/components/common/CharacterData';
+import { Modal } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
 type ModalComponentProps = {
-    characterSelectModalVisible: boolean;
     toggleModal: () => void;
     equippedCharacterChange: () => void;
+    characterSelectModalVisible: boolean;
     equippedCharacterIndex: number;
     equippedCharacterLevel: number;
     equippedEvolutionStage: number;

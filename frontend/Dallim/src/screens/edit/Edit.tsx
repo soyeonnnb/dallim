@@ -1,17 +1,16 @@
-import React, { useRef, useState, useEffect } from 'react';
 import * as S from './Edit.styles';
+import { characterData } from '@/components/common/CharacterData';
+import { backgroundImage } from '@/components/common/PlanetData';
+import { planetData } from '@/components/common/PlanetData';
+import { useRef, useState, useEffect } from 'react';
 import { Animated, Easing } from 'react-native';
-import CharacterEdit from '../../components/editComponent/CharacterEdit';
-import PlanetEdit from '@/components/editComponent/PlanetEdit';
-import { characterData } from '../../components/common/CharacterData';
-import { backgroundImage } from '../../components/common/PlanetData';
-import { planetData } from '../../components/common/PlanetData';
 import { fetchEditInfo } from '@/apis/EditApi';
-
-import Left from '@/assets/icons/DirectionLeft.png';
-import Right from '@/assets/icons/DirectionRight.png';
+import CharacterEdit from '@/components/editComponent/CharacterEdit';
+import PlanetEdit from '@/components/editComponent/PlanetEdit';
 import BasicCharacter from '@/assets/characters/Rabbit.png'
 import BasicPlanet from '@/assets/planets/PlanetBlack.png';
+import Right from '@/assets/icons/DirectionRight.png';
+import Left from '@/assets/icons/DirectionLeft.png';
 import Loading from '@/components/common/Loading';
 
 interface Character {
@@ -130,7 +129,6 @@ function Edit() {
       setSelectedCharacterIsPurchased(character.isPurchased);
     }
   }, [selectedCharacterIndex]);
-
 
   // 사용자가 장착하고 있는 캐릭터의 상태 업데이트
   const handleEquippedCharacterChange = (index: number) => {

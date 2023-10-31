@@ -1,7 +1,5 @@
-import React from 'react';
 import * as S from './CharacterBox.styles';
 import { characterData } from '../common/CharacterData';
-
 
 interface Props {
     selectedCharacterIndex: number;

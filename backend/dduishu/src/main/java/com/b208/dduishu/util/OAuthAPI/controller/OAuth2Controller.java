@@ -23,7 +23,6 @@ import com.b208.dduishu.domain.refreshtoken.repository.RefreshTokenRepository;
 import com.b208.dduishu.domain.user.dto.response.UserLoginResponseDTO;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.repository.UserRepository;
-import com.b208.dduishu.domain.user.service.UserService;
 import com.b208.dduishu.util.jwt.JwtUtil;
 
 import org.springframework.web.bind.annotation.RequestParam;

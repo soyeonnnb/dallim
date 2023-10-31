@@ -68,8 +68,6 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
       navigation.navigate('BottomTab', {
         screen: 'Main',
       });
-
-      // navigation.navigate('Main', {screen: 'Main'});
     }
   };
 

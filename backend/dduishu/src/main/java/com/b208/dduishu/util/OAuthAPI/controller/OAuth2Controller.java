@@ -69,7 +69,7 @@ public class  OAuth2Controller {
     }
 
     // 소셜 로그아웃
-    @PostMapping("oauth/social/logout")
+    @GetMapping("oauth/social/logout")
     public ResponseEntity<?> LogoutKakao(HttpServletRequest request, HttpServletResponse response){
 
         Map<String, Object> result = userSocialLoginService.socialLogout(request, response);

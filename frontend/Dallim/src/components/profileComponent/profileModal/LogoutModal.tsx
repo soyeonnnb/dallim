@@ -115,10 +115,8 @@ const LogoutModal = ({showModal, toggleModal}: ModalComponentProps) => {
               },
             }}
             onNavigationStateChange={navState => {
-              console.log('이값이 항상 똑같이나오나?' + navState.url);
-
-              if (navState.url.includes('logout_success')) {
-                console.log('그럼 여기가 찍힘?');
+              console.log(navState.url);
+              if (navState.url === 'http://10.0.2.2:8080/api/oauth/logout') {
                 setModalVisible(false);
                 AsyncStorage.removeItem('accessToken');
                 AsyncStorage.removeItem('userId');
@@ -128,14 +126,6 @@ const LogoutModal = ({showModal, toggleModal}: ModalComponentProps) => {
                     routes: [{name: 'Login'}],
                   }),
                 );
-              } else if (navState.url.includes('logout_service_only')) {
-                console.log('이서비스만 로그아웃찍힘?');
-                // '이 서비스만 로그아웃' 버튼을 클릭했을 때의 로직
-                // 예: navigation.navigate('Main');
-              } else if (navState.url.includes('logout_with_kakao')) {
-                console.log('카카오 계정과 함께 로그아웃 찍힘?');
-                // '카카오 계정과 함께 로그아웃' 버튼을 클릭했을 때의 로직
-                // 예: navigation.navigate('KakaoLogout');
               }
             }}
           />

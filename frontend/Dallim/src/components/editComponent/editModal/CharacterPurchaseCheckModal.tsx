@@ -1,7 +1,6 @@
-import React from 'react';
-import { Modal } from 'react-native';
-import * as S from './CharacterPurchaseCheckModal.styles'; // 스타일 컴포넌트 임포트
+import * as S from './CharacterPurchaseCheckModal.styles'; 
 import { characterData } from '@/components/common/CharacterData';
+import { Modal } from 'react-native';
 
 type ModalProps = {
     handleConfirm: () => void;

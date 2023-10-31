@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
 import * as S from './CharacterEdit.styles';
-import Character from './CharacterBox';
-import CharacterSelectModal from './editModal/CharacterSelectModal';
-import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
-import BoomEffect from '@/components/common/BoomEffect';
-
 import { characterData } from '../common/CharacterData';
+import { useEffect, useState } from 'react';
+import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
+import CharacterSelectModal from './editModal/CharacterSelectModal';
+import BoomEffect from '@/components/common/BoomEffect';
+import Character from './CharacterBox';
+
 type CharacterEditProps = {
   equippedCharacterIndex: number;
   equippedCharacterLevel: number;
@@ -14,12 +14,12 @@ type CharacterEditProps = {
   selectedCharacterLevel: number;
   selectedEvolutionStage: number;
   selectedCharacterExp: number;
-  selectedCharacterPurchased: boolean;
+  selectedCharacterIsPurchased: boolean;
   handleEquippedCharacterChange: (index: number) => void;
   onCharacterChange: (index: number) => void;
 }
 
-function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage, selectedCharacterExp, selectedCharacterPurchased, handleEquippedCharacterChange, onCharacterChange }: CharacterEditProps) {
+function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage, selectedCharacterExp, selectedCharacterIsPurchased, handleEquippedCharacterChange, onCharacterChange }: CharacterEditProps) {
 
   const [characterSelectModalVisible, setCharacterSelectModalVisible] = useState(false); // 캐릭터 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
@@ -73,12 +73,13 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
 
       <S.Body>
         <S.CharacterBox>
-          <Character selectedCharacterIndex={selectedCharacterIndex} selectedEvolutionStage={selectedEvolutionStage} selectedCharacterPurchased={selectedCharacterPurchased} />
+          <Character selectedCharacterIndex={selectedCharacterIndex} selectedEvolutionStage={selectedEvolutionStage} selectedCharacterIsPurchased={selectedCharacterIsPurchased} />
         </S.CharacterBox>
       </S.Body>
 
+      {/* 내가 장착하고 있는건지도 확인하기 내일 */}
       <S.Footer>
-        {selectedCharacterPurchased ? (
+        {selectedCharacterIsPurchased ? (
           <>
             <S.ButtonBox onPress={toggleCharacterSelectModal}>
               <S.ButtonText>선택</S.ButtonText>

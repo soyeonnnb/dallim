@@ -3,12 +3,12 @@ export interface Character {
   level: number;
   evolutionStage: number;
   exp: number;
-  purchased: boolean;
+  isPurchased: boolean;
 }
 
 export interface Planet {
   planetIndex: number;
-  purchased: boolean;
+  isPurchased: boolean;
 }
 
 export interface UserData {
@@ -37,50 +37,50 @@ export const userDataDummy: UserResponse = {
         "level": 10,
         "evolutionStage": 1,
         "exp": 0,
-        "purchased": true
+        "isPurchased": true
       },
       {
         "characterIndex": 1,
         "level": 8,
         "evolutionStage": 1,
         "exp": 50,
-        "purchased": true
+        "isPurchased": true
       },
       {
         "characterIndex": 2,
         "level": 2,
         "evolutionStage": 1,
         "exp": 0,
-        "purchased": true
+        "isPurchased": true
       },
       {
         "characterIndex": 3,
         "level": -1,
         "evolutionStage": 0,
         "exp": -1,
-        "purchased": false
+        "isPurchased": false
       }
     ],
     "planets": [
       {
         "planetIndex": 0,
-        "purchased": true
+        "isPurchased": true
       },
       {
         "planetIndex": 1,
-        "purchased": false
+        "isPurchased": false
       },
       {
         "planetIndex": 2,
-        "purchased": true
+        "isPurchased": true
       },
       {
         "planetIndex": 3,
-        "purchased": false
+        "isPurchased": false
       },
       {
         "planetIndex": 4,
-        "purchased": true
+        "isPurchased": true
       },
     ]
   },

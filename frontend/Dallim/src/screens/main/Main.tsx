@@ -1,12 +1,13 @@
-import CustomToast from '@/components/common/CustomToast';
-import React, { useEffect, useState } from 'react';
 import * as S from './Main.styles';
-import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
-import StampModal from '../../components/mainComponent/StampModal';
-import SpinAnimation from '../../components/common/SpinAnimation';
-import { characterData } from '../../components/common/CharacterData';
-import { planetData } from '@/components/common/PlanetData';
+import { useEffect, useState } from 'react';
 import { fetchUserProfile } from '@/apis/MainApi';
+import { characterData } from '@/components/common/CharacterData';
+import { planetData } from '@/components/common/PlanetData';
+import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
+import StampModal from '@/components/mainComponent/StampModal';
+import SpinAnimation from '@/components/common/SpinAnimation';
+import CustomToast from '@/components/common/CustomToast';
+import Loading from '@/components/common/Loading';
 
 function Main() {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
@@ -36,7 +37,9 @@ function Main() {
       } catch (error) {
         console.error("Main : 정보 조회 Axios 실패 ");
       } finally {
-        setIsLoading(false);  // 데이터를 불러온 후 로딩 상태를 false로 변경
+        setTimeout(() => {
+          setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
+        }, 3000);
       }
     };
     loadUserInfo();
@@ -53,11 +56,7 @@ function Main() {
 
   return (
     <S.Container>
-      {isLoading ? (
-        <S.LoadingBox>
-          <S.LoadingText>로딩 중...</S.LoadingText>
-        </S.LoadingBox>
-      ) : (
+      {isLoading ? (<Loading />) : (
         <>
           <S.BackgroundImage
             source={require('@/assets/images/MainBackground4.png')}

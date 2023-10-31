@@ -1,7 +1,6 @@
-import React from 'react';
+import * as S from './SelectModal.styles';
+import { planetData } from '@/components/common/PlanetData';
 import { Modal } from 'react-native';
-import * as S from './SelectModal.styles'; // 스타일 컴포넌트 임포트
-import { planetData } from '../../common/PlanetData';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
@@ -46,7 +45,7 @@ function planetSelectModal ({ planetSelectModalVisible, equippedPlanetIndex, sel
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>
                                 <FastImage
-                                    source={require('../../../assets/icons/ArrowIcon.gif')}
+                                    source={require('@/assets/icons/ArrowIcon.gif')}
                                     style={{ width: 25, height: 25 }}
                                 />
                             </S.ChangeBox>

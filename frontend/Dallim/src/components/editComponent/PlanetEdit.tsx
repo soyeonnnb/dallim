@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
 import * as S from './PlanetEdit.styles';
-import Planet from './PlanetBox';
 import { planetData } from '../common/PlanetData';
-import PlanetSelectModal from './editModal/PlanetSelectModal';
+import { useEffect, useState } from 'react';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
+import PlanetSelectModal from './editModal/PlanetSelectModal';
 import BoomEffect from '@/components/common/BoomEffect';
+import Planet from './PlanetBox';
 
 type PlanetEditProps = {
   equippedPlanetIndex: number; // 장착된 행성 인덱스
   selectedPlanetIndex: number; // 선택된 행성 인덱스
-  selectedPlanetPurchased: boolean;
+  selectedPlanetIsPurchased: boolean;
   handleEquippedPlanetChange: (index: number) => void;
   onPlanetChange: (index: number) => void;
 }
 
-function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPurchased, onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
+function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetIsPurchased, onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
 
   const [planetSelectModalVisible, setPlanetSelectModalVisible] = useState(false); // 행성 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
@@ -68,12 +68,12 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPu
 
       <S.Body>
         <S.PlanetBox >
-          <Planet selectedPlanetIndex={selectedPlanetIndex} selectedPlanetPurchased={selectedPlanetPurchased} />
+          <Planet selectedPlanetIndex={selectedPlanetIndex} selectedPlanetIsPurchased={selectedPlanetIsPurchased} />
         </S.PlanetBox>
       </S.Body>
 
       <S.Footer>
-        {selectedPlanetPurchased ? (
+        {selectedPlanetIsPurchased ? (
           <>
             <S.ButtonBox onPress={equippedPlanetChange}>
               <S.ButtonText>선택</S.ButtonText>

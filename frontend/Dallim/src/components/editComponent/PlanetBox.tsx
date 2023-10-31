@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
 import * as S from './PlanetBox.styles';
 import { planetData } from '../common/PlanetData';
+import { useState } from 'react';
 import WatchThemeModal from './editModal/WatchThemeModal';
 
 interface Props {
   selectedPlanetIndex: number;
-  selectedPlanetPurchased: boolean;
+  selectedPlanetIsPurchased: boolean;
 }
 
-function PlanetBox({ selectedPlanetIndex, selectedPlanetPurchased }: Props) {
+function PlanetBox({ selectedPlanetIndex, selectedPlanetIsPurchased }: Props) {
   const [modalVisible, setModalVisible] = useState(false);
 
   const planetImage = planetData[selectedPlanetIndex].Planet;
@@ -16,17 +16,16 @@ function PlanetBox({ selectedPlanetIndex, selectedPlanetPurchased }: Props) {
   return (
     <S.Container>
       <S.PlanetBox>
-        {selectedPlanetPurchased ? (
+        {selectedPlanetIsPurchased ? (
           <S.PlanetImage source={planetImage} resizeMode="contain" />
         ) : (
           <S.BlurredCharacterImage source={planetImage} resizeMode="contain" />
         )}
-        {/* <S.PlanetImage source={planetImage} resizeMode="contain" /> */}
         <S.ThemeButton onPress={() => {
           console.log("테마 선택 버튼 클릭확인");
           setModalVisible(true);
         }}>
-          <S.ThemeIcon source={require('../../assets/icons/ThemeSelectIcon.png')} />
+          <S.ThemeIcon source={require('@/assets/icons/ThemeSelectIcon.png')} />
         </S.ThemeButton>
       </S.PlanetBox>
 

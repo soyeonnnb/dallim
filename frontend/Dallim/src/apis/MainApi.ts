@@ -30,6 +30,7 @@ export const fetchUserProfile = async () => {
       },
     });
 
+    console.log(accessToken); // 삭제예쩡
     // console.log('MainApi : 정보 조회 Axios 성공');
     console.log('response : ', response.data.data);
     return response.data.data;

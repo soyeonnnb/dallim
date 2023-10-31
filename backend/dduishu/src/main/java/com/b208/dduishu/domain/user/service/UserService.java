@@ -12,12 +12,15 @@ import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
+import com.b208.dduishu.domain.follow.entity.FollowState;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
+import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
-import com.b208.dduishu.domain.thema.dto.response.ThemaOverview;
-import com.b208.dduishu.domain.thema.entity.Thema;
-import com.b208.dduishu.domain.thema.entity.ThemaName;
-import com.b208.dduishu.domain.thema.repository.ThemaRepository;
+import com.b208.dduishu.domain.planet.dto.response.PlanetOverview;
+import com.b208.dduishu.domain.planet.entity.Planet;
+import com.b208.dduishu.domain.planet.entity.PlanetName;
+import com.b208.dduishu.domain.planet.repository.PlanetRepository;
+import com.b208.dduishu.domain.runningRecord.service.RunningRecordService;
 import com.b208.dduishu.domain.user.dto.response.*;
 import com.b208.dduishu.domain.user.entity.BaseLevel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,11 +69,12 @@ public class UserService {
 
     private final RunningRecordRepository runningRecordRepository;
     private final CharacterRepository characterRepository;
-    private final ThemaRepository themaRepository;
+    private final PlanetRepository themaRepository;
 
     private static final List<CharacterName> baseCharacterNames = List.of(CharacterName.RABBIT, CharacterName.Penguin, CharacterName.Panda, CharacterName.Chicken);
-    private static final List<ThemaName> baseThemaNames = List.of(ThemaName.EARTH, ThemaName.MOON);
+    private static final List<PlanetName> baseThemaNames = List.of(PlanetName.EARTH, PlanetName.MOON);
 
+    private final RunningRecordService runningRecordService;
 
     // 유저 닉네임 변경
     @Transactional
@@ -147,10 +151,6 @@ public class UserService {
                 .nickname(user.getNickname())
                 .level(user.getUserLevel().getLevel())
                 .exp(levelInfo.getExp())
-                .curExp(levelInfo.getCurExp())
-                .endExp(levelInfo.getEndExp())
-                .cumulativeDistance(user.getCumulativeDistance())
-                .cumulativeWeekDistance(weekDistance.get())
                 .build();
 
     }
@@ -196,15 +196,16 @@ public class UserService {
 
         int profileIndex = getProfileIndex(user);
 
+
+        List<RunningRecordOverview> findFollowRunningRecord = runningRecordService.getRunningRecordFor30Days("follow", id);
+        List<User> findFollower = userRepository.getUserByFollowerUserId(user.getUserId(), FollowState.accept);
+
         return UserProfile.builder()
                 .characterIndex(profileIndex)
                 .nickname(user.getNickname())
                 .level(user.getUserLevel().getLevel())
                 .exp(levelInfo.getExp())
-                .curExp(levelInfo.getCurExp())
-                .endExp(levelInfo.getEndExp())
-                .cumulativeDistance(user.getCumulativeDistance())
-                .cumulativeWeekDistance(weekDistance.get())
+                .runningRecordOverviews(findFollowRunningRecord)
                 .build();
     }
 
@@ -219,7 +220,7 @@ public class UserService {
 
     public List<SearchUserProfile> searchUserProfile(String q) {
         User user = getUser.getUser();
-        List<User> findFollower = userRepository.getUserByFollowerUserId(user.getUserId());
+        List<User> findFollower = userRepository.getUserByFollowerUserId(user.getUserId(), FollowState.accept);
 
         List<User> findUser = userRepository.findByNicknameContaining(q);
 
@@ -231,15 +232,15 @@ public class UserService {
     public UserMainPageInfo getUserMainPageInfo() {
         User user = getUser.getUser();
         List<Character> findCharacters = characterRepository.findAllByUserUserId(user.getUserId());
-        List<Thema> findThemas = themaRepository.findAllByUserUserId(user.getUserId());
+        List<Planet> findThemas = themaRepository.findAllByUserUserId(user.getUserId());
 
         Character mainCharacter = findCharacters.stream()
                 .filter(Character::isMainCharacter)
                 .findFirst()
                 .orElse(null);
 
-        Thema mainThema = findThemas.stream()
-                .filter(Thema::isMainThema)
+        Planet mainThema = findThemas.stream()
+                .filter(Planet::isMainPlanet)
                 .findFirst()
                 .orElse(null);
 
@@ -266,17 +267,17 @@ public class UserService {
         return characterOverviews;
     }
 
-    public List<ThemaOverview> converPlanetOverView(List<Thema> themas) {
-        List<ThemaOverview> themaOverviews = themas.stream()
-                .map(o -> new ThemaOverview(o))
+    public List<PlanetOverview> converPlanetOverView(List<Planet> themas) {
+        List<PlanetOverview> themaOverviews = themas.stream()
+                .map(o -> new PlanetOverview(o))
                 .collect(toList());
-        List<ThemaName> ThemaNames = themas.stream()
-                .map(o -> o.getThemaInfo().getName())
+        List<PlanetName> ThemaNames = themas.stream()
+                .map(o -> o.getPlanetInfo().getName())
                 .collect(toList());
         baseThemaNames.stream()
                 .forEach(o -> {
                     if(!ThemaNames.contains(o)) {
-                        themaOverviews.add(ThemaOverview.builder().name(o).build());
+                        themaOverviews.add(PlanetOverview.builder().name(o).build());
                     }
                 });
         return themaOverviews;
@@ -284,18 +285,18 @@ public class UserService {
     public UserEditPageInfo getUserEditPageInfo() {
         User user = getUser.getUser();
         List<Character> findCharacters = characterRepository.findAllCharacterInfo(user.getUserId());
-        List<Thema> findThemas = themaRepository.findAllByUserUserId(user.getUserId());
+        List<Planet> findThemas = themaRepository.findAllByUserUserId(user.getUserId());
 
         List<CharacterOverview> characterOverviews = convertCharacterOverView(findCharacters);
-        List<ThemaOverview> themaOverviews = converPlanetOverView(findThemas);
+        List<PlanetOverview> themaOverviews = converPlanetOverView(findThemas);
 
         Character mainCharacter = findCharacters.stream()
                 .filter(Character::isMainCharacter)
                 .findFirst()
                 .orElse(null);
 
-        Thema mainThema = findThemas.stream()
-                .filter(Thema::isMainThema)
+        Planet mainThema = findThemas.stream()
+                .filter(Planet::isMainPlanet)
                 .findFirst()
                 .orElse(null);
 

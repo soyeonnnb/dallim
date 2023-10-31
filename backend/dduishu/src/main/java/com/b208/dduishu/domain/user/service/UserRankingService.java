@@ -1,5 +1,6 @@
 package com.b208.dduishu.domain.user.service;
 
+import com.b208.dduishu.domain.follow.entity.FollowState;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
 import com.b208.dduishu.domain.user.GetUser;
@@ -18,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
@@ -43,11 +45,16 @@ public class UserRankingService {
         // 나 + 모든 유저 달리기 기록 가져오기
         // 현재 날짜와 시간 가져오기
         LocalDateTime currentDateTime = LocalDateTime.now();
+        // 현재 시간에서 7일을 뺀 LocalDateTime 계산
+        LocalDateTime sevenDaysAgo = currentDateTime.minus(7, ChronoUnit.DAYS);
         // 이번 주의 시작일 (일요일) 계산
-        LocalDateTime start = currentDateTime.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).withHour(0).withMinute(0).withSecond(0);
+        LocalDateTime start = sevenDaysAgo.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY)).withHour(0).withMinute(0).withSecond(0);
         // 이번 주의 종료일 (토요일) 계산
-        LocalDateTime end = currentDateTime.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY)).withHour(23).withMinute(59).withSecond(59);
+        LocalDateTime end = sevenDaysAgo.with(TemporalAdjusters.nextOrSame(DayOfWeek.SATURDAY)).withHour(23).withMinute(59).withSecond(59);
 
+        System.out.println(sevenDaysAgo);
+        System.out.println(start);
+        System.out.println(end);
         List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserIdInAndCreatedAtBetween(userIds,start,end);
 
         return findRunningRecord;
@@ -94,7 +101,7 @@ public class UserRankingService {
 
         List<RunningRecord> findRunningRecord = findRunningRecord(res);
 
-        List<User> findFollower = userRepository.getUserByFollowerUserId(user.getUserId());
+        List<User> findFollower = userRepository.getUserByFollowerUserId(user.getUserId(), FollowState.accept);
 
         Map<Long, UserRankingInfo> userIdToInfoMap = computeUserRankingInfo(findRunningRecord, users, findFollower);
 
@@ -102,10 +109,18 @@ public class UserRankingService {
         rankingInfos.sort(Comparator.comparing(UserRankingInfo::getCumulativeDistance).reversed());
         // 나 + 모든 유저 달리기 기록 가져오기
         // 현재 월 가져오기, 현재 주차 계산
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        int month = currentDateTime.getMonthValue();
-        LocalDate firstDayOfMonth = LocalDate.of(currentDateTime.getYear(), month, 1);
-        int week = (currentDateTime.getDayOfMonth() + firstDayOfMonth.getDayOfWeek().getValue() - 2) / 7 + 1;
+        // 현재 LocalDateTime 객체 생성
+        LocalDateTime now = LocalDateTime.now();
+
+        // 현재 월 가져오기
+        int month = now.getMonthValue();
+
+        // 해당 월의 첫 번째 날짜 가져오기
+        LocalDate firstDayOfMonth = LocalDate.of(now.getYear(), month, 1);
+
+        // 현재 날짜와 첫 번째 날짜 간의 차이 계산
+        int week = (now.getDayOfMonth() - firstDayOfMonth.getDayOfMonth()) / 7 + 1;
+
         return AllUserRankingInfo.builder()
                 .month(month)
                 .week(week)

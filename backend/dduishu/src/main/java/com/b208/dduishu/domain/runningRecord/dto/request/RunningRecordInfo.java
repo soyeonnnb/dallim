@@ -42,7 +42,8 @@ public class RunningRecordInfo {
         if (rivalRecord != null) {
             rivalRunningRecordInfo = new RivalRunningRecordInfo(rivalRecord);
         }
-        return RunningRecord.builder()
+
+        RunningRecord build = RunningRecord.builder()
                 .user(userInfo)
                 .character(characterInfo)
                 .type(this.type)
@@ -57,5 +58,7 @@ public class RunningRecordInfo {
                 .formattedDate(this.formattedDate)
                 .stepCount(this.stepCount)
                 .build();
+
+        return build;
     }
 }

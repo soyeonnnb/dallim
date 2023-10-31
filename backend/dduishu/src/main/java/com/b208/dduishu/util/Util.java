@@ -3,8 +3,8 @@ package com.b208.dduishu.util;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
-import com.b208.dduishu.domain.thema.entity.Thema;
-import com.b208.dduishu.domain.thema.entity.ThemaName;
+import com.b208.dduishu.domain.planet.entity.Planet;
+import com.b208.dduishu.domain.planet.entity.PlanetName;
 import com.b208.dduishu.domain.user.entity.User;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,10 +24,10 @@ public class Util {
         return -1;
     }
 
-    public static int getThemaIndexByCharacter(Thema thema) {
-        if (thema.getThemaInfo().getName().equals(ThemaName.EARTH)) {
+    public static int getThemaIndexByCharacter(Planet planet) {
+        if (planet.getPlanetInfo().getName().equals(PlanetName.EARTH)) {
             return 0;
-        } else if (thema.getThemaInfo().getName().equals(ThemaName.MOON)) {
+        } else if (planet.getPlanetInfo().getName().equals(PlanetName.MOON)) {
             return 1;
         }
         return -1;
@@ -52,10 +52,10 @@ public class Util {
         return ret.get();
     }
 
-    public static int getMainThemaIndex(Thema thema) {
-        if (thema.getThemaInfo().getName().equals(ThemaName.EARTH)) {
+    public static int getMainThemaIndex(Planet planet) {
+        if (planet.getPlanetInfo().getName().equals(PlanetName.EARTH)) {
             return 0;
-        } else if (thema.getThemaInfo().getName().equals(ThemaName.MOON)) {
+        } else if (planet.getPlanetInfo().getName().equals(PlanetName.MOON)) {
             return 1;
         }
         return -1;

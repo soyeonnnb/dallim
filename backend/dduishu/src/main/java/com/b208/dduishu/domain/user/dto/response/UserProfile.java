@@ -1,7 +1,12 @@
 package com.b208.dduishu.domain.user.dto.response;
 
+import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
+import com.b208.dduishu.domain.user.entity.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class UserProfile {
@@ -10,22 +15,18 @@ public class UserProfile {
     private String nickname;
     private int level;
     private int exp;
-    private boolean isFollower;
-    private int curExp;
-    private int EndExp;
-    private float cumulativeDistance;
-    private float cumulativeWeekDistance;
+//    @JsonProperty("isFollower")
+//    private boolean isFollower;
+    private List<RunningRecordOverview> runningRecordOverviews;
 
     @Builder
-    public UserProfile(int characterIndex, String nickname, int level, int exp, boolean isFollower, int curExp, int endExp, float cumulativeDistance, float cumulativeWeekDistance) {
+    public UserProfile(int characterIndex, String nickname, int level, int exp, List<User> followers, List<RunningRecordOverview> runningRecordOverviews) {
         this.characterIndex = characterIndex;
         this.nickname = nickname;
         this.level = level;
         this.exp = exp;
-        this.isFollower = isFollower;
-        this.curExp = curExp;
-        EndExp = endExp;
-        this.cumulativeDistance = cumulativeDistance;
-        this.cumulativeWeekDistance = cumulativeWeekDistance;
+//        this.isFollower = followers.stream()
+//                .anyMatch(f -> f.getUserId().equals(this.userId));
+        this.runningRecordOverviews = runningRecordOverviews;
     }
 }

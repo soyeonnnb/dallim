@@ -2,6 +2,8 @@ package com.b208.dduishu.domain.runningRecord.service;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.repository.CharacterRepository;
+import com.b208.dduishu.domain.runningMate.document.RunningMate;
+import com.b208.dduishu.domain.runningMate.repository.RunningMateRepository;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDetail;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
@@ -16,7 +18,9 @@ import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -33,10 +37,7 @@ public class RunningRecordService {
     private final RunningRecordRepository runningRecordRepository;
     private final UserRepository userRepository;
     private final CharacterRepository characterRepository;
-
-
-
-
+    private final RunningMateRepository runningMateRepository;
 
 
     @Transactional
@@ -121,8 +122,11 @@ public class RunningRecordService {
         } else {
             res = runningRecordRepository.findByCreatedAtGreaterThanEqualAndUserUserId(thirtyDaysAgo, userId);
         }
+
+        List<RunningMate> findRunningMates = runningMateRepository.findAllByUserUserId(user.getUserId());
+
         return res.stream()
-                .map(o -> new RunningRecordOverview(o))
+                .map(o -> new RunningRecordOverview(o, findRunningMates))
                 .collect(toList());
     }
 
@@ -135,8 +139,11 @@ public class RunningRecordService {
         } else {
             res = runningRecordRepository.findTop10ByCreatedAtLessThanEqualAndUserUserIdOrderByCreatedAtDesc(LocalDateTime.now(), userId);
         }
+
+        List<RunningMate> findRunningMates = runningMateRepository.findAllByUserUserId(user.getUserId());
+
         return res.stream()
-                .map(o -> new RunningRecordOverview(o))
+                .map(o -> new RunningRecordOverview(o, findRunningMates))
                 .collect(toList());
     }
 
@@ -150,8 +157,10 @@ public class RunningRecordService {
             res = runningRecordRepository.findTop10ByUserUserIdOrderByTotalTimeDesc(userId);
         }
 
+        List<RunningMate> findRunningMates = runningMateRepository.findAllByUserUserId(user.getUserId());
+
         return res.stream()
-                .map(o -> new RunningRecordOverview(o))
+                .map(o -> new RunningRecordOverview(o, findRunningMates))
                 .collect(toList());
     }
 
@@ -165,8 +174,10 @@ public class RunningRecordService {
             res = runningRecordRepository.findTop10ByUserUserIdOrderByTotalDistanceDesc(userId);
         }
 
+        List<RunningMate> findRunningMates = runningMateRepository.findAllByUserUserId(user.getUserId());
+
         return res.stream()
-                .map(o -> new RunningRecordOverview(o))
+                .map(o -> new RunningRecordOverview(o, findRunningMates))
                 .collect(toList());
     }
 
@@ -180,8 +191,10 @@ public class RunningRecordService {
             res = runningRecordRepository.findTop10ByUserUserIdOrderByAverageSpeedDesc(userId);
         }
 
+        List<RunningMate> findRunningMates = runningMateRepository.findAllByUserUserId(user.getUserId());
+
         return res.stream()
-                .map(o -> new RunningRecordOverview(o))
+                .map(o -> new RunningRecordOverview(o, findRunningMates))
                 .collect(toList());
     }
 

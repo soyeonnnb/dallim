@@ -22,7 +22,7 @@ public class AttendanceController {
     @GetMapping("/api/v1/attendance")
     public ApiResponse<?> getAllUserAttendance() {
         try {
-            List<LocalDate> ret = attendanceService.getAllUserAttendance();
+            AttendanceInfo ret = attendanceService.getAllUserAttendance();
 
             return ApiResponse.createSuccess(ret);
         } catch (Exception e) {

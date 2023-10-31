@@ -1,5 +1,6 @@
 package com.b208.dduishu.domain.attendance.service;
 
+import com.b208.dduishu.domain.attendance.dto.response.AttendanceInfo;
 import com.b208.dduishu.domain.attendance.entity.Attendance;
 import com.b208.dduishu.domain.attendance.repository.AttendanceRepository;
 import com.b208.dduishu.domain.user.GetUser;
@@ -32,14 +33,18 @@ public class AttendanceService {
         attendanceRepository.save(attendance);
     }
 
-    public List<LocalDate> getAllUserAttendance() {
+    public AttendanceInfo getAllUserAttendance() {
 
         User user = getUser.getUser();
 
         List<Attendance> findAttendances = attendanceRepository.findAllByUserUserId(user.getUserId());
 
-        return findAttendances.stream()
+        List<LocalDate> attendances = findAttendances.stream()
                 .map(o -> o.getAttendanceDate())
                 .collect(toList());
+
+        return AttendanceInfo.builder()
+                .attendances(attendances)
+                .build();
     }
 }

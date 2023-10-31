@@ -3,24 +3,17 @@ import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import React, {useReducer, useState} from 'react';
-import {
-  Pressable,
-  StyleSheet,
-  View,
-  Text,
-  LayoutChangeEvent,
-} from 'react-native';
+import React, {useReducer} from 'react';
+import {StyleSheet, View, Text, LayoutChangeEvent} from 'react-native';
 import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
-
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import * as S from './BottomTab.styles';
 
 // components
-import Main from '../../../screens/main/Main';
-import Chart from '../../../screens/chart/Chart';
-import Social from '../../../screens/social/Social';
-import Edit from '../../../screens/edit/Edit';
-import Profile from '../../../screens/profile/Profile';
+import Main from '@/screens/main/Main';
+import Chart from '@/screens/chart/ChartMain';
+import Social from '@/screens/social/Social';
+import Edit from '@/screens/edit/Edit';
+import Profile from '@/screens/profile/Profile';
 
 // icon
 import BottomTabIcon from './BottomTabIcon';
@@ -32,8 +25,6 @@ const AnimatedTabBar = ({
   navigation,
   descriptors,
 }: BottomTabBarProps) => {
-  const {bottom} = useSafeAreaInsets();
-
   const reducer = (state: any, action: {x: number; index: number}) => {
     return [...state, {x: action.x, index: action.index}];
   };
@@ -45,30 +36,21 @@ const AnimatedTabBar = ({
   };
 
   return (
-    <View
-      id="mainContainer"
-      style={[
-        {
-          paddingBottom: bottom,
-          backgroundColor: 'white',
-        },
-      ]}>
-      <View style={[styles.tabBarContainer]} id="redContainer">
-        {routes.map((route, index) => {
-          const active = index === activeIndex;
-          const {options} = descriptors[route.key];
+    <View style={animationStyles.tabBarContainer}>
+      {routes.map((route, index) => {
+        const active = index === activeIndex;
+        const {options} = descriptors[route.key];
 
-          return (
-            <TabBarComponent
-              key={route.key}
-              active={active}
-              options={options}
-              onLayout={e => handleLayout(e, index)}
-              onPress={() => navigation.navigate(route.name)}
-            />
-          );
-        })}
-      </View>
+        return (
+          <TabBarComponent
+            key={route.key}
+            active={active}
+            options={options}
+            onLayout={e => handleLayout(e, index)}
+            onPress={() => navigation.navigate(route.name)}
+          />
+        );
+      })}
     </View>
   );
 };
@@ -80,12 +62,7 @@ type TabBarComponentProps = {
   onPress: () => void;
 };
 
-const TabBarComponent = ({
-  active,
-  options,
-  onLayout,
-  onPress,
-}: TabBarComponentProps) => {
+const TabBarComponent = ({active, options, onPress}: TabBarComponentProps) => {
   const animatedComponentCircleStyles = useAnimatedStyle(() => {
     return {
       transform: [
@@ -111,31 +88,84 @@ const TabBarComponent = ({
   });
 
   return (
-    <Pressable onPress={onPress} onLayout={onLayout} style={styles.component}>
+    <S.Container>
       <Animated.View
-        style={[styles.componentCircle, animatedComponentCircleStyles]}
+        style={[animationStyles.componentCircle, animatedComponentCircleStyles]}
       />
-      <Animated.View
-        style={[styles.iconContainer, animatedIconContainerStyles]}>
-        {options.tabBarIcon && typeof options.tabBarIcon === 'function' ? (
-          options.tabBarIcon({
-            focused: active ? active : false,
-            color: '#000',
-            size: 25,
-          })
-        ) : (
-          <Text>No Icon</Text>
-        )}
-      </Animated.View>
-    </Pressable>
+      <S.PressableContainer onPress={onPress}>
+        <Animated.View
+          style={[animationStyles.iconContainer, animatedIconContainerStyles]}>
+          {options.tabBarIcon && typeof options.tabBarIcon === 'function' ? (
+            options.tabBarIcon({
+              focused: active ? active : false,
+              color: '#000',
+              size: 25,
+            })
+          ) : (
+            <Text>No Icon</Text>
+          )}
+        </Animated.View>
+      </S.PressableContainer>
+    </S.Container>
   );
 };
 
-const styles = StyleSheet.create({
-  activeBackground: {
-    position: 'absolute',
-    bottom: 0,
-  },
+function BottompTab() {
+  return (
+    <Tab.Navigator
+      tabBar={props => <AnimatedTabBar {...props} />}
+      screenOptions={{headerShown: false}}
+      initialRouteName="Main">
+      <Tab.Screen
+        name="Chart"
+        component={Chart}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <BottomTabIcon focused={focused} type="chart" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Social"
+        component={Social}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <BottomTabIcon focused={focused} type="social" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Main"
+        component={Main}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <BottomTabIcon focused={focused} type="main" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Edit"
+        component={Edit}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <BottomTabIcon focused={focused} type="edit" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <BottomTabIcon focused={focused} type="profile" />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
+}
+
+const animationStyles = StyleSheet.create({
   tabBarContainer: {
     flexDirection: 'row',
     width: '100%',
@@ -148,13 +178,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     flex: 1,
   },
-  component: {
-    height: 60,
-    width: 60,
-  },
   componentCircle: {
-    flex: 1,
     borderRadius: 30,
+    width: 60,
+    height: 60,
+    position: 'absolute',
     backgroundColor: 'black',
   },
   iconContainer: {
@@ -166,74 +194,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  icon: {
-    height: 36,
-    width: 36,
-  },
 });
-
-function BottompTab() {
-  const [darkMode, setDarkMode] = useState(false);
-  return (
-    <Tab.Navigator
-      tabBar={props => <AnimatedTabBar {...props} />}
-      screenOptions={{headerShown: false}}
-      initialRouteName="Main">
-      <Tab.Screen
-        name="Chart"
-        component={Chart}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <BottomTabIcon darkMode={darkMode} focused={focused} type="chart" />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Social"
-        component={Social}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <BottomTabIcon
-              darkMode={darkMode}
-              focused={focused}
-              type="social"
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Main"
-        component={Main}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <BottomTabIcon darkMode={darkMode} focused={focused} type="main" />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Edit"
-        component={Edit}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <BottomTabIcon darkMode={darkMode} focused={focused} type="edit" />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <BottomTabIcon
-              darkMode={darkMode}
-              focused={focused}
-              type="profile"
-            />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
 
 export default BottompTab;

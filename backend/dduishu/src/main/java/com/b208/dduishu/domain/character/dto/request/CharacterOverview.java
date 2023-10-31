@@ -26,11 +26,11 @@ public class CharacterOverview {
 
     @Builder
     public CharacterOverview(CharacterName name) {
-        this.characterIndex = getCharacterIndex(name);
+        this.characterIndex = Util.getCharacterIndexByCharacterName(name);
         this.isPurchased = false;
-        this.level = -1;
-        this.exp = -1;
-        this.evolutionStage = -1;
+        this.level = 0;
+        this.exp = 0;
+        this.evolutionStage = 0;
     }
 
     public CharacterOverview(Character character) {
@@ -50,17 +50,4 @@ public class CharacterOverview {
         }
     }
 
-    private int getCharacterIndex(CharacterName name) {
-
-        if (name.equals(CharacterName.RABBIT)) {
-            return 0;
-        } else if (name.equals(CharacterName.Penguin)) {
-            return 1;
-        } else if (name.equals(CharacterName.Panda)) {
-            return 2;
-        } else if (name.equals(CharacterName.Chicken)) {
-            return 3;
-        }
-        return -1;
-    }
 }

@@ -28,7 +28,21 @@ public class Util {
         } else if (character.getCharacterInfo().getName().equals(CharacterName.Chicken)) {
             return 3;
         }
-        return -1;
+        return 0;
+    }
+
+    public static int getCharacterIndexByCharacterName(CharacterName name) {
+
+        if (name.equals(CharacterName.RABBIT)) {
+            return 0;
+        } else if (name.equals(CharacterName.Penguin)) {
+            return 1;
+        } else if (name.equals(CharacterName.Panda)) {
+            return 2;
+        } else if (name.equals(CharacterName.Chicken)) {
+            return 3;
+        }
+        return 0;
     }
 
     public static int getThemaIndexByCharacter(Planet planet) {
@@ -37,15 +51,15 @@ public class Util {
         } else if (planet.getPlanetInfo().getName().equals(PlanetName.MOON)) {
             return 1;
         }
-        return -1;
+        return 0;
     }
 
     public static int getProfileIndexByUser(User user) {
         return user.getCharacterList().stream()
                 .filter(Character::isMainCharacter)
-                .map(character -> characterNameToValue.getOrDefault(character.getCharacterInfo().getName(), -1))
+                .map(character -> characterNameToValue.getOrDefault(character.getCharacterInfo().getName(), 0))
                 .findFirst()
-                .orElse(-1);
+                .orElse(0);
     }
 
     public static int getMainThemaIndex(Planet planet) {
@@ -54,6 +68,6 @@ public class Util {
         } else if (planet.getPlanetInfo().getName().equals(PlanetName.MOON)) {
             return 1;
         }
-        return -1;
+        return 0;
     }
 }

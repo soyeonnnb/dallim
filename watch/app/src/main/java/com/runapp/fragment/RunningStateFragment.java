@@ -43,8 +43,6 @@ public class RunningStateFragment extends Fragment {
             timeView.setText(elapsedTime);
         });
 
-        final double MAX_REALISTIC_PACE = 20.0;
-
         // ms로 들어옴
         runningViewModel.getMsPace().observe(getViewLifecycleOwner(), pace ->{
             TextView paceView = view.findViewById(R.id.tv_pace);

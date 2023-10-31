@@ -75,15 +75,10 @@ dependencies {
     implementation("androidx.wear.compose:compose-foundation:1.2.0")
     implementation("androidx.wear.compose:compose-navigation:1.2.0")
     implementation("androidx.activity:activity-compose:1.5.1")
-    // viewPager-watch(jetpack compose쓰면 이거 사용)
-//    implementation("com.google.accompanist:accompanist-pager:0.20.1")
-//    implementation("com.google.accompanist:accompanist-pager-indicators:0.20.1")
+1
     // viewPager2
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 
-    // 사용자의 건강 정보에 접근하게 해주는 API
-    implementation("androidx.health.connect:connect-client:1.0.0-alpha11")
-    implementation("androidx.health:health-services-client:1.0.0-rc01")
     // 진행중인 사항을 사용자에게 보여줌
     implementation("androidx.wear:wear-ongoing:1.0.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

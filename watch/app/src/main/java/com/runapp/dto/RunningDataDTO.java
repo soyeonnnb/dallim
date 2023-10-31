@@ -8,13 +8,14 @@ public class RunningDataDTO {
     private Long userId;
     private Long date;
     private String formattedDate;
-    private float totalDistance;
+    private double totalDistance;
     private Long totalTime;
     private int characterId;
-    private float stepCounter;
+    private int characterInfoId;
+    private double stepCounter;
     private String averagePace;
-    private float averageSpeed;
-    private float averageHeartRate;
+    private double averageSpeed;
+    private double averageHeartRate;
     private String type;
     private Long rivalRecordId;
     private List<RunDetail> runningRecordInfos;
@@ -23,7 +24,7 @@ public class RunningDataDTO {
     public RunningDataDTO() {}
 
     // 모든 필드를 파라미터로 가지는 생성자 (선택적 사용)
-    public RunningDataDTO(Long userId, Long date, String formattedDate, float totalDistance, Long totalTime, int characterId, float stepCounter, String averagePace, float averageSpeed, float averageHeartRate, String type, Long rivalRecordId, List<RunDetail> runningRecordInfos) {
+    public RunningDataDTO(Long userId, Long date, String formattedDate, double totalDistance, Long totalTime, int characterId, double stepCounter, String averagePace, double averageSpeed, double averageHeartRate, String type, Long rivalRecordId, List<RunDetail> runningRecordInfos, int characterInfoId) {
         this.userId = userId;
         this.date = date;
         this.formattedDate = formattedDate;
@@ -37,6 +38,7 @@ public class RunningDataDTO {
         this.type = type;
         this.rivalRecordId = rivalRecordId;
         this.runningRecordInfos = runningRecordInfos;
+        this.characterInfoId = characterInfoId;
     }
 
 
@@ -66,11 +68,11 @@ public class RunningDataDTO {
         this.formattedDate = formattedDate;
     }
 
-    public float getTotalDistance() {
+    public double getTotalDistance() {
         return totalDistance;
     }
 
-    public void setTotalDistance(float totalDistance) {
+    public void setTotalDistance(double totalDistance) {
         this.totalDistance = totalDistance;
     }
 
@@ -90,11 +92,11 @@ public class RunningDataDTO {
         this.characterId = characterId;
     }
 
-    public float getStepCounter() {
+    public double getStepCounter() {
         return stepCounter;
     }
 
-    public void setStepCounter(float stepCounter) {
+    public void setStepCounter(double stepCounter) {
         this.stepCounter = stepCounter;
     }
 
@@ -106,19 +108,19 @@ public class RunningDataDTO {
         this.averagePace = averagePace;
     }
 
-    public float getAverageSpeed() {
+    public double getAverageSpeed() {
         return averageSpeed;
     }
 
-    public void setAverageSpeed(float averageSpeed) {
+    public void setAverageSpeed(double averageSpeed) {
         this.averageSpeed = averageSpeed;
     }
 
-    public float getAverageHeartRate() {
+    public double getAverageHeartRate() {
         return averageHeartRate;
     }
 
-    public void setAverageHeartRate(float averageHeartRate) {
+    public void setAverageHeartRate(double averageHeartRate) {
         this.averageHeartRate = averageHeartRate;
     }
 
@@ -146,15 +148,24 @@ public class RunningDataDTO {
         this.runningRecordInfos = runningRecordInfos;
     }
 
+    public int getCharacterInfoId() {
+        return characterInfoId;
+    }
+
+    public void setCharacterInfoId(int characterInfoId) {
+        this.characterInfoId = characterInfoId;
+    }
+
     @Override
     public String toString() {
         return "RunningDataDTO{" +
-                ", userId=" + userId +
+                "userId=" + userId +
                 ", date=" + date +
                 ", formattedDate='" + formattedDate + '\'' +
                 ", totalDistance=" + totalDistance +
                 ", totalTime=" + totalTime +
                 ", characterId=" + characterId +
+                ", characterInfoId=" + characterInfoId +
                 ", stepCounter=" + stepCounter +
                 ", averagePace='" + averagePace + '\'' +
                 ", averageSpeed=" + averageSpeed +

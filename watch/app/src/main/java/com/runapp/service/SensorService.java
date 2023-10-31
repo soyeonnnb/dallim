@@ -19,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.runapp.model.RunningViewModel;
 
@@ -27,8 +26,8 @@ public class SensorService extends Service {
     private RunningViewModel runningViewModel;
     private SensorManager sensorManager;
     private SensorEventListener universalSensorListener;
-    private float initialStepCount = 0;
-    private float totalHeartRate = 0;
+    private double initialStepCount = 0;
+    private double totalHeartRate = 0;
     private int heartCountTime = 0;
     private static final int NOTIFICATION_ID = 1;
     private static final String CHANNEL_ID = "SensorServiceChannel";
@@ -90,19 +89,19 @@ public class SensorService extends Service {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_HEART_RATE) {
-                    float heartRate = sensorEvent.values[0];
+                    double heartRate = sensorEvent.values[0];
                     if(heartRate != 0){
                         heartCountTime++;
                         totalHeartRate += heartRate;
                     }
-                    heartRate = (float) (Math.round(heartRate * 100) / 100.0);
+                    heartRate = (Math.round(heartRate * 100) / 100.0);
                     runningViewModel.setHeartRate(heartRate);
                 } else if (sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-                    float currentTotalSteps = sensorEvent.values[0];
+                    double currentTotalSteps = sensorEvent.values[0];
                     if (initialStepCount == 0) {
                         initialStepCount = currentTotalSteps;
                     }
-                    float sessionSteps = currentTotalSteps - initialStepCount;
+                    double sessionSteps = currentTotalSteps - initialStepCount;
                     runningViewModel.setStepCounter(sessionSteps);
                     Log.d("발걸음", String.valueOf(sessionSteps));
                 }
@@ -143,7 +142,7 @@ public class SensorService extends Service {
 
         SharedPreferences sharedPreferences = getSharedPreferences("SENSOR_DATA", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putFloat("totalHeartRate", totalHeartRate);
+        editor.putFloat("totalHeartRate", (float) totalHeartRate);
         editor.putInt("heartCountTime", heartCountTime);
         editor.apply();
 

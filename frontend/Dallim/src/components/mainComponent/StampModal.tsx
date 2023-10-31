@@ -16,7 +16,7 @@ LocaleConfig.defaultLocale = 'ko';
 
 interface Props {
   isVisible: boolean;
-  onClose: () => void; 
+  onClose: () => void;
 }
 
 const StampModal: React.FC<Props> = ({ isVisible, onClose }) => {
@@ -29,17 +29,14 @@ const StampModal: React.FC<Props> = ({ isVisible, onClose }) => {
         const loadInfo = await fetchUserCalendar();
         console.log("Main : 출석 조회 Axios 성공 2 : ", loadInfo);
 
-        if (loadInfo) {
-          const formattedDates = generateMarkedDatesFromList(loadInfo.attendances);
-          setMarkedDates(formattedDates);
-        }
-
+        const formattedDates = generateMarkedDatesFromList(loadInfo.attendances || []);
+        setMarkedDates(formattedDates);
       } catch (error) {
-        console.error("Main : 출석 조회 Axios 실패 2");
+        console.error("Main : 출석 조회 Axios 실패");
       }
     };
     loadUserInfo();
-  }, []);
+  }, [isVisible]);
 
 
   function generateMarkedDatesFromList(dates: string[]) {

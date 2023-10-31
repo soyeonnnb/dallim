@@ -5,10 +5,18 @@ import Calendar from '../../components/chartComponent/main/Calendar';
 import Preview from '../../components/chartComponent/main/Preview';
 import {View, Text, StyleSheet} from 'react-native';
 import {CalendarType} from '@/components/common/CalendarData';
+import {data} from './recordDummyData.json';
+import {MonthlyRecords} from '@/apis/ChartApi';
 
 function Chart() {
   const [isClicked, setIsClicked] = useState(false);
   const [selectedDate, setSelectedDate] = useState<CalendarType>();
+  const [everyRecords, setEveryRecords] = useState<MonthlyRecords[]>([]);
+
+  useEffect(() => {
+    setEveryRecords(data);
+  }, []);
+
   return (
     <>
       <S.BackgroundImage
@@ -19,8 +27,14 @@ function Chart() {
         isClicked={isClicked}
         selectedDate={selectedDate}
         setIsClicked={setIsClicked}
-        setSelectedDate={setSelectedDate}></Calendar>
-      <Preview isClicked={isClicked} selectedDate={selectedDate}></Preview>
+        setSelectedDate={setSelectedDate}
+        everyRecords={everyRecords}
+      />
+      <Preview
+        isClicked={isClicked}
+        selectedDate={selectedDate}
+        everyRecords={everyRecords}
+      />
     </>
   );
 }

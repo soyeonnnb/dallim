@@ -17,9 +17,13 @@ export const View = styled.View`
   flex-direction: row;
   justify-content: space-evenly;
 `;
+
+export const RecordContainer = styled.View`
+  margin: 0 20px;
+`;
+
 export const Component = styled.View`
   align-items: center;
-  margin: 0 20px;
 `;
 export const Circle = styled.View<{bgColor: string}>`
   width: 70px;
@@ -31,7 +35,6 @@ export const Circle = styled.View<{bgColor: string}>`
   align-items: center;
 `;
 export const Name = styled.Text`
-  font-weight: 600;
   color: gray;
 `;
 export const Content = styled.Text`

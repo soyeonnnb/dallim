@@ -5,9 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -75,6 +72,8 @@ public class SelectActivity extends ComponentActivity {
             btnStart.setOnClickListener(b-> {
                 // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
                 Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
+                // 다른 액티비티로 값을 넘길 때 쓴다. 키 밸류로 구분
+                intent.putExtra("run_type", "ALONE");
                 countdownActivityResultLauncher.launch(intent);
                 dialog.dismiss();
             });
@@ -114,6 +113,7 @@ public class SelectActivity extends ComponentActivity {
             btnStart.setOnClickListener(b-> {
                 // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
                 Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
+                intent.putExtra("run_type", "PAIR"); // 인자로 넘겨줌
                 countdownActivityResultLauncher.launch(intent);
                 dialog.dismiss();
             });
@@ -126,37 +126,16 @@ public class SelectActivity extends ComponentActivity {
         });
     }
 
-    // 카운트다운이 끝났을 때 메서드
+    // 카운트다운이 끝났을 때 콜백 메서드
     ActivityResultLauncher<Intent> countdownActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK) {
+                    String runType = result.getData().getStringExtra("run_type");
                     // 카운트다운 액티비티가 끝나면 셀렉트 액티비티에서 러닝 액티비티로 바뀜.
                     Intent nextActivityIntent = new Intent(SelectActivity.this, RunningActivity.class);
+                    nextActivityIntent.putExtra("run_type", runType);
                     startActivity(nextActivityIntent);
                 }
             });
-
-    public SpannableString convertTime(Long time){
-        int totalSeconds = (int)(time / 1000);
-        int minutes = totalSeconds / 60;
-        int seconds = totalSeconds % 60;
-
-        String timeStr = String.format("%02d분 %02d초", minutes, seconds);
-        SpannableString spannableString = new SpannableString(timeStr);
-
-        // "분"과 "초"의 위치를 찾습니다.
-        int indexOfMinute = timeStr.indexOf("분");
-        int indexOfSecond = timeStr.indexOf("초");
-
-        // "분"과 "초"에 대해 RelativeSizeSpan을 적용하여 텍스트 크기를 줄입니다.
-        if(indexOfMinute != -1) {
-            spannableString.setSpan(new RelativeSizeSpan(0.60f), indexOfMinute, indexOfMinute+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        if(indexOfSecond != -1) {
-            spannableString.setSpan(new RelativeSizeSpan(0.60f), indexOfSecond, indexOfSecond+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        return spannableString;
-    }
 }

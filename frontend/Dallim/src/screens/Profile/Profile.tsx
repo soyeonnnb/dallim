@@ -35,8 +35,7 @@ function Profile() {
   return (
     <S.Container>
       <S.BackgroundImage
-        source={require('../../assets/images/MainBackground3.png')}
-        resizeMode="cover">
+        source={require('../../assets/images/MainBackground4.png')} resizeMode="cover">
         <S.Header>
           <S.TitleProfileBox>
             <S.Text>My Profile</S.Text>
@@ -99,7 +98,7 @@ function Profile() {
       </S.BackgroundImage>
 
       <S.ImageBox>
-        <S.CharacterImage source={selectedCharacterLevelData.front} />
+        <S.CharacterImage source={selectedCharacterLevelData.front} resizeMode='contain'/>
       </S.ImageBox>
 
       <NicknameChangeModal

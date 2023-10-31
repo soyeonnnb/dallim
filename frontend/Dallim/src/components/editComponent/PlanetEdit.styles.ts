@@ -47,10 +47,10 @@ export const Body = styled.View`
   height: 65%;
 `;
 
-export const PlanetBox = styled.View<{isOn?: boolean}>`
+export const PlanetBox = styled.View`
   /* border-width: 1px;
   border-color: green; */
-  width: ${props => (props.isOn ? '100%' : '80%')};
+  width: 100%;
   height: 90%;
 `;
 
@@ -76,4 +76,28 @@ export const ButtonBox = styled.TouchableOpacity`
 export const ButtonText = styled.Text`
   font-size: 15px;
   color: white;
+`;
+
+export const LockButtonBox = styled.TouchableOpacity`
+  /* border-width: 1px;
+  border-color: blue; */
+  border-radius: 20px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  background-color: rgba(42, 44, 69, 0.5);
+  width: 100%;
+  height: 50%;
+`;
+
+export const LockedImage = styled.Image`
+  // 여기에 잠금 이미지 스타일링 코드를 추가하세요.
+  width: 30PX;
+  height: 30px;
+`;
+
+export const LockedText = styled.Text`
+  font-size: 20px;
+  color: white;
+  margin-right: 5%;
 `;

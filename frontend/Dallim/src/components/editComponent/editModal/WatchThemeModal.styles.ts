@@ -81,3 +81,8 @@ export const Watch = styled.View`
   border-radius: 120px;
   background-color: #17183F;
 `;
+
+export const WatchImage = styled.Image`
+  width: 100%;
+  height: 100%;
+`;

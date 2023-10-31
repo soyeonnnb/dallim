@@ -1,23 +1,18 @@
 package com.b208.dduishu.domain.user.controller;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import com.b208.dduishu.domain.user.dto.request.UserEmail;
 import com.b208.dduishu.domain.user.dto.request.UserNickName;
 import com.b208.dduishu.domain.user.dto.request.UserPoint;
-import com.b208.dduishu.domain.user.dto.request.UserRankingInfo;
 import com.b208.dduishu.domain.user.dto.response.*;
 import com.b208.dduishu.domain.user.service.UserRankingService;
 import com.b208.dduishu.util.response.ApiResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.b208.dduishu.domain.user.service.UserService;
+import com.b208.dduishu.domain.user.service.UserSocialService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,14 +20,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final UserSocialService userSocialService;
     private final UserRankingService userRankingService;
 
     @ApiOperation(value="accessToken 토큰 발급", notes="사용자 accesstoken을 발급한다.")
     @PostMapping("/api/v1/user/token")
     public ApiResponse<?> getAccessToken(@RequestBody UserEmail req) {
         try {
-            String token = userService.getAccessToken(req.getEmail());
+            String token = userSocialService.getAccessToken(req.getEmail());
 
             return ApiResponse.createSuccess(token);
         } catch (Exception e) {
@@ -43,7 +38,7 @@ public class UserController {
     @ApiOperation(value="유저 닉네임 중복 체크", notes="사용자의 닉네임을 중복 체크 한다.")
     @PostMapping("/api/v1/user/check-nickname")
     public ApiResponse<?> checkUserNickname(@RequestBody UserNickName req){
-        IsDuplicateNickName res = userService.checkUserNickname(req.getNickname());
+        IsDuplicateNickName res = userSocialService.checkUserNickname(req.getNickname());
 
         return ApiResponse.createSuccess(res);
     }
@@ -53,7 +48,7 @@ public class UserController {
     @PatchMapping("/api/v1/user/nickname")
     public ApiResponse<?> updateUserNickname(@RequestBody UserNickName req){
         try {
-            userService.updateUserNickname(req.getNickname());
+            userSocialService.updateUserNickname(req.getNickname());
 
             return ApiResponse.createSuccess("닉네임 변경 성공");
         } catch (Exception e) {
@@ -65,7 +60,7 @@ public class UserController {
     @GetMapping("/api/v1/user/point")
     public ApiResponse<?> getUserPoint() {
         try {
-            UserPoint res = userService.getUserPoint();
+            UserPoint res = userSocialService.getUserPoint();
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -100,7 +95,7 @@ public class UserController {
     @GetMapping("/api/v1/user/main")
     public ApiResponse<?> getUserMainPageInfo() {
         try {
-            UserMainPageInfo res = userService.getUserMainPageInfo();
+            UserMainPageInfo res = userSocialService.getUserMainPageInfo();
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -111,7 +106,7 @@ public class UserController {
     @GetMapping("/api/v1/user/edit")
     public ApiResponse<?> getUserEditPageInfo() {
         try {
-            UserEditPageInfo res = userService.getUserEditPageInfo();
+            UserEditPageInfo res = userSocialService.getUserEditPageInfo();
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -123,7 +118,7 @@ public class UserController {
     @GetMapping("/api/v1/user/profile/me")
     public ApiResponse<?> getMyProfile() {
         try {
-            UserProfile res = userService.getMyProfile();
+            UserProfile res = userSocialService.getMyProfile();
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -135,7 +130,7 @@ public class UserController {
     @GetMapping("/api/v1/user/profile/{id}")
     public ApiResponse<?> getUserProfile(@ApiParam(example = "1") @PathVariable Long id) {
         try {
-            UserProfile res = userService.getUserProfile(id);
+            UserProfile res = userSocialService.getUserProfile(id);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -147,7 +142,7 @@ public class UserController {
     @GetMapping("/api/v1/user/compare/{id}")
     public ApiResponse<?> compareUserProfile(@ApiParam(example = "1") @PathVariable Long id) {
         try {
-            CompareUserProfile res = userService.compareUserProfile(id);
+            CompareUserProfile res = userSocialService.compareUserProfile(id);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -159,7 +154,7 @@ public class UserController {
     @GetMapping("/api/v1/user/search")
     public ApiResponse<?> searchUserProfile(@ApiParam(value="유저 닉네임", example="달림")@RequestParam String q) {
         try {
-            List<SearchUserProfile> res = userService.searchUserProfile(q);
+            List<SearchUserProfile> res = userSocialService.searchUserProfile(q);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {

@@ -12,7 +12,7 @@ public class UserRankingInfo {
 
     private Long userId;
     private String nickname;
-    private float cumulativeDistance;
+    private double cumulativeDistance;
     private int level;
     private boolean isFollower;
 

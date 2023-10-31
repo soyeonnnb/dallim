@@ -7,9 +7,16 @@ import com.b208.dduishu.domain.planet.entity.Planet;
 import com.b208.dduishu.domain.planet.entity.PlanetName;
 import com.b208.dduishu.domain.user.entity.User;
 
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Util {
+    private static final Map<CharacterName, Integer> characterNameToValue = Map.of(
+            CharacterName.RABBIT, 0,
+            CharacterName.Penguin, 1,
+            CharacterName.Panda, 2,
+            CharacterName.Chicken, 3
+    );
 
     public static int getCharacterIndexByCharacter(Character character) {
         if (character.getCharacterInfo().getName().equals(CharacterName.RABBIT)) {
@@ -34,22 +41,11 @@ public class Util {
     }
 
     public static int getProfileIndexByUser(User user) {
-        AtomicInteger ret = new AtomicInteger(-1);
-        user.getCharacterList().stream()
-                .forEach(o -> {
-                    if (o.isMainCharacter() == true) {
-                        if (o.getCharacterInfo().getName().equals(CharacterName.RABBIT)) {
-                            ret.set(0);
-                        } else if (o.getCharacterInfo().getName().equals(CharacterName.Penguin)) {
-                            ret.set(1);
-                        } else if (o.getCharacterInfo().getName().equals(CharacterName.Panda)) {
-                            ret.set(2);
-                        } else if (o.getCharacterInfo().getName().equals(CharacterName.Chicken)) {
-                            ret.set(3);
-                        }
-                    }
-                });
-        return ret.get();
+        return user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .map(character -> characterNameToValue.getOrDefault(character.getCharacterInfo().getName(), -1))
+                .findFirst()
+                .orElse(-1);
     }
 
     public static int getMainThemaIndex(Planet planet) {

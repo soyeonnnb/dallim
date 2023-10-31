@@ -1,19 +1,12 @@
 package com.b208.dduishu.domain.user.service;
 
-import java.io.IOException;
-import java.time.DayOfWeek;
-import java.time.LocalDateTime;
-import java.time.temporal.TemporalAdjusters;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.follow.entity.FollowState;
-import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
 import com.b208.dduishu.domain.planet.dto.response.PlanetOverview;
@@ -23,13 +16,9 @@ import com.b208.dduishu.domain.planet.repository.PlanetRepository;
 import com.b208.dduishu.domain.runningRecord.service.RunningRecordService;
 import com.b208.dduishu.domain.user.dto.response.*;
 import com.b208.dduishu.domain.user.entity.BaseLevel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.dto.request.UserPoint;
@@ -41,28 +30,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class UserService {
+public class UserSocialService {
 
-    @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
-    private String kakaoClientId;
-    private String kakaoLogoutRedirectUri = "http://localhost:8080/api/oauth/logout";
     @Value("${jwt.secret}")
     private String secretKey;
-    @Value("${spring.security.oauth2.client.registration.naver.clientId}")
-    private String naverClientId;
-    @Value("${spring.security.oauth2.client.registration.naver.clientSecret}")
-    private String naverSecretId;
 
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-    private final RedisTemplate<String, String> redisTemplate;
     private final GetUser getUser;
-    @Autowired
-    private RestTemplate restTemplate;
 
     private final RunningRecordRepository runningRecordRepository;
     private final CharacterRepository characterRepository;
@@ -108,83 +88,26 @@ public class UserService {
 
     public UserProfile getMyProfile() {
         User user = getUser.getUser();
-
-        // 현재 날짜 및 시간 가져오기
-        LocalDateTime now = LocalDateTime.now();
-        // 이번 주의 시작 날짜를 계산 (월요일)
-        LocalDateTime startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-
-        List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserIdAndCreatedAtBetween(user.getUserId(), startOfWeek, now);
-
-        AtomicReference<Float> weekDistance = new AtomicReference<>((float) 0.0);
-        findRunningRecord.stream()
-                .forEach(o -> {
-                    weekDistance.updateAndGet(v -> new Float((float) (v + (o.getTotalDistance()))));
-                });
-
+        List<RunningRecordOverview> findFollowRunningRecord = runningRecordService.getRunningRecordFor30Days("me", user.getUserId());
         BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(user.getUserLevel().getExp());
 
-        int profileIndex = getProfileIndex(user);
-
         return UserProfile.builder()
-                .characterIndex(profileIndex)
-                .nickname(user.getNickname())
-                .level(user.getUserLevel().getLevel())
-                .exp(levelInfo.getExp())
+                .user(user)
+                .levelInfo(levelInfo)
+                .runningRecordOverviews(findFollowRunningRecord)
                 .build();
-
-    }
-
-    private int getProfileIndex(User user) {
-        AtomicInteger ret = new AtomicInteger(-1);
-        user.getCharacterList().stream()
-                .forEach(o -> {
-                    if (o.isMainCharacter() == true) {
-                        if (o.getCharacterInfo().getName().equals(CharacterName.RABBIT)) {
-                            ret.set(0);
-                        } else if (o.getCharacterInfo().getName().equals(CharacterName.Penguin)) {
-                            ret.set(1);
-                        } else if (o.getCharacterInfo().getName().equals(CharacterName.Panda)) {
-                            ret.set(2);
-                        } else if (o.getCharacterInfo().getName().equals(CharacterName.Chicken)) {
-                            ret.set(3);
-                        }
-                    }
-                });
-        return ret.get();
     }
 
     public UserProfile getUserProfile(Long id) {
         User user = userRepository.findByUserId(id).orElseThrow(() -> {
             throw new NullPointerException();
         });
-
-        // 현재 날짜 및 시간 가져오기
-        LocalDateTime now = LocalDateTime.now();
-        // 이번 주의 시작 날짜를 계산 (월요일)
-        LocalDateTime startOfWeek = now.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
-
-        List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserIdAndCreatedAtBetween(user.getUserId(), startOfWeek, now);
-
-        AtomicReference<Float> weekDistance = new AtomicReference<>((float) 0.0);
-        findRunningRecord.stream()
-                .forEach(o -> {
-                    weekDistance.updateAndGet(v -> new Float((float) (v + (o.getTotalDistance()))));
-                });
-
+        List<RunningRecordOverview> findFollowRunningRecord = runningRecordService.getRunningRecordFor30Days("follow", id);
         BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(user.getUserLevel().getExp());
 
-        int profileIndex = getProfileIndex(user);
-
-
-        List<RunningRecordOverview> findFollowRunningRecord = runningRecordService.getRunningRecordFor30Days("follow", id);
-        List<User> findFollower = userRepository.getUserByFollowerUserId(user.getUserId(), FollowState.accept);
-
         return UserProfile.builder()
-                .characterIndex(profileIndex)
-                .nickname(user.getNickname())
-                .level(user.getUserLevel().getLevel())
-                .exp(levelInfo.getExp())
+                .user(user)
+                .levelInfo(levelInfo)
                 .runningRecordOverviews(findFollowRunningRecord)
                 .build();
     }
@@ -201,10 +124,9 @@ public class UserService {
     public List<SearchUserProfile> searchUserProfile(String q) {
         User user = getUser.getUser();
         List<User> findFollower = userRepository.getUserByFollowerUserId(user.getUserId(), FollowState.accept);
+        List<User> searchUsers = userRepository.findByNicknameContaining(q);
 
-        List<User> findUser = userRepository.findByNicknameContaining(q);
-
-        return findUser.stream()
+        return searchUsers.stream()
                 .map(o -> new SearchUserProfile(o, findFollower))
                 .collect(toList());
     }
@@ -231,37 +153,6 @@ public class UserService {
                 .build();
     }
 
-    public List<CharacterOverview> convertCharacterOverView(List<Character> characters) {
-        List<CharacterOverview> characterOverviews = characters.stream()
-                .map(o -> new CharacterOverview(o))
-                .collect(toList());
-        List<CharacterName> characterNames = characters.stream()
-                .map(o -> o.getCharacterInfo().getName())
-                .collect(toList());
-        baseCharacterNames.stream()
-                .forEach(o -> {
-                    if(!characterNames.contains(o)) {
-                        characterOverviews.add(CharacterOverview.builder().name(o).build());
-                    }
-                });
-        return characterOverviews;
-    }
-
-    public List<PlanetOverview> converPlanetOverView(List<Planet> themas) {
-        List<PlanetOverview> themaOverviews = themas.stream()
-                .map(o -> new PlanetOverview(o))
-                .collect(toList());
-        List<PlanetName> ThemaNames = themas.stream()
-                .map(o -> o.getPlanetInfo().getName())
-                .collect(toList());
-        baseThemaNames.stream()
-                .forEach(o -> {
-                    if(!ThemaNames.contains(o)) {
-                        themaOverviews.add(PlanetOverview.builder().name(o).build());
-                    }
-                });
-        return themaOverviews;
-    }
     public UserEditPageInfo getUserEditPageInfo() {
         User user = getUser.getUser();
         List<Character> findCharacters = characterRepository.findAllCharacterInfo(user.getUserId());
@@ -288,5 +179,32 @@ public class UserService {
                 .planets(themaOverviews)
                 .build();
 
+    }
+    public List<CharacterOverview> convertCharacterOverView(List<Character> characters) {
+        List<CharacterOverview> characterOverviews = characters.stream()
+                .map(CharacterOverview::new)
+                .collect(toList());
+        Set<CharacterName> existingCharacterNames = characters.stream()
+                .map(character -> character.getCharacterInfo().getName())
+                .collect(toSet());
+        baseCharacterNames.stream()
+                .filter(name -> !existingCharacterNames.contains(name))
+                .map(name -> CharacterOverview.builder().name(name).build())
+                .forEach(characterOverviews::add);
+        return characterOverviews;
+    }
+
+    public List<PlanetOverview> converPlanetOverView(List<Planet> planets) {
+        List<PlanetOverview> planetOverviews  = planets.stream()
+                .map(PlanetOverview::new)
+                .collect(toList());
+        Set<PlanetName> existingPlanetNames = planets.stream()
+                .map(planet -> planet.getPlanetInfo().getName())
+                .collect(toSet());
+        baseThemaNames.stream()
+                .filter(name -> !existingPlanetNames.contains(name))
+                .map(name -> PlanetOverview.builder().name(name).build())
+                .forEach(planetOverviews::add);
+        return planetOverviews;
     }
 }

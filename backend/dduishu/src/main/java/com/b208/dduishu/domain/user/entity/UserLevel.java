@@ -19,7 +19,7 @@ public class UserLevel {
     private int exp=0;
 
 
-    public void addExp(float exp){
+    public void addExp(double exp){
         this.exp += exp;
         setUserLevel();
     }

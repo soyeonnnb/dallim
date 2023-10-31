@@ -37,9 +37,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Character> characterList = new ArrayList<>();
 
-    private int cumulativeDay;
-    private float averageSpeed;
-    private float cumulativeDistance;
+    private int cumulativeRunningDay;
+    private double averageSpeed;
+    private double cumulativeDistance;
     private int cumulativeRunningTime;
     private int cumulativeCalorie;
     private int point;
@@ -61,12 +61,12 @@ public class User {
     }
 
     @Builder
-    public User(Long userId, String accountType, String email, String nickname, int cumulativeDay, float averageSpeed, float cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, String accessToken) {
+    public User(Long userId, String accountType, String email, String nickname, int cumulativeRunningDay, float averageSpeed, float cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, String accessToken) {
         this.userId = userId;
         this.accountType = accountType;
         this.email = email;
         this.nickname = nickname;
-        this.cumulativeDay = cumulativeDay;
+        this.cumulativeRunningDay = cumulativeRunningDay;
         this.averageSpeed = averageSpeed;
         this.cumulativeDistance = cumulativeDistance;
         this.cumulativeRunningTime = cumulativeRunningTime;
@@ -93,17 +93,17 @@ public class User {
     public void updatePrivateAccessToken(String privateAccessToken){
         this.privateAccess = privateAccessToken;
     }
-    public void updateAverageSpeed(float averageSpeed) {
+    public void updateAverageSpeed(double averageSpeed) {
         this.averageSpeed = averageSpeed;
     }
 
-    public void addPoint(float point) {
+    public void addPoint(double point) {
         this.point += point;
     }
-    public void addCumulativeDay(int day) {
-        this.cumulativeDay += day;
+    public void addCumulativeRunningDay(int day) {
+        this.cumulativeRunningDay += day;
     }
-    public void addCumulativeDistance(float distance){
+    public void addCumulativeDistance(double distance){
         this.cumulativeDistance += distance;
     }
 

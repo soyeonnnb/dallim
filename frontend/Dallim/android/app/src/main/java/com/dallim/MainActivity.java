@@ -1,5 +1,7 @@
 package com.dallim;
 
+import android.util.Log;
+
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
@@ -13,6 +15,8 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
+
+    Log.d("DDDDDDDDDD", "MainActivity - getMainComponentName");
     return "Dallim";
   }
 
@@ -23,6 +27,8 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected ReactActivityDelegate createReactActivityDelegate() {
+
+    Log.d("DDDDDDDDDD", "MainActivity - createReactActivityDelegate");
     return new DefaultReactActivityDelegate(
         this,
         getMainComponentName(),

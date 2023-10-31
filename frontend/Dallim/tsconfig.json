@@ -9,8 +9,5 @@
     },
     "types": ["styled-components-react-native"]
   },
-  "include": [
-    "./src/**/*",
-    "./declarations.d.ts"
-  ]
+  "include": ["./src/**/*", "./declarations.d.ts"]
 }

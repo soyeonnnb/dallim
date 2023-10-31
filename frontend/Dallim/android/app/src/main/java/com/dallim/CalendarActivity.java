@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class CalendarActivity extends Activity {
@@ -26,159 +27,80 @@ public class CalendarActivity extends Activity {
      * 연/월 텍스트뷰
      */
     private TextView tvDate;
-    /**
-     * 그리드뷰 어댑터
-     */
-    private GridAdapter gridAdapter;
 
     /**
      * 일 저장 할 리스트
      */
     private ArrayList<String> dayList;
 
-    /**
-     * 그리드뷰
-     */
-    private GridView gridView;
 
-    /**
-     * 캘린더 변수
-     */
-    private Calendar mCal;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("DDDDDDDDDD", "CalendarActivity - onCreate");
         super.onCreate(savedInstanceState);
-        Log.d("debug1", "디버깅중");
+
         setContentView(R.layout.widget);
 
-        tvDate = (TextView)findViewById(R.id.tv_date);
-        gridView = (GridView)findViewById(R.id.gridview);
-        Log.d("debug1", tvDate.toString());
-        Log.d("debug1", gridView.toString());
-        // 오늘에 날짜를 세팅 해준다.
-        long now = System.currentTimeMillis();
-        final Date date = new Date(now);
-        //연,월,일을 따로 저장
-        final SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
-        final SimpleDateFormat curMonthFormat = new SimpleDateFormat("MM", Locale.KOREA);
-        final SimpleDateFormat curDayFormat = new SimpleDateFormat("dd", Locale.KOREA);
-        Log.d("debug1", now+" ");
-        //현재 날짜 텍스트뷰에 뿌려줌
-        tvDate.setText(curYearFormat.format(date) + "/" + curMonthFormat.format(date));
+        // Views 초기화
+        tvDate = (TextView) findViewById(R.id.tv_date);
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.gridview);
 
-        //gridview 요일 표시
-        dayList = new ArrayList<String>();
-        dayList.add("일");
-        dayList.add("월");
-        dayList.add("화");
-        dayList.add("수");
-        dayList.add("목");
-        dayList.add("금");
-        dayList.add("토");
-        Log.d("debug1", Arrays.toString(dayList.toArray()));
-        mCal = Calendar.getInstance();
+        // 오늘의 날짜 정보 가져오기
+        Calendar todayCal = Calendar.getInstance(Locale.KOREA);
+        int currentYear = todayCal.get(Calendar.YEAR);
+        int currentMonth = todayCal.get(Calendar.MONTH);
 
-        //이번달 1일 무슨요일인지 판단 mCal.set(Year,Month,Day)
-        mCal.set(Integer.parseInt(curYearFormat.format(date)), Integer.parseInt(curMonthFormat.format(date)) - 1, 1);
-        int dayNum = mCal.get(Calendar.DAY_OF_WEEK);
-        //1일 - 요일 매칭 시키기 위해 공백 add
-        for (int i = 1; i < 10; i++) {
-            dayList.add("");
-        }
-        Log.d("debug1", Arrays.toString(dayList.toArray()));
-        setCalendarDate(mCal.get(Calendar.MONTH) + 1);
-        Log.d("debug1", mCal.toString());
-        gridAdapter = new GridAdapter(getApplicationContext(), dayList);
-        gridView.setAdapter(gridAdapter);
+        // 현재 날짜 텍스트뷰에 뿌려줌
+        tvDate.setText(currentYear + "/" + (currentMonth + 1));
 
-    }
+        Log.d("DDDDDDDDDD", "CalendarActivity - onCreate - ChildCount" + linearLayout.getChildCount());
+        // Gridview 요일 표시를 위한 로직
 
-    /**
-     * 해당 월에 표시할 일 수 구함
-     *
-     * @param month
-     */
-    private void setCalendarDate(int month) {
-        mCal.set(Calendar.MONTH, month - 1);
+        // 이번달 1일의 요일을 구함
+        todayCal.set(Calendar.DAY_OF_MONTH, 1);
+        int dayOfWeek = todayCal.get(Calendar.DAY_OF_WEEK);
 
-        for (int i = 0; i < mCal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
-            dayList.add("" + (i + 1));
+
+        String[] days = {"일", "월", "화", "수", "목", "금", "토"};
+        LinearLayout firstWeekLayout = (LinearLayout) linearLayout.getChildAt(0);
+        for (int i = 0; i < days.length; i++) {
+            TextView dayTextView = (TextView) firstWeekLayout.getChildAt(i);
+            dayTextView.setText(days[i]);
         }
 
-    }
 
-    /**
-     * 그리드뷰 어댑터
-     *
-     */
-    private class GridAdapter extends BaseAdapter {
 
-        private final List<String> list;
+        // 이번 달의 일수만큼 TextView에 날짜 추가
+        int daysInMonth = todayCal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        int dayCounter = 1;
+        boolean isDateSettingStarted = false;
 
-        private final LayoutInflater inflater;
+        for (int i = 0; i < linearLayout.getChildCount(); i++) {
+            View childView = linearLayout.getChildAt(i);
 
-        /**
-         * 생성자
-         *
-         * @param context
-         * @param list
-         */
-        public GridAdapter(Context context, List<String> list) {
-            this.list = list;
-            this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        }
+            if (childView instanceof LinearLayout) {
+                LinearLayout weekLayout = (LinearLayout) childView;
+                Log.d("DDDDDDDDDD", "CalendarActivity - onCreate -weekLayout" +weekLayout.getChildCount());
+                for (int j = 0; j < weekLayout.getChildCount(); j++) {
+                    if (dayCounter > daysInMonth) break;
 
-        @Override
-        public int getCount() {
-            return list.size();
-        }
+                    // 1주차는 건너뜀 (요일이므로)
+                    if (i == 0) continue;
 
-        @Override
-        public String getItem(int position) {
-            return list.get(position);
-        }
+                    // 2주차의 시작 TextView의 인덱스를 조정
+                    if (!isDateSettingStarted) {
+                        j = dayOfWeek - 1;
+                        isDateSettingStarted = true;
+                    }
 
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder = null;
-            Log.d("debug1", " ");
-            if (convertView == null) {
-                convertView = inflater.inflate(R.layout.item_calendar_gridview, parent, false);
-                holder = new ViewHolder();
-
-                holder.tvItemGridView = (TextView)convertView.findViewById(R.id.tv_item_gridview);
-
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder)convertView.getTag();
+                    TextView dayView = (TextView) weekLayout.getChildAt(j);
+                    dayView.setText(String.valueOf(dayCounter));
+                    Log.d("DDDDDDDDDD", "CalendarActivity - onCreate -dayCounter" +String.valueOf(dayCounter));
+                    dayCounter++;
+                }
             }
-
-            holder.tvItemGridView.setText("" + getItem(position));
-
-            //해당 날짜 텍스트 컬러,배경 변경
-            mCal = Calendar.getInstance();
-
-            //오늘 day 가져옴
-            Integer today = mCal.get(Calendar.DAY_OF_MONTH);
-            String sToday = String.valueOf(today);
-            Log.d("8", sToday);
-            if (sToday.equals(getItem(position))) { //오늘 day 텍스트 컬러 변경
-                holder.tvItemGridView.setTextColor(getResources().getColor(R.color.transparent));
-            }
-
-            return convertView;
         }
-    }
 
-    private class ViewHolder {
-        TextView tvItemGridView;
-    }
-
-}
+}}

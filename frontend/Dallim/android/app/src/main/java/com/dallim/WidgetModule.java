@@ -10,6 +10,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.Context;
+import android.util.Log;
 
 
 public class WidgetModule extends ReactContextBaseJavaModule {
@@ -32,6 +33,8 @@ public class WidgetModule extends ReactContextBaseJavaModule {
     }
     @ReactMethod
     public void set(String message) {
+        Log.d("DDDDDDDDDD", "WidgetModule - set");
+
         SharedPreferences.Editor editor = context.getSharedPreferences("DATA", Context.MODE_PRIVATE).edit();
         editor.putString("appData", message);
         editor.commit();

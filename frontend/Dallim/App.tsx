@@ -28,19 +28,6 @@ const group = 'group.streak';
 const Stack = createStackNavigator();
 
 function App() {
-  const [text, setText] = useState('');
-
-  setText('111');
-
-  const SharedStorage = NativeModules.SharedStorage;
-
-  const handleSubmit = async () => {
-    const value = `${text} days`;
-    // Android
-    SharedStorage.set(JSON.stringify({text: value}));
-    ToastAndroid.show('Change value successfully!', ToastAndroid.SHORT);
-  };
-
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">

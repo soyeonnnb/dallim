@@ -3,6 +3,7 @@ package com.dallim;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.content.SharedPreferences;
 
@@ -12,10 +13,12 @@ import org.json.JSONObject;
 /**
  * Implementation of App Widget functionality.
  */
-public class StreakWidget extends AppWidgetProvider {
+public class DallimWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
+
+        Log.d("DDDDDDDDDD", "DallimWidget - updateAppWidget");
 
         try {
             SharedPreferences sharedPref = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
@@ -31,6 +34,7 @@ public class StreakWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        Log.d("DDDDDDDDDD", "DallimWidget - onUpdate");
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);

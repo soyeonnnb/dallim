@@ -1,6 +1,8 @@
 package com.dallim;
 
 import android.app.Application;
+import android.util.Log;
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
@@ -19,21 +21,22 @@ public class MainApplication extends Application implements ReactApplication {
           return BuildConfig.DEBUG;
         }
 
-        @Override
-        protected List<ReactPackage> getPackages() {
-          @SuppressWarnings("UnnecessaryLocalVariable")
-          List<ReactPackage> packages = new PackageList(this).getPackages();
-          // Packages that cannot be autolinked yet can be added manually here, for example:
-          // packages.add(new MyReactNativePackage());
+          @Override
+          protected List<ReactPackage> getPackages() {
 
-            packages.add(new SharedStoragePackager());
+              Log.d("DDDDDDDDDD", "MainApplication - getPackages");
 
-        return packages ;// 여기에 추가
-            
+              @SuppressWarnings("UnnecessaryLocalVariable")
+              List<ReactPackage> packages = new PackageList(this).getPackages();
+              // Packages that cannot be autolinked yet can be added manually here, for example:
+              // packages.add(new MyReactNativePackage());
 
 
+              packages.add(new WidgetModulePackage());  // 이 줄을 추가합니다.
 
-        }
+              return packages;
+          }
+
 
         @Override
         protected String getJSMainModuleName() {
@@ -58,6 +61,8 @@ public class MainApplication extends Application implements ReactApplication {
 
   @Override
   public void onCreate() {
+
+      Log.d("DDDDDDDDDD", "MainApplication - onCreate");
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {

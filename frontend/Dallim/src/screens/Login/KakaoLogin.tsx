@@ -89,7 +89,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
   };
 
   const parseAuthCode = async (url: string) => {
-    console.log('여기들어오나요');
+    // console.log('여기들어오나요');
     if (isCodeSent) return;
     const exp = 'code=';
     const startIndex = url.indexOf(exp);
@@ -112,7 +112,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
         })
         .then(async res => {
           const accessToken = res.data.accessToken;
-          console.log('엑세스 토큰 발급' + res.data.accessToken);
+          // console.log('엑세스 토큰 발급' + res.data.accessToken);
 
           await sendLoginRequest(accessToken);
         })

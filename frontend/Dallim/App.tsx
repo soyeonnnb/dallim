@@ -7,7 +7,9 @@ import Login from './src/screens/login/Login';
 import NotFound from './src/screens/notFound/NotFound';
 import Naver from './src/screens/login/NaverLogin';
 import Toast from 'react-native-toast-message';
+import { enableScreens } from 'react-native-screens';
 
+enableScreens(); 
 const Stack = createStackNavigator();
 
 function App() {

@@ -40,7 +40,7 @@ public class LocationService extends Service {
     private RunningViewModel runningViewModel;
     private static final int NOTIFICATION_ID = 1;
     private static final String CHANNEL_ID = "SensorServiceChannel";
-
+    private float temp = 0;
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
@@ -99,9 +99,15 @@ public class LocationService extends Service {
 
         if (lastLocation != null) {
             float distance = lastLocation.distanceTo(location);
-            totalDistance += Math.round((distance / 1000) * 100) / 100.0;
-            runningViewModel.setDistance(totalDistance);
+            totalDistance += distance;
+            Log.d("임시2", String.valueOf(totalDistance));
+            runningViewModel.setDistance((float) (Math.round((totalDistance / 1000) * 100) / 100.0));
+            Log.d("임시3", String.valueOf(runningViewModel.getDistance().getValue()));
 
+            double latitude = location.getLatitude(); // 위도
+            double longitude = location.getLongitude(); // 경도
+            runningViewModel.setLatitude((float) latitude);
+            runningViewModel.setLongitude((float) longitude);
             float speed = location.getSpeed();
             // 초속 0.4 이상이면 걷는 걸로 판단.
             if(speed >= 0.4){
@@ -113,6 +119,7 @@ public class LocationService extends Service {
                 String format = String.format("%d'%02d''", minutes, seconds);
                 runningViewModel.setMsPace(format);
             }
+
 
             Log.d(TAG,  "총 이동거리" + totalDistance + "KM, 이동거리: " + distance + " M, 속도: " + speed + " m/s");
         }

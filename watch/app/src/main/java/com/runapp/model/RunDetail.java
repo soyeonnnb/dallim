@@ -6,7 +6,9 @@ public class RunDetail {
     private String pace; // 페이스(m/k)
     private float distance; // 거리(m)
     private float heartRate; // 심박수
-    private String state;
+    private String state; // 상태
+    private float latitude; // 위도
+    private float longitude; // 경도
 
     public Long getSecond() {
         return second;
@@ -56,6 +58,22 @@ public class RunDetail {
         this.state = state;
     }
 
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
     @Override
     public String toString() {
         return "RunDetail{" +
@@ -65,6 +83,8 @@ public class RunDetail {
                 ", distance=" + distance +
                 ", heartRate=" + heartRate +
                 ", state='" + state + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 '}';
     }
 }

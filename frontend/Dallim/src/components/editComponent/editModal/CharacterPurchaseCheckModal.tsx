@@ -1,5 +1,5 @@
 import * as S from './CharacterPurchaseCheckModal.styles'; 
-import { characterData } from '@/components/common/CharacterData';
+import { characterData } from '@/recoil/CharacterData';
 import { Modal } from 'react-native';
 
 import { useRecoilState } from 'recoil';

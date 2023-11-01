@@ -1,6 +1,6 @@
 import * as S from './PlanetPurchaseCheckModal.styles';
 import { Modal } from 'react-native';
-import { planetData } from '@/components/common/PlanetData';
+import { planetData } from '@/recoil/PlanetData';
 import SpinAnimation from '@/components/common/SpinAnimation';
 import { useRecoilValue } from 'recoil';
 import { selectedPlanetIndexState } from '@/recoil/EditRecoil';

@@ -1,8 +1,8 @@
 import * as S from './Main.styles';
 import { useEffect, useState } from 'react';
 import { fetchUserProfile } from '@/apis/MainApi';
-import { characterData } from '@/components/common/CharacterData';
-import { planetData } from '@/components/common/PlanetData';
+import { characterData } from '@/recoil/CharacterData';
+import { planetData } from '@/recoil/PlanetData';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
 import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';

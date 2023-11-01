@@ -1,6 +1,5 @@
-import React from 'react';
 import * as S from './ProfileCard.styles';
-import { planetData } from '../common/PlanetData';
+import { planetData } from '@/recoil/PlanetData';
 
 interface Props {
     PlanetIndex: number;

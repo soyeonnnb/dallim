@@ -13,7 +13,7 @@ import RunningMateModal from '../../components/profileComponent/profileModal/Run
 import NotificationModal from '../../components/profileComponent/profileModal/NotificationModal';
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
 import RunningMateSetting from './RunningMateSetting';
-import {characterData} from '../../components/common/CharacterData';
+import {characterData} from '@/recoil/CharacterData';
 
 interface ProfileProps {
   navigation: any;

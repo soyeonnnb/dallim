@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import * as S from './Monthly.styles';
-import {getCurrentDate} from '@/components/common/CalendarData';
+import {getCurrentDate} from '@/recoil/CalendarData';
 
 import MonthlyRecord from './MonthlyRecord';
 import MonthlyChart from './MonthlyChart';

@@ -35,7 +35,7 @@ import {
 function Edit() {
 
   const [userData, setUserData] = useRecoilState(userDataState);
-  
+
   useEffect(() => {
     const fetchData = async () => {
       try {

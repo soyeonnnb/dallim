@@ -39,7 +39,7 @@ function Main() {
       } finally {
         setTimeout(() => {
           setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
-        }, 3000);
+        }, 1000);
       }
     };
     loadUserInfo();

@@ -1,5 +1,6 @@
 import * as S from './PlanetEdit.styles';
 import { planetData } from '@/recoil/PlanetData';
+import CustomToast from '../common/CustomToast';
 import { useEffect, useState } from 'react';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
@@ -40,7 +41,6 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
   function equippedPlanetChange() {
     togglePlanetSelectModal();
     const planetCount = planetData.length;
-    handleEquippedPlanetChange(equippedPlanetIndex % planetCount);
     handlePlanetChange(selectedPlanetIndex % planetCount);
   }
 
@@ -63,6 +63,11 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
     setPurchaseModalVisible(false);
   }
 
+  function handleEquipped() {
+    console.log("시작 버튼 눌림!");
+    CustomToast({ type: "success", text1: "현재 착용중인 행성입니다." });
+  }
+
   return (
     <S.Container>
 
@@ -83,7 +88,7 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
       <S.Footer>
         {selectedPlanetIsPurchased ? (
           selectedPlanetIndex === equippedPlanetIndex ? (
-            <S.ButtonBox>
+            <S.ButtonBox onPress={handleEquipped}>
               <S.EquippedText>착용중</S.EquippedText>
             </S.ButtonBox>
           ) : (

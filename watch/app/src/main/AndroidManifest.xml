@@ -27,8 +27,6 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <!-- 인터넷 연결 상태 확인 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- 포그라운드 서비스 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:name=".util.MyApplication"
@@ -66,6 +64,19 @@
         <service android:name=".service.SensorService"
             tools:ignore="Instantiatable"></service>
         <service android:name=".service.LocationService" android:exported="false"/>
+
+        <service android:name=".service.DataLayerListenerService"
+            android:exported="true">
+            <intent-filter>
+                <!-- listeners receive events that match the action and data filters -->
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <action android:name="com.google.android.gms.wearable.REQUEST_RECEIVED" />
+                <action android:name="com.google.android.gms.wearable.CAPABILITY_CHANGED" />
+                <action android:name="com.google.android.gms.wearable.CHANNEL_EVENT" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/data_path" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".activity.MainActivity"

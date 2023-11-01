@@ -6,14 +6,21 @@ import * as S from './Carousel.styles';
 
 import {characterData} from '@/recoil/CharacterData';
 
-interface ICarousel {
+interface CarouselProps {
   gap: number;
   offset: number;
   pages: any[];
   pageWidth: number;
+  onCardSelected?: (num: number) => void;
 }
 
-export default function Carousel({pages, pageWidth, gap, offset}: ICarousel) {
+export default function Carousel({
+  pages,
+  pageWidth,
+  gap,
+  offset,
+  onCardSelected,
+}: CarouselProps) {
   const [page, setPage] = useState(0);
 
   function renderItem({item}: any) {
@@ -32,6 +39,9 @@ export default function Carousel({pages, pageWidth, gap, offset}: ICarousel) {
       e.nativeEvent.contentOffset.x / (pageWidth + gap),
     );
     setPage(newPage);
+    if (onCardSelected) {
+      onCardSelected(pages[newPage].num);
+    }
   };
 
   const currentPageData = pages[page];

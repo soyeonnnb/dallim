@@ -36,6 +36,7 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
       distance: '5.5km',
       minutes: 15,
       speed: '22km/h',
+      togetherrun: false,
     },
     {
       num: 2,
@@ -48,6 +49,7 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
       distance: '5.5km',
       minutes: 15,
       speed: '22km/h',
+      togetherrun: false,
     },
     {
       num: 3,
@@ -60,6 +62,7 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
       distance: '5.5km',
       minutes: 15,
       speed: '22km/h',
+      togetherrun: true,
     },
     {
       num: 4,
@@ -72,6 +75,7 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
       distance: '5.5km',
       minutes: 15,
       speed: '22km/h',
+      togetherrun: true,
     },
     {
       num: 5,
@@ -84,6 +88,7 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
       distance: '5.5km',
       minutes: 15,
       speed: '22km/h',
+      togetherrun: true,
     },
   ];
   // 다음 화면 미리보기--------------------
@@ -91,6 +96,11 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
 
   // state--------------------
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [selectedCardNum, setSelectedCardNum] = useState<number | null>(
+    PAGES[0]?.num || null,
+  );
+
+  console.log(selectedCardNum);
 
   return (
     <S.Container>
@@ -114,6 +124,7 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
             offset={36}
             pages={PAGES}
             pageWidth={screenWidth - (16 + 36) * 2}
+            onCardSelected={(num: number) => setSelectedCardNum(num)}
           />
         </S.Body>
         <S.Footer>

@@ -2,7 +2,8 @@ import * as S from './RunningMateSetting.styles';
 import {useState} from 'react';
 
 //icon
-import BackButtonIcon from '../../assets/icons/BackButtonIcon.png';
+// import BackButtonIcon from '../../assets/icons/BackButtonIcon.png';
+import BackButtonIcon from '@/assets/icons/ArrowLeft';
 
 //img
 import BlackCard from '../../assets/planets/ColumnCard/blackColumnCard.png';
@@ -13,10 +14,13 @@ import RedCard from '../../assets/planets/ColumnCard/redColumnCard.png';
 
 //carousel
 import Carousel from '../../components/profileComponent/Carousel';
-import CardPage from '../../components/profileComponent/CardPage';
 import {Dimensions} from 'react-native';
 
-function RunningMateSetting() {
+interface RunningMateSettingProps {
+  navigation: any;
+}
+
+function RunningMateSetting({navigation}: RunningMateSettingProps) {
   // 임시 데이터
   const PlanetIndex = 2; // 유저가 장착한 행성
   const TempSelectCharacter = 3; // 유저가 장착한 캐릭터
@@ -50,53 +54,37 @@ function RunningMateSetting() {
         source={require('../../assets/images/MainBackground4.png')}
         resizeMode="cover">
         <S.Header>
-          <S.BackButtonIconBox>
-            <S.BackButtonIcon source={BackButtonIcon}></S.BackButtonIcon>
-          </S.BackButtonIconBox>
-          <S.TitleRunningMateSettingBox>
+          <S.BackButtonFlexBoxLeft
+            onPress={() => navigation.navigate('Profile')}>
+            <BackButtonIcon width={30} height={30} color="white" />
+          </S.BackButtonFlexBoxLeft>
+          <S.BackButtonFlexBoxRight>
             <S.TitleText>러닝메이트 설정</S.TitleText>
-          </S.TitleRunningMateSettingBox>
-          {/* <S.ProfileBox>
-            <ProfileCard
-              PlanetIndex={PlanetIndex}
-              Nickname={Nickname}
-              UserLevel={UserLevel}
-              experiencePercentage={experiencePercentage}
-            />
-          </S.ProfileBox> */}
+          </S.BackButtonFlexBoxRight>
+          <S.BackButtonFlexBoxLeft></S.BackButtonFlexBoxLeft>
         </S.Header>
-        <Carousel
-          gap={16}
-          offset={36}
-          pages={PAGES}
-          pageWidth={screenWidth - (16 + 36) * 2}
-        />
-        {/* <S.Body>
-          <S.TitleSetBox>
-            <S.Text>Setting</S.Text>
-          </S.TitleSetBox>
 
-          <S.SetBox>
-            <S.ButtonBox onPress={() => setShowNicknameChangeModal(true)}>
-              <S.IconBox>
-                <S.ButtonIcon source={ChangeNicknameIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>닉네임 변경</S.ButtonText>
-              </S.TextBox>
-            </S.ButtonBox>
-          </S.SetBox>
-        </S.Body> */}
-
+        <S.Body>
+          <Carousel
+            gap={16}
+            offset={36}
+            pages={PAGES}
+            pageWidth={screenWidth - (16 + 36) * 2}
+          />
+        </S.Body>
+        <S.Footer>
+          <S.DeleteButtonBox
+            onPress={() => {
+              // TODO: 여기에 삭제 버튼 클릭 시 수행할 액션을 추가합니다.
+              console.log('삭제 버튼이 클릭되었습니다.');
+            }}>
+            <S.DeleteButtonText>삭제</S.DeleteButtonText>
+          </S.DeleteButtonBox>
+        </S.Footer>
         <S.TabBox />
-      </S.BackgroundImage>
 
-      {/* <S.ImageBox>
-        <S.CharacterImage
-          source={selectedCharacterLevelData.front}
-          resizeMode="contain"
-        />
-      </S.ImageBox> */}
+        {/* <S.CancleButton /> */}
+      </S.BackgroundImage>
     </S.Container>
   );
 }

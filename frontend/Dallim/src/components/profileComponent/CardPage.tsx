@@ -1,26 +1,15 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import {ViewStyle, Image} from 'react-native';
+import {ViewStyle} from 'react-native';
+import * as S from './CardPage.styles';
 
 interface ICardPage {
   item: {num: number; cardImage: any};
   style: ViewStyle;
 }
 
-const PageItem = styled.View`
-  justify-content: center;
-  align-items: center;
-  border-radius: 20px;
-`;
-
 export default function CardPage({item, style}: ICardPage) {
   return (
-    <PageItem style={style}>
-      <Image
-        source={item.cardImage}
-        resizeMode="contain"
-        style={{width: '100%', height: '100%'}}
-      />
-    </PageItem>
+    <S.PageItem style={style}>
+      <S.StyledImage source={item.cardImage} resizeMode="contain" />
+    </S.PageItem>
   );
 }

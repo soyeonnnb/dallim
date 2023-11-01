@@ -1,22 +1,26 @@
 import styled from 'styled-components/native';
+import {ImageBackground, TouchableOpacity} from 'react-native';
 
-export const ModalContainer = styled.View`
+export const Container = styled.View`
   flex: 1;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); // 반투명한 배경을 추가
+`;
+
+export const BackgroundImage = styled(ImageBackground)`
+  flex: 1;
+  width: 100%;
+  height: 100%;
 `;
 
 export const ModalContent = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 80%;
-  height: 550px;
+  width: 100%;
+  height: 90%;
   background-color: #fff;
   border-radius: 10px;
 `;
 
-export const Top = styled.View`
+export const Header = styled.View`
   /* border-width: 1px;
   border-color: red; */
   flex-direction: row;
@@ -26,6 +30,36 @@ export const Top = styled.View`
   justify-content: space-between;
 `;
 
+export const CloseButton = styled.TouchableOpacity`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 20%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+export const CloseImage = styled.Image`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 35%;
+  height: 35%;
+`;
+
+export const HeaderBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 60%;
+  height: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  padding-left: 5%;
+`;
+
+export const DetailText = styled.Text`
+  font-size: 30px;
+  color: white;
+`;
+
 export const Empty = styled.View`
   /* border-width: 1px;
   border-color: red; */
@@ -33,123 +67,110 @@ export const Empty = styled.View`
   height: 100%;
 `;
 
-export const TitleBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 60%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  gap: 2px;
-`;
-
-export const NicknameText = styled.Text`
-  font-size: 15px;
-  color: black;
-`;
-
-export const LevelText = styled.Text`
-  font-size: 10px;
-  color: #b2b9ca;
-`;
-
-export const CloseButton = styled.TouchableOpacity`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 50px;
-  height: 50px;
-  justify-content: center;
-  align-items: center;
-`;
-export const CloseImage = styled.Image`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 60%;
-  height: 60%;
-`;
-
-export const Middle = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
+export const Body = styled.View`
+  border-width: 1px;
+  border-color: blue;
   flex-direction: row;
   width: 100%;
-  height: 30%;
+  height: 35%;
 `;
 
-export const MiddleLeft = styled.View`
+export const ProfileBox = styled.View`
   /* border-width: 1px;
-  border-color: blue; */
-  width: 40%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
+  border-color: green; */
+  width: 100%;
+  height: 80%;
+`;
+
+export const ImageBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 35%;
+  height: 25%;
+  position: absolute;
+  top: 18%;
+  left: 65%;
 `;
 
 export const CharacterImage = styled.Image`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 90%;
-  height: 90%;
-`;
-
-export const MiddleRigth = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
-  width: 60%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const TextBox = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
-  width: 70%;
-  height: 30%;
-  gap: 5px;
-`;
-
-export const TotalDistText = styled.Text`
-  font-size: 12px;
-  color: #315182;
-`;
-
-export const WeekDistText = styled.Text`
-  font-size: 12px;
-  color: #315182;
-  /* text-align: center; */
-`;
-
-export const ButtonBox = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
-  width: 70%;
-  height: 30%;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const SendButton = styled.TouchableOpacity`
-  /* border-width: 1px;
-  border-color: blue; */
-  border-radius: 18px;
-  align-items: center;
-  justify-content: center;
-  width: 70px;
-  height: 30px;
-  background-color: #315182;
-`;
-
-export const SendButtonText = styled.Text`
-  color: white;
-  font-size: 10px;
-`;
-
-export const Bottom = styled.View`
-  /* border-width: 1px;
-  border-color: yellow; */
   width: 100%;
-  height: 60%;
+  height: 100%;
+`;
+
+// export const MiddleLeft = styled.View`
+//   /* border-width: 1px;
+//   border-color: blue; */
+//   width: 40%;
+//   height: 100%;
+//   justify-content: center;
+//   align-items: center;
+// `;
+
+// export const CharacterImage = styled.Image`
+//   /* border-width: 1px;
+//   border-color: red; */
+//   width: 90%;
+//   height: 90%;
+// `;
+
+// export const MiddleRigth = styled.View`
+//   /* border-width: 1px;
+//   border-color: blue; */
+//   width: 60%;
+//   height: 100%;
+//   justify-content: center;
+//   align-items: center;
+// `;
+
+// export const TextBox = styled.View`
+//   /* border-width: 1px;
+//   border-color: blue; */
+//   width: 70%;
+//   height: 30%;
+//   gap: 5px;
+// `;
+
+// export const TotalDistText = styled.Text`
+//   font-size: 12px;
+//   color: #315182;
+// `;
+
+// export const WeekDistText = styled.Text`
+//   font-size: 12px;
+//   color: #315182;
+//   /* text-align: center; */
+// `;
+
+// export const ButtonBox = styled.View`
+//   /* border-width: 1px;
+//   border-color: blue; */
+//   width: 70%;
+//   height: 30%;
+//   justify-content: center;
+//   align-items: center;
+// `;
+
+// export const SendButton = styled.TouchableOpacity`
+//   /* border-width: 1px;
+//   border-color: blue; */
+//   border-radius: 18px;
+//   align-items: center;
+//   justify-content: center;
+//   width: 70px;
+//   height: 30px;
+//   background-color: #315182;
+// `;
+
+// export const SendButtonText = styled.Text`
+//   color: white;
+//   font-size: 10px;
+// `;
+
+export const Footer = styled.View`
+  border-width: 1px;
+  border-color: yellow;
+  width: 100%;
+  height: 45%;
   align-items: center;
 `;
 
@@ -212,7 +233,6 @@ export const DropdownItemText = styled.Text`
   color: white;
   font-size: 10px;
   text-align: center;
-
 `;
 
 export const BottomList = styled.View`
@@ -231,4 +251,11 @@ export const RunBox = styled.View`
   margin-bottom: 10px;
   /* justify-content: center;
   align-items: center; */
+`;
+
+export const TabBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 10%;
 `;

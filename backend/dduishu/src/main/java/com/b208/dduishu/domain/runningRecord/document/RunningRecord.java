@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 
@@ -59,7 +60,10 @@ public class RunningRecord {
         // Date를 LocalDateTime으로 변환 (서울 시간대)
         LocalDateTime localDateTime = date.toInstant()
                 .atZone(ZoneId.of("Asia/Seoul"))
+                .withZoneSameInstant(ZoneOffset.UTC)
                 .toLocalDateTime();
+
+        System.out.println(localDateTime);
 
         return localDateTime;
     }

@@ -8,23 +8,27 @@ import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDetail;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
+import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.entity.UserState;
+import com.b208.dduishu.domain.user.exception.UserNotFoundException;
 import com.b208.dduishu.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -88,6 +92,8 @@ public class RunningRecordService {
         // dto to entity
         RunningRecord res = req.toRunningRecord(user, character, rivalRunningRecord);
 
+        System.out.println(req.getDate().toString());
+
         // runningRecord 저장
         runningRecordRepository.save(res);
     }
@@ -114,6 +120,104 @@ public class RunningRecordService {
         double newAverageSpeed = (runningRecords.isEmpty()) ? averageSpeed : averageSpeedSum / runningRecords.size();
         user.updateAverageSpeed(newAverageSpeed);
     }
+
+    private LocalDateTime[] getStartAndEndOfMonth(int year, int month) {
+        LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
+        LocalDate lastDayOfMonth = firstDayOfMonth.with(TemporalAdjusters.lastDayOfMonth());
+        // UTC 시간으로 변환
+        LocalDateTime start = firstDayOfMonth.atStartOfDay().atZone(ZoneId.of("Asia/Seoul"))
+                .withZoneSameInstant(ZoneOffset.UTC)
+                .toLocalDateTime();
+        LocalDateTime end = lastDayOfMonth.atTime(LocalTime.MAX).atZone(ZoneId.of("Asia/Seoul"))
+                .withZoneSameInstant(ZoneOffset.UTC)
+                .toLocalDateTime();
+        System.out.println(firstDayOfMonth.atStartOfDay());
+        System.out.println(lastDayOfMonth.atTime(LocalTime.MAX));
+        System.out.println("start + end");
+        System.out.println(start);
+        System.out.println(end);
+        return new LocalDateTime[]{start, end};
+    }
+
+    private String findMostFrequentRunningMateId(List<RunningRecord> records) {
+        return records.stream()
+                .filter(o -> o.getRivalRecord() != null)
+                .map(o -> o.getRivalRecord().getId())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey)
+                .orElse(null);
+    }
+
+    private User findUserByRunningMateId(List<RunningRecord> records, String runningMateId) {
+        Long mostFrequentUserId = records.stream()
+                .filter(record -> record.getId().toString().equals(runningMateId))
+                .map(record -> record.getUser().getUserId())
+                .findFirst()
+                .orElseThrow(UserNotFoundException::new);
+        return userRepository.findByUserId(mostFrequentUserId).orElseThrow(UserNotFoundException::new);
+    }
+
+    private double computeTotalDistance(List<RunningRecord> records) {
+        return records.stream().mapToDouble(RunningRecord::getTotalDistance).sum();
+    }
+
+    private int computeTotalTime(List<RunningRecord> records) {
+        return records.stream().mapToInt(RunningRecord::getTotalTime).sum();
+    }
+
+    public MonthRunningRecord getMyRunningRecordFor30Days(int year, int month) {
+
+        User user = getUser.getUser();
+
+        LocalDateTime[] monthRange = getStartAndEndOfMonth(year, month);
+
+        List<RunningRecord> records = runningRecordRepository.findByUserUserIdAndCreatedAtBetween(user.getUserId(), monthRange[0], monthRange[1]);
+
+        String mostFrequentRunningMateId = findMostFrequentRunningMateId(records);
+        User runningMate = findUserByRunningMateId(records, mostFrequentRunningMateId);
+
+        double totalDistance = computeTotalDistance(records);
+        int totalTime = computeTotalTime(records);
+        int totalCount = records.size();
+
+        List<RunningRecordOverview> runningRecordOverviews = records.stream()
+                .map(o -> new RunningRecordOverview(o))
+                .collect(toList());
+
+        return MonthRunningRecord.builder()
+                .year(year)
+                .month(month)
+                .user(runningMate)
+                .totalCount(totalCount)
+                .totalDistance(totalDistance)
+                .totalTime(totalTime)
+                .records(runningRecordOverviews)
+                .build();
+    }
+
+    public List<MonthRunningRecord> getMyRunningRecordForAllDays() {
+        User user = getUser.getUser();
+
+        List<RunningRecord> records = runningRecordRepository.findByUserUserId(user.getUserId());
+
+        for (RunningRecord record : records) {
+            System.out.println(record.getCreatedAt());
+        }
+
+        Map<YearMonth, List<RunningRecord>> groupedRecords = records.stream()
+                .collect(Collectors.groupingBy(record -> YearMonth.from(record.getCreatedAt())));
+
+        return groupedRecords.entrySet().stream().map(entry -> {
+            YearMonth yearMonth = entry.getKey();
+            int year = yearMonth.getYear();
+            int month = yearMonth.getMonthValue();
+
+            return getMyRunningRecordFor30Days(year, month);
+        }).collect(Collectors.toList());
+    }
+
 
     public List<RunningRecordOverview> getRunningRecordFor30Days(String type, Long userId) {
 

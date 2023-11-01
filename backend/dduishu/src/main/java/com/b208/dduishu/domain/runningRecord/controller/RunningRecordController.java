@@ -3,6 +3,7 @@ package com.b208.dduishu.domain.runningRecord.controller;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDetail;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
+import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
 import com.b208.dduishu.domain.runningRecord.service.RunningRecordService;
 import com.b208.dduishu.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -58,10 +59,21 @@ public class RunningRecordController {
         }
     }
 
-    @GetMapping("/api/v1/running")
-    public ApiResponse<?> getRunningRecordFor30Days(@RequestParam String type, @RequestParam Long userId) {
+    @GetMapping("/api/v1/running/me")
+    public ApiResponse<?> getMyRunningRecordFor30Days(@RequestParam int year, @RequestParam int month) {
         try {
-            List<RunningRecordOverview> res =  runningRecordService.getRunningRecordFor30Days(type, userId);
+            MonthRunningRecord res =  runningRecordService.getMyRunningRecordFor30Days(year, month);
+
+            return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
+    @GetMapping("/api/v1/running/me/all")
+    public ApiResponse<?> getMyRunningRecordForAllDays() {
+        try {
+            List<MonthRunningRecord> res =  runningRecordService.getMyRunningRecordForAllDays();
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {

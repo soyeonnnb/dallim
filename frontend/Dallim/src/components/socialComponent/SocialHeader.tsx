@@ -10,15 +10,12 @@ function SocialHeader() {
     const NowDate = new Date();
     const nowTimestamp = NowDate.getTime();
     const DateYear = NowDate.getFullYear();
-
     const startOfYear = new Date(NowDate.getFullYear(), 0, 1);
     const startOfYearTimestamp = startOfYear.getTime();
     const daysPassedSinceStartOfYear = Math.floor((nowTimestamp - startOfYearTimestamp) / (24 * 60 * 60 * 1000));
-
     // 1월 1일이 속한 주를 첫째 주로 간주
     const daysFromStartWeek = startOfYear.getDay(); // 0 (일요일) ~ 6 (토요일)
     const adjustedDaysPassed = daysPassedSinceStartOfYear + daysFromStartWeek;
-
     const DateWeek = Math.ceil(adjustedDaysPassed / 7);
 
     const [showAlert, setShowAlert] = useState(false);
@@ -58,7 +55,6 @@ function SocialHeader() {
                 show={showAlert}
                 showProgress={false}
                 title="안내사항"
-                // message={isOn ? "친구 거리 기준 랭킹입니다." : "상위 20명의 거리 기준 랭킹입니다."}
                 message={"상위 20명의 거리 기준 랭킹입니다."}
                 closeOnTouchOutside={true}
                 onDismiss={() => {

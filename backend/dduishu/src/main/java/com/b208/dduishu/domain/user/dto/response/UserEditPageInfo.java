@@ -21,10 +21,10 @@ public class UserEditPageInfo {
     private List<PlanetOverview> planets;
 
     @Builder
-    public UserEditPageInfo(User user, Character character, Planet thema, List<CharacterOverview> characters, List<PlanetOverview> planets) {
+    public UserEditPageInfo(User user, Character character, Planet planet, List<CharacterOverview> characters, List<PlanetOverview> planets) {
         this.point = user.getPoint();
         this.mainCharacterIndex = Util.getCharacterIndexByCharacter(character);
-        this.mainPlanetIndex = Util.getThemaIndexByCharacter(thema);
+        this.mainPlanetIndex = Util.getMainPlanetIndex(planet);
         this.characters = characters;
         this.planets = planets;
     }

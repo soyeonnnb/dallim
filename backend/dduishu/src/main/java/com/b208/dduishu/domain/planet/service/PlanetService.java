@@ -23,7 +23,7 @@ import static java.util.stream.Collectors.toList;
 @RequiredArgsConstructor
 public class PlanetService {
 
-    private static final List<PlanetName> basePlanetNames = List.of(PlanetName.EARTH, PlanetName.MOON);
+    private static final List<PlanetName> basePlanetNames = List.of(PlanetName.BLACK, PlanetName.YELLOW, PlanetName.BLUE, PlanetName.PUPPLE, PlanetName.RED);
 
     private final PlanetRepository planetRepository;
     private final PlanetInfoRepository planetInfoRepository;

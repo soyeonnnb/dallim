@@ -17,13 +17,13 @@ public class UserMainPageInfo {
     private int planetIndex;
 
     @Builder
-    public UserMainPageInfo(User user, Character character, Planet thema) {
+    public UserMainPageInfo(User user, Character character, Planet planet) {
         this.nickName = user.getNickname();
         this.point = user.getPoint();
         this.userLevel = user.getUserLevel().getLevel();
         this.characterIndex = Util.getCharacterIndexByCharacter(character);
         this.evolutionStage = getEvolutionStage(character.getCharacterLevel().getLevel());
-        this.planetIndex = Util.getMainThemaIndex(thema);
+        this.planetIndex = Util.getMainPlanetIndex(planet);
     }
 
     public int getEvolutionStage(int level) {

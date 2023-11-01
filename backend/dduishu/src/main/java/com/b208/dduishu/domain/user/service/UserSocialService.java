@@ -49,7 +49,7 @@ public class UserSocialService {
     private final PlanetRepository themaRepository;
 
     private static final List<CharacterName> baseCharacterNames = List.of(CharacterName.RABBIT, CharacterName.Penguin, CharacterName.Panda, CharacterName.Chicken);
-    private static final List<PlanetName> baseThemaNames = List.of(PlanetName.EARTH, PlanetName.MOON);
+    private static final List<PlanetName> baseThemaNames = List.of(PlanetName.BLACK, PlanetName.YELLOW, PlanetName.BLUE, PlanetName.PUPPLE, PlanetName.RED);
 
     private final RunningRecordService runningRecordService;
 
@@ -134,14 +134,14 @@ public class UserSocialService {
     public UserMainPageInfo getUserMainPageInfo() {
         User user = getUser.getUser();
         List<Character> findCharacters = characterRepository.findAllByUserUserId(user.getUserId());
-        List<Planet> findThemas = themaRepository.findAllByUserUserId(user.getUserId());
+        List<Planet> findPlanets = themaRepository.findAllByUserUserId(user.getUserId());
 
         Character mainCharacter = findCharacters.stream()
                 .filter(Character::isMainCharacter)
                 .findFirst()
                 .orElse(null);
 
-        Planet mainThema = findThemas.stream()
+        Planet mainPlanet = findPlanets.stream()
                 .filter(Planet::isMainPlanet)
                 .findFirst()
                 .orElse(null);
@@ -149,24 +149,24 @@ public class UserSocialService {
         return UserMainPageInfo.builder()
                 .user(user)
                 .character(mainCharacter)
-                .thema(mainThema)
+                .planet(mainPlanet)
                 .build();
     }
 
     public UserEditPageInfo getUserEditPageInfo() {
         User user = getUser.getUser();
         List<Character> findCharacters = characterRepository.findAllCharacterInfo(user.getUserId());
-        List<Planet> findThemas = themaRepository.findAllByUserUserId(user.getUserId());
+        List<Planet> findPlanet = themaRepository.findAllByUserUserId(user.getUserId());
 
         List<CharacterOverview> characterOverviews = convertCharacterOverView(findCharacters);
-        List<PlanetOverview> themaOverviews = converPlanetOverView(findThemas);
+        List<PlanetOverview> planetOverviews = converPlanetOverView(findPlanet);
 
         Character mainCharacter = findCharacters.stream()
                 .filter(Character::isMainCharacter)
                 .findFirst()
                 .orElse(null);
 
-        Planet mainThema = findThemas.stream()
+        Planet mainPlanet = findPlanet.stream()
                 .filter(Planet::isMainPlanet)
                 .findFirst()
                 .orElse(null);
@@ -174,9 +174,9 @@ public class UserSocialService {
         return UserEditPageInfo.builder()
                 .user(user)
                 .character(mainCharacter)
-                .thema(mainThema)
+                .planet(mainPlanet)
                 .characters(characterOverviews)
-                .planets(themaOverviews)
+                .planets(planetOverviews)
                 .build();
 
     }

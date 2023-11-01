@@ -26,11 +26,17 @@ public class PlanetOverview {
 
     private int getPlanetIndex(PlanetName name) {
 
-        if (name.equals(PlanetName.EARTH)) {
+        if (name.equals(PlanetName.BLACK)) {
             return 0;
-        } else if (name.equals(PlanetName.MOON)) {
+        } else if (name.equals(PlanetName.YELLOW)) {
             return 1;
+        } else if (name.equals(PlanetName.BLUE)) {
+            return 2;
+        } else if (name.equals(PlanetName.PUPPLE)) {
+            return 3;
+        } else if (name.equals(PlanetName.RED)) {
+            return 4;
         }
-        return -1;
+        return 0;
     }
 }

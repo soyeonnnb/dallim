@@ -24,9 +24,11 @@ public class MonthRunningRecord {
     public MonthRunningRecord(int year, int month, User user, int totalCount, double totalDistance, int totalTime, List<RunningRecordOverview> records) {
         this.year = year;
         this.month = month;
-        this.runningMateNickName = user.getNickname();
-        this.runningMateCharacterIndex = Util.getProfileIndexByUser(user);
-        this.runningMateLevel = user.getUserLevel().getLevel();
+        if (user != null) {
+            this.runningMateNickName = user.getNickname();
+            this.runningMateCharacterIndex = Util.getProfileIndexByUser(user);
+            this.runningMateLevel = user.getUserLevel().getLevel();
+        }
         this.totalCount = totalCount;
         this.totalDistance = totalDistance;
         this.totalTime = totalTime;

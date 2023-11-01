@@ -60,7 +60,6 @@ public class RunningRecord {
         // Date를 LocalDateTime으로 변환 (서울 시간대)
         LocalDateTime localDateTime = date.toInstant()
                 .atZone(ZoneId.of("Asia/Seoul"))
-                .withZoneSameInstant(ZoneOffset.UTC)
                 .toLocalDateTime();
 
         System.out.println(localDateTime);

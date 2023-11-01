@@ -5,14 +5,22 @@ import Calendar from '../../components/chartComponent/main/Calendar';
 import Preview from '../../components/chartComponent/main/Preview';
 import {CalendarType} from '@/components/common/CalendarData';
 import {data} from './recordDummyData.json';
-import {MonthlyRecords} from '@/apis/ChartApi';
+import {MonthlyRecords, fetchUserCalendarChart} from '@/apis/ChartApi';
 function Chart() {
   const [isClicked, setIsClicked] = useState(false);
   const [selectedDate, setSelectedDate] = useState<CalendarType>();
   const [everyRecords, setEveryRecords] = useState<MonthlyRecords[]>([]);
 
+  const fetchCalendarData = async () => {
+    try {
+      const data = await fetchUserCalendarChart();
+      setEveryRecords(data);
+    } catch (error) {
+      console.error('데이터 불러오기 에러 :', error);
+    }
+  };
   useEffect(() => {
-    setEveryRecords(data);
+    fetchCalendarData();
   }, []);
 
   return (

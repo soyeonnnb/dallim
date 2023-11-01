@@ -6,15 +6,23 @@ import PlanetSelectModal from './editModal/PlanetSelectModal';
 import BoomEffect from '@/components/common/BoomEffect';
 import Planet from './PlanetBox';
 
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  equippedPlanetIndexState,
+  selectedPlanetIndexState,
+  selectedPlanetIsPurchasedState,
+} from '@/recoil/EditRecoil';
+
 type PlanetEditProps = {
-  equippedPlanetIndex: number; // 장착된 행성 인덱스
-  selectedPlanetIndex: number; // 선택된 행성 인덱스
-  selectedPlanetIsPurchased: boolean;
   handleEquippedPlanetChange: (index: number) => void;
   onPlanetChange: (index: number) => void;
 }
 
-function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetIsPurchased, onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
+function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
+
+  const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState); // 장착된 행성 인덱스
+  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(selectedPlanetIndexState); // 선택된 행성 인덱스
+  const selectedPlanetIsPurchased = useRecoilValue(selectedPlanetIsPurchasedState); // 행성 구매 여부
 
   const [planetSelectModalVisible, setPlanetSelectModalVisible] = useState(false); // 행성 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
@@ -86,11 +94,9 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetIs
           </S.LockButtonBox>
         )}
       </S.Footer>
-
+ 
       <PlanetSelectModal
         planetSelectModalVisible={planetSelectModalVisible}
-        equippedPlanetIndex={equippedPlanetIndex}
-        selectedPlanetIndex={selectedPlanetIndex}
         togglePlanetSelectModal={togglePlanetSelectModal}
         equippedPlanetChange={equippedPlanetChange}
       />

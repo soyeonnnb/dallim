@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import * as S from './FriendBox.styles';
 import Character from '@/assets/characters/Panda.png';
-import UserDetailModal from './socialModal/UserDetailModal';
+import UserDetailModal from '../../screens/social/UserDetailStack';
 
 function FriendBox() {
 

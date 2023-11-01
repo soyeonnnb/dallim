@@ -59,7 +59,7 @@ export const RankText = styled.Text<BoxProps>`
 export const Middle = styled(TouchableOpacity)`
   /* border-width: 1px;
   border-color: blue; */
-  width: 65%;
+  width: 75%;
   height: 100%;
 `;
 

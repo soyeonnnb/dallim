@@ -6,6 +6,7 @@ import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
 import BoomEffect from '@/components/common/BoomEffect';
 import Planet from './PlanetBox';
+import { postPlanetPurchase, updateEquippedPlanet } from '@/apis/EditApi';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
@@ -41,10 +42,22 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
     onPlanetChange(index); // 상위 컴포넌트로 전달
   }
 
-  function equippedPlanetChange() {
+  async function equippedPlanetChange() {
     togglePlanetSelectModal();
     const planetCount = planetData.length;
     handlePlanetChange(selectedPlanetIndex % planetCount);
+
+    // DB에 대표 행성 변경 정보를 전송
+    try {
+      const responseData = await updateEquippedPlanet(selectedPlanetIndex);
+      if (responseData.status === "success") {
+        CustomToast({ type: "success", text1: "대표 행성 변경 성공!" });
+      } else {
+        CustomToast({ type: "error", text1: "통신에 실패했습니다. 다시 시도해주세요." });
+      }
+    } catch (error) {
+      CustomToast({ type: "error", text1: "변경에 실패했습니다. 다시 시도해주세요." });
+    }
   }
 
   function togglePlanetSelectModal() {
@@ -55,18 +68,25 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
     console.log("행성을 구매할건지 체크");
     setPurchaseModalVisible(true);
   }
-  
-  function handlePurchaseConfirm() {
+
+  async function handlePurchaseConfirm() {
     console.log("구매 확인!");
-    if(userPoint >= 2000) {
-      setUserPoint(userPoint - 2000); // 포인트 차감
-      CustomToast({ type: "success", text1: "구매 성공!" });
-  
-      setSelectedPlanetIsPurchased(true);
-      // 구매 로직( Axios 요청 )
-      setShowConfetti(true);
-      setTimeout(() => setShowConfetti(false), 5000); // 폭죽
-      setPurchaseModalVisible(false);
+    if (userPoint >= 2000) {
+      try {
+        const responseData = await postPlanetPurchase(selectedPlanetIndex);
+        if (responseData.status === "success" && responseData.data === true) {
+          setUserPoint(userPoint - 2000); // 포인트 차감
+          CustomToast({ type: "success", text1: "구매 성공!" });
+          setSelectedPlanetIsPurchased(true);
+          setShowConfetti(true); // 폭죽
+          setTimeout(() => setShowConfetti(false), 5000);
+          setPurchaseModalVisible(false);
+        } else {
+          CustomToast({ type: "error", text1: "통신에 실패했습니다. 다시 시도해주세요." });
+        }
+      } catch (error) {
+        CustomToast({ type: "error", text1: "구매에 실패했습니다. 다시 시도해주세요." });
+      }
     } else {
       CustomToast({ type: "error", text1: "포인트가 부족합니다." });
     }

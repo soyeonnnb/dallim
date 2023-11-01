@@ -1,6 +1,7 @@
 package com.b208.dduishu.domain.runningRecord.document;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
+import com.b208.dduishu.domain.runningRecord.dto.CharacterRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RivalRunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverallInfo;
 import com.b208.dduishu.domain.user.dto.request.UserInfo;
@@ -25,7 +26,7 @@ public class RunningRecord {
     @Id
     private ObjectId id;
     private UserInfo user;
-    private CharacterOverview character;
+    private CharacterRecordInfo character;
     private RunningType type;
     private RivalRunningRecordInfo rivalRecord;
     private List<RunningRecordOverallInfo> runningRecordInfos;
@@ -40,7 +41,7 @@ public class RunningRecord {
     private String formattedDate;
 
     @Builder
-    public RunningRecord(UserInfo user, CharacterOverview character, Date createdAt, double stepCount, String averagePace, double averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed) {
+    public RunningRecord(UserInfo user, CharacterRecordInfo character, Date createdAt, double stepCount, String averagePace, double averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed) {
         this.user = user;
         this.character = character;
         this.type = type;

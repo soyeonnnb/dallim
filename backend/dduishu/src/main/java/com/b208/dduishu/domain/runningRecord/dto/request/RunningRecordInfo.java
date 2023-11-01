@@ -1,8 +1,10 @@
 package com.b208.dduishu.domain.runningRecord.dto.request;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
+import com.b208.dduishu.domain.planet.entity.Planet;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.document.RunningType;
+import com.b208.dduishu.domain.runningRecord.dto.CharacterRecordInfo;
 import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.character.entity.Character;
@@ -33,10 +35,10 @@ public class RunningRecordInfo {
     // + 생체정보 +a
     private List<RunningRecordOverallInfo> runningRecordInfos;
 
-    public RunningRecord toRunningRecord(User user, Character character, RunningRecord rivalRecord){
+    public RunningRecord toRunningRecord(User user, Planet planet, Character character, RunningRecord rivalRecord){
 
         UserInfo userInfo = new UserInfo(user);
-        CharacterOverview characterInfo = new CharacterOverview(character);
+        CharacterRecordInfo characterInfo = new CharacterRecordInfo(character, planet);
         RivalRunningRecordInfo rivalRunningRecordInfo = null;
         if (rivalRecord != null) {
             rivalRunningRecordInfo = new RivalRunningRecordInfo(rivalRecord);

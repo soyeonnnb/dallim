@@ -3,6 +3,7 @@ package com.b208.dduishu.domain.runningRecord.dto.request;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
 import com.b208.dduishu.domain.runningRecord.document.RunningType;
+import com.b208.dduishu.domain.runningRecord.dto.CharacterRecordInfo;
 import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class RunningRecordDetail {
 
     private String id;
     private UserInfo user;
-    private CharacterOverview character;
+    private CharacterRecordInfo character;
     private RunningType type;
     private RivalRunningRecordInfo rivalRecord;
     private List<RunningRecordOverallInfo> runningRecordInfos;
@@ -27,7 +28,7 @@ public class RunningRecordDetail {
     private LocalDateTime createdAt;
 
     @Builder
-    public RunningRecordDetail(ObjectId id, UserInfo user, CharacterOverview character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed, int averageCalory, LocalDateTime createdAt) {
+    public RunningRecordDetail(ObjectId id, UserInfo user, CharacterRecordInfo character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed, int averageCalory, LocalDateTime createdAt) {
         this.id = id.toString();
         this.user = user;
         this.character = character;

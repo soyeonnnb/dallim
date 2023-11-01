@@ -7,6 +7,14 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.b208.dduishu.domain.character.entity.Character;
+import com.b208.dduishu.domain.character.entity.CharacterLevel;
+import com.b208.dduishu.domain.character.repository.CharacterRepository;
+import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
+import com.b208.dduishu.domain.characterInfo.repository.CharacterInfoRepository;
+import com.b208.dduishu.domain.planet.entity.Planet;
+import com.b208.dduishu.domain.planet.repository.PlanetInfoRepository;
+import com.b208.dduishu.domain.planet.repository.PlanetRepository;
 import com.b208.dduishu.domain.user.service.UserSocialLoginService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -45,6 +53,10 @@ public class  OAuth2Controller {
 
 
     private final UserRepository userRepository;
+    private final CharacterInfoRepository characterInfoRepository;
+    private final CharacterRepository characterRepository;
+    private final PlanetRepository planetRepository;
+    private final PlanetInfoRepository planetInfoRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
     private final UserSocialLoginService userSocialLoginService;
@@ -125,12 +137,25 @@ public class  OAuth2Controller {
                     .accessToken(accessToken)
                     .privateAccess(encoder.encode(accessToken))
                     .build();
-                log.info(user.toString());
                 user = userRepository.save(user);
-                log.info("save 실행됨");
+
+                Character character = Character.builder()
+                        .user(user)
+                        .characterInfo(characterInfoRepository.findById(1L).orElse(null))
+                        .characterLevel(CharacterLevel.builder().level(0).exp(0).build())
+                        .isMainCharacter(true)
+                        .build();
+                characterRepository.save(character);
+
+                Planet planet = Planet.builder()
+                        .user(user)
+                        .planetInfo(planetInfoRepository.findById(1L).orElse(null))
+                        .isMainPlanet(true)
+                        .build();
+                planetRepository.save(planet);
+
 
             }else{
-                log.info("2222");
                 // 최근 로그인 시간 갱신
                 user = optionalUser.get();
                 user.updateLastLoginDate();
@@ -186,9 +211,22 @@ public class  OAuth2Controller {
                     .accessToken(accessToken)
                     .privateAccess(encoder.encode(accessToken))
                     .build();
-                log.info(user.toString());
                 user = userRepository.save(user);
-                log.info("save 실행됨");
+
+                Character character = Character.builder()
+                        .user(user)
+                        .characterInfo(characterInfoRepository.findById(1L).orElse(null))
+                        .characterLevel(CharacterLevel.builder().level(0).exp(0).build())
+                        .isMainCharacter(true)
+                        .build();
+                characterRepository.save(character);
+
+                Planet planet = Planet.builder()
+                        .user(user)
+                        .planetInfo(planetInfoRepository.findById(1L).orElse(null))
+                        .isMainPlanet(true)
+                        .build();
+                planetRepository.save(planet);
 
             }else{
 

@@ -21,9 +21,13 @@ public class UserMainPageInfo {
         this.nickName = user.getNickname();
         this.point = user.getPoint();
         this.userLevel = user.getUserLevel().getLevel();
-        this.characterIndex = Util.getCharacterIndexByCharacter(character);
-        this.evolutionStage = getEvolutionStage(character.getCharacterLevel().getLevel());
-        this.planetIndex = Util.getMainPlanetIndex(planet);
+        if (character != null) {
+            this.characterIndex = Util.getCharacterIndexByCharacter(character);
+            this.evolutionStage = getEvolutionStage(character.getCharacterLevel().getLevel());
+        }
+        if (planet != null) {
+            this.planetIndex = Util.getMainPlanetIndex(planet);
+        }
     }
 
     public int getEvolutionStage(int level) {

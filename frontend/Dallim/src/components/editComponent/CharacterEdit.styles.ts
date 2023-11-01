@@ -108,6 +108,11 @@ export const LevelText = styled.Text`
   color: black;
 `;
 
+export const EquippedText = styled.Text`
+  font-size: 20px;
+  color: white;
+`;
+
 export const ExperienceBox = styled.View`
   /* border-width: 1px;
   border-color: white; */

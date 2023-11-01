@@ -73,6 +73,11 @@ export const ButtonBox = styled.TouchableOpacity`
   height: 50%;
 `;
 
+export const EquippedText = styled.Text`
+  font-size: 20px;
+  color: white;
+`;
+
 export const ButtonText = styled.Text`
   font-size: 15px;
   color: white;

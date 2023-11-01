@@ -3,14 +3,14 @@ import { planetData } from '../common/PlanetData';
 import { useState } from 'react';
 import WatchThemeModal from './editModal/WatchThemeModal';
 
-interface Props {
-  selectedPlanetIndex: number;
-  selectedPlanetIsPurchased: boolean;
-}
+import { useRecoilValue } from 'recoil';
+import { selectedPlanetIndexState, selectedPlanetIsPurchasedState } from '@/recoil/EditRecoil';
 
-function PlanetBox({ selectedPlanetIndex, selectedPlanetIsPurchased }: Props) {
+function PlanetBox() {
+  const selectedPlanetIndex = useRecoilValue(selectedPlanetIndexState);
+  const selectedPlanetIsPurchased = useRecoilValue(selectedPlanetIsPurchasedState);
+
   const [modalVisible, setModalVisible] = useState(false);
-
   const planetImage = planetData[selectedPlanetIndex].Planet;
 
   return (

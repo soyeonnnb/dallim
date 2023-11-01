@@ -2,7 +2,7 @@ package com.b208.dduishu.domain.character.service;
 
 import java.util.List;
 
-import com.b208.dduishu.domain.character.dto.request.CharacterId;
+import com.b208.dduishu.domain.character.dto.request.CharacterIndex;
 import com.b208.dduishu.domain.character.dto.request.CharacterInfoDetail;
 import com.b208.dduishu.domain.character.dto.request.PurchaseCharacterIndex;
 import com.b208.dduishu.domain.character.entity.CharacterLevel;
@@ -81,7 +81,7 @@ public class CharacterService {
 //    }
 
     @Transactional
-    public void updateMainCharacter(CharacterId req) {
+    public void updateMainCharacter(CharacterIndex req) {
         User user = getUser.getUser();
 
         List<Character> findCharacters = characterRepository.findAllByUserUserId(user.getUserId());
@@ -92,7 +92,7 @@ public class CharacterService {
                     if (o.isMainCharacter() == true) {
                         o.setMainCharacter(false);
                     }
-                    if (o.getId() == req.getCharacterId()) {
+                    if (o.getCharacterInfo().getId()-1 == req.getCharacterIndex()) {
                         o.setMainCharacter(true);
                     }
                 });

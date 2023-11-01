@@ -3,7 +3,7 @@ package com.b208.dduishu.domain.character.dto.request;
 import lombok.Data;
 
 @Data
-public class CharacterId {
+public class CharacterIndex {
 
-    private Long characterId;
+    private Long characterIndex;
 }

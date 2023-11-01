@@ -1,7 +1,7 @@
 package com.b208.dduishu.domain.planet.service;
 
 import com.b208.dduishu.domain.character.exception.InsufficientPointsException;
-import com.b208.dduishu.domain.planet.dto.request.MainPlanetInfo;
+import com.b208.dduishu.domain.planet.dto.request.PlanetIndex;
 import com.b208.dduishu.domain.planet.dto.request.PurchasePlanetIndex;
 import com.b208.dduishu.domain.planet.dto.response.PlanetOverview;
 import com.b208.dduishu.domain.planet.entity.Planet;
@@ -55,7 +55,7 @@ public class PlanetService {
     }
 
     @Transactional
-    public void updateMainPlanet(MainPlanetInfo req) {
+    public void updateMainPlanet(PlanetIndex req) {
 
         User user = getUser.getUser();
 
@@ -67,7 +67,7 @@ public class PlanetService {
                     if (o.isMainPlanet() == true) {
                         o.setMainPlanet(false);
                     }
-                    if (o.getId() == req.getPlanetId()) {
+                    if (o.getPlanetInfo().getId() == req.getPlanetIndex()) {
                         o.setMainPlanet(true);
                     }
                 });

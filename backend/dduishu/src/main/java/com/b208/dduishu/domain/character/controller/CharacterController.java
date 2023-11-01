@@ -1,6 +1,6 @@
 package com.b208.dduishu.domain.character.controller;
 
-import com.b208.dduishu.domain.character.dto.request.CharacterId;
+import com.b208.dduishu.domain.character.dto.request.CharacterIndex;
 import com.b208.dduishu.domain.character.dto.request.CharacterInfoDetail;
 import com.b208.dduishu.domain.character.dto.request.PurchaseCharacterIndex;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +40,7 @@ public class CharacterController {
     }
 
     @PatchMapping("/api/v1/character")
-    public ApiResponse<?> updateMainCharacter(@RequestBody CharacterId req) {
+    public ApiResponse<?> updateMainCharacter(@RequestBody CharacterIndex req) {
         try {
             characterService.updateMainCharacter(req);
 

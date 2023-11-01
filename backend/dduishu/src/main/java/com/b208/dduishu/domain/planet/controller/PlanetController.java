@@ -1,6 +1,6 @@
 package com.b208.dduishu.domain.planet.controller;
 
-import com.b208.dduishu.domain.planet.dto.request.MainPlanetInfo;
+import com.b208.dduishu.domain.planet.dto.request.PlanetIndex;
 import com.b208.dduishu.domain.planet.dto.request.PurchasePlanetIndex;
 import com.b208.dduishu.domain.planet.dto.response.PlanetOverview;
 import com.b208.dduishu.domain.planet.service.PlanetService;
@@ -29,7 +29,7 @@ public class PlanetController {
 
     // 대표 테마 변경
     @PatchMapping("/api/v1/planet")
-    public ApiResponse<?> updateMainPlanet(@RequestBody MainPlanetInfo req) {
+    public ApiResponse<?> updateMainPlanet(@RequestBody PlanetIndex req) {
         try {
             planetService.updateMainPlanet(req);
 

@@ -34,27 +34,32 @@ export default function Carousel({pages, pageWidth, gap, offset}: ICarousel) {
 
   return (
     <S.Container>
-      <FlatList
-        automaticallyAdjustContentInsets={false}
-        contentContainerStyle={{
-          paddingHorizontal: offset + gap / 2,
-        }}
-        data={pages}
-        decelerationRate="fast"
-        horizontal
-        keyExtractor={(item: any) => `page__${item.num}`}
-        onScroll={onScroll}
-        pagingEnabled
-        renderItem={renderItem}
-        snapToInterval={pageWidth + gap}
-        snapToAlignment="start"
-        showsHorizontalScrollIndicator={false}
-      />
-      <S.IndicatorWrapper>
-        {Array.from({length: pages.length}, (_, i) => i).map(i => (
-          <S.Indicator key={`indicator_${i}`} focused={i === page} />
-        ))}
-      </S.IndicatorWrapper>
+      <S.Header></S.Header>
+      <S.Body>
+        <FlatList
+          automaticallyAdjustContentInsets={false}
+          contentContainerStyle={{
+            paddingHorizontal: offset + gap / 2,
+          }}
+          data={pages}
+          decelerationRate="fast"
+          horizontal
+          keyExtractor={(item: any) => `page__${item.num}`}
+          onScroll={onScroll}
+          pagingEnabled
+          renderItem={renderItem}
+          snapToInterval={pageWidth + gap}
+          snapToAlignment="start"
+          showsHorizontalScrollIndicator={false}
+        />
+      </S.Body>
+      <S.Footer>
+        <S.IndicatorWrapper>
+          {Array.from({length: pages.length}, (_, i) => i).map(i => (
+            <S.Indicator key={`indicator_${i}`} focused={i === page} />
+          ))}
+        </S.IndicatorWrapper>
+      </S.Footer>
     </S.Container>
   );
 }

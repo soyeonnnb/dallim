@@ -12,38 +12,34 @@ import NicknameChangeModal from '../../components/profileComponent/profileModal/
 import RunningMateModal from '../../components/profileComponent/profileModal/RunningMateModal';
 import NotificationModal from '../../components/profileComponent/profileModal/NotificationModal';
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
-import RunningMateSetting from './RunningMateSetting';
+import RunningMateSetting from './ProfileSubScreens/RunningMateSetting';
 import {characterData} from '@/recoil/CharacterData';
 
 //Apis
 import {fetchUserProfileCard} from '@/apis/ProfileApi';
+import {fetchCompetitorCard} from '@/apis/ProfileApi';
+
+//Toast
+import Toast from 'react-native-toast-message';
 
 interface ProfileProps {
   navigation: any;
 }
 
 function Profile({navigation}: ProfileProps) {
-  // 임시 데이터
-  const PlanetIndex = 2; // 유저가 장착한 행성
-  const TempSelectCharacter = 3; // 유저가 장착한 캐릭터
-  const TempSelectCharacterLevel = 1; // 유저가 장착한 캐릭터 레벨 : 0 OR 1
-
-  const Nickname = '펭소시치'; // 유저 닉네임
-  const UserLevel = 54; // 유저 레벨
-  const experiencePercentage = 65.2; // 유저 해당하는 레벨의 경험치
-
+  //State---------------------------------
   const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
-  // const [showRunningMateModal, setShowRunningMateModal] = useState(false);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-
-  //State---------------------------------
   const [userData, setUserData] = useState({
+    planetIndex: 0,
     characterIndex: 0,
     nickname: '',
     level: 0,
     exp: 0,
   });
+
+  const [competitorData, setCompetitorData] = useState([]);
 
   //useEffect---------------------------------
   useEffect(() => {
@@ -59,15 +55,46 @@ function Profile({navigation}: ProfileProps) {
     fetchProfileData();
   }, []);
 
+  useEffect(() => {
+    const fetchCompetitorData = async () => {
+      try {
+        const data = await fetchCompetitorCard();
+        setCompetitorData(data);
+      } catch (error) {
+        console.error('경쟁자 데이터 불러오기 에러 :', error);
+      }
+    };
+
+    fetchCompetitorData();
+  }, []);
+
   //dataCall ---------------------------------
   const selectedCharacter = characterData[userData.characterIndex];
   const selectedCharacterLevelData =
     selectedCharacter.levels[userData.characterIndex];
 
+  //actions
+  const handleRunningMatePress = () => {
+    if (competitorData.length === 0) {
+      // 데이터가 없을 때의 동작
+      Toast.show({
+        type: 'error',
+        position: 'top',
+        text1: '등록된 러닝메이트가 없습니다!',
+        visibilityTime: 3000,
+        autoHide: true,
+        topOffset: 10,
+      });
+    } else {
+      // 데이터가 있을 때의 동작
+      navigation.navigate('RunningMateSetting');
+    }
+  };
+
   return (
     <S.Container>
       <S.BackgroundImage
-        source={require('../../assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground4.png')}
         resizeMode="cover">
         <S.Header>
           <S.TitleProfileBox>
@@ -75,7 +102,7 @@ function Profile({navigation}: ProfileProps) {
           </S.TitleProfileBox>
           <S.ProfileBox>
             <ProfileCard
-              PlanetIndex={userData.characterIndex}
+              PlanetIndex={userData.planetIndex}
               Nickname={userData.nickname}
               UserLevel={userData.level}
               experiencePercentage={userData.exp}
@@ -98,8 +125,7 @@ function Profile({navigation}: ProfileProps) {
               </S.TextBox>
             </S.ButtonBox>
 
-            <S.ButtonBox
-              onPress={() => navigation.navigate('RunningMateSetting')}>
+            <S.ButtonBox onPress={handleRunningMatePress}>
               <S.IconBox>
                 <S.ButtonIcon source={ManageRunningMateIcon} />
               </S.IconBox>
@@ -141,7 +167,7 @@ function Profile({navigation}: ProfileProps) {
       <NicknameChangeModal
         showModal={showNicknameChangeModal}
         toggleModal={() => setShowNicknameChangeModal(!showNicknameChangeModal)}
-        Nickname={Nickname}
+        Nickname={userData.nickname}
       />
       {/* <RunningMateModal
         showModal={showRunningMateModal}

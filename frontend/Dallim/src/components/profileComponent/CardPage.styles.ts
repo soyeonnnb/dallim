@@ -10,4 +10,5 @@ export const PageItem = styled.View`
 export const StyledImage = styled(Image)`
   width: 100%;
   height: 100%;
+  z-index: -1;
 `;

@@ -9,21 +9,17 @@ import ClockIcon from '@/assets/icons/ClockIcon';
 
 interface Props {
   type: 'week' | 'month';
-  year?: number;
-  month?: number;
+  year: number;
+  month: number;
   isShow: boolean;
+  previewRecords: {
+    count: number;
+    distance: number;
+    time: number;
+  };
 }
 
-function PreviewWeekly({isShow, type, year, month}: Props) {
-  const [totalCount, setTotalCount] = useState(0);
-  const [totalDistance, setTotalDistance] = useState(0);
-  const [totalTime, setTotalTime] = useState(0);
-  useEffect(() => {
-    setTotalCount(5);
-    setTotalDistance(15);
-    setTotalTime(400);
-  }, []);
-
+function PreviewWeekly({isShow, type, year, month, previewRecords}: Props) {
   return (
     <S.Container isShow={isShow}>
       <S.Title>
@@ -31,13 +27,13 @@ function PreviewWeekly({isShow, type, year, month}: Props) {
       </S.Title>
       <S.View>
         <S.RecordContainer>
-          <WeeklyRecord type="count" record={totalCount} />
+          <WeeklyRecord type="count" record={previewRecords.count} />
         </S.RecordContainer>
         <S.RecordContainer>
-          <WeeklyRecord type="distance" record={totalDistance} />
+          <WeeklyRecord type="distance" record={previewRecords.distance} />
         </S.RecordContainer>
         <S.RecordContainer>
-          <WeeklyRecord type="time" record={totalTime} />
+          <WeeklyRecord type="time" record={previewRecords.time} />
         </S.RecordContainer>
       </S.View>
     </S.Container>
@@ -60,7 +56,7 @@ export function WeeklyRecord({type, record}: RecordProps) {
       setColor(colors.darkLavendar);
     } else if (type === 'distance') {
       setName('달린거리');
-      setContent(record + 'KM');
+      setContent(record + 'm');
       setColor(colors.lightBlue);
     } else {
       setName('달린시간');

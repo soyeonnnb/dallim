@@ -19,6 +19,10 @@ interface Props {
   setIsClicked: any;
   setSelectedDate: any;
   everyRecords?: MonthlyRecords[];
+  selectedYearMonth?: {year: number; month: number};
+  setSelectedYearMonth?: any;
+  previewChartType: 'week' | 'month';
+  setPreviewChartType: any;
 }
 
 function ChartCalendar({
@@ -27,12 +31,18 @@ function ChartCalendar({
   setIsClicked,
   setSelectedDate,
   everyRecords,
+  // selectedYearMonth,
+  setSelectedYearMonth,
+  // previewChartType,
+  setPreviewChartType,
 }: Props) {
   const [nowDateString, setNowDateString] = useState<string>();
   const [markedDates, setMarkedDates] = useState<{[key: string]: MarkType}>({});
   const [dayHaveDatas, setDayHaveDatas] = useState<string[]>([]);
+
   const defaultSelectedColor = colors.lightLavender;
   const clickedSelectedColor = colors.darkPurple;
+
   type MarkType = {
     selected?: boolean;
     selectedColor?: string;
@@ -60,13 +70,22 @@ function ChartCalendar({
       });
     });
     setMarkedDates(marks);
-
     setDayHaveDatas(keyList);
-  }, [everyRecords]);
+  }, []);
 
   // 달 바뀜
   const handleMonthChange = async (date: CalendarType) => {
-    let marks = {};
+    if (nowDateString?.slice(0, 7) === date.dateString.slice(0, 7)) {
+      setPreviewChartType('week');
+    } else {
+      setPreviewChartType('month');
+    }
+    setSelectedYearMonth({
+      year: date.year,
+      month: date.month,
+    });
+    setSelectedDate(null);
+    setIsClicked(false);
   };
 
   // 특정 날짜 선택시

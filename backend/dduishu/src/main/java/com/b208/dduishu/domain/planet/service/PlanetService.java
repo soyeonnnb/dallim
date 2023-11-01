@@ -67,7 +67,7 @@ public class PlanetService {
                     if (o.isMainPlanet() == true) {
                         o.setMainPlanet(false);
                     }
-                    if (o.getPlanetInfo().getId() == req.getPlanetIndex()) {
+                    if (o.getPlanetInfo().getId()-1 == req.getPlanetIndex()) {
                         o.setMainPlanet(true);
                     }
                 });

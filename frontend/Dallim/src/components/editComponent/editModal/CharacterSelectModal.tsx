@@ -25,7 +25,6 @@ function CharacterSelectModal({ characterSelectModalVisible, toggleModal, equipp
   const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
   const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
 
-
   const handleEquippedCharacterChange = () => {
     setEquippedCharacterIndex(selectedCharacterIndex);
     setEquippedEvolutionStage(selectedEvolutionStage);

@@ -2,6 +2,7 @@ package com.b208.dduishu.util.OAuthAPI.controller;
 
 import java.io.IOException;
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +16,8 @@ import com.b208.dduishu.domain.characterInfo.repository.CharacterInfoRepository;
 import com.b208.dduishu.domain.planet.entity.Planet;
 import com.b208.dduishu.domain.planet.repository.PlanetInfoRepository;
 import com.b208.dduishu.domain.planet.repository.PlanetRepository;
+import com.b208.dduishu.domain.user.entity.UserLevel;
+import com.b208.dduishu.domain.user.entity.UserState;
 import com.b208.dduishu.domain.user.service.UserSocialLoginService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -136,6 +139,9 @@ public class  OAuth2Controller {
                     .nickname(nNick())
                     .accessToken(accessToken)
                     .privateAccess(encoder.encode(accessToken))
+                    .state(UserState.standard)
+                    .userLevel(UserLevel.builder().level(0).exp(0).build())
+                    .registDate(LocalDateTime.now())
                     .build();
                 user = userRepository.save(user);
 

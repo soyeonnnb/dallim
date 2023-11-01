@@ -61,8 +61,9 @@ public class User {
     }
 
     @Builder
-    public User(Long userId, String accountType, String email, String nickname, int cumulativeRunningDay, float averageSpeed, float cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, String accessToken) {
+    public User(Long userId, UserState state, UserLevel userLevel, String accountType, String email, String nickname, int cumulativeRunningDay, float averageSpeed, float cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, String accessToken) {
         this.userId = userId;
+        this.state = state;
         this.accountType = accountType;
         this.email = email;
         this.nickname = nickname;
@@ -76,6 +77,7 @@ public class User {
         this.accessToken = accessToken;
         this.registDate = registDate;
         this.lastLoginDate = lastLoginDate;
+        this.userLevel = userLevel;
     }
 
     public void updateNickname(String newNickname) {

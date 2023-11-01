@@ -1,11 +1,14 @@
 package com.b208.dduishu.domain.user.entity;
 
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class UserLevel {
 
 
@@ -18,6 +21,11 @@ public class UserLevel {
 
     private int exp=0;
 
+    @Builder
+    public UserLevel( int level, int exp) {
+        this.level = level;
+        this.exp = exp;
+    }
 
     public void addExp(double exp){
         this.exp += exp;

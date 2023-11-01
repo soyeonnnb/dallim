@@ -7,6 +7,15 @@ export const colors = {
   lightPurple: '#DCDDE7',
   white: '#FEFEFE',
   purpleBlue: '#7681E8',
+  gray: '#8C8C8C',
+  neon: {
+    yellow: '#FFDA19',
+    skyBlue: '#19FFFF',
+    green: '#19FF30',
+    pink: '#FF19DA',
+    purple: '#9C4EFF',
+    red: '#FF1919',
+  },
 };
 
 export const borderRadius = {

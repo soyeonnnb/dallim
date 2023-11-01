@@ -6,20 +6,33 @@ import CharacterSelectModal from './editModal/CharacterSelectModal';
 import BoomEffect from '@/components/common/BoomEffect';
 import Character from './CharacterBox';
 
+import { useRecoilState } from 'recoil';
+import {
+  equippedCharacterIndexState,
+  equippedCharacterLevelState,
+  equippedEvolutionStageState,
+  selectedCharacterIndexState,
+  selectedCharacterLevelState,
+  selectedEvolutionStageState,
+  selectedCharacterExpState,
+  selectedCharacterIsPurchasedState,
+} from '@/recoil/EditRecoil';
+
 type CharacterEditProps = {
-  equippedCharacterIndex: number;
-  equippedCharacterLevel: number;
-  equippedEvolutionStage: number;
-  selectedCharacterIndex: number;
-  selectedCharacterLevel: number;
-  selectedEvolutionStage: number;
-  selectedCharacterExp: number;
-  selectedCharacterIsPurchased: boolean;
   handleEquippedCharacterChange: (index: number) => void;
   onCharacterChange: (index: number) => void;
 }
 
-function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippedEvolutionStage, selectedCharacterIndex, selectedCharacterLevel, selectedEvolutionStage, selectedCharacterExp, selectedCharacterIsPurchased, handleEquippedCharacterChange, onCharacterChange }: CharacterEditProps) {
+function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange }: CharacterEditProps) {
+
+  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
+  const [equippedCharacterLevel, setEquippedCharacterLevel] = useRecoilState(equippedCharacterLevelState);
+  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
+  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
+  const [selectedCharacterLevel, setSelectedCharacterLevel] = useRecoilState(selectedCharacterLevelState);
+  const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
+  const [selectedCharacterExp, setSelectedCharacterExp] = useRecoilState(selectedCharacterExpState);
+  const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] = useRecoilState(selectedCharacterIsPurchasedState);
 
   const [characterSelectModalVisible, setCharacterSelectModalVisible] = useState(false); // 캐릭터 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
@@ -73,7 +86,7 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
 
       <S.Body>
         <S.CharacterBox>
-          <Character selectedCharacterIndex={selectedCharacterIndex} selectedEvolutionStage={selectedEvolutionStage} selectedCharacterIsPurchased={selectedCharacterIsPurchased} />
+          <Character />
         </S.CharacterBox>
       </S.Body>
 
@@ -101,24 +114,16 @@ function CharacterEdit({ equippedCharacterIndex, equippedCharacterLevel, equippe
       </S.Footer>
 
 
-      <CharacterSelectModal
+      <CharacterSelectModal 
         characterSelectModalVisible={characterSelectModalVisible}
         toggleModal={toggleCharacterSelectModal}
         equippedCharacterChange={equippedCharacterChange}
-        equippedCharacterIndex={equippedCharacterIndex}
-        equippedCharacterLevel={equippedCharacterLevel}
-        equippedEvolutionStage={equippedEvolutionStage}
-        selectedCharacterIndex={selectedCharacterIndex}
-        selectedCharacterLevel={selectedCharacterLevel}
-        selectedEvolutionStage={selectedEvolutionStage}
       />
 
       <CharacterPurchaseCheckModal
         handleConfirm={handlePurchaseConfirm}
         handleCancel={handlePurchaseCancel}
         purchaseModalVisible={purchaseModalVisible}
-        selectedCharacterIndex={selectedCharacterIndex}
-        selectedEvolutionStage={selectedEvolutionStage}
       />
       {showConfetti && (
         <BoomEffect show={showConfetti} />

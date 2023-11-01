@@ -76,7 +76,7 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
 
       <S.Body>
         <S.PlanetBox >
-          <Planet selectedPlanetIndex={selectedPlanetIndex} selectedPlanetIsPurchased={selectedPlanetIsPurchased} />
+          <Planet />
         </S.PlanetBox>
       </S.Body>
 
@@ -102,7 +102,6 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
       />
       <PlanetPurchaseCheckModal
         purchaseModalVisible={purchaseModalVisible}
-        selectedPlanetIndex={selectedPlanetIndex}
         handleConfirm={handlePurchaseConfirm}
         handleCancel={handlePurchaseCancel}
       />

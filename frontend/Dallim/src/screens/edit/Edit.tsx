@@ -199,7 +199,7 @@ function Edit() {
                 {
                   isOn
                     ? <PlanetEdit handleEquippedPlanetChange={handleEquippedPlanetChange} onPlanetChange={handlePlanetChange} />
-                    : <CharacterEdit equippedCharacterIndex={equippedCharacterIndex} equippedCharacterLevel={equippedCharacterLevel} equippedEvolutionStage={equippedEvolutionStage} selectedCharacterIndex={selectedCharacterIndex} selectedCharacterLevel={selectedCharacterLevel} selectedEvolutionStage={selectedEvolutionStage} selectedCharacterExp={selectedCharacterExp} selectedCharacterIsPurchased={selectedCharacterIsPurchased} handleEquippedCharacterChange={handleEquippedCharacterChange} onCharacterChange={handleCharacterChange} />
+                    : <CharacterEdit handleEquippedCharacterChange={handleEquippedCharacterChange} onCharacterChange={handleCharacterChange} />
                 }
               </S.BodyCenter>
 

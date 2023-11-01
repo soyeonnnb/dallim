@@ -48,26 +48,6 @@ function Edit() {
     fetchData();
   }, []);
 
-  useEffect(() => {
-
-    if (userData) {
-      setUserPoint(userData.point);
-      setEquippedCharacterIndex(userData.mainCharacterIndex);
-      setEquippedCharacterLevel(userData.characters[userData.mainCharacterIndex].level);
-      setEquippedEvolutionStage(userData.characters[userData.mainCharacterIndex].evolutionStage);
-      setEquippedPlanetIndex(userData.mainPlanetIndex);
-
-      setSelectedCharacterIndex(userData.mainCharacterIndex);
-      setSelectedCharacterLevel(userData.characters[userData.mainCharacterIndex].level);
-      setSelectedEvolutionStage(userData.characters[userData.mainCharacterIndex].evolutionStage);
-      setSelectedCharacterExp(userData.characters[userData.mainCharacterIndex].exp);
-      setSelectedCharacterIsPurchased(userData.characters[userData.mainCharacterIndex].isPurchased);
-
-      setSelectedPlanetIndex(userData.mainPlanetIndex);
-      setSelectedPlanetIsPurchased(userData.planets[userData.mainPlanetIndex].isPurchased);
-    }
-  }, [userData]);
-
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
   const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
   const [equippedCharacterLevel, setEquippedCharacterLevel] = useRecoilState(equippedCharacterLevelState);
@@ -84,6 +64,25 @@ function Edit() {
   const [isOn, setIsOn] = useRecoilState(isOnState);
 
   const animatedValue = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (userData) {
+      setUserPoint(userData.point);
+      setEquippedCharacterIndex(userData.mainCharacterIndex);
+      setEquippedCharacterLevel(userData.characters[userData.mainCharacterIndex].level);
+      setEquippedEvolutionStage(userData.characters[userData.mainCharacterIndex].evolutionStage);
+      setEquippedPlanetIndex(userData.mainPlanetIndex);
+
+      setSelectedCharacterIndex(userData.mainCharacterIndex);
+      setSelectedCharacterLevel(userData.characters[userData.mainCharacterIndex].level);
+      setSelectedEvolutionStage(userData.characters[userData.mainCharacterIndex].evolutionStage);
+      setSelectedCharacterExp(userData.characters[userData.mainCharacterIndex].exp);
+      setSelectedCharacterIsPurchased(userData.characters[userData.mainCharacterIndex].isPurchased);
+
+      setSelectedPlanetIndex(userData.mainPlanetIndex);
+      setSelectedPlanetIsPurchased(userData.planets[userData.mainPlanetIndex].isPurchased);
+    }
+  }, [userData, setSelectedCharacterIndex]);
 
   const toggleHandle = () => {
     setIsOn(prevIsOn => {

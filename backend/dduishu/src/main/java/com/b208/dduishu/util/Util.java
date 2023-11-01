@@ -28,36 +28,28 @@ public class Util {
         } else if (character.getCharacterInfo().getName().equals(CharacterName.Chicken)) {
             return 3;
         }
-        return -1;
+        return 0;
     }
 
-    public static int getMainPlanetIndex(Planet planet) {
-        if (planet.getPlanetInfo().getName().equals(PlanetName.BLACK)) {
+    public static int getCharacterIndexByCharacterName(CharacterName name) {
+
+        if (name.equals(CharacterName.RABBIT)) {
             return 0;
-        } else if (planet.getPlanetInfo().getName().equals(PlanetName.YELLOW)) {
+        } else if (name.equals(CharacterName.Penguin)) {
             return 1;
-        } else if (planet.getPlanetInfo().getName().equals(PlanetName.BLUE)) {
+        } else if (name.equals(CharacterName.Panda)) {
             return 2;
-        } else if (planet.getPlanetInfo().getName().equals(PlanetName.PUPPLE)) {
+        } else if (name.equals(CharacterName.Chicken)) {
             return 3;
-        } else if (planet.getPlanetInfo().getName().equals(PlanetName.RED)) {
-            return 4;
         }
         return 0;
     }
 
-
-    public static int getMainPlanetIndexByName(PlanetName themaName) {
-        if (themaName.equals(PlanetName.BLACK)) {
+    public static int getThemaIndexByCharacter(Planet planet) {
+        if (planet.getPlanetInfo().getName().equals(PlanetName.EARTH)) {
             return 0;
-        } else if (themaName.equals(PlanetName.YELLOW)) {
+        } else if (planet.getPlanetInfo().getName().equals(PlanetName.MOON)) {
             return 1;
-        } else if (themaName.equals(PlanetName.BLUE)) {
-            return 2;
-        } else if (themaName.equals(PlanetName.PUPPLE)) {
-            return 3;
-        } else if (themaName.equals(PlanetName.RED)) {
-            return 4;
         }
         return 0;
     }
@@ -65,9 +57,17 @@ public class Util {
     public static int getProfileIndexByUser(User user) {
         return user.getCharacterList().stream()
                 .filter(Character::isMainCharacter)
-                .map(character -> characterNameToValue.getOrDefault(character.getCharacterInfo().getName(), -1))
+                .map(character -> characterNameToValue.getOrDefault(character.getCharacterInfo().getName(), 0))
                 .findFirst()
-                .orElse(-1);
+                .orElse(0);
     }
 
+    public static int getMainThemaIndex(Planet planet) {
+        if (planet.getPlanetInfo().getName().equals(PlanetName.EARTH)) {
+            return 0;
+        } else if (planet.getPlanetInfo().getName().equals(PlanetName.MOON)) {
+            return 1;
+        }
+        return 0;
+    }
 }

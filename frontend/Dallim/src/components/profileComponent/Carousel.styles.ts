@@ -23,6 +23,8 @@ export const Header = styled.View`
 export const Body = styled.View`
   /* border-width: 1px;
   border-color: orange; */
+  align-items: center;
+  justify-content: center;
   height: 80%;
 `;
 export const Footer = styled.View`
@@ -49,4 +51,23 @@ export const IndicatorWrapper = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+`;
+
+export const BodyBottomCharacterImageBox = styled.View`
+  /* border-width: 1px;
+  border-color: orange; */
+  /* width: 235px;
+  height: 350px; */
+  width: 60%;
+  height: 50%;
+  top: 45%;
+  justify-content: flex-end;
+  left: 40%;
+  position: absolute;
+`;
+
+export const CharacterImage = styled.Image`
+  /* border-width: 1px; */
+  width: 100%;
+  height: 100%;
 `;

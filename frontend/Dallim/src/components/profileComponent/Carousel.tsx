@@ -4,6 +4,8 @@ import {FlatList} from 'react-native';
 import CardPage from './CardPage';
 import * as S from './Carousel.styles';
 
+import {characterData} from '@/recoil/CharacterData';
+
 interface ICarousel {
   gap: number;
   offset: number;
@@ -32,6 +34,13 @@ export default function Carousel({pages, pageWidth, gap, offset}: ICarousel) {
     setPage(newPage);
   };
 
+  const currentPageData = pages[page];
+  // console.log(currentPageData);
+  const selectedCharacter = characterData[currentPageData.characterIndex];
+  // console.log(selectedCharacter);
+  const selectedCharacterLevelData =
+    selectedCharacter.levels[currentPageData.characterlevel];
+  // console.log(selectedCharacterLevelData);
   return (
     <S.Container>
       <S.Header></S.Header>
@@ -53,6 +62,7 @@ export default function Carousel({pages, pageWidth, gap, offset}: ICarousel) {
           showsHorizontalScrollIndicator={false}
         />
       </S.Body>
+
       <S.Footer>
         <S.IndicatorWrapper>
           {Array.from({length: pages.length}, (_, i) => i).map(i => (
@@ -60,6 +70,12 @@ export default function Carousel({pages, pageWidth, gap, offset}: ICarousel) {
           ))}
         </S.IndicatorWrapper>
       </S.Footer>
+      <S.BodyBottomCharacterImageBox>
+        <S.CharacterImage
+          source={selectedCharacterLevelData.front}
+          resizeMode="contain"
+        />
+      </S.BodyBottomCharacterImageBox>
     </S.Container>
   );
 }

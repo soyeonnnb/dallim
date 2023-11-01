@@ -194,6 +194,7 @@ public class UserSocialService {
                 .filter(name -> !existingCharacterNames.contains(name))
                 .map(name -> CharacterOverview.builder().name(name).build())
                 .forEach(characterOverviews::add);
+        characterOverviews.sort(Comparator.comparingInt(CharacterOverview::getCharacterIndex));
         return characterOverviews;
     }
 
@@ -208,6 +209,7 @@ public class UserSocialService {
                 .filter(name -> !existingPlanetNames.contains(name))
                 .map(name -> PlanetOverview.builder().name(name).build())
                 .forEach(planetOverviews::add);
+        planetOverviews.sort(Comparator.comparingInt(PlanetOverview::getPlanetIndex));
         return planetOverviews;
     }
 }

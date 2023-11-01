@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { characterData } from './CharacterData';
+import { characterData } from '@/recoil/CharacterData';
 import * as S from './Loading.styles';
 import { Animated } from 'react-native';
 

@@ -1,5 +1,5 @@
 import * as S from './SelectModal.styles';
-import { characterData } from '@/components/common/CharacterData';
+import { characterData } from '@/recoil/CharacterData';
 import { Modal } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
@@ -27,6 +27,9 @@ function CharacterSelectModal({ characterSelectModalVisible, toggleModal, equipp
 
 
   const handleEquippedCharacterChange = () => {
+    setEquippedCharacterIndex(selectedCharacterIndex);
+    setEquippedEvolutionStage(selectedEvolutionStage);
+
     Toast.show({
       type: 'success',
       position: 'top',

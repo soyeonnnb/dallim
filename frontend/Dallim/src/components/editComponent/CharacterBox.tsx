@@ -1,5 +1,5 @@
 import * as S from './CharacterBox.styles';
-import { characterData } from '../common/CharacterData';
+import { characterData } from '@/recoil/CharacterData';
 
 import { useRecoilValue } from 'recoil';
 import {

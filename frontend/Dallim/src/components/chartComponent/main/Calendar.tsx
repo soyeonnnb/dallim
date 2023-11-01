@@ -4,7 +4,7 @@ import {Dimensions, Text} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
 import * as S from './Calendar.styles';
-import {getCurrentDate, CalendarType} from '@/components/common/CalendarData';
+import {getCurrentDate, CalendarType} from '@/recoil/CalendarData';
 
 import ArrowLeft from '@/assets/icons/ArrowLeft';
 import ArrowRight from '@/assets/icons/ArrowRight';

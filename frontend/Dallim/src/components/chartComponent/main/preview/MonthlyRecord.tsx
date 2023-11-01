@@ -3,7 +3,7 @@ import {WeeklyRecord} from './PreviewRecord';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 import {colors} from '@/components/common/globalStyles';
-import {characterData} from '@/components/common/CharacterData';
+import {characterData} from '@/recoil/CharacterData';
 
 interface Props {
   year: number;

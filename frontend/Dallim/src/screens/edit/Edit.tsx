@@ -1,7 +1,7 @@
 import * as S from './Edit.styles';
-import { characterData } from '@/components/common/CharacterData';
-import { backgroundImage } from '@/components/common/PlanetData';
-import { planetData } from '@/components/common/PlanetData';
+import { characterData } from '@/recoil/CharacterData';
+import { backgroundImage } from '@/recoil/PlanetData';
+import { planetData } from '@/recoil/PlanetData';
 import { useRef, useState, useEffect } from 'react';
 import { Animated, Easing } from 'react-native';
 import { fetchEditInfo } from '@/apis/EditApi';

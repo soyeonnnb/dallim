@@ -1,5 +1,5 @@
 import * as S from './PlanetBox.styles';
-import { planetData } from '../common/PlanetData';
+import { planetData } from '@/recoil/PlanetData';
 import { useState } from 'react';
 import WatchThemeModal from './editModal/WatchThemeModal';
 

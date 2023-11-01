@@ -1,5 +1,5 @@
 import * as S from './PlanetEdit.styles';
-import { planetData } from '../common/PlanetData';
+import { planetData } from '@/recoil/PlanetData';
 import { useEffect, useState } from 'react';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 import PlanetSelectModal from './editModal/PlanetSelectModal';

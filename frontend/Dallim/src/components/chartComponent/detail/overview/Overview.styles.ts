@@ -6,7 +6,7 @@ const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export const Container = styled.View`
   flex: 0.9;
-  width: ${SCREEN_WIDTH};
+  width: ${SCREEN_WIDTH}px;
   justify-content: center;
   flex-direction: row;
   align-items: center;
@@ -60,7 +60,7 @@ export const RecordContent = styled.Text<{color: string}>`
 export const WalkRecords = styled.View`
   flex: 1;
   flex-direction: row;
-  margin: 7% 0;
+  margin: 7% 0px;
 `;
 export const WalkRecordContainer = styled.View`
   flex: 1;

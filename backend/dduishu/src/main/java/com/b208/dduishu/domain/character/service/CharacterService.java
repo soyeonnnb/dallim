@@ -4,18 +4,19 @@ import java.util.List;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterId;
 import com.b208.dduishu.domain.character.dto.request.CharacterInfoDetail;
+import com.b208.dduishu.domain.character.dto.request.PurchaseCharacterIndex;
 import com.b208.dduishu.domain.character.entity.CharacterLevel;
 import com.b208.dduishu.domain.character.exception.InsufficientPointsException;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
 import com.b208.dduishu.domain.characterInfo.repository.CharacterInfoRepository;
 import com.b208.dduishu.domain.planet.service.PlanetService;
+import com.b208.dduishu.util.Util;
 import org.springframework.stereotype.Service;
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.entity.User;
-import com.b208.dduishu.domain.character.dto.request.PurchaseCharacterName;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
@@ -109,10 +110,12 @@ public class CharacterService {
 
 
     @Transactional
-    public void purchaseCharacter(PurchaseCharacterName req) {
+    public void purchaseCharacter(PurchaseCharacterIndex req) {
         User user = getUser.getUser();
 
-        CharacterInfo findCharacterInfo = characterInfoRepository.findByName(req.getCharacterName());
+        CharacterName characterName = Util.getCharacterNameByIndex(req.getCharacterIndex());
+
+        CharacterInfo findCharacterInfo = characterInfoRepository.findByName(characterName);
 
         int price = findCharacterInfo.getPrice();
         int point = user.getPoint();

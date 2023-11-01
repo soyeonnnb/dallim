@@ -2,8 +2,7 @@ package com.b208.dduishu.domain.character.controller;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterId;
 import com.b208.dduishu.domain.character.dto.request.CharacterInfoDetail;
-import com.b208.dduishu.domain.character.dto.request.PurchaseCharacterName;
-import com.b208.dduishu.domain.character.dto.response.CharacterInfoResult;
+import com.b208.dduishu.domain.character.dto.request.PurchaseCharacterIndex;
 import org.springframework.web.bind.annotation.*;
 
 import com.b208.dduishu.domain.character.service.CharacterService;
@@ -52,7 +51,7 @@ public class CharacterController {
     }
 
     @PostMapping("/api/v1/character")
-    public ApiResponse<?> purchaseCharacter(@RequestBody PurchaseCharacterName req) {
+    public ApiResponse<?> purchaseCharacter(@RequestBody PurchaseCharacterIndex req) {
         try {
             characterService.purchaseCharacter(req);
 

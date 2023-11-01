@@ -2,7 +2,7 @@ package com.b208.dduishu.domain.planet.service;
 
 import com.b208.dduishu.domain.character.exception.InsufficientPointsException;
 import com.b208.dduishu.domain.planet.dto.request.MainPlanetInfo;
-import com.b208.dduishu.domain.planet.dto.request.PurchasePlanetName;
+import com.b208.dduishu.domain.planet.dto.request.PurchasePlanetIndex;
 import com.b208.dduishu.domain.planet.dto.response.PlanetOverview;
 import com.b208.dduishu.domain.planet.entity.Planet;
 import com.b208.dduishu.domain.planet.entity.PlanetInfo;
@@ -11,6 +11,7 @@ import com.b208.dduishu.domain.planet.repository.PlanetInfoRepository;
 import com.b208.dduishu.domain.planet.repository.PlanetRepository;
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.entity.User;
+import com.b208.dduishu.util.Util;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,7 @@ public class PlanetService {
     private final PlanetInfoRepository planetInfoRepository;
     private final GetUser getUser;
 
-    public List<PlanetOverview> getAllThemaInfo() {
+    public List<PlanetOverview> getAllPlanetInfo() {
         User user = getUser.getUser();
 
         List<Planet> findAllPlanetInfos = planetRepository.findAllByUserUserId(user.getUserId());
@@ -54,7 +55,7 @@ public class PlanetService {
     }
 
     @Transactional
-    public void updateMainThema(MainPlanetInfo req) {
+    public void updateMainPlanet(MainPlanetInfo req) {
 
         User user = getUser.getUser();
 
@@ -73,10 +74,12 @@ public class PlanetService {
     }
 
     @Transactional
-    public void purchaseThema(PurchasePlanetName req) {
+    public void purchasePlanet(PurchasePlanetIndex req) {
         User user = getUser.getUser();
 
-        PlanetInfo findPlanetInfo = planetInfoRepository.findByName(req.getPlanetName());
+        PlanetName planetName = Util.getPlanetNameByIndex(req.getPlanetIndex());
+
+        PlanetInfo findPlanetInfo = planetInfoRepository.findByName(planetName);
 
         int price = findPlanetInfo.getPrice();
         int point = user.getPoint();

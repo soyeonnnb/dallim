@@ -1,7 +1,7 @@
 package com.b208.dduishu.domain.planet.controller;
 
 import com.b208.dduishu.domain.planet.dto.request.MainPlanetInfo;
-import com.b208.dduishu.domain.planet.dto.request.PurchasePlanetName;
+import com.b208.dduishu.domain.planet.dto.request.PurchasePlanetIndex;
 import com.b208.dduishu.domain.planet.dto.response.PlanetOverview;
 import com.b208.dduishu.domain.planet.service.PlanetService;
 import com.b208.dduishu.util.response.ApiResponse;
@@ -16,10 +16,10 @@ public class PlanetController {
 
     private final PlanetService planetService;
 
-    @GetMapping("/api/v1/thema")
-    public ApiResponse<?> getAllThemaInfo() {
+    @GetMapping("/api/v1/planet")
+    public ApiResponse<?> getAllPlanetInfo() {
         try {
-            List<PlanetOverview> ret = planetService.getAllThemaInfo();
+            List<PlanetOverview> ret = planetService.getAllPlanetInfo();
 
             return ApiResponse.createSuccess(ret);
         } catch (Exception e) {
@@ -28,10 +28,10 @@ public class PlanetController {
     }
 
     // 대표 테마 변경
-    @PatchMapping("/api/v1/thema")
-    public ApiResponse<?> updateMainThema(@RequestBody MainPlanetInfo req) {
+    @PatchMapping("/api/v1/planet")
+    public ApiResponse<?> updateMainPlanet(@RequestBody MainPlanetInfo req) {
         try {
-            planetService.updateMainThema(req);
+            planetService.updateMainPlanet(req);
 
             return ApiResponse.createSuccess(true);
         } catch (Exception e) {
@@ -40,10 +40,10 @@ public class PlanetController {
     }
 
     // 테마 구매
-    @PostMapping("/api/v1/thema")
-    public ApiResponse<?> purchaseThema(@RequestBody PurchasePlanetName req) {
+    @PostMapping("/api/v1/planet")
+    public ApiResponse<?> purchasePlanet(@RequestBody PurchasePlanetIndex req) {
         try {
-            planetService.purchaseThema(req);
+            planetService.purchasePlanet(req);
 
             return ApiResponse.createSuccess(true);
         } catch (Exception e) {

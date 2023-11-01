@@ -4,7 +4,7 @@ import com.b208.dduishu.domain.planet.entity.PlanetName;
 import lombok.Data;
 
 @Data
-public class PurchasePlanetName {
+public class PurchasePlanetIndex {
 
-    private PlanetName planetName;
+    private int planetIndex;
 }

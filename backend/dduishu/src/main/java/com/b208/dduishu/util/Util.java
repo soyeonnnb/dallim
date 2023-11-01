@@ -100,4 +100,32 @@ public class Util {
                 .orElse(0);
     }
 
+    public static CharacterName getCharacterNameByIndex(int characterIndex) {
+        if (characterIndex == 0) {
+            return CharacterName.RABBIT;
+        } else if (characterIndex == 1) {
+            return CharacterName.Penguin;
+        } else if (characterIndex == 2) {
+            return CharacterName.Panda;
+        } else if (characterIndex == 3) {
+            return CharacterName.Chicken;
+        }
+        return CharacterName.RABBIT;
+    }
+
+    public static PlanetName getPlanetNameByIndex(int planetIndex) {
+        if (planetIndex == 0) {
+            return PlanetName.BLACK;
+        } else if (planetIndex == 1) {
+            return PlanetName.YELLOW;
+        } else if (planetIndex == 2) {
+            return PlanetName.BLUE;
+        } else if (planetIndex == 3) {
+            return PlanetName.PUPPLE;
+        }else if (planetIndex == 4) {
+            return PlanetName.RED;
+        }
+        return PlanetName.BLACK;
+    }
+
 }

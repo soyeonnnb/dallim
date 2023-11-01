@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react';
 import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
 import CharacterSelectModal from './editModal/CharacterSelectModal';
 import BoomEffect from '@/components/common/BoomEffect';
+import CustomToast from '../common/CustomToast';
 import Character from './CharacterBox';
+
 
 import { useRecoilState } from 'recoil';
 import {
@@ -18,7 +20,6 @@ import {
   selectedCharacterIsPurchasedState,
   userPointState
 } from '@/recoil/EditRecoil';
-import CustomToast from '../common/CustomToast';
 import { postCharacterPurchase, updateEquippedCharacter } from '@/apis/EditApi';
 
 type CharacterEditProps = {
@@ -107,6 +108,11 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange }: Cha
     setPurchaseModalVisible(false);
   }
 
+  function handleEquipped() {
+    console.log("시작 버튼 눌림!");
+    CustomToast({ type: "success", text1: "현재 착용중인 행성입니다." });
+  }
+
   return (
     <S.Container>
       <S.Header>
@@ -127,7 +133,7 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange }: Cha
         {selectedCharacterIsPurchased ? (
           equippedCharacterIndex === selectedCharacterIndex ? (
             <>
-              <S.ButtonBox>
+              <S.ButtonBox onPress={handleEquipped}>
                 <S.EquippedText>장착중</S.EquippedText>
               </S.ButtonBox>
               <S.LevelBox>

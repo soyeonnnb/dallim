@@ -1,12 +1,12 @@
 import * as S from './PlanetEdit.styles';
-import { planetData } from '@/recoil/PlanetData';
-import CustomToast from '../common/CustomToast';
+import { postPlanetPurchase, updateEquippedPlanet } from '@/apis/EditApi';
 import { useEffect, useState } from 'react';
+import { planetData } from '@/recoil/PlanetData';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
 import BoomEffect from '@/components/common/BoomEffect';
+import CustomToast from '../common/CustomToast';
 import Planet from './PlanetBox';
-import { postPlanetPurchase, updateEquippedPlanet } from '@/apis/EditApi';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
@@ -77,10 +77,10 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
         if (responseData.status === "success" && responseData.data === true) {
           setUserPoint(userPoint - 2000); // 포인트 차감
           CustomToast({ type: "success", text1: "구매 성공!" });
-          setSelectedPlanetIsPurchased(true);
+          setSelectedPlanetIsPurchased(true); // 해당하는 행성 구입 체크
           setShowConfetti(true); // 폭죽
-          setTimeout(() => setShowConfetti(false), 5000);
-          setPurchaseModalVisible(false);
+          setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
+          setPurchaseModalVisible(false); // 모달 닫기
         } else {
           CustomToast({ type: "error", text1: "통신에 실패했습니다. 다시 시도해주세요." });
         }
@@ -126,7 +126,7 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
               <S.EquippedText>착용중</S.EquippedText>
             </S.ButtonBox>
           ) : (
-            <S.ButtonBox onPress={equippedPlanetChange}>
+            <S.ButtonBox onPress={togglePlanetSelectModal}>
               <S.ButtonText>선택</S.ButtonText>
             </S.ButtonBox>
           )

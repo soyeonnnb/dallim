@@ -1,13 +1,13 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { RecoilRoot } from 'recoil';
 import BottomTab from './src/components/common/bottomTab/BottomTab';
 import Kakao from './src/screens/login/KakaoLogin';
 import Login from './src/screens/login/Login';
 import NotFound from './src/screens/notFound/NotFound';
 import Naver from './src/screens/login/NaverLogin';
 import Toast from 'react-native-toast-message';
-import { RecoilRoot } from 'recoil';
 import { enableScreens } from 'react-native-screens';
 
 enableScreens();
@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 
 function App() {
   return (
-    <RecoilRoot>
+    <RecoilRoot >
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen

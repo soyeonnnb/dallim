@@ -29,7 +29,6 @@ function Loading() {
             <S.BackgroundImage
                 source={require('@/assets/images/MainBackground4.png')}
                 resizeMode="cover">
-
                 <S.Body>
                     <S.ThemeBox>
                         <S.StyledGif

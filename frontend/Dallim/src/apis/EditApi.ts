@@ -29,12 +29,95 @@ export const fetchEditInfo = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
     console.log('EditApi : 캐릭터 & 행성 조회 Axios 성공');
     console.log('response : ', response.data.data);
     return response.data.data;
   } catch (error) {
     console.log('EditApi :  캐릭터 & 행성 조회 Axios 실패');
+    throw error;
+  }
+};
+
+// 행성 구입
+export const postPlanetPurchase = async (planetIndex: number) => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/v1/planet/`,
+      {planetIndex: planetIndex},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    console.log('EditApi : 행성 업데이트 Axios 성공');
+    return response.data;
+  } catch (error) {
+    console.log('EditApi : 행성 업데이트 Axios 실패');
+    throw error;
+  }
+};
+
+// 캐릭터 구입
+export const postCharacterPurchase = async (characterIndex: number) => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/v1/character/`,
+      {characterIndex: characterIndex},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    console.log('EditApi : 캐릭터 업데이트 Axios 성공');
+    return response.data;
+  } catch (error) {
+    console.log('EditApi : 캐릭터 업데이트 Axios 실패');
+    throw error;
+  }
+};
+
+// 대표 행성 수정
+export const updateEquippedPlanet = async (planetIndex: number) => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.patch(
+      `${BASE_URL}/api/v1/planet`,
+      {planetIndex: planetIndex},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    console.log('EditApi : 대표 행성 변경 Axios 성공');
+    return response.data;
+  } catch (error) {
+    console.log('EditApi : 대표 행성 변경 Axios 실패');
+    throw error;
+  }
+};
+
+// 대표 캐릭터 수정
+export const updateEquippedCharacter = async (characterIndex: number) => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.patch( 
+      `${BASE_URL}/api/v1/character`,
+      {characterIndex: characterIndex},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    console.log('EditApi : 대표 캐릭터 변경 Axios 성공');
+    return response.data;
+  } catch (error) {
+    console.log('EditApi : 대표 캐릭터 변경 Axios 실패');
     throw error;
   }
 };

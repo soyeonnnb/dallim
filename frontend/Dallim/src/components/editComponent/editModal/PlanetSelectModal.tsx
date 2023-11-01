@@ -4,21 +4,23 @@ import { Modal } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { equippedPlanetIndexState, selectedPlanetIndexState } from '@/recoil/EditRecoil';
 
 type ModalComponentProps = {
-    planetSelectModalVisible: boolean;
     togglePlanetSelectModal: () => void;
     equippedPlanetChange: () => void;
+    planetSelectModalVisible: boolean;
 };
 
-function planetSelectModal ({ planetSelectModalVisible, togglePlanetSelectModal, equippedPlanetChange }: ModalComponentProps) {
+function planetSelectModal({ planetSelectModalVisible, togglePlanetSelectModal, equippedPlanetChange }: ModalComponentProps) {
 
-    const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState);
+    const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
     const selectedPlanetIndex = useRecoilValue(selectedPlanetIndexState);
 
     const handleEquippedPlanetChange = () => {
+        setEquippedPlanetIndex(selectedPlanetIndex);
+
         Toast.show({
             type: 'success',
             position: 'top',

@@ -5,12 +5,12 @@ import {colors} from '@/components/common/globalStyles';
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export const Container = styled.View`
-  flex: 1;
+  flex: 0.9;
   width: ${SCREEN_WIDTH};
   justify-content: center;
-  background-color: green;
   flex-direction: row;
   align-items: center;
+  padding-bottom: 5%;
 `;
 export const ArrowContainer = styled.View`
   width: 20px;
@@ -18,7 +18,6 @@ export const ArrowContainer = styled.View`
 `;
 
 export const MainContent = styled(ScrollView)`
-  background-color: aqua;
   flex: 1;
   padding-top: 10%;
 `;
@@ -58,7 +57,21 @@ export const RecordContent = styled.Text<{color: string}>`
   font-weight: 800;
 `;
 // walk 관련 스타일
-export const WalkRecords = styled.View``;
-export const WalkRecordContainer = styled.View``;
-export const WalkRecordTitle = styled.Text``;
-export const WalkRecordContent = styled.Text``;
+export const WalkRecords = styled.View`
+  flex: 1;
+  flex-direction: row;
+  margin: 7% 0;
+`;
+export const WalkRecordContainer = styled.View`
+  flex: 1;
+  align-items: center;
+`;
+export const WalkRecordTitle = styled.Text`
+  margin-top: 18px;
+  color: white;
+`;
+export const WalkRecordContent = styled.Text`
+  color: white;
+  font-size: 25px;
+  font-weight: 800;
+`;

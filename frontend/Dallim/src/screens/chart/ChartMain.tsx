@@ -26,7 +26,7 @@ function Chart() {
   return (
     <>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground3.png')}
+        source={require('@/assets/images/MainBackground4.png')}
         resizeMode="cover"
       />
       <Calendar

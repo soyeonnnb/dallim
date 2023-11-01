@@ -10,7 +10,7 @@ import HeartRate from '@/components/chartComponent/detail/heartRate/HeartRate';
 import ArrowLeft from '@/assets/icons/ArrowLeft';
 
 // 타입을 정의합니다.
-type Props = RouteProp<{ChartDetail: {id: number}}, 'ChartDetail'>;
+type Props = RouteProp<{ChartDetail: {id: string}}, 'ChartDetail'>;
 
 function ChartDetail({route}: Props) {
   const {id} = route.params;
@@ -18,7 +18,7 @@ function ChartDetail({route}: Props) {
   return (
     <>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground3.png')}
+        source={require('@/assets/images/MainBackground4.png')}
         resizeMode="cover"
       />
       <S.Container>

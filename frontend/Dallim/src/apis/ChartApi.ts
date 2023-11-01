@@ -1,7 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export interface RunningRecord {
-  id: number; // 기록 ID
+  id: string; // 기록 ID
   location: string; // 기록 위치
   type: string; // 기록 타입
   totalTime: number; // 기록 걸린 시간

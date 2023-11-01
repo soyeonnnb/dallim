@@ -21,6 +21,8 @@ import BottomTabIcon from './BottomTabIcon';
 // stackNavigator
 import ProfileStackNavigators from '../../../navigations/ProfileStackNavigators';
 import ChartStackNavigators from '../../../navigations/ChartStackNavigators';
+import SocialStackNavigators from '../../../navigations/SocialStackNavigators';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -130,8 +132,8 @@ function BottompTab() {
         }}
       />
       <Tab.Screen
-        name="Social"
-        component={Social}
+        name="SocialStack"
+        component={SocialStackNavigators}
         options={{
           tabBarIcon: ({focused}) => (
             <BottomTabIcon focused={focused} type="social" />

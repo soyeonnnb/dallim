@@ -11,7 +11,7 @@ function Social() {
                 resizeMode="cover">
                 <S.Header>
                     <SocialHeader />
-                </S.Header>
+                </S.Header> 
                 <S.Body>
                     <SocialBody /> 
                 </S.Body>

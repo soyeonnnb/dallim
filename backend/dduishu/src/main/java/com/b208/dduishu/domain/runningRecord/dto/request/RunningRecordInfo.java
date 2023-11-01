@@ -16,6 +16,8 @@ import java.util.List;
 public class RunningRecordInfo {
 
     private Long userId;
+    private Date date;
+    private String formattedDate;
     private Long characterId;
     private RunningType type;
     private ObjectId rivalRecordId;
@@ -29,8 +31,6 @@ public class RunningRecordInfo {
     // 운동일시, 총 시간, 평균 속력, 이동 거리, 평균 심박수
     // + 위치정보
     // + 생체정보 +a
-    private Date date;
-    private String formattedDate;
     private List<RunningRecordOverallInfo> runningRecordInfos;
 
     public RunningRecord toRunningRecord(User user, Character character, RunningRecord rivalRecord){

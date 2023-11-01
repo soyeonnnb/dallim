@@ -212,7 +212,6 @@ function Edit() {
 
             <S.TabBox />
           </S.BackgroundImage>
-
         </>
       )}
     </S.Container>

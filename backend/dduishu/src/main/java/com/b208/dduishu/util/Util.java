@@ -45,11 +45,32 @@ public class Util {
         return 0;
     }
 
-    public static int getThemaIndexByCharacter(Planet planet) {
-        if (planet.getPlanetInfo().getName().equals(PlanetName.EARTH)) {
+    public static int getMainPlanetIndex(Planet planet) {
+        if (planet.getPlanetInfo().getName().equals(PlanetName.BLACK)) {
             return 0;
-        } else if (planet.getPlanetInfo().getName().equals(PlanetName.MOON)) {
+        } else if (planet.getPlanetInfo().getName().equals(PlanetName.YELLOW)) {
             return 1;
+        } else if (planet.getPlanetInfo().getName().equals(PlanetName.BLUE)) {
+            return 2;
+        } else if (planet.getPlanetInfo().getName().equals(PlanetName.PUPPLE)) {
+            return 3;
+        } else if (planet.getPlanetInfo().getName().equals(PlanetName.RED)) {
+            return 4;
+        }
+        return 0;
+    }
+
+    public static int getMainPlanetIndexByName(PlanetName planetName) {
+        if (planetName.equals(PlanetName.BLACK)) {
+            return 0;
+        } else if (planetName.equals(PlanetName.YELLOW)) {
+            return 1;
+        } else if (planetName.equals(PlanetName.BLUE)) {
+            return 2;
+        } else if (planetName.equals(PlanetName.PUPPLE)) {
+            return 3;
+        } else if (planetName.equals(PlanetName.RED)) {
+            return 4;
         }
         return 0;
     }
@@ -62,12 +83,4 @@ public class Util {
                 .orElse(0);
     }
 
-    public static int getMainThemaIndex(Planet planet) {
-        if (planet.getPlanetInfo().getName().equals(PlanetName.EARTH)) {
-            return 0;
-        } else if (planet.getPlanetInfo().getName().equals(PlanetName.MOON)) {
-            return 1;
-        }
-        return 0;
-    }
 }

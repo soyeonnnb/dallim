@@ -52,6 +52,7 @@ public class UserSocialService {
     private static final List<PlanetName> baseThemaNames = List.of(PlanetName.BLACK, PlanetName.YELLOW, PlanetName.BLUE, PlanetName.PUPPLE, PlanetName.RED);
 
     private final RunningRecordService runningRecordService;
+    private final PlanetRepository planetRepository;
 
     // 유저 닉네임 변경
     @Transactional
@@ -90,9 +91,11 @@ public class UserSocialService {
         User user = getUser.getUser();
         List<RunningRecordOverview> findFollowRunningRecord = runningRecordService.getRunningRecordFor30Days("me", user.getUserId());
         BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(user.getUserLevel().getExp());
+        List<Planet> findPlanets = planetRepository.findAllByUserUserId(user.getUserId());
 
         return UserProfile.builder()
                 .user(user)
+                .planets(findPlanets)
                 .levelInfo(levelInfo)
                 .runningRecordOverviews(findFollowRunningRecord)
                 .build();

@@ -15,7 +15,7 @@ public class FollowerInfo {
 
     public FollowerInfo(User user) {
         this.userId = user.getUserId();
-        this.characterIndex = Util.getProfileIndexByUser(user);
+        this.characterIndex = Util.getCharacterIndexByUser(user);
         this.nickname = user.getNickname();
         this.level = user.getUserLevel().getLevel();
     }

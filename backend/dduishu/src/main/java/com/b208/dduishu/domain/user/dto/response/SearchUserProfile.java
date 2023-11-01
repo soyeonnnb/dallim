@@ -23,7 +23,7 @@ public class SearchUserProfile {
     public SearchUserProfile(User user, List<User> follower) {
         this.userId = user.getUserId();
         this.nickname = user.getNickname();
-        this.characterIndex = Util.getProfileIndexByUser(user);
+        this.characterIndex = Util.getCharacterIndexByUser(user);
         this.level = user.getUserLevel().getLevel();
         this.isFollower = follower.stream()
                 .anyMatch(f -> f.getUserId().equals(this.userId));

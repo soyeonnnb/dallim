@@ -26,7 +26,7 @@ public class MonthRunningRecord {
         this.month = month;
         if (user != null) {
             this.runningMateNickName = user.getNickname();
-            this.runningMateCharacterIndex = Util.getProfileIndexByUser(user);
+            this.runningMateCharacterIndex = Util.getCharacterIndexByUser(user);
             this.runningMateLevel = user.getUserLevel().getLevel();
         }
         this.totalCount = totalCount;

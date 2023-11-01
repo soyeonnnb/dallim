@@ -7,6 +7,7 @@ import com.b208.dduishu.domain.planet.entity.Planet;
 import com.b208.dduishu.domain.planet.entity.PlanetName;
 import com.b208.dduishu.domain.user.entity.User;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -16,6 +17,14 @@ public class Util {
             CharacterName.Penguin, 1,
             CharacterName.Panda, 2,
             CharacterName.Chicken, 3
+    );
+
+    private static final Map<PlanetName, Integer> planetNameToValue = Map.of(
+            PlanetName.BLACK, 0,
+            PlanetName.YELLOW, 1,
+            PlanetName.BLUE, 2,
+            PlanetName.PUPPLE, 3,
+            PlanetName.RED, 4
     );
 
     public static int getCharacterIndexByCharacter(Character character) {
@@ -75,10 +84,18 @@ public class Util {
         return 0;
     }
 
-    public static int getProfileIndexByUser(User user) {
+    public static int getCharacterIndexByUser(User user) {
         return user.getCharacterList().stream()
                 .filter(Character::isMainCharacter)
                 .map(character -> characterNameToValue.getOrDefault(character.getCharacterInfo().getName(), 0))
+                .findFirst()
+                .orElse(0);
+    }
+
+    public static int getPlanetIndexByPlanets(List<Planet> planets) {
+        return planets.stream()
+                .filter(Planet::isMainPlanet)
+                .map(planet -> planetNameToValue.getOrDefault(planet.getPlanetInfo().getName(), 0))
                 .findFirst()
                 .orElse(0);
     }

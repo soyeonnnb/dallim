@@ -30,10 +30,10 @@ public class CompareUserProfile {
     private float pairSpeed;
 
     public CompareUserProfile(User user , User pair) {
-        this.myProfileIndex = Util.getProfileIndexByUser(user);
+        this.myProfileIndex = Util.getCharacterIndexByUser(user);
         this.myNickName = user.getNickname();
         this.myLevel = user.getUserLevel().getLevel();
-        this.pairProfileIndex = Util.getProfileIndexByUser(pair);
+        this.pairProfileIndex = Util.getCharacterIndexByUser(pair);
         this.pairNickName = pair.getNickname();
         this.pairLevel = pair.getUserLevel().getLevel();
         this.myDay = getPercent(user.getCumulativeRunningDay(), pair.getCumulativeRunningDay());

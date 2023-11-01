@@ -43,6 +43,7 @@ export const TitleText = styled.Text`
 export const ModalFooter = styled.View`
   /* border-width: 1px;
   border-color: blue; */
+  /*  */
   flex-direction: row;
   justify-content: space-between;
   align-items: center;

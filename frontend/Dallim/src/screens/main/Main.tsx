@@ -1,15 +1,8 @@
 import * as S from './Main.styles';
-<<<<<<< HEAD
 import {useEffect, useState} from 'react';
 import {fetchUserProfile} from '@/apis/MainApi';
-import {characterData} from '@/components/common/CharacterData';
-import {planetData} from '@/components/common/PlanetData';
-=======
-import { useEffect, useState } from 'react';
-import { fetchUserProfile } from '@/apis/MainApi';
-import { characterData } from '@/recoil/CharacterData';
-import { planetData } from '@/recoil/PlanetData';
->>>>>>> 4dbe4004f86a84b1886c0947654115e5d5b18715
+import {characterData} from '@/recoil/CharacterData';
+import {planetData} from '@/recoil/PlanetData';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
 import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';

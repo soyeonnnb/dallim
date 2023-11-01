@@ -4,6 +4,7 @@
     "baseUrl": "./",
     "jsx": "react-jsx",
     "paths": {
+      "@/recoil/*": ["./src/recoil/*"],
       "@/apis/*": ["./src/apis/*"],
       "@/assets/*": ["./src/assets/*"],
       "@/components/*": ["./src/components/*"],

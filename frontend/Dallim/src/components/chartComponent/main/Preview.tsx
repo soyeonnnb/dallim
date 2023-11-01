@@ -5,7 +5,7 @@ import PreviewDaily from './preview/Daily';
 import PreviewRecord from './preview/PreviewRecord';
 import PreviewMonthly from './preview/Monthly';
 import * as S from './Preview.styles';
-import {CalendarType} from '@/components/common/CalendarData';
+import {CalendarType} from '@/recoil/CalendarData';
 import {MonthlyRecords} from '@/apis/ChartApi';
 
 interface Props {

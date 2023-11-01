@@ -2,7 +2,7 @@ import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
 import {View, Dimensions} from 'react-native';
 import * as S from './Daily.styles';
 import {ScrollView, FlatList} from 'react-native-gesture-handler';
-import {CalendarType} from '@/components/common/CalendarData';
+import {CalendarType} from '@/recoil/CalendarData';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 import {DailyRecord} from '../Preview';
 

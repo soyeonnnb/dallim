@@ -12,8 +12,8 @@ import NicknameChangeModal from '../../components/profileComponent/profileModal/
 import RunningMateModal from '../../components/profileComponent/profileModal/RunningMateModal';
 import NotificationModal from '../../components/profileComponent/profileModal/NotificationModal';
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
-// import RunningMateSetting from './RunningMateSetting';
-import {characterData} from '../../components/common/CharacterData';
+import RunningMateSetting from './RunningMateSetting';
+import {characterData} from '@/recoil/CharacterData';
 
 //Apis
 import {fetchUserProfileCard} from '@/apis/ProfileApi';

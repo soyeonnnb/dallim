@@ -1,5 +1,5 @@
 import * as S from './WatchThemeModal.styles';
-import { planetData } from '@/components/common/PlanetData';
+import { planetData } from '@/recoil/PlanetData';
 import { Modal } from 'react-native';
 import CloseIcon from '@/assets/icons/CloseIcon_2.png';
 import React from 'react';

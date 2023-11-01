@@ -4,7 +4,7 @@ import * as S from './ChartMain.styles'; // 스타일 컴포넌트 import
 import Calendar from '../../components/chartComponent/main/Calendar';
 import Preview from '../../components/chartComponent/main/Preview';
 import {View, Text, StyleSheet} from 'react-native';
-import {CalendarType} from '@/components/common/CalendarData';
+import {CalendarType} from '@/recoil/CalendarData';
 import {data} from './recordDummyData.json';
 import {MonthlyRecords} from '@/apis/ChartApi';
 

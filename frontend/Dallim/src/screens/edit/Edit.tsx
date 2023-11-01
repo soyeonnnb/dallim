@@ -1,7 +1,7 @@
 import * as S from './Edit.styles';
-import { characterData } from '@/components/common/CharacterData';
-import { backgroundImage } from '@/components/common/PlanetData';
-import { planetData } from '@/components/common/PlanetData';
+import { characterData } from '@/recoil/CharacterData';
+import { backgroundImage } from '@/recoil/PlanetData';
+import { planetData } from '@/recoil/PlanetData';
 import { useRef, useState, useEffect } from 'react';
 import { Animated, Easing } from 'react-native';
 import { fetchEditInfo } from '@/apis/EditApi';
@@ -13,31 +13,29 @@ import Right from '@/assets/icons/DirectionRight.png';
 import Left from '@/assets/icons/DirectionLeft.png';
 import Loading from '@/components/common/Loading';
 
-interface Character {
-  characterIndex: number;
-  level: number;
-  exp: number;
-  evolutionStage: number;
-  isPurchased: boolean;
-}
+import { useRecoilState } from 'recoil';
+import {
+  userDataState,
+  userPointState,
+  equippedCharacterIndexState,
+  equippedCharacterLevelState,
+  equippedEvolutionStageState,
+  equippedPlanetIndexState,
+  selectedCharacterIndexState,
+  selectedCharacterLevelState,
+  selectedEvolutionStageState,
+  selectedCharacterExpState,
+  selectedCharacterIsPurchasedState,
+  selectedPlanetIndexState,
+  selectedPlanetIsPurchasedState,
+  isOnState
+} from '@/recoil/EditRecoil';
 
-interface Planet {
-  planetIndex: number;
-  isPurchased: boolean;
-}
-
-interface UserData {
-  point: number;
-  mainCharacterIndex: number;
-  mainPlanetIndex: number;
-  characters: Character[];
-  planets: Planet[];
-}
 
 function Edit() {
 
-  const [userData, setUserData] = useState<UserData | null>(null); // 초기값을 null로 설정
-
+  const [userData, setUserData] = useRecoilState(userDataState);
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,10 +48,10 @@ function Edit() {
     fetchData();
   }, []);
 
-
   useEffect(() => {
 
     if (userData) {
+      setUserPoint(userData.point);
       setEquippedCharacterIndex(userData.mainCharacterIndex);
       setEquippedCharacterLevel(userData.characters[userData.mainCharacterIndex].level);
       setEquippedEvolutionStage(userData.characters[userData.mainCharacterIndex].evolutionStage);
@@ -67,28 +65,24 @@ function Edit() {
 
       setSelectedPlanetIndex(userData.mainPlanetIndex);
       setSelectedPlanetIsPurchased(userData.planets[userData.mainPlanetIndex].isPurchased);
-
     }
   }, [userData]);
 
+  const [userPoint, setUserPoint] = useRecoilState(userPointState);
+  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
+  const [equippedCharacterLevel, setEquippedCharacterLevel] = useRecoilState(equippedCharacterLevelState);
+  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
+  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
 
-  const userPoint = userData?.point;  // 포인트
+  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
+  const [selectedCharacterLevel, setSelectedCharacterLevel] = useRecoilState(selectedCharacterLevelState);
+  const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
+  const [selectedCharacterExp, setSelectedCharacterExp] = useRecoilState(selectedCharacterExpState);
+  const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] = useRecoilState(selectedCharacterIsPurchasedState);
+  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(selectedPlanetIndexState);
+  const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] = useRecoilState(selectedPlanetIsPurchasedState);
+  const [isOn, setIsOn] = useRecoilState(isOnState);
 
-  const [equippedCharacterIndex, setEquippedCharacterIndex] = useState<number>(0); // 장착된 캐릭터
-  const [equippedCharacterLevel, setEquippedCharacterLevel] = useState<number>(0); // 장착된 캐릭터 레벨
-  const [equippedEvolutionStage, setEquippedEvolutionStage] = useState<number>(0); // 장착된 캐릭터 등급
-  const [equippedPlanetIndex, setEquippedPlanetIndex] = useState<number>(0); // 장착된 행성
-
-  // 선택하는 중인 인덱스
-  const [selectedCharacterIndex, setSelectedCharacterIndex] = useState(0); // 선택된 캐릭터
-  const [selectedCharacterLevel, setSelectedCharacterLevel] = useState<number>(0); // 선택된 캐릭터 레벨
-  const [selectedEvolutionStage, setSelectedEvolutionStage] = useState<number>(0); // 선택된 캐릭터 등급
-  const [selectedCharacterExp, setSelectedCharacterExp] = useState<number>(0); // 선택된 캐릭터 경험치
-  const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] = useState<boolean>(false); // 선택된 캐릭터 구매 여부
-  const [selectedPlanetIndex, setSelectedPlanetIndex] = useState(0); // 선택된 행성
-  const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] = useState<boolean>(false); // 선택된 행성 구매 여부
-
-  const [isOn, setIsOn] = useState(false);
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   const toggleHandle = () => {
@@ -204,8 +198,8 @@ function Edit() {
               <S.BodyCenter>
                 {
                   isOn
-                    ? <PlanetEdit equippedPlanetIndex={equippedPlanetIndex} selectedPlanetIndex={selectedPlanetIndex} selectedPlanetIsPurchased={selectedPlanetIsPurchased} handleEquippedPlanetChange={handleEquippedPlanetChange} onPlanetChange={handlePlanetChange} />
-                    : <CharacterEdit equippedCharacterIndex={equippedCharacterIndex} equippedCharacterLevel={equippedCharacterLevel} equippedEvolutionStage={equippedEvolutionStage} selectedCharacterIndex={selectedCharacterIndex} selectedCharacterLevel={selectedCharacterLevel} selectedEvolutionStage={selectedEvolutionStage} selectedCharacterExp={selectedCharacterExp} selectedCharacterIsPurchased={selectedCharacterIsPurchased} handleEquippedCharacterChange={handleEquippedCharacterChange} onCharacterChange={handleCharacterChange} />
+                    ? <PlanetEdit handleEquippedPlanetChange={handleEquippedPlanetChange} onPlanetChange={handlePlanetChange} />
+                    : <CharacterEdit handleEquippedCharacterChange={handleEquippedCharacterChange} onCharacterChange={handleCharacterChange} />
                 }
               </S.BodyCenter>
 

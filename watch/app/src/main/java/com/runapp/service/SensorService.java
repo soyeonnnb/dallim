@@ -75,7 +75,7 @@ public class SensorService extends Service {
         // 여기서 센서 및 기타 작업을 시작할 수 있습니다.
 
         registerHeartRateSensor();
-        registerStepCounterSensor();
+        registerStepCountSensor();
 
         return START_STICKY;
     }
@@ -102,7 +102,7 @@ public class SensorService extends Service {
                         initialStepCount = currentTotalSteps;
                     }
                     double sessionSteps = currentTotalSteps - initialStepCount;
-                    runningViewModel.setStepCounter(sessionSteps);
+                    runningViewModel.setStepCount(sessionSteps);
                     Log.d("발걸음", String.valueOf(sessionSteps));
                 }
             }
@@ -122,10 +122,10 @@ public class SensorService extends Service {
         }
     }
 
-    public void registerStepCounterSensor() {
-        Sensor stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if (stepCounterSensor != null) {
-            sensorManager.registerListener(universalSensorListener, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    public void registerStepCountSensor() {
+        Sensor StepCountSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        if (StepCountSensor != null) {
+            sensorManager.registerListener(universalSensorListener, StepCountSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 

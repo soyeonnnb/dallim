@@ -12,7 +12,7 @@ public class RunningDataDTO {
     private Long totalTime;
     private int characterId;
     private int characterInfoId;
-    private double stepCounter;
+    private double StepCount;
     private String averagePace;
     private double averageSpeed;
     private double averageHeartRate;
@@ -24,14 +24,14 @@ public class RunningDataDTO {
     public RunningDataDTO() {}
 
     // 모든 필드를 파라미터로 가지는 생성자 (선택적 사용)
-    public RunningDataDTO(Long userId, Long date, String formattedDate, double totalDistance, Long totalTime, int characterId, double stepCounter, String averagePace, double averageSpeed, double averageHeartRate, String type, Long rivalRecordId, List<RunDetail> runningRecordInfos, int characterInfoId) {
+    public RunningDataDTO(Long userId, Long date, String formattedDate, double totalDistance, Long totalTime, int characterId, double StepCount, String averagePace, double averageSpeed, double averageHeartRate, String type, Long rivalRecordId, List<RunDetail> runningRecordInfos, int characterInfoId) {
         this.userId = userId;
         this.date = date;
         this.formattedDate = formattedDate;
         this.totalDistance = totalDistance;
         this.totalTime = totalTime;
         this.characterId = characterId;
-        this.stepCounter = stepCounter;
+        this.StepCount = StepCount;
         this.averagePace = averagePace;
         this.averageSpeed = averageSpeed;
         this.averageHeartRate = averageHeartRate;
@@ -92,12 +92,12 @@ public class RunningDataDTO {
         this.characterId = characterId;
     }
 
-    public double getStepCounter() {
-        return stepCounter;
+    public double getStepCount() {
+        return StepCount;
     }
 
-    public void setStepCounter(double stepCounter) {
-        this.stepCounter = stepCounter;
+    public void setStepCount(double StepCount) {
+        this.StepCount = StepCount;
     }
 
     public String getAveragePace() {
@@ -166,7 +166,7 @@ public class RunningDataDTO {
                 ", totalTime=" + totalTime +
                 ", characterId=" + characterId +
                 ", characterInfoId=" + characterInfoId +
-                ", stepCounter=" + stepCounter +
+                ", StepCount=" + StepCount +
                 ", averagePace='" + averagePace + '\'' +
                 ", averageSpeed=" + averageSpeed +
                 ", averageHeartRate=" + averageHeartRate +

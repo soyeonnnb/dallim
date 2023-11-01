@@ -94,7 +94,7 @@ public class RunningActivity extends AppCompatActivity {
 
         runningViewModel.getRunningData().setValue(runningData);
         runningViewModel.setDistance(0f);
-        runningViewModel.setStepCounter(0f);
+        runningViewModel.setStepCount(0f);
         runningViewModel.setMsSpeed(0f);
         runningViewModel.setMsPace("0'00''");
 
@@ -203,7 +203,7 @@ public class RunningActivity extends AppCompatActivity {
         Log.d("심박2", String.valueOf(heartRateCount));
 
         runningData.setRunningRecordInfos(runDetailsList);
-        runningData.setStepCounter(runningViewModel.getStepCounter().getValue());
+        runningData.setStepCount(runningViewModel.getStepCount().getValue());
         double totalDistance = runningViewModel.getDistance().getValue();
         runningData.setTotalDistance(Math.round(totalDistance * 100) / 100.0);
         runningData.setAverageHeartRate(Math.round((totalHeartRate/heartRateCount) * 100) / 100.0);

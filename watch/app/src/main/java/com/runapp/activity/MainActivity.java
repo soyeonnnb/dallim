@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MainActivity extends ComponentActivity {
+public class MainActivity extends ComponentActivity{
     // 클래스 멤버로 Executor 정의
     private final Executor executor = Executors.newSingleThreadExecutor();
     private ActivityMainBinding binding;
@@ -76,8 +76,8 @@ public class MainActivity extends ComponentActivity {
             Intent intent = new Intent(MainActivity.this, SelectActivity.class);
             startActivity(intent);
         });
-
     }
+
 
     private void checkPermission(){
         // 필요한 권한(퍼미션)들
@@ -153,4 +153,13 @@ public class MainActivity extends ComponentActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

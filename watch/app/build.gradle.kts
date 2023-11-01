@@ -24,6 +24,15 @@ android {
 
     }
 
+    signingConfigs {
+        create("dee") {
+            storeFile = file("upload.jks")
+            storePassword = "ssafy1234"
+            keyAlias = "upload"
+            keyPassword = "ssafy1234"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -32,13 +41,20 @@ android {
                 "proguard-rules.pro"
             )
         }
+        getByName("debug"){
+            isMinifyEnabled = false
+            isDebuggable = true
+            signingConfig = signingConfigs.getByName("dee")
+            manifestPlaceholders["enableCrashlytics"] = "false"
+            extra.set("alwaysUpdateBuildId", false)
+        }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
@@ -75,7 +91,7 @@ dependencies {
     implementation("androidx.wear.compose:compose-foundation:1.2.0")
     implementation("androidx.wear.compose:compose-navigation:1.2.0")
     implementation("androidx.activity:activity-compose:1.5.1")
-1
+
     // viewPager2
     implementation("androidx.viewpager2:viewpager2:1.0.0")
 

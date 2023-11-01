@@ -82,11 +82,15 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
 
       <S.Footer>
         {selectedPlanetIsPurchased ? (
-          <>
+          selectedPlanetIndex === equippedPlanetIndex ? (
+            <S.ButtonBox>
+              <S.EquippedText>착용중</S.EquippedText>
+            </S.ButtonBox>
+          ) : (
             <S.ButtonBox onPress={equippedPlanetChange}>
               <S.ButtonText>선택</S.ButtonText>
             </S.ButtonBox>
-          </>
+          )
         ) : (
           <S.LockButtonBox onPress={handlePurchaseCheck}>
             <S.LockedImage source={require('@/assets/icons/LockIcon.png')} resizeMode='contain' />
@@ -94,7 +98,7 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
           </S.LockButtonBox>
         )}
       </S.Footer>
- 
+
       <PlanetSelectModal
         planetSelectModalVisible={planetSelectModalVisible}
         togglePlanetSelectModal={togglePlanetSelectModal}

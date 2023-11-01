@@ -90,21 +90,33 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange }: Cha
         </S.CharacterBox>
       </S.Body>
 
-      {/* 내가 장착하고 있는건지도 확인하기 내일 */}
       <S.Footer>
         {selectedCharacterIsPurchased ? (
-          <>
-            <S.ButtonBox onPress={toggleCharacterSelectModal}>
-              <S.ButtonText>선택</S.ButtonText>
-            </S.ButtonBox>
-
-            <S.LevelBox>
-              <S.LevelText>Level {selectedCharacterLevel}</S.LevelText>
-              <S.ExperienceBox>
-                <S.Experience percentage={selectedCharacterExp}></S.Experience>
-              </S.ExperienceBox>
-            </S.LevelBox>
-          </>
+          equippedCharacterIndex === selectedCharacterIndex ? (
+            <>
+              <S.ButtonBox>
+                <S.EquippedText>장착중</S.EquippedText>
+              </S.ButtonBox>
+              <S.LevelBox>
+                <S.LevelText>Level {selectedCharacterLevel}</S.LevelText>
+                <S.ExperienceBox>
+                  <S.Experience percentage={selectedCharacterExp}></S.Experience>
+                </S.ExperienceBox>
+              </S.LevelBox>
+            </>
+          ) : (
+            <>
+              <S.ButtonBox onPress={toggleCharacterSelectModal}>
+                <S.ButtonText>선택</S.ButtonText>
+              </S.ButtonBox>
+              <S.LevelBox>
+                <S.LevelText>Level {selectedCharacterLevel}</S.LevelText>
+                <S.ExperienceBox>
+                  <S.Experience percentage={selectedCharacterExp}></S.Experience>
+                </S.ExperienceBox>
+              </S.LevelBox>
+            </>
+          )
         ) : (
           <S.LockButtonBox onPress={handlePurchaseCheck}>
             <S.LockedImage source={require('@/assets/icons/LockIcon.png')} resizeMode='contain' />
@@ -114,7 +126,7 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange }: Cha
       </S.Footer>
 
 
-      <CharacterSelectModal 
+      <CharacterSelectModal
         characterSelectModalVisible={characterSelectModalVisible}
         toggleModal={toggleCharacterSelectModal}
         equippedCharacterChange={equippedCharacterChange}

@@ -11,6 +11,7 @@ import ArrowRight from '@/assets/icons/ArrowRight';
 import {MonthlyRecords} from '@/apis/ChartApi';
 import Toast from 'react-native-toast-message';
 import {makeShareableCloneRecursive} from 'react-native-reanimated';
+import {colors} from '@/components/common/globalStyles';
 
 interface Props {
   isClicked?: boolean;
@@ -30,9 +31,13 @@ function ChartCalendar({
   const [nowDateString, setNowDateString] = useState<string>();
   const [markedDates, setMarkedDates] = useState<{[key: string]: MarkType}>({});
   const [dayHaveDatas, setDayHaveDatas] = useState<string[]>([]);
-  const defaultSelectedColor = 'blue';
-  const clickedSelectedColor = 'gray';
-  type MarkType = {selected: boolean; selectedColor: string};
+  const defaultSelectedColor = colors.lightLavender;
+  const clickedSelectedColor = colors.darkPurple;
+  type MarkType = {
+    selected?: boolean;
+    selectedColor?: string;
+    selectedTextColor?: string;
+  };
 
   useEffect(() => {
     // 현재 날짜 가져오기
@@ -48,6 +53,7 @@ function ChartCalendar({
         const recordDate = record.createdAt.slice(0, 10);
         marks[recordDate] = {
           selected: true,
+          selectedTextColor: colors.darkPurple,
           selectedColor: defaultSelectedColor,
         };
         keyList.push(recordDate);
@@ -87,6 +93,7 @@ function ChartCalendar({
       updatedMarkedDates[day.dateString] = {
         selected: true,
         selectedColor: defaultSelectedColor,
+        selectedTextColor: colors.darkPurple,
       };
       setMarkedDates(updatedMarkedDates);
       setSelectedDate(null);
@@ -97,11 +104,13 @@ function ChartCalendar({
         updatedMarkedDates[selectedDate.dateString] = {
           selected: true,
           selectedColor: defaultSelectedColor,
+          selectedTextColor: colors.darkPurple,
         };
       }
       updatedMarkedDates[day.dateString] = {
         selected: true,
         selectedColor: clickedSelectedColor,
+        selectedTextColor: 'white',
       };
       setMarkedDates(updatedMarkedDates);
       setSelectedDate(day);
@@ -135,6 +144,7 @@ function ChartCalendar({
             textDayHeaderFontSize: 17,
             dayTextColor: 'white', // 날짜 폰트 색깔
             weekVerticalMargin: 10,
+            todayTextColor: 'yellow',
             // 어쩔 수 없는 에러. 타입스크립트로 인해 발생.
             'stylesheet.calendar.header': {
               header: {

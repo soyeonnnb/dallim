@@ -1,0 +1,13 @@
+import styled from 'styled-components/native';
+export const Container = styled.View``;
+export const TitleContainer = styled.View``;
+export const Title = styled.Text``;
+export const Navi = styled.Text``;
+export const InfoContainer = styled.View``;
+export const Nickname = styled.Text``;
+export const Info = styled.View``;
+export const CharacterView = styled.View``;
+export const CharacterImage = styled.Image``;
+export const Records = styled.View``;
+export const Chart = styled.View``;
+export const RunningMateRecord = styled.Text``;

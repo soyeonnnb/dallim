@@ -16,13 +16,13 @@ public class CalendarWidgetModulePackage implements ReactPackage {
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        Log.d("DDDDDDDDDD", "WidgetModulePackage - createNativeModules");
+        Log.d("DDDDDDDDDD", "WidgetModulePackage - createNativeModules CalendarWidgetModulePackage");
         return Arrays.<NativeModule>asList(new CalendarWidgetModule(reactContext));
     }
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        Log.d("DDDDDDDDDD", "WidgetModulePackage - createViewManagers");
+        Log.d("DDDDDDDDDD", "WidgetModulePackage - createViewManagers CalendarWidgetModulePackage");
         return Collections.emptyList();
     }
 }

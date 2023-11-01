@@ -5,26 +5,24 @@
     android:background="@drawable/bunnylogo"
     android:orientation="horizontal">
 
-    <!-- Calendar Section -->
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="6"
         android:orientation="vertical">
 
-        <!-- 여기에 activity_calendar.xml을 include 합니다. -->
          <include
+             layout="@layout/calendar_main"
              android:layout_marginLeft="10dp"
              android:layout_marginBottom="5dp"
              android:layout_marginTop="5dp"
              android:layout_marginRight="5dp"
-            layout="@layout/calendar_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </LinearLayout>
 
-    <!-- Logo/Image Section -->
-    <!-- You can adjust this section based on the desired image and its aspect ratio -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"

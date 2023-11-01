@@ -30,8 +30,15 @@ public class CalendarWidget extends AppWidgetProvider {
         // RemoteViews를 사용하여 위젯 UI 업데이트
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.calendar_widget);
 
+
+
+
+        // 오늘의 날짜 정보 가져오기
         // 날짜 (월) 업데이트
-        String currentMonthText = CalendarHelper.getCurrentMonthText();
+            Calendar todayCal = Calendar.getInstance(Locale.KOREA);
+            int currentMonth = todayCal.get(Calendar.MONTH);
+
+        String currentMonthText = (currentMonth + 1) + "월";
         views.setTextViewText(R.id.tv_date, currentMonthText);
         Log.d("DDDDDDDDDD", "updateAppWidget"+currentMonthText);
 
@@ -49,11 +56,6 @@ public class CalendarWidget extends AppWidgetProvider {
 //        CalendarHelper.setupCalendarDisplay(context, linearLayout);
 
 
-        // 오늘의 날짜 정보 가져오기
-        Calendar todayCal = Calendar.getInstance(Locale.KOREA);
-        int currentYear = todayCal.get(Calendar.YEAR);
-        int currentMonth = todayCal.get(Calendar.MONTH);
-
         // 이번달 1일의 요일을 구함
         todayCal.set(Calendar.DAY_OF_MONTH, 1);
         int dayOfWeek = todayCal.get(Calendar.DAY_OF_WEEK);
@@ -61,7 +63,7 @@ public class CalendarWidget extends AppWidgetProvider {
         int daysInMonth = todayCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         for(int i=1;i<=daysInMonth;i++){
-            calendarArray[i+dayOfWeek+6]=i+"";
+            calendarArray[i+dayOfWeek+5]=i+"";
         }
         Log.d("DDDDDDDDDD", "updateAppWidget"+" "+dayOfWeek+" "+daysInMonth);
         Log.d("DDDDDDDDDD", "updateAppWidget"+" calArr"+ Arrays.toString(calendarArray));
@@ -108,16 +110,25 @@ public class CalendarWidget extends AppWidgetProvider {
         views.setTextViewText(R.id.cal40, calendarArray[39]);
         views.setTextViewText(R.id.cal41, calendarArray[40]);
         views.setTextViewText(R.id.cal42, calendarArray[41]);
+        Log.d("DDDDDDDDDD", "Widget - setting end");
 
+        // 기존 위젯 업데이트 코드 (필요에 따라 유지)
+        appWidgetManager.updateAppWidget(appWidgetId, views);
 
         Intent intent = new Intent(context, MainActivity.class); // 앱의 메인 액티비티로 이동
-        intent.putExtra("route", "Chart"); // 네비게이션 라우트 정보 추가
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+// FLAG_ACTIVITY_NEW_TASK는 새로운 태스크에서 액티비티를 시작하려 할 때 필요합니다.
+// 특히 위젯과 같은 백그라운드 컴포넌트에서 액티비티를 시작할 때 사용됩니다.
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Log.d("DDDDDDDDDD", "Widget - intent1 end");
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        Log.d("DDDDDDDDDD", "Widget - getActivity end");
         views.setOnClickPendingIntent(R.id.calendar_button, pendingIntent);
 
-
-        // 위젯 매니저를 통해 위젯 업데이트
+// 위젯 매니저를 통해 위젯 업데이트
         appWidgetManager.updateAppWidget(appWidgetId, views);
+
     }
 
     @Override

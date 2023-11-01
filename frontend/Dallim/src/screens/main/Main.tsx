@@ -1,12 +1,13 @@
-import CustomToast from '@/components/common/CustomToast';
-import React, { useEffect, useState } from 'react';
 import * as S from './Main.styles';
-import StampWhiteIcon from '../../assets/icons/StampWhiteIcon.png';
-import StampModal from '../../components/mainComponent/StampModal';
-import SpinAnimation from '../../components/common/SpinAnimation';
-import { characterData } from '../../components/common/CharacterData';
-import { planetData } from '@/components/common/PlanetData';
-import { fetchUserProfile } from '@/apis/MainApi';
+import {useEffect, useState} from 'react';
+import {fetchUserProfile} from '@/apis/MainApi';
+import {characterData} from '@/recoil/CharacterData';
+import {planetData} from '@/recoil/PlanetData';
+import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
+import StampModal from '@/components/mainComponent/StampModal';
+import SpinAnimation from '@/components/common/SpinAnimation';
+import CustomToast from '@/components/common/CustomToast';
+import Loading from '@/components/common/Loading';
 
 function Main() {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
@@ -16,14 +17,14 @@ function Main() {
   const [userPoint, setUserPoint] = useState<number>(0); // 유저 포인트
   const [userLevel, setUserLevel] = useState<number>(0); // 유저 레벨
   const [userCharacterIndex, setUserCharacterIndex] = useState<number>(0); // 유저가 장착한 캐릭터 인덱스 ( 0 ~ 3 )
-  const [userEvolutionStage, setUserEvolutionStage] = useState<number>(0); // 유저가 장착한 캐릭터 레벨 : 0 OR 1 
+  const [userEvolutionStage, setUserEvolutionStage] = useState<number>(0); // 유저가 장착한 캐릭터 레벨 : 0 OR 1
   const [userPlanetIndex, setUserPlanetIndex] = useState<number>(0); // 유저가 장착한 행성 ( 0 ~ 4 )
 
   useEffect(() => {
     const loadUserInfo = async () => {
       try {
         const userInfo = await fetchUserProfile(); // API 함수 호출
-        console.log("Main : 정보 조회 Axios 성공 userInfo : ", userInfo);
+        console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
 
         if (userInfo) {
           setUserNickname(userInfo.nickName);
@@ -34,9 +35,11 @@ function Main() {
           setUserPlanetIndex(userInfo.planetIndex);
         }
       } catch (error) {
-        console.error("Main : 정보 조회 Axios 실패 ");
+        console.error('Main : 정보 조회 Axios 실패 ');
       } finally {
-        setIsLoading(false);  // 데이터를 불러온 후 로딩 상태를 false로 변경
+        setTimeout(() => {
+          setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
+        }, 1000);
       }
     };
     loadUserInfo();
@@ -47,25 +50,21 @@ function Main() {
     setStampModalVisible(true);
   }
   function Start() {
-    console.log("시작 버튼 눌림!");
-    CustomToast({ type: "error", text1: "아직 개발중입니다." });
-  };
+    console.log('시작 버튼 눌림!');
+    CustomToast({type: 'error', text1: '아직 개발중입니다.'});
+  }
 
   return (
     <S.Container>
       {isLoading ? (
-        <S.LoadingBox>
-          <S.LoadingText>로딩 중...</S.LoadingText>
-        </S.LoadingBox>
+        <Loading />
       ) : (
         <>
           <S.BackgroundImage
             source={require('@/assets/images/MainBackground4.png')}
             resizeMode="cover">
             <S.Header>
-              <S.HeaderLeft>
-
-              </S.HeaderLeft>
+              <S.HeaderLeft></S.HeaderLeft>
               <S.HeaderRight>
                 <S.PointText>{userPoint} P</S.PointText>
               </S.HeaderRight>
@@ -82,10 +81,16 @@ function Main() {
             <S.Body>
               <S.ThemeBox>
                 <SpinAnimation>
-                  <S.StyledImage source={planetData[userPlanetIndex].Planet} resizeMode='contain' />
+                  <S.StyledImage
+                    source={planetData[userPlanetIndex].Planet}
+                    resizeMode="contain"
+                  />
                 </SpinAnimation>
                 <S.StyledGif
-                  source={characterData[userCharacterIndex].levels[userEvolutionStage].running}
+                  source={
+                    characterData[userCharacterIndex].levels[userEvolutionStage]
+                      .running
+                  }
                   resizeMode="contain"
                 />
               </S.ThemeBox>
@@ -118,6 +123,3 @@ function Main() {
 }
 
 export default Main;
-
-
-

@@ -1,20 +1,33 @@
-import React, { useEffect, useState } from 'react';
 import * as S from './PlanetEdit.styles';
-import Planet from './PlanetBox';
-import { planetData } from '../common/PlanetData';
-import PlanetSelectModal from './editModal/PlanetSelectModal';
+import { planetData } from '@/recoil/PlanetData';
+import CustomToast from '../common/CustomToast';
+import { useEffect, useState } from 'react';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
+import PlanetSelectModal from './editModal/PlanetSelectModal';
 import BoomEffect from '@/components/common/BoomEffect';
+import Planet from './PlanetBox';
+import { postPlanetPurchase, updateEquippedPlanet } from '@/apis/EditApi';
+
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  equippedPlanetIndexState,
+  selectedPlanetIndexState,
+  selectedPlanetIsPurchasedState,
+  userPointState
+} from '@/recoil/EditRecoil';
 
 type PlanetEditProps = {
-  equippedPlanetIndex: number; // 장착된 행성 인덱스
-  selectedPlanetIndex: number; // 선택된 행성 인덱스
-  selectedPlanetPurchased: boolean;
   handleEquippedPlanetChange: (index: number) => void;
   onPlanetChange: (index: number) => void;
 }
 
-function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPurchased, onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
+function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
+
+  const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState); // 장착된 행성 인덱스
+  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(selectedPlanetIndexState); // 선택된 행성 인덱스
+  const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] = useRecoilState(selectedPlanetIsPurchasedState); // 행성 구매 여부
+  const [userPoint, setUserPoint] = useRecoilState(userPointState);
+
 
   const [planetSelectModalVisible, setPlanetSelectModalVisible] = useState(false); // 행성 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
@@ -29,11 +42,22 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPu
     onPlanetChange(index); // 상위 컴포넌트로 전달
   }
 
-  function equippedPlanetChange() {
+  async function equippedPlanetChange() {
     togglePlanetSelectModal();
     const planetCount = planetData.length;
-    handleEquippedPlanetChange(equippedPlanetIndex % planetCount);
     handlePlanetChange(selectedPlanetIndex % planetCount);
+
+    // DB에 대표 행성 변경 정보를 전송
+    try {
+      const responseData = await updateEquippedPlanet(selectedPlanetIndex);
+      if (responseData.status === "success") {
+        CustomToast({ type: "success", text1: "대표 행성 변경 성공!" });
+      } else {
+        CustomToast({ type: "error", text1: "통신에 실패했습니다. 다시 시도해주세요." });
+      }
+    } catch (error) {
+      CustomToast({ type: "error", text1: "변경에 실패했습니다. 다시 시도해주세요." });
+    }
   }
 
   function togglePlanetSelectModal() {
@@ -44,15 +68,38 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPu
     console.log("행성을 구매할건지 체크");
     setPurchaseModalVisible(true);
   }
-  function handlePurchaseConfirm() {
+
+  async function handlePurchaseConfirm() {
     console.log("구매 확인!");
-    setShowConfetti(true);
-    setTimeout(() => setShowConfetti(false), 5000);
-    setPurchaseModalVisible(false);
+    if (userPoint >= 2000) {
+      try {
+        const responseData = await postPlanetPurchase(selectedPlanetIndex);
+        if (responseData.status === "success" && responseData.data === true) {
+          setUserPoint(userPoint - 2000); // 포인트 차감
+          CustomToast({ type: "success", text1: "구매 성공!" });
+          setSelectedPlanetIsPurchased(true);
+          setShowConfetti(true); // 폭죽
+          setTimeout(() => setShowConfetti(false), 5000);
+          setPurchaseModalVisible(false);
+        } else {
+          CustomToast({ type: "error", text1: "통신에 실패했습니다. 다시 시도해주세요." });
+        }
+      } catch (error) {
+        CustomToast({ type: "error", text1: "구매에 실패했습니다. 다시 시도해주세요." });
+      }
+    } else {
+      CustomToast({ type: "error", text1: "포인트가 부족합니다." });
+    }
   }
+
   function handlePurchaseCancel() {
     console.log("구매 취소!");
     setPurchaseModalVisible(false);
+  }
+
+  function handleEquipped() {
+    console.log("시작 버튼 눌림!");
+    CustomToast({ type: "success", text1: "현재 착용중인 행성입니다." });
   }
 
   return (
@@ -68,17 +115,21 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPu
 
       <S.Body>
         <S.PlanetBox >
-          <Planet selectedPlanetIndex={selectedPlanetIndex} selectedPlanetPurchased={selectedPlanetPurchased} />
+          <Planet />
         </S.PlanetBox>
       </S.Body>
 
       <S.Footer>
-        {selectedPlanetPurchased ? (
-          <>
+        {selectedPlanetIsPurchased ? (
+          selectedPlanetIndex === equippedPlanetIndex ? (
+            <S.ButtonBox onPress={handleEquipped}>
+              <S.EquippedText>착용중</S.EquippedText>
+            </S.ButtonBox>
+          ) : (
             <S.ButtonBox onPress={equippedPlanetChange}>
               <S.ButtonText>선택</S.ButtonText>
             </S.ButtonBox>
-          </>
+          )
         ) : (
           <S.LockButtonBox onPress={handlePurchaseCheck}>
             <S.LockedImage source={require('@/assets/icons/LockIcon.png')} resizeMode='contain' />
@@ -89,14 +140,11 @@ function PlanetEdit({ equippedPlanetIndex, selectedPlanetIndex, selectedPlanetPu
 
       <PlanetSelectModal
         planetSelectModalVisible={planetSelectModalVisible}
-        equippedPlanetIndex={equippedPlanetIndex}
-        selectedPlanetIndex={selectedPlanetIndex}
         togglePlanetSelectModal={togglePlanetSelectModal}
         equippedPlanetChange={equippedPlanetChange}
       />
       <PlanetPurchaseCheckModal
         purchaseModalVisible={purchaseModalVisible}
-        selectedPlanetIndex={selectedPlanetIndex}
         handleConfirm={handlePurchaseConfirm}
         handleCancel={handlePurchaseCancel}
       />

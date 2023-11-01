@@ -20,7 +20,7 @@ export const Header = styled.View`
   justify-content: center;
   align-items: center;
   width: 90%;
-  height: 35%;
+  height: 40%;
 `;
 
 export const Text = styled.Text`
@@ -50,7 +50,7 @@ export const Body = styled.View`
   justify-content: center;
   align-items: center;
   width: 90%;
-  height: 55%;
+  height: 50%;
 `;
 
 export const TitleSetBox = styled.View`

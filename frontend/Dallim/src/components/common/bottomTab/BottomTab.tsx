@@ -10,13 +10,17 @@ import * as S from './BottomTab.styles';
 
 // components
 import Main from '@/screens/main/Main';
-import Chart from '@/screens/chart/ChartMain';
+// import Chart from '@/screens/chart/ChartMain';
 import Social from '@/screens/social/Social';
 import Edit from '@/screens/edit/Edit';
-import Profile from '@/screens/profile/Profile';
+// import Profile from '@/screens/profile/Profile';
 
 // icon
 import BottomTabIcon from './BottomTabIcon';
+
+// stackNavigator
+import ProfileStackNavigators from '../../../navigations/ProfileStackNavigators';
+import ChartStackNavigators from '../../../navigations/ChartStackNavigators';
 
 const Tab = createBottomTabNavigator();
 
@@ -118,7 +122,7 @@ function BottompTab() {
       initialRouteName="Main">
       <Tab.Screen
         name="Chart"
-        component={Chart}
+        component={ChartStackNavigators}
         options={{
           tabBarIcon: ({focused}) => (
             <BottomTabIcon focused={focused} type="chart" />
@@ -152,9 +156,18 @@ function BottompTab() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Profile"
         component={Profile}
+        options={{
+          tabBarIcon: ({focused}) => (
+            <BottomTabIcon focused={focused} type="profile" />
+          ),
+        }}
+      /> */}
+      <Tab.Screen
+        name="ProfileStack"
+        component={ProfileStackNavigators}
         options={{
           tabBarIcon: ({focused}) => (
             <BottomTabIcon focused={focused} type="profile" />

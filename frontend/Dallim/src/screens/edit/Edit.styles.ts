@@ -5,8 +5,6 @@ import {Animated} from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
-  justify-content: center;
-  align-items: center;
 `;
 
 export const BackgroundImage = styled(ImageBackground)`
@@ -124,4 +122,9 @@ export const TabBox = styled.View`
   border-color: red; */
   width: 100%;
   height: 10%;
+`;
+
+export const LoadingText = styled.Text`
+  font-size: 20px;
+  color: white;
 `;

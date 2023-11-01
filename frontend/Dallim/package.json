@@ -37,6 +37,8 @@
     "react-native-toast-message": "^2.1.7",
     "react-native-video": "^5.2.1",
     "react-native-webview": "^13.6.2",
+    "recoil": "^0.7.7",
+    "recoil-persist": "^5.1.0",
     "styled-components": "^5.3.10"
   },
   "devDependencies": {

@@ -1,10 +1,10 @@
 import React from 'react';
 import * as S from './RunningDataBox.styles';
-import PlaceIcon from '../../assets/icons/PlaceIcon.png';
-import DateIcon from '../../assets/icons/DateIcon.png';
-import DistIcon from '../../assets/icons/DistIcon.png';
-import TimeIcon from '../../assets/icons/TimeIcon.png';
-import SpeedIcon from '../../assets/icons/SpeedIcon.png';
+import PlaceIcon from '@/assets/icons/PlaceIcon.png';
+import DateIcon from '@/assets/icons/DateIcon.png';
+import DistIcon from '@/assets/icons/DistIcon.png';
+import TimeIcon from '@/assets/icons/TimeIcon.png';
+import SpeedIcon from '@/assets/icons/SpeedIcon.png';
 
 function RunningDataBox() {
 

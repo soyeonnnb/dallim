@@ -1,22 +1,22 @@
 package com.dallim;
 
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.Context;
-import android.util.Log;
 
-
-public class WidgetModule extends ReactContextBaseJavaModule {
+public class DirectRunWidgetModule extends ReactContextBaseJavaModule {
     private static ReactApplicationContext context;
 
-    WidgetModule(ReactApplicationContext reactContext) {
+    DirectRunWidgetModule(ReactApplicationContext reactContext) {
         super(reactContext);
         context = reactContext;
     }
@@ -40,10 +40,10 @@ public class WidgetModule extends ReactContextBaseJavaModule {
         editor.commit();
 
         //CHANGE TO THE NAME OF YOUR WIDGET
-        Intent intent = new Intent(getCurrentActivity().getApplicationContext(), Widget.class);
+        Intent intent = new Intent(getCurrentActivity().getApplicationContext(), CalendarWidget.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         //CHANGE TO THE NAME OF YOUR WIDGET
-        int[] ids = AppWidgetManager.getInstance(getCurrentActivity().getApplicationContext()).getAppWidgetIds(new ComponentName(getCurrentActivity().getApplicationContext(), Widget.class));
+        int[] ids = AppWidgetManager.getInstance(getCurrentActivity().getApplicationContext()).getAppWidgetIds(new ComponentName(getCurrentActivity().getApplicationContext(), CalendarWidget.class));
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         getCurrentActivity().getApplicationContext().sendBroadcast(intent);
 

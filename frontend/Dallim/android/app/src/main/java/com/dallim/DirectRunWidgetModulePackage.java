@@ -12,12 +12,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class WidgetModulePackage implements ReactPackage {
+public class DirectRunWidgetModulePackage implements ReactPackage {
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         Log.d("DDDDDDDDDD", "WidgetModulePackage - createNativeModules");
-        return Arrays.<NativeModule>asList(new WidgetModule(reactContext));
+        return Arrays.<NativeModule>asList(new CalendarWidgetModule(reactContext));
     }
 
     @Override

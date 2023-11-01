@@ -9,11 +9,16 @@
         android:id="@+id/tv_date"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-    android:layout_weight="0.2"
-    android:background="@android:color/transparent"
-    android:gravity="center_vertical"
-    android:textColor="@color/light_blue_900"
-    android:textSize="14sp" />
+        android:layout_weight="0.2"
+        android:fontFamily="@font/changa_extrabold"
+        android:paddingLeft="5dp"
+        android:paddingBottom="2dp"
+        android:textFontWeight="800"
+        android:background="@android:color/transparent"
+        android:gravity="center_vertical"
+        android:textColor="@color/color_ffffff"
+        android:textSize="13sp" />
+
     <LinearLayout
         android:id="@+id/gridview"
         android:layout_width="match_parent"
@@ -25,72 +30,93 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.2"
+            android:layout_weight="0.16"
             android:background="@android:color/transparent"
             android:orientation="horizontal">
 
             <!-- 일요일 -->
             <TextView
+                android:id="@+id/cal1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textColor="@color/light_blue_900"
-                android:textSize="12sp" />
+                android:textFontWeight="@integer/google_play_services_version"
+                android:fontFamily="@font/changa_regular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="11sp" />
 
             <!-- 월요일 -->
             <TextView
+                android:id="@+id/cal2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textColor="@color/light_blue_900"
-                android:textSize="12sp" />
+                android:textFontWeight="@integer/google_play_services_version"
+                android:fontFamily="@font/changa_regular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="11sp" />
 
             <!-- 화요일 -->
             <TextView
+                android:id="@+id/cal3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textColor="@color/light_blue_900"
-                android:textSize="12sp" />
+                android:textFontWeight="@integer/google_play_services_version"
+                android:fontFamily="@font/changa_regular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="11sp" />
 
             <!-- 수요일 -->
             <TextView
+                android:id="@+id/cal4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textColor="@color/light_blue_900"
-                android:textSize="12sp" />
+                android:textFontWeight="@integer/google_play_services_version"
+                android:fontFamily="@font/changa_regular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="11sp" />
 
             <!-- 목요일 -->
             <TextView
+                android:id="@+id/cal5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textColor="@color/light_blue_900"
-                android:textSize="12sp" />
+                android:textFontWeight="@integer/google_play_services_version"
+                android:fontFamily="@font/changa_regular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="11sp" />
 
             <!-- 금요일 -->
             <TextView
+                android:id="@+id/cal6"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textColor="@color/light_blue_900"
-                android:textSize="12sp" />
+                android:textFontWeight="@integer/google_play_services_version"
+                android:fontFamily="@font/changa_regular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="11sp" />
 
             <!-- 토요일 -->
             <TextView
+                android:id="@+id/cal7"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textColor="@color/light_blue_900"
-                android:textSize="12sp" />
+                android:textFontWeight="@integer/google_play_services_version"
+                android:fontFamily="@font/changa_regular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="11sp" />
         </LinearLayout>
 
 
@@ -104,59 +130,74 @@
 
             <!-- 일요일 -->
             <TextView
+                android:id="@+id/cal8"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 월요일 -->
             <TextView
+                android:id="@+id/cal9"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 화요일 -->
             <TextView
+                android:id="@+id/cal10"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 수요일 -->
             <TextView
+                android:id="@+id/cal11"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 목요일 -->
             <TextView
+                android:id="@+id/cal12"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 금요일 -->
             <TextView
+                android:id="@+id/cal13"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 토요일 -->
             <TextView
+                android:id="@+id/cal14"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
         </LinearLayout>
 
         <!-- 3주차 -->
@@ -169,59 +210,74 @@
 
             <!-- 일요일 -->
             <TextView
+                android:id="@+id/cal15"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 월요일 -->
             <TextView
+                android:id="@+id/cal16"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 화요일 -->
             <TextView
+                android:id="@+id/cal17"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 수요일 -->
             <TextView
+                android:id="@+id/cal18"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 목요일 -->
             <TextView
+                android:id="@+id/cal19"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 금요일 -->
             <TextView
+                android:id="@+id/cal20"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 토요일 -->
             <TextView
+                android:id="@+id/cal21"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
         </LinearLayout>
         <!-- ... -->
 
@@ -235,59 +291,74 @@
 
             <!-- 일요일 -->
             <TextView
+                android:id="@+id/cal22"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 월요일 -->
             <TextView
+                android:id="@+id/cal23"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 화요일 -->
             <TextView
+                android:id="@+id/cal24"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 수요일 -->
             <TextView
+                android:id="@+id/cal25"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 목요일 -->
             <TextView
+                android:id="@+id/cal26"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 금요일 -->
             <TextView
+                android:id="@+id/cal27"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 토요일 -->
             <TextView
+                android:id="@+id/cal28"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
         </LinearLayout>
         <!-- ... -->
 
@@ -301,59 +372,74 @@
 
             <!-- 일요일 -->
             <TextView
+                android:id="@+id/cal29"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 월요일 -->
             <TextView
+                android:id="@+id/cal30"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 화요일 -->
             <TextView
+                android:id="@+id/cal31"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 수요일 -->
             <TextView
+                android:id="@+id/cal32"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 목요일 -->
             <TextView
+                android:id="@+id/cal33"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 금요일 -->
             <TextView
+                android:id="@+id/cal34"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 토요일 -->
             <TextView
+                android:id="@+id/cal35"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
         </LinearLayout>
         <!-- ... -->
 
@@ -367,65 +453,85 @@
 
             <!-- 일요일 -->
             <TextView
+                android:id="@+id/cal36"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 월요일 -->
             <TextView
+                android:id="@+id/cal37"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 화요일 -->
             <TextView
+                android:id="@+id/cal38"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 수요일 -->
             <TextView
+                android:id="@+id/cal39"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 목요일 -->
             <TextView
+                android:id="@+id/cal40"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 금요일 -->
             <TextView
+                android:id="@+id/cal41"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
-
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
             <!-- 토요일 -->
             <TextView
+                android:id="@+id/cal42"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.14"
                 android:gravity="center"
-                android:textSize="10sp" />
+                android:textColor="@color/color_ffffff"
+                android:fontFamily="@font/changa_extralight"
+                android:textSize="9sp" />
         </LinearLayout>
         <!-- ... -->
     </LinearLayout>
 
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.04"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal"/>
 
 
 </LinearLayout>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:description="@string/app_widget_description"
-    android:initialKeyguardLayout="@layout/dallim_widget"
-    android:initialLayout="@layout/dallim_widget"
+    android:initialKeyguardLayout="@layout/directrun_widget"
+    android:initialLayout="@layout/directrun_widget"
     android:minWidth="40dp"
     android:minHeight="40dp"
     android:previewImage="@drawable/previewrun"

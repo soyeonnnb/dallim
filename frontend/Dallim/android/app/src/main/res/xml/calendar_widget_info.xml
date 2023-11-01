@@ -5,7 +5,7 @@
     android:description="@string/app_widget_description1"
     android:updatePeriodMillis="60000"
     android:previewImage="@drawable/previewcal"
-    android:initialLayout="@layout/widget"
+    android:initialLayout="@layout/calendar_widget"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen">
 </appwidget-provider>

@@ -11,7 +11,7 @@
         android:roundIcon="@drawable/roundlogo"
         android:theme="@style/AppTheme">
         <receiver
-            android:name=".DallimWidget"
+            android:name=".DirectRunWidget"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -19,7 +19,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/dallim_widget_info" />
+                android:resource="@xml/directrun_widget_info" />
         </receiver>
 
         <activity
@@ -36,10 +36,8 @@
         </activity>
 
 
-        <activity android:name=".CalendarActivity"
-            android:exported="false"/>
         <receiver
-            android:name=".Widget"
+            android:name=".CalendarWidget"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -48,7 +46,7 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_info" />
+                android:resource="@xml/calendar_widget_info" />
         </receiver>
 
         <receiver android:name=".ScreenOnReceiver"

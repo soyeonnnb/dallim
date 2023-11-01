@@ -13,7 +13,7 @@ import org.json.JSONObject;
 /**
  * Implementation of App Widget functionality.
  */
-public class DallimWidget extends AppWidgetProvider {
+public class DirectRunWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -24,7 +24,7 @@ public class DallimWidget extends AppWidgetProvider {
             SharedPreferences sharedPref = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
             String appString = sharedPref.getString("appData", "{\"text\":'no data'}");
             JSONObject appData = new JSONObject(appString);
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.streak_widget);
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.directrun_widget);
             views.setTextViewText(R.id.appwidget_text, appData.getString("text"));
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }catch (JSONException e) {

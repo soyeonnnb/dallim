@@ -12,6 +12,7 @@ import {
   equippedPlanetIndexState,
   selectedPlanetIndexState,
   selectedPlanetIsPurchasedState,
+  userPointState
 } from '@/recoil/EditRecoil';
 
 type PlanetEditProps = {
@@ -23,7 +24,9 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
 
   const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState); // 장착된 행성 인덱스
   const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(selectedPlanetIndexState); // 선택된 행성 인덱스
-  const selectedPlanetIsPurchased = useRecoilValue(selectedPlanetIsPurchasedState); // 행성 구매 여부
+  const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] = useRecoilState(selectedPlanetIsPurchasedState); // 행성 구매 여부
+  const [userPoint, setUserPoint] = useRecoilState(userPointState);
+
 
   const [planetSelectModalVisible, setPlanetSelectModalVisible] = useState(false); // 행성 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
@@ -52,12 +55,23 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
     console.log("행성을 구매할건지 체크");
     setPurchaseModalVisible(true);
   }
+  
   function handlePurchaseConfirm() {
     console.log("구매 확인!");
-    setShowConfetti(true);
-    setTimeout(() => setShowConfetti(false), 5000);
-    setPurchaseModalVisible(false);
+    if(userPoint >= 2000) {
+      setUserPoint(userPoint - 2000); // 포인트 차감
+      CustomToast({ type: "success", text1: "구매 성공!" });
+  
+      setSelectedPlanetIsPurchased(true);
+      // 구매 로직( Axios 요청 )
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 5000); // 폭죽
+      setPurchaseModalVisible(false);
+    } else {
+      CustomToast({ type: "error", text1: "포인트가 부족합니다." });
+    }
   }
+
   function handlePurchaseCancel() {
     console.log("구매 취소!");
     setPurchaseModalVisible(false);

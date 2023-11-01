@@ -16,7 +16,9 @@ import {
   selectedEvolutionStageState,
   selectedCharacterExpState,
   selectedCharacterIsPurchasedState,
+  userPointState
 } from '@/recoil/EditRecoil';
+import CustomToast from '../common/CustomToast';
 
 type CharacterEditProps = {
   handleEquippedCharacterChange: (index: number) => void;
@@ -33,6 +35,7 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange }: Cha
   const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
   const [selectedCharacterExp, setSelectedCharacterExp] = useRecoilState(selectedCharacterExpState);
   const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] = useRecoilState(selectedCharacterIsPurchasedState);
+  const [userPoint, setUserPoint] = useRecoilState(userPointState);
 
   const [characterSelectModalVisible, setCharacterSelectModalVisible] = useState(false); // 캐릭터 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
@@ -64,10 +67,22 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange }: Cha
   }
   function handlePurchaseConfirm() {
     console.log("구매 확인!");
-    setShowConfetti(true);
-    setTimeout(() => setShowConfetti(false), 5000);
-    setPurchaseModalVisible(false);
+    if (userPoint >= 4000) {
+      setUserPoint(userPoint - 4000);
+      CustomToast({ type: "success", text1: "구매 성공!" });
+
+      setSelectedCharacterIsPurchased(true);
+
+      // Axios 추가 예정
+
+      setShowConfetti(true);
+      setTimeout(() => setShowConfetti(false), 5000); // 폭죽
+      setPurchaseModalVisible(false);
+    } else {
+      CustomToast({ type: "error", text1: "포인트가 부족합니다." });
+    }
   }
+
   function handlePurchaseCancel() {
     console.log("구매 취소!");
     setPurchaseModalVisible(false);
@@ -120,7 +135,7 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange }: Cha
         ) : (
           <S.LockButtonBox onPress={handlePurchaseCheck}>
             <S.LockedImage source={require('@/assets/icons/LockIcon.png')} resizeMode='contain' />
-            <S.LockedText>2000 포인트</S.LockedText>
+            <S.LockedText>4000 포인트</S.LockedText>
           </S.LockButtonBox>
         )}
       </S.Footer>

@@ -9,8 +9,6 @@ import {
   NativeScrollEvent,
 } from 'react-native';
 
-import Clock from '@/assets/images/Clock.png';
-
 const screenHeight = Dimensions.get('window').height;
 const itemHeight = screenHeight / 7;
 
@@ -83,76 +81,68 @@ const TimePicker = () => {
 
   return (
     <S.Container>
-      {/* <S.PickerContainer> */}
       <S.Header>
         <S.HeaderTop></S.HeaderTop>
         <S.HeaderMiddle>
+          <S.BackClock></S.BackClock>
+
           <S.FullClock>
-            {/* <S.ClockImg source={Clock} resizeMode="contain"> */}
-            <ScrollView
-              ref={hourRef}
-              showsVerticalScrollIndicator={false}
-              snapToAlignment="center"
-              snapToInterval={itemHeight}
-              decelerationRate="fast"
-              onMomentumScrollEnd={handleHourChange}
-              contentContainerStyle={{
-                paddingHorizontal: 16,
-                paddingTop: itemHeight, // paddingTop 조정
-                paddingBottom: itemHeight, // paddingBottom 조정
-              }}
-              style={{flex: 1, borderRightWidth: 0.5, borderColor: 'red'}}>
-              {hours.map(hour => (
-                <View
-                  key={hour}
-                  style={{
-                    height: itemHeight,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      fontSize: selectedHour === hour ? 20 : 15,
-                      color: selectedHour === hour ? 'black' : 'grey',
-                    }}>
-                    {hour}
-                  </Text>
-                </View>
-              ))}
-            </ScrollView>
-            <ScrollView
-              ref={minuteRef}
-              showsVerticalScrollIndicator={false}
-              snapToAlignment="center"
-              snapToInterval={itemHeight}
-              decelerationRate="fast"
-              onMomentumScrollEnd={handleMinuteChange}
-              contentContainerStyle={{
-                paddingHorizontal: 16,
-                paddingTop: itemHeight, // paddingTop 조정
-                paddingBottom: itemHeight, // paddingBottom 조정
-              }}
-              style={{flex: 1, borderWidth: 0.5, borderColor: '#ddd'}}>
-              {minutes.map(minute => (
-                <View
-                  key={minute}
-                  style={{
-                    height: itemHeight,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}>
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      fontSize: selectedMinute === minute ? 20 : 15,
-                      color: selectedMinute === minute ? 'black' : 'grey',
-                    }}>
-                    {minute}
-                  </Text>
-                </View>
-              ))}
-            </ScrollView>
+            <S.MiddleClock>
+              <S.MiddleClockBox>
+                <ScrollView
+                  ref={hourRef}
+                  showsVerticalScrollIndicator={false}
+                  snapToAlignment="center"
+                  snapToInterval={itemHeight}
+                  decelerationRate="fast"
+                  onMomentumScrollEnd={handleHourChange}>
+                  {hours.map(hour => (
+                    <View
+                      key={hour}
+                      style={{
+                        height: itemHeight,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          textAlign: 'center',
+                          fontSize: selectedHour === hour ? 20 : 15,
+                          color: selectedHour === hour ? 'black' : 'grey',
+                        }}>
+                        {hour}
+                      </Text>
+                    </View>
+                  ))}
+                </ScrollView>
+                <ScrollView
+                  ref={minuteRef}
+                  showsVerticalScrollIndicator={false}
+                  snapToAlignment="center"
+                  snapToInterval={itemHeight}
+                  decelerationRate="fast"
+                  onMomentumScrollEnd={handleMinuteChange}>
+                  {minutes.map(minute => (
+                    <View
+                      key={minute}
+                      style={{
+                        height: itemHeight,
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <Text
+                        style={{
+                          textAlign: 'center',
+                          fontSize: selectedMinute === minute ? 20 : 15,
+                          color: selectedMinute === minute ? 'black' : 'grey',
+                        }}>
+                        {minute}
+                      </Text>
+                    </View>
+                  ))}
+                </ScrollView>
+              </S.MiddleClockBox>
+            </S.MiddleClock>
           </S.FullClock>
         </S.HeaderMiddle>
         <S.HeaderBottom>
@@ -161,8 +151,8 @@ const TimePicker = () => {
           </S.SaveButton>
         </S.HeaderBottom>
       </S.Header>
-      {/* </S.PickerContainer> */}
-      <S.DaysContainer>
+
+      <S.Body>
         {days.map((day, index) => (
           <S.DayButton
             key={day}
@@ -171,7 +161,7 @@ const TimePicker = () => {
             <S.DayText>{day}</S.DayText>
           </S.DayButton>
         ))}
-      </S.DaysContainer>
+      </S.Body>
     </S.Container>
   );
 };

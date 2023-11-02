@@ -21,7 +21,7 @@ export const Header = styled.View`
   justify-content: space-between;
   /* align-items: center; */
   width: 100%;
-  height: 80%;
+  height: 85%;
 `;
 
 export const HeaderTop = styled.View`
@@ -37,21 +37,71 @@ export const HeaderTop = styled.View`
 export const HeaderMiddle = styled.View`
   border-width: 1px;
   border-color: orange;
-  flex-direction: row;
-  /* justify-content: center; */
-  /* align-items: center; */
+
+  justify-content: flex-end;
+  align-items: center;
   width: 60%;
   height: 100%;
 `;
 
 export const FullClock = styled.View`
-  border-width: 1px;
-  border-color: antiquewhite;
+  /* border-width: 1px;
+  border-color: antiquewhite; */
+  border-radius: 300px;
+  background-color: rgba(255, 255, 255, 0.35);
   flex-direction: row;
   justify-content: center;
-  align-items: end;
-  width: 60%;
+  align-items: center;
+  width: 80%;
+  height: 70%;
+`;
+
+export const MiddleClock = styled.View`
+  /* border-width: 1px; */
+  /* border-color: aqua; */
+  border-radius: 300px;
+  background-color: white;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 80%;
+`;
+export const MiddleClockBox = styled.View`
+  border-radius: 300px;
+  background-color: blueviolet;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
   height: 100%;
+`;
+export const BackColockBox = styled.View`
+  /* position: absolute; */
+  /* border-width: 1px; */
+  /* border-color: aqua; */
+  /* border-radius: 100px; */
+  /* background-color: white; */
+  /* flex-direction: row; */
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* width: 40%; */
+  /* height: 90%; */
+`;
+
+export const BackClock = styled.View`
+  position: absolute;
+  /* border-width: 1px; */
+  /* border-color: aqua; */
+  border-radius: 100px;
+  background-color: #474a65;
+  /* flex-direction: row; */
+  top: 0;
+  /* bottom: 10%; */
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  height: 90%;
 `;
 
 export const ClockImg = styled.ImageBackground`
@@ -82,11 +132,13 @@ export const TimeText = styled.Text`
   color: ${(props: {selected: boolean}) => (props.selected ? 'black' : 'grey')};
 `;
 
-export const DaysContainer = styled.View`
+export const Body = styled.View`
   flex-direction: row;
   justify-content: space-around;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  /* margin-top: 10px;
+  margin-bottom: 10px; */
+  height: 15%;
+  /* width: 100%; */
 `;
 
 export const DayButton = styled.TouchableOpacity`

@@ -34,13 +34,12 @@ public class LocationService extends Service {
     private static final String TAG = "LocationService";
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Location lastLocation;
-    private float totalDistance = 0f;
+    private double totalDistance = 0f;
     private Conversion conversion;
     private LocationCallback locationCallback;
     private RunningViewModel runningViewModel;
     private static final int NOTIFICATION_ID = 1;
     private static final String CHANNEL_ID = "SensorServiceChannel";
-    private float temp = 0;
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
@@ -98,30 +97,36 @@ public class LocationService extends Service {
     private void onLocationUpdated(Location location) {
 
         if (lastLocation != null) {
-            float distance = lastLocation.distanceTo(location);
-            totalDistance += distance;
-            Log.d("임시2", String.valueOf(totalDistance));
-            runningViewModel.setDistance((float) (Math.round((totalDistance / 1000) * 100) / 100.0));
-            Log.d("임시3", String.valueOf(runningViewModel.getDistance().getValue()));
 
-            double latitude = location.getLatitude(); // 위도
-            double longitude = location.getLongitude(); // 경도
-            runningViewModel.setLatitude((float) latitude);
-            runningViewModel.setLongitude((float) longitude);
-            float speed = location.getSpeed();
+            double speed = location.getSpeed();
             // 초속 0.4 이상이면 걷는 걸로 판단.
             if(speed >= 0.4){
-                speed = (float) (Math.round(speed * 100) / 100.0);
+                speed = (Math.round(speed * 100) / 100.0);
+                // m/s 저장
                 runningViewModel.setMsSpeed(speed);
                 Map<String, Integer> result = conversion.msToPace(speed);
                 Integer minutes = result.get("minutes");
                 Integer seconds = result.get("seconds");
+                // 페이스를 초로 변환해서 저장
+                runningViewModel.setMsPaceToSecond((minutes * 60) + seconds);
+                // 페이스 저장
                 String format = String.format("%d'%02d''", minutes, seconds);
                 runningViewModel.setMsPace(format);
+
+                double distance = lastLocation.distanceTo(location);
+                totalDistance += distance;
+                // 원래 미터값
+                runningViewModel.setOriDistance((double) Math.round(totalDistance * 10) / 10.0);
+                // km 변환값(화면에 표시용)
+                runningViewModel.setDistance(Math.round((totalDistance / 1000) * 100) / 100.0);
+
+                double latitude = location.getLatitude(); // 위도
+                double longitude = location.getLongitude(); // 경도
+                runningViewModel.setLatitude(latitude);
+                runningViewModel.setLongitude(longitude);
             }
-
-
-            Log.d(TAG,  "총 이동거리" + totalDistance + "KM, 이동거리: " + distance + " M, 속도: " + speed + " m/s");
+            Log.d("자른 이동거리", String.valueOf((double) Math.round(totalDistance * 10) / 10.0));
+//            Log.d(TAG,  "총 이동거리" + totalDistance + "KM, 이동거리: " + distance + " M, 속도: " + speed + " m/s");
         }
         lastLocation = location;
     }

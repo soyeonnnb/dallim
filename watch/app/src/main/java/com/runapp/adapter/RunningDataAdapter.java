@@ -15,13 +15,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.runapp.R;
 import com.runapp.model.RunDetail;
 import com.runapp.model.RunningData;
+import com.runapp.util.Conversion;
 
 import java.util.List;
+import java.util.Map;
 
 public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.ViewHolder> {
 
     private List<RunningData> runningDataList;
     private RunDetail runDetail;
+    private Conversion conversion = new Conversion();
 
     public RunningDataAdapter(List<RunningData> runningDataList) {
         this.runningDataList = runningDataList;
@@ -41,7 +44,8 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
         holder.formattedDate.setText(String.valueOf(runningData.getFormattedDate()));
 
         // 총 거리
-        String distanceText = String.valueOf(runningData.getTotalDistance()) + " km";
+        double totalDistance = conversion.mToKM(runningData.getTotalDistance());
+        String distanceText = String.valueOf(totalDistance + " km");
         SpannableString spannableDistance = new SpannableString(distanceText);
         int indexOfDISTANCE = distanceText.indexOf("km");
         if (indexOfDISTANCE != -1) {
@@ -50,7 +54,11 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
         holder.distance.setText(spannableDistance);
 
         // 페이스
-        String speedText = String.valueOf(runningData.getAveragePace());
+        double averagePace = runningData.getAveragePace();
+        Map<String, Integer> result = conversion.sToPace(averagePace);
+        Integer minutes = result.get("minutes");
+        Integer seconds = result.get("seconds");
+        String speedText = String.valueOf(minutes + "'" + seconds + "''");
         SpannableString spannableSpeed = new SpannableString(speedText);
         holder.speed.setText(spannableSpeed);
 
@@ -64,14 +72,14 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
         holder.heartRate.setText(spannableHeartRate);
 
         holder.time.setText(convertTime(runningData.getTotalTime()));
-        int characterId = runningData.getCharacterId();
-        if(characterId == 0){
+        int characterInfoId = runningData.getCharacterInfoId();
+        if(characterInfoId == 1){
             holder.myRecordCharacter.setImageResource(R.drawable.rabbit);
-        }else if(characterId == 1){
+        }else if(characterInfoId == 2){
             holder.myRecordCharacter.setImageResource(R.drawable.penguin);
-        }else if(characterId == 2){
+        }else if(characterInfoId == 3){
             holder.myRecordCharacter.setImageResource(R.drawable.panda);
-        }else if(characterId == 3){
+        }else if(characterInfoId == 4){
             holder.myRecordCharacter.setImageResource(R.drawable.chick);
         }
     }

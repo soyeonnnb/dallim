@@ -1,7 +1,6 @@
 package com.runapp.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -45,16 +44,16 @@ public class RunningActivity extends AppCompatActivity {
     private ActivityRunningBinding binding;
     private RunningViewModel runningViewModel;
     private TimerService timerService;
-    private float initialStepCount = 0f;
+    private double initialStepCount = 0;
     private List<RunDetail> runDetailsList = new ArrayList<>();
     private AppDatabase db;
     private RunningData runningData;
     private final Executor executor = Executors.newSingleThreadExecutor();
     private Long totalTime = 1L;
     private int speedCountTime = 0;
-    private float totalSpeed = 0f;
+    private double totalSpeed = 0;
     private Conversion conversion = new Conversion();
-    private float distance = 0;
+    private double distance = 0;
     private Intent sensorIntent;
     private Intent locationIntent;
     private PowerManager.WakeLock wakeLock;
@@ -72,13 +71,14 @@ public class RunningActivity extends AppCompatActivity {
         wakeLock.acquire();
 
         runningData = new RunningData();
-        runningData.setUserId(1L);
+        runningData.setUserId(6L);
         runningData.setDate(new Date());
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
-        runningData.setCharacterId(0);
-        runningData.setAveragePace("0'00''");
+        runningData.setCharacterId(1);
+        runningData.setAveragePace(0f);
         runningData.setAverageSpeed(0f);
         runningData.setAverageHeartRate(0f);
+        runningData.setCharacterInfoId(1);
 
         // 혼자달리기인지 함께달리기인지 구분
         String type = getIntent().getStringExtra("run_type");
@@ -93,7 +93,7 @@ public class RunningActivity extends AppCompatActivity {
 
         runningViewModel.getRunningData().setValue(runningData);
         runningViewModel.setDistance(0f);
-        runningViewModel.setStepCounter(0f);
+        runningViewModel.setStepCount(0f);
         runningViewModel.setMsSpeed(0f);
         runningViewModel.setMsPace("0'00''");
 
@@ -131,15 +131,14 @@ public class RunningActivity extends AppCompatActivity {
         seconds = seconds % 60;
 
         RunDetail detail = new RunDetail();
-        if (runningViewModel.getDistance().getValue() != null) {
-            distance = runningViewModel.getDistance().getValue();
-            detail.setDistance((float) (Math.round(distance * 100) / 100.0));
+        if (runningViewModel.getOriDistance().getValue() != null) {
+            detail.setDistance(runningViewModel.getOriDistance().getValue());
         }
-        if (runningViewModel.getMsPace().getValue() != null) {
-            detail.setPace(runningViewModel.getMsPace().getValue().toString());
+        if (runningViewModel.getMsPaceToSecond().getValue() != null) {
+            detail.setPace(runningViewModel.getMsPaceToSecond().getValue());
         }
         if (runningViewModel.getMsSpeed().getValue() != null) {
-            float speed = runningViewModel.getMsSpeed().getValue();
+            double speed = runningViewModel.getMsSpeed().getValue();
             detail.setSpeed(speed);
             if(speed <= 0.4){
                 detail.setState("STOP");
@@ -164,6 +163,7 @@ public class RunningActivity extends AppCompatActivity {
         }
 
         runDetailsList.add(detail);
+
         if(runningViewModel.getMsSpeed().getValue() != 0){
             speedCountTime ++;
             totalSpeed += runningViewModel.getMsSpeed().getValue();
@@ -194,24 +194,27 @@ public class RunningActivity extends AppCompatActivity {
         stopService(locationIntent); // 위치서비스 중지
         timerService.stopTimer(); // 타이머 중지
 
+        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 50) {
+            Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG).show();
+            super.onDestroy();
+            return; // 메서드를 여기서 종료
+        }
 
-        SharedPreferences sharedPreferences = getSharedPreferences("SENSOR_DATA", MODE_PRIVATE);
-        float totalHeartRate = sharedPreferences.getFloat("totalHeartRate", 0);
-        int heartRateCount = sharedPreferences.getInt("heartCountTime", 0);
-        Log.d("심박1", String.valueOf(totalHeartRate));
-        Log.d("심박2", String.valueOf(heartRateCount));
+        Double totalHeartRate = runningViewModel.getTotalHeartRate().getValue();
+        Integer heartRateCount = runningViewModel.getHeartCountTime().getValue();
 
         runningData.setRunningRecordInfos(runDetailsList);
-        runningData.setStepCounter(runningViewModel.getStepCounter().getValue());
-        float totalDistance = runningViewModel.getDistance().getValue();
-        runningData.setTotalDistance((float) (Math.round(totalDistance * 100) / 100.0));
-        runningData.setAverageHeartRate((float) (Math.round((totalHeartRate/heartRateCount) * 100) / 100.0));
-        float avgSpeed = (float) (Math.round((totalSpeed/speedCountTime) * 100) / 100.0);
+        runningData.setStepCount(runningViewModel.getStepCount().getValue());
+        double totalDistance = runningViewModel.getOriDistance().getValue();
+
+        runningData.setTotalDistance(Math.round(totalDistance * 100) / 100.0);
+        runningData.setAverageHeartRate(Math.round((totalHeartRate/heartRateCount) * 100) / 100.0);
+        double avgSpeed = Math.round((totalSpeed/speedCountTime) * 100) / 100.0;
         runningData.setAverageSpeed(avgSpeed);
         Map<String, Integer> result = conversion.msToPace((totalSpeed / speedCountTime));
         int minute = result.get("minutes");
         int second = result.get("seconds");
-        runningData.setAveragePace(String.format(Locale.getDefault(), "%d'%02d''", minute, second));
+        runningData.setAveragePace((60 * minute) + second);
 
         // 최종 시간 업데이트
         runningData.setTotalTime(totalTime - 1);

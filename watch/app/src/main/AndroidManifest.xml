@@ -14,6 +14,7 @@
     <!-- 바디 센서에 접근(심박수, 발걸음) -->
     <uses-permission android:name="android.permission.BODY_SENSORS" />
     <!-- 기기가 절전 모드에 못 들어가게 하는 권한 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- 기기가 인터넷에 접속이 가능하도록 허용 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -27,8 +28,6 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <!-- 인터넷 연결 상태 확인 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- 포그라운드 서비스 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:name=".util.MyApplication"
@@ -66,6 +65,14 @@
         <service android:name=".service.SensorService"
             tools:ignore="Instantiatable"></service>
         <service android:name=".service.LocationService" android:exported="false"/>
+
+        <service android:name=".service.DataLayerListenerService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/temp" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".activity.MainActivity"

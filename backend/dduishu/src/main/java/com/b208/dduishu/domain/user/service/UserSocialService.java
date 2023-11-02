@@ -95,6 +95,8 @@ public class UserSocialService {
                 .findFirst()
                 .orElse(null);
         List<SocialRunningRecordOverview> findFollowRunningRecord = runningRecordService.getRunningRecordFor30Days("me", user.getUserId());
+        findFollowRunningRecord.sort(Comparator.comparing(SocialRunningRecordOverview::getCreatedAt).reversed());
+
         BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(user.getUserLevel().getExp());
         List<Planet> findPlanets = planetRepository.findAllByUserUserId(user.getUserId());
 
@@ -117,6 +119,8 @@ public class UserSocialService {
                 .orElse(null);
         List<Planet> findPlanets = planetRepository.findAllByUserUserId(user.getUserId());
         List<SocialRunningRecordOverview> findFollowRunningRecord = runningRecordService.getRunningRecordFor30Days("follow", id);
+        findFollowRunningRecord.sort(Comparator.comparing(SocialRunningRecordOverview::getCreatedAt).reversed());
+
         BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(user.getUserLevel().getExp());
 
         return UserProfile.builder()

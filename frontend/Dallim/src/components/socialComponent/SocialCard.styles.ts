@@ -4,12 +4,21 @@ export const Container = styled.View`
   flex: 1;
 `;
 
+export const CardImageWrapper = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  border-radius: 20px;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const CardBox = styled.ImageBackground`
   width: 100%;
   height: 100%;
   justify-content: center;
   align-items: flex-start;
-  `;
+`;
 
 export const Header = styled.View`
   /* border-width: 1px;

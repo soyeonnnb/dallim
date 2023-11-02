@@ -31,8 +31,8 @@ export const ToggleButtonWrapper = styled(TouchableOpacity)`
   border-width: 2px;
   border-radius: 100px;
   border-color: white;
-  flex-direction: row; 
-  align-items: center; 
+  flex-direction: row;
+  align-items: center;
   padding: 5px;
   width: 250px;
   height: 80%;
@@ -55,14 +55,14 @@ type TextProps = {
 
 export const FixedTextLeft = styled.Text<TextProps>`
   position: absolute;
-  left: 25%; 
+  left: 25%;
   font-size: 15px;
-  color: ${props => (props.isFriend ? "white" : "black")};
+  color: ${props => (props.isFriend ? 'white' : 'black')};
 `;
 
 export const FixedTextRight = styled(FixedTextLeft)`
-  left: 70%; 
-  color: ${props => (props.isFriend ? "black" : "white")};
+  left: 70%;
+  color: ${props => (props.isFriend ? 'black' : 'white')};
 `;
 
 export const Body = styled.View`
@@ -77,4 +77,9 @@ export const RankInfoBox = styled.View`
   border-color: blue; */
   width: 100%;
   height: 85px;
+`;
+
+export const LordingText = styled.Text`
+  font-size: 20px;
+  color: red;
 `;

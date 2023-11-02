@@ -12,25 +12,27 @@ function SocialCard({ PlanetIndex, Nickname, UserLevel, experiencePercentage }: 
 
     return (
         <S.Container>
-            <S.CardBox source={planetData[PlanetIndex].Card} resizeMode="cover" >
+            <S.CardImageWrapper>
+                <S.CardBox source={planetData[PlanetIndex].Card} resizeMode="cover" >
 
-                <S.Header>
-                    <S.LevelText>Level {UserLevel}</S.LevelText>
-                </S.Header>
-                <S.Body>
-                    <S.LeftBox>
-                        <S.NicknameText>{Nickname}</S.NicknameText>
-                    </S.LeftBox>
-                    <S.RightBox>
-                        <S.percentageText>{experiencePercentage}%</S.percentageText>
-                    </S.RightBox>
-                </S.Body>
-                <S.Footer>
-                    <S.ExperienceBox>
-                        <S.Experience percentage={experiencePercentage}></S.Experience>
-                    </S.ExperienceBox>
-                </S.Footer>
-            </S.CardBox>
+                    <S.Header>
+                        <S.LevelText>Level {UserLevel}</S.LevelText>
+                    </S.Header>
+                    <S.Body>
+                        <S.LeftBox>
+                            <S.NicknameText>{Nickname}</S.NicknameText>
+                        </S.LeftBox>
+                        <S.RightBox>
+                            <S.percentageText>{experiencePercentage}%</S.percentageText>
+                        </S.RightBox>
+                    </S.Body>
+                    <S.Footer>
+                        <S.ExperienceBox>
+                            <S.Experience percentage={experiencePercentage}></S.Experience>
+                        </S.ExperienceBox>
+                    </S.Footer>
+                </S.CardBox>
+            </S.CardImageWrapper>
         </S.Container>
     );
 }

@@ -1,22 +1,28 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Easing, ScrollView } from 'react-native';
 import * as S from './SocialBody.styles';
 import RankInfoBox from './RankInfoBox';
+import { fetchAllRank, fetchFriendRank } from '@/apis/SocialApi';
+import Loading from '@/components/common/Loading';
+
+type RankingInfo = {
+  rank: number;
+  userId: number;
+  nickname: string;
+  cumulativeDistance: number;
+  level: number;
+  follower: boolean
+};
 
 function SocialBody({ navigation, isFriend, onToggle }: any) {
-  const Rank = 1;
-  const Distance = 123;
-  const Nickname = "배고픈 하마";
-  const Level = 66;
 
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   const toggleWidth = 250;
-  const movePercentage = 0.4; // 토글 40% 움직임
 
   const handleToggle = () => {
     Animated.timing(animatedValue, {
-      toValue: isFriend ? 0 : toggleWidth * movePercentage,
+      toValue: isFriend ? 0 : toggleWidth * 0.4,
       duration: 100,
       easing: Easing.bounce,
       useNativeDriver: true,
@@ -24,6 +30,21 @@ function SocialBody({ navigation, isFriend, onToggle }: any) {
 
     onToggle(); // 상위 컴포넌트의 상태 변경 함수를 호출
   };
+
+  const [rankingData, setRankingData] = useState<RankingInfo[] | null>(null);
+
+  const loadRankingData = async () => {
+    try {
+      const data = isFriend ? await fetchFriendRank() : await fetchAllRank();
+      setRankingData(data.rankingInfos);
+    } catch (error) {
+      console.error('API 호출 중 오류 발생:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadRankingData();
+  }, [isFriend]);
 
   return (
     <S.Container>
@@ -46,10 +67,29 @@ function SocialBody({ navigation, isFriend, onToggle }: any) {
       </S.Top>
       <S.Body>
         <ScrollView>
-          {/* 나중에 데이터 불러와서 스크롤 적용 예정 */}
-          <S.RankInfoBox >
-            <RankInfoBox Rank={Rank} Distance={Distance} Nickname={Nickname} Level={Level} navigation={navigation} />
-          </S.RankInfoBox>
+          {rankingData ? (
+            rankingData.length > 0 ? (
+              rankingData.map((info: RankingInfo, index) => (
+                <S.RankInfoBox key={info.userId.toString()}>
+                  <RankInfoBox
+                    rank={index + 1}
+                    nickname={info.nickname}
+                    cumulativeDistance={info.cumulativeDistance}
+                    distance={info.cumulativeDistance}
+                    level={info.level}
+                    follower={info.follower}
+
+                    navigation={navigation}
+                  />
+                </S.RankInfoBox>
+              ))
+            ) : (
+              <S.LordingText>랭킹 데이터가 없습니다.</S.LordingText>
+            )
+          ) : (
+            <Loading />
+            // <S.LordingText>랭킹을 불러오는 중입니다...</S.LordingText>
+          )}
         </ScrollView>
       </S.Body>
 

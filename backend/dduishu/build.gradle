@@ -52,6 +52,12 @@ dependencies {
 	implementation 'io.springfox:springfox-boot-starter:3.0.0'
 	implementation 'io.springfox:springfox-swagger-ui'
 	implementation 'io.springfox:springfox-swagger2'
+
+	//actuator
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	//prometheus
+	implementation 'io.micrometer:micrometer-registry-prometheus' //추가
 }
 
 tasks.named('test') {

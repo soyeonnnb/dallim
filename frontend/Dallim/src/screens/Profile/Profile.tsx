@@ -75,7 +75,7 @@ function Profile({navigation}: ProfileProps) {
   const selectedCharacterLevelData =
     selectedCharacter.levels[userData.evolutionStage];
 
-  //actions
+  //actions---------
   const handleRunningMatePress = () => {
     if (competitorData.length === 0) {
       // 데이터가 없을 때의 동작

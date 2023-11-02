@@ -1,7 +1,6 @@
 package com.runapp.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -132,9 +131,8 @@ public class RunningActivity extends AppCompatActivity {
         seconds = seconds % 60;
 
         RunDetail detail = new RunDetail();
-        if (runningViewModel.getDistance().getValue() != null) {
-            distance = runningViewModel.getDistance().getValue();
-            detail.setDistance(Math.round(distance * 100) / 100.0);
+        if (runningViewModel.getOriDistance().getValue() != null) {
+            detail.setDistance(runningViewModel.getOriDistance().getValue());
         }
         if (runningViewModel.getMsPaceToSecond().getValue() != null) {
             detail.setPace(runningViewModel.getMsPaceToSecond().getValue());
@@ -196,16 +194,19 @@ public class RunningActivity extends AppCompatActivity {
         stopService(locationIntent); // 위치서비스 중지
         timerService.stopTimer(); // 타이머 중지
 
+        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 50) {
+            Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG).show();
+            super.onDestroy();
+            return; // 메서드를 여기서 종료
+        }
 
-        SharedPreferences sharedPreferences = getSharedPreferences("SENSOR_DATA", MODE_PRIVATE);
-        double totalHeartRate = sharedPreferences.getFloat("totalHeartRate", 0);
-        int heartRateCount = sharedPreferences.getInt("heartCountTime", 0);
-        Log.d("심박1", String.valueOf(totalHeartRate));
-        Log.d("심박2", String.valueOf(heartRateCount));
+        Double totalHeartRate = runningViewModel.getTotalHeartRate().getValue();
+        Integer heartRateCount = runningViewModel.getHeartCountTime().getValue();
 
         runningData.setRunningRecordInfos(runDetailsList);
         runningData.setStepCount(runningViewModel.getStepCount().getValue());
-        double totalDistance = runningViewModel.getDistance().getValue();
+        double totalDistance = runningViewModel.getOriDistance().getValue();
+
         runningData.setTotalDistance(Math.round(totalDistance * 100) / 100.0);
         runningData.setAverageHeartRate(Math.round((totalHeartRate/heartRateCount) * 100) / 100.0);
         double avgSpeed = Math.round((totalSpeed/speedCountTime) * 100) / 100.0;

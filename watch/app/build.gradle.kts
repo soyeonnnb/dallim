@@ -25,10 +25,10 @@ android {
     }
 
     signingConfigs {
-        create("dee") {
-            storeFile = file("upload.jks")
+        create("ssafy") {
+            storeFile = file("ssafy.jks")
             storePassword = "ssafy1234"
-            keyAlias = "upload"
+            keyAlias = "ssafy"
             keyPassword = "ssafy1234"
         }
     }
@@ -44,7 +44,7 @@ android {
         getByName("debug"){
             isMinifyEnabled = false
             isDebuggable = true
-            signingConfig = signingConfigs.getByName("dee")
+            signingConfig = signingConfigs.getByName("ssafy")
             manifestPlaceholders["enableCrashlytics"] = "false"
             extra.set("alwaysUpdateBuildId", false)
         }
@@ -70,8 +70,6 @@ android {
 }
 
 dependencies {
-
-
     // android
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")

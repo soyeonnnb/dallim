@@ -7,7 +7,7 @@ export interface RunningRecord {
   type: string; // 기록 타입
   totalTime: number; // 기록 걸린 시간
   totalDistance: number; // 기록 거리
-  averageSpeed: number; // 기록 평균 거리
+  averageSpeed: number; // 기록 평균 속력
   createdAt: string; // 기록 시간
   isRegistration: boolean; // ??
 }
@@ -23,6 +23,69 @@ export interface MonthlyRecords {
   totalTime: number; // 달린 총 시간(분 단위)
   records: RunningRecord[]; // 기록들 리스트
 }
+
+export interface RunningRecordData {
+  second: number; // second는 0부터 시작(순차적으로)
+  heartRate: number;
+  distance: number; // 그 때의 누적 거리
+  speed: number; // 그 때의 속력
+  pace: number; // 그 때의 초당 페이스
+  state: string;
+  latitude: number;
+  longitude: number;
+}
+
+export interface RunningRecordDataPace {
+  average: number; // 전체 페이스
+  max: number; // 최대 페이스(구간에서 최대값 뽑아오면 될듯)
+  section: {
+    spendTime: number; // 해당 페이스를 이동하는데 걸린 시간(초 단위)
+    startTime: number; // 해당 페이스 시작 시간(초 단위)
+    finishTime: number; // 해당 페이스 끝 시간(초 단위)
+    pace: number; // 해당 구간 기준 페이스(초 단위)
+  }[];
+}
+
+export interface RecordDetail {
+  id: string;
+  location: string;
+  createdAt: string;
+  totalDistance: number;
+  totalTime: number;
+  distancePerSpeed: number[]; // 차례대로 초당 걸은거리(초 속도가 <6km/h), 경보거리(6km/h<=, <9km/h), 뛴거리(9km<=)
+  runningRecordInfos: RunningRecordData[];
+  heartRate: {
+    average: number; // 평균 심박수
+    max: number; // 최대 심박수
+    section: number[]; // 영역 별 심박수 초(<136, 136<= <150, 150<= <162, 162<= <175, <=175)
+  };
+  pace: RunningRecordDataPace;
+  type: 'PAIR' | 'ALONE'; // type이 PAIR일 때에만 rivalRecord 존재.
+  rivalRecord?: {
+    id: string;
+    location: string;
+    createdAt: string;
+    totalDistance: number;
+    totalTime: number;
+    runningRecordInfos: RunningRecordData[];
+    pace: RunningRecordDataPace;
+    user: {
+      userId: number;
+      nickname: string;
+      point: number;
+      level: number;
+    };
+    character: {
+      characterId: number | null;
+      characterIndex: number;
+      planetIndex: number;
+      level: number;
+      exp: number;
+      evolutionStage: number;
+    };
+  };
+}
+
 const getToken = async () => {
   try {
     const token = await AsyncStorage.getItem('accessToken');
@@ -44,6 +107,23 @@ export const fetchUserCalendarChart = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+    return response.data.data;
+  } catch (error) {
+    console.error('ChartApi : 월별 조회 Axios 실패 --> ', error); // 로깅을 추가합니다.
+    throw error;
+  }
+};
+
+// 러닝 데이터 상세 가져오기
+export const fetchDetailRunningData = async (id: string) => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.get(`${BASE_URL}/api/v1/running/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
     return response.data.data;
   } catch (error) {
     console.error('ChartApi : 월별 조회 Axios 실패 --> ', error); // 로깅을 추가합니다.

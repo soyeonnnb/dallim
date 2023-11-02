@@ -4,13 +4,12 @@ import {Dimensions, Text} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 
 import * as S from './Calendar.styles';
-import {getCurrentDate, CalendarType} from '@/recoil/CalendarData';
 
 import ArrowLeft from '@/assets/icons/ArrowLeft';
 import ArrowRight from '@/assets/icons/ArrowRight';
 import {MonthlyRecords} from '@/apis/ChartApi';
 import Toast from 'react-native-toast-message';
-import {makeShareableCloneRecursive} from 'react-native-reanimated';
+import {CalendarType, getDateObject} from '@/recoil/CalendarData';
 import {colors} from '@/components/common/globalStyles';
 
 interface Props {
@@ -51,8 +50,10 @@ function ChartCalendar({
 
   useEffect(() => {
     // 현재 날짜 가져오기
-    const now = getCurrentDate();
-    setNowDateString(now[0] + '-' + now[1] + '-' + now[2]);
+    const now = new Date();
+    setNowDateString(
+      `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`,
+    );
 
     // 사용자가 달린 날들에 대해 체크표시 하기
     const marks: {[key: string]: MarkType} = {};
@@ -60,13 +61,18 @@ function ChartCalendar({
 
     everyRecords?.map(monthData => {
       monthData.records.map(record => {
-        const recordDate = record.createdAt.slice(0, 10);
-        marks[recordDate] = {
+        const recordDate = getDateObject(record.createdAt);
+        const recordDateString = `${recordDate.year}-${
+          recordDate.month < 10 ? '0' : ''
+        }${recordDate.month}-${recordDate.day < 10 ? '0' : ''}${
+          recordDate.day
+        }`;
+        marks[recordDateString] = {
           selected: true,
           selectedTextColor: colors.darkPurple,
           selectedColor: defaultSelectedColor,
         };
-        keyList.push(recordDate);
+        keyList.push(recordDateString);
       });
     });
     setMarkedDates(marks);

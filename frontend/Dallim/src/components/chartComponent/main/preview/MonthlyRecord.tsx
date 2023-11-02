@@ -66,7 +66,7 @@ function SmallRecord({type, record, avgRecord}: SmallRecordProps) {
         <S.SmallName>평균{type}</S.SmallName>
         <S.SmallContent>
           {record}
-          {type === '거리' ? 'KM' : '분'}
+          {type === '거리' ? 'm' : '분'}
         </S.SmallContent>
       </S.SmallView>
     </S.SmallContainer>

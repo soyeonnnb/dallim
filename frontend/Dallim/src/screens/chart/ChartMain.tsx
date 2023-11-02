@@ -1,4 +1,5 @@
 import {useState, useEffect} from 'react';
+import {useIsFocused} from '@react-navigation/native';
 import * as S from './ChartMain.styles'; // 스타일 컴포넌트 import
 
 import Calendar from '../../components/chartComponent/main/Calendar';
@@ -8,6 +9,8 @@ import {MonthlyRecords, fetchUserCalendarChart} from '@/apis/ChartApi';
 import Loading from '@/components/common/Loading';
 
 function Chart() {
+  const isFocused = useIsFocused();
+
   const [isClicked, setIsClicked] = useState(false);
   const [selectedDate, setSelectedDate] = useState<CalendarType>();
   const [everyRecords, setEveryRecords] = useState<MonthlyRecords[]>([]);
@@ -15,12 +18,11 @@ function Chart() {
     year: number;
     month: number;
   }>({year: 2023, month: 11});
-
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
   const [previewChartType, setPreviewChartType] = useState<'week' | 'month'>(
     'week',
   );
+
   const fetchCalendarData = async () => {
     try {
       const data = await fetchUserCalendarChart();
@@ -31,10 +33,10 @@ function Chart() {
     }
   };
   useEffect(() => {
-    fetchCalendarData();
-  }, []);
-  // 현재 선택된 해나 달이 바뀌었을 때 기록 변경
-  useEffect(() => {}, [selectedYearMonth]);
+    if (isFocused) {
+      fetchCalendarData();
+    }
+  }, [isFocused]);
 
   return (
     <>

@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import * as S from './Monthly.styles';
-import {getCurrentDate} from '@/recoil/CalendarData';
-
 import MonthlyRecord from './MonthlyRecord';
 import MonthlyChart from './MonthlyChart';
 
@@ -14,9 +12,9 @@ function PreviewMonthly({isShow}: Props) {
   const [month, setMonth] = useState<number>(11);
 
   useEffect(() => {
-    const now = getCurrentDate();
-    setYear(now[0]);
-    setMonth(now[1]);
+    const nowDate = new Date();
+    setYear(nowDate.getFullYear());
+    setMonth(nowDate.getMonth() + 1);
   }, [isShow]);
   return (
     <S.Container isShow={isShow}>

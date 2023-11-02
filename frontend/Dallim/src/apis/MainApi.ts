@@ -29,10 +29,7 @@ export const fetchUserProfile = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
-    console.log(accessToken); // 삭제예쩡
-    // console.log('MainApi : 정보 조회 Axios 성공');
-    console.log('response : ', response.data.data);
+    console.log('MainApi : 정보 조회 Axios 성공');
     return response.data.data;
   } catch (error) {
     console.log('MainApi : 정보 조회 Axios 실패');
@@ -62,7 +59,6 @@ export const fetchUserCalendar = async () => {
     });
 
     console.log('MainApi : 출석 조회 Axios 성공');
-    console.log('response : ', response.data.data); 
     return response.data.data;
   } catch (error) {
     console.log('MainApi : 정보 조회 Axios 실패');

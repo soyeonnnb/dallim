@@ -11,6 +11,7 @@ import {MonthlyRecords} from '@/apis/ChartApi';
 import Toast from 'react-native-toast-message';
 import {CalendarType, getDateObject} from '@/recoil/CalendarData';
 import {colors} from '@/components/common/globalStyles';
+import {numberToTwoString} from '@/recoil/RunningData';
 
 interface Props {
   isClicked?: boolean;
@@ -62,11 +63,9 @@ function ChartCalendar({
     everyRecords?.map(monthData => {
       monthData.records.map(record => {
         const recordDate = getDateObject(record.createdAt);
-        const recordDateString = `${recordDate.year}-${
-          recordDate.month < 10 ? '0' : ''
-        }${recordDate.month}-${recordDate.day < 10 ? '0' : ''}${
-          recordDate.day
-        }`;
+        const recordDateString = `${recordDate.year}-${numberToTwoString(
+          recordDate.month,
+        )}-${numberToTwoString(recordDate.date)}`;
         marks[recordDateString] = {
           selected: true,
           selectedTextColor: colors.darkPurple,

@@ -37,13 +37,11 @@
     "max": 1400,
     "section": [
       {
-        "spendTime": 111,
         "startTime": 12,
         "finishTime": 123,
         "pace": 1400
       },
       {
-        "spendTime": 111,
         "startTime": 124,
         "finishTime": 235,
         "pace": 1400
@@ -84,13 +82,11 @@
       "max": 1400,
       "section": [
         {
-          "spendTime": 111,
           "startTime": 12,
           "finishTime": 123,
           "pace": 1400
         },
         {
-          "spendTime": 111,
           "startTime": 12,
           "finishTime": 123,
           "pace": 1400
@@ -104,7 +100,7 @@
       "level": 23
     },
     "character": {
-      "characterId": null,
+      "characterId": 0,
       "characterIndex": 0,
       "planetIndex": 0,
       "level": 20,

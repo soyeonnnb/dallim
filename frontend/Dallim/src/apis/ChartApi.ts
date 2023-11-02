@@ -36,53 +36,52 @@ export interface RunningRecordData {
 }
 
 export interface RunningRecordDataPace {
-  average: number; // 전체 페이스
-  max: number; // 최대 페이스(구간에서 최대값 뽑아오면 될듯)
+  averagePace: number; // 전체 페이스
+  maxPace: number; // 최대 페이스(구간에서 최대값 뽑아오면 될듯)
   section: {
-    spendTime: number; // 해당 페이스를 이동하는데 걸린 시간(초 단위)
     startTime: number; // 해당 페이스 시작 시간(초 단위)
     finishTime: number; // 해당 페이스 끝 시간(초 단위)
     pace: number; // 해당 구간 기준 페이스(초 단위)
   }[];
 }
-
-export interface RecordDetail {
+// 기본 레코드 데이터를 위한 인터페이스
+interface BasicRecord {
   id: string;
   location: string;
   createdAt: string;
   totalDistance: number;
   totalTime: number;
-  distancePerSpeed: number[]; // 차례대로 초당 걸은거리(초 속도가 <6km/h), 경보거리(6km/h<=, <9km/h), 뛴거리(9km<=)
   runningRecordInfos: RunningRecordData[];
-  heartRate: {
-    average: number; // 평균 심박수
-    max: number; // 최대 심박수
-    section: number[]; // 영역 별 심박수 초(<136, 136<= <150, 150<= <162, 162<= <175, <=175)
-  };
   pace: RunningRecordDataPace;
-  type: 'PAIR' | 'ALONE'; // type이 PAIR일 때에만 rivalRecord 존재.
-  rivalRecord?: {
-    id: string;
-    location: string;
-    createdAt: string;
-    totalDistance: number;
-    totalTime: number;
-    runningRecordInfos: RunningRecordData[];
-    pace: RunningRecordDataPace;
-    user: {
-      userId: number;
-      nickname: string;
-      point: number;
-      level: number;
-    };
-    character: {
-      characterId: number | null;
-      characterIndex: number;
-      planetIndex: number;
-      level: number;
-      exp: number;
-      evolutionStage: number;
-    };
+}
+
+// RecordDetail에서 BasicRecord 인터페이스 확장
+export interface RecordDetail extends BasicRecord {
+  secondPerSpeed: number[];
+  heartRate: {
+    averageHeartRate: number;
+    maxHeartRate: number;
+    secondPerHeartRateSection: number[];
+  };
+  type: 'PAIR' | 'ALONE';
+  rivalRecord?: RivalRecord;
+}
+
+// 라이벌 레코드 데이터를 위한 인터페이스, BasicRecord를 확장하고 추가적인 사용자 및 캐릭터 정보 포함
+export interface RivalRecord extends BasicRecord {
+  user: {
+    userId: number;
+    nickname: string;
+    point: number;
+    level: number;
+  };
+  character: {
+    characterId: number | null;
+    characterIndex: number;
+    planetIndex: number;
+    level: number;
+    exp: number;
+    evolutionStage: number;
   };
 }
 

@@ -32,6 +32,7 @@ function Chart() {
       console.error('데이터 불러오기 에러 :', error);
     }
   };
+
   useEffect(() => {
     if (isFocused) {
       fetchCalendarData();

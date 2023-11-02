@@ -103,7 +103,7 @@ function Profile({navigation}: ProfileProps) {
       topOffset: 10,
     });
   };
-
+  //
   return (
     <S.Container>
       <S.BackgroundImage

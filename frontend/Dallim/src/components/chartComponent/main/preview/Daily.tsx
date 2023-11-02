@@ -52,7 +52,7 @@ function RunningCard({item, navigation}: {item: DailyRecord; navigation: any}) {
       onPress={() => navigation.navigate('ChartDetail', {id: item.id})}>
       <S.CardTitle>{item.location}</S.CardTitle>
       <S.CardDatas>
-        <S.CardData>{item.distance}km</S.CardData>
+        <S.CardData>{item.distance}m</S.CardData>
         <S.CardData>
           {item.hour}시 {item.minute}분
         </S.CardData>

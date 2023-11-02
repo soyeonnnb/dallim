@@ -1,8 +1,10 @@
 package com.dallim;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.content.SharedPreferences;
@@ -20,16 +22,28 @@ public class DirectRunWidget extends AppWidgetProvider {
 
         Log.d("DDDDDDDDDD", "DallimWidget - updateAppWidget");
 
-        try {
-            SharedPreferences sharedPref = context.getSharedPreferences("DATA", Context.MODE_PRIVATE);
-            String appString = sharedPref.getString("appData", "{\"text\":'no data'}");
-            JSONObject appData = new JSONObject(appString);
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.directrun_widget);
-            views.setTextViewText(R.id.appwidget_text, appData.getString("text"));
-            appWidgetManager.updateAppWidget(appWidgetId, views);
-        }catch (JSONException e) {
-            e.printStackTrace();
-        }
+        // RemoteViews를 사용하여 위젯 UI 업데이트
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.directrun_widget);
+
+        // 기존 위젯 업데이트 코드 (필요에 따라 유지)
+        appWidgetManager.updateAppWidget(appWidgetId, views);
+
+        Intent intent = new Intent(context, MainActivity.class); // 앱의 메인 액티비티로 이동
+
+// FLAG_ACTIVITY_NEW_TASK는 새로운 태스크에서 액티비티를 시작하려 할 때 필요합니다.
+// 특히 위젯과 같은 백그라운드 컴포넌트에서 액티비티를 시작할 때 사용됩니다.
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        Log.d("DDDDDDDDDD", " DirectRunWidget - intent1 end");
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        Log.d("DDDDDDDDDD", "DirectRunWidget - getActivity end");
+        views.setOnClickPendingIntent(R.id.directrun, pendingIntent);
+
+// 위젯 매니저를 통해 위젯 업데이트
+        appWidgetManager.updateAppWidget(appWidgetId, views);
+
+
+
     }
 
     @Override

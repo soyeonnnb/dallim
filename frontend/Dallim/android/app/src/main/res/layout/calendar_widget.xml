@@ -2,7 +2,7 @@
     android:id="@+id/calendar_button"
     android:layout_width="300dp"
     android:layout_height="120dp"
-    android:background="@drawable/bunnylogo"
+    android:background="@drawable/calendarwidgettemplete"
     android:orientation="horizontal">
 
 

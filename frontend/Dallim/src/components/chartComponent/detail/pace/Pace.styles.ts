@@ -5,7 +5,7 @@ const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export const Container = styled.View`
   flex: 1;
-  width: ${SCREEN_WIDTH};
+  width: ${SCREEN_WIDTH}px;
   justify-content: center;
   align-items: center;
 `;

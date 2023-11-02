@@ -14,8 +14,7 @@ import HeartRate from '@/components/chartComponent/detail/heartRate/HeartRate';
 import ArrowLeft from '@/assets/icons/ArrowLeft';
 
 import {RecordDetail} from '@/apis/ChartApi';
-
-import RunningRecordDummy from './RunningRecordDummy.json';
+import {getDateObject} from '@/recoil/CalendarData';
 
 // 스택 내비게이션 타입을 정의
 type RootStackParamList = {
@@ -39,20 +38,31 @@ function ChartDetail({route, navigation}: Props) {
   const {id} = route.params;
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [data, setData] = useState<RecordDetail>();
-  const [createdAt, setCreatedAt] = useState<Date>(new Date());
+  const [data, setData] = useState<RecordDetail | null>();
+  const [createdAt, setCreatedAt] = useState<{
+    year?: number;
+    month?: number;
+    date?: number;
+    hour?: number;
+    minute?: number;
+    second?: number;
+    day?: string;
+  }>();
 
   const fetchRunningData = async () => {
     try {
-      // const data = await fetchDetailRunningData(id);
-      // console.log('디테일 러닝 데이터:', data);
-      setData(RunningRecordDummy);
-
+      const getData = await fetchDetailRunningData(id);
+      setData(getData);
       setIsLoading(false);
+      if (data) setCreatedAt(getDateObject(data.createdAt));
     } catch (error) {
       console.error('데이터 불러오기 에러 :', error);
     }
   };
+
+  useEffect(() => {
+    if (data) setCreatedAt(getDateObject(data.createdAt));
+  }, [data]);
 
   useEffect(() => {
     fetchRunningData();
@@ -64,7 +74,7 @@ function ChartDetail({route, navigation}: Props) {
         source={require('@/assets/images/MainBackground4.png')}
         resizeMode="cover"
       />
-      {isLoading ? (
+      {isLoading || !data ? (
         <Loading />
       ) : (
         <S.Container>
@@ -72,7 +82,9 @@ function ChartDetail({route, navigation}: Props) {
             <TouchableOpacity onPress={() => navigation.goBack()}>
               <ArrowLeft width={30} height={30} color="white" />
             </TouchableOpacity>
-            <S.HeaderTitle>11월 16일(목)</S.HeaderTitle>
+            <S.HeaderTitle>
+              {createdAt?.month}월 {createdAt?.date}일 ({createdAt?.day})
+            </S.HeaderTitle>
             {/* 정렬을 맞추기 위함 */}
             <ArrowLeft width={30} height={30} color="transparent" />
           </S.Header>

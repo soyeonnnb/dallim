@@ -4,7 +4,6 @@ import {colors} from '@/components/common/globalStyles';
 export const Container = styled.View`
   flex: 1;
   margin-top: 7%;
-  margin-bottom: 130px;
 `;
 export const TitleContainer = styled.View`
   flex: 1;
@@ -53,6 +52,7 @@ export const Chart = styled.View``;
 export const RunningMateRecord = styled.Text`
   margin-left: 5%;
   color: white;
+  font-size: 18px;
 `;
 export const Text = styled.Text`
   color: white;

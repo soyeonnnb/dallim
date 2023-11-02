@@ -4,10 +4,19 @@ import {characterData} from '@/recoil/CharacterData';
 import SpeedIcon from '@/assets/icons/SpeedIcon';
 import DistanceIcon from '@/assets/icons/DistanceIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
-import {useEffect, useState} from 'react';
+import RunningThinIcon from '@/assets/icons/RunningThinIcon';
+import {RecordDetail, RivalRecord} from '@/apis/ChartApi';
+import {calculatePace, secondToHourMinuteSeconds} from '@/recoil/RunningData';
 
-function OverviewRunningMateRecord() {
-  const characterImage = characterData[2].levels[0].front;
+interface Props {
+  data: RivalRecord;
+}
+
+function OverviewRunningMateRecord({data}: Props) {
+  const characterImage =
+    characterData[data.character.characterIndex].levels[
+      data.character.evolutionStage
+    ].front;
   return (
     <S.Container>
       <S.TitleContainer>
@@ -15,15 +24,21 @@ function OverviewRunningMateRecord() {
         <S.Navi>더보기</S.Navi>
       </S.TitleContainer>
       <S.InfoContainer>
-        <S.Nickname>팬더나는 다 팬다</S.Nickname>
+        <S.Nickname>{data.user.nickname}</S.Nickname>
         <S.Info>
           <S.CharacterView>
             <S.CharacterImage source={characterImage} resizeMode="contain" />
           </S.CharacterView>
           <S.Records>
-            <RecordPreview type="speed" record={5} />
-            <RecordPreview type="distance" record={5} />
-            <RecordPreview type="time" record={5} />
+            <RecordPreview
+              type="pace"
+              record={calculatePace(data.pace.averagePace)}
+            />
+            <RecordPreview type="distance" record={data.totalDistance + 'm'} />
+            <RecordPreview
+              type="time"
+              record={secondToHourMinuteSeconds(data.totalTime)}
+            />
           </S.Records>
         </S.Info>
       </S.InfoContainer>
@@ -39,28 +54,21 @@ export default OverviewRunningMateRecord;
 
 interface RecordPreviewProps {
   type: string;
-  record: number;
+  record: string;
 }
 
 function RecordPreview({type, record}: RecordPreviewProps) {
-  const [unit, setUnit] = useState<string>('');
-
-  useEffect(() => {
-    setUnit(type === 'speed' ? 'Km/h' : type === 'distance' ? 'm' : '분');
-  }, []);
   return (
     <S.RecordPreview>
-      {type === 'speed' ? (
-        <SpeedIcon width={30} height={30} color="white" />
+      {type === 'pace' ? (
+        <RunningThinIcon width={30} height={30} color="white" />
       ) : type === 'distance' ? (
         <DistanceIcon width={30} height={30} color="white" />
       ) : (
         <ClockIcon width={30} height={30} color="white" />
       )}
 
-      <S.RunningMateRecord>
-        {record} {unit}
-      </S.RunningMateRecord>
+      <S.RunningMateRecord>{record}</S.RunningMateRecord>
     </S.RecordPreview>
   );
 }

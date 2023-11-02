@@ -87,7 +87,7 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
 
 
           setShowConfetti(true); // 폭죽
-          setTimeout(() => setShowConfetti(false), 3500); // 폭죽 타이머
+          setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
           setPurchaseModalVisible(false); // 모달 닫기
         } else {
           CustomToast({ type: "error", text1: "통신에 실패했습니다. 다시 시도해주세요." });

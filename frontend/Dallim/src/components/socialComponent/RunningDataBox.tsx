@@ -1,4 +1,3 @@
-import React from 'react';
 import * as S from './RunningDataBox.styles';
 import PlaceIcon from '@/assets/icons/PlaceIcon.png';
 import DateIcon from '@/assets/icons/DateIcon.png';
@@ -8,8 +7,8 @@ import SpeedIcon from '@/assets/icons/SpeedIcon.png';
 
 function RunningDataBox() {
 
-  const PlaceText = "서울, 석촌호수";
-  const DateText = "2023년 10월 15일";
+  const PlaceText = "서울, 석촌호수"; // 장소
+  const DateText = "2023년 10월 15일"; // 
   const DistText = "5";
   const TimeText = "60";
   const SpeedText = "5";
@@ -67,7 +66,7 @@ function RunningDataBox() {
               <S.AddButton onPress={() => {
                 console.log("기록저장 버튼 클릭확인");
               }}>
-                <S.AddText>기록 저장</S.AddText>
+                <S.AddText>등록</S.AddText>
               </S.AddButton>
             </S.AddBox>
           </S.BottomRight>

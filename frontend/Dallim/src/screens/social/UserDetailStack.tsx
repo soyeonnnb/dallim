@@ -5,7 +5,7 @@ import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
 
 import RunningDataBox from '@/components/socialComponent/RunningDataBox';
 import VersusModal from '@/components/socialComponent/socialModal/VersusModal';
-import ProfileCard from '@/components/profileComponent/ProfileCard';
+import SocialCard from '@/components/socialComponent/SocialCard';
 import { characterData } from '@/recoil/CharacterData';
 
 interface UserDetailStackProps {
@@ -52,7 +52,7 @@ function UserDetailStack({ navigation }: UserDetailStackProps) {
                 </S.Header>
                 <S.Body>
                     <S.ProfileBox>
-                        <ProfileCard
+                        <SocialCard
                             PlanetIndex={tempCharacterIndex}
                             Nickname={tempNickname}
                             UserLevel={tempLevel}
@@ -63,22 +63,28 @@ function UserDetailStack({ navigation }: UserDetailStackProps) {
                 </S.Body>
 
                 <S.Footer>
-                    <S.BottomTitle>
-                        <S.RunningText>Running Data</S.RunningText>
-                    </S.BottomTitle>
-                    <S.BottomSortBox>
-                        <S.BottomSort onPress={() => setDropdownVisible(!dropdownVisible)}>
-                            <S.SortText>{selectedSort}</S.SortText>
-                            {dropdownVisible && (
-                                <S.DropdownMenu>
-                                    <S.DropdownItem onPress={() => { setSelectedSort("최신순"); setDropdownVisible(false); }}><S.DropdownItemText>최신 순서</S.DropdownItemText></S.DropdownItem>
-                                    <S.DropdownItem onPress={() => { setSelectedSort("속력순"); setDropdownVisible(false); }}><S.DropdownItemText>속력 순서</S.DropdownItemText></S.DropdownItem>
-                                    <S.DropdownItem onPress={() => { setSelectedSort("운동시간순"); setDropdownVisible(false); }}><S.DropdownItemText>운동시간 순서</S.DropdownItemText></S.DropdownItem>
-                                </S.DropdownMenu>
-                            )}
-                        </S.BottomSort>
-                    </S.BottomSortBox>
-                    <S.BottomList>
+                    <S.FooterTop>
+                        <S.RecordTitleBox>
+                            <S.RecordTitle>달림기록</S.RecordTitle>
+                        </S.RecordTitleBox>
+                        <S.FooterLine>
+
+                        </S.FooterLine>
+                        <S.SortBox>
+                            <S.Sort onPress={() => setDropdownVisible(!dropdownVisible)}>
+                                <S.SortText>{selectedSort}</S.SortText>
+                                {/* 드랍다운 예정 */}
+                                {/* {dropdownVisible && (
+                                    <S.DropdownMenu>
+                                        <S.DropdownItem onPress={() => { setSelectedSort("최신순"); setDropdownVisible(false); }}><S.DropdownItemText>최신 순서</S.DropdownItemText></S.DropdownItem>
+                                        <S.DropdownItem onPress={() => { setSelectedSort("속력순"); setDropdownVisible(false); }}><S.DropdownItemText>속력 순서</S.DropdownItemText></S.DropdownItem>
+                                        <S.DropdownItem onPress={() => { setSelectedSort("운동시간순"); setDropdownVisible(false); }}><S.DropdownItemText>운동시간 순서</S.DropdownItemText></S.DropdownItem>
+                                    </S.DropdownMenu>
+                                )} */}
+                            </S.Sort>
+                        </S.SortBox>
+                    </S.FooterTop>
+                    <S.FooterList>
                         <ScrollView>
                             <S.RunBox>
                                 <RunningDataBox />
@@ -93,7 +99,7 @@ function UserDetailStack({ navigation }: UserDetailStackProps) {
                                 <RunningDataBox />
                             </S.RunBox>
                         </ScrollView>
-                    </S.BottomList>
+                    </S.FooterList>
                 </S.Footer>
 
                 <S.TabBox />
@@ -112,7 +118,8 @@ function UserDetailStack({ navigation }: UserDetailStackProps) {
                 isVisible={isVersusModalVisible}
                 onClose={() => setVersusModalVisible(false)}
             />
-        </S.Container>
+
+        </S.Container >
     );
 };
 

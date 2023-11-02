@@ -50,19 +50,19 @@ export const ToggleButton = styled(Animated.View)`
 `;
 
 type TextProps = {
-  isOn: boolean;
+  isFriend: boolean;
 };
 
 export const FixedTextLeft = styled.Text<TextProps>`
   position: absolute;
   left: 25%; 
   font-size: 15px;
-  color: ${props => (props.isOn ? "white" : "black")};
+  color: ${props => (props.isFriend ? "white" : "black")};
 `;
 
 export const FixedTextRight = styled(FixedTextLeft)`
   left: 70%; 
-  color: ${props => (props.isOn ? "black" : "white")};
+  color: ${props => (props.isFriend ? "black" : "white")};
 `;
 
 export const Body = styled.View`

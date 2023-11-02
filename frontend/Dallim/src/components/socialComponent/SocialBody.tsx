@@ -4,6 +4,7 @@ import * as S from './SocialBody.styles';
 import RankInfoBox from './RankInfoBox';
 import { fetchAllRank, fetchFriendRank } from '@/apis/SocialApi';
 import Loading from '@/components/common/Loading';
+import NoFriendImage from '@/assets/images/NoFriend.png';
 
 type RankingInfo = {
   rank: number;
@@ -84,11 +85,14 @@ function SocialBody({ navigation, isFriend, onToggle }: any) {
                 </S.RankInfoBox>
               ))
             ) : (
-              <S.LordingText>랭킹 데이터가 없습니다.</S.LordingText>
+              <>
+                <S.EmptyImage source={NoFriendImage} resizeMode="contain" />
+                <S.EmptyText style={{ marginRight: 10 }}>친구를 추가해주세요.</S.EmptyText>
+              </>
             )
           ) : (
+            // 로딩중
             <Loading />
-            // <S.LordingText>랭킹을 불러오는 중입니다...</S.LordingText>
           )}
         </ScrollView>
       </S.Body>

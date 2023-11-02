@@ -4,12 +4,12 @@ import java.nio.file.AccessDeniedException;
 
 import javax.security.auth.login.LoginException;
 
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import com.amazonaws.services.kms.model.NotFoundException;
 import com.b208.dduishu.domain.user.exception.UserNotFoundException;
 
 import io.jsonwebtoken.ExpiredJwtException;
@@ -24,12 +24,6 @@ public class ExceptionController {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
-
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Object> NotFountException(final NotFoundException ex) {
-        //log.warn("error", ex);
-        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)

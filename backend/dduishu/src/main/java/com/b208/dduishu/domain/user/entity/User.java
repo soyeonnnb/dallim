@@ -1,32 +1,31 @@
 package com.b208.dduishu.domain.user.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
+import com.b208.dduishu.domain.character.entity.Character;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.b208.dduishu.domain.user.dto.UserDTO;
+import com.b208.dduishu.domain.user.dto.request.UserDTO;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
 
 @Entity
 @Getter
-@ToString
+@Setter
 @EntityListeners(AuditingEntityListener.class)
-@Builder
 public class User {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long userId;
     @Column(nullable = false)
     private String accountType;
@@ -34,57 +33,55 @@ public class User {
     private String email;
     @Column(nullable = false, unique = true)
     private String nickname;
-    @Column(nullable = false)
-    private String profileImage;
+
+    @OneToMany(mappedBy = "user")
+    private List<Character> characterList = new ArrayList<>();
+
+    private int cumulativeRunningDay;
+    private double averageSpeed;
+    private double cumulativeDistance;
+    private int cumulativeRunningTime;
+    private int cumulativeCalorie;
+    private int point;
     @Column(nullable = false)
     private String privateAccess;
-    @CreatedDate
-    @Column()
-    private LocalDateTime registDate;
-    @LastModifiedDate
-    @Column()
-    private LocalDateTime lastLoginDate;
-    @Column(nullable = false)
-    private boolean deleteCheck;
     @Column(nullable = false)
     private String accessToken;
-    @Column(nullable = false)
-    private int createCount;
-
+    @Enumerated(EnumType.STRING)
+    private UserState state;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_level_id")
+    private UserLevel userLevel;
+    @CreatedDate
+    private LocalDateTime registDate;
+    @LastModifiedDate
+    private LocalDateTime lastLoginDate;
 
     public User() {
     }
 
-    public User(Long userId, String accountType, String email, String nickname, String profileImage, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, boolean deleteCheck, String accessToken, int createCount) {
+    @Builder
+    public User(Long userId, UserState state, UserLevel userLevel, String accountType, String email, String nickname, int cumulativeRunningDay, float averageSpeed, float cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, String accessToken) {
         this.userId = userId;
+        this.state = state;
         this.accountType = accountType;
         this.email = email;
         this.nickname = nickname;
-        this.profileImage = profileImage;
+        this.cumulativeRunningDay = cumulativeRunningDay;
+        this.averageSpeed = averageSpeed;
+        this.cumulativeDistance = cumulativeDistance;
+        this.cumulativeRunningTime = cumulativeRunningTime;
+        this.cumulativeCalorie = cumulativeCalorie;
+        this.point = point;
         this.privateAccess = privateAccess;
+        this.accessToken = accessToken;
         this.registDate = registDate;
         this.lastLoginDate = lastLoginDate;
-        this.deleteCheck = deleteCheck;
-        this.accessToken = accessToken;
-        this.createCount = createCount;
+        this.userLevel = userLevel;
     }
 
     public void updateNickname(String newNickname) {
         this.nickname = newNickname;
-    }
-
-    public void updateprofileImage(String profileImage){
-        this.profileImage = profileImage;
-    }
-
-    public UserDTO toUserDTO(){
-        return UserDTO.builder()
-            .userId(this.userId)
-            .accountType(this.accountType)
-            .email(this.email)
-            .nickname(this.nickname)
-            .profileImage(this.profileImage)
-            .build();
     }
 
     public void updateLastLoginDate() {
@@ -98,7 +95,44 @@ public class User {
     public void updatePrivateAccessToken(String privateAccessToken){
         this.privateAccess = privateAccessToken;
     }
+    public void updateAverageSpeed(double averageSpeed) {
+        this.averageSpeed = averageSpeed;
+    }
+
+    public void addPoint(double point) {
+        this.point += point;
+    }
+    public void addCumulativeRunningDay(int day) {
+        this.cumulativeRunningDay += day;
+    }
+    public void addCumulativeDistance(double distance){
+        this.cumulativeDistance += distance;
+    }
+
+    public void addCumulativeRunningTime(int time){
+        this.cumulativeRunningTime += time;
+    }
+
+    public void addCumulativeCalorie(int calorie){
+        this.cumulativeCalorie += calorie;
+    }
+
+    public void reducePoint(int point) {
+        this.point -= point;
+    }
 
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(userId, user.userId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId);
+    }
 
 }

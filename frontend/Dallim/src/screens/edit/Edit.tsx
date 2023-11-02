@@ -126,13 +126,13 @@ function Edit() {
   // 사용자가 장착하고 있는 캐릭터의 상태 업데이트
   const handleEquippedCharacterChange = (index: number) => {
     setEquippedCharacterIndex(index);
-    // Axios 캐릭터 업데이트 Put 요청 
   }
 
   // 행성 선택
   const handlePlanetChange = (selectedPlanetIndex: number) => {
     setSelectedPlanetIndex(selectedPlanetIndex);
   };
+  
   const handleNextPlanet = () => {
     const nextIndex = (selectedPlanetIndex + 1) % planetData.length;
     setSelectedPlanetIndex(nextIndex);
@@ -156,7 +156,6 @@ function Edit() {
   // 사용자가 장착하고 있는 행성의 상태 업데이트
   const handleEquippedPlanetChange = (index: number) => {
     setEquippedPlanetIndex(index);
-    // Axios 행성 업데이트 Put 요청 
   }
 
   return (

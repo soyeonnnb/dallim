@@ -328,6 +328,11 @@ public class RunningRecordService {
 
         return RunningRecordDetail.builder()
                 .id(res.getId())
+                .location("서울, 석촌 호수")
+                .secondPerSpeed(res.getSecondPerSpeed())
+                .heartRate(res.getHeartRate())
+                .pace(res.getPace())
+                .stepCount(res.getStepCount())
                 .user(res.getUser())
                 .character(res.getCharacter())
                 .rivalRecord(res.getRivalRecord())

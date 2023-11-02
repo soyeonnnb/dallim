@@ -7,7 +7,7 @@
     tools:context=".activity.MainActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="58dp">
-
+<!-- 메인 페이지-->
     <Button
         android:id="@+id/btn_start"
         android:layout_width="100dp"

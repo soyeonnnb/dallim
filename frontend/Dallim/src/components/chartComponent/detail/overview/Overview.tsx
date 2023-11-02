@@ -152,6 +152,7 @@ function Overview({data}: Props) {
             ) : (
               ''
             )}
+            <S.Footer />
           </S.MainContent>
           <S.ArrowContainer>
             <ArrowRight width={20} height={20} color="white" />

@@ -7,9 +7,9 @@ import BoomEffect from '@/components/common/BoomEffect';
 import CustomToast from '../common/CustomToast';
 import Character from './CharacterBox';
 
-
 import { useRecoilState } from 'recoil';
 import {
+  userDataState,
   equippedCharacterIndexState,
   equippedCharacterLevelState,
   equippedEvolutionStageState,
@@ -29,6 +29,7 @@ type CharacterEditProps = {
 
 function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange }: CharacterEditProps) {
 
+  const [userData, setUserData] = useRecoilState(userDataState);
   const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
   const [equippedCharacterLevel, setEquippedCharacterLevel] = useRecoilState(equippedCharacterLevelState);
   const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
@@ -43,20 +44,10 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange }: Cha
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
   const [showConfetti, setShowConfetti] = useState(false);
 
-  useEffect(() => {
-    console.log("선택 캐릭터가 바꼈어요(Index 기준) : " + selectedCharacterIndex);
-  }, [selectedCharacterIndex]);
-
-  function handleCharacterChange(index: number) {
-    console.log(index + "번째 캐릭터가 눌렸습니다!")
-    onCharacterChange(index); // 상위 컴포넌트로 전달
-    // 여기에 캐릭터 Axios put 예정 
-  }
-
   async function equippedCharacterChange() {
     toggleCharacterSelectModal();
     const characterCount = characterData.length;
-    handleCharacterChange(selectedCharacterIndex % characterCount);
+    onCharacterChange(selectedCharacterIndex % characterCount);
 
     // DB에 대표 행성 변경 정보를 전송
     try {
@@ -89,9 +80,24 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange }: Cha
           setUserPoint(userPoint - 4000); // 포인트 차감
           CustomToast({ type: "success", text1: "구매 성공!" });
           setSelectedCharacterIsPurchased(true);
+
+          if (userData) {
+            const newUserData = {
+              ...userData,
+              characters: userData.characters.map((character, index) => {
+                if (index === selectedCharacterIndex) {
+                  return { ...character, isPurchased: true };
+                }
+                return character;
+              }),
+            };
+            setUserData(newUserData);
+          }
+
           setShowConfetti(true); // 폭죽
-          setTimeout(() => setShowConfetti(false), 4000);
-          setPurchaseModalVisible(false);
+          setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
+          setPurchaseModalVisible(false); // 모달 닫기
+
         } else {
           CustomToast({ type: "error", text1: "통신에 실패했습니다. 다시 시도해주세요." });
         }

@@ -1,28 +1,32 @@
 import * as S from './RankInfoBox.styles';
 
 type Props = {
-    Rank: number;
-    Distance: number;
-    Nickname: string;
-    Level: number;
+    rank: number;
+    distance: number;
+    nickname: string;
+    cumulativeDistance: number;
+    level: number;
+    follower: boolean;
     navigation: any;
 };
 
-function RankInfoBox({ Rank, Distance, Nickname, Level, navigation }: Props) {
+function RankInfoBox({ rank, nickname, cumulativeDistance, level, follower, navigation }: Props) {
+
+    const displayDistance = Math.floor(cumulativeDistance);
 
     return (
         <S.Container>
-            <S.Box rank={Rank}>
+            <S.Box rank={rank}>
                 <S.Left>
-                    <S.RankText rank={Rank}>{Rank}</S.RankText>
+                    <S.RankText rank={rank}>{rank}</S.RankText>
                 </S.Left>
                 <S.Middle onPress={() => navigation.navigate('UserDetailStack')}>
                     <S.Header>
-                        <S.DistanceText>{Distance}m</S.DistanceText>
+                        <S.DistanceText>{displayDistance}m</S.DistanceText>
                     </S.Header>
                     <S.Body>
-                        <S.NickNameText>{Nickname}  </S.NickNameText>
-                        <S.LevelText>Lv. {Level}</S.LevelText>
+                        <S.NickNameText>{nickname}</S.NickNameText>
+                        <S.LevelText>Lv. {level}</S.LevelText>
                     </S.Body>
                 </S.Middle>
             </S.Box>

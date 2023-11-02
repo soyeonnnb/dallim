@@ -10,6 +10,7 @@ import Planet from './PlanetBox';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
+  userDataState,
   equippedPlanetIndexState,
   selectedPlanetIndexState,
   selectedPlanetIsPurchasedState,
@@ -23,6 +24,7 @@ type PlanetEditProps = {
 
 function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
 
+  const [userData, setUserData] = useRecoilState(userDataState);
   const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState); // 장착된 행성 인덱스
   const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(selectedPlanetIndexState); // 선택된 행성 인덱스
   const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] = useRecoilState(selectedPlanetIsPurchasedState); // 행성 구매 여부
@@ -33,19 +35,10 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
   const [showConfetti, setShowConfetti] = useState(false);
 
-  useEffect(() => {
-    console.log("대표 행성이 바꼈어요(Index 기준) : " + equippedPlanetIndex);
-  }, [equippedPlanetIndex]);
-
-  function handlePlanetChange(index: number) {
-    console.log(index + "번째 행성이 눌렸습니다!(Index)")
-    onPlanetChange(index); // 상위 컴포넌트로 전달
-  }
-
   async function equippedPlanetChange() {
     togglePlanetSelectModal();
     const planetCount = planetData.length;
-    handlePlanetChange(selectedPlanetIndex % planetCount);
+    onPlanetChange(selectedPlanetIndex % planetCount);
 
     // DB에 대표 행성 변경 정보를 전송
     try {
@@ -77,7 +70,22 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
         if (responseData.status === "success" && responseData.data === true) {
           setUserPoint(userPoint - 2000); // 포인트 차감
           CustomToast({ type: "success", text1: "구매 성공!" });
-          setSelectedPlanetIsPurchased(true); // 해당하는 행성 구입 체크
+
+          if (userData) {
+            const newUserData = {
+              ...userData,
+              planets: userData.planets.map((planet, index) => {
+                if (index === selectedPlanetIndex) {
+                  return { ...planet, isPurchased: true };
+                }
+                return planet;
+              }),
+            };
+            setUserData(newUserData);
+          }
+
+
+
           setShowConfetti(true); // 폭죽
           setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
           setPurchaseModalVisible(false); // 모달 닫기

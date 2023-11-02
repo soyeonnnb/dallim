@@ -1,16 +1,19 @@
-import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import Chart from '@/screens/chart/ChartMain';
+import ChartMain from '@/screens/chart/ChartMain';
 import ChartDetail from '@/screens/chart/ChartDetail';
 
-const ChartStack = createStackNavigator();
+type ChartStackParamList = {
+  ChartMain: undefined;
+  ChartDetail: {id: string};
+};
+const ChartStack = createStackNavigator<ChartStackParamList>();
 
 function ChartStackNavigators() {
   return (
-    <ChartStack.Navigator initialRouteName="Chart">
+    <ChartStack.Navigator initialRouteName="ChartMain">
       <ChartStack.Screen
         name="ChartMain"
-        component={Chart}
+        component={ChartMain}
         options={{headerShown: false}}
       />
 

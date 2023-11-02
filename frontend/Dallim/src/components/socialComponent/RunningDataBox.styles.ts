@@ -11,6 +11,9 @@ export const Box = styled.View`
   border-color: red; */
   width: 100%;
   height: 100%;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 export const Top = styled.View`
@@ -101,7 +104,7 @@ export const AddBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   border-radius: 10px;
-  background-color: #8B8B8B;
+  background-color: #8b8b8b;
   width: 60%;
   height: 90%;
 `;

@@ -12,10 +12,13 @@ interface Props {
   isClicked?: boolean;
   selectedDate?: CalendarType;
   everyRecords?: MonthlyRecords[];
+  selectedYearMonth: {year: number; month: number};
+  setSelectedYearMonth?: any;
+  previewChartType: 'week' | 'month';
 }
 
 export interface DailyRecord {
-  id: number;
+  id: string;
   location: string; // 출발 위치
   distance: number; // 거리
   hour: number; // 출발 기준 시
@@ -23,22 +26,68 @@ export interface DailyRecord {
   time: number; // 얼마나 걸렸는지 (시간)
 }
 
-function Preview({isClicked, selectedDate, everyRecords}: Props) {
+function Preview({
+  isClicked,
+  selectedDate,
+  everyRecords,
+  selectedYearMonth,
+  setSelectedYearMonth,
+  previewChartType,
+}: Props) {
   // ref
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [isUp, setIsUp] = useState(false);
   const [dailyRecords, setDailyRecords] = useState<DailyRecord[]>();
+  const [previewRecords, setPreviewRecords] = useState<{
+    count: number;
+    distance: number;
+    time: number;
+  }>({
+    count: 0,
+    distance: 0,
+    time: 0,
+  });
 
   const snapPoints = useMemo(() => ['40%', '90%'], []); // 전체 화면에서 몇퍼센트 차지할
-  // useEffect(() => {}, [isClicked, selectedDate]);
+
   // sheet size 수정 시 실행
   const handleSheetChanges = useCallback((index: number) => {
     if (index == 0) setIsUp(false); // 0이 40%
     else setIsUp(true);
   }, []);
 
+  // 선택된 해/달 변화시 발생
   useEffect(() => {
-    if (selectedDate == null) return;
+    const newMonth: {
+      count: number;
+      distance: number;
+      time: number;
+    } = {
+      count: 0,
+      distance: 0,
+      time: 0,
+    };
+    everyRecords?.map(monthData => {
+      if (
+        monthData.year === selectedYearMonth.year &&
+        monthData.month === selectedYearMonth.month
+      ) {
+        monthData.records.map(record => {
+          newMonth.count += 1;
+          newMonth.distance += record.totalDistance;
+          newMonth.time += record.totalTime;
+        });
+      }
+    });
+    setPreviewRecords(newMonth);
+  }, [selectedYearMonth]);
+
+  // 선택된 날짜 변경 시 실행
+  useEffect(() => {
+    if (selectedDate == null) {
+      return;
+    }
+
     let newDailyRecords: DailyRecord[] = [];
     everyRecords?.map(monthData => {
       if (
@@ -72,7 +121,13 @@ function Preview({isClicked, selectedDate, everyRecords}: Props) {
     >
       <S.Container>
         <S.DownPreview isShow={isUp ? false : true}>
-          <PreviewRecord isShow={isClicked ? false : true} type="week" />
+          <PreviewRecord
+            isShow={isClicked ? false : true}
+            type={previewChartType}
+            previewRecords={previewRecords}
+            year={selectedYearMonth.year}
+            month={selectedYearMonth.month}
+          />
           <PreviewDaily
             records={dailyRecords}
             date={selectedDate}

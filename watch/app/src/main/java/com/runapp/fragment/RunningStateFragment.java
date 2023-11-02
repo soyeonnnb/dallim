@@ -46,7 +46,6 @@ public class RunningStateFragment extends Fragment {
         // ms로 들어옴
         runningViewModel.getMsPace().observe(getViewLifecycleOwner(), pace ->{
             TextView paceView = view.findViewById(R.id.tv_pace);
-
             paceView.setText(pace);
         });
 

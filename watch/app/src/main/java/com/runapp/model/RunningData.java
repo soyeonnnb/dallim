@@ -29,10 +29,10 @@ public class RunningData {
     private int characterId; // 어떤 캐릭터 pk인지
     @ColumnInfo(name = "character_info_id")
     private int characterInfoId; // 어떤 캐릭터인지
-    @ColumnInfo(name = "step_counter")
-    private double StepCount; // 발걸음
+    @ColumnInfo(name = "step_count")
+    private double stepCount; // 발걸음
     @ColumnInfo(name = "avgrage_pace")
-    private String averagePace; // 평균 페이스
+    private double averagePace; // 평균 페이스
     @ColumnInfo(name = "avgrage_speed")
     private double averageSpeed; // 평균 속력
     @ColumnInfo(name = "avgrage_heart_rate")
@@ -55,7 +55,7 @@ public class RunningData {
         dto.setTotalTime(this.totalTime);
         dto.setCharacterId(this.characterId);
         dto.setCharacterInfoId(this.characterInfoId);
-        dto.setStepCount(this.StepCount);
+        dto.setStepCount(this.stepCount);
         dto.setAverageHeartRate(this.averageHeartRate);
         dto.setType(this.type);
         dto.setRivalRecordId(this.rivalRecordId);
@@ -122,18 +122,18 @@ public class RunningData {
     }
 
     public double getStepCount() {
-        return StepCount;
+        return stepCount;
     }
 
-    public void setStepCount(double StepCount) {
-        this.StepCount = StepCount;
+    public void setStepCount(double stepCount) {
+        this.stepCount = stepCount;
     }
 
-    public String getAveragePace() {
+    public double getAveragePace() {
         return averagePace;
     }
 
-    public void setAveragePace(String averagePace) {
+    public void setAveragePace(double averagePace) {
         this.averagePace = averagePace;
     }
 

@@ -27,6 +27,19 @@ public class Conversion {
         return result;
     }
 
+    public Map<String, Integer> sToPace(double second){
+        int totalSeconds = (int) second; // 전달받은 초를 정수형으로 변환
+        int minutes = totalSeconds / 60; // 전체 분 계산
+        int remainingSeconds = totalSeconds % 60; // 남은 초 계산
+
+        // 결과를 맵에 저장
+        Map<String, Integer> paceMap = new HashMap<>();
+        paceMap.put("minutes", minutes);
+        paceMap.put("seconds", remainingSeconds);
+
+        return paceMap; // 결과 반환
+    }
+
     // 날짜 형식 변환해주는 메서드
     public String formatDate(Date date) {
         Instant instant = date.toInstant();
@@ -37,6 +50,13 @@ public class Conversion {
         return localDateTime.format(formatter);
     }
 
+    public double mToKM(double m){
+        double km = Math.round((m / 1000.0) / 100) * 100.0;
+        System.out.println(m/1000.0);
+        System.out.println(km);
+
+        return km;
+    }
 
 
 }

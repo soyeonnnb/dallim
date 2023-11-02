@@ -14,6 +14,7 @@
     <!-- 바디 센서에 접근(심박수, 발걸음) -->
     <uses-permission android:name="android.permission.BODY_SENSORS" />
     <!-- 기기가 절전 모드에 못 들어가게 하는 권한 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- 기기가 인터넷에 접속이 가능하도록 허용 -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -68,13 +69,8 @@
         <service android:name=".service.DataLayerListenerService"
             android:exported="true">
             <intent-filter>
-                <!-- listeners receive events that match the action and data filters -->
                 <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
-                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
-                <action android:name="com.google.android.gms.wearable.REQUEST_RECEIVED" />
-                <action android:name="com.google.android.gms.wearable.CAPABILITY_CHANGED" />
-                <action android:name="com.google.android.gms.wearable.CHANNEL_EVENT" />
-                <data android:scheme="wear" android:host="*" android:pathPrefix="/data_path" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/temp" />
             </intent-filter>
         </service>
 

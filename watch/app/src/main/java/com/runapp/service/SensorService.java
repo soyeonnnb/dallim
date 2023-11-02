@@ -92,7 +92,9 @@ public class SensorService extends Service {
                     double heartRate = sensorEvent.values[0];
                     if(heartRate != 0){
                         heartCountTime++;
+                        runningViewModel.setHeartCountTime(heartCountTime);
                         totalHeartRate += heartRate;
+                        runningViewModel.setTotalHeartRate(totalHeartRate);
                     }
                     heartRate = (Math.round(heartRate * 100) / 100.0);
                     runningViewModel.setHeartRate(heartRate);
@@ -139,12 +141,6 @@ public class SensorService extends Service {
     public void onDestroy() {
         unregisterSensors();
         stopForeground(true);
-
-        SharedPreferences sharedPreferences = getSharedPreferences("SENSOR_DATA", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putFloat("totalHeartRate", (float) totalHeartRate);
-        editor.putInt("heartCountTime", heartCountTime);
-        editor.apply();
 
         super.onDestroy();
     }

@@ -15,6 +15,11 @@ public class RunningViewModel extends ViewModel {
     private final MutableLiveData<Double> StepCount = new MutableLiveData<>();
     private final MutableLiveData<Double> latitude = new MutableLiveData<>();
     private final MutableLiveData<Double> longitude = new MutableLiveData<>();
+    private final MutableLiveData<Double> msPaceToSecond = new MutableLiveData<>();
+    // 미터값
+    private final MutableLiveData<Double> oriDistance = new MutableLiveData<>();
+    private final MutableLiveData<Double> totalHeartRate = new MutableLiveData<>();
+    private final MutableLiveData<Integer> heartCountTime = new MutableLiveData<>();
     private MutableLiveData<RunningData> runningData = new MutableLiveData<>();
 
     public MutableLiveData<RunningData> getRunningData() {
@@ -78,10 +83,35 @@ public class RunningViewModel extends ViewModel {
     public MutableLiveData<Double> getLongitude() {
         return longitude;
     }
+
+    public MutableLiveData<Double> getMsPaceToSecond() { return msPaceToSecond; }
+    public void setMsPaceToSecond(double second){
+        this.msPaceToSecond.setValue(second);
+    }
     public void setLatitude(double latitude){
         this.latitude.setValue(latitude);
     }
     public void setLongitude(double longitude){
         this.longitude.setValue(longitude);
+    }
+    public void setOriDistance(double oriDistance){
+        this.oriDistance.setValue(oriDistance);
+    }
+
+    public MutableLiveData<Double> getOriDistance() {
+        return oriDistance;
+    }
+
+    public MutableLiveData<Double> getTotalHeartRate() {
+        return totalHeartRate;
+    }
+    public void setTotalHeartRate(double totalHeartRate){
+        this.totalHeartRate.setValue(totalHeartRate);
+    }
+    public void setHeartCountTime(int heartCountTime){
+        this.heartCountTime.setValue(heartCountTime);
+    }
+    public MutableLiveData<Integer> getHeartCountTime() {
+        return heartCountTime;
     }
 }

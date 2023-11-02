@@ -1,9 +1,12 @@
 package com.runapp.activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -25,7 +28,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MainActivity extends ComponentActivity {
+public class MainActivity extends ComponentActivity{
     // 클래스 멤버로 Executor 정의
     private final Executor executor = Executors.newSingleThreadExecutor();
     private ActivityMainBinding binding;
@@ -69,15 +72,34 @@ public class MainActivity extends ComponentActivity {
 
         // 시작 버튼을 클릭하면
         binding.btnStart.setOnClickListener(v -> {
-            /*
-            * Intent : 액티비티 간의 전환 또는 서비스를 시작할 때 사용하는 객체다.
-            * 현재 액티비티에서 전환하려는 액티비티로 설정해주면 된다.
-            * */
-            Intent intent = new Intent(MainActivity.this, SelectActivity.class);
-            startActivity(intent);
+            SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+            boolean isAuthenticated = sharedPref.getBoolean("Authenticated", false); // 기본값은 false
+            if (!isAuthenticated){
+                showAlert();
+            }else{
+                /*
+                 * Intent : 액티비티 간의 전환 또는 서비스를 시작할 때 사용하는 객체다.
+                 * 현재 액티비티에서 전환하려는 액티비티로 설정해주면 된다.
+                 * */
+                Intent intent = new Intent(MainActivity.this, SelectActivity.class);
+                startActivity(intent);
+            }
         });
-
     }
+
+    private void showAlert() {
+        new AlertDialog.Builder(this)
+                .setTitle("인증 필요")
+                .setMessage("이 기능을 사용하기 위해서는 인증이 필요합니다.")
+                .setPositiveButton("인증하기", (dialog, which) -> {
+                    // 인증 액티비티로 이동하는 인텐트 실행
+                    Intent intent = new Intent(MainActivity.this, AuthActivity.class);
+                    startActivity(intent);
+                })
+                .setNegativeButton("취소", (dialog, which) -> dialog.dismiss())
+                .create().show();
+    }
+
 
     private void checkPermission(){
         // 필요한 권한(퍼미션)들
@@ -153,4 +175,13 @@ public class MainActivity extends ComponentActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

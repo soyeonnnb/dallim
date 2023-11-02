@@ -61,9 +61,10 @@ export const PlaceholderBox = styled.View`
 export const NicknameInput = styled.TextInput`
   font-size: 15px;
   color: black;
-  width: 30%;
+  width: 90%;
   height: 70%;
-  border-bottom-width: 1px; 
+  border-bottom-width: 1px;
+  border-bottom-color: #d9d9d9;
 `;
 
 export const NoticeBox = styled.View`
@@ -77,7 +78,7 @@ export const NoticeBox = styled.View`
 
 export const NoticeText = styled.Text`
   font-size: 10px;
-  color: #ADA5A5;
+  color: #ada5a5;
   padding-left: 10px;
   padding-top: 10px;
 `;

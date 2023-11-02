@@ -37,6 +37,7 @@ function Profile({navigation}: ProfileProps) {
     nickname: '',
     level: 0,
     exp: 0,
+    evolutionStage: 0,
   });
 
   const [competitorData, setCompetitorData] = useState([]);
@@ -71,7 +72,7 @@ function Profile({navigation}: ProfileProps) {
   //dataCall ---------------------------------
   const selectedCharacter = characterData[userData.characterIndex];
   const selectedCharacterLevelData =
-    selectedCharacter.levels[userData.characterIndex];
+    selectedCharacter.levels[userData.evolutionStage];
 
   //actions
   const handleRunningMatePress = () => {
@@ -134,7 +135,7 @@ function Profile({navigation}: ProfileProps) {
               </S.TextBox>
             </S.ButtonBox>
 
-            <S.ButtonBox onPress={() => setShowNotificationModal(true)}>
+            <S.ButtonBox onPress={() => navigation.navigate('RunningAlarm')}>
               <S.IconBox>
                 <S.ButtonIcon source={NotificationIcon} />
               </S.IconBox>

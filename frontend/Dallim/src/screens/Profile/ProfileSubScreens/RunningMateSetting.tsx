@@ -4,13 +4,6 @@ import {useState} from 'react';
 //icon
 import BackButtonIcon from '@/assets/icons/ArrowLeft';
 
-//img
-import BlackCard from '@/assets/planets/ColumnCard/blackColumnCard.png';
-import YellowCard from '@/assets/planets/ColumnCard/yellowColumnCard.png';
-import BlueCard from '@/assets/planets/ColumnCard/blueColumnCard.png';
-import PurpleCard from '@/assets/planets/ColumnCard/purpleColumnCard.png';
-import RedCard from '@/assets/planets/ColumnCard/redColumnCard.png';
-
 //carousel
 import Carousel from '@/components/profileComponent/Carousel';
 import {Dimensions} from 'react-native';

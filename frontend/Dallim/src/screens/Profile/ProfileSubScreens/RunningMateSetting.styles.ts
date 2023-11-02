@@ -36,7 +36,7 @@ export const BackButtonFlexBoxRight = styled.View`
   border-color: blue; */
   justify-content: center;
   align-items: center;
-  width: 90%;
+  width: 80%;
   height: 100%;
 `;
 
@@ -46,30 +46,45 @@ export const TitleText = styled.Text`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: center;
+  flex-direction: row;
   align-items: center;
   width: 100%;
   height: 70%;
 `;
 
-export const DeleteButtonBox = styled.TouchableOpacity`
+export const FooterTopBox = styled.View`
+  /* border-width: 2px;
+  border-color: red;
+  width: 100%; */
+  height: 10%;
+`;
+
+export const DeleteButtonMiddleBox = styled.TouchableOpacity`
   border-width: 2px;
   border-color: red;
-  border-radius: 30px;
+  border-radius: 100px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   background-color: #2a2c45;
-  width: 20%;
-  height: 100%;
+  width: 30%;
+  height: 70%;
 `;
 
 export const DeleteButtonText = styled.Text`
   color: #ffffff; // 텍스트는 흰색. 원하는 색으로 변경 가능.
   /* font-weight: bold; */
   /* font-size: 16px; */
+`;
+
+export const FooterBottomBox = styled.View`
+  /* border-width: 2px;
+  border-color: red;
+  width: 100%; */
+  height: 15%;
 `;
 
 // // 캐릭터 띄우기
@@ -84,8 +99,11 @@ export const DeleteButtonText = styled.Text`
 // `;
 
 export const Footer = styled.View`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 10%;
 `;

@@ -34,23 +34,19 @@ public class UserController {
             return ApiResponse.createError(e.getMessage());
         }
     }
-    // 닉네임 중복 체크
-    @ApiOperation(value="유저 닉네임 중복 체크", notes="사용자의 닉네임을 중복 체크 한다.")
-    @PostMapping("/api/v1/user/check-nickname")
-    public ApiResponse<?> checkUserNickname(@RequestBody UserNickName req){
-        IsDuplicateNickName res = userSocialService.checkUserNickname(req.getNickname());
-
-        return ApiResponse.createSuccess(res);
-    }
 
     // 닉네임 변경
     @ApiOperation(value="유저 닉네임 변경", notes="사용자의 닉네임을 변경한다.")
     @PatchMapping("/api/v1/user/nickname")
     public ApiResponse<?> updateUserNickname(@RequestBody UserNickName req){
         try {
-            userSocialService.updateUserNickname(req.getNickname());
+            boolean isDuplicateNickName = userSocialService.checkUserNickname(req.getNickname());
 
-            return ApiResponse.createSuccess("닉네임 변경 성공");
+            if (!isDuplicateNickName) {
+                userSocialService.updateUserNickname(req.getNickname());
+                return ApiResponse.createSuccess("닉네임 변경 성공");
+            }
+            return ApiResponse.createError("닉네임 변경 실패");
         } catch (Exception e) {
             return ApiResponse.createError(e.getMessage());
         }

@@ -64,12 +64,8 @@ public class UserSocialService {
     }
 
     // 유저 닉네임 중복체크
-    public IsDuplicateNickName checkUserNickname(String nickname) {
-        boolean flag = userRepository.existsByNickname(nickname);
-
-        IsDuplicateNickName res = IsDuplicateNickName.builder().IsDuplicate(flag).build();
-
-        return res;
+    public boolean checkUserNickname(String nickname) {
+        return userRepository.existsByNickname(nickname);
     }
 
     public UserPoint getUserPoint() {

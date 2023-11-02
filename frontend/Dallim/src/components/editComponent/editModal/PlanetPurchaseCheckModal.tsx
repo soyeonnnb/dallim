@@ -1,17 +1,20 @@
-import React from 'react';
+import * as S from './PlanetPurchaseCheckModal.styles';
 import { Modal } from 'react-native';
-import * as S from './PlanetPurchaseCheckModal.styles'; // 스타일 컴포넌트 임포트
-import { planetData } from '../../common/PlanetData';
+import { planetData } from '@/recoil/PlanetData';
 import SpinAnimation from '@/components/common/SpinAnimation';
+import { useRecoilValue } from 'recoil';
+import { selectedPlanetIndexState } from '@/recoil/EditRecoil';
 
 type ModalProps = {
-    purchaseModalVisible: boolean;
-    selectedPlanetIndex: number;
     handleConfirm: () => void;
     handleCancel: () => void;
+    purchaseModalVisible: boolean;
+    // selectedPlanetIndex: number;
 };
 
-function PlanetPurchaseCheckModal({ purchaseModalVisible, selectedPlanetIndex, handleConfirm, handleCancel }: ModalProps) {
+function PlanetPurchaseCheckModal({ purchaseModalVisible, handleConfirm, handleCancel }: ModalProps) {
+    const selectedPlanetIndex = useRecoilValue(selectedPlanetIndexState);
+
     return (
         <Modal
             transparent={true}

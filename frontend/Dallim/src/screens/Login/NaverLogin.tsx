@@ -3,6 +3,7 @@ import {View, ActivityIndicator} from 'react-native';
 import WebView from 'react-native-webview';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loading from '@/components/common/Loading';
 
 interface NaverLoginProps {
   navigation: any;
@@ -93,7 +94,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
   return (
     <View style={{flex: 1}}>
       {isLoading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <Loading />
       ) : (
         <WebView
           originWhitelist={['*']}

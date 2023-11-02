@@ -1,13 +1,18 @@
 package com.b208.dduishu.domain.follow.entity;
 
 import com.b208.dduishu.domain.user.entity.User;
-import lombok.Getter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Follow {
 
     @Id
@@ -24,4 +29,9 @@ public class Follow {
     private User toUser;
 
     private LocalDateTime createdAt;
+
+    @Enumerated(EnumType.STRING)
+    private FollowState state;
+
+
 }

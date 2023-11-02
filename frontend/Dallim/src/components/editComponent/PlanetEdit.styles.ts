@@ -73,6 +73,11 @@ export const ButtonBox = styled.TouchableOpacity`
   height: 50%;
 `;
 
+export const EquippedText = styled.Text`
+  font-size: 20px;
+  color: white;
+`;
+
 export const ButtonText = styled.Text`
   font-size: 15px;
   color: white;
@@ -91,8 +96,7 @@ export const LockButtonBox = styled.TouchableOpacity`
 `;
 
 export const LockedImage = styled.Image`
-  // 여기에 잠금 이미지 스타일링 코드를 추가하세요.
-  width: 30PX;
+  width: 30px;
   height: 30px;
 `;
 

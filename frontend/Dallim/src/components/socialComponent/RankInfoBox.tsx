@@ -1,43 +1,36 @@
-import React, { useState } from 'react';
 import * as S from './RankInfoBox.styles';
-import VersusModal from './socialModal/VersusModal';
 
-function RankInfoBox() {
-    const Rank = 1;
-    const Distance = 123;
-    const Nickname = "배고픈 하마";
-    const Level = 66;
+type RankInfoBoxProps = {
+    userId: number;
+    rank: number;
+    distance: number;
+    nickname: string;
+    cumulativeDistance: number;
+    level: number;
+    follower: boolean;
+    navigation: any;
+};
 
-    // Versus 모달
-    const [isVersusModalVisible, setVersusModalVisible] = useState(false);
+function RankInfoBox({ userId, rank, nickname, cumulativeDistance, level, follower, navigation }: RankInfoBoxProps) {
+
+    const displayDistance = Math.floor(cumulativeDistance);
 
     return (
         <S.Container>
-            <S.Box rank={Rank}>
+            <S.Box rank={rank}>
                 <S.Left>
-                    <S.RankText rank={Rank}>{Rank}</S.RankText>
+                    <S.RankText rank={rank}>{rank}</S.RankText>
                 </S.Left>
-                <S.Middle onPress={() => setVersusModalVisible(true)}>
+                <S.Middle onPress={() => navigation.navigate('UserDetailStack', { userId: userId })}>
                     <S.Header>
-                        <S.DistanceText>{Distance}m</S.DistanceText>
+                        <S.DistanceText>{displayDistance}m</S.DistanceText>
                     </S.Header>
                     <S.Body>
-                        <S.NickNameText>{Nickname}  </S.NickNameText>
-                        <S.LevelText>Lv. {Level}</S.LevelText>
+                        <S.NickNameText>{nickname}</S.NickNameText>
+                        <S.LevelText>Lv. {level}</S.LevelText>
                     </S.Body>
                 </S.Middle>
-                {/* <S.Right>
-                    <S.AddFriendButton onPress={() => {
-                        console.log("친구 추가 버튼 눌림확인");
-                    }}>
-                        <S.AddFriendImage source={require('../../assets/icons/AddFriendIcon.png')} />
-                    </S.AddFriendButton>
-                </S.Right> */}
             </S.Box>
-            <VersusModal
-                isVisible={isVersusModalVisible}
-                onClose={() => setVersusModalVisible(false)}
-            />
         </S.Container>
     );
 };

@@ -15,7 +15,14 @@ type RankingInfo = {
   follower: boolean
 };
 
-function SocialBody({ navigation, isFriend, onToggle }: any) {
+type SocialBodyProps = {
+  navigation: any;
+  isFriend: boolean;
+  onToggle: () => void;
+  onUpdateDateInfo: (month: number, week: number) => void;
+};
+
+function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: SocialBodyProps) {
 
   const animatedValue = useRef(new Animated.Value(0)).current;
 
@@ -38,6 +45,7 @@ function SocialBody({ navigation, isFriend, onToggle }: any) {
     try {
       const data = isFriend ? await fetchFriendRank() : await fetchAllRank();
       setRankingData(data.rankingInfos);
+      onUpdateDateInfo(data.month, data.week); // 상위로 쏴주기
     } catch (error) {
       console.error('API 호출 중 오류 발생:', error);
     }

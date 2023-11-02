@@ -5,18 +5,12 @@ import FriendListModal from './socialModal/FriendListModal';
 import QuestionIcon from '../../assets/icons/QuestionIcon.png';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
-function SocialHeader() {
+type SocialHeaderProps = {
+    month: number;
+    week: number;
+};
 
-    const NowDate = new Date();
-    const nowTimestamp = NowDate.getTime();
-    const DateYear = NowDate.getFullYear();
-    const startOfYear = new Date(NowDate.getFullYear(), 0, 1);
-    const startOfYearTimestamp = startOfYear.getTime();
-    const daysPassedSinceStartOfYear = Math.floor((nowTimestamp - startOfYearTimestamp) / (24 * 60 * 60 * 1000));
-    // 1월 1일이 속한 주를 첫째 주로 간주
-    const daysFromStartWeek = startOfYear.getDay(); // 0 (일요일) ~ 6 (토요일)
-    const adjustedDaysPassed = daysPassedSinceStartOfYear + daysFromStartWeek;
-    const DateWeek = Math.ceil(adjustedDaysPassed / 7);
+function SocialHeader({ month, week }: SocialHeaderProps) {
 
     const [showAlert, setShowAlert] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
@@ -25,7 +19,7 @@ function SocialHeader() {
         <S.Container>
             <S.Header>
                 <S.HeaderLeft>
-                    <S.DateText>{DateYear}년 {DateWeek}주차 랭킹</S.DateText>
+                    <S.DateText>{month}월 {week}주차 랭킹</S.DateText>
                 </S.HeaderLeft>
                 <S.HeaderRight>
                     <S.ManageButton onPress={() => setModalVisible(true)}>

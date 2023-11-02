@@ -43,6 +43,7 @@ function Profile({navigation}: ProfileProps) {
     nickname: '',
     level: 0,
     exp: 0,
+    evolutionStage: 0,
   });
 
   //useEffect---------------------------------
@@ -50,6 +51,7 @@ function Profile({navigation}: ProfileProps) {
     const fetchProfileData = async () => {
       try {
         const data = await fetchUserProfileCard();
+        console.log(data);
         setUserData(data);
       } catch (error) {
         console.error('데이터 불러오기 에러 :', error);
@@ -62,7 +64,7 @@ function Profile({navigation}: ProfileProps) {
   //dataCall ---------------------------------
   const selectedCharacter = characterData[userData.characterIndex];
   const selectedCharacterLevelData =
-    selectedCharacter.levels[userData.characterIndex];
+    selectedCharacter.levels[userData.evolutionStage];
 
   return (
     <S.Container>

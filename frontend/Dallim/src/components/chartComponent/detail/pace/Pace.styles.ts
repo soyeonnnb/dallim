@@ -8,6 +8,9 @@ export const Container = styled.View`
   width: ${SCREEN_WIDTH};
   justify-content: center;
   align-items: center;
-  background-color: yellow;
 `;
-export const Text = styled.Text``;
+export const Text = styled.Text`
+  font-size: 30px;
+  color: white;
+  margin-bottom: 20px;
+`;

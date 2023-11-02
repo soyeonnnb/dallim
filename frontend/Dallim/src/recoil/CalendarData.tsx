@@ -1,7 +1,19 @@
-// 현재 날짜를 가져오는 함수. %y-%m-%d 형식
-export const getCurrentDate = () => {
-  const now = new Date();
-  return [now.getFullYear(), now.getMonth() + 1, now.getDate()];
+export const getDateObject = (date: string) => {
+  // 날짜와 시간의 각 부분을 직접 자릅니다.
+  const year = Number(date.slice(0, 4));
+  const month = Number(date.slice(5, 7));
+  const day = Number(date.slice(8, 10));
+  const hour = Number(date.slice(11, 13));
+  const minute = Number(date.slice(14, 16));
+  const second = Number(date.slice(17, 19));
+  return {
+    year,
+    month,
+    day,
+    hour,
+    minute,
+    second,
+  };
 };
 
 // Calendar 라이브러리 Object 형식

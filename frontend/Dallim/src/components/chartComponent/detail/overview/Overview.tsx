@@ -1,17 +1,36 @@
-import * as S from './Overview.styles';
+import {useEffect, useState} from 'react';
 
-import RunningMateRecord from './OverviewRunningMateRecord';
-import OverviewGraph from './OverviewGraph';
+import * as S from './Overview.styles';
+import {colors} from '@/components/common/globalStyles';
 
 import ArrowRight from '@/assets/icons/ArrowRight';
-
-import {colors} from '@/components/common/globalStyles';
-import {useEffect, useState} from 'react';
 import Run1Icon from '@/assets/icons/Run1Icon';
 import Run2Icon from '@/assets/icons/Run2Icon';
 import Run3Icon from '@/assets/icons/Run3Icon';
 
-function Overview() {
+import {RecordDetail} from '@/apis/ChartApi';
+
+import RunningMateRecord from './OverviewRunningMateRecord';
+import OverviewGraph from './OverviewGraph';
+import {useSafeAreaFrame} from 'react-native-safe-area-context';
+
+interface Props {
+  data?: RecordDetail;
+}
+
+function Overview({data}: Props) {
+  const [timeline, setTimeLine] = useState<string>('00:00:00 - 00:00:00');
+  const [totalDistance, setTotalDistance] = useState<string>('5200m');
+  const [spendTime, setSpendTime] = useState<string>('00:00:00');
+  const [avgPace, setAvgPace] = useState<string>("22'22''");
+  const [maxPace, setMaxPace] = useState<string>("33'33''");
+  const [avgHeartRate, setAvgHeartRate] = useState<string>('99 BPM');
+  const [maxHeartRate, setMaxHeartRate] = useState<string>('140 BPM');
+  const [run1Distance, setRun1Distance] = useState<number>(1);
+  const [run2Distance, setRun2Distance] = useState<number>(2);
+  const [run3Distance, setRun3Distance] = useState<number>(3);
+
+  useEffect(() => {}, [data]);
   return (
     <S.Container>
       <S.ArrowContainer>
@@ -20,20 +39,20 @@ function Overview() {
       </S.ArrowContainer>
       <S.MainContent showsVerticalScrollIndicator={false}>
         <S.TitleContainer>
-          <S.Location>서울, 석촌호수</S.Location>
-          <S.FullTime>14:04:02 - 15:04:01</S.FullTime>
+          <S.Location>{data?.location}</S.Location>
+          <S.FullTime>{timeline}</S.FullTime>
         </S.TitleContainer>
         <S.Records>
           <S.RecordBox>
             <Record
               title="거리"
-              content="5.2 km"
+              content={totalDistance}
               titleColor="white"
               contentColor={colors.neon.yellow}
             />
             <Record
               title="시간"
-              content="00:00:00"
+              content={spendTime}
               titleColor="white"
               contentColor={colors.neon.skyBlue}
             />
@@ -41,13 +60,13 @@ function Overview() {
           <S.RecordBox>
             <Record
               title="평균 페이스"
-              content="22' 57''"
+              content={avgPace}
               titleColor="white"
               contentColor={colors.neon.green}
             />
             <Record
               title="최대 페이스"
-              content="22' 57''"
+              content={maxPace}
               titleColor="white"
               contentColor={colors.neon.pink}
             />
@@ -55,22 +74,30 @@ function Overview() {
           <S.RecordBox>
             <Record
               title="평균 심박수"
-              content="90 BPM"
+              content={avgHeartRate}
               titleColor="white"
               contentColor={colors.neon.purple}
             />
             <Record
               title="최대 심박수"
-              content="145 BPM"
+              content={maxHeartRate}
               titleColor="white"
               contentColor={colors.neon.red}
             />
           </S.RecordBox>
         </S.Records>
         <S.WalkRecords>
-          <WalkRecord type={1} record={243} color={colors.neon.yellow} />
-          <WalkRecord type={2} record={244} color={colors.neon.green} />
-          <WalkRecord type={3} record={245} color={colors.neon.red} />
+          <WalkRecord
+            type={1}
+            record={run1Distance}
+            color={colors.neon.yellow}
+          />
+          <WalkRecord
+            type={2}
+            record={run2Distance}
+            color={colors.neon.green}
+          />
+          <WalkRecord type={3} record={run3Distance} color={colors.neon.red} />
         </S.WalkRecords>
         <OverviewGraph title="페이스" />
         <OverviewGraph title="심박수" />
@@ -86,7 +113,7 @@ export default Overview;
 
 interface RecordProps {
   title: string;
-  content: string;
+  content?: string | number;
   titleColor: string;
   contentColor: string;
 }

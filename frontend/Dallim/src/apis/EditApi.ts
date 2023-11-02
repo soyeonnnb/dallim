@@ -30,7 +30,6 @@ export const fetchEditInfo = async () => {
       },
     });
     console.log('EditApi : 캐릭터 & 행성 조회 Axios 성공');
-    console.log('response : ', response.data.data);
     return response.data.data;
   } catch (error) {
     console.log('EditApi :  캐릭터 & 행성 조회 Axios 실패');
@@ -105,7 +104,7 @@ export const updateEquippedPlanet = async (planetIndex: number) => {
 export const updateEquippedCharacter = async (characterIndex: number) => {
   const accessToken = await getToken();
   try {
-    const response = await axios.patch( 
+    const response = await axios.patch(
       `${BASE_URL}/api/v1/character`,
       {characterIndex: characterIndex},
       {

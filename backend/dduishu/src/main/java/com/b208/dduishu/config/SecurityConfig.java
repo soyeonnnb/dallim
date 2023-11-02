@@ -9,7 +9,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.b208.dduishu.domain.user.service.UserService;
+import com.b208.dduishu.domain.user.service.UserSocialService;
 import com.b208.dduishu.util.OAuthAPI.handler.OAuthFailHandler;
 import com.b208.dduishu.util.OAuthAPI.handler.OAuthSuccessHandler;
 import com.b208.dduishu.util.OAuthAPI.service.PrincipalOauth2UserService;
@@ -28,13 +28,13 @@ import com.b208.dduishu.util.jwt.JwtUtil;
 // 이제는 상속받지 않고 사용함.
 public class SecurityConfig {
 
-    private UserService userService;
+    private UserSocialService userService;
     @Value("${jwt.secret}")
     private String secretKey;
     private PrincipalOauth2UserService principalOauth2UserService;
     private JwtUtil jwtUtil;
 
-    public SecurityConfig(UserService userService, PrincipalOauth2UserService principalOauth2UserService, JwtUtil jwtUtil) {
+    public SecurityConfig(UserSocialService userService, PrincipalOauth2UserService principalOauth2UserService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.principalOauth2UserService = principalOauth2UserService;
         this.jwtUtil = jwtUtil;

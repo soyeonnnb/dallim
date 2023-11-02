@@ -50,7 +50,7 @@ export const LeftBox = styled.View`
 `;
 
 export const NicknameText = styled.Text`
-  font-size: 25px;
+  font-size: 22px;
   color: white;
 `;
 

@@ -87,32 +87,13 @@ export const Body = styled.View`
 `;
 
 export const NickNameText = styled.Text`
-  font-size: 16px;
+  font-size: 20px;
+  font-weight: bold;
   color: black;
 `;
 
 export const LevelText = styled.Text`
   font-size: 10px;
-  color: #474A65;
-`;
-
-export const Right = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
-  width: 15%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const AddFriendButton = styled(TouchableOpacity)`
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const AddFriendImage = styled(Image)`
-  width: 50%;
-  height: 50%;
+  color: #474a65;
+  margin-left: 8px;
 `;

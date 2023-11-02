@@ -11,11 +11,11 @@ public class RiverData {
     @PrimaryKey(autoGenerate = true)
     public int id;
     @ColumnInfo(name = "distance")
-    public float distance;
+    public double distance;
     @ColumnInfo(name = "nickname")
     public String nickname;
     @ColumnInfo(name = "speed")
-    public float speed;
+    public double speed;
     @ColumnInfo(name = "time")
     public long time;
     @ColumnInfo(name = "date")

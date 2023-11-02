@@ -22,19 +22,21 @@ public class RunningData {
     @ColumnInfo(name = "formatted_date")
     private String formattedDate; // 변환된 날짜
     @ColumnInfo(name = "total_distance")
-    private float totalDistance; // 총 달린 거리
+    private double totalDistance; // 총 달린 거리
     @ColumnInfo(name = "total_time")
     private Long totalTime; // 총 시간
     @ColumnInfo(name = "character_id")
-    private int characterId; // 어떤 캐릭터인지
-    @ColumnInfo(name = "step_counter")
-    private float stepCounter; // 발걸음
+    private int characterId; // 어떤 캐릭터 pk인지
+    @ColumnInfo(name = "character_info_id")
+    private int characterInfoId; // 어떤 캐릭터인지
+    @ColumnInfo(name = "step_count")
+    private double stepCount; // 발걸음
     @ColumnInfo(name = "avgrage_pace")
-    private String averagePace; // 평균 페이스
+    private double averagePace; // 평균 페이스
     @ColumnInfo(name = "avgrage_speed")
-    private float averageSpeed; // 평균 속력
+    private double averageSpeed; // 평균 속력
     @ColumnInfo(name = "avgrage_heart_rate")
-    private float averageHeartRate; // 평균 심박수
+    private double averageHeartRate; // 평균 심박수
     @ColumnInfo(name = "type")
     private String type; // 혼자뛰었는지 같이 뛰었는지
     @ColumnInfo(name = "rival_record_id")
@@ -52,7 +54,8 @@ public class RunningData {
         dto.setTotalDistance(this.totalDistance);
         dto.setTotalTime(this.totalTime);
         dto.setCharacterId(this.characterId);
-        dto.setStepCounter(this.stepCounter);
+        dto.setCharacterInfoId(this.characterInfoId);
+        dto.setStepCount(this.stepCount);
         dto.setAverageHeartRate(this.averageHeartRate);
         dto.setType(this.type);
         dto.setRivalRecordId(this.rivalRecordId);
@@ -94,11 +97,11 @@ public class RunningData {
         this.formattedDate = formattedDate;
     }
 
-    public float getTotalDistance() {
+    public double getTotalDistance() {
         return totalDistance;
     }
 
-    public void setTotalDistance(float totalDistance) {
+    public void setTotalDistance(double totalDistance) {
         this.totalDistance = totalDistance;
     }
 
@@ -118,35 +121,35 @@ public class RunningData {
         this.characterId = characterId;
     }
 
-    public float getStepCounter() {
-        return stepCounter;
+    public double getStepCount() {
+        return stepCount;
     }
 
-    public void setStepCounter(float stepCounter) {
-        this.stepCounter = stepCounter;
+    public void setStepCount(double stepCount) {
+        this.stepCount = stepCount;
     }
 
-    public String getAveragePace() {
+    public double getAveragePace() {
         return averagePace;
     }
 
-    public void setAveragePace(String averagePace) {
+    public void setAveragePace(double averagePace) {
         this.averagePace = averagePace;
     }
 
-    public float getAverageSpeed() {
+    public double getAverageSpeed() {
         return averageSpeed;
     }
 
-    public void setAverageSpeed(float averageSpeed) {
+    public void setAverageSpeed(double averageSpeed) {
         this.averageSpeed = averageSpeed;
     }
 
-    public float getAverageHeartRate() {
+    public double getAverageHeartRate() {
         return averageHeartRate;
     }
 
-    public void setAverageHeartRate(float averageHeartRate) {
+    public void setAverageHeartRate(double averageHeartRate) {
         this.averageHeartRate = averageHeartRate;
     }
 
@@ -172,5 +175,13 @@ public class RunningData {
 
     public void setRunningRecordInfos(List<RunDetail> runningRecordInfos) {
         this.runningRecordInfos = runningRecordInfos;
+    }
+
+    public int getCharacterInfoId() {
+        return characterInfoId;
+    }
+
+    public void setCharacterInfoId(int characterInfoId) {
+        this.characterInfoId = characterInfoId;
     }
 }

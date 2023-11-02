@@ -79,7 +79,23 @@ export const RankInfoBox = styled.View`
   height: 85px;
 `;
 
+
+export const EmptyImage = styled.Image`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 300px;
+  margin-top: 30px;
+`;
+
+export const EmptyText = styled.Text`
+  font-size: 20px;
+  color: #8c8c8c;
+  text-align: center;
+`;
+
 export const LordingText = styled.Text`
   font-size: 20px;
   color: red;
 `;
+

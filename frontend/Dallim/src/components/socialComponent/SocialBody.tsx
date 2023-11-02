@@ -4,6 +4,7 @@ import * as S from './SocialBody.styles';
 import RankInfoBox from './RankInfoBox';
 import { fetchAllRank, fetchFriendRank } from '@/apis/SocialApi';
 import Loading from '@/components/common/Loading';
+import NoFriendImage from '@/assets/images/NoFriend.png';
 
 type RankingInfo = {
   rank: number;
@@ -14,7 +15,14 @@ type RankingInfo = {
   follower: boolean
 };
 
-function SocialBody({ navigation, isFriend, onToggle }: any) {
+type SocialBodyProps = {
+  navigation: any;
+  isFriend: boolean;
+  onToggle: () => void;
+  onUpdateDateInfo: (month: number, week: number) => void;
+};
+
+function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: SocialBodyProps) {
 
   const animatedValue = useRef(new Animated.Value(0)).current;
 
@@ -37,6 +45,7 @@ function SocialBody({ navigation, isFriend, onToggle }: any) {
     try {
       const data = isFriend ? await fetchFriendRank() : await fetchAllRank();
       setRankingData(data.rankingInfos);
+      onUpdateDateInfo(data.month, data.week); // 상위로 쏴주기
     } catch (error) {
       console.error('API 호출 중 오류 발생:', error);
     }
@@ -72,23 +81,26 @@ function SocialBody({ navigation, isFriend, onToggle }: any) {
               rankingData.map((info: RankingInfo, index) => (
                 <S.RankInfoBox key={info.userId.toString()}>
                   <RankInfoBox
+                    userId={info.userId}
                     rank={index + 1}
                     nickname={info.nickname}
                     cumulativeDistance={info.cumulativeDistance}
                     distance={info.cumulativeDistance}
                     level={info.level}
                     follower={info.follower}
-
                     navigation={navigation}
                   />
                 </S.RankInfoBox>
               ))
             ) : (
-              <S.LordingText>랭킹 데이터가 없습니다.</S.LordingText>
+              <>
+                <S.EmptyImage source={NoFriendImage} resizeMode="contain" />
+                <S.EmptyText style={{ marginRight: 10 }}>친구를 추가해주세요.</S.EmptyText>
+              </>
             )
           ) : (
+            // 로딩중
             <Loading />
-            // <S.LordingText>랭킹을 불러오는 중입니다...</S.LordingText>
           )}
         </ScrollView>
       </S.Body>

@@ -105,11 +105,13 @@ public class UserSocialService {
         User user = userRepository.findByUserId(id).orElseThrow(() -> {
             throw new NullPointerException();
         });
+        List<Planet> findPlanets = planetRepository.findAllByUserUserId(user.getUserId());
         List<RunningRecordOverview> findFollowRunningRecord = runningRecordService.getRunningRecordFor30Days("follow", id);
         BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(user.getUserLevel().getExp());
 
         return UserProfile.builder()
                 .user(user)
+                .planets(findPlanets)
                 .levelInfo(levelInfo)
                 .runningRecordOverviews(findFollowRunningRecord)
                 .build();

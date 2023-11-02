@@ -25,7 +25,7 @@ public class RunningRecord {
 
     @Id
     private ObjectId id;
-//    private String location;
+    private String location;
     private UserInfo user;
     private CharacterRecordInfo character;
     private RunningType type;
@@ -33,8 +33,8 @@ public class RunningRecord {
     private List<RunningRecordOverallInfo> runningRecordInfos;
 
     private List<Integer> secondPerSpeed;
-//    private HeartRateInfo heartRate;
-//    private PaceInfo pace;
+    private HeartRateInfo heartRate;
+    private PaceInfo pace;
 
     private double stepCount;
     private double averagePace;
@@ -46,8 +46,12 @@ public class RunningRecord {
     private String formattedDate;
 
     @Builder
-    public RunningRecord(UserInfo user, CharacterRecordInfo character, Date createdAt, double stepCount, double averagePace, double averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed) {
+    public RunningRecord(UserInfo user, String location, List<Integer> secondPerSpeed, HeartRateInfo heartRate, PaceInfo pace, CharacterRecordInfo character, Date createdAt, double stepCount, double averagePace, double averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed) {
         this.user = user;
+        this.location = location;
+        this.secondPerSpeed = secondPerSpeed;
+        this.pace = pace;
+        this.heartRate = heartRate;
         this.character = character;
         this.type = type;
         this.rivalRecord = rivalRecord;

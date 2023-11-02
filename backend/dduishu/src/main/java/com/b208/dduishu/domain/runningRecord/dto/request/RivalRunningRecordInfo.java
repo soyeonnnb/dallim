@@ -1,6 +1,7 @@
 package com.b208.dduishu.domain.runningRecord.dto.request;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
+import com.b208.dduishu.domain.runningRecord.document.PaceInfo;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.document.RunningType;
 import com.b208.dduishu.domain.runningRecord.dto.CharacterRecordInfo;
@@ -19,7 +20,8 @@ import java.util.List;
 public class RivalRunningRecordInfo {
 
     private String id;
-    //private String location;//
+    private String location;
+    private PaceInfo pace;
     private UserInfo user;
     private CharacterRecordInfo character;
     private RunningType type;
@@ -33,6 +35,8 @@ public class RivalRunningRecordInfo {
     public RivalRunningRecordInfo(RunningRecord runningRecord) {
         this.id = runningRecord.getId().toString();
         this.user = runningRecord.getUser();
+        this.location = "서울, 석촌호수";
+        this.pace = runningRecord.getPace();
         this.character = runningRecord.getCharacter();
         this.type = runningRecord.getType();
         this.runningRecordInfos = runningRecord.getRunningRecordInfos();

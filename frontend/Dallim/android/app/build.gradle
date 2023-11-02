@@ -101,11 +101,21 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+
+compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        viewBinding true
+    }
+
 }
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+implementation 'androidx.recyclerview:recyclerview:1.3.2'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
@@ -118,7 +128,7 @@ dependencies {
     } else {
         implementation jscFlavor
     }
-    
+
     //GIF를 위해서
     // If your app supports Android versions before Ice Cream Sandwich (API level 14)
     implementation 'com.facebook.fresco:animated-base-support:1.3.0'

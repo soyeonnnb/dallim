@@ -4,16 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="58dp">
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="116dp"
-        android:layout_height="71dp"
-        android:text="다른 페이지"
+        android:id="@+id/btn_start"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="130dp"
+        android:layout_marginBottom="40dp"
+        android:alpha="0.6"
+        android:background="@drawable/round_check_btn"
+        android:backgroundTint="@color/black"
+        android:text="입장하기"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="296dp"
+        android:layout_height="271dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="24dp"
+        android:src="@drawable/ic_launcher_round"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintVertical_bias="0.49" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

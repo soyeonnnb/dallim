@@ -89,7 +89,7 @@ android {
             keyPassword 'android'
         }
     }
-    buildTypes {
+    buildTypes { 
         debug {
             signingConfig signingConfigs.debug
         }
@@ -101,11 +101,21 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+
+compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildFeatures {
+        viewBinding true
+    }
+
 }
 
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
+implementation 'androidx.recyclerview:recyclerview:1.3.2'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")
     debugImplementation("com.facebook.flipper:flipper-network-plugin:${FLIPPER_VERSION}") {
@@ -118,6 +128,20 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+    //GIF를 위해서
+    // If your app supports Android versions before Ice Cream Sandwich (API level 14)
+    implementation 'com.facebook.fresco:animated-base-support:1.3.0'
+
+    // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:2.5.0'
+
+    // For WebP support, including animated WebP
+    implementation 'com.facebook.fresco:animated-webp:2.5.0'
+    implementation 'com.facebook.fresco:webpsupport:2.5.0'
+
+    // For WebP support, without animations
+    implementation 'com.facebook.fresco:webpsupport:2.5.0'
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

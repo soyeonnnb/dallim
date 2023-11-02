@@ -5,7 +5,12 @@ plugins {
 
 android {
     namespace = "com.runapp"
-    compileSdk = 33
+    compileSdk = 34
+
+    buildFeatures{
+        viewBinding = true
+        dataBinding = true
+    }
 
     defaultConfig {
         applicationId = "com.runapp"
@@ -19,6 +24,15 @@ android {
 
     }
 
+    signingConfigs {
+        create("ssafy") {
+            storeFile = file("ssafy.jks")
+            storePassword = "ssafy1234"
+            keyAlias = "ssafy"
+            keyPassword = "ssafy1234"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -27,13 +41,20 @@ android {
                 "proguard-rules.pro"
             )
         }
+        getByName("debug"){
+            isMinifyEnabled = false
+            isDebuggable = true
+            signingConfig = signingConfigs.getByName("ssafy")
+            manifestPlaceholders["enableCrashlytics"] = "false"
+            extra.set("alwaysUpdateBuildId", false)
+        }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
         compose = true
@@ -49,21 +70,59 @@ android {
 }
 
 dependencies {
-
-    implementation("androidx.core:core-ktx:1.9.0")
+    // android
+    implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation("androidx.fragment:fragment:1.4.0")
+    implementation("androidx.preference:preference-ktx:1.2.1")
+    // wear-os
+    implementation("androidx.wear:wear:1.3.0")
     implementation("com.google.android.gms:play-services-wearable:18.1.0")
     implementation("androidx.percentlayout:percentlayout:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.recyclerview:recyclerview:1.3.1")
-    implementation(platform("androidx.compose:compose-bom:2023.03.00"))
+    // compose
+    implementation("androidx.compose:compose-bom:2023.01.00")
     implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.wear.compose:compose-material:1.0.0")
-    implementation("androidx.wear.compose:compose-foundation:1.0.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation("androidx.compose.ui:ui-tooling:1.5.3")
+    implementation("androidx.wear.compose:compose-material:1.2.0")
+    implementation("androidx.wear.compose:compose-foundation:1.2.0")
+    implementation("androidx.wear.compose:compose-navigation:1.2.0")
     implementation("androidx.activity:activity-compose:1.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    // viewPager2
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
+
+    // 진행중인 사항을 사용자에게 보여줌
+    implementation("androidx.wear:wear-ongoing:1.0.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("com.google.android.material:material:1.10.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
+    // 이미지 라이브러리
+    implementation("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.12.0")
+    // 원형 이미지뷰 라이브러리
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+
+    // room
+    implementation("androidx.room:room-runtime:2.5.0")
+    annotationProcessor("androidx.room:room-compiler:2.5.0")
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel:2.4.0") // ViewModel 의존성
+    implementation ("androidx.lifecycle:lifecycle-livedata:2.4.0") // LiveData 의존성
+    implementation ("androidx.lifecycle:lifecycle-runtime:2.4.0") // Lifecycle-runtime 의존성
+
+    implementation("com.google.android.gms:play-services-fitness:21.1.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
+    // GSON
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+
+
+
 }

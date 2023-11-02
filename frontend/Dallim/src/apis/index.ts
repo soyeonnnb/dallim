@@ -1,77 +1,83 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export * from './Example';
-export * from './ChartApi';
-export * from './EditApi';
-export * from './LoginApi';
-export * from './MainApi';
-export * from './ProfileApi';
-export * from './SocialApi';
+// export * from './Example';
+// export * from './LoginApi';
+// export * from './ChartApi';
+// export * from './EditApi';
+// export * from './MainApi';
+// export * from './ProfileApi';
+// export * from './SocialApi';
 
-const BASE_URL = 'https://j9b203.p.ssafy.io';
+const BASE_URL = 'https://k9b208.p.ssafy.io';
 
 const privateApi = axios.create({
   baseURL: BASE_URL,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// 리프레시 토큰을 요청하는 함수
-const postRefreshToken = async () => {
-  try {
-    const refreshToken = await AsyncStorage.getItem('refreshToken');
-    const response = await privateApi.post('/api/token/refresh', {
-      refreshToken,
-    });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+// 요청 인터셉터: 요청이 서버로 전송되기 전에 실행
+privateApi.interceptors.request.use(
+  async config => {
+    const token = await AsyncStorage.getItem('accessToken');
+    console.log('token' + token);
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  error => Promise.reject(error),
+);
 
-// Axios 인스턴스에 인터셉터 추가
+// 응답 인터셉터: 응답을 받은 후 실행
 privateApi.interceptors.response.use(
-  response => {
-    // console.log("response");
-    // 정상 응답일 경우 바로 반환
+  async response => {
     return response;
   },
-
-  // async error => {
-  //   const {config} = error;
-  //   if (error.response.status === 401) {
-  //     const originRequest = config;
-  //     try {
-  //       const response = await postRefreshToken();
-  //       const newAccessToken = response.headers['authorization'];
-  //       console.log(newAccessToken, 'newAccessToken');
-
-  //       // AsyncStorage를 사용하여 액세스 토큰 및 리프레시 토큰 저장
-  //       await AsyncStorage.setItem('accessToken', newAccessToken);
-  //       await AsyncStorage.setItem(
-  //         'refreshToken',
-  //         response.headers['authorization-refresh'],
-  //       );
-
-  //       // Axios의 기본 헤더에 액세스 토큰 설정
-  //       axios.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
-  //       originRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-  //       console.log('토큰 재발급 완료');
-
-  //       // 수정된 originRequest로 Axios 요청 재시도
-  //       return axios(originRequest);
-  //     } catch {
-  //       console.log('catch 에러');
-
-  //       // AsyncStorage에서 토큰 제거
-  //       await AsyncStorage.removeItem('accessToken');
-  //       await AsyncStorage.removeItem('refreshToken');
-  //     }
-  //   }
-  //   return Promise.reject(error);
-  // },
+  async error => {
+    if (error.response && error.response.status === 401) {
+      try {
+        const newToken = error.response.data.accessToken;
+        await AsyncStorage.setItem('accessToken', newToken);
+        error.config.headers['Authorization'] = `Bearer ${newToken}`;
+        return await privateApi.request(error.config);
+      } catch (refreshError) {
+        throw refreshError;
+      }
+    }
+    return Promise.reject(error);
+  },
 );
 
 export {privateApi};
+
+// // 시환이꺼 토큰 (임시)
+// privateApi.interceptors.request.use(
+//   async config => {
+//     // 토큰을 받아오는 로직을 변경합니다.
+//     let token;
+//     try {
+//       const response = await axios.post(`${BASE_URL}/api/v1/user/token`, {
+//         email: 'pum001@naver.com',
+//       });
+//       if (response.data.status === 'success') {
+//         token = response.data.data;
+//       }
+//     } catch (error) {
+//       console.error('Error fetching the token:', error);
+//     }
+
+// AsyncStorage 데이터 확인
+// const retrieveStoredData = async () => {
+//   try {
+//     const accessToken = await AsyncStorage.getItem('accessToken');
+//     const id = await AsyncStorage.getItem('userId');
+
+//     console.log('Stored Access Token:', accessToken);
+//   } catch (error) {
+//     console.error('Error retrieving data from AsyncStorage:', error);
+//   }
+// };

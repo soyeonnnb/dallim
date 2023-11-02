@@ -27,7 +27,7 @@ public class RunningRecordInfo {
     private double totalDistance;
     private double averageSpeed;
     private double averageHeartRate;
-    private String averagePace;
+    private double averagePace;
     private double stepCount;
     //러닝 데이터 받아오기
     // 운동일시, 총 시간, 평균 속력, 이동 거리, 평균 심박수

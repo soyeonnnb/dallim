@@ -19,6 +19,7 @@ import java.util.List;
 public class RivalRunningRecordInfo {
 
     private String id;
+    //private String location;//
     private UserInfo user;
     private CharacterRecordInfo character;
     private RunningType type;

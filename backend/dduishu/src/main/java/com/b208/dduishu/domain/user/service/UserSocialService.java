@@ -8,6 +8,7 @@ import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.follow.entity.FollowState;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
+import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
 import com.b208.dduishu.domain.planet.dto.response.PlanetOverview;
 import com.b208.dduishu.domain.planet.entity.Planet;
@@ -89,12 +90,17 @@ public class UserSocialService {
 
     public UserProfile getMyProfile() {
         User user = getUser.getUser();
-        List<RunningRecordOverview> findFollowRunningRecord = runningRecordService.getRunningRecordFor30Days("me", user.getUserId());
+        Character mainCharacter = user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
+        List<SocialRunningRecordOverview> findFollowRunningRecord = runningRecordService.getRunningRecordFor30Days("me", user.getUserId());
         BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(user.getUserLevel().getExp());
         List<Planet> findPlanets = planetRepository.findAllByUserUserId(user.getUserId());
 
         return UserProfile.builder()
                 .user(user)
+                .character(mainCharacter)
                 .planets(findPlanets)
                 .levelInfo(levelInfo)
                 .runningRecordOverviews(findFollowRunningRecord)
@@ -105,12 +111,17 @@ public class UserSocialService {
         User user = userRepository.findByUserId(id).orElseThrow(() -> {
             throw new NullPointerException();
         });
+        Character mainCharacter = user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
         List<Planet> findPlanets = planetRepository.findAllByUserUserId(user.getUserId());
-        List<RunningRecordOverview> findFollowRunningRecord = runningRecordService.getRunningRecordFor30Days("follow", id);
+        List<SocialRunningRecordOverview> findFollowRunningRecord = runningRecordService.getRunningRecordFor30Days("follow", id);
         BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(user.getUserLevel().getExp());
 
         return UserProfile.builder()
                 .user(user)
+                .character(mainCharacter)
                 .planets(findPlanets)
                 .levelInfo(levelInfo)
                 .runningRecordOverviews(findFollowRunningRecord)

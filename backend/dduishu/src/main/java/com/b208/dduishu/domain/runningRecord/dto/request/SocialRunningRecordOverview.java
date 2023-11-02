@@ -11,8 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class RunningRecordOverview {
-
+public class SocialRunningRecordOverview {
     // 위치 정보
     private String id;
     private String location;
@@ -21,8 +20,9 @@ public class RunningRecordOverview {
     private double totalDistance;
     private double averageSpeed;
     private LocalDateTime createdAt;
+    private boolean isRegistration;
 
-    public RunningRecordOverview(RunningRecord runningRecord) {
+    public SocialRunningRecordOverview(RunningRecord runningRecord, List<RunningMate> runningMates) {
         this.id = runningRecord.getId().toString();
         this.location = "서울, 석촌호수";
         this.type = runningRecord.getType();
@@ -30,5 +30,7 @@ public class RunningRecordOverview {
         this.totalDistance = runningRecord.getTotalDistance();
         this.averageSpeed = runningRecord.getAverageSpeed();
         this.createdAt = runningRecord.getCreatedAt();
+        this.isRegistration = runningMates.stream()
+                .anyMatch(o -> o.getRivalRecord().getId().equals(runningRecord.getId().toString()));
     }
 }

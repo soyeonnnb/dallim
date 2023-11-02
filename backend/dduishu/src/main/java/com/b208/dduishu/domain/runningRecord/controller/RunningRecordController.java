@@ -3,6 +3,7 @@ package com.b208.dduishu.domain.runningRecord.controller;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDetail;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
+import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
 import com.b208.dduishu.domain.runningRecord.service.RunningRecordService;
 import com.b208.dduishu.util.response.ApiResponse;
@@ -84,7 +85,7 @@ public class RunningRecordController {
     @GetMapping("/api/v1/running/recent")
     public ApiResponse<?> getTop10RecentRunningRecord(@RequestParam String type, @RequestParam Long userId) {
         try {
-            List<RunningRecordOverview> res =  runningRecordService.getTop10RecentRunningRecord(type, userId);
+            List<SocialRunningRecordOverview> res =  runningRecordService.getTop10RecentRunningRecord(type, userId);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -95,7 +96,7 @@ public class RunningRecordController {
     @GetMapping("/api/v1/running/time")
     public ApiResponse<?> getTop10TimeRunningRecord(@RequestParam String type, @RequestParam Long userId) {
         try {
-            List<RunningRecordOverview> res =  runningRecordService.getTop10TimeRunningRecord(type, userId);
+            List<SocialRunningRecordOverview> res =  runningRecordService.getTop10TimeRunningRecord(type, userId);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -106,7 +107,7 @@ public class RunningRecordController {
     @GetMapping("/api/v1/running/distance")
     public ApiResponse<?> getTop10DistanceRunningRecord(@RequestParam String type, @RequestParam Long userId) {
         try {
-            List<RunningRecordOverview> res =  runningRecordService.getTop10DistanceRunningRecord(type, userId);
+            List<SocialRunningRecordOverview> res =  runningRecordService.getTop10DistanceRunningRecord(type, userId);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
@@ -117,7 +118,7 @@ public class RunningRecordController {
     @GetMapping("/api/v1/running/speed")
     public ApiResponse<?> getTop10SpeedRunningRecord(@RequestParam String type, @RequestParam Long userId) {
         try {
-            List<RunningRecordOverview> res =  runningRecordService.getTop10SpeedRunningRecord(type, userId);
+            List<SocialRunningRecordOverview> res =  runningRecordService.getTop10SpeedRunningRecord(type, userId);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {

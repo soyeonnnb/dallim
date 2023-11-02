@@ -10,6 +10,7 @@ import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDetail;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
+import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
 import com.b208.dduishu.domain.runningRecord.exception.RunningRecordNotFoundException;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
@@ -227,7 +228,7 @@ public class RunningRecordService {
     }
 
 
-    public List<RunningRecordOverview> getRunningRecordFor30Days(String type, Long userId) {
+    public List<SocialRunningRecordOverview> getRunningRecordFor30Days(String type, Long userId) {
 
         User user = getUser.getUser();
 
@@ -243,11 +244,11 @@ public class RunningRecordService {
         List<RunningMate> findRunningMates = runningMateRepository.findAllByUserUserId(user.getUserId());
 
         return res.stream()
-                .map(o -> new RunningRecordOverview(o, findRunningMates))
+                .map(o -> new SocialRunningRecordOverview(o, findRunningMates))
                 .collect(toList());
     }
 
-    public List<RunningRecordOverview> getTop10RecentRunningRecord(String type, Long userId) {
+    public List<SocialRunningRecordOverview> getTop10RecentRunningRecord(String type, Long userId) {
 
         User user = getUser.getUser();
         List<RunningRecord> res;
@@ -260,11 +261,11 @@ public class RunningRecordService {
         List<RunningMate> findRunningMates = runningMateRepository.findAllByUserUserId(user.getUserId());
 
         return res.stream()
-                .map(o -> new RunningRecordOverview(o, findRunningMates))
+                .map(o -> new SocialRunningRecordOverview(o, findRunningMates))
                 .collect(toList());
     }
 
-    public List<RunningRecordOverview> getTop10TimeRunningRecord(String type, Long userId) {
+    public List<SocialRunningRecordOverview> getTop10TimeRunningRecord(String type, Long userId) {
         User user = getUser.getUser();
 
         List<RunningRecord> res;
@@ -277,11 +278,11 @@ public class RunningRecordService {
         List<RunningMate> findRunningMates = runningMateRepository.findAllByUserUserId(user.getUserId());
 
         return res.stream()
-                .map(o -> new RunningRecordOverview(o, findRunningMates))
+                .map(o -> new SocialRunningRecordOverview(o, findRunningMates))
                 .collect(toList());
     }
 
-    public List<RunningRecordOverview> getTop10DistanceRunningRecord(String type, Long userId) {
+    public List<SocialRunningRecordOverview> getTop10DistanceRunningRecord(String type, Long userId) {
         User user = getUser.getUser();
 
         List<RunningRecord> res;
@@ -294,11 +295,11 @@ public class RunningRecordService {
         List<RunningMate> findRunningMates = runningMateRepository.findAllByUserUserId(user.getUserId());
 
         return res.stream()
-                .map(o -> new RunningRecordOverview(o, findRunningMates))
+                .map(o -> new SocialRunningRecordOverview(o, findRunningMates))
                 .collect(toList());
     }
 
-    public List<RunningRecordOverview> getTop10SpeedRunningRecord(String type, Long userId) {
+    public List<SocialRunningRecordOverview> getTop10SpeedRunningRecord(String type, Long userId) {
         User user = getUser.getUser();
 
         List<RunningRecord> res;
@@ -311,7 +312,7 @@ public class RunningRecordService {
         List<RunningMate> findRunningMates = runningMateRepository.findAllByUserUserId(user.getUserId());
 
         return res.stream()
-                .map(o -> new RunningRecordOverview(o, findRunningMates))
+                .map(o -> new SocialRunningRecordOverview(o, findRunningMates))
                 .collect(toList());
     }
 

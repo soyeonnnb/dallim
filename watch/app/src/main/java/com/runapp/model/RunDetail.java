@@ -3,7 +3,7 @@ package com.runapp.model;
 public class RunDetail {
     private Long second;   // 해당 기록이 기록된 시간
     private double speed; // 속도(m/s)
-    private String pace; // 페이스(m/k)
+    private double pace; // 페이스(m/k)
     private double distance; // 거리(m)
     private double heartRate; // 심박수
     private String state; // 상태
@@ -26,11 +26,11 @@ public class RunDetail {
         this.speed = speed;
     }
 
-    public String getPace() {
+    public double getPace() {
         return pace;
     }
 
-    public void setPace(String pace) {
+    public void setPace(double pace) {
         this.pace = pace;
     }
 

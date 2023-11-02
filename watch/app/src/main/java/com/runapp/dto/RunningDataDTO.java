@@ -12,8 +12,8 @@ public class RunningDataDTO {
     private Long totalTime;
     private int characterId;
     private int characterInfoId;
-    private double StepCount;
-    private String averagePace;
+    private double stepCount;
+    private double averagePace;
     private double averageSpeed;
     private double averageHeartRate;
     private String type;
@@ -24,14 +24,14 @@ public class RunningDataDTO {
     public RunningDataDTO() {}
 
     // 모든 필드를 파라미터로 가지는 생성자 (선택적 사용)
-    public RunningDataDTO(Long userId, Long date, String formattedDate, double totalDistance, Long totalTime, int characterId, double StepCount, String averagePace, double averageSpeed, double averageHeartRate, String type, Long rivalRecordId, List<RunDetail> runningRecordInfos, int characterInfoId) {
+    public RunningDataDTO(Long userId, Long date, String formattedDate, double totalDistance, Long totalTime, int characterId, double stepCount, double averagePace, double averageSpeed, double averageHeartRate, String type, Long rivalRecordId, List<RunDetail> runningRecordInfos, int characterInfoId) {
         this.userId = userId;
         this.date = date;
         this.formattedDate = formattedDate;
         this.totalDistance = totalDistance;
         this.totalTime = totalTime;
         this.characterId = characterId;
-        this.StepCount = StepCount;
+        this.stepCount = stepCount;
         this.averagePace = averagePace;
         this.averageSpeed = averageSpeed;
         this.averageHeartRate = averageHeartRate;
@@ -93,18 +93,18 @@ public class RunningDataDTO {
     }
 
     public double getStepCount() {
-        return StepCount;
+        return stepCount;
     }
 
-    public void setStepCount(double StepCount) {
-        this.StepCount = StepCount;
+    public void setStepCount(double stepCount) {
+        this.stepCount = stepCount;
     }
 
-    public String getAveragePace() {
+    public double getAveragePace() {
         return averagePace;
     }
 
-    public void setAveragePace(String averagePace) {
+    public void setAveragePace(double averagePace) {
         this.averagePace = averagePace;
     }
 
@@ -166,7 +166,7 @@ public class RunningDataDTO {
                 ", totalTime=" + totalTime +
                 ", characterId=" + characterId +
                 ", characterInfoId=" + characterInfoId +
-                ", StepCount=" + StepCount +
+                ", stepCount=" + stepCount +
                 ", averagePace='" + averagePace + '\'' +
                 ", averageSpeed=" + averageSpeed +
                 ", averageHeartRate=" + averageHeartRate +

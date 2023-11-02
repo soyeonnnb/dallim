@@ -72,11 +72,11 @@ public class RunningActivity extends AppCompatActivity {
         wakeLock.acquire();
 
         runningData = new RunningData();
-        runningData.setUserId(1L);
+        runningData.setUserId(6L);
         runningData.setDate(new Date());
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
         runningData.setCharacterId(1);
-        runningData.setAveragePace("0'00''");
+        runningData.setAveragePace(0f);
         runningData.setAverageSpeed(0f);
         runningData.setAverageHeartRate(0f);
         runningData.setCharacterInfoId(1);
@@ -136,8 +136,8 @@ public class RunningActivity extends AppCompatActivity {
             distance = runningViewModel.getDistance().getValue();
             detail.setDistance(Math.round(distance * 100) / 100.0);
         }
-        if (runningViewModel.getMsPace().getValue() != null) {
-            detail.setPace(runningViewModel.getMsPace().getValue().toString());
+        if (runningViewModel.getMsPaceToSecond().getValue() != null) {
+            detail.setPace(runningViewModel.getMsPaceToSecond().getValue());
         }
         if (runningViewModel.getMsSpeed().getValue() != null) {
             double speed = runningViewModel.getMsSpeed().getValue();
@@ -165,6 +165,7 @@ public class RunningActivity extends AppCompatActivity {
         }
 
         runDetailsList.add(detail);
+
         if(runningViewModel.getMsSpeed().getValue() != 0){
             speedCountTime ++;
             totalSpeed += runningViewModel.getMsSpeed().getValue();
@@ -212,7 +213,7 @@ public class RunningActivity extends AppCompatActivity {
         Map<String, Integer> result = conversion.msToPace((totalSpeed / speedCountTime));
         int minute = result.get("minutes");
         int second = result.get("seconds");
-        runningData.setAveragePace(String.format(Locale.getDefault(), "%d'%02d''", minute, second));
+        runningData.setAveragePace((60 * minute) + second);
 
         // 최종 시간 업데이트
         runningData.setTotalTime(totalTime - 1);

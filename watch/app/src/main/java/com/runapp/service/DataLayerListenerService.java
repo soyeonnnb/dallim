@@ -13,9 +13,10 @@ public class DataLayerListenerService extends WearableListenerService {
     public void onDataChanged(DataEventBuffer dataEvents) {
         System.out.println("데이터 변경됨");
         for (DataEvent event : dataEvents) {
+            System.out.println("들어와라");
             if (event.getType() == DataEvent.TYPE_CHANGED) {
                 DataItem item = event.getDataItem();
-                if ("/data_path".equals(item.getUri().getPath())) {
+                if ("/temp".equals(item.getUri().getPath())) {
                     DataMap dataMap = DataMapItem.fromDataItem(item).getDataMap();
                     String receivedData = dataMap.getString("data_key");
                     System.out.println(receivedData);

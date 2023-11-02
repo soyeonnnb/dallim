@@ -99,9 +99,7 @@ public class LocationService extends Service {
         if (lastLocation != null) {
             double distance = lastLocation.distanceTo(location);
             totalDistance += distance;
-            Log.d("임시2", String.valueOf(totalDistance));
             runningViewModel.setDistance(Math.round((totalDistance / 1000) * 100) / 100.0);
-            Log.d("임시3", String.valueOf(runningViewModel.getDistance().getValue()));
 
             double latitude = location.getLatitude(); // 위도
             double longitude = location.getLongitude(); // 경도
@@ -115,6 +113,7 @@ public class LocationService extends Service {
                 Map<String, Integer> result = conversion.msToPace(speed);
                 Integer minutes = result.get("minutes");
                 Integer seconds = result.get("seconds");
+                runningViewModel.setMsPaceToSecond((minutes * 60) + seconds);
                 String format = String.format("%d'%02d''", minutes, seconds);
                 runningViewModel.setMsPace(format);
             }

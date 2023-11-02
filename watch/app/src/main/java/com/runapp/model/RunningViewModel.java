@@ -15,6 +15,7 @@ public class RunningViewModel extends ViewModel {
     private final MutableLiveData<Double> StepCount = new MutableLiveData<>();
     private final MutableLiveData<Double> latitude = new MutableLiveData<>();
     private final MutableLiveData<Double> longitude = new MutableLiveData<>();
+    private final MutableLiveData<Double> msPaceToSecond = new MutableLiveData<>();
     private MutableLiveData<RunningData> runningData = new MutableLiveData<>();
 
     public MutableLiveData<RunningData> getRunningData() {
@@ -77,6 +78,11 @@ public class RunningViewModel extends ViewModel {
 
     public MutableLiveData<Double> getLongitude() {
         return longitude;
+    }
+
+    public MutableLiveData<Double> getMsPaceToSecond() { return msPaceToSecond; }
+    public void setMsPaceToSecond(double second){
+        this.msPaceToSecond.setValue(second);
     }
     public void setLatitude(double latitude){
         this.latitude.setValue(latitude);

@@ -80,8 +80,8 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
     // Versus 모달
     const [isVersusModalVisible, setVersusModalVisible] = useState(false);
 
-    // 주어진 idToUpdate와 일치하는 러닝 레코드의 등록 상태를 업데이트하는 함수
     // 런닝메이트 등록시 발생
+    // 주어진 idToUpdate와 일치하는 러닝 레코드의 등록 상태를 업데이트하는 함수
     const handleUpdateRegistration = (idToUpdate: string) => {
         // runningRecords 배열을 순환하면서 id가 idToUpdate와 일치하는 레코드를 찾기
         const updatedRecords = runningRecords.map(record => {

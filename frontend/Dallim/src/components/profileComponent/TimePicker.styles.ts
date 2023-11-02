@@ -44,6 +44,16 @@ export const HeaderMiddle = styled.View`
   height: 100%;
 `;
 
+export const FullClock = styled.View`
+  border-width: 1px;
+  border-color: antiquewhite;
+  flex-direction: row;
+  justify-content: center;
+  align-items: end;
+  width: 60%;
+  height: 100%;
+`;
+
 export const ClockImg = styled.ImageBackground`
   width: 100%;
   height: 100%;

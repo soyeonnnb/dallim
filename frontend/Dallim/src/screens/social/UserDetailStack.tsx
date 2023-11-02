@@ -19,7 +19,7 @@ interface UserDetailStackProps {
 }
 
 interface RunningRecord {
-    id: number;
+    id: string;
     userId: number;
     location: string;
     createdAt: string;
@@ -80,6 +80,30 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
     // Versus 모달
     const [isVersusModalVisible, setVersusModalVisible] = useState(false);
 
+    // 주어진 idToUpdate와 일치하는 러닝 레코드의 등록 상태를 업데이트하는 함수
+    // 런닝메이트 등록시 발생
+    const handleUpdateRegistration = (idToUpdate: string) => {
+        // runningRecords 배열을 순환하면서 id가 idToUpdate와 일치하는 레코드를 찾기
+        const updatedRecords = runningRecords.map(record => {
+            if (record.id === idToUpdate) {
+                // 일치하는 레코드의 registration 속성을 true로 업데이트
+                return { ...record, registration: true };
+            }
+            return record;
+        });
+        if (userDetails) {
+            // userDetails가 null이 아닌 경우에만 다음 작업을 수행
+            // userDetails를 복사하여 새로운 변수 updatedUserDetails를 생성
+            const updatedUserDetails: UserDetails = {
+                ...userDetails,
+                // updatedUserDetails의 runningRecordOverviews 속성을 업데이트된 updatedRecords 배열로 설정
+                runningRecordOverviews: updatedRecords,
+            };
+            // 사용자 정보 업데이트
+            setUserDetails(updatedUserDetails);
+        }
+    };
+
     return (
         <S.Container>
             <S.BackgroundImage source={require('@/assets/images/MainBackground4.png')}
@@ -129,10 +153,10 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
                         </S.SortBox>
                     </S.FooterTop>
                     <S.FooterList>
-                        <ScrollView>
+                        <ScrollView >
                             {runningRecords.map((record: RunningRecord, index: number) => (
                                 <S.RunBox key={record.id}>
-                                    <RunningDataBox {...record} />
+                                    <RunningDataBox {...record} id={record.id} onUpdateRegistration={handleUpdateRegistration} />
                                 </S.RunBox>
                             ))}
                         </ScrollView>

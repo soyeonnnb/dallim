@@ -78,3 +78,30 @@ export const fetchUserRecord = async (userId: number) => {
     throw error;
   }
 };
+
+// 런닝 메이트 등록
+export const postRecordSave = async (id: string) => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/v1/running-mate`,
+      {
+        objectId: id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+
+    if (response.data.status === 'success' && response.data.data === true) {
+      console.log('SocialApi : 런닝메이트 등록 성공');
+    } else {
+      console.log('SocialApi : 런닝메이트 등록 실패');
+    }
+  } catch (error) {
+    console.error('런닝메이트 등록 오류', error);
+    throw error;
+  }
+};

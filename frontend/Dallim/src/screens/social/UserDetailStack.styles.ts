@@ -16,8 +16,8 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const ModalContent = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 90%;
   background-color: #fff;
@@ -71,11 +71,11 @@ export const Empty = styled.View`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   width: 100%;
-  height: 35%;
+  height: 30%;
 `;
 
 export const ProfileBox = styled.View`
@@ -101,23 +101,23 @@ export const CharacterImage = styled.Image`
 `;
 
 export const Footer = styled.View`
-  border-width: 1px;
-  border-color: yellow;
+  /* border-width: 1px;
+  border-color: yellow; */
   width: 100%;
-  height: 45%;
+  height: 50%;
 `;
 
 export const FooterTop = styled.View`
-  border-width: 1px;
-  border-color: yellow;
+  /* border-width: 1px;
+  border-color: yellow; */
   width: 100%;
   height: 15%;
   flex-direction: row;
 `;
 
 export const RecordTitleBox = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   width: 30%;
   height: 100%;
   justify-content: center;
@@ -130,8 +130,8 @@ export const RecordTitle = styled.Text`
 `;
 
 export const FooterLine = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   width: 45%;
   height: 100%;
   justify-content: center;
@@ -139,8 +139,8 @@ export const FooterLine = styled.View`
 `;
 
 export const SortBox = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   width: 25%;
   height: 100%;
   justify-content: center;
@@ -171,8 +171,8 @@ export const DropdownMenu = styled.View`
 `;
 
 export const DropdownItem = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: #898989;
+  /* border-width: 1px;
+  border-color: #898989; */
   padding: 5px;
   width: 85px;
   background-color: black;
@@ -187,8 +187,8 @@ export const DropdownItemText = styled.Text`
 `;
 
 export const FooterList = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: center;
   align-items: center;
   width: 100%;

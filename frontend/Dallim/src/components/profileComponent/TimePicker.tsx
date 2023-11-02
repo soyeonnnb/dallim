@@ -87,72 +87,73 @@ const TimePicker = () => {
       <S.Header>
         <S.HeaderTop></S.HeaderTop>
         <S.HeaderMiddle>
-          {/* <S.ClockImg source={Clock} resizeMode="contain"> */}
-          <ScrollView
-            ref={hourRef}
-            showsVerticalScrollIndicator={false}
-            snapToAlignment="center"
-            snapToInterval={itemHeight}
-            decelerationRate="fast"
-            onMomentumScrollEnd={handleHourChange}
-            contentContainerStyle={{
-              paddingHorizontal: 16,
-              paddingTop: itemHeight, // paddingTop 조정
-              paddingBottom: itemHeight, // paddingBottom 조정
-            }}
-            style={{flex: 1, borderRightWidth: 0.5, borderColor: 'red'}}>
-            {hours.map(hour => (
-              <View
-                key={hour}
-                style={{
-                  height: itemHeight,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
+          <S.FullClock>
+            {/* <S.ClockImg source={Clock} resizeMode="contain"> */}
+            <ScrollView
+              ref={hourRef}
+              showsVerticalScrollIndicator={false}
+              snapToAlignment="center"
+              snapToInterval={itemHeight}
+              decelerationRate="fast"
+              onMomentumScrollEnd={handleHourChange}
+              contentContainerStyle={{
+                paddingHorizontal: 16,
+                paddingTop: itemHeight, // paddingTop 조정
+                paddingBottom: itemHeight, // paddingBottom 조정
+              }}
+              style={{flex: 1, borderRightWidth: 0.5, borderColor: 'red'}}>
+              {hours.map(hour => (
+                <View
+                  key={hour}
                   style={{
-                    textAlign: 'center',
-                    fontSize: selectedHour === hour ? 20 : 15,
-                    color: selectedHour === hour ? 'black' : 'grey',
+                    height: itemHeight,
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}>
-                  {hour}
-                </Text>
-              </View>
-            ))}
-          </ScrollView>
-          <ScrollView
-            ref={minuteRef}
-            showsVerticalScrollIndicator={false}
-            snapToAlignment="center"
-            snapToInterval={itemHeight}
-            decelerationRate="fast"
-            onMomentumScrollEnd={handleMinuteChange}
-            contentContainerStyle={{
-              paddingHorizontal: 16,
-              paddingTop: itemHeight, // paddingTop 조정
-              paddingBottom: itemHeight, // paddingBottom 조정
-            }}
-            style={{flex: 1, borderWidth: 0.5, borderColor: '#ddd'}}>
-            {minutes.map(minute => (
-              <View
-                key={minute}
-                style={{
-                  height: itemHeight,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Text
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: selectedHour === hour ? 20 : 15,
+                      color: selectedHour === hour ? 'black' : 'grey',
+                    }}>
+                    {hour}
+                  </Text>
+                </View>
+              ))}
+            </ScrollView>
+            <ScrollView
+              ref={minuteRef}
+              showsVerticalScrollIndicator={false}
+              snapToAlignment="center"
+              snapToInterval={itemHeight}
+              decelerationRate="fast"
+              onMomentumScrollEnd={handleMinuteChange}
+              contentContainerStyle={{
+                paddingHorizontal: 16,
+                paddingTop: itemHeight, // paddingTop 조정
+                paddingBottom: itemHeight, // paddingBottom 조정
+              }}
+              style={{flex: 1, borderWidth: 0.5, borderColor: '#ddd'}}>
+              {minutes.map(minute => (
+                <View
+                  key={minute}
                   style={{
-                    textAlign: 'center',
-                    fontSize: selectedMinute === minute ? 20 : 15,
-                    color: selectedMinute === minute ? 'black' : 'grey',
+                    height: itemHeight,
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}>
-                  {minute}
-                </Text>
-              </View>
-            ))}
-          </ScrollView>
-          {/* </S.ClockImg> */}
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontSize: selectedMinute === minute ? 20 : 15,
+                      color: selectedMinute === minute ? 'black' : 'grey',
+                    }}>
+                    {minute}
+                  </Text>
+                </View>
+              ))}
+            </ScrollView>
+          </S.FullClock>
         </S.HeaderMiddle>
         <S.HeaderBottom>
           <S.SaveButton onPress={handleSave}>

@@ -93,6 +93,17 @@ function Profile({navigation}: ProfileProps) {
     }
   };
 
+  const handleToastTouch = () => {
+    Toast.show({
+      type: 'error',
+      position: 'top',
+      text1: '개발중입니다!',
+      visibilityTime: 3000,
+      autoHide: true,
+      topOffset: 10,
+    });
+  };
+  //
   return (
     <S.Container>
       <S.BackgroundImage
@@ -118,7 +129,15 @@ function Profile({navigation}: ProfileProps) {
           </S.TitleSetBox>
 
           <S.SetBox>
-            <S.ButtonBox onPress={() => setShowNicknameChangeModal(true)}>
+            {/* <S.ButtonBox onPress={() => setShowNicknameChangeModal(true)}>
+              <S.IconBox>
+                <S.ButtonIcon source={ChangeNicknameIcon} />
+              </S.IconBox>
+              <S.TextBox>
+                <S.ButtonText>닉네임 변경</S.ButtonText>
+              </S.TextBox>
+            </S.ButtonBox> */}
+            <S.ButtonBox onPress={handleToastTouch}>
               <S.IconBox>
                 <S.ButtonIcon source={ChangeNicknameIcon} />
               </S.IconBox>
@@ -127,7 +146,15 @@ function Profile({navigation}: ProfileProps) {
               </S.TextBox>
             </S.ButtonBox>
 
-            <S.ButtonBox onPress={handleRunningMatePress}>
+            {/* <S.ButtonBox onPress={handleRunningMatePress}>
+              <S.IconBox>
+                <S.ButtonIcon source={ManageRunningMateIcon} />
+              </S.IconBox>
+              <S.TextBox>
+                <S.ButtonText>러닝메이트 관리</S.ButtonText>
+              </S.TextBox>
+            </S.ButtonBox> */}
+            <S.ButtonBox onPress={handleToastTouch}>
               <S.IconBox>
                 <S.ButtonIcon source={ManageRunningMateIcon} />
               </S.IconBox>
@@ -136,7 +163,16 @@ function Profile({navigation}: ProfileProps) {
               </S.TextBox>
             </S.ButtonBox>
 
-            <S.ButtonBox onPress={() => navigation.navigate('RunningAlarm')}>
+            {/* <S.ButtonBox onPress={() => navigation.navigate('RunningAlarm')}>
+              <S.IconBox>
+                <S.ButtonIcon source={NotificationIcon} />
+              </S.IconBox>
+              <S.TextBox>
+                <S.ButtonText>운동 알림 설정</S.ButtonText>
+              </S.TextBox>
+            </S.ButtonBox> */}
+
+            <S.ButtonBox onPress={handleToastTouch}>
               <S.IconBox>
                 <S.ButtonIcon source={NotificationIcon} />
               </S.IconBox>

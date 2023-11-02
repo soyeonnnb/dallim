@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
 import * as S from './UserDetailStack.styles';
 import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
@@ -7,34 +7,102 @@ import RunningDataBox from '@/components/socialComponent/RunningDataBox';
 import VersusModal from '@/components/socialComponent/socialModal/VersusModal';
 import SocialCard from '@/components/socialComponent/SocialCard';
 import { characterData } from '@/recoil/CharacterData';
+import { fetchUserRecord } from '@/apis/SocialApi';
 
 interface UserDetailStackProps {
     navigation: any;
+    route: {
+        params: {
+            userId: number;
+        };
+    };
 }
 
-function UserDetailStack({ navigation }: UserDetailStackProps) {
+interface RunningRecord {
+    id: string;
+    userId: number;
+    location: string;
+    createdAt: string;
+    totalDistance: number;
+    totalTime: number;
+    averageSpeed: number;
+    registration: boolean;
+}
 
-    const tempCharacterIndex = 2;
-    const tempNickname = "아뇨뚱인데요";
-    const tempLevel = 56
-    const tempExp = 22;
-    const evolution = 1;
+interface UserDetails {
+    characterIndex: number;
+    planetIndex: number;
+    nickname: string;
+    level: number;
+    exp: number;
+    evolutionStage: number;
+    runningRecordOverviews: RunningRecord[];
+}
 
-    const selectedCharacter = characterData[tempCharacterIndex];
-    const selectedCharacterLevelData =
-        selectedCharacter.levels[evolution];
+
+function UserDetailStack({ navigation, route }: UserDetailStackProps) {
+    const userId = route.params.userId;
+
+    const [userDetails, setUserDetails] = useState<UserDetails | null>(null); // 타입을 명시적으로 선언
+
+    const fetchUserDetails = async () => {
+        try {
+            const details: UserDetails = await fetchUserRecord(userId); // 타입을 명시적으로 선언
+            setUserDetails(details); // 불러온 사용자 정보를 상태에 저장
+        } catch (error) {
+            console.error("Failed to fetch user details", error);
+        }
+    };
+    useEffect(() => {
+        fetchUserDetails();
+    }, []);
+
+    const selectedCharacterIndex = userDetails ? userDetails.characterIndex : 0;
+    const selectedPlanetIndex = userDetails ? userDetails.planetIndex : 0;
+    const selectedNickname = userDetails ? userDetails.nickname : '';
+    const selectedLevel = userDetails ? userDetails.level : 0;
+    const selectedExp = userDetails ? userDetails.exp : 0;
+    const selectedEvolutionStage = userDetails ? userDetails.evolutionStage : 0;
+    const runningRecords = userDetails ? userDetails.runningRecordOverviews : [];
+
+    const selectedCharacter = characterData[selectedCharacterIndex];
+    const selectedCharacterLevelData = selectedCharacter.levels[selectedEvolutionStage];
 
     function handleSend() {
         console.log("비교하기 버튼 확인");
         setVersusModalVisible(true);
     };
 
-    // 드롭다운
+    // // 드롭다운
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const [selectedSort, setSelectedSort] = useState("최신 순서");
 
     // Versus 모달
     const [isVersusModalVisible, setVersusModalVisible] = useState(false);
+
+    // 런닝메이트 등록시 발생
+    // 주어진 idToUpdate와 일치하는 러닝 레코드의 등록 상태를 업데이트하는 함수
+    const handleUpdateRegistration = (idToUpdate: string) => {
+        // runningRecords 배열을 순환하면서 id가 idToUpdate와 일치하는 레코드를 찾기
+        const updatedRecords = runningRecords.map(record => {
+            if (record.id === idToUpdate) {
+                // 일치하는 레코드의 registration 속성을 true로 업데이트
+                return { ...record, registration: true };
+            }
+            return record;
+        });
+        if (userDetails) {
+            // userDetails가 null이 아닌 경우에만 다음 작업을 수행
+            // userDetails를 복사하여 새로운 변수 updatedUserDetails를 생성
+            const updatedUserDetails: UserDetails = {
+                ...userDetails,
+                // updatedUserDetails의 runningRecordOverviews 속성을 업데이트된 updatedRecords 배열로 설정
+                runningRecordOverviews: updatedRecords,
+            };
+            // 사용자 정보 업데이트
+            setUserDetails(updatedUserDetails);
+        }
+    };
 
     return (
         <S.Container>
@@ -53,10 +121,10 @@ function UserDetailStack({ navigation }: UserDetailStackProps) {
                 <S.Body>
                     <S.ProfileBox>
                         <SocialCard
-                            PlanetIndex={tempCharacterIndex}
-                            Nickname={tempNickname}
-                            UserLevel={tempLevel}
-                            experiencePercentage={tempExp}
+                            planetIndex={selectedPlanetIndex}
+                            nickname={selectedNickname}
+                            userLevel={selectedLevel}
+                            experiencePercentage={selectedExp}
                         />
                     </S.ProfileBox>
 
@@ -85,21 +153,15 @@ function UserDetailStack({ navigation }: UserDetailStackProps) {
                         </S.SortBox>
                     </S.FooterTop>
                     <S.FooterList>
-                        <ScrollView>
-                            <S.RunBox>
-                                <RunningDataBox />
-                            </S.RunBox>
-                            <S.RunBox>
-                                <RunningDataBox />
-                            </S.RunBox>
-                            <S.RunBox>
-                                <RunningDataBox />
-                            </S.RunBox>
-                            <S.RunBox>
-                                <RunningDataBox />
-                            </S.RunBox>
+                        <ScrollView >
+                            {runningRecords.map((record: RunningRecord, index: number) => (
+                                <S.RunBox key={record.id}>
+                                    <RunningDataBox {...record} id={record.id} onUpdateRegistration={handleUpdateRegistration} />
+                                </S.RunBox>
+                            ))}
                         </ScrollView>
                     </S.FooterList>
+
                 </S.Footer>
 
                 <S.TabBox />

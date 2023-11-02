@@ -140,7 +140,7 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange }: Cha
           equippedCharacterIndex === selectedCharacterIndex ? (
             <>
               <S.ButtonBox onPress={handleEquipped}>
-                <S.EquippedText>장착중</S.EquippedText>
+                <S.EquippedText>대표 캐릭터</S.EquippedText>
               </S.ButtonBox>
               <S.LevelBox>
                 <S.LevelText>Level {selectedCharacterLevel}</S.LevelText>

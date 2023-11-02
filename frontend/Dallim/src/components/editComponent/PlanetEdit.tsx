@@ -131,7 +131,7 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
         {selectedPlanetIsPurchased ? (
           selectedPlanetIndex === equippedPlanetIndex ? (
             <S.ButtonBox onPress={handleEquipped}>
-              <S.EquippedText>착용중</S.EquippedText>
+              <S.EquippedText>대표 행성</S.EquippedText>
             </S.ButtonBox>
           ) : (
             <S.ButtonBox onPress={togglePlanetSelectModal}>

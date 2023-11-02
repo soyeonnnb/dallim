@@ -2,25 +2,25 @@ import * as S from './SocialCard.styles';
 import { planetData } from '@/recoil/PlanetData';
 
 interface Props {
-    PlanetIndex: number;
-    Nickname: string;
-    UserLevel: number;
+    planetIndex: number;
+    nickname: string;
+    userLevel: number;
     experiencePercentage: number
 }
 
-function SocialCard({ PlanetIndex, Nickname, UserLevel, experiencePercentage }: Props) {
+function SocialCard({ planetIndex, nickname, userLevel, experiencePercentage }: Props) {
 
     return (
         <S.Container>
             <S.CardImageWrapper>
-                <S.CardBox source={planetData[PlanetIndex].Card} resizeMode="cover" >
+                <S.CardBox source={planetData[planetIndex].Card} resizeMode="cover" >
 
                     <S.Header>
-                        <S.LevelText>Level {UserLevel}</S.LevelText>
+                        <S.LevelText>Level {userLevel}</S.LevelText>
                     </S.Header>
                     <S.Body>
                         <S.LeftBox>
-                            <S.NicknameText>{Nickname}</S.NicknameText>
+                            <S.NicknameText>{nickname}</S.NicknameText>
                         </S.LeftBox>
                         <S.RightBox>
                             <S.percentageText>{experiencePercentage}%</S.percentageText>

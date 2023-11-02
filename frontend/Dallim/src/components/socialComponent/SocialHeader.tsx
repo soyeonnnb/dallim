@@ -6,8 +6,8 @@ import QuestionIcon from '../../assets/icons/QuestionIcon.png';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
 type SocialHeaderProps = {
-    month: number;
-    week: number;
+    month: number | null;
+    week: number | null;
 };
 
 function SocialHeader({ month, week }: SocialHeaderProps) {

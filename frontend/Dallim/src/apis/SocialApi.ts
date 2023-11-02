@@ -50,12 +50,31 @@ export const fetchFriendRank = async () => {
       },
     });
     console.log(
-      'SocialApi : 주간 랭킹 조회 ( 친구 ) 조회 Axios 성공 :' +
-        response.data.data,
+      'SocialApi : 주간 랭킹 조회 ( 친구 ) Axios 성공 :' + response.data.data,
     );
     return response.data.data;
   } catch (error) {
-    console.log('SocialApi : 주간 랭킹 조회 ( 친구 ) 조회 Axios 실패');
+    console.log('SocialApi : 주간 랭킹 조회 ( 친구 ) Axios 실패');
+    throw error;
+  }
+};
+
+// 유저 달림기록 가져오기 ( Index )
+export const fetchUserRecord = async (userId: number) => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/api/v1/user/profile/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    console.log('SocialApi : 유저 기록 조회 Axios 성공 :' + response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.log('SocialApi : 유저 기록 조회 Axios 실패');
     throw error;
   }
 };

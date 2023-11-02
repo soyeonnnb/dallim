@@ -81,13 +81,13 @@ function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: Social
               rankingData.map((info: RankingInfo, index) => (
                 <S.RankInfoBox key={info.userId.toString()}>
                   <RankInfoBox
+                    userId={info.userId}
                     rank={index + 1}
                     nickname={info.nickname}
                     cumulativeDistance={info.cumulativeDistance}
                     distance={info.cumulativeDistance}
                     level={info.level}
                     follower={info.follower}
-
                     navigation={navigation}
                   />
                 </S.RankInfoBox>

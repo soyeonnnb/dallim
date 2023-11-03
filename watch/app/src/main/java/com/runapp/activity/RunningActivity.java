@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -195,7 +196,9 @@ public class RunningActivity extends AppCompatActivity {
         timerService.stopTimer(); // 타이머 중지
 
         if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 50) {
-            Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG).show();
+            Toast toast = Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
             super.onDestroy();
             return; // 메서드를 여기서 종료
         }
@@ -238,10 +241,14 @@ public class RunningActivity extends AppCompatActivity {
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if(response.isSuccessful()){
                         Log.d("데이터 전송", "몽고디비로 데이터 전송 성공");
-                        Toast.makeText(RunningActivity.this, "기록 저장 성공", Toast.LENGTH_SHORT).show();
+                        Toast toast = Toast.makeText(RunningActivity.this, "기록 저장 성공", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
                     }else{
                         Log.d("데이터 전송", "몽고디비로 데이터 전송 실패");
-                        Toast.makeText(RunningActivity.this, "기록 저장 실패", Toast.LENGTH_SHORT).show();
+                        Toast toast = Toast.makeText(RunningActivity.this, "기록 저장 실패", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
                     }
                 }
 

@@ -8,8 +8,7 @@ import SearchIcon from '@/assets/icons/SearchIcon.png';
 import FriendBox from '../FriendBox';
 import UserBox from '../UserBox';
 import { fetchFriendList, fetchUserSearch } from '@/apis/SocialApi';
-import { Animated } from 'react-native';
-
+import { Animated, TextInput } from 'react-native';
 
 
 type Friend = {
@@ -58,37 +57,48 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
   }, [isVisible]);
 
 
-  // 닉네임 검색 : 비동기 (Axios)
-  const handleNicknameSearch = async () => {
-    try {
-      setLoading(true);
-      const response = await fetchUserSearch(searchQuery);
-      setSearchResults(response.length > 0 ? response : null);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+  const Search = () => {
+    const inputRef = useRef<TextInput>(null);
+
+    // 검색 핸들러 함수 수정
+    const handleNicknameSearch = async () => {
+      try {
+        setLoading(true);
+        const response = await fetchUserSearch(searchQuery);
+        setSearchResults(response.length > 0 ? response : []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+        // 검색 후에만 searchQuery 상태를 비웁니다
+        setSearchQuery('');
+        // TextInput 필드를 비웁니다.
+        inputRef.current?.clear();
+      }
+    };
+
+    return (
+      <S.Search>
+        <S.SearchLeft>
+          <S.SearchBox
+            ref={inputRef} // ref 할당
+            value={searchQuery} // value를 searchQuery 상태로 설정
+            placeholder="닉네임을 입력해주세요."
+            onChangeText={setSearchQuery} // 입력값 변경 시 searchQuery 상태 업데이트
+            onSubmitEditing={handleNicknameSearch} // 키보드에서 Enter를 눌렀을 때 검색 실행
+            returnKeyType="search"
+          />
+        </S.SearchLeft>
+        <S.SearchRight>
+          <S.SendButton onPress={handleNicknameSearch}>
+            <S.SearchIcon source={SearchIcon} resizeMode='contain' />
+          </S.SendButton>
+        </S.SearchRight>
+      </S.Search>
+    );
   };
 
-  const Search = () => (
-    <S.Search>
-      <S.SearchLeft>
-        <S.SearchBox
-          placeholder="닉네임을 입력해주세요."
-          value={searchQuery} // 검색어 상태와 입력 필드를 연결
-          onChangeText={setSearchQuery} // 입력 필드가 변경될 때마다 검색어 상태를 업데이트
-        />
-      </S.SearchLeft>
-      <S.SearchRight>
-        <S.SendButton onPress={handleNicknameSearch}>
-          <S.SearchIcon source={SearchIcon} resizeMode='contain' />
-        </S.SendButton>
-      </S.SearchRight>
-    </S.Search>
-  );
-
-  const [fadeAnim] = useState(new Animated.Value(0));  // 초기 투명도는 0
+  const [fadeAnim] = useState(new Animated.Value(0));  // 초기 투명도 0
 
   useEffect(() => {
     // 무한 반복하는 페이드 애니메이션

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { deleteFriend } from '@/apis/SocialApi';
 import * as S from './Box.styles';
 // import Character from '@/assets/characters/Panda.png';
-// import UserDetailModal from '../../screens/social/UserDetailStack';
 import { characterData } from '@/recoil/CharacterData';
 
 type FriendBoxProps =
@@ -15,11 +14,21 @@ type FriendBoxProps =
 
 function FriendBox({ userId, characterIndex, nickname, level }: FriendBoxProps) {
 
-    const [isDetailModalVisible, setDetailModalVisible] = useState(false);
-
     const tempEvolutionIndex = 0;
-
     const selectedCharacter = characterData[characterIndex].evolutions[tempEvolutionIndex].front;
+
+    const handleDeleteFriend = async () => {
+        try {
+            const result = await deleteFriend(userId);
+            if (result) {
+                console.log('친구 삭제가 성공적으로 완료되었습니다.');
+            } else {
+                console.log('친구 삭제를 실패하였습니다.');
+            }
+        } catch (error) {
+            console.error('친구 삭제 중 오류가 발생하였습니다.', error);
+        }
+    };
 
     return (
         <S.Container>
@@ -27,9 +36,8 @@ function FriendBox({ userId, characterIndex, nickname, level }: FriendBoxProps) 
                 <S.Left>
                     <S.FriendDetailButton onPress={() => {
                         console.log("친구 상세 버튼 눌림확인");
-                        setDetailModalVisible(true);
                     }}>
-                        <S.CharacterImage source={selectedCharacter} resizeMode='contain'/>
+                        <S.CharacterImage source={selectedCharacter} resizeMode='contain' />
                     </S.FriendDetailButton>
                 </S.Left>
                 <S.Middle>
@@ -37,18 +45,12 @@ function FriendBox({ userId, characterIndex, nickname, level }: FriendBoxProps) 
                     <S.LevelText>Lv. {level}</S.LevelText>
                 </S.Middle>
                 <S.Right>
-                    <S.Button onPress={() => {
-                        console.log("친구 삭제 버튼 눌림확인");
-                    }}>
+                    <S.Button onPress={handleDeleteFriend}>
                         <S.FriendRemoveImage source={require('@/assets/icons/FriendRemoveIcon.png')} resizeMode='contain' />
                     </S.Button>
                 </S.Right>
             </S.Box>
 
-            {/* <UserDetailModal
-                isVisible={isDetailModalVisible}
-                onClose={() => setDetailModalVisible(false)}
-            /> */}
         </S.Container>
     );
 };

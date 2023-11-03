@@ -11,7 +11,7 @@ type UserBoxProps = {
 
 function UserBox({ userId, nickname, level, isFollower }: UserBoxProps) {
 
-    const addFriend = async (userId: number) => {
+    const handleaddFriend = async (userId: number) => {
         try {
             const result = await postAddFriend(userId);
             if (result) {
@@ -39,9 +39,8 @@ function UserBox({ userId, nickname, level, isFollower }: UserBoxProps) {
                     <S.LevelText>Lv. {level}</S.LevelText>
                 </S.Middle>
                 <S.Right>
-                    {/* {!isFollower && ( */}
-                    {isFollower && (
-                        <S.Button onPress={() => {addFriend(userId)}}>
+                    {!isFollower && (
+                        <S.Button onPress={() => {handleaddFriend(userId)}}>
                             <S.FriendAddImage source={require('@/assets/icons/FriendAddIcon.png')} resizeMode='contain' />
                         </S.Button>
                     )}

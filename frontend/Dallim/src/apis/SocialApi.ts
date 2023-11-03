@@ -189,3 +189,29 @@ export const postAddFriend = async (userid: number): Promise<boolean> => {
     throw error;
   }
 };
+
+// 친구 삭제
+export const deleteFriend = async (userid: number): Promise<boolean> => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.delete(
+      `${BASE_URL}/api/v1/follow/${userid}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+
+    if (response.data.status === 'success' && response.data.data === true) {
+      console.log('SocialApi : 친구 삭제 성공');
+      return true;
+    } else {
+      console.log('SocialApi : 친구 삭제 실패');
+      return false;
+    }
+  } catch (error) {
+    console.error('친구 삭제 오류', error);
+    throw error;
+  }
+};

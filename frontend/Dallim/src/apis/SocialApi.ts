@@ -190,8 +190,6 @@ export const postAddFriend = async (userid: number): Promise<boolean> => {
   }
 };
 
-
-//////////////////////////////////실패
 // 친구 삭제
 export const deleteFriend = async (userid: number): Promise<boolean> => {
   const accessToken = await getToken();
@@ -215,7 +213,6 @@ export const deleteFriend = async (userid: number): Promise<boolean> => {
   }
 };
 
-//////////////////////////////////실패
 // 친구 대기 목록 조회
 export const fetchFriendWaitList = async () => {
   const accessToken = await getToken();
@@ -253,6 +250,7 @@ export const postRequestAccept = async (userid: number): Promise<boolean> => {
       return true;
     } else {
       console.log('SocialApi : 친구신청 수락 요청 실패');
+      console.log('고칠거에요~~~~~~~~');
       return false;
     }
   } catch (error) {
@@ -281,6 +279,7 @@ export const postRequestReject = async (userid: number): Promise<boolean> => {
       return true;
     } else {
       console.log('SocialApi : 친구신청 거절 요청 실패');
+      console.log('고칠거에요~~~~~~~~');
       return false;
     }
   } catch (error) {

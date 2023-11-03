@@ -4,6 +4,7 @@ import * as S from './FriendManageModal.styles';
 import CloseIcon from '@/assets/icons/CloseIcon_3.png';
 import NoFriendImage from '@/assets/images/NoFriend.png';
 import NoSearchImage from '@/assets/images/NoSearch.png';
+import NoRequestImage from '@/assets/images/NoRequest.png';
 import SearchIcon from '@/assets/icons/SearchIcon.png';
 import FriendBox from '../FriendBox';
 import UserBox from '../UserBox';
@@ -196,17 +197,21 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
         );
       case 'requests':
         return friendRequests.length > 0 ? (
-          <ScrollView>
-            {friendRequests.map((order) => (
-              <S.WaitBox key={order.userId}>
-                <WaitBox {...order} />
-              </S.WaitBox>
-            ))}
-          </ScrollView>
+          <>
+            <S.EmptyImage source={NoRequestImage} resizeMode="contain" />
+            <S.EmptyText style={{ marginRight: 10 }}>받은 요청이 없어요.</S.EmptyText>
+          </>
+          // <ScrollView>
+          //   {friendRequests.map((order) => (
+          //     <S.WaitBox key={order.userId}>
+          //       <WaitBox {...order} />
+          //     </S.WaitBox>
+          //   ))}
+          // </ScrollView>
         ) : (
           <>
-            <S.EmptyImage source={NoFriendImage} resizeMode="contain" />
-            <S.EmptyText style={{ marginRight: 10 }}>친구 요청이 없어요.</S.EmptyText>
+            <S.EmptyImage source={NoRequestImage} resizeMode="contain" />
+            <S.EmptyText style={{ marginRight: 10 }}>받은 요청이 없어요.</S.EmptyText>
           </>
         );
       default:

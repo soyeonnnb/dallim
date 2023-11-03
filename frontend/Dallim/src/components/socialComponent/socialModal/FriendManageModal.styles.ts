@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 import {TextInput, Image} from 'react-native';
-import { Animated } from 'react-native';
+import {Animated} from 'react-native';
 
 export const ModalContainer = styled.View`
   flex: 1;

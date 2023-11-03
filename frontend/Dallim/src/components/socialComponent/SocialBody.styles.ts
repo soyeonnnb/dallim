@@ -79,7 +79,6 @@ export const RankInfoBox = styled.View`
   height: 85px;
 `;
 
-
 export const EmptyImage = styled.Image`
   /* border-width: 1px;
   border-color: red; */

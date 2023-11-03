@@ -11,6 +11,9 @@ export const Box = styled.View`
   border-color: red; */
   width: 100%;
   height: 100%;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 export const Top = styled.View`
@@ -100,8 +103,6 @@ export const BottomRight = styled.View`
 export const AddBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  border-radius: 10px;
-  background-color: #8B8B8B;
   width: 60%;
   height: 90%;
 `;
@@ -111,9 +112,26 @@ export const AddButton = styled(TouchableOpacity)`
   height: 100%;
   justify-content: center;
   align-items: center;
+  background-color: #2A2C45;
+  border-radius: 10px;
+
 `;
 
 export const AddText = styled.Text`
+  color: white;
+  font-size: 10px;
+`;
+
+export const AddButton_two = styled(TouchableOpacity)`
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: #d3d3d3;
+  border-radius: 10px;
+`;
+
+export const AddText_two = styled.Text`
   color: white;
   font-size: 10px;
 `;

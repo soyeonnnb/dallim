@@ -2,23 +2,28 @@ package com.b208.dduishu.util.OAuthAPI.controller;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.b208.dduishu.domain.character.entity.Character;
+import com.b208.dduishu.domain.character.entity.CharacterLevel;
+import com.b208.dduishu.domain.character.repository.CharacterRepository;
+import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
+import com.b208.dduishu.domain.characterInfo.repository.CharacterInfoRepository;
+import com.b208.dduishu.domain.planet.entity.Planet;
+import com.b208.dduishu.domain.planet.repository.PlanetInfoRepository;
+import com.b208.dduishu.domain.planet.repository.PlanetRepository;
+import com.b208.dduishu.domain.user.entity.UserLevel;
+import com.b208.dduishu.domain.user.entity.UserState;
+import com.b208.dduishu.domain.user.service.UserSocialLoginService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,10 +31,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.b208.dduishu.domain.refreshtoken.repository.RefreshTokenRepository;
-import com.b208.dduishu.domain.user.dto.UserLoginResponseDTO;
+import com.b208.dduishu.domain.user.dto.response.UserLoginResponseDTO;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.repository.UserRepository;
-import com.b208.dduishu.domain.user.service.UserService;
 import com.b208.dduishu.util.jwt.JwtUtil;
 
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,25 +56,37 @@ public class  OAuth2Controller {
 
 
     private final UserRepository userRepository;
+    private final CharacterInfoRepository characterInfoRepository;
+    private final CharacterRepository characterRepository;
+    private final PlanetRepository planetRepository;
+    private final PlanetInfoRepository planetInfoRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtUtil jwtUtil;
-    private final UserService userService;
+    private final UserSocialLoginService userSocialLoginService;
     private final BCryptPasswordEncoder encoder;
 
     // 소셜 로그인
-    @PostMapping("oauth/login")
-    public ResponseEntity<?> Login(@RequestBody Map<String, Object> data, HttpServletResponse response) throws IOException {
-        System.out.println("여기 들어올까요");
-        UserLoginResponseDTO user = userService.oauthLogin((String) data.get("access"), response);
+    // @PostMapping("oauth/login")
+    // public ResponseEntity<?> Login(@RequestBody Map<String, Object> data, HttpServletResponse response) throws IOException {
+    //     System.out.println("여기 들어올까요");
+    //     UserLoginResponseDTO user = userSocialLoginService.oauthLogin((String) data.get("access"), response);
+    //
+    //     return ResponseEntity.status(200).body(user);
+    // }
 
+    //소셜로그인 이게될까
+    @GetMapping("oauth/login")
+    public ResponseEntity<?> Login(@RequestParam String access, HttpServletResponse response) throws IOException {
+        System.out.println("여기 들어올까요");
+        UserLoginResponseDTO user = userSocialLoginService.oauthLogin(access, response);
         return ResponseEntity.status(200).body(user);
     }
 
     // 소셜 로그아웃
-    @PostMapping("oauth/social/logout")
+    @GetMapping("oauth/social/logout")
     public ResponseEntity<?> LogoutKakao(HttpServletRequest request, HttpServletResponse response){
 
-        Map<String, Object> result = userService.socialLogout(request, response);
+        Map<String, Object> result = userSocialLoginService.socialLogout(request, response);
 
         return ResponseEntity.ok(result);
     }
@@ -79,19 +95,21 @@ public class  OAuth2Controller {
     @GetMapping("oauth/logout")
     public ResponseEntity<?> Logout(HttpServletRequest request, HttpServletResponse response){
         System.out.println("들어옴");
-        Map<String, Object> result = userService.logout(request, response);
-        URI redirectUri = URI.create("http://localhost:3000");
+        Map<String, Object> result = userSocialLoginService.logout(request, response);
+//        URI redirectUri = URI.create("http://localhost:3000");
         //        URI redirectUri = URI.create("https://j9b302.p.ssafy.io");
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.setLocation(redirectUri);
+//        HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setLocation(redirectUri);
 
-        return new ResponseEntity<>(result, httpHeaders, HttpStatus.SEE_OTHER);
+//        return new ResponseEntity<>(result, httpHeaders, HttpStatus.SEE_OTHER);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     //백엔드에서 수동으로 엑세스 토큰을
     // 처리하기 위한 코드
     private boolean isProcessing = false;
-    @PostMapping("oauth2/code/kakao")
+
+    @GetMapping("oauth2/code/kakao")
     public ResponseEntity<?> exchangeKakaoCodeForAccessToken(@RequestParam("code") String code) {
         try {
             if (isProcessing) {
@@ -99,12 +117,12 @@ public class  OAuth2Controller {
             }
             isProcessing = true;
             // 엑세스 토큰 저장
-            String accessToken = userService.getKakaoAccessToken(code);
+            String accessToken = userSocialLoginService.getKakaoAccessToken(code);
             // 여기서 accessToken을 사용자 정보 가져오는데 사용할 것입니다.
             System.out.println(accessToken);
 
             // 엑세스 토큰을 클라이언트 앱으로 반환하거나 필요한 작업 수행
-            Map<String, String> result = userService.getKakaoUserInfo(accessToken);
+            Map<String, String> result = userSocialLoginService.getKakaoUserInfo(accessToken);
 
             String email = result.get("user_email");
             String profileImage = result.get("profile_image");
@@ -119,16 +137,31 @@ public class  OAuth2Controller {
                     .accountType(provider)
                     .email(email)
                     .nickname(nNick())
-                    .profileImage(profileImage)
                     .accessToken(accessToken)
                     .privateAccess(encoder.encode(accessToken))
+                    .state(UserState.standard)
+                    .userLevel(UserLevel.builder().level(0).exp(0).build())
+                    .registDate(LocalDateTime.now())
                     .build();
-                log.info(user.toString());
                 user = userRepository.save(user);
-                log.info("save 실행됨");
+
+                Character character = Character.builder()
+                        .user(user)
+                        .characterInfo(characterInfoRepository.findById(1L).orElse(null))
+                        .characterLevel(CharacterLevel.builder().level(0).exp(0).build())
+                        .isMainCharacter(true)
+                        .build();
+                characterRepository.save(character);
+
+                Planet planet = Planet.builder()
+                        .user(user)
+                        .planetInfo(planetInfoRepository.findById(1L).orElse(null))
+                        .isMainPlanet(true)
+                        .build();
+                planetRepository.save(planet);
+
 
             }else{
-                log.info("2222");
                 // 최근 로그인 시간 갱신
                 user = optionalUser.get();
                 user.updateLastLoginDate();
@@ -139,7 +172,7 @@ public class  OAuth2Controller {
             isProcessing = false;
 
             Map<String, Object> response = new HashMap<>();
-            response.put("accessToken", accessToken);
+            response.put("accessToken", user.getPrivateAccess());
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -148,6 +181,90 @@ public class  OAuth2Controller {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+
+
+    private boolean isProcessingTwo = false;
+    @GetMapping("oauth2/code/naver")
+    public ResponseEntity<?> exchangeNaverCodeForAccessToken(@RequestParam("code") String code) {
+        try {
+            System.out.println(code);
+            if (isProcessingTwo) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 이미 처리 중인 경우 409 Conflict 반환
+            }
+            isProcessingTwo = true;
+            // 엑세스 토큰 저장
+            String accessToken = userSocialLoginService.getNaverAccessToken(code);
+            // 여기서 accessToken을 사용자 정보 가져오는데 사용할 것입니다.
+            System.out.println(accessToken);
+
+
+            Map<String, String> result = userSocialLoginService.getNaverUserInfo(accessToken);
+
+            String email = result.get("user_email");
+            String profileImage = result.get("profile_image");
+            String provider = "naver";
+
+            Optional<User> optionalUser = userRepository.findByEmailAndAccountType(email, "naver");
+            User user = null;
+
+            if(optionalUser.isEmpty()){
+                //유저 생성
+                user = User.builder()
+                    .accountType(provider)
+                    .email(email)
+                    .nickname(nNick())
+                    .accessToken(accessToken)
+                    .privateAccess(encoder.encode(accessToken))
+                    .build();
+                user = userRepository.save(user);
+
+                Character character = Character.builder()
+                        .user(user)
+                        .characterInfo(characterInfoRepository.findById(1L).orElse(null))
+                        .characterLevel(CharacterLevel.builder().level(0).exp(0).build())
+                        .isMainCharacter(true)
+                        .build();
+                characterRepository.save(character);
+
+                Planet planet = Planet.builder()
+                        .user(user)
+                        .planetInfo(planetInfoRepository.findById(1L).orElse(null))
+                        .isMainPlanet(true)
+                        .build();
+                planetRepository.save(planet);
+
+            }else{
+
+                // 최근 로그인 시간 갱신
+                user = optionalUser.get();
+                user.updateLastLoginDate();
+                user.updateAccessToken(accessToken);
+                user.updatePrivateAccessToken(encoder.encode(accessToken));
+                userRepository.save(user);
+            }
+            isProcessingTwo = false;
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("accessToken", user.getPrivateAccess());
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+
+            isProcessingTwo = false;
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
     public String nNick() {
         String text;
         do {

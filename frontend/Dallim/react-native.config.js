@@ -1,3 +1,7 @@
-// module.exports = {
-//     assets: ['./assets/fonts/Pretendard-Regular'],
-// };
+module.exports = {
+  project: {
+    ios: {},
+    android: {},
+  },
+  assets: ['./src/assets/fonts'],
+};

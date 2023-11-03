@@ -1,21 +1,26 @@
-import React from 'react';
+import * as S from './SelectModal.styles';
+import { planetData } from '@/recoil/PlanetData';
 import { Modal } from 'react-native';
-import * as S from './SelectModal.styles'; // 스타일 컴포넌트 임포트
-import { planetData } from '../../common/PlanetData';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { equippedPlanetIndexState, selectedPlanetIndexState } from '@/recoil/EditRecoil';
+
 type ModalComponentProps = {
-    planetSelectModalVisible: boolean;
-    equippedPlanetIndex: number;
-    selectedPlanetIndex: number;
     togglePlanetSelectModal: () => void;
     equippedPlanetChange: () => void;
+    planetSelectModalVisible: boolean;
 };
 
-function planetSelectModal ({ planetSelectModalVisible, equippedPlanetIndex, selectedPlanetIndex, togglePlanetSelectModal, equippedPlanetChange }: ModalComponentProps) {
+function planetSelectModal({ planetSelectModalVisible, togglePlanetSelectModal, equippedPlanetChange }: ModalComponentProps) {
+
+    const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
+    const selectedPlanetIndex = useRecoilValue(selectedPlanetIndexState);
 
     const handleEquippedPlanetChange = () => {
+        setEquippedPlanetIndex(selectedPlanetIndex);
+
         Toast.show({
             type: 'success',
             position: 'top',
@@ -46,7 +51,7 @@ function planetSelectModal ({ planetSelectModalVisible, equippedPlanetIndex, sel
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>
                                 <FastImage
-                                    source={require('../../../assets/icons/ArrowIcon.gif')}
+                                    source={require('@/assets/icons/ArrowIcon.gif')}
                                     style={{ width: 25, height: 25 }}
                                 />
                             </S.ChangeBox>

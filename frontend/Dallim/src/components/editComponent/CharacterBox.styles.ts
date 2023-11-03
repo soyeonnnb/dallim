@@ -1,5 +1,4 @@
 import styled from 'styled-components/native';
-// import FastImage from 'react-native-fast-image';
 
 export const Container = styled.View`
   /* border-width: 1px;

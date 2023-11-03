@@ -1,17 +1,14 @@
-import React from 'react';
-import { Button } from 'react-native';
 import * as S from './Login.styles';
-
-import LoginTitle from '../../assets/images/LoginTitle.png';
-import Moon from '../../assets/images/LoginMoon.png';
-import NaverIcon from '../../assets/icons/NaverIcon.png';
-import KakaoIcon from '../../assets/icons/KakaoIcon.png';
+import LoginTitle from '@/assets/images/LoginTitle.png';
+import Moon from '@/assets/images/LoginMoon.png';
+import NaverIcon from '@/assets/icons/NaverIcon.png';
+import KakaoIcon from '@/assets/icons/KakaoIcon.png';
 
 const Login = ({ navigation }: any) => {
   return (
     <S.Container>
       <S.BackgroundVideo
-        source={require('../../assets/videos/LoginBackground.mp4')}
+        source={require('@/assets/videos/LoginBackground.mp4')}
         resizeMode="cover"
         repeat={true}
         muted={true}
@@ -41,7 +38,7 @@ const Login = ({ navigation }: any) => {
         </S.KakaoButton>
 
         {/* 임시버튼 */}
-        <Button
+        {/* <Button
           title="Go to Main"
           onPress={() => {
             navigation.reset({
@@ -49,7 +46,7 @@ const Login = ({ navigation }: any) => {
               routes: [{ name: 'BottomTab', params: { screen: 'Main' } }],
             });
           }}
-        />
+        /> */}
       </S.Bottom>
     </S.Container>
   );

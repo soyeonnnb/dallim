@@ -1,38 +1,75 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-native';
 import * as S from './VersusModal.styles';
 import { characterData } from '@/recoil/CharacterData';
 import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
 import QuestionIcon from '@/assets/icons/QuestionIcon.png';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import { fetchCompare } from '@/apis/SocialApi';
 
 interface Props {
+  userId: number;
   isVisible: boolean;
   onClose: () => void;
 }
 
-const VersusModal: React.FC<Props> = ({ isVisible, onClose }) => {
+const VersusModal: React.FC<Props> = ({ userId, isVisible, onClose }) => {
 
-  const myNickName = "나는야 펭소";
-  const myCharacterIndex = 0;
-  const myEvolutionStage = 1;
-  const myLevel = 12;
-  const myDay = 12;
-  const myTime = 60;
-  const myDistance = 25;
-  const mySpeed = 15;
+  const [userData, setUserData] = useState({
+    myCharacterIndex: 0,
+    myEvolutionStage: 0,
+    myNickName: '',
+    myLevel: 0,
+    myDay: 0,
+    myTime: 0,
+    myDistance: 0,
+    mySpeed: 0,
+    pairCharacterIndex: 0,
+    pairEvolutionStage: 0,
+    pairNickName: '',
+    pairLevel: 0,
+    pairDay: 0,
+    pairTime: 0,
+    pairDistance: 0,
+    pairSpeed: 0,
+  });
+
+  const {
+    myCharacterIndex,
+    myEvolutionStage,
+    myNickName,
+    myLevel,
+    myDay,
+    myTime,
+    myDistance,
+    mySpeed,
+    pairCharacterIndex,
+    pairEvolutionStage,
+    pairNickName,
+    pairLevel,
+    pairDay,
+    pairTime,
+    pairDistance,
+    pairSpeed,
+  } = userData;
+
+
   const myCharacterImage = characterData[myCharacterIndex].evolutions[myEvolutionStage].front;
-
-  const pairNickname = "배고픈 하마";
-  const pairCharacterIndex = 3;
-  const pairEvolutionStage = 0;
-  const pairLevel = 21;
-  const pairDay = 10;
-  const pairTime = 30;
-  const pairDistance = 50;
-  const pairSpeed = 20;
   const pairCharacterImage = characterData[pairCharacterIndex].evolutions[pairEvolutionStage].front;
+
+  useEffect(() => {
+    const loadUserInfo = async () => {
+      try {
+        const response = await fetchCompare(userId);
+        console.log('비교 정보 조회 Axios 성공 ', response);
+        setUserData(response);
+      } catch (error) {
+        console.error('비교 정보 조회 Axios 실패 ');
+      }
+    };
+    loadUserInfo();
+  }, [userId]);
 
   const computeRate = (myValue: number, otherValue: number) => {
     const totalValue = myValue + otherValue;
@@ -98,7 +135,7 @@ const VersusModal: React.FC<Props> = ({ isVisible, onClose }) => {
                     <S.CharacterImage source={pairCharacterImage} resizeMode='contain' />
                   </S.InfoTop>
                   <S.InfoMiddle>
-                    <S.NicknameText>{pairNickname}</S.NicknameText>
+                    <S.NicknameText>{pairNickName}</S.NicknameText>
                   </S.InfoMiddle>
                   <S.InfoBottom>
                     <S.LevelText>Lv. {pairLevel}</S.LevelText>
@@ -112,67 +149,84 @@ const VersusModal: React.FC<Props> = ({ isVisible, onClose }) => {
             <S.Footer>
               <S.FooterBox>
                 <S.FooterTextBox>
-                  <S.FooterText>출석</S.FooterText>
+                  <S.LeftTextBox>
+                    <S.RateLeftText>{myDay}일</S.RateLeftText>
+                  </S.LeftTextBox>
+                  <S.MiddleTextBox>
+                    <S.FooterText>출석</S.FooterText>
+                  </S.MiddleTextBox>
+                  <S.RightTextBox>
+                    <S.RateRightText>{pairDay}일</S.RateRightText>
+                  </S.RightTextBox>
                 </S.FooterTextBox>
                 <S.FooterBarBox>
                   <S.RateBarBox>
-                    <S.MyDataBar widthPercentage={dayRates.myRate} >
-                      <S.RateLeftText>{myDay}일</S.RateLeftText>
-                    </S.MyDataBar>
-                    <S.OtherDataBar widthPercentage={dayRates.otherRate} >
-                      <S.RateRightText>{pairDay}일</S.RateRightText>
-                    </S.OtherDataBar>
+                    <S.MyDataBar widthPercentage={dayRates.myRate} />
+                    <S.OtherDataBar widthPercentage={dayRates.otherRate} />
                   </S.RateBarBox>
                 </S.FooterBarBox>
               </S.FooterBox>
+
               <S.FooterBox>
                 <S.FooterTextBox>
-                  <S.FooterText>시간</S.FooterText>
+                  <S.LeftTextBox>
+                    <S.RateLeftText>{myTime.toFixed(1)}시간</S.RateLeftText>
+                  </S.LeftTextBox>
+                  <S.MiddleTextBox>
+                    <S.FooterText>시간</S.FooterText>
+                  </S.MiddleTextBox>
+                  <S.RightTextBox>
+                    <S.RateRightText>{pairTime.toFixed(1)}시간</S.RateRightText>
+                  </S.RightTextBox>
                 </S.FooterTextBox>
                 <S.FooterBarBox>
                   <S.RateBarBox>
-                    <S.MyDataBar widthPercentage={timeRates.myRate} >
-                      <S.RateLeftText>{myTime.toFixed(1)}시간</S.RateLeftText>
-                    </S.MyDataBar>
-                    <S.OtherDataBar widthPercentage={timeRates.otherRate} >
-                      <S.RateRightText>{pairTime.toFixed(1)}시간</S.RateRightText>
-
-                    </S.OtherDataBar>
+                    <S.MyDataBar widthPercentage={timeRates.myRate} />
+                    <S.OtherDataBar widthPercentage={timeRates.otherRate} />
                   </S.RateBarBox>
                 </S.FooterBarBox>
               </S.FooterBox>
+
               <S.FooterBox>
                 <S.FooterTextBox>
-                  <S.FooterText>거리</S.FooterText>
+                  <S.LeftTextBox>
+                    <S.RateLeftText>{myDistance.toFixed(1)}km</S.RateLeftText>
+                  </S.LeftTextBox>
+                  <S.MiddleTextBox>
+                    <S.FooterText>거리</S.FooterText>
+                  </S.MiddleTextBox>
+                  <S.RightTextBox>
+                    <S.RateRightText>{pairDistance.toFixed(1)}km</S.RateRightText>
+                  </S.RightTextBox>
                 </S.FooterTextBox>
                 <S.FooterBarBox>
                   <S.RateBarBox>
-                    <S.MyDataBar widthPercentage={distRates.myRate} >
-                      <S.RateLeftText>{myDistance.toFixed(1)}km</S.RateLeftText>
-
-                    </S.MyDataBar>
-                    <S.OtherDataBar widthPercentage={distRates.otherRate} >
-                      <S.RateRightText>{pairDistance.toFixed(1)}km</S.RateRightText>
-
-                    </S.OtherDataBar>
+                    <S.MyDataBar widthPercentage={distRates.myRate} />
+                    <S.OtherDataBar widthPercentage={distRates.otherRate} />
                   </S.RateBarBox>
                 </S.FooterBarBox>
               </S.FooterBox>
+
               <S.FooterBox>
                 <S.FooterTextBox>
-                  <S.FooterText>속도</S.FooterText>
+                  <S.LeftTextBox>
+                    <S.RateLeftText>{mySpeed.toFixed(1)}km/h</S.RateLeftText>
+                  </S.LeftTextBox>
+                  <S.MiddleTextBox>
+                    <S.FooterText>속도</S.FooterText>
+                  </S.MiddleTextBox>
+                  <S.RightTextBox>
+                    <S.RateRightText>{pairSpeed.toFixed(1)}km/h</S.RateRightText>
+                  </S.RightTextBox>
                 </S.FooterTextBox>
                 <S.FooterBarBox>
                   <S.RateBarBox>
-                    <S.MyDataBar widthPercentage={speedRates.myRate} >
-                      <S.RateLeftText>{mySpeed.toFixed(1)}km/h</S.RateLeftText>
-                    </S.MyDataBar>
-                    <S.OtherDataBar widthPercentage={speedRates.otherRate} >
-                      <S.RateRightText>{pairSpeed.toFixed(1)}km/h</S.RateRightText>
-                    </S.OtherDataBar>
+                    <S.MyDataBar widthPercentage={speedRates.myRate} />
+                    <S.OtherDataBar widthPercentage={speedRates.otherRate} />
                   </S.RateBarBox>
                 </S.FooterBarBox>
-              </S.FooterBox>
+              </S.FooterBox>   
+
             </S.Footer>
           </S.ModalContent>
         </S.ModalContainer>

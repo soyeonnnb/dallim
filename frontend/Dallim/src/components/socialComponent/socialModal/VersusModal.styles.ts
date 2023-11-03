@@ -98,14 +98,11 @@ export const BodyBackground = styled(ImageBackground)`
   flex-direction: row;
 `;
 
-
-
 export const BodyLeft = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 50%;
   height: 100%;
-  
 `;
 
 export const InfoTop = styled.View`
@@ -184,8 +181,32 @@ export const FooterTextBox = styled.View`
   border-color: red; */
   width: 100%;
   height: 40%;
+  flex-direction: row;
+`;
+
+export const LeftTextBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 30%;
+  height: 100%;
   justify-content: flex-end;
+  align-items: flex-start;
+`;
+export const MiddleTextBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 40%;
+  height: 100%;
+  justify-content: center;
   align-items: center;
+`;
+export const RightTextBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 30%;
+  height: 100%;
+  justify-content: flex-end;
+  align-items: flex-end;
 `;
 
 export const FooterText = styled.Text`
@@ -219,12 +240,14 @@ export const RateBar = styled.View<{
 `;
 
 export const MyDataBar = styled.View<{widthPercentage: number}>`
+  position: relative;
   width: ${props => props.widthPercentage}%;
   height: 100%;
   background-color: #fdcb86; // 내 데이터 색상
 `;
 
 export const OtherDataBar = styled.View<{widthPercentage: number}>`
+  position: relative;
   width: ${props => props.widthPercentage}%;
   height: 100%;
   background-color: #8da478; // 상대 데이터 색상
@@ -234,14 +257,15 @@ export const OtherDataBar = styled.View<{widthPercentage: number}>`
 `;
 
 export const RateLeftText = styled.Text`
-  color: black;
-  font-size: 15px;
-  padding-left: 10px;
+  position: absolute;
+  color: white;
+  font-size: 13px;
+  padding-left: 20%;
 `;
 
 export const RateRightText = styled.Text`
-  color: black;
-  font-size: 15px;
-  padding-right: 10px;
+  position: absolute;
+  color: white;
+  font-size: 13px;
+  padding-right: 20%;
 `;
-

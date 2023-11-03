@@ -19,7 +19,7 @@ function Pace() {
         <S.ToggleText>같이 달리기 비교</S.ToggleText>
         <Switch onValueChange={handleSetIsPairToggle} value={isPair} />
       </S.ToggleBox>
-      <PaceRecord />
+      <PaceRecord isPair={isPair} />
     </S.Container>
   );
 }

@@ -7,28 +7,17 @@
     <!-- package: 앱의 패키지 이름을 정의합니다. -->
     <!-- versionCode: 앱의 내부 버전 번호를 정의합니다. 이 번호는 사용자에게 보이지 않으며, 앱 업데이트를 관리하는 데 사용됩니다. -->
     <!-- versionName: 앱의 버전 이름을 정의합니다. 이 이름은 사용자에게 표시됩니다. -->
-    <uses-feature android:name="android.hardware.type.watch" />
-
-    <!-- 포그라운드 서비스 활성화 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <!-- 바디 센서에 접근(심박수, 발걸음) -->
-    <uses-permission android:name="android.permission.BODY_SENSORS" />
-    <!-- 기기가 절전 모드에 못 들어가게 하는 권한 -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!-- 기기가 인터넷에 접속이 가능하도록 허용 -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- 활동 상태를 감지하는 권한 허용 -->
-    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
-    <!-- 사용자의 대략적인 위치에 접근, 수백 미터 정도의 위치 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- 사용자의 보다 정확한 위치에 접근, 수십 미터 정도의 위치 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- 백그라운드에서 위치 정보 얻도록 허용 -->
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
-    <!-- 인터넷 연결 상태 확인 -->
+    <uses-feature android:name="android.hardware.type.watch" /> <!-- 포그라운드 서비스 활성화 -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 바디 센서에 접근(심박수, 발걸음) -->
+    <uses-permission android:name="android.permission.BODY_SENSORS" /> <!-- 기기가 절전 모드에 못 들어가게 하는 권한 -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 기기가 인터넷에 접속이 가능하도록 허용 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 활동 상태를 감지하는 권한 허용 -->
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" /> <!-- 사용자의 대략적인 위치에 접근, 수백 미터 정도의 위치 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 사용자의 보다 정확한 위치에 접근, 수십 미터 정도의 위치 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 백그라운드에서 위치 정보 얻도록 허용 -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- 인터넷 연결 상태 확인 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <!-- 포그라운드 서비스 -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:name=".util.MyApplication"
@@ -37,6 +26,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
+        <activity
+            android:name=".activity.AuthActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".activity.MyRecordActivity"
             android:exported="false"
@@ -48,8 +41,7 @@
         <activity
             android:name=".activity.RunningActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar"
-            />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".activity.CountdownActivity"
             android:exported="false"
@@ -63,9 +55,24 @@
             android:name="com.google.android.wearable.standalone"
             android:value="true" />
 
-        <service android:name=".service.SensorService"
-            tools:ignore="Instantiatable"></service>
-        <service android:name=".service.LocationService" android:exported="false"/>
+        <service
+            android:name=".service.SensorService"
+            tools:ignore="Instantiatable" />
+        <service
+            android:name=".service.LocationService"
+            android:exported="false" />
+        <service
+            android:name=".service.DataLayerListenerService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+
+                <data
+                    android:host="*"
+                    android:pathPrefix="/temp"
+                    android:scheme="wear" />
+            </intent-filter>
+        </service>
 
         <activity
             android:name=".activity.MainActivity"
@@ -78,7 +85,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

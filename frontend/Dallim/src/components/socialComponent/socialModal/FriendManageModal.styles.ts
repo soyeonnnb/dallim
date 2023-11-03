@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {TextInput, Image} from 'react-native';
+import { Animated } from 'react-native';
 
 export const ModalContainer = styled.View`
   flex: 1;
@@ -88,11 +89,11 @@ export const ViewSelector = styled.View`
   z-index: -1;
 `;
 
-export const SelectorButton = styled.TouchableOpacity<{ isActive: boolean }>`
+export const SelectorButton = styled.TouchableOpacity<{isActive: boolean}>`
   /* border-color: red;
   border-width: 1px; */
   border-radius: 10px;
-  background-color: ${({ isActive }) => (isActive ? 'white' : '#C1C4E7')};
+  background-color: ${({isActive}) => (isActive ? 'white' : '#C1C4E7')};
   align-items: center;
   justify-content: center;
   width: 30%;
@@ -199,4 +200,9 @@ export const SendButton = styled.TouchableOpacity`
 export const SearchIcon = styled(Image)`
   width: 100%;
   height: 100%;
+`;
+
+export const AnimatedFooterText = styled(Animated.Text)`
+  font-size: 25px;
+  color: white;
 `;

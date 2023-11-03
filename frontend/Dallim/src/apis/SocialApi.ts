@@ -140,3 +140,52 @@ export const fetchFriendList = async () => {
     throw error;
   }
 };
+
+// 유저 검색
+export const fetchUserSearch = async (word: string) => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.get(`${BASE_URL}/api/v1/user/search?`, {
+      params: {q: word},
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log(
+      'SocialApi : 유저 조회 Axios 성공 :' + JSON.stringify(response.data.data),
+    );
+    console.log('SocialApi : 유저 조회 Axios 성공 2 :' + response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.log('SocialApi : 유저 조회 Axios 실패');
+    throw error;
+  }
+};
+
+// 친구 추가
+export const postAddFriend = async (userid: string): Promise<boolean> => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/v1/follow`,
+      {
+        toUserId: userid,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    if (response.data.status === 'success' && response.data.data === true) {
+      console.log('SocialApi : 친구 요청 성공');
+      return true;
+    } else {
+      console.log('SocialApi : 친구 요청 실패');
+      return false;
+    }
+  } catch (error) {
+    console.error('친구 요청 오류', error);
+    throw error;
+  }
+};

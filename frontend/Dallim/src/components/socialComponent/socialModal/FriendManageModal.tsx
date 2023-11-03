@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Modal, Text, ScrollView } from 'react-native';
+import { Modal, ScrollView } from 'react-native';
 import * as S from './FriendManageModal.styles';
 import CloseIcon from '@/assets/icons/CloseIcon_3.png';
 import NoFriendImage from '@/assets/images/NoFriend.png';
@@ -7,7 +7,10 @@ import NoSearchImage from '@/assets/images/NoSearch.png';
 import SearchIcon from '@/assets/icons/SearchIcon.png';
 import FriendBox from '../FriendBox';
 import UserBox from '../UserBox';
-import { fetchFriendList } from '@/apis/SocialApi';
+import { fetchFriendList, fetchUserSearch } from '@/apis/SocialApi';
+import { Animated } from 'react-native';
+
+
 
 type Friend = {
   userId: number;
@@ -15,6 +18,15 @@ type Friend = {
   nickname: string;
   level: number;
 };
+
+type User = {
+  userId: number;
+  characterIndex: number;
+  nickname: string;
+  level: number;
+  isFollower: boolean;
+};
+
 
 type Props = {
   isVisible: boolean;
@@ -25,10 +37,12 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
   const [viewState, setViewState] = useState('friends');
   const [friends, setFriends] = useState<Friend[]>([]);
+  const [searchResults, setSearchResults] = useState<User[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState<boolean>(true);
 
+  // 친구 리스트 가져오기 (Axios)
   useEffect(() => {
-    // 컴포넌트가 마운트되면 친구 목록을 가져옵니다.
     const getFriends = async () => {
       try {
         setLoading(true); // 로딩 상태를 true
@@ -41,61 +55,104 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
       }
     };
     getFriends();
-  }, []);
+  }, [isVisible]);
 
-  // const Friend = true; // 친구가 있는 경우
-  // const Friend = false; // 친구가 없는 경우
-  const User = true; // 유저가 있는 경우
-  // const User = false; // 유저가 없는 경우
 
-  const switchView = (newState: string) => {
-    setViewState(newState);
+  // 닉네임 검색 : 비동기 (Axios)
+  const handleNicknameSearch = async () => {
+    try {
+      setLoading(true);
+      const response = await fetchUserSearch(searchQuery);
+      setSearchResults(response.length > 0 ? response : null);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
-
-  function handleSend() {
-    console.log("닉네임 전송!");
-  };
-
 
   const Search = () => (
     <S.Search>
       <S.SearchLeft>
         <S.SearchBox
           placeholder="닉네임을 입력해주세요."
+          value={searchQuery} // 검색어 상태와 입력 필드를 연결
+          onChangeText={setSearchQuery} // 입력 필드가 변경될 때마다 검색어 상태를 업데이트
         />
       </S.SearchLeft>
       <S.SearchRight>
-        <S.SendButton onPress={handleSend}>
+        <S.SendButton onPress={handleNicknameSearch}>
           <S.SearchIcon source={SearchIcon} resizeMode='contain' />
         </S.SendButton>
       </S.SearchRight>
     </S.Search>
   );
 
-  const renderContent = () => {
-
-    if (loading) {
-      return <Text>Loading...</Text>;
+  const addFriend = (userId: number) => {
+    try {
+      console.log(`${userId}를 친구로 추가하는 로직을 여기에 구현합니다.`);
+      // TODO: 친구 추가 API 호출을 여기에 구현
+      // 예시: await addFriendApiCall(userId);
+    } catch (error) {
+      console.error('친구 추가 중 오류가 발생했습니다.' + error);
+      // 사용자에게 오류 메시지를 표시하도록 추가 (예: Toast 메시지)
     }
+  };
 
+
+  const [fadeAnim] = useState(new Animated.Value(0));  // 초기 투명도는 0
+
+  useEffect(() => {
+    // 무한 반복하는 페이드 애니메이션
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
+  }, []);
+
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <>
+          <S.AnimatedFooterText style={{ opacity: fadeAnim }}>로딩 중...</S.AnimatedFooterText>
+
+        </>
+      )
+    }
     switch (viewState) {
       case 'search':
-        // User가 true인 경우 유저 검색 결과를, 그렇지 않으면 검색 없음 메시지를 렌더링
-        return User ? (
+        return (
           <>
             <Search />
-            <ScrollView>
-              <S.UserBox>
-                <UserBox />
-              </S.UserBox>
-            </ScrollView>
-          </>
-        ) : (
-          <>
-            <Search />
-            <S.EmptyImage source={NoSearchImage} resizeMode="contain" />
-            <S.EmptyText>검색된 유저가 없어요.</S.EmptyText>
-            <S.EmptyText style={{ marginTop: 5 }}>정확한 유저의 닉네임을 입력해주세요.</S.EmptyText>
+            {((searchResults.length > 0) || (searchResults === null)) ? (
+              <>
+                <ScrollView>
+                  {searchResults.map((user) => (
+                    <S.UserBox key={user.userId}>
+                      <UserBox {...user}
+                        onAddFriend={() => addFriend(user.userId)}
+                      />
+                    </S.UserBox>
+                  ))}
+                </ScrollView>
+              </>
+            ) : (
+              <>
+                <S.EmptyImage source={NoSearchImage} resizeMode="contain" />
+                <S.EmptyText>검색된 유저가 없어요.</S.EmptyText>
+                <S.EmptyText style={{ marginTop: 5 }}>정확한 유저의 닉네임을 입력해주세요.</S.EmptyText>
+              </>
+            )}
           </>
         );
       case 'friends':
@@ -119,17 +176,21 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
         // 받은 요청이 없는 경우의 로직도 추가해야 합니다.
         return (
           // 여기에 받은 요청 목록을 렌더링하는 컴포넌트를 추가하세요.
-          <Text>받은 요청이 여기에 표시됩니다.</Text>
+          <S.SelectorText>받은 요청이 여기에 표시됩니다.</S.SelectorText>
         );
       default:
         return null;
     }
   };
 
+  // Tab Box
+  const switchView = (newState: string) => {
+    setViewState(newState);
+  };
   const getHeaderText = () => {
     switch (viewState) {
       case 'search':
-        return '친구 검색';
+        return '유저 검색';
       case 'friends':
         return '친구 목록';
       case 'requests':
@@ -158,8 +219,8 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
           </S.Header>
           <S.Body>
             <S.ViewSelector>
-              <S.SelectorButton onPress={() => switchView('search')}  isActive={viewState === 'search'}>
-                <S.SelectorText>친구 검색</S.SelectorText>
+              <S.SelectorButton onPress={() => switchView('search')} isActive={viewState === 'search'}>
+                <S.SelectorText>유저 검색</S.SelectorText>
               </S.SelectorButton>
               <S.SelectorButton onPress={() => switchView('friends')} isActive={viewState === 'friends'}>
                 <S.SelectorText>친구 목록</S.SelectorText>

@@ -13,7 +13,7 @@ import Toast from 'react-native-toast-message';
 import {enableScreens} from 'react-native-screens';
 import {DeviceEventEmitter} from 'react-native';
 import {Alert} from 'react-native';
-import messaging from '@react-native-firebase/messaging';
+// import messaging from '@react-native-firebase/messaging';
 
 enableScreens();
 const Stack = createStackNavigator();
@@ -42,13 +42,13 @@ function NavigationWithListener() {
   return null; // 이 컴포넌트는 UI를 렌더링하지 않습니다.
 }
 function App() {
-  useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
+  // useEffect(() => {
+  //   const unsubscribe = messaging().onMessage(async remoteMessage => {
+  //     Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+  //   });
 
-    return unsubscribe;
-  }, []);
+  //   return unsubscribe;
+  // }, []);
 
   return (
     <RecoilRoot>

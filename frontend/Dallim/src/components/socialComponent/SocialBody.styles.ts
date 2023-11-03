@@ -105,3 +105,8 @@ export const LoadingView = styled.View`
   width: 100%;
   height: 250px;
 `;
+
+export const AnimatedFooterText = styled(Animated.Text)`
+  font-size: 25px;
+  color: white;
+`;

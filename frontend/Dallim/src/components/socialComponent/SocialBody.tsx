@@ -55,6 +55,25 @@ function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: Social
     loadRankingData();
   }, [isFriend]);
 
+  const [fadeAnim] = useState(new Animated.Value(0));  // 초기 투명도는 0
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+      ]),
+    ).start();
+  }, []);
+
   return (
     <S.Container>
       <S.Top>
@@ -100,7 +119,8 @@ function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: Social
             )
           ) : (
             <S.LoadingView>
-              <Loading />
+              <S.AnimatedFooterText style={{ opacity: fadeAnim }}>로딩 중...</S.AnimatedFooterText>
+
             </S.LoadingView>
           )}
         </ScrollView>

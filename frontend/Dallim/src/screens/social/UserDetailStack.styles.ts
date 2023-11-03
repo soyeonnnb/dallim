@@ -136,8 +136,14 @@ export const FooterLine = styled.View`
   border-color: blue; */
   width: 45%;
   height: 100%;
-  justify-content: center;
-  align-items: flex-end;
+  padding-top: 3%;
+`;
+
+export const Line = styled.View`
+  border-bottom-color: gray;
+  border-bottom-width: 1px;
+  width: 100%;
+  height: 50%;
 `;
 
 export const SortBox = styled.View`

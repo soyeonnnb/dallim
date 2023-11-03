@@ -14,6 +14,8 @@ import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOver
 import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
 import com.b208.dduishu.domain.runningRecord.exception.RunningRecordNotFoundException;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
+import com.b208.dduishu.domain.runningRecordlog.repository.RunningRecordLogRepository;
+import com.b208.dduishu.domain.runningRecordlog.service.RunningRecordLogService;
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.entity.UserState;
@@ -49,11 +51,14 @@ public class RunningRecordService {
     private final RunningMateRepository runningMateRepository;
 
     private final PlanetRepository planetRepository;
+    private final RunningRecordLogService runningRecordLogService;
 
     @Transactional
-    public void createRunningRecord(RunningRecordInfo req) {
+    public String createRunningRecord(RunningRecordInfo req) {
         updateUserState(false);
-        saveRunningRecord(req);
+        String saveRunningRecordId = saveRunningRecord(req);
+
+        return saveRunningRecordId;
     }
     public void updateUserState(boolean run){
         if(run){
@@ -65,7 +70,7 @@ public class RunningRecordService {
 
 
     @Transactional
-    public void saveRunningRecord(RunningRecordInfo req) {
+    public String saveRunningRecord(RunningRecordInfo req) {
         // user, character, rivalRunningRecord 가져오기
         User user = userRepository.findByUserId(req.getUserId()).orElseThrow(() -> {
             throw new NullPointerException();
@@ -105,7 +110,9 @@ public class RunningRecordService {
         System.out.println(req.getDate().toString());
 
         // runningRecord 저장
-        runningRecordRepository.save(res);
+        RunningRecord savedRunningRecord = runningRecordRepository.save(res);
+
+        return savedRunningRecord.getId().toString();
     }
 
     private static void computeCumulativeRunningDays(User user, List<RunningRecord> runningRecords) {

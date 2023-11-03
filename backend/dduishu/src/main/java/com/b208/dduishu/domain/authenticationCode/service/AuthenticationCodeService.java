@@ -11,8 +11,10 @@ import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.util.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cglib.core.Local;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
@@ -27,6 +29,7 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthenticationCodeService {
 
     private final AuthenticationCodeRepository authenticationCodeRepository;
@@ -133,5 +136,13 @@ public class AuthenticationCodeService {
             return UserAccessToken.builder().accessToken(accessToken).build();
         }
         throw new AccessTokenGenerationException();
+    }
+
+    @Scheduled(fixedRate = 1000 * 60 * 60 * 3)
+    @Transactional
+    public void deleteExpiredAuthenticationCode(){
+        log.info("불필요한 인증 코드 삭제");
+
+        authenticationCodeRepository.deleteByExpireTimeBefore(new Date(System.currentTimeMillis()));
     }
 }

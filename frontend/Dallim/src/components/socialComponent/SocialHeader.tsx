@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import * as S from './SocialHeader.styles';
-import FriendListModal from './socialModal/FriendListModal';
+import FriendManageModal from './socialModal/FriendManageModal';
 import QuestionIcon from '@/assets/icons/QuestionIcon.png';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
@@ -22,8 +22,7 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
                     <S.DateText>{month}월 {week}주차 랭킹</S.DateText>
                 </S.HeaderLeft>
                 <S.HeaderRight>
-                    {/* <S.ManageButton onPress={() => setModalVisible(true)}> */}
-                    <S.ManageButton>
+                    <S.ManageButton onPress={() => setModalVisible(true)}>
                         <S.ManageText>친구관리</S.ManageText>
                     </S.ManageButton>
                 </S.HeaderRight>
@@ -41,7 +40,7 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
                 </S.BodySideBox>
             </S.Body>
 
-            <FriendListModal
+            <FriendManageModal 
                 isVisible={modalVisible}
                 onClose={() => setModalVisible(false)}
             />

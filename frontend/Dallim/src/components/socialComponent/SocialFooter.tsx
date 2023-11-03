@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import * as S from './SocialFooter.styles';
-import FriendListModal from './socialModal/FriendListModal';
+import FriendListModal from './socialModal/FriendManageModal';
 
 function SocialBottom() {
     const [modalVisible, setModalVisible] = useState(false);

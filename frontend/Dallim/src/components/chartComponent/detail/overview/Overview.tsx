@@ -12,7 +12,7 @@ import {RecordDetail} from '@/apis/ChartApi';
 
 import RunningMateRecord from './OverviewRunningMateRecord';
 import OverviewGraph from './OverviewGraph';
-import {useSafeAreaFrame} from 'react-native-safe-area-context';
+import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 import {
   numberToTwoString,
   calculatePace,
@@ -20,6 +20,7 @@ import {
 } from '@/recoil/RunningData';
 
 import Loading from '@/components/common/Loading';
+import HeartRate from '../heartRate/HeartRate';
 
 interface Props {
   data?: RecordDetail;
@@ -31,6 +32,8 @@ function Overview({data}: Props) {
   const [avgPace, setAvgPace] = useState<string>();
   const [maxPace, setMaxPace] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [paceList, setPaceList] = useState<itemType[]>([]);
+  const [heartRateList, setHeartRateList] = useState<itemType[]>([]);
 
   const stringTimeAddSecond = (date: string, second: number) => {
     const createdDateTime = new Date(date);
@@ -41,8 +44,7 @@ function Overview({data}: Props) {
       createdDateTime.getSeconds(),
     )}`;
   };
-
-  useEffect(() => {
+  const handleSetData = () => {
     if (data) {
       setTimeLine(
         `${data.createdAt.slice(11, 20)} - ${stringTimeAddSecond(
@@ -53,23 +55,26 @@ function Overview({data}: Props) {
       setSpendTime(secondToHourMinuteSeconds(data.totalTime));
       setAvgPace(calculatePace(data.pace.averagePace));
       setMaxPace(calculatePace(data.pace.maxPace));
+      const paces: itemType[] = [];
+      const hearts: itemType[] = [];
+      data.runningRecordInfos.map(d => {
+        if (d.pace != 0) {
+          paces.push({value: d.pace});
+        }
+        if (d.heartRate != 0) hearts.push({value: d.heartRate});
+      });
+      setPaceList(paces);
+      setHeartRateList(hearts);
+      setIsLoading(false);
     }
-    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    handleSetData();
   }, [data]);
 
   useEffect(() => {
-    if (data) {
-      setTimeLine(
-        `${data.createdAt.slice(11, 20)} - ${stringTimeAddSecond(
-          data.createdAt,
-          data.totalTime,
-        )}`,
-      );
-      setSpendTime(secondToHourMinuteSeconds(data.totalTime));
-      setAvgPace(calculatePace(data.pace.averagePace));
-      setMaxPace(calculatePace(data.pace.maxPace));
-    }
-    setIsLoading(false);
+    handleSetData();
   }, []);
 
   return (
@@ -116,13 +121,17 @@ function Overview({data}: Props) {
               <S.RecordBox>
                 <Record
                   title="평균 심박수"
-                  content={`${data?.heartRate.averageHeartRate} bpm`}
+                  content={`${
+                    data ? Math.round(data.heartRate.averageHeartRate) : 0
+                  } bpm`}
                   titleColor="white"
                   contentColor={colors.neon.purple}
                 />
                 <Record
                   title="최대 심박수"
-                  content={`${data?.heartRate.maxHeartRate} bpm`}
+                  content={`${
+                    data ? Math.round(data.heartRate.maxHeartRate) : 0
+                  } bpm`}
                   titleColor="white"
                   contentColor={colors.neon.red}
                 />
@@ -145,8 +154,9 @@ function Overview({data}: Props) {
                 color={colors.neon.red}
               />
             </S.WalkRecords>
-            <OverviewGraph title="페이스" />
-            <OverviewGraph title="심박수" />
+            <OverviewGraph title="페이스" data={paceList} />
+            {/* 심박수 부분은 추후에 핸드폰 러닝이면 제외로 빼기*/}
+            <OverviewGraph title="심박수" data={heartRateList} />
             {data?.rivalRecord ? (
               <RunningMateRecord data={data.rivalRecord} />
             ) : (

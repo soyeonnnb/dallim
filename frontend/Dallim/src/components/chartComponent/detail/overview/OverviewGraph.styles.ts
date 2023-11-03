@@ -19,7 +19,12 @@ export const Title = styled.Text`
 export const Navi = styled.Text`
   color: ${colors.gray};
 `;
-export const Chart = styled.View``;
+
+export const Chart = styled.View`
+  flex: 1;
+  height: 200px;
+`;
+
 export const Text = styled.Text`
   color: white;
 `;

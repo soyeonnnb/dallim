@@ -1,56 +1,72 @@
 import * as S from './OverviewGraph.styles';
-import {LineChart} from 'react-native-chart-kit';
-import {Dimensions} from 'react-native';
+import {useState, useEffect} from 'react';
+import {LineChart} from 'react-native-gifted-charts';
+import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 
 interface Props {
   title: string;
+  data: itemType[];
 }
 
-function OverviewGraph({title}: Props) {
-  const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-    datasets: [
-      {
-        data: [20, 45, 28, 80, 99, 43],
-        color: (opacity = 1) => `rgba(134, 65, 244, 1)`, // optional
-        strokeWidth: 1, // optional
-      },
-    ],
+function OverviewGraph({title, data}: Props) {
+  const [parentWidth, setParentWidth] = useState(0);
+  const [parentHeight, setParentHeight] = useState(0);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [showData, setShowData] = useState<itemType[]>([
+    {value: 250},
+    {value: 500},
+    {value: 750},
+    {value: 1000},
+    {value: 1250},
+  ]);
+  const onLayout = (event: any) => {
+    const {width, height} = event.nativeEvent.layout;
+    setParentWidth(width);
+    setParentHeight(height);
   };
-  const chartConfig = {
-    backgroundGradientFrom: '#08130D',
-    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: '#08130D',
-    backgroundGradientToOpacity: 0.5,
-    color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
-    strokeWidth: 2, // optional, default 3
-    useShadowColorFromDataset: false, // optional
-  };
+
+  useEffect(() => {
+    if (data) {
+      setIsLoading(false);
+      setShowData(data);
+    }
+  }, []);
+  useEffect(() => {
+    if (data && !showData) {
+      setIsLoading(false);
+      setShowData(data);
+    }
+  }, [data]);
   return (
     <S.Container>
       <S.TitleContainer>
         <S.Title>{title}</S.Title>
         <S.Navi>더보기</S.Navi>
       </S.TitleContainer>
-      <S.Chart>
-        <S.Text>
-          <LineChart
-            data={data}
-            width={Dimensions.get('window').width}
-            height={220}
-            chartConfig={chartConfig}
-            withVerticalLabels={false}
-            withHorizontalLabels={false}
-            withHorizontalLines={false}
-            withVerticalLines={false}
-            bezier // 이게 둥글게 해줌
-            fromZero={true} // 데이터가 0부터 시작
-            withDots={false} // 차트에 점을 보이지 않도록 함
-            withInnerLines={false} // 차트 내에 선을 보이도록 함
-            withOuterLines={false} // 차트 x, y축에 선을 보이지 않도록 함
-          />
-        </S.Text>
+      {/* {isLoading ? (
+        <S.Text>로딩중입니다.</S.Text>
+      ) : ( */}
+      <S.Chart onLayout={onLayout}>
+        <LineChart
+          width={parentWidth}
+          height={parentHeight}
+          areaChart
+          curved
+          data={showData} // 데이터
+          startFillColor="#D96767"
+          backgroundColor="#D96767"
+          startOpacity={1}
+          endFillColor="#FF8080"
+          endOpacity={0}
+          color="#FF1B1B"
+          hideDataPoints // 점 숨기기
+          hideYAxisText // y 라벨 없애기
+          hideAxesAndRules // 내부 선 및 y선 x선 없애기
+          initialSpacing={0}
+          adjustToWidth // width에 데이터 크기 맞추기
+        />
       </S.Chart>
+      {/* )} */}
     </S.Container>
   );
 }

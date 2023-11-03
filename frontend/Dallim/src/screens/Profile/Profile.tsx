@@ -162,16 +162,7 @@ function Profile({navigation}: ProfileProps) {
               </S.TextBox>
             </S.ButtonBox>
 
-            {/* <S.ButtonBox onPress={() => navigation.navigate('RunningAlarm')}>
-              <S.IconBox>
-                <S.ButtonIcon source={NotificationIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>운동 알림 설정</S.ButtonText>
-              </S.TextBox>
-            </S.ButtonBox> */}
-
-            <S.ButtonBox onPress={handleToastTouch}>
+            <S.ButtonBox onPress={() => navigation.navigate('RunningAlarm')}>
               <S.IconBox>
                 <S.ButtonIcon source={NotificationIcon} />
               </S.IconBox>
@@ -179,6 +170,15 @@ function Profile({navigation}: ProfileProps) {
                 <S.ButtonText>운동 알림 설정</S.ButtonText>
               </S.TextBox>
             </S.ButtonBox>
+
+            {/* <S.ButtonBox onPress={handleToastTouch}>
+              <S.IconBox>
+                <S.ButtonIcon source={NotificationIcon} />
+              </S.IconBox>
+              <S.TextBox>
+                <S.ButtonText>운동 알림 설정</S.ButtonText>
+              </S.TextBox>
+            </S.ButtonBox> */}
 
             <S.DeleteButtonBox onPress={() => setShowLogoutModal(true)}>
               <S.IconBox>

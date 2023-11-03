@@ -19,7 +19,7 @@ import {
   selectedCharacterExpState,
   selectedCharacterIsPurchasedState,
   userPointState
-} from '@/recoil/EditRecoil';
+} from '@/recoil/UserRecoil';
 import { postCharacterPurchase, updateEquippedCharacter } from '@/apis/EditApi';
 
 type CharacterEditProps = {

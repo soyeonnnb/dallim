@@ -27,6 +27,7 @@ function Social() {
                 <S.Header>
                     <SocialHeader month={month} week={week} />
                 </S.Header>
+                
                 <S.Body>
                     <SocialBody navigation={navigation} isFriend={isFriend} onToggle={toggleHandle} onUpdateDateInfo={updateDateInfo} />
                 </S.Body>

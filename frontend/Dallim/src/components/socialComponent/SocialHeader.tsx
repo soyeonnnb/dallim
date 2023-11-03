@@ -22,7 +22,8 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
                     <S.DateText>{month}월 {week}주차 랭킹</S.DateText>
                 </S.HeaderLeft>
                 <S.HeaderRight>
-                    <S.ManageButton onPress={() => setModalVisible(true)}>
+                    {/* <S.ManageButton onPress={() => setModalVisible(true)}> */}
+                    <S.ManageButton>
                         <S.ManageText>친구관리</S.ManageText>
                     </S.ManageButton>
                 </S.HeaderRight>

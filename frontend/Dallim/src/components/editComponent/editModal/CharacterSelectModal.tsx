@@ -10,7 +10,7 @@ import {
   equippedEvolutionStageState,
   selectedCharacterIndexState,
   selectedEvolutionStageState,
-} from '@/recoil/EditRecoil';
+} from '@/recoil/UserRecoil';
 
 type ModalComponentProps = {
   toggleModal: () => void;

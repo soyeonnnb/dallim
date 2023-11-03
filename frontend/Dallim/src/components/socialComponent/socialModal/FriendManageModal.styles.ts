@@ -68,6 +68,15 @@ export const FriendBox = styled.View`
   margin-left: 5%; // 스크롤
 `;
 
+export const WaitBox = styled.View`
+  /* border-color: red;
+  border-width: 1px; */
+  width: 90%;
+  height: 70px;
+  margin-top: 10px;
+  margin-left: 5%; // 스크롤
+`;
+
 export const Body = styled.View`
   /* border-color: red;
   border-width: 1px; */

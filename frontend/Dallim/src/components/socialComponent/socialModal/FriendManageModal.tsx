@@ -12,6 +12,7 @@ import { Animated, TextInput } from 'react-native';
 
 import { useRecoilState } from 'recoil';
 import { friendRequestsState, friendsState } from '@/recoil/FriendRecoil';
+import WaitBox from '../WaitBox';
 
 type Friend = {
   userId: number;
@@ -197,9 +198,9 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
         return friendRequests.length > 0 ? (
           <ScrollView>
             {friendRequests.map((order) => (
-              <S.FriendBox key={order.userId}>
-                <FriendBox {...order} />
-              </S.FriendBox>
+              <S.WaitBox key={order.userId}>
+                <WaitBox {...order} />
+              </S.WaitBox>
             ))}
           </ScrollView>
         ) : (

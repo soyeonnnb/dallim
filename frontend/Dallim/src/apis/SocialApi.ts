@@ -190,6 +190,8 @@ export const postAddFriend = async (userid: number): Promise<boolean> => {
   }
 };
 
+
+//////////////////////////////////실패
 // 친구 삭제
 export const deleteFriend = async (userid: number): Promise<boolean> => {
   const accessToken = await getToken();
@@ -213,6 +215,7 @@ export const deleteFriend = async (userid: number): Promise<boolean> => {
   }
 };
 
+//////////////////////////////////실패
 // 친구 대기 목록 조회
 export const fetchFriendWaitList = async () => {
   const accessToken = await getToken();
@@ -230,7 +233,35 @@ export const fetchFriendWaitList = async () => {
   }
 };
 
-// 친구 거절
+// 친구신청 수락
+export const postRequestAccept = async (userid: number): Promise<boolean> => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/v1/follow/accept`,
+      {
+        toUserId: userid,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    if (response.data.status === 'success' && response.data.data === true) {
+      console.log('SocialApi : 친구신청 수락 요청 성공');
+      return true;
+    } else {
+      console.log('SocialApi : 친구신청 수락 요청 실패');
+      return false;
+    }
+  } catch (error) {
+    console.error('친구신청 수락 요청 오류', error);
+    throw error;
+  }
+};
+
+// 친구신청 거절
 export const postRequestReject = async (userid: number): Promise<boolean> => {
   const accessToken = await getToken();
   try {
@@ -246,14 +277,14 @@ export const postRequestReject = async (userid: number): Promise<boolean> => {
       },
     );
     if (response.data.status === 'success' && response.data.data === true) {
-      console.log('SocialApi : 친구 거절 요청 성공');
+      console.log('SocialApi : 친구신청 거절 요청 성공');
       return true;
     } else {
-      console.log('SocialApi : 친구 거절 요청 실패');
+      console.log('SocialApi : 친구신청 거절 요청 실패');
       return false;
     }
   } catch (error) {
-    console.error('친구 거절 요청 오류', error);
+    console.error('친구신청 거절 요청 오류', error);
     throw error;
   }
 };

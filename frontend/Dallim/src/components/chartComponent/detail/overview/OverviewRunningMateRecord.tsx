@@ -14,7 +14,7 @@ interface Props {
 
 function OverviewRunningMateRecord({data}: Props) {
   const characterImage =
-    characterData[data.character.characterIndex].levels[
+    characterData[data.character.characterIndex].evolutions[
       data.character.evolutionStage
     ].front;
   return (

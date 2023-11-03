@@ -10,7 +10,7 @@ interface Props {
   month: number;
 }
 function MonthlyRecord({year, month}: Props) {
-  const characterImage = characterData[2].levels[0].front;
+  const characterImage = characterData[2].evolutions[0].front;
   return (
     <S.Container>
       <S.Title>

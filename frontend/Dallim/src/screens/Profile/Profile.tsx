@@ -72,7 +72,7 @@ function Profile({navigation}: ProfileProps) {
   //dataCall ---------------------------------
   const selectedCharacter = characterData[userData.characterIndex];
   const selectedCharacterLevelData =
-    selectedCharacter.levels[userData.evolutionStage];
+    selectedCharacter.evolutions[userData.evolutionStage];
 
   //actions---------
   const handleRunningMatePress = () => {

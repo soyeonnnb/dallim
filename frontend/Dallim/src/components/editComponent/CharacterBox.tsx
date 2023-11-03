@@ -13,7 +13,7 @@ function CharacterBox() {
   const selectedEvolutionStage = useRecoilValue(selectedEvolutionStageState);
   const selectedCharacterIsPurchased = useRecoilValue(selectedCharacterIsPurchasedState);
 
-  const characterImage = characterData[selectedCharacterIndex].levels[selectedEvolutionStage].front;
+  const characterImage = characterData[selectedCharacterIndex].evolutions[selectedEvolutionStage].front;
 
   return (
     <S.Container>

@@ -7,11 +7,11 @@ import NoSearchImage from '@/assets/images/NoSearch.png';
 import SearchIcon from '@/assets/icons/SearchIcon.png';
 import FriendBox from '../FriendBox';
 import UserBox from '../UserBox';
-import { fetchFriendList, fetchUserSearch } from '@/apis/SocialApi';
+import { fetchFriendList, fetchFriendWaitList, fetchUserSearch } from '@/apis/SocialApi';
 import { Animated, TextInput } from 'react-native';
 
 import { useRecoilState } from 'recoil';
-import { friendsState } from '@/recoil/FriendRecoil';
+import { friendRequestsState, friendsState } from '@/recoil/FriendRecoil';
 
 type Friend = {
   userId: number;
@@ -43,24 +43,9 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const [friends, setFriends] = useRecoilState(friendsState);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // 친구 리스트 가져오기 (Axios)
-  useEffect(() => {
-    const getFriends = async () => {
-      try {
-        setLoading(true); // 로딩 상태를 true
-        const friendsData = await fetchFriendList();
-        setFriends(friendsData);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false); // 데이터를 받아온 후 로딩 상태를 false
-      }
-    };
-    if (isVisible) {
-      getFriends();
-    }
-  }, [isVisible, setFriends]);
+  const [friendRequests, setFriendRequests] = useRecoilState(friendRequestsState);
 
+  const [fadeAnim] = useState(new Animated.Value(0));  // 초기 투명도 0
 
   // 규호형해주세요규호형해주세요규호형해주세요규호형해주세요규호형해주세요규호형해주세요규호형해주세요
   const Search = () => {
@@ -104,7 +89,43 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
     );
   };
 
-  const [fadeAnim] = useState(new Animated.Value(0));  // 초기 투명도 0
+  // 친구 리스트 가져오기 (Axios)
+  useEffect(() => {
+    const getFriends = async () => {
+      try {
+        setLoading(true); // 로딩 상태를 true
+        const friendsData = await fetchFriendList();
+        setFriends(friendsData);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false); // 데이터를 받아온 후 로딩 상태를 false
+      }
+    };
+    if (isVisible) {
+      getFriends();
+    }
+  }, [isVisible, setFriends]);
+
+  // 받은 요청 목록 조회 (Axios)
+  useEffect(() => {
+    const fetchFriendRequests = async () => {
+      try {
+        setLoading(true);
+        const waitData = await fetchFriendWaitList();
+        setFriendRequests(waitData);
+        console.log('받은 요청 목록 조회 성공');
+      } catch (error) {
+        console.error('받은 요청 목록 조회 실패', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (isVisible) {
+      fetchFriendRequests();
+    }
+  }, [isVisible, setFriendRequests]);
 
   useEffect(() => {
     // 무한 반복하는 페이드 애니메이션
@@ -158,7 +179,6 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
           </>
         );
       case 'friends':
-        // Friend가 true인 경우 친구 목록을, 그렇지 않으면 친구 없음 메시지를 렌더링
         return friends.length > 0 ? (
           <ScrollView>
             {friends.map((friend) => (
@@ -174,11 +194,19 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
           </>
         );
       case 'requests':
-        // 받은 요청이 있다고 가정하고 해당 내용을 렌더링합니다.
-        // 받은 요청이 없는 경우의 로직도 추가해야 합니다.
-        return (
-          // 여기에 받은 요청 목록을 렌더링하는 컴포넌트를 추가하세요.
-          <S.SelectorText>받은 요청이 여기에 표시됩니다.</S.SelectorText>
+        return friendRequests.length > 0 ? (
+          <ScrollView>
+            {friendRequests.map((order) => (
+              <S.FriendBox key={order.userId}>
+                <FriendBox {...order} />
+              </S.FriendBox>
+            ))}
+          </ScrollView>
+        ) : (
+          <>
+            <S.EmptyImage source={NoFriendImage} resizeMode="contain" />
+            <S.EmptyText style={{ marginRight: 10 }}>친구가 없어요.</S.EmptyText>
+          </>
         );
       default:
         return null;

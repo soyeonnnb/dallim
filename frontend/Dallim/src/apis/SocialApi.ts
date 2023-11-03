@@ -57,7 +57,6 @@ export const fetchFriendRank = async () => {
   }
 };
 
-
 // 유저 달림기록 가져오기 ( Index )
 export const fetchUserRecord = async (userId: number) => {
   const accessToken = await getToken();
@@ -134,7 +133,7 @@ export const fetchFriendList = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log('SocialApi : 친구 목록 조회 Axios 성공 :' + response.data.data);
+    console.log('SocialApi : 친구 목록 조회 Axios 성공 ');
     return response.data.data;
   } catch (error) {
     console.log('SocialApi : 친구 목록 조회 Axios 실패');
@@ -155,7 +154,7 @@ export const fetchUserSearch = async (word: string) => {
     console.log(
       'SocialApi : 유저 조회 Axios 성공 :' + JSON.stringify(response.data.data),
     );
-    console.log('SocialApi : 유저 조회 Axios 성공 2 :' + response.data.data);
+    console.log('SocialApi : 유저 조회 Axios 성공' );
     return response.data.data;
   } catch (error) {
     console.log('SocialApi : 유저 조회 Axios 실패');
@@ -195,14 +194,11 @@ export const postAddFriend = async (userid: number): Promise<boolean> => {
 export const deleteFriend = async (userid: number): Promise<boolean> => {
   const accessToken = await getToken();
   try {
-    const response = await axios.delete(
-      `${BASE_URL}/api/v1/follow/${userid}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+    const response = await axios.delete(`${BASE_URL}/api/v1/follow/${userid}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
       },
-    );
+    });
 
     if (response.data.status === 'success' && response.data.data === true) {
       console.log('SocialApi : 친구 삭제 성공');
@@ -213,6 +209,23 @@ export const deleteFriend = async (userid: number): Promise<boolean> => {
     }
   } catch (error) {
     console.error('친구 삭제 오류', error);
+    throw error;
+  }
+};
+
+// 친구 대기 목록 조회
+export const fetchFriendWaitList = async () => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.get(`${BASE_URL}/api/v1/follow/waiting`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log('SocialApi : 친구 대기 목록 Axios 성공 ');
+    return response.data.data;
+  } catch (error) {
+    console.log('SocialApi : 친구 대기 목록 Axios 실패');
     throw error;
   }
 };

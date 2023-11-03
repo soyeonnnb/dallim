@@ -1,12 +1,13 @@
 import * as S from './MonthlyChart.styles';
 
 interface Props {
-  year: number;
-  month: number;
-  setYear: any;
-  setMonth: any;
+  selectedYearMonth: {
+    year: number;
+    month: number;
+  };
+  setSelectedYearMonth: any;
 }
-function MonthlyChart({year, month, setYear, setMonth}: Props) {
+function MonthlyChart({selectedYearMonth, setSelectedYearMonth}: Props) {
   return (
     <S.Container>
       <S.Title>월별 현황</S.Title>

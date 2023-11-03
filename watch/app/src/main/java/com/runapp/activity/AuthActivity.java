@@ -1,20 +1,24 @@
 package com.runapp.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.runapp.R;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.runapp.databinding.ActivityAuthBinding;
-import com.runapp.databinding.ActivityMainBinding;
-import com.runapp.service.ApiService;
+import com.runapp.dto.request.AccessTokenRequestDTO;
+import com.runapp.dto.response.AccessTokenResponseDTO;
+import com.runapp.dto.response.ApiResponseDTO;
+import com.runapp.dto.response.AuthCodeResponseDTO;
 import com.runapp.util.ApiUtil;
+import com.runapp.util.PreferencesUtil;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,6 +27,7 @@ import retrofit2.Response;
 public class AuthActivity extends AppCompatActivity {
     private CountDownTimer timer;
     private ActivityAuthBinding binding;
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,8 @@ public class AuthActivity extends AppCompatActivity {
         binding = ActivityAuthBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        pref = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
         startTimer();
 
         // 인증번호 요청
@@ -48,30 +55,31 @@ public class AuthActivity extends AppCompatActivity {
         binding.btnVerify.setOnClickListener(v -> {
             verifyAuthenticationCode();
         });
-
-
     }
-
 
     // 인증번호 인증 여부 확인
     private void verifyAuthenticationCode(){
-        Call<String> call = ApiUtil.getApiService().verifyCode(String.valueOf(binding.codeTextView));
-        call.enqueue(new Callback<String>() {
+        AccessTokenRequestDTO requestDTO = new AccessTokenRequestDTO((String) binding.codeTextView.getText());
+        System.out.println(requestDTO.getAuthCode());
+        Call<ApiResponseDTO<AccessTokenResponseDTO>> call = ApiUtil.getApiService().verifyCode(requestDTO);
+        call.enqueue(new Callback<ApiResponseDTO<AccessTokenResponseDTO>>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                // 액세스 토큰 있다면
-                if (response.isSuccessful() && response.body() != null){
-                    SharedPreferences sharedPreferences = getSharedPreferences("dallim", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("access_token", response.body());
-                    editor.apply();
+            public void onResponse(Call<ApiResponseDTO<AccessTokenResponseDTO>> call, Response<ApiResponseDTO<AccessTokenResponseDTO>> response) {
+                // 액세스 토큰 있다면 암호화해서 저장
+                System.out.println(response.body().getData());
+                if (response.isSuccessful() && response.body().getData() != null){
+                    SharedPreferences.Editor edit = pref.edit();
+                    edit.putString("accessToken", response.body().getData().getAccessToken());
+                    edit.apply();
+                    setResult(Activity.RESULT_OK);
+                    finish();
                 } else {
                     Toast.makeText(AuthActivity.this, "인증이 완료되지 않았습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<ApiResponseDTO<AccessTokenResponseDTO>> call, Throwable t) {
                 Toast.makeText(AuthActivity.this, "통신 에러 발생", Toast.LENGTH_SHORT).show();
             }
         });
@@ -79,20 +87,26 @@ public class AuthActivity extends AppCompatActivity {
 
     // 인증번호 생성 요청
     private void requestAuthenticationCode() {
-        Call<String> call = ApiUtil.getApiService().generateCode();
-        call.enqueue(new Callback<String>() {
+        Call<ApiResponseDTO<AuthCodeResponseDTO>> call = ApiUtil.getApiService().generateCode();
+        call.enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<ApiResponseDTO<AuthCodeResponseDTO>> call, Response<ApiResponseDTO<AuthCodeResponseDTO>> response) {
                 if (response.isSuccessful()) {
-                    binding.codeTextView.setText(response.body());
+                    binding.codeTextView.setText(response.body().getData().getAuthCode());
                 } else {
-                    Log.d("error", "실패");
+                    try {
+                        String string = response.errorBody().string();
+                        System.out.println(string);
+                        Log.d("error", "실패");
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.d("error", "실패");
+            public void onFailure(Call<ApiResponseDTO<AuthCodeResponseDTO>> call, Throwable t) {
+                Log.d("error", "실패2");
             }
         });
     }

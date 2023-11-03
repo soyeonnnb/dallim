@@ -1,9 +1,11 @@
 package com.runapp.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.PowerManager;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,14 +21,15 @@ import com.runapp.databinding.ActivityRunningBinding;
 import com.runapp.dto.RunningDataDTO;
 import com.runapp.model.RunDetail;
 import com.runapp.model.RunningData;
-import com.runapp.model.RunningViewModel;
 import com.runapp.service.LocationService;
 import com.runapp.service.SensorService;
 import com.runapp.service.TimerService;
+import com.runapp.util.AccessToken;
 import com.runapp.util.ApiUtil;
 import com.runapp.util.Conversion;
 import com.runapp.util.MyApplication;
 import com.runapp.util.NetworkUtil;
+import com.runapp.view.RunningViewModel;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +48,6 @@ public class RunningActivity extends AppCompatActivity {
     private ActivityRunningBinding binding;
     private RunningViewModel runningViewModel;
     private TimerService timerService;
-    private double initialStepCount = 0;
     private List<RunDetail> runDetailsList = new ArrayList<>();
     private AppDatabase db;
     private RunningData runningData;
@@ -54,10 +56,12 @@ public class RunningActivity extends AppCompatActivity {
     private int speedCountTime = 0;
     private double totalSpeed = 0;
     private Conversion conversion = new Conversion();
-    private double distance = 0;
     private Intent sensorIntent;
     private Intent locationIntent;
+    private Intent timerServiceIntent;
+    private BroadcastReceiver timerUpdateReceiver;
     private PowerManager.WakeLock wakeLock;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,10 +70,6 @@ public class RunningActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         db = AppDatabase.getDatabase(getApplicationContext());
-
-        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "AppName:SensorWakeLock");
-        wakeLock.acquire();
 
         runningData = new RunningData();
         runningData.setUserId(6L);
@@ -105,28 +105,32 @@ public class RunningActivity extends AppCompatActivity {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(viewPagerAdapter);
 
-        // TimerService 생성 및 시작
-        Handler timerHandler = new Handler(Looper.getMainLooper());
-        timerService = new TimerService(timerHandler, new Runnable() {
-            @Override
-            public void run() {
-                updateTimer();
-                timerService.startTimer(); // 타이머를 계속 반복하기 위해 다시 시작
-            }
-        });
-        timerService.startTimer();
-
         // 위치서비스 포그라운드 실행
         locationIntent = new Intent(this, LocationService.class);
         startForegroundService(locationIntent);
         // 센서서비스 포그라운드 실행
         sensorIntent = new Intent(this, SensorService.class);
         startForegroundService(sensorIntent);
+
+        timerServiceIntent = new Intent(this, TimerService.class);
+        startForegroundService(timerServiceIntent);
+
+        // Initialize the BroadcastReceiver
+        timerUpdateReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                long elapsedTime = intent.getLongExtra("elapsedTime", 0);
+                updateTimer(elapsedTime);
+            }
+        };
+
+        registerReceiver(timerUpdateReceiver, new IntentFilter(TimerService.TIMER_BR));
     }
 
     // 시간 업데이트 메서드
-    private void updateTimer() {
-        long millis = timerService.getElapsedTime();
+    private void updateTimer(long elapsedTime) {
+        System.out.println(elapsedTime);
+        long millis = elapsedTime;
         int seconds = (int) (millis / 1000);
         int minutes = seconds / 60;
         seconds = seconds % 60;
@@ -156,6 +160,7 @@ public class RunningActivity extends AppCompatActivity {
             detail.setHeartRate(runningViewModel.getHeartRate().getValue());
         }
         detail.setSecond(totalTime++);
+        System.out.println(totalTime);
         if(runningViewModel.getLongitude().getValue() != null){
             detail.setLongitude(runningViewModel.getLongitude().getValue());
         }
@@ -187,15 +192,15 @@ public class RunningActivity extends AppCompatActivity {
     // 종료
     @Override
     protected void onDestroy() {
-
-        if (wakeLock.isHeld()) {
-            wakeLock.release();
-        }
         stopService(sensorIntent); // 센서서비스 중지
         stopService(locationIntent); // 위치서비스 중지
-        timerService.stopTimer(); // 타이머 중지
+        unregisterReceiver(timerUpdateReceiver);
+        // Stop the TimerService
+        stopService(timerServiceIntent);
 
-        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 50) {
+        System.out.println(runningViewModel.getOriDistance().getValue());
+
+        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.01) {
             Toast toast = Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
@@ -223,10 +228,12 @@ public class RunningActivity extends AppCompatActivity {
         runningData.setTotalTime(totalTime - 1);
 
         addRunningData(runningData);
-        String token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY5ODM4NjY3MiwiZXhwIjoxNjk5NTk2MjcyfQ.pCTpmULptHoysP5BAwq6srropl_p1k8YeXfbEvFFAsY";
+
+        String accessToken = AccessToken.getInstance().getAccessToken();
+        String token = "Bearer " + accessToken;
 
         // 네트워크 연결됐는지 확인
-        if(new NetworkUtil(this).getNetworkConnected()){
+        if(new NetworkUtil().isOnline(this)){
             /*
             * 연결이 됐으면 ApiUtil에서 토큰이랑 데이터 담아서 전송.
             * 비동기적으로 처리되게끔 요청을 큐에 집어넣는다.

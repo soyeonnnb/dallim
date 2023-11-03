@@ -62,6 +62,9 @@
             android:name=".service.LocationService"
             android:exported="false" />
         <service
+            android:name=".service.TimerService"
+            android:exported="false" />
+        <service
             android:name=".service.DataLayerListenerService"
             android:exported="true">
             <intent-filter>

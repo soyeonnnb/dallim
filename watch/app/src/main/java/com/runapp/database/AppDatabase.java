@@ -9,12 +9,14 @@ import androidx.room.TypeConverters;
 
 import com.runapp.model.RiverData;
 import com.runapp.model.RunningData;
+import com.runapp.model.RunningMate;
 
 @TypeConverters({DateConverter.class, RunningDataConverters.class})
-@Database(entities = {RunningData.class, RiverData.class}, version = 18) // RunningDate를 db의 엔터티로 사용. 버전은 2
+@Database(entities = {RunningData.class, RiverData.class, RunningMate.class}, version = 19) // RunningDate를 db의 엔터티로 사용. 버전은 2
 public abstract class AppDatabase extends RoomDatabase { // Room 라이브러리를 사용함
     public abstract RunningDataDAO runningDataDAO();
     public abstract RiverDataDAO riverDataDAO();
+    public abstract RunningMateDAO runningMateDAO();
 
     private static AppDatabase INSTANCE; // 싱글톤으로 관리하기 위함.
 

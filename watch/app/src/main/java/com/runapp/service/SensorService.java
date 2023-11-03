@@ -20,7 +20,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.runapp.model.RunningViewModel;
+import com.runapp.view.RunningViewModel;
 
 public class SensorService extends Service {
     private RunningViewModel runningViewModel;

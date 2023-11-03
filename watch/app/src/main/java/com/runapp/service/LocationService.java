@@ -23,7 +23,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.runapp.model.RunningViewModel;
+import com.runapp.view.RunningViewModel;
 import com.runapp.util.Conversion;
 import com.runapp.util.MyApplication;
 
@@ -100,7 +100,7 @@ public class LocationService extends Service {
 
             double speed = location.getSpeed();
             // 초속 0.4 이상이면 걷는 걸로 판단.
-            if(speed >= 0.4){
+            if(speed >= 0.001){
                 speed = (Math.round(speed * 100) / 100.0);
                 // m/s 저장
                 runningViewModel.setMsSpeed(speed);

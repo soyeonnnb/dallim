@@ -1,13 +1,15 @@
 package com.runapp.activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +24,9 @@ import androidx.core.content.ContextCompat;
 
 import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivityMainBinding;
+import com.runapp.util.AccessToken;
+import com.runapp.util.NetworkUtil;
+import com.runapp.util.PreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,12 +39,16 @@ public class MainActivity extends ComponentActivity{
     private ActivityMainBinding binding;
     private AppDatabase db;
     static int MULTIPLE_PERMISSIONS_CODE = 100;
+    private SharedPreferences prefs;
+    private NetworkUtil networkUtil;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         db = AppDatabase.getDatabase(getApplicationContext());
         super.onCreate(savedInstanceState);
+        // 리시버 인스턴스를 생성합니다.
+        networkUtil = new NetworkUtil();
 
         // 알림을 사용하기 위한 코드(오레오 이상 버전이면 실행)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -69,28 +78,20 @@ public class MainActivity extends ComponentActivity{
 
         // 어떤 권한을 확인할 지 설정 해놓은 메서드.
         checkPermission();
+    }
 
-        // 시작 버튼을 클릭하면
-        binding.btnStart.setOnClickListener(v -> {
-            SharedPreferences sharedPref = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-            boolean isAuthenticated = sharedPref.getBoolean("Authenticated", false); // 기본값은 false
-            if (!isAuthenticated){
-                showAlert();
-            }else{
-                /*
-                 * Intent : 액티비티 간의 전환 또는 서비스를 시작할 때 사용하는 객체다.
-                 * 현재 액티비티에서 전환하려는 액티비티로 설정해주면 된다.
-                 * */
-                Intent intent = new Intent(MainActivity.this, SelectActivity.class);
-                startActivity(intent);
-            }
-        });
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // 인텐트 필터를 생성하고, 리시버를 등록합니다.
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkUtil, filter);
     }
 
     private void showAlert() {
         new AlertDialog.Builder(this)
-                .setTitle("인증 필요")
-                .setMessage("이 기능을 사용하기 위해서는 인증이 필요합니다.")
+                .setTitle("달림 모바일 연동")
+                .setMessage("달림을 사용하기 위해서는 인증이 필요합니다.")
                 .setPositiveButton("인증하기", (dialog, which) -> {
                     // 인증 액티비티로 이동하는 인텐트 실행
                     Intent intent = new Intent(MainActivity.this, AuthActivity.class);
@@ -98,6 +99,14 @@ public class MainActivity extends ComponentActivity{
                 })
                 .setNegativeButton("취소", (dialog, which) -> dialog.dismiss())
                 .create().show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Activity.RESULT_OK){
+            startSelectActivity();
+        }
     }
 
 
@@ -178,10 +187,38 @@ public class MainActivity extends ComponentActivity{
     @Override
     protected void onResume() {
         super.onResume();
+
+        prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
+
+        String authenticateduth = prefs.getString("accessToken", null);
+        System.out.println(authenticateduth);
+
+        // 시작 버튼을 클릭하면
+        binding.btnStart.setOnClickListener(v -> {
+            if (authenticateduth == null){
+                showAlert();
+            }else{
+                // 액세스 있으면 저장해서 사용
+                AccessToken.getInstance().setAccessToken(authenticateduth);
+                startSelectActivity();
+            }
+        });
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // 액티비티가 멈출 때 리시버 등록을 해제합니다.
+        unregisterReceiver(networkUtil);
+    }
+
+    private void startSelectActivity() {
+        Intent intent = new Intent(MainActivity.this, SelectActivity.class);
+        startActivity(intent);
     }
 }

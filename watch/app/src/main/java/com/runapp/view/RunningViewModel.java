@@ -1,8 +1,10 @@
-package com.runapp.model;
+package com.runapp.view;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+
+import com.runapp.model.RunningData;
 
 
 public class RunningViewModel extends ViewModel {

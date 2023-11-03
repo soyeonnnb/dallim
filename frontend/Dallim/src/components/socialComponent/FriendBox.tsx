@@ -1,14 +1,40 @@
-import React, { useState } from 'react';
 import * as S from './Box.styles';
-import Character from '@/assets/characters/Panda.png';
-// import UserDetailModal from '../../screens/social/UserDetailStack';
+import { deleteFriend } from '@/apis/SocialApi';
+import { characterData } from '@/recoil/CharacterData';
 
-function FriendBox() {
+import { useRecoilState } from 'recoil';
+import { friendsState } from '@/recoil/FriendRecoil';
 
-    const Nickname = "아뇨스폰지밥인데요";
-    const Level = 53;
+type FriendBoxProps =
+    {
+        userId: number;
+        characterIndex: number;
+        nickname: string;
+        level: number;
+    };
 
-    const [isDetailModalVisible, setDetailModalVisible] = useState(false);
+
+function FriendBox({ userId, characterIndex, nickname, level }: FriendBoxProps) {
+
+    const [friends, setFriends] = useRecoilState(friendsState);
+
+    const tempEvolutionIndex = 0;
+    const selectedCharacter = characterData[characterIndex].evolutions[tempEvolutionIndex].front;
+
+
+    const handleDeleteFriend = async () => {
+        try {
+            const result = await deleteFriend(userId);
+            if (result) {
+                console.log('친구 삭제가 성공적으로 완료되었습니다.');
+                setFriends(friends.filter(friend => friend.userId !== userId));
+            } else {
+                console.log('친구 삭제를 실패하였습니다.');
+            }
+        } catch (error) {
+            console.error('친구 삭제 중 오류가 발생하였습니다.', error);
+        }
+    };
 
     return (
         <S.Container>
@@ -16,28 +42,21 @@ function FriendBox() {
                 <S.Left>
                     <S.FriendDetailButton onPress={() => {
                         console.log("친구 상세 버튼 눌림확인");
-                        setDetailModalVisible(true);
                     }}>
-                        <S.CharacterImage source={Character} />
+                        <S.CharacterImage source={selectedCharacter} resizeMode='contain' />
                     </S.FriendDetailButton>
                 </S.Left>
                 <S.Middle>
-                    <S.NicknameText>{Nickname}</S.NicknameText>
-                    <S.LevelText>Lv. {Level}</S.LevelText>
+                    <S.NicknameText>{nickname}</S.NicknameText>
+                    <S.LevelText>Lv. {level}</S.LevelText>
                 </S.Middle>
                 <S.Right>
-                    <S.Button onPress={() => {
-                        console.log("친구 삭제 버튼 눌림확인");
-                    }}>
-                        <S.FriendRemoveImage source={require('@/assets/icons/FriendRemoveIcon.png')} resizeMode='contain'/>
+                    <S.Button onPress={handleDeleteFriend}>
+                        <S.FriendRemoveImage source={require('@/assets/icons/FriendRemoveIcon.png')} resizeMode='contain' />
                     </S.Button>
                 </S.Right>
             </S.Box>
 
-            {/* <UserDetailModal
-                isVisible={isDetailModalVisible}
-                onClose={() => setDetailModalVisible(false)}
-            /> */}
         </S.Container>
     );
 };

@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {TextInput, Image} from 'react-native';
+import {Animated} from 'react-native';
 
 export const ModalContainer = styled.View`
   flex: 1;
@@ -12,13 +13,13 @@ export const ModalContent = styled.View`
   /* border-color: red;
   border-width: 1px; */
   width: 90%;
-  height: 70%;
+  height: 80%;
 `;
 
 export const Header = styled.View`
   /* border-color: red;
   border-width: 1px; */
-  border-radius: 30px;
+  border-radius: 20px;
   width: 100%;
   height: 80%;
   align-items: center;
@@ -29,13 +30,14 @@ export const Top = styled.View`
   border-bottom-color: gray;
   border-bottom-width: 1px;
   width: 100%;
-  height: 15%;
+  height: 10%;
   align-items: center;
   justify-content: center;
 `;
 
 export const TopText = styled.Text`
   font-size: 15px;
+  font-weight: bold;
   color: black;
 `;
 
@@ -43,7 +45,7 @@ export const ListBox = styled.View`
   /* border-color: blue;
   border-width: 1px; */
   width: 100%;
-  height: 85%;
+  height: 88%;
   align-items: center;
   padding: 5px;
 `;
@@ -58,6 +60,15 @@ export const UserBox = styled.View`
 `;
 
 export const FriendBox = styled.View`
+  /* border-color: red;
+  border-width: 1px; */
+  width: 90%;
+  height: 70px;
+  margin-top: 10px;
+  margin-left: 5%; // 스크롤
+`;
+
+export const WaitBox = styled.View`
   /* border-color: red;
   border-width: 1px; */
   width: 90%;
@@ -82,14 +93,16 @@ export const ViewSelector = styled.View`
   align-items: flex-start;
   justify-content: center;
   flex-direction: row;
-  gap: 5px;
+  gap: 8px;
+  bottom: 10px;
+  z-index: -1;
 `;
 
-export const SelectorButton = styled.TouchableOpacity`
-  border-color: green;
-  border-width: 1px;
+export const SelectorButton = styled.TouchableOpacity<{isActive: boolean}>`
+  /* border-color: red;
+  border-width: 1px; */
   border-radius: 10px;
-  background-color: white;
+  background-color: ${({isActive}) => (isActive ? 'white' : '#C1C4E7')};
   align-items: center;
   justify-content: center;
   width: 30%;
@@ -98,7 +111,8 @@ export const SelectorButton = styled.TouchableOpacity`
 
 export const SelectorText = styled.Text`
   font-size: 15px;
-  color: red;
+  font-weight: bold;
+  color: black;
 `;
 
 export const Footer = styled.View`
@@ -131,8 +145,8 @@ export const Bottom = styled.View`
 `;
 
 export const CloseButton = styled.TouchableOpacity`
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
 `;
 
 export const CloseImage = styled.Image`
@@ -195,4 +209,9 @@ export const SendButton = styled.TouchableOpacity`
 export const SearchIcon = styled(Image)`
   width: 100%;
   height: 100%;
+`;
+
+export const AnimatedFooterText = styled(Animated.Text)`
+  font-size: 25px;
+  color: white;
 `;

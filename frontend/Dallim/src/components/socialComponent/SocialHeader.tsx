@@ -49,7 +49,7 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
                 show={showAlert}
                 showProgress={false}
                 title="안내사항"
-                message={"상위 20명의 거리 기준 랭킹입니다."}
+                message={"상위 거리 기준 랭킹입니다."}
                 closeOnTouchOutside={true}
                 onDismiss={() => {
                     setShowAlert(false);

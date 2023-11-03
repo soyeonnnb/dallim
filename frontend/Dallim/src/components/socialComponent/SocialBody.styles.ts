@@ -79,7 +79,6 @@ export const RankInfoBox = styled.View`
   height: 85px;
 `;
 
-
 export const EmptyImage = styled.Image`
   /* border-width: 1px;
   border-color: red; */
@@ -104,4 +103,9 @@ export const LoadingView = styled.View`
   border-color: blue; */
   width: 100%;
   height: 250px;
+`;
+
+export const AnimatedFooterText = styled(Animated.Text)`
+  font-size: 25px;
+  color: white;
 `;

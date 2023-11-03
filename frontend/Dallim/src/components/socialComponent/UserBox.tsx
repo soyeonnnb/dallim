@@ -1,14 +1,53 @@
-import React, { useState } from 'react';
+import { postAddFriend } from '@/apis/SocialApi';
 import * as S from './Box.styles';
 import Character from '@/assets/characters/PenguinEgg.png';
-// import UserDetailModal from '../../screens/social/UserDetailStack';
+import { characterData } from '@/recoil/CharacterData';
 
-function UserBox() {
+import { useSetRecoilState } from 'recoil';
+import { friendsState } from '@/recoil/FriendRecoil';
+import { useState } from 'react';
 
-    const Nickname = "아뇨플랑크톤인데요";
-    const Level = 66;
+type UserBoxProps = {
+    userId: number;
+    characterIndex: number;
+    nickname: string;
+    level: number;
+    isFollower: boolean;
+};
 
-    const [isDetailModalVisible, setDetailModalVisible] = useState(false);
+function UserBox({ userId, nickname, characterIndex, level, isFollower }: UserBoxProps) {
+
+    const setFriends = useSetRecoilState(friendsState);
+
+    const tempEvolutionIndex = 0;
+    const selectedCharacter = characterData[characterIndex].evolutions[tempEvolutionIndex].front;
+    const [isFollowerCheck, setIsFollowerCheck] = useState(isFollower);
+
+
+    const handleaddFriend = async (userId: number) => {
+        try {
+            const result = await postAddFriend(userId);
+            if (result) {
+                console.log('친구 요청이 성공적으로 완료');
+                setIsFollowerCheck(true); // 로컬 상태 업데이트
+                setFriends((oldFriendsList) => [
+                    ...oldFriendsList,
+                    {
+                        userId: userId,
+                        nickname: nickname,
+                        characterIndex: characterIndex,
+                        level: level,
+                        isFollower: true,
+                    },
+                ]);
+
+            } else {
+                console.log('친구 요청이 실패');
+            }
+        } catch (error) {
+            console.error('친구 추가 중 오류가 발생', error);
+        }
+    };
 
     return (
         <S.Container>
@@ -16,28 +55,23 @@ function UserBox() {
                 <S.Left >
                     <S.FriendDetailButton onPress={() => {
                         console.log("친구 상세 버튼 눌림확인");
-                        setDetailModalVisible(true);
                     }}>
-                        <S.CharacterImage source={Character} resizeMode='contain'/>
+                        <S.CharacterImage source={selectedCharacter} resizeMode='contain' />
                     </S.FriendDetailButton>
                 </S.Left>
                 <S.Middle>
-                    <S.NicknameText>{Nickname}</S.NicknameText>
-                    <S.LevelText>Lv. {Level}</S.LevelText>
+                    <S.NicknameText>{nickname}</S.NicknameText>
+                    <S.LevelText>Lv. {level}</S.LevelText>
                 </S.Middle>
                 <S.Right>
-                    <S.Button onPress={() => {
-                        console.log("친구 추가 버튼 눌림확인");
-                    }}>
-                        <S.FriendAddImage source={require('@/assets/icons/FriendAddIcon.png')} resizeMode='contain'/>
-                    </S.Button>
+                    {!isFollowerCheck && (
+                        <S.Button onPress={() => { handleaddFriend(userId) }}>
+                            <S.FriendAddImage source={require('@/assets/icons/FriendAddIcon.png')} resizeMode='contain' />
+                        </S.Button>
+                    )}
                 </S.Right>
             </S.Box>
 
-            {/* <UserDetailModal 
-                isVisible={isDetailModalVisible}
-                onClose={() => setDetailModalVisible(false)} 
-            /> */}
         </S.Container >
     );
 };

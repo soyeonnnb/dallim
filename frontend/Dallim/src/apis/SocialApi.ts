@@ -30,7 +30,7 @@ export const fetchAllRank = async () => {
       },
     });
     console.log(
-      'SocialApi : 주간 랭킹 조회 ( 전체 ) 조회 Axios 성공 :' +
+      'SocialApi : 주간 랭킹 조회 ( 전체 ) 조회 Axios 성공 ' +
         response.data.data,
     );
     return response.data.data;
@@ -49,9 +49,7 @@ export const fetchFriendRank = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log(
-      'SocialApi : 주간 랭킹 조회 ( 친구 ) Axios 성공 :' + response.data.data,
-    );
+    console.log('SocialApi : 주간 랭킹 조회 ( 친구 ) Axios 성공 ');
     return response.data.data;
   } catch (error) {
     console.log('SocialApi : 주간 랭킹 조회 ( 친구 ) Axios 실패');
@@ -71,7 +69,7 @@ export const fetchUserRecord = async (userId: number) => {
         },
       },
     );
-    console.log('SocialApi : 유저 기록 조회 Axios 성공 :' + response.data.data);
+    console.log('SocialApi : 유저 기록 조회 Axios 성공');
     return response.data.data;
   } catch (error) {
     console.log('SocialApi : 유저 기록 조회 Axios 실패');
@@ -118,7 +116,7 @@ export const fetchCompare = async (userId: number) => {
         },
       },
     );
-    console.log('SocialApi : 비교 데이터 조회 Axios 성공 :' + response.data.data);
+    console.log('SocialApi : 비교 데이터 조회 Axios 성공 ');
     return response.data.data;
   } catch (error) {
     console.log('SocialApi : 비교 데이터 조회 Axios 실패');
@@ -126,3 +124,19 @@ export const fetchCompare = async (userId: number) => {
   }
 };
 
+// 유저 친구 목록 가져오기
+export const fetchFriendList = async () => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.get(`${BASE_URL}/api/v1/follow`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log('SocialApi : 친구 목록 조회 Axios 성공 :' + response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.log('SocialApi : 친구 목록 조회 Axios 실패');
+    throw error;
+  }
+};

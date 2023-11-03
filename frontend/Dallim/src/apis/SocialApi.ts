@@ -105,3 +105,24 @@ export const postRecordSave = async (id: string) => {
     throw error;
   }
 };
+
+// 유저 달림기록 가져오기 ( Index )
+export const fetchCompare = async (userId: number) => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/api/v1/user/compare/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    console.log('SocialApi : 비교 데이터 조회 Axios 성공 :' + response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.log('SocialApi : 비교 데이터 조회 Axios 실패');
+    throw error;
+  }
+};
+

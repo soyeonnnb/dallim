@@ -22,7 +22,7 @@ interface ICardPage {
 export default function CardPage({item, style}: ICardPage) {
   const selectedCharacter = characterData[item.characterIndex];
   const selectedCharacterLevelData =
-    selectedCharacter.levels[item.characterlevel];
+    selectedCharacter.evolutions[item.characterlevel];
 
   // console.log(item.num);
 

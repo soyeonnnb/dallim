@@ -88,7 +88,7 @@ function Main() {
                 </SpinAnimation>
                 <S.StyledGif
                   source={
-                    characterData[userCharacterIndex].levels[userEvolutionStage]
+                    characterData[userCharacterIndex].evolutions[userEvolutionStage]
                       .running
                   }
                   resizeMode="contain"

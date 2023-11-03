@@ -100,6 +100,13 @@ export const CharacterImage = styled.Image`
   height: 100%;
 `;
 
+export const CharacterTouch = styled(TouchableOpacity)`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 100%;
+`;
+
 export const Footer = styled.View`
   /* border-width: 1px;
   border-color: yellow; */

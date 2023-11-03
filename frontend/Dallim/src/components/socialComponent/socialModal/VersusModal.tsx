@@ -2,8 +2,9 @@
 import React from 'react';
 import { Modal } from 'react-native';
 import * as S from './VersusModal.styles';
+import { characterData } from '@/recoil/CharacterData';
 
-const BackgroundImage = require('@/assets/images/VersusBackground.png');
+const backgroundImage = require('@/assets/images/VersusBackground.png');
 
 
 interface Props {
@@ -13,20 +14,25 @@ interface Props {
 
 const VersusModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
-    const MyCharacterImage = require('@/assets/characters/Chick.png');
-    const MyNickName = "나는야 펭소";
-    const OtherCharacterImage = require('@/assets/characters/Panda.png');
-    const OtherNickname = "배고픈 하마";
+    const myNickName = "나는야 펭소";
+    const myCharacterIndex = 2;
+    const myEvolutionStage = 0;
+    const myLevel = 12;
+    const myDay = 12;
+    const myTime = 60;
+    const myDistance = 25;
+    const mySpeed = 15;
+    const myCharacterImage = characterData[myCharacterIndex].evolutions[myEvolutionStage].front;
 
-    // 임시 데이터
-    const MyDay = 12;
-    const OtherDay = 10;
-    const MyTime = 60;
-    const OtherTime = 30;
-    const MyDist = 25;
-    const OtherDist = 50;
-    const MySpeed = 15;
-    const OtherSpeed = 20;
+    const pairNickname = "배고픈 하마";
+    const pairCharacterIndex = 3;
+    const pairEvolutionStage = 0;
+    const pairLevel = 21;
+    const pairDay = 10;
+    const pairTime = 30;
+    const pairDistance = 50;
+    const pairSpeed = 20;
+    const pairCharacterImage = characterData[pairCharacterIndex].evolutions[pairEvolutionStage].front;
 
     const computeRate = (myValue: number, otherValue: number) => {
         const totalValue = myValue + otherValue;
@@ -36,10 +42,10 @@ const VersusModal: React.FC<Props> = ({ isVisible, onClose }) => {
         };
     };
 
-    const dayRates = computeRate(MyDay, OtherDay);
-    const timeRates = computeRate(MyTime, OtherTime);
-    const distRates = computeRate(MyDist, OtherDist);
-    const speedRates = computeRate(MySpeed, OtherSpeed);
+    const dayRates = computeRate(myDay, pairDay);
+    const timeRates = computeRate(myTime, pairTime);
+    const distRates = computeRate(myDistance, pairDistance);
+    const speedRates = computeRate(mySpeed, pairSpeed);
 
     return (
         <Modal
@@ -54,14 +60,14 @@ const VersusModal: React.FC<Props> = ({ isVisible, onClose }) => {
                         <S.Title>VS</S.Title>
                     </S.Top>
                     <S.Middle>
-                        <S.MiddleBackground source={BackgroundImage} >
+                        <S.MiddleBackground source={backgroundImage} resizeMode='cover'>
                             <S.MiddleLeft>
-                                <S.CharacterImage source={MyCharacterImage} />
-                                <S.NicknameText>{MyNickName}</S.NicknameText>
+                                <S.CharacterImage source={myCharacterImage} resizeMode='contain'/>
+                                <S.NicknameText>{myNickName}</S.NicknameText>
                             </S.MiddleLeft>
                             <S.MiddleRigth>
-                                <S.CharacterImage source={OtherCharacterImage} />
-                                <S.NicknameText>{OtherNickname}</S.NicknameText>
+                                <S.CharacterImage source={pairCharacterImage} resizeMode='contain'/>
+                                <S.NicknameText>{pairNickname}</S.NicknameText>
                             </S.MiddleRigth>
                         </S.MiddleBackground>
                     </S.Middle>

@@ -19,7 +19,7 @@ function CharacterPurchaseCheckModal({ handleConfirm, handleCancel, purchaseModa
     const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
     const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
 
-    const CharacterData = characterData[selectedCharacterIndex].levels[selectedEvolutionStage];
+    const CharacterData = characterData[selectedCharacterIndex].evolutions[selectedEvolutionStage];
 
     return (
         <Modal

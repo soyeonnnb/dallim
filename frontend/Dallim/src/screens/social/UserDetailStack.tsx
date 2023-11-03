@@ -8,6 +8,7 @@ import VersusModal from '@/components/socialComponent/socialModal/VersusModal';
 import SocialCard from '@/components/socialComponent/SocialCard';
 import { characterData } from '@/recoil/CharacterData';
 import { fetchUserRecord } from '@/apis/SocialApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface UserDetailStackProps {
     navigation: any;
@@ -42,19 +43,33 @@ interface UserDetails {
 
 function UserDetailStack({ navigation, route }: UserDetailStackProps) {
     const userId = route.params.userId;
+    const [myId, setMyId] = useState<number | null>(null);
 
-    const [userDetails, setUserDetails] = useState<UserDetails | null>(null); // 타입을 명시적으로 선언
+    const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
 
     const fetchUserDetails = async () => {
         try {
-            const details: UserDetails = await fetchUserRecord(userId); // 타입을 명시적으로 선언
-            setUserDetails(details); // 불러온 사용자 정보를 상태에 저장
+            const details: UserDetails = await fetchUserRecord(userId);
+            setUserDetails(details);
         } catch (error) {
             console.error("Failed to fetch user details", error);
         }
     };
     useEffect(() => {
         fetchUserDetails();
+    }, []);
+    useEffect(() => {
+        const fetchMyId = async () => {
+            try {
+                const storedMyId = await AsyncStorage.getItem('userId');
+                if (storedMyId !== null) {
+                    setMyId(parseInt(storedMyId));
+                }
+            } catch (error) {
+                console.error("Error retrieving myId", error);
+            }
+        };
+        fetchMyId();
     }, []);
 
     const selectedCharacterIndex = userDetails ? userDetails.characterIndex : 0;
@@ -66,11 +81,18 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
     const runningRecords = userDetails ? userDetails.runningRecordOverviews : [];
 
     const selectedCharacter = characterData[selectedCharacterIndex];
-    const selectedCharacterLevelData = selectedCharacter.levels[selectedEvolutionStage];
+    const selectedCharacterLevelData = selectedCharacter.evolutions[selectedEvolutionStage];
 
-    function handleSend() {
-        console.log("비교하기 버튼 확인");
-        setVersusModalVisible(true);
+    async function handleSend() {
+        try {
+            console.log("비교하기 버튼 확인");
+            console.log("userId : " + userId);
+            console.log("MyId : " + myId);
+
+            setVersusModalVisible(true);
+        } catch (error) {
+            console.error("Error retrieving data", error);
+        }
     };
 
     // // 드롭다운
@@ -169,11 +191,13 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
 
 
 
-            <S.ImageBox>
-                <S.CharacterImage
-                    source={selectedCharacterLevelData.front}
-                    resizeMode="contain"
-                />
+            <S.ImageBox >
+                <S.CharacterTouch onPress={handleSend} activeOpacity={0.7}>
+                    <S.CharacterImage
+                        source={selectedCharacterLevelData.front}
+                        resizeMode="contain"
+                    />
+                </S.CharacterTouch>
             </S.ImageBox>
 
             <VersusModal

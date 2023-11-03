@@ -49,7 +49,7 @@ export default function Carousel({
   const selectedCharacter = characterData[currentPageData.characterIndex];
   // console.log(selectedCharacter);
   const selectedCharacterLevelData =
-    selectedCharacter.levels[currentPageData.characterlevel];
+    selectedCharacter.evolutions[currentPageData.characterlevel];
   // console.log(selectedCharacterLevelData);
   return (
     <S.Container>

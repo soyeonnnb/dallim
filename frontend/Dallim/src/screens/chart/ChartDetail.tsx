@@ -55,8 +55,9 @@ function ChartDetail({route, navigation}: Props) {
       setData(getData);
       setIsLoading(false);
       if (data) setCreatedAt(getDateObject(data.createdAt));
+      console.log('ChartApi: 달리기 기록 상세 조회 Axios 성공');
     } catch (error) {
-      console.error('데이터 불러오기 에러 :', error);
+      console.error('ChartApi: 달리기 기록 상세 조회 Axios 실패: ', error);
     }
   };
 

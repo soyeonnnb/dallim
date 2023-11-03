@@ -15,6 +15,10 @@ export const Title = styled.Text`
   color: black;
 `;
 export const ChartSheet = styled.View`
-  flex: 0.75;
-  background-color: aqua;
+  flex: 1;
+  width: 100%;
 `;
+export const Footer = styled.View`
+  height: 50px;
+`;
+export const Text = styled.Text``;

@@ -205,7 +205,7 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
         ) : (
           <>
             <S.EmptyImage source={NoFriendImage} resizeMode="contain" />
-            <S.EmptyText style={{ marginRight: 10 }}>친구가 없어요.</S.EmptyText>
+            <S.EmptyText style={{ marginRight: 10 }}>친구 요청이 없어요.</S.EmptyText>
           </>
         );
       default:

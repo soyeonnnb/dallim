@@ -1,9 +1,9 @@
 import * as S from './Box.styles';
-import { deleteFriend } from '@/apis/SocialApi';
+import { deleteFriend, postRequestReject } from '@/apis/SocialApi';
 import { characterData } from '@/recoil/CharacterData';
 
 import { useRecoilState } from 'recoil';
-import { friendsState } from '@/recoil/FriendRecoil';
+import { friendRequestsState } from '@/recoil/FriendRecoil';
 
 type WaitBoxProps =
     {
@@ -16,23 +16,24 @@ type WaitBoxProps =
 
 function WaitBox({ userId, characterIndex, nickname, level }: WaitBoxProps) {
 
-    const [friends, setFriends] = useRecoilState(friendsState);
-
+    const [requestfriends, setRequestfriends] = useRecoilState(friendRequestsState);
+  
     const tempEvolutionIndex = 0;
     const selectedCharacter = characterData[characterIndex].evolutions[tempEvolutionIndex].front;
 
 
-    const handleDeleteFriend = async () => {
+    const handleRequestDenied = async () => {
         try {
-            const result = await deleteFriend(userId);
+            const result = await postRequestReject(userId);
             if (result) {
-                console.log('친구 삭제가 성공적으로 완료되었습니다.');
-                setFriends(friends.filter(friend => friend.userId !== userId));
+                console.log('친구 신청 거절 성공' + userId);
+                setRequestfriends(requestfriends.filter(friend => friend.userId !== userId));
             } else {
-                console.log('친구 삭제를 실패하였습니다.');
+                console.log('친구 신청 거절 실패.');
             }
         } catch (error) {
-            console.error('친구 삭제 중 오류가 발생하였습니다.', error);
+            console.error('친구 신청 거절 중 오류가 발생하였습니다.', error);
+        } finally {
         }
     };
 
@@ -51,7 +52,7 @@ function WaitBox({ userId, characterIndex, nickname, level }: WaitBoxProps) {
                     <S.LevelText>Lv. {level}</S.LevelText>
                 </S.Middle>
                 <S.Right>
-                    <S.Button onPress={handleDeleteFriend}>
+                    <S.Button onPress={handleRequestDenied}>
                         <S.FriendRemoveImage source={require('@/assets/icons/FriendRemoveIcon.png')} resizeMode='contain' />
                     </S.Button>
                 </S.Right>

@@ -154,7 +154,7 @@ export const fetchUserSearch = async (word: string) => {
     console.log(
       'SocialApi : 유저 조회 Axios 성공 :' + JSON.stringify(response.data.data),
     );
-    console.log('SocialApi : 유저 조회 Axios 성공' );
+    console.log('SocialApi : 유저 조회 Axios 성공');
     return response.data.data;
   } catch (error) {
     console.log('SocialApi : 유저 조회 Axios 실패');
@@ -226,6 +226,34 @@ export const fetchFriendWaitList = async () => {
     return response.data.data;
   } catch (error) {
     console.log('SocialApi : 친구 대기 목록 Axios 실패');
+    throw error;
+  }
+};
+
+// 친구 거절
+export const postRequestReject = async (userid: number): Promise<boolean> => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/v1/follow/reject`,
+      {
+        toUserId: userid,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    if (response.data.status === 'success' && response.data.data === true) {
+      console.log('SocialApi : 친구 거절 요청 성공');
+      return true;
+    } else {
+      console.log('SocialApi : 친구 거절 요청 실패');
+      return false;
+    }
+  } catch (error) {
+    console.error('친구 거절 요청 오류', error);
     throw error;
   }
 };

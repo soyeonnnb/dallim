@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import * as S from './SocialHeader.styles';
 import FriendListModal from './socialModal/FriendListModal';
-import QuestionIcon from '../../assets/icons/QuestionIcon.png';
+import QuestionIcon from '@/assets/icons/QuestionIcon.png';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
 type SocialHeaderProps = {

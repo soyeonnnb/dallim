@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">Runapp</string>
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
-    <string name="mainApp">달림</string>
+    <string name="app_name">달림</string>
+
+    <string name="change">전환</string>
+    <string name="btn_pause">일시정지</string>
+    <string name="btn_stop">재생중지</string>
+    <string name="btn_change_click">버튼을 눌렀습니다</string>
 </resources>

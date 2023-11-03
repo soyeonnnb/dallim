@@ -1,23 +1,53 @@
-import React from 'react';
-import {Button} from 'react-native';
-import * as S from './Login.styles'; // 스타일 컴포넌트 import
+import * as S from './Login.styles';
+import LoginTitle from '@/assets/images/LoginTitle.png';
+import Moon from '@/assets/images/LoginMoon.png';
+import NaverIcon from '@/assets/icons/NaverIcon.png';
+import KakaoIcon from '@/assets/icons/KakaoIcon.png';
 
-interface LoginProps {
-  navigation: any; // navigation prop 타입은 실제 사용하는 라이브러리에 따라 다를 수 있습니다.
-}
-
-const Login = ({navigation}: LoginProps) => {
+const Login = ({ navigation }: any) => {
   return (
     <S.Container>
-      <S.Title>Login Screen</S.Title>
-      <Button
-        title="Go back to Main"
-        onPress={() => navigation.navigate('Main')}
+      <S.BackgroundVideo
+        source={require('@/assets/videos/LoginBackground.mp4')}
+        resizeMode="cover"
+        repeat={true}
+        muted={true}
+        playInBackground={false}
+        playWhenInactive={false}
       />
-      <Button
-        title="카카오 로그인 버튼"
-        onPress={() => navigation.navigate('Kakao')}
-      />
+
+      <S.Top>
+        <S.TitleBox>
+          <S.TitleImage source={LoginTitle} />
+        </S.TitleBox>
+      </S.Top>
+      <S.Body>
+        <S.BodyBox>
+          <S.StyledImage source={Moon} />
+        </S.BodyBox>
+      </S.Body>
+      <S.Bottom>
+        <S.NaverButton onPress={() => navigation.navigate('Naver')}>
+          <S.Icon source={NaverIcon} />
+          <S.NaverText>네이버로 시작하기</S.NaverText>
+        </S.NaverButton>
+
+        <S.KakaoButton onPress={() => navigation.navigate('Kakao')}>
+          <S.Icon source={KakaoIcon} />
+          <S.KakaoText>카카오로 시작하기</S.KakaoText>
+        </S.KakaoButton>
+
+        {/* 임시버튼 */}
+        {/* <Button
+          title="Go to Main"
+          onPress={() => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'BottomTab', params: { screen: 'Main' } }],
+            });
+          }}
+        /> */}
+      </S.Bottom>
     </S.Container>
   );
 };

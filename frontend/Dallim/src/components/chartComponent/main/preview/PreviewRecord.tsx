@@ -59,11 +59,11 @@ export function WeeklyRecord({type, record}: RecordProps) {
       setColor(colors.darkLavendar);
     } else if (type === 'distance') {
       setName('달린거리');
-      setContent(record + 'm');
+      setContent(Math.ceil(record) + 'm');
       setColor(colors.lightBlue);
     } else {
       setName('달린시간');
-      setContent(record + '분');
+      setContent(Math.ceil(record) + '분');
       setColor(colors.purpleBlue);
     }
   });

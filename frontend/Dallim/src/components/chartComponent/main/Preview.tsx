@@ -97,7 +97,6 @@ function Preview({
           newMonth.distance += record.totalDistance;
           newMonth.time += record.totalTime;
         });
-        console.log('monthData===========\n', monthData);
         newMonth.runningMate.characterIndex =
           monthData.runningMateCharacterIndex;
         newMonth.runningMate.evolutionStage = monthData.runningMateLevel;

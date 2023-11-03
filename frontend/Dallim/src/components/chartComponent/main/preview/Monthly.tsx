@@ -25,9 +25,6 @@ function PreviewMonthly({
   setSelectedYearMonth,
   previewRecords,
 }: Props) {
-  useEffect(() => {
-    const nowDate = new Date();
-  }, [isShow]);
   return (
     <S.Container isShow={isShow}>
       <MonthlyRecord

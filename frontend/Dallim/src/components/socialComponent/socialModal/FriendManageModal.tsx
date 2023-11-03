@@ -158,13 +158,13 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
           </S.Header>
           <S.Body>
             <S.ViewSelector>
-              <S.SelectorButton onPress={() => switchView('search')}>
+              <S.SelectorButton onPress={() => switchView('search')}  isActive={viewState === 'search'}>
                 <S.SelectorText>친구 검색</S.SelectorText>
               </S.SelectorButton>
-              <S.SelectorButton onPress={() => switchView('friends')}>
+              <S.SelectorButton onPress={() => switchView('friends')} isActive={viewState === 'friends'}>
                 <S.SelectorText>친구 목록</S.SelectorText>
               </S.SelectorButton>
-              <S.SelectorButton onPress={() => switchView('requests')}>
+              <S.SelectorButton onPress={() => switchView('requests')} isActive={viewState === 'requests'}>
                 <S.SelectorText>받은 요청</S.SelectorText>
               </S.SelectorButton>
             </S.ViewSelector>

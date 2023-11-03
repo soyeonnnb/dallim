@@ -57,6 +57,7 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
   }, [isVisible]);
 
 
+  // 규호형해주세요규호형해주세요규호형해주세요규호형해주세요규호형해주세요규호형해주세요규호형해주세요
   const Search = () => {
     const inputRef = useRef<TextInput>(null);
 

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class RunningRecordLogService {
         RunningRecordLog build = RunningRecordLog.builder()
                 .runningRecordId(id)
                 .executeTime(executeTime)
+                .createdAt(LocalDateTime.now())
                 .build();
 
         runningRecordLogRepository.save(build);

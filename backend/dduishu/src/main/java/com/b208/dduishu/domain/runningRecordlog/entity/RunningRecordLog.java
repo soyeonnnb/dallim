@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -21,10 +22,13 @@ public class RunningRecordLog {
 
     private long executeTime;
 
+    private LocalDateTime createdAt;
+
     @Builder
-    public RunningRecordLog(Long id, String runningRecordId, long executeTime) {
+    public RunningRecordLog(Long id, String runningRecordId, long executeTime, LocalDateTime createdAt) {
         this.id = id;
         this.runningRecordId = runningRecordId;
         this.executeTime = executeTime;
+        this.createdAt = createdAt;
     }
 }

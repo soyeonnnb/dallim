@@ -88,18 +88,6 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
     </S.Search>
   );
 
-  const addFriend = (userId: number) => {
-    try {
-      console.log(`${userId}를 친구로 추가하는 로직을 여기에 구현합니다.`);
-      // TODO: 친구 추가 API 호출을 여기에 구현
-      // 예시: await addFriendApiCall(userId);
-    } catch (error) {
-      console.error('친구 추가 중 오류가 발생했습니다.' + error);
-      // 사용자에게 오류 메시지를 표시하도록 추가 (예: Toast 메시지)
-    }
-  };
-
-
   const [fadeAnim] = useState(new Animated.Value(0));  // 초기 투명도는 0
 
   useEffect(() => {
@@ -139,9 +127,7 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
                 <ScrollView>
                   {searchResults.map((user) => (
                     <S.UserBox key={user.userId}>
-                      <UserBox {...user}
-                        onAddFriend={() => addFriend(user.userId)}
-                      />
+                      <UserBox {...user} />
                     </S.UserBox>
                   ))}
                 </ScrollView>

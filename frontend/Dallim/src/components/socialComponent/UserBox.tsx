@@ -1,3 +1,4 @@
+import { postAddFriend } from '@/apis/SocialApi';
 import * as S from './Box.styles';
 import Character from '@/assets/characters/PenguinEgg.png';
 
@@ -6,10 +7,22 @@ type UserBoxProps = {
     nickname: string;
     level: number;
     isFollower: boolean;
-    onAddFriend: () => void;
 };
 
-function UserBox({ userId, nickname, level, isFollower, onAddFriend }: UserBoxProps) {
+function UserBox({ userId, nickname, level, isFollower }: UserBoxProps) {
+
+    const addFriend = async (userId: number) => {
+        try {
+            const result = await postAddFriend(userId);
+            if (result) {
+                console.log('친구 요청이 성공적으로 완료');
+            } else {
+                console.log('친구 요청이 실패');
+            }
+        } catch (error) {
+            console.error('친구 추가 중 오류가 발생', error);
+        }
+    };
 
     return (
         <S.Container>
@@ -26,14 +39,12 @@ function UserBox({ userId, nickname, level, isFollower, onAddFriend }: UserBoxPr
                     <S.LevelText>Lv. {level}</S.LevelText>
                 </S.Middle>
                 <S.Right>
-
-                    <S.Button onPress={() => {
-                        console.log("친구 추가 버튼 눌림확인");
-                        onAddFriend();
-                    }}>
-                        <S.FriendAddImage source={require('@/assets/icons/FriendAddIcon.png')} resizeMode='contain' />
-                    </S.Button>
-
+                    {/* {!isFollower && ( */}
+                    {isFollower && (
+                        <S.Button onPress={() => {addFriend(userId)}}>
+                            <S.FriendAddImage source={require('@/assets/icons/FriendAddIcon.png')} resizeMode='contain' />
+                        </S.Button>
+                    )}
                 </S.Right>
             </S.Box>
 

@@ -163,7 +163,7 @@ export const fetchUserSearch = async (word: string) => {
 };
 
 // 친구 추가
-export const postAddFriend = async (userid: string): Promise<boolean> => {
+export const postAddFriend = async (userid: number): Promise<boolean> => {
   const accessToken = await getToken();
   try {
     const response = await axios.post(

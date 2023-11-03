@@ -14,6 +14,7 @@ import {enableScreens} from 'react-native-screens';
 import {DeviceEventEmitter} from 'react-native';
 import {Alert} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 enableScreens();
 const Stack = createStackNavigator();
@@ -47,8 +48,15 @@ function NavigationWithListener() {
 }
 function App() {
   const getFcmToken = async () => {
-    const fcmToken = await messaging().getToken();
-    console.log('[FCM Token] ', fcmToken);
+    try {
+      const fcmToken = await messaging().getToken();
+      console.log('[FCM Token] ', fcmToken);
+      // 비동기 저장 처리를 기다립니다.
+      await AsyncStorage.setItem('fcmToken', fcmToken);
+    } catch (e) {
+      // 에러 핸들링
+      console.error('Failed to fetch or save FCM token', e);
+    }
   };
 
   useEffect(() => {

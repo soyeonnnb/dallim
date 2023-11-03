@@ -14,9 +14,7 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
 
     const [showAlert, setShowAlert] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
-    
-    // 개발중 ALERT
-    const [tempShowAlert, setTempShowAlert] = useState(false);
+
     return (
         <S.Container>
             <S.Header>
@@ -24,9 +22,7 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
                     <S.DateText>{month}월 {week}주차 랭킹</S.DateText>
                 </S.HeaderLeft>
                 <S.HeaderRight>
-                    {/* 아직 개발중 */}
-                    {/* <S.ManageButton onPress={() => setModalVisible(true)}> */}
-                    <S.ManageButton onPress={() => setTempShowAlert(true)}>
+                    <S.ManageButton onPress={() => setModalVisible(true)}>
                         <S.ManageText>친구관리</S.ManageText>
                     </S.ManageButton>
                 </S.HeaderRight>
@@ -64,24 +60,6 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
                 confirmButtonColor="blue"
                 onConfirmPressed={() => {
                     setShowAlert(false);
-                }}
-            />
-
-            <AwesomeAlert
-                show={tempShowAlert}
-                showProgress={false}
-                title="안내사항"
-                message={"아직 개발중입니다."}
-                closeOnTouchOutside={true}
-                onDismiss={() => {
-                    setTempShowAlert(false);
-                }}
-                closeOnHardwareBackPress={false}
-                showConfirmButton={true}
-                confirmText="확인"
-                confirmButtonColor="blue"
-                onConfirmPressed={() => {
-                    setTempShowAlert(false);
                 }}
             />
 

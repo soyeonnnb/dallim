@@ -99,8 +99,9 @@ function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: Social
               </>
             )
           ) : (
-            // 로딩중
-            <Loading />
+            <S.LoadingView>
+              <Loading />
+            </S.LoadingView>
           )}
         </ScrollView>
       </S.Body>

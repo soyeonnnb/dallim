@@ -158,7 +158,7 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
                             <S.RecordTitle>달림기록</S.RecordTitle>
                         </S.RecordTitleBox>
                         <S.FooterLine>
-
+                            <S.Line />
                         </S.FooterLine>
                         <S.SortBox>
                             <S.Sort onPress={() => setDropdownVisible(!dropdownVisible)}>

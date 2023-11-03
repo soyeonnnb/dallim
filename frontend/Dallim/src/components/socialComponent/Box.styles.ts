@@ -12,7 +12,7 @@ export const Box = styled.View`
   flex-direction: row;
   border-radius: 18px;
   width: 100%;
-  height: 60px;
+  height: 100%;
 `;
 
 export const Left = styled.View`
@@ -24,23 +24,34 @@ export const Left = styled.View`
   align-items: center;
 `;
 
+export const FriendDetailButton = styled(TouchableOpacity)`
+  /* border-width: 1px;
+  border-color: blue; */
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const CharacterImage = styled.Image`
   /* border-width: 1px;
   border-color: gray; */
-  width: 60%;
-  height: 80%;
+  width: 80%;
+  height: 100%;
 `;
 
 export const Middle = styled.View`
   /* border-width: 1px;
   border-color: blue; */
-  width: 50%;
+  width: 60%;
   height: 100%;
   justify-content: center;
+  gap: 5px;
 `;
 
 export const NicknameText = styled.Text`
   font-size: 13px;
+  font-weight: bold;
   color: black;
 `;
 
@@ -53,36 +64,29 @@ export const Right = styled.View`
   /* border-width: 1px;
   border-color: blue; */
   flex-direction: row;
-  width: 30%;
+  width: 20%;
   height: 100%;
   justify-content: center;
   align-items: center;
 `;
 
-export const FriendAddButton = styled(TouchableOpacity)`
+export const Button = styled(TouchableOpacity)`
   /* border-width: 1px;
   border-color: blue; */
-  width: 50%;
-  height: 80%;
+  width: 90%;
+  height: 90%;
   justify-content: center;
   align-items: center;
 `;
 
 export const FriendAddImage = styled(Image)`
-  width: 80%;
-  height: 80%;
-`;
-
-export const FriendDetailButton = styled(TouchableOpacity)`
   /* border-width: 1px;
   border-color: blue; */
-  width: 50%;
-  height: 80%;
-  justify-content: center;
-  align-items: center;
+  width: 70%;
+  height: 70%;
 `;
 
-export const FriendDetailImage = styled(Image)`
-  width: 80%;
-  height: 80%;
+export const FriendRemoveImage = styled(Image)`
+  width: 70%;
+  height: 70%;
 `;

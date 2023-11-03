@@ -1,21 +1,46 @@
 import { postAddFriend } from '@/apis/SocialApi';
 import * as S from './Box.styles';
 import Character from '@/assets/characters/PenguinEgg.png';
+import { characterData } from '@/recoil/CharacterData';
+
+import { useSetRecoilState } from 'recoil';
+import { friendsState } from '@/recoil/FriendRecoil';
+import { useState } from 'react';
 
 type UserBoxProps = {
     userId: number;
+    characterIndex: number;
     nickname: string;
     level: number;
     isFollower: boolean;
 };
 
-function UserBox({ userId, nickname, level, isFollower }: UserBoxProps) {
+function UserBox({ userId, nickname, characterIndex, level, isFollower }: UserBoxProps) {
+
+    const setFriends = useSetRecoilState(friendsState);
+
+    const tempEvolutionIndex = 0;
+    const selectedCharacter = characterData[characterIndex].evolutions[tempEvolutionIndex].front;
+    const [isFollowerCheck, setIsFollowerCheck] = useState(isFollower);
+
 
     const handleaddFriend = async (userId: number) => {
         try {
             const result = await postAddFriend(userId);
             if (result) {
                 console.log('친구 요청이 성공적으로 완료');
+                setIsFollowerCheck(true); // 로컬 상태 업데이트
+                setFriends((oldFriendsList) => [
+                    ...oldFriendsList,
+                    {
+                        userId: userId,
+                        nickname: nickname,
+                        characterIndex: characterIndex,
+                        level: level,
+                        isFollower: true,
+                    },
+                ]);
+
             } else {
                 console.log('친구 요청이 실패');
             }
@@ -31,7 +56,7 @@ function UserBox({ userId, nickname, level, isFollower }: UserBoxProps) {
                     <S.FriendDetailButton onPress={() => {
                         console.log("친구 상세 버튼 눌림확인");
                     }}>
-                        <S.CharacterImage source={Character} resizeMode='contain' />
+                        <S.CharacterImage source={selectedCharacter} resizeMode='contain' />
                     </S.FriendDetailButton>
                 </S.Left>
                 <S.Middle>
@@ -39,8 +64,8 @@ function UserBox({ userId, nickname, level, isFollower }: UserBoxProps) {
                     <S.LevelText>Lv. {level}</S.LevelText>
                 </S.Middle>
                 <S.Right>
-                    {!isFollower && (
-                        <S.Button onPress={() => {handleaddFriend(userId)}}>
+                    {!isFollowerCheck && (
+                        <S.Button onPress={() => { handleaddFriend(userId) }}>
                             <S.FriendAddImage source={require('@/assets/icons/FriendAddIcon.png')} resizeMode='contain' />
                         </S.Button>
                     )}

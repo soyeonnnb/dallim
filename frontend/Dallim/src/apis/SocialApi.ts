@@ -57,6 +57,7 @@ export const fetchFriendRank = async () => {
   }
 };
 
+
 // 유저 달림기록 가져오기 ( Index )
 export const fetchUserRecord = async (userId: number) => {
   const accessToken = await getToken();

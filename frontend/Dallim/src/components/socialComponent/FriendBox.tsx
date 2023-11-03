@@ -1,7 +1,9 @@
-import { deleteFriend } from '@/apis/SocialApi';
 import * as S from './Box.styles';
-// import Character from '@/assets/characters/Panda.png';
+import { deleteFriend } from '@/apis/SocialApi';
 import { characterData } from '@/recoil/CharacterData';
+
+import { useRecoilState } from 'recoil';
+import { friendsState } from '@/recoil/FriendRecoil';
 
 type FriendBoxProps =
     {
@@ -14,14 +16,18 @@ type FriendBoxProps =
 
 function FriendBox({ userId, characterIndex, nickname, level }: FriendBoxProps) {
 
+    const [friends, setFriends] = useRecoilState(friendsState);
+
     const tempEvolutionIndex = 0;
     const selectedCharacter = characterData[characterIndex].evolutions[tempEvolutionIndex].front;
+
 
     const handleDeleteFriend = async () => {
         try {
             const result = await deleteFriend(userId);
             if (result) {
                 console.log('친구 삭제가 성공적으로 완료되었습니다.');
+                setFriends(friends.filter(friend => friend.userId !== userId));
             } else {
                 console.log('친구 삭제를 실패하였습니다.');
             }

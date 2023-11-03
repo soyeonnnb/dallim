@@ -10,6 +10,8 @@ import UserBox from '../UserBox';
 import { fetchFriendList, fetchUserSearch } from '@/apis/SocialApi';
 import { Animated, TextInput } from 'react-native';
 
+import { useRecoilState } from 'recoil';
+import { friendsState } from '@/recoil/FriendRecoil';
 
 type Friend = {
   userId: number;
@@ -35,9 +37,10 @@ type Props = {
 const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
   const [viewState, setViewState] = useState('friends');
-  const [friends, setFriends] = useState<Friend[]>([]);
   const [searchResults, setSearchResults] = useState<User[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const [friends, setFriends] = useRecoilState(friendsState);
   const [loading, setLoading] = useState<boolean>(true);
 
   // 친구 리스트 가져오기 (Axios)
@@ -50,11 +53,13 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false); // 데이터를 받아온 후 로딩 상태를 fals
+        setLoading(false); // 데이터를 받아온 후 로딩 상태를 false
       }
     };
-    getFriends();
-  }, [isVisible]);
+    if (isVisible) {
+      getFriends();
+    }
+  }, [isVisible, setFriends]);
 
 
   // 규호형해주세요규호형해주세요규호형해주세요규호형해주세요규호형해주세요규호형해주세요규호형해주세요

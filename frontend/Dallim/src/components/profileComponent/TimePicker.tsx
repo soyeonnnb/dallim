@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 const screenHeight = Dimensions.get('window').height;
-const itemHeight = screenHeight / 7;
+const itemHeight = screenHeight / 20;
 
 const TimePicker = () => {
   //state
@@ -25,7 +25,7 @@ const TimePicker = () => {
   //data
   const hours = Array.from({length: 24}, (_, i) => (i < 10 ? '0' : '') + i);
   const minutes = Array.from({length: 60}, (_, i) => (i < 10 ? '0' : '') + i);
-  const days = ['월', '화', '수', '목', '금', '토', '일'];
+  const days = ['일', '월', '화', '수', '목', '금', '토'];
 
   //useEffect
   useEffect(() => {
@@ -60,14 +60,25 @@ const TimePicker = () => {
     console.log('저장된 시간:', selectedHour, selectedMinute);
   };
 
-  console.log(selectedHour);
-  console.log(selectedMinute);
+  // console.log(selectedHour);
+  // console.log(selectedMinute);
 
   const handleHourChange = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const y = event.nativeEvent.contentOffset.y;
     const index = Math.round(y / itemHeight);
-    const newHour = hours[index];
-    setSelectedHour(newHour);
+
+    if (index < 0 || index >= hours.length) {
+      // 스크롤이 범위를 벗어날 경우 첫 번째 아이템으로 돌아가기
+      hourRef.current?.scrollTo({
+        y: 0,
+        animated: true,
+      });
+      setSelectedHour('00');
+    } else {
+      const newHour = hours[index];
+      console.log(newHour);
+      setSelectedHour(newHour);
+    }
   };
 
   const handleMinuteChange = (
@@ -75,8 +86,19 @@ const TimePicker = () => {
   ) => {
     const y = event.nativeEvent.contentOffset.y;
     const index = Math.round(y / itemHeight);
-    const newMinute = minutes[index];
-    setSelectedMinute(newMinute);
+
+    if (index < 0 || index >= minutes.length) {
+      // 스크롤이 범위를 벗어날 경우 첫 번째 아이템으로 돌아가기
+      minuteRef.current?.scrollTo({
+        y: 0,
+        animated: true,
+      });
+      setSelectedMinute('00');
+    } else {
+      const newMinute = minutes[index];
+      console.log(newMinute);
+      setSelectedMinute(newMinute);
+    }
   };
 
   return (
@@ -91,11 +113,16 @@ const TimePicker = () => {
               <S.MiddleClockBox>
                 <ScrollView
                   ref={hourRef}
+                  // onScroll={handleHourScroll}
                   showsVerticalScrollIndicator={false}
                   snapToAlignment="center"
                   snapToInterval={itemHeight}
-                  decelerationRate="fast"
-                  onMomentumScrollEnd={handleHourChange}>
+                  decelerationRate="normal"
+                  onMomentumScrollEnd={handleHourChange}
+                  contentContainerStyle={{
+                    paddingTop: itemHeight * 1, // 맨 위에 공간 추가
+                    paddingBottom: itemHeight * 2, // 맨 아래에 공간 추가
+                  }}>
                   {hours.map(hour => (
                     <View
                       key={hour}
@@ -107,21 +134,35 @@ const TimePicker = () => {
                       <Text
                         style={{
                           textAlign: 'center',
-                          fontSize: selectedHour === hour ? 20 : 15,
+                          fontSize: selectedHour === hour ? 30 : 15,
                           color: selectedHour === hour ? 'black' : 'grey',
+                          fontWeight: selectedHour === hour ? 'bold' : 'normal',
                         }}>
                         {hour}
                       </Text>
                     </View>
                   ))}
                 </ScrollView>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 30,
+                    color: 'black',
+                    fontWeight: 'bold',
+                  }}>
+                  :
+                </Text>
                 <ScrollView
                   ref={minuteRef}
                   showsVerticalScrollIndicator={false}
                   snapToAlignment="center"
                   snapToInterval={itemHeight}
-                  decelerationRate="fast"
-                  onMomentumScrollEnd={handleMinuteChange}>
+                  decelerationRate="normal"
+                  onMomentumScrollEnd={handleMinuteChange}
+                  contentContainerStyle={{
+                    paddingTop: itemHeight * 1,
+                    paddingBottom: itemHeight * 2,
+                  }}>
                   {minutes.map(minute => (
                     <View
                       key={minute}
@@ -133,8 +174,10 @@ const TimePicker = () => {
                       <Text
                         style={{
                           textAlign: 'center',
-                          fontSize: selectedMinute === minute ? 20 : 15,
+                          fontSize: selectedMinute === minute ? 30 : 15,
                           color: selectedMinute === minute ? 'black' : 'grey',
+                          fontWeight:
+                            selectedMinute === minute ? 'bold' : 'normal',
                         }}>
                         {minute}
                       </Text>
@@ -158,7 +201,21 @@ const TimePicker = () => {
             key={day}
             selected={selectedDays[index]}
             onPress={() => handleDayPress(index)}>
-            <S.DayText>{day}</S.DayText>
+            <S.DayText
+              selected={selectedDays[index]}
+              isWeekday={day !== '일' && day !== '토'} // '일'과 '토'가 아니면 isWeekday는 true
+              style={{
+                color:
+                  day === '일'
+                    ? '#EA5455'
+                    : day === '토'
+                    ? '#4564D4'
+                    : selectedDays[index]
+                    ? 'black'
+                    : 'white',
+              }}>
+              {day}
+            </S.DayText>
           </S.DayButton>
         ))}
       </S.Body>

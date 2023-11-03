@@ -12,7 +12,7 @@ export const ModalContent = styled.View`
   /* border-color: red;
   border-width: 1px; */
   width: 90%;
-  height: 70%;
+  height: 80%;
 `;
 
 export const Header = styled.View`
@@ -29,7 +29,7 @@ export const Top = styled.View`
   border-bottom-color: gray;
   border-bottom-width: 1px;
   width: 100%;
-  height: 15%;
+  height: 10%;
   align-items: center;
   justify-content: center;
 `;
@@ -43,7 +43,7 @@ export const ListBox = styled.View`
   /* border-color: blue;
   border-width: 1px; */
   width: 100%;
-  height: 85%;
+  height: 88%;
   align-items: center;
   padding: 5px;
 `;

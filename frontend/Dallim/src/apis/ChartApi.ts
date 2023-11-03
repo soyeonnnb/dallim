@@ -16,7 +16,7 @@ export interface MonthlyRecords {
   year: number; // 년도
   month: number; // 월
   runningMateNickname: string; // 한달간 가장 많이 함께한 러닝메이트의 유저 닉네임
-  runningMateCharacter: number; // 사용자가 지정한 캐릭터 번호
+  runningMateCharacterIndex: number; // 사용자가 지정한 캐릭터 번호
   runningMateLevel: number; // 사용자의 캐릭터 레벨
   totalCount: number; // 달린 횟수
   totalDistance: number; // 달린 총 거리(M 단위)

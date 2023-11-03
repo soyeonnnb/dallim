@@ -99,3 +99,9 @@ export const LordingText = styled.Text`
   color: red;
 `;
 
+export const LoadingView = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
+  width: 100%;
+  height: 250px;
+`;

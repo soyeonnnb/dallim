@@ -29,7 +29,7 @@ import {
   selectedPlanetIndexState,
   selectedPlanetIsPurchasedState,
   isOnState
-} from '@/recoil/EditRecoil';
+} from '@/recoil/UserRecoil';
 
 
 function Edit() {

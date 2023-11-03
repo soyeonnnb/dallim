@@ -203,6 +203,7 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
             <VersusModal
                 isVisible={isVersusModalVisible}
                 onClose={() => setVersusModalVisible(false)}
+                userId = {userId}
             />
 
         </S.Container >

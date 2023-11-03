@@ -15,7 +15,7 @@ import {
   selectedPlanetIndexState,
   selectedPlanetIsPurchasedState,
   userPointState
-} from '@/recoil/EditRecoil';
+} from '@/recoil/UserRecoil';
 
 type PlanetEditProps = {
   handleEquippedPlanetChange: (index: number) => void;

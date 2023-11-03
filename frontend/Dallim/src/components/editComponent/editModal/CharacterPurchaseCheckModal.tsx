@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import {
     selectedCharacterIndexState,
     selectedEvolutionStageState,
-} from '@/recoil/EditRecoil';
+} from '@/recoil/UserRecoil';
 
 type ModalProps = {
     handleConfirm: () => void;

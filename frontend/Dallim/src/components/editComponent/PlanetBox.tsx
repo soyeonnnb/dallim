@@ -4,7 +4,7 @@ import { useState } from 'react';
 import WatchThemeModal from './editModal/WatchThemeModal';
 
 import { useRecoilValue } from 'recoil';
-import { selectedPlanetIndexState, selectedPlanetIsPurchasedState } from '@/recoil/EditRecoil';
+import { selectedPlanetIndexState, selectedPlanetIsPurchasedState } from '@/recoil/UserRecoil';
 
 function PlanetBox() {
   const selectedPlanetIndex = useRecoilValue(selectedPlanetIndexState);

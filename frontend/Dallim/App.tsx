@@ -15,6 +15,15 @@ import {DeviceEventEmitter} from 'react-native';
 import {Alert} from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {
+  requestUserPermission,
+  NotificationListner,
+} from './src/utils/pushnotification_helper';
+import {
+  checkNotifications,
+  requestNotifications,
+} from 'react-native-permissions';
+import {Platform, Linking} from 'react-native';
 
 enableScreens();
 const Stack = createStackNavigator();
@@ -47,6 +56,33 @@ function NavigationWithListener() {
   return null; // 이 컴포넌트는 UI를 렌더링하지 않습니다.
 }
 function App() {
+  useEffect(() => {
+    requestUserPermission();
+    NotificationListner();
+  }, []);
+
+  useEffect(() => {
+    const requestNotificationPermission = async () => {
+      const {status} = await checkNotifications();
+
+      if (status === 'denied') {
+        requestNotifications(['alert', 'sound']).then(({status}) => {
+          // If the status is still denied, guide the user to the settings
+          if (
+            status === 'denied' &&
+            Platform.OS === 'android' &&
+            Platform.Version >= 33
+          ) {
+            // Open the app's settings page in the system settings
+            Linking.openSettings();
+          }
+        });
+      }
+    };
+
+    requestNotificationPermission();
+  }, []);
+
   const getFcmToken = async () => {
     try {
       const fcmToken = await messaging().getToken();

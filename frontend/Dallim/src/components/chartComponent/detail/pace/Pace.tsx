@@ -4,20 +4,49 @@ import PaceChart from './PaceChart';
 import PaceRecord from './PaceRecord';
 import {Switch} from 'react-native-gesture-handler';
 
-function Pace() {
-  const [isPair, setIsPair] = useState<boolean>(true);
+import {RecordDetail} from '@/apis/ChartApi';
+
+interface Props {
+  // data: {
+  //   fromZeroPace: string[];
+  //   nowSpeed: number[];
+  //   sectionPace: {}[];
+  // };
+  data: {
+    chartData: {
+      value: number;
+      second: number;
+      fromZeroPace: string;
+    }[];
+    sectionPace: {}[];
+  };
+  isAlone: boolean;
+}
+
+function Pace({data, isAlone}: Props) {
+  const [isPair, setIsPair] = useState<boolean>(false);
+  const [second, setSecond] = useState<number>(
+    data.chartData.length > 0 ? data.chartData.length - 1 : 0,
+  );
 
   const handleSetIsPairToggle = () => {
     setIsPair(!isPair);
   };
   return (
     <S.Container>
-      {/* <S.Text>Pace 관련 페이지</S.Text>
-      <S.Text>아직 개발중이에요😭</S.Text> */}
-      <PaceChart />
+      <PaceChart
+        isPair={isPair}
+        data={data}
+        second={second}
+        setSecond={setSecond}
+      />
       <S.ToggleBox>
-        <S.ToggleText>같이 달리기 비교</S.ToggleText>
-        <Switch onValueChange={handleSetIsPairToggle} value={isPair} />
+        {!isAlone && (
+          <>
+            <S.ToggleText>같이 달리기 비교</S.ToggleText>
+            <Switch onValueChange={handleSetIsPairToggle} value={isPair} />
+          </>
+        )}
       </S.ToggleBox>
       <PaceRecord isPair={isPair} />
     </S.Container>

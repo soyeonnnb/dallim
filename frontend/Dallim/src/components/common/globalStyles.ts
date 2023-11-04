@@ -8,6 +8,7 @@ export const colors = {
   white: '#FEFEFE',
   purpleBlue: '#7681E8',
   gray: '#8C8C8C',
+
   neon: {
     yellow: '#FFDA19',
     skyBlue: '#19FFFF',

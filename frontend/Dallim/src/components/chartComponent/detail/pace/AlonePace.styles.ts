@@ -12,7 +12,7 @@ export const Text = styled.Text`
 export const ScrollInBox = styled.View<{height: number}>`
   flex: 1;
   flex-direction: row;
-  height: ${props => props.height};
+  height: ${props => props.height}px;
 `;
 
 export const SectionBox = styled.View`

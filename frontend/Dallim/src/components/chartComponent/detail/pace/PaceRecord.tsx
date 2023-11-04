@@ -7,12 +7,28 @@ import PairPace from './PairPace';
 
 interface Props {
   isPair: boolean;
+  data: {
+    startTime: number;
+    finishTime: number;
+    pace: number;
+  }[];
+  rivalData?: {
+    startTime: number;
+    finishTime: number;
+    pace: number;
+  }[];
 }
 
-function PaceRecord({isPair}: Props) {
+function PaceRecord({isPair, data, rivalData}: Props) {
   return (
     <S.Container>
-      <S.RecordBox>{isPair ? <PairPace /> : <AlonePace />}</S.RecordBox>
+      <S.RecordBox>
+        {isPair ? (
+          <PairPace data={data} rivalData={data} />
+        ) : (
+          <AlonePace data={data} />
+        )}
+      </S.RecordBox>
       <S.Footer />
     </S.Container>
   );

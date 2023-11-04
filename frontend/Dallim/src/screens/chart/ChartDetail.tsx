@@ -50,18 +50,17 @@ function ChartDetail({route, navigation}: Props) {
     day?: string;
   }>();
 
-  // const [paceData, setPaceData] = useState<{
-  //   fromZeroPace: string[];
-  //   nowSpeed: number[];
-  //   sectionPace: {}[];
-  // }>();
   const [paceData, setPaceData] = useState<{
     chartData: {
       value: number;
       second: number;
       fromZeroPace: string;
     }[];
-    sectionPace: {}[];
+    sectionPace: {
+      startTime: number;
+      finishTime: number;
+      pace: number;
+    }[];
   }>();
   const [heartRateData, setHeartRateData] = useState();
 
@@ -73,11 +72,12 @@ function ChartDetail({route, navigation}: Props) {
       if (data) setCreatedAt(getDateObject(data.createdAt));
       // 페이스에 들어갈 데이터 처리
       const getPaceData: {
-        // fromZeroPace: string[];
-        // nowSpeed: number[];
         chartData: {value: number; second: number; fromZeroPace: string}[];
-        sectionPace: {}[];
-        // } = {fromZeroPace: [], nowSpeed: [], sectionPace: []};
+        sectionPace: {
+          startTime: number;
+          finishTime: number;
+          pace: number;
+        }[];
       } = {chartData: [], sectionPace: []};
       const cData: {second: number; value: number; fromZeroPace: string}[] = [];
       await getData.runningRecordInfos.map((record: any) => {

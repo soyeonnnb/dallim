@@ -4,21 +4,18 @@ import PaceChart from './PaceChart';
 import PaceRecord from './PaceRecord';
 import {Switch} from 'react-native-gesture-handler';
 
-import {RecordDetail} from '@/apis/ChartApi';
-
 interface Props {
-  // data: {
-  //   fromZeroPace: string[];
-  //   nowSpeed: number[];
-  //   sectionPace: {}[];
-  // };
   data: {
     chartData: {
       value: number;
       second: number;
       fromZeroPace: string;
     }[];
-    sectionPace: {}[];
+    sectionPace: {
+      startTime: number;
+      finishTime: number;
+      pace: number;
+    }[];
   };
   isAlone: boolean;
 }
@@ -48,7 +45,7 @@ function Pace({data, isAlone}: Props) {
           </>
         )}
       </S.ToggleBox>
-      <PaceRecord isPair={isPair} />
+      <PaceRecord isPair={isPair} data={data.sectionPace} />
     </S.Container>
   );
 }

@@ -11,7 +11,20 @@ import {secondToHourMinuteSeconds, calculatePace} from '@/recoil/RunningData';
 import ClockIcon from '@/assets/icons/ClockIcon';
 import Run2Icons from '@/assets/icons/Run2Icon';
 
-function PairPace() {
+interface Props {
+  data: {
+    startTime: number;
+    finishTime: number;
+    pace: number;
+  }[];
+  rivalData?: {
+    startTime: number;
+    finishTime: number;
+    pace: number;
+  }[];
+}
+
+function PairPace({data, rivalData}: Props) {
   const [sectionNum, setSectionNum] = useState<number>(0);
   const [parentWidth, setParentWidth] = useState(0);
   const [parentHeight, setParentHeight] = useState(0);
@@ -21,44 +34,6 @@ function PairPace() {
     setParentHeight(height);
   };
 
-  const data = [
-    {
-      // 0 ~ 1
-      startTime: 0,
-      finishTime: 1,
-      pace: 214,
-    },
-    {
-      // 1 ~ 2
-      startTime: 1,
-      finishTime: 2,
-      pace: 213,
-    },
-    {
-      // 2 ~ 3
-      startTime: 2,
-      finishTime: 3,
-      pace: 1231,
-    },
-    {
-      // 3 ~ 4
-      startTime: 3,
-      finishTime: 4,
-      pace: 452,
-    },
-    {
-      // 3 ~ 4
-      startTime: 3,
-      finishTime: 4,
-      pace: 452,
-    },
-    {
-      // 3 ~ 4
-      startTime: 3,
-      finishTime: 4,
-      pace: 452,
-    },
-  ];
   useEffect(() => {
     setSectionNum(data.length + 1);
   }, []);

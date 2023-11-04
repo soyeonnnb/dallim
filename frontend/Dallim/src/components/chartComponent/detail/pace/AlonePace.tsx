@@ -11,7 +11,15 @@ import {secondToHourMinuteSeconds, calculatePace} from '@/recoil/RunningData';
 const NUM_SECTIONS = 3;
 const DATA_HEIGHT = 40; // 각 데이터의 높이
 
-function AlonePace() {
+interface Props {
+  data: {
+    startTime: number;
+    finishTime: number;
+    pace: number;
+  }[];
+}
+
+function AlonePace({data}: Props) {
   const [sectionNum, setSectionNum] = useState<number>(0);
   const [parentWidth, setParentWidth] = useState(0);
   const [parentHeight, setParentHeight] = useState(0);
@@ -21,44 +29,6 @@ function AlonePace() {
     setParentHeight(height);
   };
 
-  const data = [
-    {
-      // 0 ~ 1
-      startTime: 0,
-      finishTime: 1,
-      pace: 214,
-    },
-    {
-      // 1 ~ 2
-      startTime: 1,
-      finishTime: 2,
-      pace: 213,
-    },
-    {
-      // 2 ~ 3
-      startTime: 2,
-      finishTime: 3,
-      pace: 1231,
-    },
-    {
-      // 3 ~ 4
-      startTime: 3,
-      finishTime: 4,
-      pace: 452,
-    },
-    {
-      // 3 ~ 4
-      startTime: 3,
-      finishTime: 4,
-      pace: 452,
-    },
-    {
-      // 3 ~ 4
-      startTime: 3,
-      finishTime: 4,
-      pace: 452,
-    },
-  ];
   useEffect(() => {
     setSectionNum(data.length + 1);
   }, []);

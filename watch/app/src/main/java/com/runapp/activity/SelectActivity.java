@@ -99,42 +99,7 @@ public class SelectActivity extends ComponentActivity {
 
         // 함께 달리기 눌렀을 경우
         binding.btnMulti.setOnClickListener(v ->{
-            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
-
-            LayoutInflater inflater = getLayoutInflater();
-            View customView = inflater.inflate(R.layout.multi_popup, null);
-
             getRunningMate();
-
-//            if(riverData != null){
-//                TextView distanceView = findViewById(R.id.distance);
-//                TextView timeView = findViewById(R.id.tv_time);
-//                TextView distanceView = findViewById(R.id.distance);
-//            }
-
-            builder.setView(customView);
-
-            // AlertDialog 생성
-            AlertDialog dialog = builder.create();
-
-            dialog.show();
-
-            Button btnCancel = customView.findViewById(R.id.multi_cancel);
-            Button btnStart = customView.findViewById(R.id.multi_start);
-
-            // 취소 버튼에 대한 클릭 리스너
-            btnCancel.setOnClickListener(b ->{
-                dialog.dismiss();
-            });
-
-            // 확인 버튼에 대한 클릭 리스너
-            btnStart.setOnClickListener(b-> {
-                // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
-                Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
-                intent.putExtra("run_type", "PAIR"); // 인자로 넘겨줌
-                countdownActivityResultLauncher.launch(intent);
-                dialog.dismiss();
-            });
         });
 
         // 나의 기록 보기
@@ -188,6 +153,9 @@ public class SelectActivity extends ComponentActivity {
                 }
                 // 러닝메이트 저장
                 addRunningMateDataList(runningMates);
+                // 데이터 저장 후 RunningMateActivity 시작
+                Intent intent = new Intent(SelectActivity.this, RunningMateActivity.class);
+                startActivity(intent);
             }
 
             @Override

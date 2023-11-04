@@ -12,12 +12,14 @@ import android.os.IBinder;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.runapp.R;
+
 public class TimerService extends Service {
     private Handler timerHandler;
     private Runnable timerRunnable;
     private long startTime;
-    private static final int NOTIFICATION_ID = 1;
-    private static final String CHANNEL_ID = "TimerServiceChannel";
+    private static final int NOTIFICATION_ID = 10;
+    private static final String CHANNEL_ID = "RunningService";
     public static final String TIMER_BR = "com.runapp.service.timerbroadcast";
 
     @Override
@@ -33,7 +35,7 @@ public class TimerService extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
                     CHANNEL_ID,
-                    "Timer Service Channel",
+                    "달림",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
             NotificationManager manager = getSystemService(NotificationManager.class);
@@ -43,8 +45,9 @@ public class TimerService extends Service {
 
     private Notification getNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Timer Service Running")
-                .setContentText("Timer is active.");
+                .setSmallIcon(R.drawable.ic_launcher_round)
+                .setContentTitle("기록중")
+                .setContentText("당신의 달리기를 기록하고 있어요");
         return builder.build();
     }
 
@@ -57,6 +60,7 @@ public class TimerService extends Service {
                 Intent intent = new Intent(TIMER_BR);
                 intent.putExtra("elapsedTime", elapsedTime);
                 sendBroadcast(intent);
+                // 1초마다 현재 Runnable을 다시 실행하도록 예약
                 timerHandler.postDelayed(this, 1000);
             }
         };
@@ -79,6 +83,7 @@ public class TimerService extends Service {
     public void onDestroy() {
         stopTimer();
         super.onDestroy();
+        stopForeground(true);
     }
 
     @Nullable

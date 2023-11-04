@@ -23,6 +23,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.runapp.R;
 import com.runapp.view.RunningViewModel;
 import com.runapp.util.Conversion;
 import com.runapp.util.MyApplication;
@@ -38,26 +39,19 @@ public class LocationService extends Service {
     private Conversion conversion;
     private LocationCallback locationCallback;
     private RunningViewModel runningViewModel;
-    private static final int NOTIFICATION_ID = 1;
-    private static final String CHANNEL_ID = "SensorServiceChannel";
+    private static final int NOTIFICATION_ID = 10;
+    private static final String CHANNEL_ID = "RunningService";
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
                     CHANNEL_ID,
-                    "Location Service Channel",
+                    "달림",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
 
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
         }
-    }
-
-    private Notification getNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Location Service Running")
-                .setContentText("Location data is being collected.");
-        return builder.build();
     }
 
     @Override
@@ -144,8 +138,14 @@ public class LocationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        System.out.println("들어옴");
         createNotificationChannel();
-        Notification notification = getNotification();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_round)
+                .setContentTitle("Location Service Running")
+                .setContentText("Location data is being collected.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        Notification notification = builder.build();
         startForeground(NOTIFICATION_ID, notification);
 
         return START_STICKY;
@@ -163,5 +163,6 @@ public class LocationService extends Service {
         if(locationCallback != null && fusedLocationProviderClient != null){
             fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         }
+        stopForeground(true);
     }
 }

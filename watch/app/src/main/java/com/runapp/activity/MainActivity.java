@@ -41,6 +41,7 @@ public class MainActivity extends ComponentActivity{
     static int MULTIPLE_PERMISSIONS_CODE = 100;
     private SharedPreferences prefs;
     private NetworkUtil networkUtil;
+    private int notificationId = 5;
 
 
     @Override

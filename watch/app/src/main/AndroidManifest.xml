@@ -27,6 +27,10 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
         <activity
+            android:name=".activity.RunningMateActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".activity.AuthActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

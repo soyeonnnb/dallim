@@ -108,14 +108,15 @@ public class RunningActivity extends AppCompatActivity {
         // 위치서비스 포그라운드 실행
         locationIntent = new Intent(this, LocationService.class);
         startForegroundService(locationIntent);
-        // 센서서비스 포그라운드 실행
+//         센서서비스 포그라운드 실행
         sensorIntent = new Intent(this, SensorService.class);
         startForegroundService(sensorIntent);
 
         timerServiceIntent = new Intent(this, TimerService.class);
         startForegroundService(timerServiceIntent);
 
-        // Initialize the BroadcastReceiver
+
+        // 타이머 서비스에서 브로드캐스트로 시간을 전송하게 만들어놓은 걸 받음.
         timerUpdateReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -124,14 +125,16 @@ public class RunningActivity extends AppCompatActivity {
             }
         };
 
+        // 리시버를 시스템에 등록한다.
         registerReceiver(timerUpdateReceiver, new IntentFilter(TimerService.TIMER_BR));
     }
 
     // 시간 업데이트 메서드
     private void updateTimer(long elapsedTime) {
-        System.out.println(elapsedTime);
+        System.out.println("ㅋㅋ"+elapsedTime);
         long millis = elapsedTime;
         int seconds = (int) (millis / 1000);
+        totalTime = (long) seconds;
         int minutes = seconds / 60;
         seconds = seconds % 60;
 
@@ -159,8 +162,7 @@ public class RunningActivity extends AppCompatActivity {
         if (runningViewModel.getHeartRate().getValue() != null) {
             detail.setHeartRate(runningViewModel.getHeartRate().getValue());
         }
-        detail.setSecond(totalTime++);
-        System.out.println(totalTime);
+        detail.setSecond(totalTime);
         if(runningViewModel.getLongitude().getValue() != null){
             detail.setLongitude(runningViewModel.getLongitude().getValue());
         }
@@ -197,8 +199,6 @@ public class RunningActivity extends AppCompatActivity {
         unregisterReceiver(timerUpdateReceiver);
         // Stop the TimerService
         stopService(timerServiceIntent);
-
-        System.out.println(runningViewModel.getOriDistance().getValue());
 
         if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.01) {
             Toast toast = Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG);

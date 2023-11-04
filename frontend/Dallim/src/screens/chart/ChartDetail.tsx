@@ -62,13 +62,18 @@ function ChartDetail({route, navigation}: Props) {
       pace: number;
     }[];
   }>();
-  const [heartRateData, setHeartRateData] = useState();
+  const [heartRateData, setHeartRateData] = useState<{
+    chartData: {
+      value: number;
+      second: number;
+    }[];
+    secondPerHeartRateSection: number[];
+  }>();
 
   const fetchRunningData = async () => {
     try {
       const getData = await fetchDetailRunningData(id);
       setData(getData);
-      setIsLoading(false);
       if (data) setCreatedAt(getDateObject(data.createdAt));
       // 페이스에 들어갈 데이터 처리
       const getPaceData: {
@@ -97,7 +102,35 @@ function ChartDetail({route, navigation}: Props) {
       getPaceData.chartData = cData;
       getPaceData.sectionPace = getData.pace.section;
       setPaceData(getPaceData);
+
+      // 심박수에 들어갈 데이터 처리
+      const hData: {
+        value: number;
+        second: number;
+      }[] = [];
+
+      await getData.runningRecordInfos.map((record: any) => {
+        const value: {second: number; value: number} = {
+          second: 0,
+          value: 0,
+        };
+        value.second = record.second;
+        value.value = record.heartRate;
+        hData.push(value);
+      });
+      const getHeartRateData: {
+        chartData: {
+          value: number;
+          second: number;
+        }[];
+        secondPerHeartRateSection: number[];
+      } = {chartData: [], secondPerHeartRateSection: []};
+      getHeartRateData.chartData = hData;
+      getHeartRateData.secondPerHeartRateSection =
+        getData.heartRate.secondPerHeartRateSection;
+      setHeartRateData(getHeartRateData);
       console.log('ChartApi: 달리기 기록 상세 조회 Axios 성공');
+      setIsLoading(false);
     } catch (error) {
       console.error('ChartApi: 달리기 기록 상세 조회 Axios 실패: ', error);
     }
@@ -138,7 +171,7 @@ function ChartDetail({route, navigation}: Props) {
             {paceData && (
               <Pace data={paceData} isAlone={data?.type === 'ALONE'} />
             )}
-            <HeartRate />
+            {heartRateData && <HeartRate data={heartRateData} />}
           </ScrollView>
         </S.Container>
       )}

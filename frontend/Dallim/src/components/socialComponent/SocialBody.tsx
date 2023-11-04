@@ -3,12 +3,13 @@ import { Animated, Easing, ScrollView } from 'react-native';
 import * as S from './SocialBody.styles';
 import RankInfoBox from './RankInfoBox';
 import { fetchAllRank, fetchFriendRank } from '@/apis/SocialApi';
-import Loading from '@/components/common/Loading';
 import NoFriendImage from '@/assets/images/NoFriend.png';
 
 type RankingInfo = {
   rank: number;
   userId: number;
+  characterIndex : number;
+  evolutionStage : number;
   nickname: string;
   cumulativeDistance: number;
   level: number;
@@ -100,11 +101,12 @@ function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: Social
               rankingData.map((info: RankingInfo, index) => (
                 <S.RankInfoBox key={info.userId.toString()}>
                   <RankInfoBox
-                    userId={info.userId}
                     rank={index + 1}
+                    userId={info.userId}
+                    characterIndex={info.characterIndex}
+                    evolutionStage={info.evolutionStage}
                     nickname={info.nickname}
                     cumulativeDistance={info.cumulativeDistance}
-                    distance={info.cumulativeDistance}
                     level={info.level}
                     follower={info.follower}
                     navigation={navigation}

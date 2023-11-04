@@ -15,16 +15,18 @@ import { useRecoilState } from 'recoil';
 import { friendRequestsState, friendsState } from '@/recoil/FriendRecoil';
 import WaitBox from '../WaitBox';
 
-type Friend = {
-  userId: number;
-  characterIndex: number;
-  nickname: string;
-  level: number;
-};
+// type Friend = {
+//   userId: number;
+//   characterIndex: number;
+//   evolutionStage: number;
+//   nickname: string;
+//   level: number;
+// };
 
 type User = {
   userId: number;
   characterIndex: number;
+  evolutionStage: number;
   nickname: string;
   level: number;
   isFollower: boolean;
@@ -197,17 +199,13 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
         );
       case 'requests':
         return friendRequests.length > 0 ? (
-          <>
-            <S.EmptyImage source={NoRequestImage} resizeMode="contain" />
-            <S.EmptyText style={{ marginRight: 10 }}>받은 요청이 없어요.</S.EmptyText>
-          </>
-          // <ScrollView>
-          //   {friendRequests.map((order) => (
-          //     <S.WaitBox key={order.userId}>
-          //       <WaitBox {...order} />
-          //     </S.WaitBox>
-          //   ))}
-          // </ScrollView>
+          <ScrollView>
+            {friendRequests.map((order) => (
+              <S.WaitBox key={order.userId}>
+                <WaitBox {...order} />
+              </S.WaitBox>
+            ))}
+          </ScrollView>
         ) : (
           <>
             <S.EmptyImage source={NoRequestImage} resizeMode="contain" />

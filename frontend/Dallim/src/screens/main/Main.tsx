@@ -6,7 +6,6 @@ import { planetData } from '@/recoil/PlanetData';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
 import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';
-import CustomToast from '@/components/common/CustomToast';
 import Loading from '@/components/common/Loading';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -74,10 +73,6 @@ function Main({navigation}: MainProps) {
   function handleSend() {
     console.log('출석체크 버튼 눌림!');
     setStampModalVisible(true);
-  }
-  function Start() {
-    console.log('시작 버튼 눌림!');
-    CustomToast({ type: 'error', text1: '아직 개발중입니다.' });
   }
 
   return (

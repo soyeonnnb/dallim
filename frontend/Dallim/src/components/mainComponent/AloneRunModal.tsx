@@ -1,10 +1,17 @@
+import * as S from './AloneRunModal.styles';
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-native';
-import * as S from './AloneRunModal.styles';
-import CloseIcon from '../../assets/icons/CloseIcon.png';
-import { Calendar, LocaleConfig } from 'react-native-calendars';
-import { fetchUserCalendar } from '@/apis/MainApi';
+import { planetData } from '@/recoil/PlanetData';
+import { characterData } from '@/recoil/CharacterData';
+import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
+import SpinAnimation from '@/components/common/SpinAnimation';
 
+import { useRecoilValue } from 'recoil';
+import {
+  equippedCharacterIndexState,
+  equippedEvolutionStageState,
+  equippedPlanetIndexState,
+} from '@/recoil/UserRecoil';
 
 interface Props {
   isVisible: boolean;
@@ -13,6 +20,9 @@ interface Props {
 
 const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
+  const equippedCharacterIndex = useRecoilValue(equippedCharacterIndexState);
+  const equippedEvolutionStage = useRecoilValue(equippedEvolutionStageState);
+  const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState);
 
   return (
     <Modal
@@ -21,20 +31,46 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <S.BackgroundImage source={require('@/assets/images/MainBackground5.png')}
+      <S.BackgroundImage source={require('@/assets/images/MainBackground3.png')}
         resizeMode="cover">
         <S.ModalContainer>
-          <S.ModalContent>
-            <S.Header>
+          <S.Header>
+            <S.CloseButton onPress={onClose}>
+              <S.CloseImage source={CloseIcon} />
+            </S.CloseButton>
+          </S.Header>
 
-            </S.Header>
-            <S.Body>
+          <S.Body>
 
-            </S.Body>
-            <S.Bottom>
+          </S.Body>
 
-            </S.Bottom>
-          </S.ModalContent>
+          <S.Bottom>
+          </S.Bottom>
+
+
+          {/* 행성 */}
+          <S.ThemeBox>
+            <SpinAnimation>
+              <S.StyledImage
+                source={planetData[equippedPlanetIndex].Planet}
+                resizeMode="contain"
+              />
+            </SpinAnimation>
+          </S.ThemeBox>
+
+          {/* 캐릭터 */}
+          <S.CharacterBox>
+            <S.StyledGif
+              source={
+                // characterData[equippedCharacterIndex].evolutions[equippedEvolutionStage]
+                characterData[2].evolutions[1]
+                  .running
+              }
+              resizeMode="contain"
+            />
+          </S.CharacterBox>
+
+
         </S.ModalContainer>
       </S.BackgroundImage>
     </Modal>

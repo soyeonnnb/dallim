@@ -161,7 +161,7 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
                 ) : (
                     <>
                         <S.Header>
-                            <S.CloseButton onPress={() => navigation.goBack()}>
+                            <S.CloseButton onPress={() => navigation.navigate('Social')}>
                                 <S.CloseImage source={CloseIcon} />
                             </S.CloseButton>
                             <S.HeaderBox>

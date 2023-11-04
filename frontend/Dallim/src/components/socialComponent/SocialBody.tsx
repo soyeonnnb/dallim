@@ -3,7 +3,6 @@ import { Animated, Easing, ScrollView } from 'react-native';
 import * as S from './SocialBody.styles';
 import RankInfoBox from './RankInfoBox';
 import { fetchAllRank, fetchFriendRank } from '@/apis/SocialApi';
-import Loading from '@/components/common/Loading';
 import NoFriendImage from '@/assets/images/NoFriend.png';
 
 type RankingInfo = {

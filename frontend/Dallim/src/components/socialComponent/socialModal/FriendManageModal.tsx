@@ -154,7 +154,6 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
       return (
         <>
           <S.AnimatedFooterText style={{ opacity: fadeAnim }}>로딩 중...</S.AnimatedFooterText>
-
         </>
       )
     }

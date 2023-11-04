@@ -1,6 +1,10 @@
 import * as S from './GameStartStack.styles';
 import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
+import { useState } from 'react';
 import Toast from 'react-native-toast-message';
+
+import AloneRunModal from '@/components/mainComponent/AloneRunModal';
+// import TogetherModal from 
 
 interface GameStartStackProps {
   navigation: any;
@@ -8,12 +12,22 @@ interface GameStartStackProps {
 
 function GameStartStack({ navigation }: GameStartStackProps) {
 
+  const [isAloneModalVisible, setAloneModalVisible] = useState(false);
+  // const [isTogetherModalVisible, setTogetherModalVisible] = useState(false);
+
+  // 혼자 달리기 모달 열기 & 닫기
   function RunningAlone() {
     console.log("혼자 달리기 버튼이 눌렸습니다.");
+    setAloneModalVisible(true);
+  }
+  function closeAloneRunModal() {
+    setAloneModalVisible(false);
   }
 
+  // 같이 달리기 모달 열기 & 닫기
   function RunningTogether() {
     console.log("같이 달리기 버튼이 눌렸습니다.");
+    // setTogetherModalVisible(true);
     Toast.show({
       type: 'error',
       position: 'top',
@@ -23,7 +37,9 @@ function GameStartStack({ navigation }: GameStartStackProps) {
       topOffset: 10,
     });
   }
-
+  // function closeTogetherRunModal() {
+  //   setTogetherModalVisible(false);
+  // }
 
   return (
     <S.Container>
@@ -45,14 +61,12 @@ function GameStartStack({ navigation }: GameStartStackProps) {
               resizeMode="contain"
             >
               <S.RunButton onPress={RunningAlone}>
-
                 <S.RunTop>
                   <S.MainText>혼자 달리기</S.MainText>
                 </S.RunTop>
                 <S.RunMiddle>
                   <S.SubText>혼자만의 기록을 세워요</S.SubText>
                 </S.RunMiddle>
-
               </S.RunButton>
             </S.ButtonBackground>
           </S.ButtonBox>
@@ -62,7 +76,6 @@ function GameStartStack({ navigation }: GameStartStackProps) {
               resizeMode="contain"
             >
               <S.RunButton onPress={RunningTogether}>
-
                 <S.RunTop>
                   <S.MainText>같이 달리기</S.MainText>
                 </S.RunTop>
@@ -70,17 +83,16 @@ function GameStartStack({ navigation }: GameStartStackProps) {
                   <S.SubText>러닝메이트와 함께 달리며</S.SubText>
                   <S.SubText>실시간으로 기록을 비교해요</S.SubText>
                 </S.RunMiddle>
-
               </S.RunButton>
             </S.ButtonBackground>
           </S.ButtonBox>
-
         </S.Body>
-
         <S.TabBox />
-
       </S.BackgroundImage>
 
+      {/* 모달 */}
+      <AloneRunModal isVisible={isAloneModalVisible} onClose={closeAloneRunModal} />
+      {/* <TogetherRunModal isVisible={isTogetherModalVisible} onClose={closeTogetherRunModal} /> */}
     </S.Container >
   );
 };

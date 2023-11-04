@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {ImageBackground, TouchableOpacity} from 'react-native';
+import {ImageBackground} from 'react-native';
 import {Animated} from 'react-native';
 
 export const Container = styled.View`

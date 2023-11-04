@@ -1,5 +1,6 @@
 package com.b208.dduishu.domain.follow.service;
 
+import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.follow.dto.request.AcceptFollowerinfo;
 import com.b208.dduishu.domain.follow.dto.request.CreateFollowerInfo;
 import com.b208.dduishu.domain.follow.dto.request.FollowerInfo;
@@ -97,7 +98,10 @@ public class FollowService {
         List<Follow> toUserFollows = followRepository.findAllByToUserUserIdAndState(user.getUserId(), FollowState.accept);
         // fromUser로서의 팔로우 리스트
         List<Follow> fromUserFollows = followRepository.findAllByFromUserUserIdAndState(user.getUserId(), FollowState.accept);
-
+        Character mainCharacter = user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
         // 두 리스트를 합쳐 중복을 제거한 User Set을 생성
         Set<User> allFriends = new HashSet<>();
 
@@ -106,14 +110,17 @@ public class FollowService {
 
         // Set 내의 모든 사용자를 FollowerInfo 리스트로 변환
         return allFriends.stream()
-                .map(FollowerInfo::new)
+                .map(o -> new FollowerInfo(o, mainCharacter))
                 .collect(Collectors.toList());
     }
 
 
     public List<FollowerInfo> getAllWatingFollowInfo() {
         User user = getUser.getUser();
-
+        Character mainCharacter = user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
         // fromUser가 아니라 toUser 기준으로 조회하며 state가 waiting인 것만 필터링
         List<Follow> waitingFollows = followRepository.findAllByToUserUserIdAndState(user.getUserId(), FollowState.waiting);
 
@@ -123,7 +130,7 @@ public class FollowService {
                 .collect(toList());
 
         List<FollowerInfo> followDTO = followUsers.stream()
-                .map(FollowerInfo::new)
+                .map(o -> new FollowerInfo(o, mainCharacter))
                 .collect(toList());
         return followDTO;
     }

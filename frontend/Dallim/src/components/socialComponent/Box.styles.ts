@@ -111,7 +111,7 @@ export const Button_DenyWait = styled.View`
 export const Button = styled(TouchableOpacity)`
   /* border-width: 1px;
   border-color: blue; */
-  width: 50%;
+  width: 70%;
   height: 90%;
   justify-content: center;
   align-items: center;

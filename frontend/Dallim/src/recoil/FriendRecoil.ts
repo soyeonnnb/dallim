@@ -4,6 +4,7 @@ import {atom} from 'recoil';
 export type Friend = {
   userId: number;
   characterIndex: number;
+  evolutionStage: number;
   nickname: string;
   level: number;
 };

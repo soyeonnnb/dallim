@@ -9,18 +9,18 @@ type WaitBoxProps =
     {
         userId: number;
         characterIndex: number;
+        evolutionStage: number;
         nickname: string;
         level: number;
     };
 
 
-function WaitBox({ userId, characterIndex, nickname, level }: WaitBoxProps) {
+function WaitBox({ userId, characterIndex, evolutionStage, nickname, level }: WaitBoxProps) {
 
     const [requestFriends, setRequestFriends] = useRecoilState(friendRequestsState);
     const [friends, setFriends] = useRecoilState(friendsState); // 친구 목록 상태
 
-    const tempEvolutionIndex = 0;
-    const selectedCharacter = characterData[characterIndex].evolutions[tempEvolutionIndex].front;
+    const selectedCharacter = characterData[characterIndex].evolutions[evolutionStage].front;
 
 
     const handleRequestAccept = async () => {

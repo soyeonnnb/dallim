@@ -1,6 +1,5 @@
 import { postAddFriend } from '@/apis/SocialApi';
 import * as S from './Box.styles';
-import Character from '@/assets/characters/PenguinEgg.png';
 import { characterData } from '@/recoil/CharacterData';
 
 import { useSetRecoilState } from 'recoil';
@@ -10,12 +9,13 @@ import { useState } from 'react';
 type UserBoxProps = {
     userId: number;
     characterIndex: number;
+    evolutionStage: number;
     nickname: string;
     level: number;
     isFollower: boolean;
 };
 
-function UserBox({ userId, nickname, characterIndex, level, isFollower }: UserBoxProps) {
+function UserBox({ userId, nickname, characterIndex, evolutionStage,  level, isFollower }: UserBoxProps) {
 
     const setFriends = useSetRecoilState(friendsState);
 
@@ -36,6 +36,8 @@ function UserBox({ userId, nickname, characterIndex, level, isFollower }: UserBo
                         userId: userId,
                         nickname: nickname,
                         characterIndex: characterIndex,
+                        evolutionStage: tempEvolutionIndex, // 수정 예정
+                        // evolutionStage: evolutionStage,
                         level: level,
                         isFollower: true,
                     },

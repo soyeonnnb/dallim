@@ -9,17 +9,16 @@ type FriendBoxProps =
     {
         userId: number;
         characterIndex: number;
+        evolutionStage: number;
         nickname: string;
         level: number;
     };
 
 
-function FriendBox({ userId, characterIndex, nickname, level }: FriendBoxProps) {
+function FriendBox({ userId, characterIndex, evolutionStage, nickname, level }: FriendBoxProps) {
 
     const [friends, setFriends] = useRecoilState(friendsState);
-
-    const tempEvolutionIndex = 0;
-    const selectedCharacter = characterData[characterIndex].evolutions[tempEvolutionIndex].front;
+    const selectedCharacter = characterData[characterIndex].evolutions[evolutionStage].front;
 
 
     const handleDeleteFriend = async () => {

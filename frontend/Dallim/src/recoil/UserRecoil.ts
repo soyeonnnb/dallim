@@ -2,9 +2,9 @@ import {atom} from 'recoil';
 
 interface Character {
   characterIndex: number;
+  evolutionStage: number;
   level: number;
   exp: number;
-  evolutionStage: number;
   isPurchased: boolean;
 }
 

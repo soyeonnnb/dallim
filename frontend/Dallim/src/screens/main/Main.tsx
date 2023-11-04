@@ -130,7 +130,7 @@ function Main({navigation}: MainProps) {
 
               <S.StartBox>
                 <S.StartButton onPress={() => navigation.navigate('GameStartStack', { userId: userId })}>
-                  <S.StartText>시작하기</S.StartText>
+                  <S.StartText>달리기</S.StartText>
                 </S.StartButton>
 
               </S.StartBox>

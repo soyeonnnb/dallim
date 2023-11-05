@@ -5,6 +5,7 @@ import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
 import com.b208.dduishu.domain.runningRecord.document.HeartRateInfo;
 import com.b208.dduishu.domain.runningRecord.document.PaceInfo;
 import com.b208.dduishu.domain.runningRecord.document.RunningType;
+import com.b208.dduishu.domain.runningRecord.document.WatchOrMobile;
 import com.b208.dduishu.domain.runningRecord.dto.CharacterRecordInfo;
 import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import lombok.Builder;
@@ -20,6 +21,7 @@ public class RunningRecordDetail {
 
     private String id;
     private String location;
+    private WatchOrMobile watchOrMobile;
     private List<Double> secondPerSpeed;
     private HeartRateInfo heartRate;
     private PaceInfo pace;
@@ -36,8 +38,9 @@ public class RunningRecordDetail {
     private LocalDateTime createdAt;
 
     @Builder
-    public RunningRecordDetail(ObjectId id, String location, List<Double> secondPerSpeed, HeartRateInfo heartRate, PaceInfo pace, double stepCount, UserInfo user, CharacterRecordInfo character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed, int averageCalory, LocalDateTime createdAt) {
+    public RunningRecordDetail(ObjectId id, WatchOrMobile watchOrMobile, String location, List<Double> secondPerSpeed, HeartRateInfo heartRate, PaceInfo pace, double stepCount, UserInfo user, CharacterRecordInfo character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed, int averageCalory, LocalDateTime createdAt) {
         this.id = id.toString();
+        this.watchOrMobile = watchOrMobile;
         this.location = location;
         this.secondPerSpeed = secondPerSpeed;
         this.heartRate = heartRate;

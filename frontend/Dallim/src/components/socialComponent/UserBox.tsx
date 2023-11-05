@@ -19,8 +19,7 @@ function UserBox({ userId, nickname, characterIndex, evolutionStage,  level, isF
 
     const setFriends = useSetRecoilState(friendsState);
 
-    const tempEvolutionIndex = 0;
-    const selectedCharacter = characterData[characterIndex].evolutions[tempEvolutionIndex].front;
+    const selectedCharacter = characterData[characterIndex].evolutions[evolutionStage].front;
     const [isFollowerCheck, setIsFollowerCheck] = useState(isFollower);
 
 
@@ -36,8 +35,7 @@ function UserBox({ userId, nickname, characterIndex, evolutionStage,  level, isF
                         userId: userId,
                         nickname: nickname,
                         characterIndex: characterIndex,
-                        evolutionStage: tempEvolutionIndex, // 수정 예정
-                        // evolutionStage: evolutionStage,
+                        evolutionStage: evolutionStage,
                         level: level,
                         isFollower: true,
                     },

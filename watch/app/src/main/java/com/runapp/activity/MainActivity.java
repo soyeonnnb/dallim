@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
@@ -59,6 +60,17 @@ public class MainActivity extends ComponentActivity{
         super.onCreate(savedInstanceState);
         // 리시버 인스턴스를 생성합니다.
         networkUtil = new NetworkUtil();
+        // 어떤 권한을 확인할 지 설정 해놓은 메서드.
+        checkPermission();
+
+        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        String packageName = getPackageName();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                Log.e("에러", "절전모드임");
+            }
+        }
 
         // 알림을 사용하기 위한 코드(오레오 이상 버전이면 실행)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -86,8 +98,7 @@ public class MainActivity extends ComponentActivity{
         // 액티비티의 컨텐츠 뷰로 view를 설정. 여기서 화면에 뭐가 보일지 결정
         setContentView(view);
 
-        // 어떤 권한을 확인할 지 설정 해놓은 메서드.
-        checkPermission();
+
     }
 
     @Override

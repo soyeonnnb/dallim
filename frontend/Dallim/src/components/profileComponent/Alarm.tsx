@@ -1,11 +1,18 @@
 import * as S from './Alarm.styles';
 import React, {useState} from 'react';
-import {ScrollView, View, Text} from 'react-native';
+import {ScrollView, View, Text, Dimensions} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {SwipeListView} from 'react-native-swipe-list-view';
+import Toast from 'react-native-toast-message';
 
 //img---------------------------------------------------------------
 import MorningAlarm from '@/assets/images/MorningAlarm.png';
 import NightAlarm from '@/assets/images/NightAlarm.png';
+
+//component---------------------------------------------------------------
+// import AlarmDeleteModal from './profileModal/AlarmDeleteModal';
+
+const windowWidth = Dimensions.get('window').width;
 
 type AlarmProps = {
   alarmList: {
@@ -17,8 +24,8 @@ type AlarmProps = {
 
 const Alarm: React.FC<AlarmProps> = ({alarmList}) => {
   //state---------------------------------------------------------------
-  const [modalVisible, setModalVisible] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState<number | null>(null);
+  // const [modalVisible, setModalVisible] = useState(false);
+  // const [currentIndex, setCurrentIndex] = useState<number | null>(null);
   const [toggles, setToggles] = useState<boolean[]>(alarmList.map(() => false));
   //action---------------------------------------------------------------
   const getImageForTime = (hour: number) => {
@@ -45,8 +52,10 @@ const Alarm: React.FC<AlarmProps> = ({alarmList}) => {
 
   return (
     <S.Container>
-      <ScrollView style={{width: '90%'}}>
-        {alarmList.map((alarm, index) => (
+      <SwipeListView
+        style={{width: '90%'}}
+        data={alarmList}
+        renderItem={({item: alarm, index}) => (
           <S.CardImageWrapper key={index}>
             <S.Body>
               <S.CardBox
@@ -89,8 +98,38 @@ const Alarm: React.FC<AlarmProps> = ({alarmList}) => {
               </S.CardBox>
             </S.Body>
           </S.CardImageWrapper>
-        ))}
-      </ScrollView>
+        )}
+        renderHiddenItem={({item, index}) => (
+          <View>
+            {/* <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                width: '33%',
+                height: '100%',
+              }}>
+              <Text>삭제</Text>
+            </View> */}
+          </View>
+        )}
+        rightOpenValue={-windowWidth}
+        disableRightSwipe
+        showsVerticalScrollIndicator={true}
+        onRowOpen={(rowKey, rowMap, toValue) => {
+          if (toValue === -windowWidth) {
+            console.log(`삭제된 알람의 인덱스: ${rowKey}`); // rowKey를 직접 사용
+
+            Toast.show({
+              type: 'success',
+              position: 'top',
+              text1: '알람이 삭제되었습니다 !',
+              visibilityTime: 3000,
+              autoHide: true,
+              topOffset: 10,
+            });
+          }
+        }}
+      />
     </S.Container>
   );
 };

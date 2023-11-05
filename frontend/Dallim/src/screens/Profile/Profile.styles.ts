@@ -28,11 +28,22 @@ export const Text = styled.Text`
   color: white;
 `;
 
+export const DeleteButtonBox = styled.TouchableOpacity`
+  /* border-width: 1px;
+  border-color: blue; */
+`;
+
+export const Logout = styled.Image`
+  width: 20px;
+  height: 20px;
+`;
+
 export const TitleProfileBox = styled.View`
   /* border-width: 1px;
   border-color: green; */
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 20%;
 `;
@@ -45,9 +56,9 @@ export const ProfileBox = styled.View`
 `;
 
 export const Body = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  justify-content: center;
+  /* border-width: 1px; */
+  /* border-color: red; */
+  justify-content: flex-end;
   align-items: center;
   width: 90%;
   height: 50%;
@@ -64,59 +75,99 @@ export const TitleSetBox = styled.View`
 
 export const SetBox = styled.View`
   /* border-width: 1px;
-  border-color: green; */
+  border-color: red; */
+  align-items: center;
   width: 100%;
   height: 85%;
 `;
 
-export const ButtonBox = styled.TouchableOpacity`
-  border-width: 2px;
-  border-color: white;
-  border-radius: 30px;
+export const ButtonContainer = styled.View`
+  /* border-width: 1px;
+  border-color: green; */
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  background-color: #2a2c45;
   width: 100%;
-  height: 20%;
-  margin-bottom: 5%;
+  height: 50%;
 `;
 
-export const DeleteButtonBox = styled.TouchableOpacity`
-  border-width: 2px;
-  border-color: red;
+export const ButtonBox = styled.TouchableOpacity`
+  /* border-width: 2px;
+  border-color: white; */
   border-radius: 30px;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  background-color: #2a2c45;
-  width: 100%;
-  height: 20%;
+  background-color: rgba(0, 0, 0, 0.38);
+  width: 45%;
+  height: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+`;
+export const ButtonSmallBox = styled.View`
+  /* border-width: 2px;
+  border-color: white; */
+  width: 80%;
+  height: 80%;
 `;
 
 export const IconBox = styled.View`
   /* border-width: 1px;
-  border-color: red; */
+  border-color: blue; */
+  background-color: #e36f6f;
+  border-radius: 300px;
   justify-content: center;
   align-items: center;
-  width: 50%;
-  height: 50%;
+  width: 80px;
+  height: 80px;
+`;
+
+export const RunningIconBox = styled.View`
+  background-color: #ffd02b;
+  border-radius: 300px;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+`;
+
+export const AlarmIconBox = styled.View`
+  background-color: #5879dc;
+  border-radius: 300px;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+`;
+
+export const WatchIconBox = styled.View`
+  background-color: #977ef5;
+  border-radius: 300px;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+`;
+
+export const EmptyBox = styled.View`
+  /* width: 5px; */
+  /* height: 5px; */
 `;
 
 export const ButtonIcon = styled.Image`
   /* border-width: 1px;
   border-color: red; */
-  width: 25px;
-  height: 25px;
+  width: 50px;
+  height: 50px;
 `;
 
 export const TextBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  justify-content: center;
-  align-items: flex-start;
-  width: 50%;
-  height: 50%;
+  justify-content: flex-end;
+  align-items: center;
+  width: 90px;
+  height: 30px;
 `;
 
 export const ButtonText = styled.Text`
@@ -136,13 +187,15 @@ export const ImageBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 35%;
-  height: 25%;
+  height: 27%;
   position: absolute;
   top: 18%;
   left: 65%;
 `;
 
 export const CharacterImage = styled.Image`
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 100%;
 `;

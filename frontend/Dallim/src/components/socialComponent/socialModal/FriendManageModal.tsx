@@ -15,13 +15,6 @@ import { useRecoilState } from 'recoil';
 import { friendRequestsState, friendsState } from '@/recoil/FriendRecoil';
 import WaitBox from '../WaitBox';
 
-// type Friend = {
-//   userId: number;
-//   characterIndex: number;
-//   evolutionStage: number;
-//   nickname: string;
-//   level: number;
-// };
 
 type User = {
   userId: number;
@@ -42,7 +35,6 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
   const [viewState, setViewState] = useState('friends');
   const [searchResults, setSearchResults] = useState<User[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
 
   const [friends, setFriends] = useRecoilState(friendsState);
   const [loading, setLoading] = useState<boolean>(true);
@@ -51,38 +43,30 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
   const [fadeAnim] = useState(new Animated.Value(0));  // 초기 투명도 0
 
-  // 규호형해주세요규호형해주세요규호형해주세요규호형해주세요규호형해주세요규호형해주세요규호형해주세요
-  const Search = () => {
+  const Search = ({ onSearch }: any) => {
+    const [searchQuery, setSearchQuery] = useState('');
     const inputRef = useRef<TextInput>(null);
 
     // 검색 핸들러 함수 수정
-    const handleNicknameSearch = async () => {
-      try {
-        setLoading(true);
-        const response = await fetchUserSearch(searchQuery);
-        setSearchResults(response.length > 0 ? response : []);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-        // 검색 후에만 searchQuery 상태를 비웁니다
-        setSearchQuery('');
-        // TextInput 필드를 비웁니다.
-        inputRef.current?.clear();
-      }
+    const handleNicknameSearch = () => {
+      onSearch(searchQuery);
+      setSearchQuery('');
+      inputRef.current?.clear();
     };
 
     return (
       <S.Search>
         <S.SearchLeft>
-          <S.SearchBox
-            ref={inputRef} // ref 할당
-            value={searchQuery} // value를 searchQuery 상태로 설정
-            placeholder="닉네임을 입력해주세요."
-            onChangeText={setSearchQuery} // 입력값 변경 시 searchQuery 상태 업데이트
-            onSubmitEditing={handleNicknameSearch} // 키보드에서 Enter를 눌렀을 때 검색 실행
-            returnKeyType="search"
-          />
+          <S.SearchBox>
+            <S.SearchInput
+              ref={inputRef}
+              value={searchQuery}
+              placeholder="닉네임을 입력해주세요."
+              onChangeText={setSearchQuery}
+              onSubmitEditing={handleNicknameSearch} 
+            />
+          </S.SearchBox>
+
         </S.SearchLeft>
         <S.SearchRight>
           <S.SendButton onPress={handleNicknameSearch}>
@@ -91,6 +75,18 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
         </S.SearchRight>
       </S.Search>
     );
+  };
+
+  const handleUserSearch = async (query: string) => {
+    try {
+      setLoading(true);
+      const response = await fetchUserSearch(query);
+      setSearchResults(response.length > 0 ? response : []);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // 친구 리스트 가져오기 (Axios)
@@ -161,7 +157,7 @@ const FriendManageModal: React.FC<Props> = ({ isVisible, onClose }) => {
       case 'search':
         return (
           <>
-            <Search />
+            <Search onSearch={handleUserSearch} />
             {((searchResults.length > 0) || (searchResults === null)) ? (
               <>
                 <ScrollView>

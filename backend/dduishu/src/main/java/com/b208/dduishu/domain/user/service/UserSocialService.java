@@ -234,4 +234,24 @@ public class UserSocialService {
         planetOverviews.sort(Comparator.comparingInt(PlanetOverview::getPlanetIndex));
         return planetOverviews;
     }
+
+    public WatchUserInfo getWatchUserInfo() {
+
+        User user = getUser.getUser();
+        Character mainCharacter = user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
+        List<Planet> findPlanets = planetRepository.findAllByUserUserId(user.getUserId());
+        Planet mainPlanet = findPlanets.stream()
+                .filter(Planet::isMainPlanet)
+                .findFirst()
+                .orElse(null);
+
+        return WatchUserInfo.builder()
+                .user(user)
+                .character(mainCharacter)
+                .planet(mainPlanet)
+                .build();
+    }
 }

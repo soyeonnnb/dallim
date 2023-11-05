@@ -26,9 +26,7 @@ public class RunningData {
     @ColumnInfo(name = "total_time")
     private Long totalTime; // 총 시간
     @ColumnInfo(name = "character_id")
-    private int characterId; // 어떤 캐릭터 pk인지
-    @ColumnInfo(name = "character_info_id")
-    private int characterInfoId; // 어떤 캐릭터인지
+    private Long characterId; // 어떤 캐릭터 pk인지
     @ColumnInfo(name = "step_count")
     private double stepCount; // 발걸음
     @ColumnInfo(name = "avgrage_pace")
@@ -40,7 +38,9 @@ public class RunningData {
     @ColumnInfo(name = "type")
     private String type; // 혼자뛰었는지 같이 뛰었는지
     @ColumnInfo(name = "rival_record_id")
-    private Long rivalRecordId;
+    private String rivalRecordId;
+    @ColumnInfo(name = "watch_or_mobile")
+    private String watchOrMobile;
     @TypeConverters(RunningDataConverters.class)
     @ColumnInfo(name = "running_record_infos")
     private List<RunDetail> runningRecordInfos;
@@ -54,15 +54,22 @@ public class RunningData {
         dto.setTotalDistance(this.totalDistance);
         dto.setTotalTime(this.totalTime);
         dto.setCharacterId(this.characterId);
-        dto.setCharacterInfoId(this.characterInfoId);
         dto.setStepCount(this.stepCount);
         dto.setAverageHeartRate(this.averageHeartRate);
         dto.setType(this.type);
         dto.setRivalRecordId(this.rivalRecordId);
         dto.setRunningRecordInfos(this.runningRecordInfos);
         dto.setDate(this.date.getTime());
-
+        dto.setWatchOrMobile("WATCH");
         return dto;
+    }
+
+    public String getWatchOrMobile() {
+        return watchOrMobile;
+    }
+
+    public void setWatchOrMobile(String watchOrMobile) {
+        this.watchOrMobile = watchOrMobile;
     }
 
     public Long getId() {
@@ -113,11 +120,11 @@ public class RunningData {
         this.totalTime = totalTime;
     }
 
-    public int getCharacterId() {
+    public Long getCharacterId() {
         return characterId;
     }
 
-    public void setCharacterId(int characterId) {
+    public void setCharacterId(Long characterId) {
         this.characterId = characterId;
     }
 
@@ -161,11 +168,11 @@ public class RunningData {
         this.type = type;
     }
 
-    public Long getRivalRecordId() {
+    public String getRivalRecordId() {
         return rivalRecordId;
     }
 
-    public void setRivalRecordId(Long rivalRecordId) {
+    public void setRivalRecordId(String rivalRecordId) {
         this.rivalRecordId = rivalRecordId;
     }
 
@@ -175,13 +182,5 @@ public class RunningData {
 
     public void setRunningRecordInfos(List<RunDetail> runningRecordInfos) {
         this.runningRecordInfos = runningRecordInfos;
-    }
-
-    public int getCharacterInfoId() {
-        return characterInfoId;
-    }
-
-    public void setCharacterInfoId(int characterInfoId) {
-        this.characterInfoId = characterInfoId;
     }
 }

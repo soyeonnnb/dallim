@@ -7,6 +7,9 @@ import com.google.gson.reflect.TypeToken;
 import com.runapp.model.RunDetail;
 
 import java.lang.reflect.Type;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 /*
@@ -30,5 +33,16 @@ public class RunningDataConverters {
         Type type = new TypeToken<List<RunDetail>>() {}.getType();
         // List 객체로 변환.
         return gson.fromJson(data, type);
+    }
+
+    //
+    @TypeConverter
+    public static LocalDateTime fromTimestamp(Long value) {
+        return value == null ? null : LocalDateTime.ofInstant(Instant.ofEpochMilli(value), ZoneId.systemDefault());
+    }
+
+    @TypeConverter
+    public static Long localDateTimeToTimestamp(LocalDateTime date) {
+        return date == null ? null : date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
 }

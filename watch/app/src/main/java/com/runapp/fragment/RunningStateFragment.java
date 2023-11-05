@@ -13,7 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.runapp.R;
-import com.runapp.model.RunningViewModel;
+import com.runapp.view.RunningViewModel;
 import com.runapp.util.Conversion;
 import com.runapp.util.MyApplication;
 

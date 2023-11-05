@@ -13,20 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.runapp.R;
-import com.runapp.model.RunDetail;
 import com.runapp.model.RunningData;
 import com.runapp.util.Conversion;
 
 import java.util.List;
 import java.util.Map;
 
-public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.ViewHolder> {
+public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdapter.ViewHolder> {
 
     private List<RunningData> runningDataList;
-    private RunDetail runDetail;
     private Conversion conversion = new Conversion();
 
-    public RunningDataAdapter(List<RunningData> runningDataList) {
+    public MyRunningDataAdapter(List<RunningData> runningDataList) {
         this.runningDataList = runningDataList;
     }
 
@@ -72,14 +70,14 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
         holder.heartRate.setText(spannableHeartRate);
 
         holder.time.setText(convertTime(runningData.getTotalTime()));
-        int characterInfoId = runningData.getCharacterInfoId();
-        if(characterInfoId == 1){
+        Long characterId = runningData.getCharacterId();
+        if(characterId == 1){
             holder.myRecordCharacter.setImageResource(R.drawable.rabbit);
-        }else if(characterInfoId == 2){
+        }else if(characterId == 2){
             holder.myRecordCharacter.setImageResource(R.drawable.penguin);
-        }else if(characterInfoId == 3){
+        }else if(characterId == 3){
             holder.myRecordCharacter.setImageResource(R.drawable.panda);
-        }else if(characterInfoId == 4){
+        }else if(characterId == 4){
             holder.myRecordCharacter.setImageResource(R.drawable.chick);
         }
     }

@@ -27,6 +27,10 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
         <activity
+            android:name=".activity.RunningMateActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".activity.AuthActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
@@ -53,13 +57,16 @@
 
         <meta-data
             android:name="com.google.android.wearable.standalone"
-            android:value="true" />
+            android:value="false" />
 
         <service
             android:name=".service.SensorService"
             tools:ignore="Instantiatable" />
         <service
             android:name=".service.LocationService"
+            android:exported="false" />
+        <service
+            android:name=".service.TimerService"
             android:exported="false" />
         <service
             android:name=".service.DataLayerListenerService"

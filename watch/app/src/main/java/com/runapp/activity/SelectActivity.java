@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,14 +17,28 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.bumptech.glide.Glide;
 import com.runapp.R;
-import com.runapp.database.RiverDataDAO;
+import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivitySelectBinding;
-import com.runapp.model.RiverData;
+import com.runapp.dto.response.ApiResponseListDTO;
+import com.runapp.dto.response.RunningMateResponseDTO;
+import com.runapp.model.RunningMate;
+import com.runapp.util.AccessToken;
+import com.runapp.util.ApiUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SelectActivity extends ComponentActivity {
 
     private ActivitySelectBinding binding;
-    private RiverDataDAO riverDataDAO;
+    private final Executor executor = Executors.newSingleThreadExecutor();
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +50,7 @@ public class SelectActivity extends ComponentActivity {
 
         setContentView(view);
 
+        db = AppDatabase.getDatabase(getApplicationContext());
         Context context = SelectActivity.this;
         ImageView imageViewOne = binding.singleGif;
 
@@ -81,42 +97,7 @@ public class SelectActivity extends ComponentActivity {
 
         // 함께 달리기 눌렀을 경우
         binding.btnMulti.setOnClickListener(v ->{
-            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
-
-            LayoutInflater inflater = getLayoutInflater();
-            View customView = inflater.inflate(R.layout.multi_popup, null);
-
-            RiverData riverData = riverDataDAO.getOneData();
-
-//            if(riverData != null){
-//                TextView distanceView = findViewById(R.id.distance);
-//                TextView timeView = findViewById(R.id.tv_time);
-//                TextView distanceView = findViewById(R.id.distance);
-//            }
-
-            builder.setView(customView);
-
-            // AlertDialog 생성
-            AlertDialog dialog = builder.create();
-
-            dialog.show();
-
-            Button btnCancel = customView.findViewById(R.id.multi_cancel);
-            Button btnStart = customView.findViewById(R.id.multi_start);
-
-            // 취소 버튼에 대한 클릭 리스너
-            btnCancel.setOnClickListener(b ->{
-                dialog.dismiss();
-            });
-
-            // 확인 버튼에 대한 클릭 리스너
-            btnStart.setOnClickListener(b-> {
-                // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
-                Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
-                intent.putExtra("run_type", "PAIR"); // 인자로 넘겨줌
-                countdownActivityResultLauncher.launch(intent);
-                dialog.dismiss();
-            });
+            getRunningMate();
         });
 
         // 나의 기록 보기
@@ -138,4 +119,69 @@ public class SelectActivity extends ComponentActivity {
                     startActivity(nextActivityIntent);
                 }
             });
+
+    private void getRunningMate(){
+        deleteRunningMateDataList();
+        String accessToken = AccessToken.getInstance().getAccessToken();
+        String token = "Bearer " + accessToken;
+        Call<ApiResponseListDTO<RunningMateResponseDTO>> call = ApiUtil.getApiService().getRunningMate(token);
+        call.enqueue(new Callback<ApiResponseListDTO<RunningMateResponseDTO>>() {
+            @Override
+            public void onResponse(Call<ApiResponseListDTO<RunningMateResponseDTO>> call, Response<ApiResponseListDTO<RunningMateResponseDTO>> response) {
+                List<RunningMate> runningMates = new ArrayList<>();
+                System.out.println(response.body().getData());
+                if (response.isSuccessful() && response != null){
+                    List<RunningMateResponseDTO> dtoList = response.body().getData();
+                    for(RunningMateResponseDTO dto : dtoList){
+                        RunningMate runningMate = new RunningMate();
+                        runningMate.setUserId(dto.getUserId());
+                        runningMate.setAverageSpeed(dto.getAverageSpeed());
+                        runningMate.setClear(dto.isClear());
+                        runningMate.setTotalDistance(dto.getTotalDistance());
+                        runningMate.setTotalTime(dto.getTotalTime());
+                        runningMate.setCharacterIndex(dto.getCharacterIndex());
+                        runningMate.setCreatedAt(dto.getCreatedAt());
+                        runningMate.setLevel(dto.getLevel());
+                        runningMate.setNickName(dto.getNickName());
+                        runningMate.setPlanetIndex(dto.getPlanetIndex());
+                        runningMates.add(runningMate);
+                    }
+                }else{
+                    Log.d("실패", "실패1");
+                }
+                // 러닝메이트 저장
+                addRunningMateDataList(runningMates);
+                // 데이터 저장 후 RunningMateActivity 시작
+                Intent intent = new Intent(SelectActivity.this, RunningMateActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponseListDTO<RunningMateResponseDTO>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    // 데이터 추가(메인 스레드에서 분리하기 위해서)
+    private void addRunningMateDataList(List<RunningMate> runningMates) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.runningMateDAO().insertRunningMate(runningMates);
+                Log.d("로그", "저장 성공");
+            }
+        });
+    }
+
+    // 데이터 삭제(메인 스레드에서 분리하기 위해서)
+    private void deleteRunningMateDataList() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.runningMateDAO().deleteAll();
+                Log.d("로그", "삭제 성공");
+            }
+        });
+    }
 }

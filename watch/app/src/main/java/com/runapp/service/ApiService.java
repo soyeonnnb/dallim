@@ -1,8 +1,13 @@
 package com.runapp.service;
 
 import com.runapp.dto.RunningDataDTO;
-
-import java.lang.annotation.Target;
+import com.runapp.dto.request.AccessTokenRequestDTO;
+import com.runapp.dto.response.AccessTokenResponseDTO;
+import com.runapp.dto.response.ApiResponseDTO;
+import com.runapp.dto.response.ApiResponseListDTO;
+import com.runapp.dto.response.AuthCodeResponseDTO;
+import com.runapp.dto.response.RunningMateResponseDTO;
+import com.runapp.dto.response.UserInfoResponseDTO;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -12,13 +17,24 @@ import retrofit2.http.POST;
 
 public interface ApiService {
 
+    // 달리기 기록 저장
     @POST("api/v1/running")
     Call<Void> postRunningData(@Header("Authorization") String token, @Body RunningDataDTO runningDataDTO);
 
-    @GET("api/v1/auth/generate-code")
-    Call<String> generateCode();
+    // 인증번호 생성 요청
+    @POST("api/v1/authentication-code")
+    Call<ApiResponseDTO<AuthCodeResponseDTO>> generateCode();
 
-    @POST("api/v1/auth/verify-code")
-    Call<String> verifyCode(@Body String code);
+    // 인증번호 확인
+    @POST("api/v1/authentication-code/token")
+    Call<ApiResponseDTO<AccessTokenResponseDTO>> verifyCode(@Body AccessTokenRequestDTO requestDTO);
+
+    // 러닝메이트 정보 가져오기
+    @GET("api/v1/running-mate")
+    Call<ApiResponseListDTO<RunningMateResponseDTO>> getRunningMate(@Header("Authorization") String token);
+
+    // 유저 정보 가져오기
+    @GET("api/v1/user/watch")
+    Call<ApiResponseDTO<UserInfoResponseDTO>> getUserInfo(@Header("Authorization") String token);
 }
 

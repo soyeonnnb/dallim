@@ -1,5 +1,6 @@
 package com.b208.dduishu.domain.runningRecord.dto.response;
 
+import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.util.Util;
@@ -14,6 +15,7 @@ public class MonthRunningRecord {
     private int month;
     private String runningMateNickName;
     private int runningMateCharacterIndex;
+    private int evolutionStage;
     private int runningMateLevel;
     private int totalCount;
     private double totalDistance;
@@ -21,13 +23,16 @@ public class MonthRunningRecord {
     private List<RunningRecordOverview> records;
 
     @Builder
-    public MonthRunningRecord(int year, int month, User user, int totalCount, double totalDistance, int totalTime, List<RunningRecordOverview> records) {
+    public MonthRunningRecord(int year, int month, User user, Character runningMateCharacter, int totalCount, double totalDistance, int totalTime, List<RunningRecordOverview> records) {
         this.year = year;
         this.month = month;
         if (user != null) {
             this.runningMateNickName = user.getNickname();
             this.runningMateCharacterIndex = Util.getCharacterIndexByUser(user);
             this.runningMateLevel = user.getUserLevel().getLevel();
+        }
+        if (runningMateCharacter != null) {
+            this.evolutionStage = Util.getEvolutionStage(runningMateCharacter.getCharacterLevel().getLevel());
         }
         this.totalCount = totalCount;
         this.totalDistance = totalDistance;

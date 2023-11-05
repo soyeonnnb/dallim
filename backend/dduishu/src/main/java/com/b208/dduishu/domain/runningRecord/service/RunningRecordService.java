@@ -193,7 +193,13 @@ public class RunningRecordService {
 
         String mostFrequentRunningMateId = findMostFrequentRunningMateId(records);
         User runningMate = findUserByRunningMateId(mostFrequentRunningMateId);
-
+        Character runningMateCharacter= null;
+        if (runningMate != null) {
+            runningMateCharacter = runningMate.getCharacterList().stream()
+                    .filter(Character::isMainCharacter)
+                    .findFirst()
+                    .orElse(null);
+        }
         double totalDistance = computeTotalDistance(records);
         int totalTime = computeTotalTime(records);
         int totalCount = records.size();
@@ -206,6 +212,7 @@ public class RunningRecordService {
                 .year(year)
                 .month(month)
                 .user(runningMate)
+                .runningMateCharacter(runningMateCharacter)
                 .totalCount(totalCount)
                 .totalDistance(totalDistance)
                 .totalTime(totalTime)
@@ -217,10 +224,6 @@ public class RunningRecordService {
         User user = getUser.getUser();
 
         List<RunningRecord> records = runningRecordRepository.findByUserUserId(user.getUserId());
-
-        for (RunningRecord record : records) {
-            System.out.println(record.getCreatedAt());
-        }
 
         Map<YearMonth, List<RunningRecord>> groupedRecords = records.stream()
                 .collect(Collectors.groupingBy(record -> YearMonth.from(record.getCreatedAt())));

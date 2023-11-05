@@ -24,8 +24,17 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const equippedEvolutionStage = useRecoilValue(equippedEvolutionStageState);
   const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState);
 
+  // 이미지
   // const characterImage = characterData[equippedCharacterIndex].evolutions[equippedEvolutionStage].front;
   // const characterImage = characterData[0].evolutions[1].front;
+
+  // 임시 페이스
+  const [timer, setTimer] = useState<string>('00:00:00'.replace(/:/g, ' : '));
+  const [avgPace, setAvgPace] = useState<string>('00:00'.replace(/:/, "' ") + '"');
+
+  function StartAlone() {
+    console.log("시작 버튼이 눌렸습니다.");
+  }
 
   return (
     <Modal
@@ -45,23 +54,37 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
           <S.Body>
             <S.TimerBox>
-              <S.TempText>시간 넣을 건가요?</S.TempText>
+              <S.TimerText>{timer}</S.TimerText>
             </S.TimerBox>
             <S.StartBox>
-              <S.TempText>좀 더 연구해볼께요 커스텀 해야할듯</S.TempText>
+
+              <S.ButtonBackground source={require('@/assets/images/StartButton.png')}
+                resizeMode="contain"
+              >
+                <S.RunButton onPress={StartAlone}>
+                    <S.StartText>시작</S.StartText>
+                </S.RunButton>
+              </S.ButtonBackground>
+
             </S.StartBox>
             <S.RecodeBox>
               <S.RecodeLeft>
+
                 <S.RecodeTextBox>
-                  <S.RecodeText>최근 1km 페이스</S.RecodeText>
+                  <S.RecodeTitle>최근 1km 페이스</S.RecodeTitle>
                 </S.RecodeTextBox>
-                <S.LeftBottom></S.LeftBottom>
+                <S.RecodeBottomBox>
+                  <S.RecodeText>{avgPace}</S.RecodeText>
+                </S.RecodeBottomBox>
+
               </S.RecodeLeft>
               <S.RecodeRight>
                 <S.RecodeTextBox>
-                  <S.RecodeText>최근 평균 페이스</S.RecodeText>
+                  <S.RecodeTitle>최근 평균 페이스</S.RecodeTitle>
                 </S.RecodeTextBox>
-                <S.LeftBottom></S.LeftBottom>
+                <S.RecodeBottomBox>
+                  <S.RecodeText>{avgPace}</S.RecodeText>
+                </S.RecodeBottomBox>
               </S.RecodeRight>
             </S.RecodeBox>
           </S.Body>

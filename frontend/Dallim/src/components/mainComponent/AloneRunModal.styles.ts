@@ -54,6 +54,12 @@ export const TimerBox = styled.View`
   align-items: center;
 `;
 
+export const TimerText = styled.Text`
+  font-size: 50px;
+  font-weight: bold;
+  color: white;
+`;
+
 export const StartBox = styled.View`
   border-width: 1px;
   border-color: red;
@@ -61,6 +67,30 @@ export const StartBox = styled.View`
   height: 30%;
   align-items: center;
   justify-content: center;
+`;
+
+export const ButtonBackground = styled(ImageBackground)`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const RunButton = styled.TouchableOpacity`
+  border-width: 1px;
+  border-color: blue;
+  width: 50%;
+  height: 80%;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const StartText = styled.Text`
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
 `;
 
 export const RecodeBox = styled.View`
@@ -78,25 +108,11 @@ export const RecodeLeft = styled.View`
   height: 100%;
 `;
 
-export const LeftBottom = styled.View`
-  border-width: 1px;
-  border-color: red;
-  width: 100%;
-  height: 70%;
-`;
-
 export const RecodeRight = styled.View`
   border-width: 1px;
   border-color: green;
   width: 50%;
   height: 100%;
-`;
-
-export const RightBottom = styled.View`
-  border-width: 1px;
-  border-color: red;
-  width: 100%;
-  height: 70%;
 `;
 
 export const RecodeTextBox = styled.View`
@@ -108,8 +124,23 @@ export const RecodeTextBox = styled.View`
   justify-content: center;
 `;
 
-export const RecodeText = styled.Text`
+export const RecodeTitle = styled.Text`
   font-size: 15px;
+  color: white;
+`;
+
+export const RecodeBottomBox = styled.View`
+  border-width: 1px;
+  border-color: red;
+  width: 100%;
+  height: 70%;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const RecodeText = styled.Text`
+  font-size: 40px;
+  font-weight: bold;
   color: white;
 `;
 

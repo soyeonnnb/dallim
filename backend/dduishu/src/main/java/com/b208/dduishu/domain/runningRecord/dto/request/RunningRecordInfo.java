@@ -178,17 +178,23 @@ public class RunningRecordInfo {
     private List<Double> getSecondPerSpeed(List<RunningRecordOverallInfo> runningRecordInfos) {
         Double[] secondPerSpeed = {0.0, 0.0, 0.0}; // 각 속도 범주에 대한 초를 계산하기 위한 배열
 
-        runningRecordInfos.forEach(record -> {
-            double speedKmH = record.getSpeed(); // getSpeed()가 km/h 단위의 속도를 반환한다고 가정
+        for (int i = 1; i < runningRecordInfos.size(); i++) {
+            RunningRecordOverallInfo currentRecord = runningRecordInfos.get(i);
+            RunningRecordOverallInfo previousRecord = runningRecordInfos.get(i - 1);
+
+            double speedKmH = currentRecord.getSpeed(); // getSpeed()가 km/h 단위의 속도를 반환한다고 가정
+
+            // 현재 레코드와 이전 레코드의 cumulativeDistance 차이를 구하여 해당 속도 범주의 초에 설정
+            double distanceDifference = currentRecord.getDistance() - previousRecord.getDistance();
 
             if (speedKmH < SLOW_WALK_THRESHOLD) {
-                secondPerSpeed[0] += record.getDistance();
+                secondPerSpeed[0] += distanceDifference;
             } else if (speedKmH < FAST_WALK_THRESHOLD) {
-                secondPerSpeed[1] += record.getDistance();
+                secondPerSpeed[1] += distanceDifference;
             } else {
-                secondPerSpeed[2] += record.getDistance();
+                secondPerSpeed[2] += distanceDifference;
             }
-        });
+        }
         return Arrays.asList(secondPerSpeed);
     }
 }

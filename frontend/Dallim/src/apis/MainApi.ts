@@ -12,8 +12,7 @@ const getToken = async () => {
   try {
     const token = await AsyncStorage.getItem('accessToken');
     const userId = await AsyncStorage.getItem('userId');
-    console.log("내 토큰이다~!! : " + token);
-    console.log("내 userId다~!! : " + userId);
+    console.log('내 토큰이다~!! : ' + token );
     return token;
   } catch (error) {
     console.error('Error fetching token:', error);

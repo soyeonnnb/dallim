@@ -1,18 +1,10 @@
 import * as S from './Profile.styles';
 import React, {useState, useEffect} from 'react';
-import ChangeNicknameIcon from '../../assets/icons/ChangeNicknameIcon.png';
-import ManageRunningMateIcon from '../../assets/icons/ManageRunningMateIcon.png';
-import NotificationIcon from '../../assets/icons/NotificationIcon.png';
-import LogoutIcon from '../../assets/icons/LogoutIcon.png';
 
 import ProfileCard from '../../components/profileComponent/ProfileCard';
-// import Logout from "../../components/profileComponent/Logout";
 
 import NicknameChangeModal from '../../components/profileComponent/profileModal/NicknameChangeModal';
-import RunningMateModal from '../../components/profileComponent/profileModal/RunningMateModal';
-import NotificationModal from '../../components/profileComponent/profileModal/NotificationModal';
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
-import RunningMateSetting from './ProfileSubScreens/RunningMateSetting';
 import {characterData} from '@/recoil/CharacterData';
 
 //icon
@@ -25,7 +17,6 @@ import WatchIcon from '@/assets/icons/WatchIcon';
 //Apis
 import {fetchUserProfileCard} from '@/apis/ProfileApi';
 import {fetchCompetitorCard} from '@/apis/ProfileApi';
-import {patchNicknameCheck} from '@/apis/ProfileApi';
 
 //Toast
 import Toast from 'react-native-toast-message';
@@ -36,9 +27,8 @@ interface ProfileProps {
 
 function Profile({navigation}: ProfileProps) {
   //State---------------------------------
-  const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
-  const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
   const [userData, setUserData] = useState({
     planetIndex: 0,
     characterIndex: 0,
@@ -100,7 +90,9 @@ function Profile({navigation}: ProfileProps) {
       });
     } else {
       // 데이터가 있을 때의 동작
-      navigation.navigate('RunningMateSetting');
+      navigation.navigate('RunningMateSetting', {
+        competitorData: competitorData,
+      });
     }
   };
 
@@ -180,50 +172,6 @@ function Profile({navigation}: ProfileProps) {
                 </S.TextBox>
               </S.ButtonBox>
             </S.ButtonContainer>
-
-            {/* <S.ButtonBox onPress={handleRunningMatePress}>
-              <S.IconBox>
-                <S.ButtonIcon source={ManageRunningMateIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>러닝메이트 관리</S.ButtonText>
-              </S.TextBox>
-            </S.ButtonBox> */}
-            {/* <S.ButtonBox onPress={handleToastTouch}>
-              <S.IconBox>
-                <S.ButtonIcon source={ManageRunningMateIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>러닝메이트 관리</S.ButtonText>
-              </S.TextBox>
-            </S.ButtonBox> */}
-
-            {/* <S.ButtonBox onPress={() => navigation.navigate('RunningAlarm')}>
-              <S.IconBox>
-                <S.ButtonIcon source={NotificationIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>운동 알림 설정</S.ButtonText>
-              </S.TextBox>
-            </S.ButtonBox> */}
-
-            {/* <S.ButtonBox onPress={handleToastTouch}>
-              <S.IconBox>
-                <S.ButtonIcon source={NotificationIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>운동 알림 설정</S.ButtonText>
-              </S.TextBox>
-            </S.ButtonBox> */}
-
-            {/* <S.DeleteButtonBox onPress={() => setShowLogoutModal(true)}>
-              <S.IconBox>
-                <S.ButtonIcon source={LogoutIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>로그아웃</S.ButtonText>
-              </S.TextBox>
-            </S.DeleteButtonBox> */}
           </S.SetBox>
         </S.Body>
 
@@ -237,23 +185,16 @@ function Profile({navigation}: ProfileProps) {
         />
       </S.ImageBox>
 
+      <LogoutModal
+        showModal={showLogoutModal}
+        toggleModal={() => setShowLogoutModal(!showLogoutModal)}
+      />
+
       <NicknameChangeModal
         showModal={showNicknameChangeModal}
         toggleModal={() => setShowNicknameChangeModal(!showNicknameChangeModal)}
         handleNicknameChangeSuccess={handleNicknameChangeSuccess}
         Nickname={userData.nickname}
-      />
-      {/* <RunningMateModal
-        showModal={showRunningMateModal}
-        toggleModal={() => setShowRunningMateModal(!showRunningMateModal)}
-      /> */}
-      <NotificationModal
-        showModal={showNotificationModal}
-        toggleModal={() => setShowNotificationModal(!showNotificationModal)}
-      />
-      <LogoutModal
-        showModal={showLogoutModal}
-        toggleModal={() => setShowLogoutModal(!showLogoutModal)}
       />
     </S.Container>
   );

@@ -17,7 +17,8 @@ export const Title = styled.Text`
   font-weight: 800;
   color: white;
 `;
-export const Navi = styled.Text`
+export const Navi = styled.TouchableOpacity``;
+export const NaviText = styled.Text`
   color: ${colors.gray};
 `;
 export const InfoContainer = styled.View`

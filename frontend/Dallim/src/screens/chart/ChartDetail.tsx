@@ -19,6 +19,7 @@ import {
   PaceSectionType,
   HeartChartDataType,
   RunningRecordData,
+  PaceDataType,
 } from '@/apis/ChartApi';
 
 import {getDateObject} from '@/recoil/CalendarData';
@@ -39,11 +40,6 @@ type ChartDetailScreenNavigationProp = StackNavigationProp<
 type Props = {
   route: RouteProp<{ChartDetail: {id: string}}, 'ChartDetail'>;
   navigation: ChartDetailScreenNavigationProp;
-};
-
-type PaceDataType = {
-  chartData: PaceChartDataType[];
-  sectionPace: PaceSectionType[];
 };
 
 function ChartDetail({route, navigation}: Props) {

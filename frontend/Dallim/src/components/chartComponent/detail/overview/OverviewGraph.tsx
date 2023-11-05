@@ -5,7 +5,7 @@ import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 
 interface Props {
   title: string;
-  data: itemType[];
+  data?: itemType[];
   data2?: itemType[];
 }
 
@@ -22,7 +22,7 @@ function OverviewGraph({title, data, data2}: Props) {
 
   useEffect(() => {
     let max = 0;
-    data.map(d => {
+    data?.map(d => {
       max = max > d.value ? max : d.value;
     });
     if (data2) {
@@ -38,7 +38,7 @@ function OverviewGraph({title, data, data2}: Props) {
       <S.TitleContainer>
         <S.Title>{title}</S.Title>
       </S.TitleContainer>
-      {maxValue && (
+      {maxValue && data && (
         <S.Chart onLayout={onLayout}>
           <LineChart
             width={parentWidth}

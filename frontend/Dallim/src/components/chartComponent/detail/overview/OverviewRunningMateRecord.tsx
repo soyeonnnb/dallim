@@ -1,6 +1,6 @@
 import * as S from './OverviewRunningMateRecord.styles';
 import {characterData} from '@/recoil/CharacterData';
-
+import {useNavigation} from '@react-navigation/native';
 import SpeedIcon from '@/assets/icons/SpeedIcon';
 import DistanceIcon from '@/assets/icons/DistanceIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
@@ -18,6 +18,7 @@ interface Props {
 
 function OverviewRunningMateRecord({paceList, data}: Props) {
   const [rivalPaceData, setRivalPaceData] = useState<itemType[]>();
+  const navigation = useNavigation();
   useEffect(() => {
     const paceData: itemType[] = [];
     data.runningRecordInfos.map(record => {
@@ -31,7 +32,12 @@ function OverviewRunningMateRecord({paceList, data}: Props) {
     <S.Container>
       <S.TitleContainer>
         <S.Title>같이달린 러닝메이트</S.Title>
-        <S.Navi>더보기</S.Navi>
+        <S.Navi
+          onPress={() =>
+            navigation.navigate('RunningMateChartList', {id: data.id})
+          }>
+          <S.NaviText>더보기</S.NaviText>
+        </S.Navi>
       </S.TitleContainer>
       <S.InfoContainer>
         <S.Nickname>{data.user.nickname}</S.Nickname>

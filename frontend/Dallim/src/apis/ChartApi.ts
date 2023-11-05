@@ -103,6 +103,10 @@ export interface HeartChartDataType {
   second: number;
 }
 
+export interface PaceDataType {
+  chartData: PaceChartDataType[];
+  sectionPace: PaceSectionType[];
+}
 const getToken = async () => {
   try {
     const token = await AsyncStorage.getItem('accessToken');

@@ -1,11 +1,10 @@
-import React, {useState, useEffect, useCallback, useRef, useMemo} from 'react';
-import {View, Dimensions} from 'react-native';
+import {useState, useEffect} from 'react';
+import {Dimensions} from 'react-native';
 import * as S from './Daily.styles';
 import {FlatList} from 'react-native-gesture-handler';
 import {CalendarType} from '@/recoil/CalendarData';
 import {DailyRecord} from '../Preview';
 import {useNavigation} from '@react-navigation/native';
-import {secondToHourMinuteSeconds} from '@/recoil/RunningData';
 
 const screenWidth = Dimensions.get('window').width;
 const cardWidth = screenWidth * 0.8;

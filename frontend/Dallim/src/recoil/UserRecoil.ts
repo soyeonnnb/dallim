@@ -14,6 +14,7 @@ interface Planet {
 }
 
 interface UserData {
+
   point: number;
   mainCharacterIndex: number;
   mainPlanetIndex: number;
@@ -23,6 +24,11 @@ interface UserData {
 
 export const userDataState = atom<UserData | null>({
   key: 'userDataState',
+  default: null,
+});
+
+export const userIdState = atom<UserData | null>({
+  key: 'userIdState',
   default: null,
 });
 

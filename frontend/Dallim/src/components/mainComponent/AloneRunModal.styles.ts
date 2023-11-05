@@ -16,8 +16,8 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const Header = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 10%;
   flex-direction: row;
@@ -46,8 +46,8 @@ export const Body = styled.View`
 `;
 
 export const TimerBox = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   width: 100%;
   height: 15%;
   justify-content: center;
@@ -61,8 +61,8 @@ export const TimerText = styled.Text`
 `;
 
 export const StartBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 30%;
   align-items: center;
@@ -79,8 +79,8 @@ export const ButtonBackground = styled(ImageBackground)`
 `;
 
 export const RunButton = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   width: 50%;
   height: 80%;
   align-items: center;
@@ -94,32 +94,32 @@ export const StartText = styled.Text`
 `;
 
 export const RecodeBox = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   width: 100%;
   height: 20%;
   flex-direction: row;
 `;
 
 export const RecodeLeft = styled.View`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   width: 50%;
   height: 100%;
 `;
 
 export const RecodeRight = styled.View`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   width: 50%;
   height: 100%;
 `;
 
 export const RecodeTextBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
-  height: 30%;
+  height: 40%;
   align-items: center;
   justify-content: center;
 `;
@@ -130,12 +130,12 @@ export const RecodeTitle = styled.Text`
 `;
 
 export const RecodeBottomBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
-  height: 70%;
+  height: 60%;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 `;
 
 export const RecodeText = styled.Text`

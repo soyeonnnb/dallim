@@ -31,14 +31,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   // 카운트다운 상태 관리
   const [isCountdownActive, setIsCountdownActive] = useState(false);
   const [countdown, setCountdown] = useState(3);
-  const [showStart, setShowStart] = useState(false);
-
-  // isVisible이 true가 되면 카운트다운 시작
-  useEffect(() => {
-    if (isVisible) {
-      StartAlone();
-    }
-  }, [isVisible]);
+  const [showStart, setShowStart] = useState(true);
 
   // 카운트다운을 시작하는 함수
   const StartAlone = () => {
@@ -63,12 +56,9 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   // 버튼 텍스트를 결정하는 함수
   const displayButtonText = () => {
     if (isCountdownActive) {
-      return countdown;
+      return countdown.toString(); 
     }
-    if (showStart) {
-      return '시작';
-    }
-    return '';
+    return '시작'; 
   };
 
   // 카운트다운이 끝났을 때 호출할 함수
@@ -101,7 +91,9 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
               <S.ButtonBackground source={require('@/assets/images/StartButton.png')}
                 resizeMode="contain"
               >
-                <S.RunButton onPress={StartAlone}>
+                <S.RunButton onPress={() => {
+                  StartAlone();
+                }}>
                   <S.StartText>{displayButtonText()}</S.StartText>
                 </S.RunButton>
               </S.ButtonBackground>

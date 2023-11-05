@@ -122,6 +122,33 @@ export const IconBox = styled.View`
   height: 80px;
 `;
 
+export const RunningIconBox = styled.View`
+  background-color: #ffd02b;
+  border-radius: 300px;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+`;
+
+export const AlarmIconBox = styled.View`
+  background-color: #5879dc;
+  border-radius: 300px;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+`;
+
+export const WatchIconBox = styled.View`
+  background-color: #977ef5;
+  border-radius: 300px;
+  justify-content: center;
+  align-items: center;
+  width: 80px;
+  height: 80px;
+`;
+
 export const EmptyBox = styled.View`
   /* width: 5px; */
   /* height: 5px; */

@@ -58,6 +58,14 @@ dependencies {
 
 	//prometheus
 	implementation 'io.micrometer:micrometer-registry-prometheus' //추가
+
+	//quartz
+	implementation 'org.springframework.boot:spring-boot-starter-quartz:2.7.5'
+
+	// firebase sdk
+	implementation 'com.google.firebase:firebase-admin:6.8.1'
+	// okhttp
+	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.2.2'
 }
 
 tasks.named('test') {

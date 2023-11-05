@@ -236,7 +236,11 @@ public class MainActivity extends ComponentActivity{
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }else { // 연동이 됐으면
+                // 유저 정보 가져옴
                 String email = prefs.getString("email", null);
+                String nickname = prefs.getString("nickname", null);
+                int level = prefs.getInt("level", 0);
+
                 // AlertDialog.Builder 인스턴스 생성
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
 
@@ -245,7 +249,11 @@ public class MainActivity extends ComponentActivity{
                 View customView = inflater.inflate(R.layout.unlink_user, null);
 
                 TextView userEmail = customView.findViewById(R.id.user_email);
-                userEmail.setText(email);
+                userEmail.setText("이메일:" + email);
+                TextView userNickname = customView.findViewById(R.id.nickname);
+                userNickname.setText("닉네임:" + nickname);
+                TextView userLevel = customView.findViewById(R.id.level);
+                userLevel.setText("레벨:" + String.valueOf(level) + " LV");
 
                 builder.setView(customView);
 

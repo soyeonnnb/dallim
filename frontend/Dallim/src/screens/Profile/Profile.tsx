@@ -14,9 +14,13 @@ import NotificationModal from '../../components/profileComponent/profileModal/No
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
 import RunningMateSetting from './ProfileSubScreens/RunningMateSetting';
 import {characterData} from '@/recoil/CharacterData';
-//png
+
+//icon
 import logoutIcon from '@/assets/icons/logout.png';
 import TagsIcon from '@/assets/icons/TagsIcon';
+import RunningMateIcon from '@/assets/icons/RunningMateIcon';
+import RunningAlarmIcon from '@/assets/icons/RunningAlarmIcon';
+import WatchIcon from '@/assets/icons/WatchIcon';
 
 //Apis
 import {fetchUserProfileCard} from '@/apis/ProfileApi';
@@ -25,7 +29,6 @@ import {patchNicknameCheck} from '@/apis/ProfileApi';
 
 //Toast
 import Toast from 'react-native-toast-message';
-import {Text} from 'react-native-svg';
 
 interface ProfileProps {
   navigation: any;
@@ -150,33 +153,33 @@ function Profile({navigation}: ProfileProps) {
                   <S.ButtonText>닉네임 변경</S.ButtonText>
                 </S.TextBox>
               </S.ButtonBox>
-              {/* <S.ButtonBox onPress={handleToastTouch}>
-                <S.IconBox>
-                  <S.ButtonIcon source={ChangeNicknameIcon} />
-                </S.IconBox>
+              <S.ButtonBox onPress={handleRunningMatePress}>
+                <S.RunningIconBox>
+                  <RunningMateIcon width={50} height={50} color="white" />
+                </S.RunningIconBox>
                 <S.TextBox>
-                  <S.ButtonText>닉네임 변경</S.ButtonText>
+                  <S.ButtonText>러닝메이트</S.ButtonText>
                 </S.TextBox>
-              </S.ButtonBox> */}
+              </S.ButtonBox>
             </S.ButtonContainer>
-            {/* <S.ButtonContainer>
-              <S.ButtonBox onPress={() => setShowNicknameChangeModal(true)}>
-                <S.IconBox>
-                  <S.ButtonIcon source={ChangeNicknameIcon} />
-                </S.IconBox>
+            <S.ButtonContainer>
+              <S.ButtonBox onPress={() => navigation.navigate('RunningAlarm')}>
+                <S.AlarmIconBox>
+                  <RunningAlarmIcon width={50} height={50} color="white" />
+                </S.AlarmIconBox>
                 <S.TextBox>
-                  <S.ButtonText>닉네임 변경</S.ButtonText>
+                  <S.ButtonText>운동알림</S.ButtonText>
                 </S.TextBox>
               </S.ButtonBox>
               <S.ButtonBox onPress={handleToastTouch}>
-                <S.IconBox>
-                  <S.ButtonIcon source={ChangeNicknameIcon} />
-                </S.IconBox>
+                <S.WatchIconBox>
+                  <WatchIcon width={50} height={50} color="white" />
+                </S.WatchIconBox>
                 <S.TextBox>
-                  <S.ButtonText>닉네임 변경</S.ButtonText>
+                  <S.ButtonText>워치</S.ButtonText>
                 </S.TextBox>
               </S.ButtonBox>
-            </S.ButtonContainer> */}
+            </S.ButtonContainer>
 
             {/* <S.ButtonBox onPress={handleRunningMatePress}>
               <S.IconBox>
@@ -257,4 +260,3 @@ function Profile({navigation}: ProfileProps) {
 }
 
 export default Profile;
-//

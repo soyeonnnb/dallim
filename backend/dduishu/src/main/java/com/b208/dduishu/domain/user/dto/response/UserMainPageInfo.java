@@ -9,6 +9,7 @@ import lombok.Data;
 
 @Data
 public class UserMainPageInfo {
+    private Long userId;
     private String nickName;
     private int point;
     private int userLevel;
@@ -18,6 +19,7 @@ public class UserMainPageInfo {
 
     @Builder
     public UserMainPageInfo(User user, Character character, Planet planet) {
+        this.userId = user.getUserId();
         this.nickName = user.getNickname();
         this.point = user.getPoint();
         this.userLevel = user.getUserLevel().getLevel();

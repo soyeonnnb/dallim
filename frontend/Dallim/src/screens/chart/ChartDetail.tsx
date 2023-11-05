@@ -13,10 +13,16 @@ import HeartRate from '@/components/chartComponent/detail/heartRate/HeartRate';
 
 import ArrowLeft from '@/assets/icons/ArrowLeft';
 
-import {RecordDetail} from '@/apis/ChartApi';
+import {
+  RecordDetail,
+  PaceChartDataType,
+  PaceSectionType,
+  HeartChartDataType,
+  RunningRecordData,
+} from '@/apis/ChartApi';
+
 import {getDateObject} from '@/recoil/CalendarData';
 import {calculatePace} from '@/recoil/RunningData';
-
 // 스택 내비게이션 타입을 정의
 type RootStackParamList = {
   ChartDetail: {
@@ -35,6 +41,11 @@ type Props = {
   navigation: ChartDetailScreenNavigationProp;
 };
 
+type PaceDataType = {
+  chartData: PaceChartDataType[];
+  sectionPace: PaceSectionType[];
+};
+
 function ChartDetail({route, navigation}: Props) {
   const {id} = route.params;
 
@@ -49,85 +60,74 @@ function ChartDetail({route, navigation}: Props) {
     second?: number;
     day?: string;
   }>();
-
-  const [paceData, setPaceData] = useState<{
-    chartData: {
-      value: number;
-      second: number;
-      fromZeroPace: string;
-    }[];
-    sectionPace: {
-      startTime: number;
-      finishTime: number;
-      pace: number;
-    }[];
-  }>();
+  const [isAlone, setIsAlone] = useState<boolean>(true);
+  const [paceData, setPaceData] = useState<PaceDataType>();
+  const [rivalPaceData, setRivalPaceData] = useState<PaceDataType>();
   const [heartRateData, setHeartRateData] = useState<{
-    chartData: {
-      value: number;
-      second: number;
-    }[];
+    chartData: HeartChartDataType[];
     secondPerHeartRateSection: number[];
   }>();
+
+  const runningInfosToPaceChartData = (
+    data: RunningRecordData[],
+  ): PaceChartDataType[] => {
+    const cData: PaceChartDataType[] = [];
+    data.map((record: any) => {
+      const value: PaceChartDataType = {
+        second: record.second,
+        value: record.speed,
+        fromZeroPace:
+          record.distance == 0
+            ? "0' 0''" // 총 이동 거리가 0이면 0으로 나누어야 해서 NaN 발생
+            : calculatePace(record.second, record.distance),
+      };
+      cData.push(value);
+    });
+    return cData;
+  };
 
   const fetchRunningData = async () => {
     try {
       const getData = await fetchDetailRunningData(id);
       setData(getData);
-      if (data) setCreatedAt(getDateObject(data.createdAt));
+      setIsAlone(getData.type === 'ALONE');
+      setCreatedAt(getDateObject(getData.createdAt));
+
       // 페이스에 들어갈 데이터 처리
-      const getPaceData: {
-        chartData: {value: number; second: number; fromZeroPace: string}[];
-        sectionPace: {
-          startTime: number;
-          finishTime: number;
-          pace: number;
-        }[];
-      } = {chartData: [], sectionPace: []};
-      const cData: {second: number; value: number; fromZeroPace: string}[] = [];
-      await getData.runningRecordInfos.map((record: any) => {
-        const value: {second: number; value: number; fromZeroPace: string} = {
-          second: 0,
-          value: 0,
-          fromZeroPace: '',
-        };
-        value.second = record.second;
-        value.value = record.speed;
-        value.fromZeroPace =
-          record.distance == 0
-            ? "00'00''" // 총 이동 거리가 0이면 0으로 나누어야 해서 NaN 발생
-            : calculatePace(record.second, record.distance);
-        cData.push(value);
+      setPaceData({
+        chartData: runningInfosToPaceChartData(getData.runningRecordInfos),
+        sectionPace: getData.pace.section,
       });
-      getPaceData.chartData = cData;
-      getPaceData.sectionPace = getData.pace.section;
-      setPaceData(getPaceData);
+
+      // 같이 달린 경우, 러닝메이트 데이터 처리
+      if (getData.type === 'PAIR') {
+        setRivalPaceData({
+          chartData: runningInfosToPaceChartData(
+            getData.rivalRecord.runningRecordInfos,
+          ),
+          sectionPace: getData.rivalRecord.pace.section,
+        });
+      }
 
       // 심박수에 들어갈 데이터 처리
-      const hData: {
-        value: number;
-        second: number;
-      }[] = [];
+      const hData: HeartChartDataType[] = [];
 
       await getData.runningRecordInfos.map((record: any) => {
-        const value: {second: number; value: number} = {
-          second: 0,
-          value: 0,
+        const value: HeartChartDataType = {
+          second: record.second,
+          value: record.heartRate,
         };
-        value.second = record.second;
-        value.value = record.heartRate;
         hData.push(value);
       });
+
       const getHeartRateData: {
-        chartData: {
-          value: number;
-          second: number;
-        }[];
+        chartData: HeartChartDataType[];
         secondPerHeartRateSection: number[];
-      } = {chartData: [], secondPerHeartRateSection: []};
-      getHeartRateData.chartData = hData;
-      getHeartRateData.secondPerHeartRateSection =
-        getData.heartRate.secondPerHeartRateSection;
+      } = {
+        chartData: hData,
+        secondPerHeartRateSection: getData.heartRate.secondPerHeartRateSection,
+      };
+
       setHeartRateData(getHeartRateData);
       console.log('ChartApi: 달리기 기록 상세 조회 Axios 성공');
       setIsLoading(false);
@@ -166,10 +166,12 @@ function ChartDetail({route, navigation}: Props) {
           </S.Header>
           <ScrollView horizontal pagingEnabled>
             {data && <Overview data={data} />}
-            {/* 왠지 라이브러리에서 데이터가 바뀌면 에러나는 느낌이 들어서
-            데이터가 set 되었는지 확인 후, set 되었으면 렌더링하기 */}
             {paceData && (
-              <Pace data={paceData} isAlone={data?.type === 'ALONE'} />
+              <Pace
+                data={paceData}
+                isAlone={isAlone}
+                rivalData={rivalPaceData}
+              />
             )}
             {heartRateData && <HeartRate data={heartRateData} />}
           </ScrollView>

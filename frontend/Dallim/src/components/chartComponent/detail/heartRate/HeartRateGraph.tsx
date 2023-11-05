@@ -14,6 +14,8 @@ function HeartRateGraph({data}: Props) {
   const [previewWidth, setPreviewWidth] = useState<number>(0);
   const [previewTime, setPreviewTime] = useState<number>(0);
   const [previewHeartRate, setPreviewHeartRate] = useState<number>(0);
+  const [previewHeartRateColor, setPreviewHeartRateColor] =
+    useState<string>('white');
 
   const [parentWidth, setParentWidth] = useState(0);
   const [parentHeight, setParentHeight] = useState(0);
@@ -37,6 +39,18 @@ function HeartRateGraph({data}: Props) {
   const handlePreviewData = (item: {value: number; second: number}) => {
     setPreviewTime(item.second);
     setPreviewHeartRate(item.value);
+    const chartColor: string[] = [
+      '#FF1178',
+      '#FFF205',
+      '#7CFF01',
+      '#01FFF4',
+      '#9C00FF',
+    ];
+    if (item.value < 137) setPreviewHeartRateColor(chartColor[0]);
+    else if (item.value < 150) setPreviewHeartRateColor(chartColor[1]);
+    else if (item.value < 163) setPreviewHeartRateColor(chartColor[2]);
+    else if (item.value < 176) setPreviewHeartRateColor(chartColor[3]);
+    else setPreviewHeartRateColor(chartColor[4]);
   };
   useEffect(() => {
     handlePreviewData(data[data.length - 1]);
@@ -49,7 +63,9 @@ function HeartRateGraph({data}: Props) {
           <S.DataPreviewTime>
             {secondToHourMinuteSeconds(previewTime)}
           </S.DataPreviewTime>
-          <S.DataPreviewHeartRate>{previewHeartRate}</S.DataPreviewHeartRate>
+          <S.DataPreviewHeartRate color={previewHeartRateColor}>
+            {previewHeartRate}
+          </S.DataPreviewHeartRate>
         </S.DataPreview>
       </S.DataPreviewView>
       <S.ChartView>
@@ -88,7 +104,9 @@ function HeartRateGraph({data}: Props) {
                   activatePointersOnLongPress: true,
                   autoAdjustPointerLabelPosition: false,
                   pointerLabelComponent: (items: any) => {
-                    handlePreviewData(items[0]);
+                    if (items[0]) {
+                      handlePreviewData(items[0]);
+                    }
                   },
                 }}
               />

@@ -8,15 +8,11 @@ import {
   Dimensions,
 } from 'react-native';
 import {secondToHourMinuteSeconds, calculatePace} from '@/recoil/RunningData';
-const NUM_SECTIONS = 3;
-const DATA_HEIGHT = 40; // 각 데이터의 높이
-
+import {PaceSectionType} from '@/apis/ChartApi';
 interface Props {
-  data: {
-    startTime: number;
-    finishTime: number;
-    pace: number;
-  }[];
+  data: PaceSectionType[];
+  second: number;
+  setSecond: any;
 }
 
 function AlonePace({data}: Props) {
@@ -33,9 +29,6 @@ function AlonePace({data}: Props) {
     setSectionNum(data.length + 1);
   }, []);
 
-  const handlePress = (data: any) => {
-    console.log('Pressed data:', data);
-  };
   return (
     <S.Container
       contentContainerStyle={{

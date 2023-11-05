@@ -33,10 +33,10 @@ export const DataPreviewTime = styled.Text`
   font-weight: 800;
   color: white;
 `;
-export const DataPreviewHeartRate = styled.Text`
+export const DataPreviewHeartRate = styled.Text<{color: string}>`
   font-size: 35px;
   font-weight: 800;
-  color: white;
+  color: ${props => props.color};
 `;
 export const ChartView = styled.View`
   flex: 0.7;

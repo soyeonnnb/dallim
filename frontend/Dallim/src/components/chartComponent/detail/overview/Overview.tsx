@@ -20,7 +20,6 @@ import {
 } from '@/recoil/RunningData';
 
 import Loading from '@/components/common/Loading';
-import HeartRate from '../heartRate/HeartRate';
 
 interface Props {
   data?: RecordDetail;
@@ -44,6 +43,7 @@ function Overview({data}: Props) {
       createdDateTime.getSeconds(),
     )}`;
   };
+
   const handleSetData = () => {
     if (data) {
       setTimeLine(
@@ -156,7 +156,7 @@ function Overview({data}: Props) {
             {/* 심박수 부분은 추후에 핸드폰 러닝이면 제외로 빼기*/}
             <OverviewGraph title="심박수" data={heartRateList} />
             {data?.rivalRecord ? (
-              <RunningMateRecord data={data.rivalRecord} />
+              <RunningMateRecord data={data.rivalRecord} paceList={paceList} />
             ) : (
               ''
             )}

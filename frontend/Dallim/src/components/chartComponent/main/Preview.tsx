@@ -99,8 +99,8 @@ function Preview({
         });
         newMonth.runningMate.characterIndex =
           monthData.runningMateCharacterIndex;
-        newMonth.runningMate.evolutionStage = monthData.runningMateLevel;
-        newMonth.runningMate.nickname = monthData.runningMateNickname;
+        newMonth.runningMate.evolutionStage = monthData.evolutionStage;
+        newMonth.runningMate.nickname = monthData.runningMateNickName;
       }
     });
     setPreviewRecords(newMonth);

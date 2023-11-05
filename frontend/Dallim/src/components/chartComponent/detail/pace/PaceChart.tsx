@@ -4,24 +4,31 @@ import {secondToHourMinuteSeconds} from '@/recoil/RunningData';
 import {LineChart} from 'react-native-gifted-charts';
 import {View, Text} from 'react-native';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
+
+import {PaceChartDataType, PaceSectionType} from '@/apis/ChartApi';
+import {computeMaxAndMinItems} from 'react-native-gifted-charts/src/utils';
+
 interface Props {
   isPair: boolean;
   data: {
-    chartData: {
-      value: number;
-      second: number;
-      fromZeroPace: string;
-    }[];
-    sectionPace: {}[];
+    chartData: PaceChartDataType[];
+    sectionPace: PaceSectionType[];
+  };
+  rivalData?: {
+    chartData: PaceChartDataType[];
+    sectionPace: PaceSectionType[];
   };
   second: number;
   setSecond: any;
 }
 
-function PaceChart({isPair, data, second, setSecond}: Props) {
+function PaceChart({isPair, data, rivalData, second, setSecond}: Props) {
   const [previewWidth, setPreviewWidth] = useState<number>(0);
   const [previewTime, setPreviewTime] = useState<string>();
   const [previewPace, setPreviewPace] = useState<string>();
+  const [previewTime2, setPreviewTime2] = useState<string>();
+  const [previewPace2, setPreviewPace2] = useState<string>();
+  const [maxValue, setMaxValue] = useState<number>();
 
   const [parentWidth, setParentWidth] = useState(0);
   const [parentHeight, setParentHeight] = useState(0);
@@ -44,17 +51,30 @@ function PaceChart({isPair, data, second, setSecond}: Props) {
     }
   };
 
-  const handlePreviewData = (item: {
-    value: number;
-    second: number;
-    fromZeroPace: string;
-  }) => {
-    setPreviewTime(secondToHourMinuteSeconds(item.second));
-    setPreviewPace(item.fromZeroPace);
+  const handlePreviewData = (items: PaceChartDataType[]) => {
+    setPreviewTime(secondToHourMinuteSeconds(items[0].second));
+    setPreviewPace(items[0].fromZeroPace);
+    if (items[1]) {
+      setPreviewTime2(secondToHourMinuteSeconds(items[1].second));
+      setPreviewPace2(items[1].fromZeroPace);
+    } else {
+      setPreviewTime2('');
+      setPreviewPace2('');
+    }
   };
 
   useEffect(() => {
-    handlePreviewData(data.chartData[data.chartData.length - 1]);
+    handlePreviewData([data.chartData[data.chartData.length - 1]]);
+    let max = 0;
+    data.chartData.map(d => {
+      max = max > d.value ? max : d.value;
+    });
+    if (rivalData) {
+      rivalData.chartData.map(d => {
+        max = max > d.value ? max : d.value;
+      });
+    }
+    setMaxValue(max * 1.1);
   }, []);
 
   return (
@@ -70,8 +90,8 @@ function PaceChart({isPair, data, second, setSecond}: Props) {
           <DataPreview
             width={previewWidth}
             borderColor="yellow"
-            time={previewTime}
-            pace={previewPace}
+            time={previewTime2}
+            pace={previewPace2}
           />
         )}
       </S.DataPreviewView>
@@ -93,19 +113,18 @@ function PaceChart({isPair, data, second, setSecond}: Props) {
                 endOpacity={0}
                 color1="#FF1B1B"
                 // 같이달리기 그래프
-                // data2={isPair ? chartData : undefined} // 같이달리기 컴포넌트
-                yAxisTextStyle={{color: 'white'}}
+                data2={isPair ? rivalData?.chartData : undefined} // 같이달리기 컴포넌트
                 startFillColor2="#FFD83A"
-                startOpacity2={1}
+                startOpacity2={0.7}
                 endFillColor2="#FFD83A"
                 endOpacity2={0}
                 color2="#FFCC00"
+                yAxisTextStyle={{color: 'white'}}
                 dashGap={0}
                 rulesColor="rgba(255, 255, 255, 0.3)"
                 noOfSections={4}
                 xAxisColor={'rgba(255, 255, 255, 0.3)'}
                 yAxisColor={'rgba(255, 255, 255, 0)'}
-                yAxisLabelSuffix="m/s"
                 hideDataPoints // 점 숨기기
                 // hideYAxisText // y 라벨 없애기
                 // hideAxesAndRules // 내부 선 및 y선 x선 없애기
@@ -113,6 +132,7 @@ function PaceChart({isPair, data, second, setSecond}: Props) {
                 adjustToWidth // width에 데이터 크기 맞추기
                 // pointerConfig={}
                 xAxisLabelTexts={['0%', '25%', '50%', '75%', '100%']}
+                maxValue={maxValue}
                 pointerConfig={{
                   pointerStripHeight: parentHeight,
                   pointerStripColor: 'lightgray',
@@ -122,7 +142,7 @@ function PaceChart({isPair, data, second, setSecond}: Props) {
                   activatePointersOnLongPress: true,
                   autoAdjustPointerLabelPosition: false,
                   pointerLabelComponent: (items: any) => {
-                    handlePreviewData(items[0]);
+                    handlePreviewData(items);
                     return (
                       <View
                         style={{

@@ -4,9 +4,9 @@ import {colors} from '@/components/common/globalStyles';
 export const Container = styled.View`
   flex: 1;
   margin-top: 7%;
+  /* background-color: aliceblue; */
 `;
 export const TitleContainer = styled.View`
-  flex: 1;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;

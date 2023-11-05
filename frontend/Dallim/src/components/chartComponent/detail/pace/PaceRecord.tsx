@@ -1,32 +1,32 @@
 import * as S from './PaceRecord.styles';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 
 import AlonePace from './AlonePace';
 import PairPace from './PairPace';
+import {PaceSectionType} from '@/apis/ChartApi';
 
 interface Props {
   isPair: boolean;
-  data: {
-    startTime: number;
-    finishTime: number;
-    pace: number;
-  }[];
-  rivalData?: {
-    startTime: number;
-    finishTime: number;
-    pace: number;
-  }[];
+  data: PaceSectionType[];
+  rivalData?: PaceSectionType[];
+  second: number;
+  setSecond: any;
 }
 
-function PaceRecord({isPair, data, rivalData}: Props) {
+function PaceRecord({isPair, data, rivalData, second, setSecond}: Props) {
   return (
     <S.Container>
       <S.RecordBox>
         {isPair ? (
-          <PairPace data={data} rivalData={data} />
+          <PairPace
+            data={data}
+            rivalData={rivalData}
+            second={second}
+            setSecond={setSecond}
+          />
         ) : (
-          <AlonePace data={data} />
+          <AlonePace data={data} second={second} setSecond={setSecond} />
         )}
       </S.RecordBox>
       <S.Footer />

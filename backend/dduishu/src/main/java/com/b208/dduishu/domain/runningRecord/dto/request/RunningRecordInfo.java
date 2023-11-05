@@ -27,6 +27,7 @@ public class RunningRecordInfo {
 
 
     private Long userId;
+    private WatchOrMobile watchOrMobile;
     private Date date;
     private String formattedDate;
     private Long characterId;
@@ -61,6 +62,7 @@ public class RunningRecordInfo {
 
         RunningRecord build = RunningRecord.builder()
                 .user(userInfo)
+                .watchOrMobile(this.watchOrMobile)
                 .pace(pace)
                 .location("서울, 석촌호수")
                 .heartRate(heartRate)

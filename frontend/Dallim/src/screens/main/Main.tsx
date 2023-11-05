@@ -6,8 +6,8 @@ import { planetData } from '@/recoil/PlanetData';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
 import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';
-import CustomToast from '@/components/common/CustomToast';
 import Loading from '@/components/common/Loading';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useRecoilState } from 'recoil';
 import {
@@ -19,7 +19,11 @@ import {
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
 
-function Main() {
+interface MainProps {
+  navigation: any;
+}
+
+function Main({navigation}: MainProps) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
 
@@ -30,6 +34,16 @@ function Main() {
   const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
   const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
 
+  const [userId, setUserId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const storedUserId = await AsyncStorage.getItem('userId');
+      const numericUserId = storedUserId !== null ? parseInt(storedUserId, 10) : null;
+      setUserId(numericUserId);
+    };
+    fetchUserId();
+  }, []);
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -59,10 +73,6 @@ function Main() {
   function handleSend() {
     console.log('출석체크 버튼 눌림!');
     setStampModalVisible(true);
-  }
-  function Start() {
-    console.log('시작 버튼 눌림!');
-    CustomToast({ type: 'error', text1: '아직 개발중입니다.' });
   }
 
   return (
@@ -114,9 +124,10 @@ function Main() {
               </S.FooterBox>
 
               <S.StartBox>
-                <S.StartButton onPress={Start}>
-                  <S.StartText>시작하기</S.StartText>
+                <S.StartButton onPress={() => navigation.navigate('GameStartStack', { userId: userId })}>
+                  <S.StartText>달리기</S.StartText>
                 </S.StartButton>
+
               </S.StartBox>
             </S.Footer>
 

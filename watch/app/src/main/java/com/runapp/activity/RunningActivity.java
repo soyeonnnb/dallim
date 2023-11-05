@@ -98,7 +98,6 @@ public class RunningActivity extends AppCompatActivity {
         runningViewModel.setMsSpeed(0f);
         runningViewModel.setMsPace("0'00''");
 
-
         // 뷰페이저2를 생성(activity_running.xml에서 가져옴)
         ViewPager2 viewPager = binding.viewPager;
         // 뷰페이저 어댑터 생성하고 설정
@@ -114,7 +113,6 @@ public class RunningActivity extends AppCompatActivity {
 
         timerServiceIntent = new Intent(this, TimerService.class);
         startForegroundService(timerServiceIntent);
-
 
         // 타이머 서비스에서 브로드캐스트로 시간을 전송하게 만들어놓은 걸 받음.
         timerUpdateReceiver = new BroadcastReceiver() {

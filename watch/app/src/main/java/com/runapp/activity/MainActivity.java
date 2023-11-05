@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
@@ -29,21 +30,15 @@ import androidx.core.content.ContextCompat;
 import com.runapp.R;
 import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivityMainBinding;
-import com.runapp.dto.response.ApiResponseDTO;
-import com.runapp.dto.response.UserInfoResponseDTO;
 import com.runapp.util.AccessToken;
-import com.runapp.util.ApiUtil;
 import com.runapp.util.NetworkUtil;
 import com.runapp.util.PreferencesUtil;
+import com.runapp.util.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends ComponentActivity{
     // 클래스 멤버로 Executor 정의
@@ -55,6 +50,7 @@ public class MainActivity extends ComponentActivity{
     private NetworkUtil networkUtil;
     private int notificationId = 5;
     private String authenticateduth;
+    private UserInfo userInfo;
 
 
     @Override
@@ -201,37 +197,55 @@ public class MainActivity extends ComponentActivity{
     @Override
     protected void onResume() {
         super.onResume();
-
         prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
-
-        authenticateduth = prefs.getString("accessToken", null);
-        Log.d("Access_Token", authenticateduth != null ? authenticateduth : "토큰 널임");
 
         // 시작 버튼을 클릭하면
         binding.btnStart.setOnClickListener(v -> {
+            authenticateduth = prefs.getString("accessToken", null);
+            Log.d("Access_Token", authenticateduth != null ? authenticateduth : "토큰 널임");
+
             if (authenticateduth == null){
                 showAlert();
             }else{
                 // 액세스 있으면 저장해서 사용
                 AccessToken.getInstance().setAccessToken(authenticateduth);
-                getUserInfo();
+                userInfo = new UserInfo();
+                userInfo.getUserInfo(getApplicationContext(), new UserInfo.UserInfoCallback() {
+                    @Override
+                    public void onSuccess() {
+                        startSelectActivity();
+                    }
+                    @Override
+                    public void onError(String message) {
+                        Toast toast = Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    }
+                });
             }
         });
 
         // 연동 해제 버튼
         binding.btnFinish.setOnClickListener(v ->{
+            authenticateduth = prefs.getString("accessToken", null);
+            Log.d("Access_Token", authenticateduth != null ? authenticateduth : "토큰 널임");
+
             // 연동이 안됐으면
             if (authenticateduth == null){
                 Toast toast = Toast.makeText(MainActivity.this, "연동된 계정이 없습니다.", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }else { // 연동이 됐으면
+                String email = prefs.getString("email", null);
                 // AlertDialog.Builder 인스턴스 생성
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
 
                 LayoutInflater inflater = getLayoutInflater();
                 // unlink_user.xml을 가져와서 객체로 생성
                 View customView = inflater.inflate(R.layout.unlink_user, null);
+
+                TextView userEmail = customView.findViewById(R.id.user_email);
+                userEmail.setText(email);
 
                 builder.setView(customView);
 
@@ -251,7 +265,7 @@ public class MainActivity extends ComponentActivity{
 
                 // 확인 버튼에 대한 클릭 리스너
                 btnStart.setOnClickListener(b-> {
-                    prefs.edit().remove("accessToken").apply();
+                    prefs.edit().clear().apply();
                     Toast toast = Toast.makeText(MainActivity.this, "연동을 해제하였습니다.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
@@ -276,38 +290,5 @@ public class MainActivity extends ComponentActivity{
     private void startSelectActivity() {
         Intent intent = new Intent(MainActivity.this, SelectActivity.class);
         startActivity(intent);
-    }
-
-    private void getUserInfo(){
-        Call<ApiResponseDTO<UserInfoResponseDTO>> call = ApiUtil.getApiService().getUserInfo("Bearer " + authenticateduth);
-        call.enqueue(new Callback<ApiResponseDTO<UserInfoResponseDTO>>() {
-            @Override
-            public void onResponse(Call<ApiResponseDTO<UserInfoResponseDTO>> call, Response<ApiResponseDTO<UserInfoResponseDTO>> response) {
-                if (response.isSuccessful() && response.body().getData() != null){
-                    Log.d("성공", String.valueOf(response.body().getData().toString()));
-                    SharedPreferences.Editor edit = prefs.edit();
-                    edit.putString("nickname", response.body().getData().getNickname());
-                    edit.putString("email", response.body().getData().getEmail());
-                    edit.putLong("userId", response.body().getData().getUserId());
-                    edit.putLong("characterIndex", response.body().getData().getCharacterIndex());
-                    edit.putLong("planetIndex", response.body().getData().getPlanetIndex());
-                    edit.putInt("level", response.body().getData().getLevel());
-                    edit.apply();
-                    startSelectActivity();
-                } else {
-                    Log.d("로그", response.body().getStatus());
-                    Toast toast = Toast.makeText(MainActivity.this, "유저 정보를 가져오는데 실패했습니다.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponseDTO<UserInfoResponseDTO>> call, Throwable t) {
-                Toast toast = Toast.makeText(MainActivity.this, "서버 에러 발생", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
-        });
     }
 }

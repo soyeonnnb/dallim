@@ -16,8 +16,10 @@ import com.runapp.dto.request.AccessTokenRequestDTO;
 import com.runapp.dto.response.AccessTokenResponseDTO;
 import com.runapp.dto.response.ApiResponseDTO;
 import com.runapp.dto.response.AuthCodeResponseDTO;
+import com.runapp.util.AccessToken;
 import com.runapp.util.ApiUtil;
 import com.runapp.util.PreferencesUtil;
+import com.runapp.util.UserInfo;
 
 import java.io.IOException;
 
@@ -29,6 +31,7 @@ public class AuthActivity extends AppCompatActivity {
     private CountDownTimer timer;
     private ActivityAuthBinding binding;
     private SharedPreferences pref;
+    private UserInfo userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +75,21 @@ public class AuthActivity extends AppCompatActivity {
                     SharedPreferences.Editor edit = pref.edit();
                     edit.putString("accessToken", response.body().getData().getAccessToken());
                     edit.apply();
-                    setResult(Activity.RESULT_OK);
-                    finish();
+                    AccessToken.getInstance().setAccessToken(response.body().getData().getAccessToken());
+                    userInfo = new UserInfo();
+                    userInfo.getUserInfo(getApplicationContext(), new UserInfo.UserInfoCallback() {
+                        @Override
+                        public void onSuccess() {
+                            setResult(Activity.RESULT_OK);
+                            finish();
+                        }
+                        @Override
+                        public void onError(String message) {
+                            Toast toast = Toast.makeText(AuthActivity.this, message, Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                        }
+                    });
                 } else {
                     Toast toast = Toast.makeText(AuthActivity.this, "인증이 완료되지 않았습니다.", Toast.LENGTH_SHORT);
                     toast.setGravity(Gravity.CENTER, 0, 0);

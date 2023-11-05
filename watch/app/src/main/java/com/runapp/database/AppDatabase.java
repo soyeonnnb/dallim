@@ -11,7 +11,7 @@ import com.runapp.model.RunningData;
 import com.runapp.model.RunningMate;
 
 @TypeConverters({DateConverter.class, RunningDataConverters.class})
-@Database(entities = {RunningData.class, RunningMate.class}, version = 23) // RunningDate를 db의 엔터티로 사용. 버전은 2
+@Database(entities = {RunningData.class, RunningMate.class}, version = 24) // RunningDate를 db의 엔터티로 사용. 버전은 2
 public abstract class AppDatabase extends RoomDatabase { // Room 라이브러리를 사용함
     public abstract RunningDataDAO runningDataDAO();
     public abstract RunningMateDAO runningMateDAO();

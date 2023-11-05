@@ -57,8 +57,8 @@ export const FullClock = styled.View`
 `;
 
 export const MiddleClock = styled.View`
-  /* border-width: 1px; */
-  /* border-color: aqua; */
+  /* border-width: 1px;
+  border-color: aqua; */
   border-radius: 300px;
   background-color: white;
   flex-direction: row;

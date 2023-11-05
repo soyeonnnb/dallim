@@ -1,4 +1,3 @@
-import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import Profile from '@/screens/profile/Profile';
 import RunningMateSetting from '@/screens/profile/ProfileSubScreens/RunningMateSetting';

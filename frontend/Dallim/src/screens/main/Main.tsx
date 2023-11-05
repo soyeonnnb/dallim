@@ -6,11 +6,11 @@ import { planetData } from '@/recoil/PlanetData';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
 import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';
-import CustomToast from '@/components/common/CustomToast';
 import Loading from '@/components/common/Loading';
 
 import { useRecoilState } from 'recoil';
 import {
+  userIdState,
   userNicknameState,
   userPointState,
   userLevelState,
@@ -19,17 +19,21 @@ import {
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
 
-function Main() {
+interface MainProps {
+  navigation: any;
+}
+
+function Main({ navigation }: MainProps) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
 
+  const [userId, setUserId] = useRecoilState(userIdState); // 유저 닉네임
   const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
   const [userLevel, setUserLevel] = useRecoilState(userLevelState);
   const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
   const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
   const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
-
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -38,6 +42,7 @@ function Main() {
         console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
 
         if (userInfo) {
+          setUserId(userInfo.userId);
           setUserNickname(userInfo.nickName);
           setUserLevel(userInfo.userLevel);
           setUserPoint(userInfo.point);
@@ -59,10 +64,6 @@ function Main() {
   function handleSend() {
     console.log('출석체크 버튼 눌림!');
     setStampModalVisible(true);
-  }
-  function Start() {
-    console.log('시작 버튼 눌림!');
-    CustomToast({ type: 'error', text1: '아직 개발중입니다.' });
   }
 
   return (
@@ -114,9 +115,10 @@ function Main() {
               </S.FooterBox>
 
               <S.StartBox>
-                <S.StartButton onPress={Start}>
-                  <S.StartText>시작하기</S.StartText>
+                <S.StartButton onPress={() => navigation.navigate('GameStartStack', { userId: userId })}>
+                  <S.StartText>달리기</S.StartText>
                 </S.StartButton>
+
               </S.StartBox>
             </S.Footer>
 

@@ -49,6 +49,16 @@ export const Middle = styled.View`
   gap: 5px;
 `;
 
+export const Middle_Wait = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
+  width: 50%;
+  height: 100%;
+  justify-content: center;
+  gap: 5px;
+`;
+
+
 export const NicknameText = styled.Text`
   font-size: 13px;
   font-weight: bold;
@@ -70,7 +80,44 @@ export const Right = styled.View`
   align-items: center;
 `;
 
+export const Right_Wait = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
+  flex-direction: row;
+  width: 30%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Button_AcceptWait = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
+  width: 50%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Button_DenyWait = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
+  width: 50%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const Button = styled(TouchableOpacity)`
+  /* border-width: 1px;
+  border-color: blue; */
+  width: 70%;
+  height: 90%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Button_Wait = styled(TouchableOpacity)`
   /* border-width: 1px;
   border-color: blue; */
   width: 90%;
@@ -87,6 +134,13 @@ export const FriendAddImage = styled(Image)`
 `;
 
 export const FriendRemoveImage = styled(Image)`
+  width: 70%;
+  height: 70%;
+`;
+
+export const WaitImage = styled(Image)`
+  /* border-width: 1px;
+  border-color: blue; */
   width: 70%;
   height: 70%;
 `;

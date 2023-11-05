@@ -58,10 +58,8 @@ function Overview({data}: Props) {
       const paces: itemType[] = [];
       const hearts: itemType[] = [];
       data.runningRecordInfos.map(d => {
-        if (d.pace != 0) {
-          paces.push({value: d.pace});
-        }
-        if (d.heartRate != 0) hearts.push({value: d.heartRate});
+        paces.push({value: d.speed});
+        hearts.push({value: d.heartRate});
       });
       setPaceList(paces);
       setHeartRateList(hearts);

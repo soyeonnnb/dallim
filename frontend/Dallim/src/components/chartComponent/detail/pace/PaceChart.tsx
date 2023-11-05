@@ -94,7 +94,7 @@ function PaceChart({isPair, data, second, setSecond}: Props) {
                 color1="#FF1B1B"
                 // 같이달리기 그래프
                 // data2={isPair ? chartData : undefined} // 같이달리기 컴포넌트
-
+                yAxisTextStyle={{color: 'white'}}
                 startFillColor2="#FFD83A"
                 startOpacity2={1}
                 endFillColor2="#FFD83A"
@@ -114,13 +114,11 @@ function PaceChart({isPair, data, second, setSecond}: Props) {
                 // pointerConfig={}
                 xAxisLabelTexts={['0%', '25%', '50%', '75%', '100%']}
                 pointerConfig={{
-                  pointerStripHeight: 160,
+                  pointerStripHeight: parentHeight,
                   pointerStripColor: 'lightgray',
                   pointerStripWidth: 2,
                   pointerColor: 'lightgray',
-                  radius: 6,
-                  pointerLabelWidth: 100,
-                  pointerLabelHeight: 90,
+                  radius: 3,
                   activatePointersOnLongPress: true,
                   autoAdjustPointerLabelPosition: false,
                   pointerLabelComponent: (items: any) => {

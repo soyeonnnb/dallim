@@ -7,7 +7,6 @@ interface Props {
 }
 
 function HeartRatePie({data}: Props) {
-  // const data = [{value: 15}, {value: 30}, {value: 26}, {value: 40}];
   const chartColor: string[] = [
     '#FF1178',
     '#FFF205',

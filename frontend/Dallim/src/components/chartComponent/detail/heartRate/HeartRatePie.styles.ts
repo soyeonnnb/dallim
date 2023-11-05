@@ -21,6 +21,7 @@ export const Middle = styled.View`
 export const ChartSection = styled.View`
   flex: 1;
   justify-content: center;
+  align-items: center;
 `;
 export const ChartInfos = styled.View`
   flex: 1;

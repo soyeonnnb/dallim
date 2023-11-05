@@ -18,7 +18,6 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import com.bumptech.glide.Glide;
 import com.runapp.R;
 import com.runapp.database.AppDatabase;
-import com.runapp.database.RiverDataDAO;
 import com.runapp.databinding.ActivitySelectBinding;
 import com.runapp.dto.response.ApiResponseListDTO;
 import com.runapp.dto.response.RunningMateResponseDTO;
@@ -39,7 +38,6 @@ public class SelectActivity extends ComponentActivity {
 
     private ActivitySelectBinding binding;
     private final Executor executor = Executors.newSingleThreadExecutor();
-    private RiverDataDAO riverDataDAO;
     private AppDatabase db;
 
     @Override

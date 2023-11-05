@@ -7,24 +7,24 @@ import java.util.List;
 public class RunningDataDTO {
     private Long userId;
     private Long date;
+    private String watchOrMobile;
     private String formattedDate;
     private double totalDistance;
     private Long totalTime;
-    private int characterId;
-    private int characterInfoId;
+    private Long characterId;
     private double stepCount;
     private double averagePace;
     private double averageSpeed;
     private double averageHeartRate;
     private String type;
-    private Long rivalRecordId;
+    private String rivalRecordId;
     private List<RunDetail> runningRecordInfos;
 
     // 기본 생성자
     public RunningDataDTO() {}
 
     // 모든 필드를 파라미터로 가지는 생성자 (선택적 사용)
-    public RunningDataDTO(Long userId, Long date, String formattedDate, double totalDistance, Long totalTime, int characterId, double stepCount, double averagePace, double averageSpeed, double averageHeartRate, String type, Long rivalRecordId, List<RunDetail> runningRecordInfos, int characterInfoId) {
+    public RunningDataDTO(Long userId, Long date, String formattedDate, double totalDistance, Long totalTime, Long characterId, double stepCount, double averagePace, double averageSpeed, double averageHeartRate, String type, String rivalRecordId, List<RunDetail> runningRecordInfos) {
         this.userId = userId;
         this.date = date;
         this.formattedDate = formattedDate;
@@ -38,7 +38,6 @@ public class RunningDataDTO {
         this.type = type;
         this.rivalRecordId = rivalRecordId;
         this.runningRecordInfos = runningRecordInfos;
-        this.characterInfoId = characterInfoId;
     }
 
 
@@ -84,11 +83,11 @@ public class RunningDataDTO {
         this.totalTime = totalTime;
     }
 
-    public int getCharacterId() {
+    public Long getCharacterId() {
         return characterId;
     }
 
-    public void setCharacterId(int characterId) {
+    public void setCharacterId(Long characterId) {
         this.characterId = characterId;
     }
 
@@ -132,11 +131,11 @@ public class RunningDataDTO {
         this.type = type;
     }
 
-    public Long getRivalRecordId() {
+    public String getRivalRecordId() {
         return rivalRecordId;
     }
 
-    public void setRivalRecordId(Long rivalRecordId) {
+    public void setRivalRecordId(String rivalRecordId) {
         this.rivalRecordId = rivalRecordId;
     }
 
@@ -148,12 +147,12 @@ public class RunningDataDTO {
         this.runningRecordInfos = runningRecordInfos;
     }
 
-    public int getCharacterInfoId() {
-        return characterInfoId;
+    public String getWatchOrMobile() {
+        return watchOrMobile;
     }
 
-    public void setCharacterInfoId(int characterInfoId) {
-        this.characterInfoId = characterInfoId;
+    public void setWatchOrMobile(String watchOrMobile) {
+        this.watchOrMobile = watchOrMobile;
     }
 
     @Override
@@ -161,13 +160,13 @@ public class RunningDataDTO {
         return "RunningDataDTO{" +
                 "userId=" + userId +
                 ", date=" + date +
+                ", watchOrMobile='" + watchOrMobile + '\'' +
                 ", formattedDate='" + formattedDate + '\'' +
                 ", totalDistance=" + totalDistance +
                 ", totalTime=" + totalTime +
                 ", characterId=" + characterId +
-                ", characterInfoId=" + characterInfoId +
                 ", stepCount=" + stepCount +
-                ", averagePace='" + averagePace + '\'' +
+                ", averagePace=" + averagePace +
                 ", averageSpeed=" + averageSpeed +
                 ", averageHeartRate=" + averageHeartRate +
                 ", type='" + type + '\'' +

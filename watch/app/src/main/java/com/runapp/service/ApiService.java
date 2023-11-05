@@ -1,12 +1,13 @@
 package com.runapp.service;
 
+import com.runapp.dto.RunningDataDTO;
 import com.runapp.dto.request.AccessTokenRequestDTO;
 import com.runapp.dto.response.AccessTokenResponseDTO;
 import com.runapp.dto.response.ApiResponseDTO;
 import com.runapp.dto.response.ApiResponseListDTO;
 import com.runapp.dto.response.AuthCodeResponseDTO;
-import com.runapp.dto.RunningDataDTO;
 import com.runapp.dto.response.RunningMateResponseDTO;
+import com.runapp.dto.response.UserInfoResponseDTO;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -31,5 +32,9 @@ public interface ApiService {
     // 러닝메이트 정보 가져오기
     @GET("api/v1/running-mate")
     Call<ApiResponseListDTO<RunningMateResponseDTO>> getRunningMate(@Header("Authorization") String token);
+
+    // 유저 정보 가져오기
+    @GET("api/v1/user/watch")
+    Call<ApiResponseDTO<UserInfoResponseDTO>> getUserInfo(@Header("Authorization") String token);
 }
 

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -29,6 +28,7 @@ import com.runapp.util.ApiUtil;
 import com.runapp.util.Conversion;
 import com.runapp.util.MyApplication;
 import com.runapp.util.NetworkUtil;
+import com.runapp.util.PreferencesUtil;
 import com.runapp.view.RunningViewModel;
 
 import java.util.ArrayList;
@@ -47,7 +47,6 @@ public class RunningActivity extends AppCompatActivity {
 
     private ActivityRunningBinding binding;
     private RunningViewModel runningViewModel;
-    private TimerService timerService;
     private List<RunDetail> runDetailsList = new ArrayList<>();
     private AppDatabase db;
     private RunningData runningData;
@@ -60,7 +59,6 @@ public class RunningActivity extends AppCompatActivity {
     private Intent locationIntent;
     private Intent timerServiceIntent;
     private BroadcastReceiver timerUpdateReceiver;
-    private PowerManager.WakeLock wakeLock;
     private SharedPreferences prefs;
 
     @Override
@@ -69,17 +67,19 @@ public class RunningActivity extends AppCompatActivity {
         binding = ActivityRunningBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
+
         db = AppDatabase.getDatabase(getApplicationContext());
 
         runningData = new RunningData();
-        runningData.setUserId(6L);
+        runningData.setUserId(prefs.getLong("userId", 0L));
         runningData.setDate(new Date());
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
-        runningData.setCharacterId(1);
+        runningData.setCharacterId(prefs.getLong("characterIndex", 0L));
         runningData.setAveragePace(0f);
         runningData.setAverageSpeed(0f);
         runningData.setAverageHeartRate(0f);
-        runningData.setCharacterInfoId(1);
+        runningData.setRivalRecordId(null);
 
         // 혼자달리기인지 함께달리기인지 구분
         String type = getIntent().getStringExtra("run_type");
@@ -208,17 +208,24 @@ public class RunningActivity extends AppCompatActivity {
             return; // 메서드를 여기서 종료
         }
 
+        // 평균 심박수
         Double totalHeartRate = runningViewModel.getTotalHeartRate().getValue();
         Integer heartRateCount = runningViewModel.getHeartCountTime().getValue();
+        runningData.setAverageHeartRate(Math.round((totalHeartRate/heartRateCount) * 100) / 100.0);
 
         runningData.setRunningRecordInfos(runDetailsList);
+        // 발걸음
         runningData.setStepCount(runningViewModel.getStepCount().getValue());
-        double totalDistance = runningViewModel.getOriDistance().getValue();
 
+        // 전체 이동 거리(m)
+        double totalDistance = runningViewModel.getOriDistance().getValue();
         runningData.setTotalDistance(Math.round(totalDistance * 100) / 100.0);
-        runningData.setAverageHeartRate(Math.round((totalHeartRate/heartRateCount) * 100) / 100.0);
+
+        // 평균 이동 속도(m/s)
         double avgSpeed = Math.round((totalSpeed/speedCountTime) * 100) / 100.0;
         runningData.setAverageSpeed(avgSpeed);
+
+        // 평균 페이스
         Map<String, Integer> result = conversion.msToPace((totalSpeed / speedCountTime));
         int minute = result.get("minutes");
         int second = result.get("seconds");

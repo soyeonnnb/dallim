@@ -120,13 +120,11 @@ public class LocationService extends Service {
                 runningViewModel.setLongitude(longitude);
             }
             Log.d("자른 이동거리", String.valueOf((double) Math.round(totalDistance * 10) / 10.0));
-//            Log.d(TAG,  "총 이동거리" + totalDistance + "KM, 이동거리: " + distance + " M, 속도: " + speed + " m/s");
         }
         lastLocation = location;
     }
 
     public void startLocationUpdates() {
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }

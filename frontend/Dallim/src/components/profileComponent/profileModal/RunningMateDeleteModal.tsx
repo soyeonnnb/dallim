@@ -3,12 +3,18 @@ import * as S from './RunningMateDeleteModal.styles';
 import { Modal } from 'react-native';
 import Toast from 'react-native-toast-message';
 
+import { useSetRecoilState } from 'recoil';
+import { competitorDataState } from '@/recoil/RunningRecoil';
+
+
 type DeleteModalProps = {
   toggleDeleteModal: () => void;
   competitorId: string;
 };
 
 function RunningMateDeleteModal({ toggleDeleteModal, competitorId }: DeleteModalProps) {
+
+  const setCompetitorData = useSetRecoilState(competitorDataState);
 
   const handleRunningMateListChange = async () => {
     try {
@@ -22,6 +28,9 @@ function RunningMateDeleteModal({ toggleDeleteModal, competitorId }: DeleteModal
           autoHide: true,
           topOffset: 10,
         });
+        setCompetitorData((oldCompetitorData) =>
+          oldCompetitorData.filter((competitor) => competitor.id !== competitorId)
+        );
       } else {
         throw new Error('삭제하는데 에러발생');
       }
@@ -36,9 +45,7 @@ function RunningMateDeleteModal({ toggleDeleteModal, competitorId }: DeleteModal
       });
       console.error('삭제하는데 에러발생2', error);
     }
-
-    // 무조건 모달을 닫는 동작
-    toggleDeleteModal();
+    toggleDeleteModal(); // 무조건 모달을 닫는 동작
   };
 
   return (

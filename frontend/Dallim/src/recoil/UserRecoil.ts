@@ -14,7 +14,6 @@ interface Planet {
 }
 
 interface UserData {
-
   point: number;
   mainCharacterIndex: number;
   mainPlanetIndex: number;

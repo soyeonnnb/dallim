@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useIsFocused} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import * as S from './ChartDetail.styles';
 import {ScrollView, TouchableOpacity} from 'react-native';
@@ -24,9 +24,13 @@ import {
 
 import {getDateObject} from '@/recoil/CalendarData';
 import {calculatePace} from '@/recoil/RunningData';
+
 // 스택 내비게이션 타입을 정의
 type RootStackParamList = {
   ChartDetail: {
+    id: string;
+  };
+  RunningMateChartList: {
     id: string;
   };
 };
@@ -83,6 +87,7 @@ function ChartDetail({route, navigation}: Props) {
   };
 
   const fetchRunningData = async () => {
+    setIsLoading(true);
     try {
       const getData = await fetchDetailRunningData(id);
       setData(getData);
@@ -161,7 +166,7 @@ function ChartDetail({route, navigation}: Props) {
             <ArrowLeft width={30} height={30} color="transparent" />
           </S.Header>
           <ScrollView horizontal pagingEnabled>
-            {data && <Overview data={data} />}
+            {data && <Overview data={data} navigation={navigation} />}
             {paceData && (
               <Pace
                 data={paceData}

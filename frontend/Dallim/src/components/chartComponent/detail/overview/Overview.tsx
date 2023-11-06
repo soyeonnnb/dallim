@@ -23,9 +23,10 @@ import Loading from '@/components/common/Loading';
 
 interface Props {
   data?: RecordDetail;
+  navigation: any;
 }
 
-function Overview({data}: Props) {
+function Overview({data, navigation}: Props) {
   const [timeline, setTimeLine] = useState<string>('00:00:00 - 00:00:00');
   const [spendTime, setSpendTime] = useState<string>('00:00:00');
   const [avgPace, setAvgPace] = useState<string>();
@@ -156,7 +157,11 @@ function Overview({data}: Props) {
             {/* 심박수 부분은 추후에 핸드폰 러닝이면 제외로 빼기*/}
             <OverviewGraph title="심박수" data={heartRateList} />
             {data?.rivalRecord ? (
-              <RunningMateRecord data={data.rivalRecord} paceList={paceList} />
+              <RunningMateRecord
+                data={data.rivalRecord}
+                paceList={paceList}
+                navigation={navigation}
+              />
             ) : (
               ''
             )}

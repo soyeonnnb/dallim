@@ -1,13 +1,13 @@
 import * as S from './CharacterEdit.styles';
-import {characterData} from '@/recoil/CharacterData';
-import {useEffect, useState} from 'react';
+import { characterData } from '@/recoil/CharacterData';
+import { useEffect, useState } from 'react';
 import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
 import CharacterSelectModal from './editModal/CharacterSelectModal';
 import BoomEffect from '@/components/common/BoomEffect';
 import CustomToast from '../common/CustomToast';
 import Character from './CharacterBox';
 
-import {useRecoilState} from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
   userDataState,
   equippedCharacterIndexState,
@@ -20,7 +20,7 @@ import {
   selectedCharacterIsPurchasedState,
   userPointState,
 } from '@/recoil/UserRecoil';
-import {postCharacterPurchase, updateEquippedCharacter} from '@/apis/EditApi';
+import { postCharacterPurchase, updateEquippedCharacter } from '@/apis/EditApi';
 
 type CharacterEditProps = {
   handleEquippedCharacterChange: (index: number) => void;
@@ -73,7 +73,7 @@ function CharacterEdit({
         selectedCharacterIndex,
       );
       if (responseData.status === 'success') {
-        CustomToast({type: 'success', text1: '대표 캐릭터 변경 성공!'});
+        CustomToast({ type: 'success', text1: '대표 캐릭터 변경 성공!' });
       } else {
         CustomToast({
           type: 'error',
@@ -106,7 +106,7 @@ function CharacterEdit({
         );
         if (responseData.status === 'success' && responseData.data === true) {
           setUserPoint(userPoint - 4000); // 포인트 차감
-          CustomToast({type: 'success', text1: '구매 성공!'});
+          CustomToast({ type: 'success', text1: '구매 성공!' });
           setSelectedCharacterIsPurchased(true);
 
           if (userData) {
@@ -114,7 +114,7 @@ function CharacterEdit({
               ...userData,
               characters: userData.characters.map((character, index) => {
                 if (index === selectedCharacterIndex) {
-                  return {...character, isPurchased: true};
+                  return { ...character, isPurchased: true };
                 }
                 return character;
               }),
@@ -122,9 +122,10 @@ function CharacterEdit({
             setUserData(newUserData);
           }
 
-          setShowConfetti(true); // 폭죽
-          setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
+          // setShowConfetti(true); // 폭죽
+          // setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
           setPurchaseModalVisible(false); // 모달 닫기
+          
         } else {
           CustomToast({
             type: 'error',
@@ -138,7 +139,7 @@ function CharacterEdit({
         });
       }
     } else {
-      CustomToast({type: 'error', text1: '포인트가 부족합니다.'});
+      CustomToast({ type: 'error', text1: '포인트가 부족합니다.' });
     }
   }
 
@@ -149,7 +150,7 @@ function CharacterEdit({
 
   function handleEquipped() {
     console.log('시작 버튼 눌림!');
-    CustomToast({type: 'success', text1: '이미 선택된 캐릭터입니다.'});
+    CustomToast({ type: 'success', text1: '이미 선택된 캐릭터입니다.' });
   }
 
   return (

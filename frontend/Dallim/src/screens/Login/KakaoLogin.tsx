@@ -33,6 +33,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
 
       await AsyncStorage.setItem('userId', String(data.uesrId));
       await AsyncStorage.setItem('accessToken', data.accessToken);
+      await postFcmToken();
     } catch (error) {
       console.error('Error during login request:', error);
       throw error; // 또는 적절한 에러 처리
@@ -60,7 +61,6 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
           const accessToken = res.data.accessToken;
 
           await sendLoginRequest(accessToken);
-          await postFcmToken();
         })
         .catch(error => {
           console.error('Axios Error: ', error);

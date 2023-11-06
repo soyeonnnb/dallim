@@ -35,7 +35,15 @@ public class JobService {
 
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity(targetToken)
-                .startAt(scheduleTime)
+                .withSchedule(
+//                    CronScheduleBuilder
+//                            .weeklyOnDayAndHourAndMinute(
+//                                DateBuilder.MONDAY, // 화요일
+//                                15, // 11시
+//                                0 // 0분
+//                        )
+                        CronScheduleBuilder.cronSchedule("0 0/1 16 ? * MON")
+                )
                 .build();
 
         scheduler.scheduleJob(jobDetail, trigger);

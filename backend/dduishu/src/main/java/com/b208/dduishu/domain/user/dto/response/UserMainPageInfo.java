@@ -2,6 +2,7 @@ package com.b208.dduishu.domain.user.dto.response;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.planet.entity.Planet;
+import com.b208.dduishu.domain.user.entity.BaseLevel;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.util.Util;
 import lombok.Builder;
@@ -13,6 +14,7 @@ public class UserMainPageInfo {
     private String nickName;
     private int point;
     private int userLevel;
+    private int exp;
     private int characterIndex;
     private int evolutionStage;
     private int planetIndex;
@@ -23,6 +25,8 @@ public class UserMainPageInfo {
         this.nickName = user.getNickname();
         this.point = user.getPoint();
         this.userLevel = user.getUserLevel().getLevel();
+        BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(character.getCharacterLevel().getExp());
+        this.exp = levelInfo.getExp();
         if (character != null) {
             this.characterIndex = Util.getCharacterIndexByCharacter(character);
             this.evolutionStage = getEvolutionStage(character.getCharacterLevel().getLevel());

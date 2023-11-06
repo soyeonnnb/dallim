@@ -13,6 +13,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
@@ -59,6 +60,17 @@ public class MainActivity extends ComponentActivity{
         super.onCreate(savedInstanceState);
         // 리시버 인스턴스를 생성합니다.
         networkUtil = new NetworkUtil();
+        // 어떤 권한을 확인할 지 설정 해놓은 메서드.
+        checkPermission();
+
+        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        String packageName = getPackageName();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                Log.e("에러", "절전모드임");
+            }
+        }
 
         // 알림을 사용하기 위한 코드(오레오 이상 버전이면 실행)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -86,8 +98,7 @@ public class MainActivity extends ComponentActivity{
         // 액티비티의 컨텐츠 뷰로 view를 설정. 여기서 화면에 뭐가 보일지 결정
         setContentView(view);
 
-        // 어떤 권한을 확인할 지 설정 해놓은 메서드.
-        checkPermission();
+
     }
 
     @Override
@@ -236,7 +247,11 @@ public class MainActivity extends ComponentActivity{
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }else { // 연동이 됐으면
+                // 유저 정보 가져옴
                 String email = prefs.getString("email", null);
+                String nickname = prefs.getString("nickname", null);
+                int level = prefs.getInt("level", 0);
+
                 // AlertDialog.Builder 인스턴스 생성
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
 
@@ -245,7 +260,11 @@ public class MainActivity extends ComponentActivity{
                 View customView = inflater.inflate(R.layout.unlink_user, null);
 
                 TextView userEmail = customView.findViewById(R.id.user_email);
-                userEmail.setText(email);
+                userEmail.setText("이메일:" + email);
+                TextView userNickname = customView.findViewById(R.id.nickname);
+                userNickname.setText("닉네임:" + nickname);
+                TextView userLevel = customView.findViewById(R.id.level);
+                userLevel.setText("레벨:" + String.valueOf(level) + " LV");
 
                 builder.setView(customView);
 

@@ -250,7 +250,7 @@ export const postRequestAccept = async (userid: number): Promise<boolean> => {
       return true;
     } else {
       console.log('SocialApi : 친구신청 수락 요청 실패');
-      console.log('고칠거에요~~~~~~~~');
+      console.log('고칠거에요~~~~~~~~' + userid);
       return false;
     }
   } catch (error) {

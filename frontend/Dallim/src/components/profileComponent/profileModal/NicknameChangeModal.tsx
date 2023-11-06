@@ -7,10 +7,8 @@ import CustomToast from '../../../components/common/CustomToast';
 import {patchNicknameCheck} from '@/apis/ProfileApi';
 
 // recoil
-import { useSetRecoilState } from 'recoil';
-import {
-  userNicknameState,
-} from '@/recoil/UserRecoil';
+import {useSetRecoilState} from 'recoil';
+import {userNicknameState} from '@/recoil/UserRecoil';
 
 type ModalComponentProps = {
   showModal: boolean;

@@ -76,6 +76,27 @@ export const patchNicknameCheck = async (nickname: string) => {
   }
 };
 
+export const postAlarmRegist = async (scheduleTimestamp: number) => {
+  const accessToken = await getToken();
+  const fcmToken = await AsyncStorage.getItem('fcmToken');
+
+  const body = {
+    targetToken: fcmToken,
+    scheduleTime: scheduleTimestamp.toString(),
+  };
+
+  try {
+    const response = await axios.post(`${BASE_URL}/api/v1/schedule`, body, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // Header에 AccessToken을 포함시킵니다.
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('ProfileApi : 알림 등록 axios 실패 -->', error);
+  }
+};
 // 워치 연동 API
 export const postWatchConnection = async (authCode: string) => {
   const accessToken = await getToken();

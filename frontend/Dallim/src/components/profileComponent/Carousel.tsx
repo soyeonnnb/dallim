@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
 
 import CardPage from './CardPage';
@@ -9,27 +9,31 @@ import {characterData} from '@/recoil/CharacterData';
 interface CarouselProps {
   gap: number;
   offset: number;
-  pages: any[];
+  competitorData: any[];
   pageWidth: number;
-  onCardSelected?: (num: number) => void;
+  // onCardSelected?: (num: number) => void;
 }
 
 export default function Carousel({
-  pages,
+  competitorData,
   pageWidth,
   gap,
-  offset,
-  onCardSelected,
+  offset, // onCardSelected,
 }: CarouselProps) {
+  useEffect(() => {
+    console.log('데이터가 넘어옴??:' + JSON.stringify(competitorData, null, 2));
+  }, [competitorData]);
+
   const [page, setPage] = useState(0);
+  const [selectedCharacter, SetselectedCharacter] = useState(0);
 
   function renderItem({item}: any) {
     return (
       <S.CardContainer>
-        <CardPage
+        {/* <CardPage
           item={item}
           style={{width: pageWidth, marginHorizontal: gap / 2}}
-        />
+        /> */}
       </S.CardContainer>
     );
   }
@@ -39,28 +43,33 @@ export default function Carousel({
       e.nativeEvent.contentOffset.x / (pageWidth + gap),
     );
     setPage(newPage);
-    if (onCardSelected) {
-      onCardSelected(pages[newPage].num);
-    }
+    console.log(newPage);
+    // if (onCardSelected) {
+    //   onCardSelected(competitorData[newPage].num);
+    // }
   };
 
-  const currentPageData = pages[page];
-  // console.log(currentPageData);
-  const selectedCharacter = characterData[currentPageData.characterIndex];
-  // console.log(selectedCharacter);
-  const selectedCharacterLevelData =
-    selectedCharacter.evolutions[currentPageData.characterlevel];
-  // console.log(selectedCharacterLevelData);
+  const currentPageData = competitorData[page];
+  console.log('현재 페이지' + currentPageData);
+  if (currentPageData) {
+    const selectedCharacter = characterData[currentPageData.characterIndex];
+    console.log('인덱스' + selectedCharacter);
+    const selectedCharacterLevelData =
+      selectedCharacter.evolutions[currentPageData.evolutionStage];
+    console.log('여기맞음' + selectedCharacterLevelData);
+  }
+
+  // const selectedCharacterLevelData = selectedCharacter.evolutions[0];
   return (
     <S.Container>
       <S.Header></S.Header>
       <S.Body>
-        <FlatList
+        {/* <FlatList
           automaticallyAdjustContentInsets={false}
           contentContainerStyle={{
             paddingHorizontal: offset + gap / 2,
           }}
-          data={pages}
+          data={competitorData}
           decelerationRate="fast"
           horizontal
           keyExtractor={(item: any) => `page__${item.num}`}
@@ -70,21 +79,21 @@ export default function Carousel({
           snapToInterval={pageWidth + gap}
           snapToAlignment="start"
           showsHorizontalScrollIndicator={false}
-        />
+        /> */}
       </S.Body>
 
       <S.Footer>
         <S.IndicatorWrapper>
-          {Array.from({length: pages.length}, (_, i) => i).map(i => (
+          {Array.from({length: competitorData.length}, (_, i) => i).map(i => (
             <S.Indicator key={`indicator_${i}`} focused={i === page} />
           ))}
         </S.IndicatorWrapper>
       </S.Footer>
       <S.BodyBottomCharacterImageBox>
-        <S.CharacterImage
+        {/* <S.CharacterImage
           source={selectedCharacterLevelData.front}
           resizeMode="contain"
-        />
+        /> */}
       </S.BodyBottomCharacterImageBox>
     </S.Container>
   );

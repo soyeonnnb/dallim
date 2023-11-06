@@ -19,7 +19,6 @@ function RunningAlarm({navigation}: RunningAlarmProps) {
   //useEffect
   useEffect(() => {
     setShowTimePicker(true);
-    // 만약 페이지를 벗어날 때 TimePicker를 숨기고 싶다면 여기서 cleanup 함수를 반환합니다.
     return () => setShowTimePicker(false);
   }, []);
 

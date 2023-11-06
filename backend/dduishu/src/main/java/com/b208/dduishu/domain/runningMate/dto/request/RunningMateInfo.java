@@ -14,9 +14,10 @@ public class RunningMateInfo {
     private Long userId;
     private String nickName;
     private int characterIndex;
+    private int evolutionStage;
     private int planetIndex;
     private int level;
-    private double averageSpeed;
+    private double averagePace;
     private double totalDistance;
     private double totalTime;
     private boolean isClear;
@@ -27,9 +28,10 @@ public class RunningMateInfo {
         this.userId = runningMate.getRivalRecord().getUser().getUserId();
         this.nickName = runningMate.getRivalRecord().getUser().getNickname();
         this.characterIndex = runningMate.getRivalRecord().getCharacter().getCharacterIndex();
+        this.evolutionStage = Util.getEvolutionStage(runningMate.getRivalRecord().getCharacter().getLevel());
         this.planetIndex = runningMate.getRivalRecord().getCharacter().getPlanetIndex();
         this.level = runningMate.getRivalRecord().getUser().getLevel();
-        this.averageSpeed = runningMate.getRivalRecord().getAverageSpeed();
+        this.averagePace = runningMate.getRivalRecord().getAveragePace();
         this.totalDistance = runningMate.getRivalRecord().getTotalDistance();
         this.totalTime = runningMate.getRivalRecord().getTotalTime() * 60;
         this.isClear = false;

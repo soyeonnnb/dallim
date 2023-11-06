@@ -29,6 +29,7 @@ public class RivalRunningRecordInfo {
     private double totalTime;
     private double totalDistance;
     private double averageSpeed;
+    private double averagePace;
     private LocalDateTime createdAt;
 
     @Builder
@@ -43,6 +44,7 @@ public class RivalRunningRecordInfo {
         this.totalTime = runningRecord.getTotalTime();
         this.totalDistance = runningRecord.getTotalDistance();
         this.averageSpeed = runningRecord.getAverageSpeed();
+        this.averagePace = runningRecord.getAveragePace();
         this.createdAt = runningRecord.getCreatedAt();
     }
 }

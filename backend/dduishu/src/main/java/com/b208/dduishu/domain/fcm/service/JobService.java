@@ -40,7 +40,7 @@ public class JobService {
     private final GetUser getUser;
 
 
-    public void scheduleJob(String targetToken, Long userId, Day day, int hour, int minute) throws SchedulerException {
+    public void scheduleJob(String targetToken, Long userId, List<Day> day, int hour, int minute) throws SchedulerException {
 
         String title = "Dallim 운동 알림";
         String body = String.format("%d시 %d분에 예약한 운동 알림 발송!", hour, minute);;
@@ -67,11 +67,7 @@ public class JobService {
                 .withIdentity(fcmMessageId.toString())
                 .withSchedule(
                     CronScheduleBuilder
-                            .weeklyOnDayAndHourAndMinute(
-                                Day.toInt(day), // 화요일
-                                hour, // 11시
-                                minute // 0분
-                        )
+                            .atHourAndMinuteOnGivenDaysOfWeek(hour, minute, day.stream().map(o -> Day.toInt(o)).toArray(Integer[]::new))
                 )
                 .build();
 

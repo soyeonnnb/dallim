@@ -6,17 +6,20 @@ import lombok.NoArgsConstructor;
 import org.quartz.JobKey;
 import org.quartz.Trigger;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Data
 @NoArgsConstructor
 public class FcmMessageId {
     private Long userId;
-    private Day day;
+    private List<Day> day;
     private int hour;
     private int minute;
     private boolean state;
 
     @Builder
-    public FcmMessageId(Long userId, Day day, int hour, int minute, boolean state) {
+    public FcmMessageId(Long userId, List<Day> day, int hour, int minute, boolean state) {
         this.userId = userId;
         this.day = day;
         this.hour = hour;
@@ -26,7 +29,11 @@ public class FcmMessageId {
 
     @Override
     public String toString() {
-        return String.format("%s-%s-%d-%d", userId, day, hour, minute);
+        String daysAsString = day.stream()
+                .map(Enum::name) // Enum 값을 문자열로 변환
+                .collect(Collectors.joining(", ")); // 쉼표와 공백으로 연결
+
+        return String.format("%s-%s-%d-%d", userId, daysAsString, hour, minute);
     }
 
     public static FcmMessageId fromString(String identityString, Trigger.TriggerState triggerState) {

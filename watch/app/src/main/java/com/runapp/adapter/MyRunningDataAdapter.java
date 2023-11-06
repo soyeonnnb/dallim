@@ -75,13 +75,13 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
 
         holder.time.setText(convertTime(runningData.getTotalTime()));
         Long characterId = runningData.getCharacterId();
-        if(characterId == 1){
+        if(characterId == 0){
             holder.myRecordCharacter.setImageResource(R.drawable.rabbit);
-        }else if(characterId == 2){
+        }else if(characterId == 1){
             holder.myRecordCharacter.setImageResource(R.drawable.penguin);
-        }else if(characterId == 3){
+        }else if(characterId == 2){
             holder.myRecordCharacter.setImageResource(R.drawable.panda);
-        }else if(characterId == 4){
+        }else if(characterId == 3){
             holder.myRecordCharacter.setImageResource(R.drawable.chick);
         }
     }

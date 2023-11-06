@@ -41,28 +41,19 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
         System.out.println(runningMate.toString());
 
 
-
-//        LocalDateTime createdAt = runningMate.getCreatedAt();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 (E)", Locale.KOREAN);
-//        String formattedDate = createdAt.format(formatter);
-//
-//        Log.d("날짜", formattedDate);
-//
-//        // 날짜
-//        holder.formattedDate.setText(formattedDate);
-
+        holder.formattedDate.setText(conversion.LocalDateTimeToDate(runningMate.getCreatedAt()));
         // 시간
         holder.time.setText(convertTime((long) runningMate.getTotalTime()));
 
         // 상대방이 달린 캐릭터
         int characterIndex = runningMate.getCharacterIndex();
-        if(characterIndex == 1){
+        if(characterIndex == 0){
             holder.runningMateRecordCharacter.setImageResource(R.drawable.rabbit);
-        }else if(characterIndex == 2){
+        }else if(characterIndex == 1){
             holder.runningMateRecordCharacter.setImageResource(R.drawable.penguin);
-        }else if(characterIndex == 3){
+        }else if(characterIndex == 2){
             holder.runningMateRecordCharacter.setImageResource(R.drawable.panda);
-        }else if(characterIndex == 4){
+        }else if(characterIndex == 3){
             holder.runningMateRecordCharacter.setImageResource(R.drawable.chick);
         }
 

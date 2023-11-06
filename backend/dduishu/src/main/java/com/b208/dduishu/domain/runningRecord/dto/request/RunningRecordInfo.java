@@ -45,7 +45,7 @@ public class RunningRecordInfo {
     // + 생체정보 +a
     private List<RunningRecordOverallInfo> runningRecordInfos;
 
-    public RunningRecord toRunningRecord(User user, Planet planet, Character character, RunningRecord rivalRecord){
+    public RunningRecord toRunningRecord(User user, Planet planet, String addressName, Character character, RunningRecord rivalRecord){
 
         UserInfo userInfo = new UserInfo(user);
         CharacterRecordInfo characterInfo = new CharacterRecordInfo(character, planet);
@@ -64,7 +64,7 @@ public class RunningRecordInfo {
                 .user(userInfo)
                 .watchOrMobile(this.watchOrMobile)
                 .pace(pace)
-                .location("서울, 석촌호수")
+                .location(addressName)
                 .heartRate(heartRate)
                 .secondPerSpeed(secondPerSpeed)
                 .character(characterInfo)

@@ -66,6 +66,9 @@ dependencies {
 	implementation 'com.google.firebase:firebase-admin:6.8.1'
 	// okhttp
 	implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.2.2'
+
+	//geo json
+	implementation 'org.json:json:20230227'
 }
 
 tasks.named('test') {

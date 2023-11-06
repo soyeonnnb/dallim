@@ -2,6 +2,7 @@ package com.b208.dduishu.domain.runningRecord.service;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.repository.CharacterRepository;
+import com.b208.dduishu.domain.geo.service.AddressService;
 import com.b208.dduishu.domain.planet.entity.Planet;
 import com.b208.dduishu.domain.planet.repository.PlanetRepository;
 import com.b208.dduishu.domain.runningMate.document.RunningMate;
@@ -52,7 +53,7 @@ public class RunningRecordService {
     private final RunningMateRepository runningMateRepository;
 
     private final PlanetRepository planetRepository;
-    private final RunningRecordLogService runningRecordLogService;
+    private final AddressService addressService;
 
     @Transactional
     public String createRunningRecord(RunningRecordInfo req) {
@@ -90,6 +91,11 @@ public class RunningRecordService {
                 .filter(Planet::isMainPlanet)
                 .findFirst()
                 .orElse(null);
+        String addressName = req.getRunningRecordInfos()
+                            .stream()
+                            .findFirst()
+                            .map(recordInfo -> addressService.getAddressName(recordInfo.getLongitude(), recordInfo.getLatitude()))
+                            .orElse(null);
 
         List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserId(user.getUserId());
         // 유저 평균 스피드 정산
@@ -105,8 +111,9 @@ public class RunningRecordService {
         // 포인트 정산 - 이동 거리 + a
         user.addPoint(req.getTotalDistance());
 
+
         // dto to entity
-        RunningRecord res = req.toRunningRecord(user, planet, character,rivalRunningRecord);
+        RunningRecord res = req.toRunningRecord(user, planet, addressName,character,rivalRunningRecord);
 
         System.out.println(req.getDate().toString());
 

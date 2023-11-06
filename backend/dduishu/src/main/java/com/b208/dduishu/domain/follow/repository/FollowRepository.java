@@ -20,5 +20,5 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     List<Follow> findAllByToUserUserIdAndState(Long toUserId, FollowState state);
 
 
-    void deleteByFromUserUserIdAndToUserUserId(Long fromUserId, Long toUserId);
+    void deleteByFromUserUserIdAndToUserUserIdAndState(Long fromUserId, Long toUserId, FollowState state);
 }

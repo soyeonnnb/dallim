@@ -1,6 +1,6 @@
 package com.b208.dduishu.domain.follow.exception;
 
-public class FollowDuplicateException extends IllegalArgumentException{
+public class FollowDuplicateException extends RuntimeException{
     public FollowDuplicateException(String message) {
             super(message);
         }

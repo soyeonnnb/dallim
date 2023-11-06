@@ -24,6 +24,7 @@ import {
   requestNotifications,
 } from 'react-native-permissions';
 import {Platform, Linking} from 'react-native';
+import {displayNoti} from './src/utils/pushnotification_helper';
 
 enableScreens();
 const Stack = createStackNavigator();
@@ -59,6 +60,11 @@ function App() {
   useEffect(() => {
     requestUserPermission();
     NotificationListner();
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      displayNoti(remoteMessage); // 위에서 작성한 함수로 넘겨준다
+    });
+
+    return unsubscribe;
   }, []);
 
   useEffect(() => {

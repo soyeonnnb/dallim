@@ -81,11 +81,12 @@ export const SetBox = styled.View`
   height: 85%;
 `;
 
+//버튼 컨테이너
 export const ButtonContainer = styled.View`
   /* border-width: 1px;
   border-color: green; */
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   height: 50%;
@@ -101,8 +102,8 @@ export const ButtonBox = styled.TouchableOpacity`
   background-color: rgba(0, 0, 0, 0.38);
   width: 45%;
   height: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
+  /* margin-left: 2.5%; */
+  /* margin-right: 2.5%; */
 `;
 export const ButtonSmallBox = styled.View`
   /* border-width: 2px;

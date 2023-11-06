@@ -35,8 +35,8 @@ export const HeaderTop = styled.View`
 `;
 
 export const HeaderMiddle = styled.View`
-  /* border-width: 1px;
-  border-color: orange; */
+  /* border-width: 1px; */
+  /* border-color: orange; */
 
   justify-content: flex-end;
   align-items: center;
@@ -45,15 +45,17 @@ export const HeaderMiddle = styled.View`
 `;
 
 export const FullClock = styled.View`
-  /* border-width: 1px;
-  border-color: antiquewhite; */
+  /* border-width: 1px; */
+  /* border-color: antiquewhite; */
   border-radius: 300px;
   background-color: rgba(255, 255, 255, 0.35);
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 80%;
-  height: 70%;
+  /* width: 100%; */
+  /* height: 70%; */
+  width: 180px;
+  height: 180px;
 `;
 
 export const MiddleClock = styled.View`

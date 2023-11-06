@@ -60,9 +60,6 @@ const TimePicker = () => {
     console.log('저장된 시간:', selectedHour, selectedMinute);
   };
 
-  // console.log(selectedHour);
-  // console.log(selectedMinute);
-
   const handleHourChange = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const y = event.nativeEvent.contentOffset.y;
     const index = Math.round(y / itemHeight);

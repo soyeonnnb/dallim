@@ -4,6 +4,7 @@ import WebView from 'react-native-webview';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '@/components/common/Loading';
+import {postFcmToken} from '@/apis/LoginApi';
 
 interface KakaoLoginProps {
   navigation: any;
@@ -59,6 +60,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
           const accessToken = res.data.accessToken;
 
           await sendLoginRequest(accessToken);
+          await postFcmToken();
         })
         .catch(error => {
           console.error('Axios Error: ', error);

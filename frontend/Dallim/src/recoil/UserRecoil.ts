@@ -1,9 +1,9 @@
 import {atom} from 'recoil';
 
 interface UserData {
-  // point: number;
-  // mainCharacterIndex: number;
-  // mainPlanetIndex: number;
+  point: number;
+  mainCharacterIndex: number;
+  mainPlanetIndex: number;
   characters: Character[];
   planets: Planet[];
 }

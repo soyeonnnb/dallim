@@ -165,15 +165,12 @@ public class RunningRecordInfo {
 
 
         PaceInfo paceInfo = new PaceInfo();
-        double averagePace = runningRecordInfos.stream()
-                .filter(record -> record.getPace() != 0.0)
-                .mapToDouble(RunningRecordOverallInfo::getPace)
-                .average()
-                .orElse(0);
+
+        double averagePace = ( this.totalTime / this.totalDistance ) * 1000.0;
         BigDecimal formattedAverage = new BigDecimal(averagePace).setScale(2, RoundingMode.HALF_UP);
 
         paceInfo.setAveragePace(formattedAverage.doubleValue());
-        paceInfo.setMaxPace(runningRecordInfos.stream().mapToDouble(RunningRecordOverallInfo::getPace).min().orElse(0));
+        paceInfo.setMaxPace(sectionPaces.stream().mapToDouble(PaceSectionInfo::getPace).min().orElse(0));
         paceInfo.setSection(sectionPaces);
 
         return paceInfo;

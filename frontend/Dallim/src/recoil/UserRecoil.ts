@@ -1,5 +1,13 @@
 import {atom} from 'recoil';
 
+interface UserData {
+  point: number;
+  mainCharacterIndex: number;
+  mainPlanetIndex: number;
+  characters: Character[];
+  planets: Planet[];
+}
+
 interface Character {
   characterIndex: number;
   evolutionStage: number;
@@ -11,15 +19,6 @@ interface Character {
 interface Planet {
   planetIndex: number;
   isPurchased: boolean;
-}
-
-interface UserData {
-
-  point: number;
-  mainCharacterIndex: number;
-  mainPlanetIndex: number;
-  characters: Character[];
-  planets: Planet[];
 }
 
 export const userDataState = atom<UserData | null>({

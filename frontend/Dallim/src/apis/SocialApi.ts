@@ -30,7 +30,7 @@ export const fetchAllRank = async () => {
       },
     });
     console.log(
-      'SocialApi : 주간 랭킹 조회 ( 전체 ) 조회 Axios 성공 ' +
+      'SocialApi : 주간 랭킹 조회 ( 전체 ) Axios 성공 ' +
         response.data.data,
     );
     return response.data.data;

@@ -27,7 +27,7 @@ function Main({ navigation }: MainProps) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
 
-  const [userId, setUserId] = useRecoilState(userIdState); // 유저 닉네임
+  const [userId, setUserId] = useRecoilState(userIdState); // 유저 아이디
   const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
   const [userLevel, setUserLevel] = useRecoilState(userLevelState);

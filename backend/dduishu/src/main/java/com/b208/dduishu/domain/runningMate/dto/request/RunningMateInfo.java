@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 public class RunningMateInfo {
 
+    private String id;
     private Long userId;
     private String nickName;
     private int characterIndex;
@@ -25,6 +26,7 @@ public class RunningMateInfo {
 
     @Builder
     public RunningMateInfo(RunningMate runningMate) {
+        this.id = runningMate.getRivalRecord().getId().toString();
         this.userId = runningMate.getRivalRecord().getUser().getUserId();
         this.nickName = runningMate.getRivalRecord().getUser().getNickname();
         this.characterIndex = runningMate.getRivalRecord().getCharacter().getCharacterIndex();

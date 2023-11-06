@@ -6,6 +6,7 @@ import BackButtonIcon from '@/assets/icons/ArrowLeft';
 
 //component
 import TimePicker from '@/components/profileComponent/TimePicker';
+import Alarm from '@/components/profileComponent/Alarm';
 
 interface RunningAlarmProps {
   navigation: any;
@@ -18,9 +19,63 @@ function RunningAlarm({navigation}: RunningAlarmProps) {
   //useEffect
   useEffect(() => {
     setShowTimePicker(true);
-    // 만약 페이지를 벗어날 때 TimePicker를 숨기고 싶다면 여기서 cleanup 함수를 반환합니다.
     return () => setShowTimePicker(false);
   }, []);
+
+  //dummydata
+  const dummy = [
+    {
+      day: ['월'],
+      hour: 1,
+      minute: 30,
+    },
+    {
+      day: ['월', '화'],
+      hour: 13,
+      minute: 30,
+    },
+    {
+      day: ['월', '화', '수', '목', '금', '토', '일'],
+      hour: 14,
+      minute: 30,
+    },
+    {
+      day: ['월', '화', '수', '목', '금', '토', '일'],
+      hour: 14,
+      minute: 30,
+    },
+    {
+      day: ['월', '화', '수', '목', '금', '토', '일'],
+      hour: 14,
+      minute: 30,
+    },
+    {
+      day: ['월', '화', '수', '목', '금', '토', '일'],
+      hour: 14,
+      minute: 30,
+    },
+    {
+      day: ['월', '화', '수', '목', '금', '토', '일'],
+      hour: 14,
+      minute: 30,
+    },
+    {
+      day: ['월', '화', '수', '목', '금', '토', '일'],
+      hour: 14,
+      minute: 30,
+    },
+    {
+      day: ['월', '화', '수', '목', '금', '토', '일'],
+      hour: 14,
+      minute: 30,
+    },
+    {
+      day: ['월', '화', '수', '목', '금', '토', '일'],
+      hour: 14,
+      minute: 30,
+    },
+  ];
+
   return (
     <S.Container>
       <S.BackgroundImage
@@ -37,7 +92,9 @@ function RunningAlarm({navigation}: RunningAlarmProps) {
           <S.BackButtonFlexBoxLeft></S.BackButtonFlexBoxLeft>
         </S.Header>
         <S.Body>{showTimePicker && <TimePicker />}</S.Body>
-        <S.Footer></S.Footer>
+        <S.Footer>
+          <Alarm alarmList={dummy} />
+        </S.Footer>
 
         <S.TabBox />
       </S.BackgroundImage>

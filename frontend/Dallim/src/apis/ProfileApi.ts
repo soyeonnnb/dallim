@@ -55,20 +55,23 @@ export const fetchCompetitorCard = async () => {
   }
 };
 
-export const postNicknameCheck = async () => {
+export const patchNicknameCheck = async (nickname: string) => {
   const accessToken = await getToken();
   try {
-    const response = await axios.get(`${BASE_URL}/api/v1/user/nickname`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
+    const response = await axios.patch(
+      `${BASE_URL}/api/v1/user/nickname`,
+      {nickname}, // 이 부분이 변경됩니다.
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       },
-    });
+    );
 
-    console.log('response : ', response.data.data);
-
-    return response.data.data;
+    console.log('response : ', response.data);
+    return response.data;
   } catch (error) {
-    console.error('ProfileApi : 닉네임 중복체크 axios 실패 --> ', error); // 로깅을 추가합니다.
+    console.error('ProfileApi : 닉네임 중복체크 axios 실패 --> ', error);
     throw error;
   }
 };

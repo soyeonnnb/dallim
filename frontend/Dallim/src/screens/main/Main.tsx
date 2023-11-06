@@ -1,24 +1,39 @@
 import * as S from './Main.styles';
-import {useEffect, useState} from 'react';
-import {fetchUserProfile} from '@/apis/MainApi';
-import {characterData} from '@/recoil/CharacterData';
-import {planetData} from '@/recoil/PlanetData';
+import { useEffect, useState } from 'react';
+import { fetchUserProfile } from '@/apis/MainApi';
+import { characterData } from '@/recoil/CharacterData';
+import { planetData } from '@/recoil/PlanetData';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
 import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';
-import CustomToast from '@/components/common/CustomToast';
 import Loading from '@/components/common/Loading';
 
-function Main() {
+import { useRecoilState } from 'recoil';
+import {
+  userIdState,
+  userNicknameState,
+  userPointState,
+  userLevelState,
+  equippedCharacterIndexState,
+  equippedEvolutionStageState,
+  equippedPlanetIndexState,
+} from '@/recoil/UserRecoil';
+
+interface MainProps {
+  navigation: any;
+}
+
+function Main({ navigation }: MainProps) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
 
-  const [userNickname, setUserNickname] = useState<string | null>(null); // 유저 닉네임
-  const [userPoint, setUserPoint] = useState<number>(0); // 유저 포인트
-  const [userLevel, setUserLevel] = useState<number>(0); // 유저 레벨
-  const [userCharacterIndex, setUserCharacterIndex] = useState<number>(0); // 유저가 장착한 캐릭터 인덱스 ( 0 ~ 3 )
-  const [userEvolutionStage, setUserEvolutionStage] = useState<number>(0); // 유저가 장착한 캐릭터 레벨 : 0 OR 1
-  const [userPlanetIndex, setUserPlanetIndex] = useState<number>(0); // 유저가 장착한 행성 ( 0 ~ 4 )
+  const [userId, setUserId] = useRecoilState(userIdState); // 유저 닉네임
+  const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
+  const [userPoint, setUserPoint] = useRecoilState(userPointState);
+  const [userLevel, setUserLevel] = useRecoilState(userLevelState);
+  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
+  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
+  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -27,12 +42,13 @@ function Main() {
         console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
 
         if (userInfo) {
+          setUserId(userInfo.userId);
           setUserNickname(userInfo.nickName);
-          setUserPoint(userInfo.point);
           setUserLevel(userInfo.userLevel);
-          setUserCharacterIndex(userInfo.characterIndex);
-          setUserEvolutionStage(userInfo.evolutionStage);
-          setUserPlanetIndex(userInfo.planetIndex);
+          setUserPoint(userInfo.point);
+          setEquippedCharacterIndex(userInfo.characterIndex);
+          setEquippedEvolutionStage(userInfo.evolutionStage);
+          setEquippedPlanetIndex(userInfo.planetIndex);
         }
       } catch (error) {
         console.error('Main : 정보 조회 Axios 실패 ');
@@ -48,10 +64,6 @@ function Main() {
   function handleSend() {
     console.log('출석체크 버튼 눌림!');
     setStampModalVisible(true);
-  }
-  function Start() {
-    console.log('시작 버튼 눌림!');
-    CustomToast({type: 'error', text1: '아직 개발중입니다.'});
   }
 
   return (
@@ -82,13 +94,13 @@ function Main() {
               <S.ThemeBox>
                 <SpinAnimation>
                   <S.StyledImage
-                    source={planetData[userPlanetIndex].Planet}
+                    source={planetData[equippedPlanetIndex].Planet}
                     resizeMode="contain"
                   />
                 </SpinAnimation>
                 <S.StyledGif
                   source={
-                    characterData[userCharacterIndex].levels[userEvolutionStage]
+                    characterData[equippedCharacterIndex].evolutions[equippedEvolutionStage]
                       .running
                   }
                   resizeMode="contain"
@@ -103,9 +115,10 @@ function Main() {
               </S.FooterBox>
 
               <S.StartBox>
-                <S.StartButton onPress={Start}>
-                  <S.StartText>시작하기</S.StartText>
+                <S.StartButton onPress={() => navigation.navigate('GameStartStack', { userId: userId })}>
+                  <S.StartText>달리기</S.StartText>
                 </S.StartButton>
+
               </S.StartBox>
             </S.Footer>
 

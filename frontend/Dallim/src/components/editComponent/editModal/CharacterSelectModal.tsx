@@ -10,7 +10,7 @@ import {
   equippedEvolutionStageState,
   selectedCharacterIndexState,
   selectedEvolutionStageState,
-} from '@/recoil/EditRecoil';
+} from '@/recoil/UserRecoil';
 
 type ModalComponentProps = {
   toggleModal: () => void;
@@ -53,7 +53,7 @@ function CharacterSelectModal({ characterSelectModalVisible, toggleModal, equipp
           </S.ModalHeader>
           <S.ModalBody>
             <S.BoxStyle >
-              <S.Image source={characterData[equippedCharacterIndex].levels[equippedEvolutionStage].front} resizeMode="contain" />
+              <S.Image source={characterData[equippedCharacterIndex].evolutions[equippedEvolutionStage].front} resizeMode="contain" />
             </S.BoxStyle>
             <S.ChangeBoxStyle>
               <S.ChangeBox>
@@ -64,7 +64,7 @@ function CharacterSelectModal({ characterSelectModalVisible, toggleModal, equipp
               </S.ChangeBox>
             </S.ChangeBoxStyle>
             <S.BoxStyle >
-              <S.Image source={characterData[selectedCharacterIndex].levels[selectedEvolutionStage].front} resizeMode="contain" />
+              <S.Image source={characterData[selectedCharacterIndex].evolutions[selectedEvolutionStage].front} resizeMode="contain" />
             </S.BoxStyle>
 
           </S.ModalBody>

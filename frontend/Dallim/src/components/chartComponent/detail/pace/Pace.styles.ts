@@ -12,5 +12,20 @@ export const Container = styled.View`
 export const Text = styled.Text`
   font-size: 30px;
   color: white;
-  margin-bottom: 20px;
+`;
+
+export const ToggleBox = styled.View`
+  background-color: white;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0.05;
+`;
+
+export const ToggleText = styled.Text`
+  margin-right: 10px;
+  font-size: 15px;
+  line-height: 20px;
+  vertical-align: middle;
 `;

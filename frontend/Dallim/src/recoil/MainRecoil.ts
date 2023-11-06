@@ -1,4 +1,3 @@
-// recoil/EditRecoil.ts
 import {atom} from 'recoil';
 
 interface Character {

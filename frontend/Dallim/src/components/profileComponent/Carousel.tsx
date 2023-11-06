@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {FlatList} from 'react-native';
 
 import CardPage from './CardPage';
@@ -9,18 +9,22 @@ import {characterData} from '@/recoil/CharacterData';
 interface CarouselProps {
   gap: number;
   offset: number;
-  pages: any[];
+  competitorData: any[];
   pageWidth: number;
   onCardSelected?: (num: number) => void;
 }
 
 export default function Carousel({
-  pages,
+  competitorData,
   pageWidth,
   gap,
   offset,
   onCardSelected,
 }: CarouselProps) {
+  useEffect(() => {
+    console.log('데이터가 넘어옴??:' + JSON.stringify(competitorData, null, 2));
+  }, [competitorData]);
+
   const [page, setPage] = useState(0);
 
   function renderItem({item}: any) {
@@ -40,17 +44,19 @@ export default function Carousel({
     );
     setPage(newPage);
     if (onCardSelected) {
-      onCardSelected(pages[newPage].num);
+      onCardSelected(competitorData[newPage].num);
     }
   };
 
-  const currentPageData = pages[page];
-  // console.log(currentPageData);
+  const currentPageData = competitorData[page];
+  console.log(currentPageData);
   const selectedCharacter = characterData[currentPageData.characterIndex];
-  // console.log(selectedCharacter);
-  const selectedCharacterLevelData =
-    selectedCharacter.levels[currentPageData.characterlevel];
+  console.log(selectedCharacter);
+  // const selectedCharacterLevelData =
+  // selectedCharacter.evolutions[currentPageData.characterlevel];
   // console.log(selectedCharacterLevelData);
+
+  const selectedCharacterLevelData = selectedCharacter.evolutions[0];
   return (
     <S.Container>
       <S.Header></S.Header>
@@ -60,7 +66,7 @@ export default function Carousel({
           contentContainerStyle={{
             paddingHorizontal: offset + gap / 2,
           }}
-          data={pages}
+          data={competitorData}
           decelerationRate="fast"
           horizontal
           keyExtractor={(item: any) => `page__${item.num}`}
@@ -75,7 +81,7 @@ export default function Carousel({
 
       <S.Footer>
         <S.IndicatorWrapper>
-          {Array.from({length: pages.length}, (_, i) => i).map(i => (
+          {Array.from({length: competitorData.length}, (_, i) => i).map(i => (
             <S.Indicator key={`indicator_${i}`} focused={i === page} />
           ))}
         </S.IndicatorWrapper>

@@ -5,7 +5,7 @@ import {colors} from '@/components/common/globalStyles';
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export const Container = styled.View`
-  flex: 0.9;
+  flex: 1;
   width: ${SCREEN_WIDTH}px;
   justify-content: center;
   flex-direction: row;
@@ -20,6 +20,7 @@ export const ArrowContainer = styled.View`
 export const MainContent = styled(ScrollView)`
   flex: 1;
   padding-top: 10%;
+  padding-bottom: 120%;
 `;
 
 export const TitleContainer = styled.View`
@@ -74,4 +75,7 @@ export const WalkRecordContent = styled.Text`
   color: white;
   font-size: 25px;
   font-weight: 800;
+`;
+export const Footer = styled.View`
+  height: 5%;
 `;

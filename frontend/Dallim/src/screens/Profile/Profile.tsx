@@ -171,7 +171,8 @@ function Profile({navigation}: ProfileProps) {
                   <S.ButtonText>운동알림</S.ButtonText>
                 </S.TextBox>
               </S.ButtonBox>
-              <S.ButtonBox onPress={handleToastTouch}>
+              <S.ButtonBox
+                onPress={() => navigation.navigate('WatchConnection')}>
                 <S.WatchIconBox>
                   <WatchIcon width={50} height={50} color="white" />
                 </S.WatchIconBox>

@@ -41,6 +41,8 @@ public class RunningData {
     private String rivalRecordId;
     @ColumnInfo(name = "watch_or_mobile")
     private String watchOrMobile;
+    @ColumnInfo(name = "is_translation")
+    private Boolean isTranslation;
     @TypeConverters(RunningDataConverters.class)
     @ColumnInfo(name = "running_record_infos")
     private List<RunDetail> runningRecordInfos;
@@ -182,5 +184,13 @@ public class RunningData {
 
     public void setRunningRecordInfos(List<RunDetail> runningRecordInfos) {
         this.runningRecordInfos = runningRecordInfos;
+    }
+
+    public Boolean getTranslation() {
+        return isTranslation;
+    }
+
+    public void setTranslation(Boolean translation) {
+        isTranslation = translation;
     }
 }

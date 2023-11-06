@@ -3,6 +3,7 @@ package com.runapp.adapter;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,8 +42,11 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
         // 데이터를 ViewHolder의 뷰에 바인딩합니다.
         holder.formattedDate.setText(String.valueOf(runningData.getFormattedDate()));
 
+        Log.e("거리", String.valueOf(runningData.getTotalDistance()));
+
         // 총 거리
         double totalDistance = conversion.mToKM(runningData.getTotalDistance());
+        Log.e("km거리", String.valueOf(totalDistance));
         String distanceText = String.valueOf(totalDistance + " km");
         SpannableString spannableDistance = new SpannableString(distanceText);
         int indexOfDISTANCE = distanceText.indexOf("km");

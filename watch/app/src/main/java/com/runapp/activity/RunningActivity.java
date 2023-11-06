@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.util.Log;
-import android.view.Gravity;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,14 +79,20 @@ public class RunningActivity extends AppCompatActivity {
         runningData.setAveragePace(0f);
         runningData.setAverageSpeed(0f);
         runningData.setAverageHeartRate(0f);
-        runningData.setRivalRecordId(null);
+        runningData.setWatchOrMobile("WATCH");
+        runningData.setType("PAIR");
+        runningData.setRivalRecordId("654832e0843b0e094bfe4c64");
 
-        // 혼자달리기인지 함께달리기인지 구분
+        System.out.println(prefs.getLong("characterIndex", 0L));
+        System.out.println(prefs.getLong("characterId", 0L));
+
+//         혼자달리기인지 함께달리기인지 구분
         String type = getIntent().getStringExtra("run_type");
         if(type.equals("PAIR")){
             runningData.setType("PAIR");
         }else if(type.equals("ALONE")){
             runningData.setType("ALONE");
+            runningData.setRivalRecordId(null);
         }
 
         // 러닝 뷰 모델을 생성한다.
@@ -108,10 +113,10 @@ public class RunningActivity extends AppCompatActivity {
         // 위치서비스 포그라운드 실행
         locationIntent = new Intent(this, LocationService.class);
         startForegroundService(locationIntent);
-//         센서서비스 포그라운드 실행
+        // 센서서비스 포그라운드 실행
         sensorIntent = new Intent(this, SensorService.class);
         startForegroundService(sensorIntent);
-
+        // 타임서비스 포그라운드 실행
         timerServiceIntent = new Intent(this, TimerService.class);
         startForegroundService(timerServiceIntent);
 
@@ -170,8 +175,6 @@ public class RunningActivity extends AppCompatActivity {
         // 최종 시간 업데이트
         runningData.setTotalTime(totalTime - 1);
 
-        addRunningData(runningData);
-
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
 
@@ -183,7 +186,11 @@ public class RunningActivity extends AppCompatActivity {
             * 그리고 해당 API 호출의 응답이 돌아오면 실행될 콜백 함수를 정의해놓는다.
             * */
 
+            runningData.setTranslation(true);
+            addRunningData(runningData);
             RunningDataDTO runningDataDTO = runningData.toDTO();
+            long characterId = prefs.getLong("characterId", 0L);
+            runningDataDTO.setCharacterId(characterId);
             Log.d("보내는리스트", String.valueOf(runningDataDTO.toString()));
             ApiUtil.getApiService().postRunningData(token, runningDataDTO).enqueue(new Callback<Void>() {
                 // api 호출이 완료되면 콜백 실행
@@ -204,6 +211,8 @@ public class RunningActivity extends AppCompatActivity {
                 }
             });
         }else{
+            runningData.setTranslation(false);
+            addRunningData(runningData);
             Log.d("데이터 전송", "인터넷 연결 안 됨");
         }
         super.onDestroy();

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -80,6 +79,7 @@ public class AuthActivity extends AppCompatActivity {
                     userInfo.getUserInfo(getApplicationContext(), new UserInfo.UserInfoCallback() {
                         @Override
                         public void onSuccess() {
+                            Toast.makeText(AuthActivity.this, "연동이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                             setResult(Activity.RESULT_OK);
                             finish();
                         }

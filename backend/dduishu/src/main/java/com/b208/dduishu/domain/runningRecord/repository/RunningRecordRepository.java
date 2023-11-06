@@ -22,4 +22,6 @@ public interface RunningRecordRepository extends MongoRepository<RunningRecord, 
     List<RunningRecord> findByUserUserIdAndCreatedAtBetween(Long userIds, LocalDateTime start, LocalDateTime end);
 
     List<RunningRecord> findByUserUserId(Long userId);
+
+    List<RunningRecord> findByUserUserIdAndRivalRecordId(Long userId, ObjectId id);
 }

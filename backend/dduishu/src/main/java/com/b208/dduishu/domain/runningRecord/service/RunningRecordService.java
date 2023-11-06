@@ -12,6 +12,7 @@ import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
+import com.b208.dduishu.domain.runningRecord.dto.response.RunningRecordWithRunningMate;
 import com.b208.dduishu.domain.runningRecord.exception.RunningRecordNotFoundException;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
 import com.b208.dduishu.domain.runningRecordlog.repository.RunningRecordLogRepository;
@@ -354,6 +355,19 @@ public class RunningRecordService {
                 .averageSpeed(res.getAverageSpeed())
                 .createdAt(res.getCreatedAt())
                 .build();
+    }
+
+    public List<RunningRecordWithRunningMate> getRunningRecordWithRunningMate(ObjectId id) {
+
+        User user = getUser.getUser();
+
+        RunningRecord rivalRecord = runningRecordRepository.findById(id).orElse(null);
+        List<RunningRecord> runningRecordsWithRunningMate = runningRecordRepository.findByUserUserIdAndRivalRecordId(user.getUserId(), id);
+
+        return runningRecordsWithRunningMate.stream()
+                .map(o -> new RunningRecordWithRunningMate(o, rivalRecord))
+                .collect(toList());
+
     }
 
 

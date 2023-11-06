@@ -173,7 +173,7 @@ public class RunningRecordInfo {
         BigDecimal formattedAverage = new BigDecimal(averagePace).setScale(2, RoundingMode.HALF_UP);
 
         paceInfo.setAveragePace(formattedAverage.doubleValue());
-        paceInfo.setMaxPace(runningRecordInfos.stream().mapToDouble(RunningRecordOverallInfo::getPace).max().orElse(0));
+        paceInfo.setMaxPace(runningRecordInfos.stream().mapToDouble(RunningRecordOverallInfo::getPace).min().orElse(0));
         paceInfo.setSection(sectionPaces);
 
         return paceInfo;

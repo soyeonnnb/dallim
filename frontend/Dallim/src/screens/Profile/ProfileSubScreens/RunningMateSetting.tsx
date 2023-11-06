@@ -13,11 +13,13 @@ import RunningMateDeleteModal from '@/components/profileComponent/profileModal/R
 
 interface CompetitorDataType {
   userId: number;
+  id: string;
   nickName: string;
   characterIndex: number;
+  evolutionStage: number;
   planetIndex: number;
   level: number;
-  averageSpeed: number;
+  averagePace: number;
   totalDistance: number;
   totalTime: number;
   createdAt: string;
@@ -114,7 +116,7 @@ function RunningMateSetting({navigation, route}: RunningMateSettingProps) {
   //   competitorData[0]?.num || null,
   // );
   const [selectedCardNum, setSelectedCardNum] = useState<number | null>(
-    competitorData.length + 1 || null,
+    1 || null,
   );
 
   // console.log(selectedCardNum);
@@ -147,7 +149,7 @@ function RunningMateSetting({navigation, route}: RunningMateSettingProps) {
             offset={36}
             competitorData={competitorData}
             pageWidth={screenWidth - (16 + 36) * 2}
-            onCardSelected={(num: number) => setSelectedCardNum(num)}
+            // onCardSelected={(num: number) => setSelectedCardNum(num)}
           />
         </S.Body>
         <S.Footer>

@@ -1,5 +1,7 @@
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import notifee, {AndroidImportance, AndroidColor} from '@notifee/react-native';
+import space from '@/assets/images/Clock.png';
 
 export async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -53,3 +55,23 @@ export const NotificationListner = () => {
     console.log('notification on froground state .....', remoteMessage);
   });
 };
+
+const displayNotification = async message => {
+  const channelAnoucement = await notifee.createChannel({
+    id: 'default',
+    name: '어헝어헝',
+    importance: AndroidImportance.HIGH,
+  });
+
+  await notifee.displayNotification({
+    title: message.notification.title,
+    body: message.notification.body,
+
+    android: {
+      channelId: channelAnoucement,
+      largeIcon: 'ic_large_icon',
+    },
+  });
+};
+
+export const displayNoti = remoteMessage => displayNotification(remoteMessage);

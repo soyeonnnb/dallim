@@ -15,7 +15,7 @@ interface RunningAlarmProps {
 function RunningAlarm({navigation}: RunningAlarmProps) {
   // state--------------------
   const [showTimePicker, setShowTimePicker] = useState(false);
-
+  //
   //useEffect
   useEffect(() => {
     setShowTimePicker(true);

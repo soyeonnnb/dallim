@@ -1,14 +1,14 @@
 import * as S from './PlanetEdit.styles';
-import {postPlanetPurchase, updateEquippedPlanet} from '@/apis/EditApi';
-import {useEffect, useState} from 'react';
-import {planetData} from '@/recoil/PlanetData';
+import { postPlanetPurchase, updateEquippedPlanet } from '@/apis/EditApi';
+import { useEffect, useState } from 'react';
+import { planetData } from '@/recoil/PlanetData';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
 import BoomEffect from '@/components/common/BoomEffect';
 import CustomToast from '../common/CustomToast';
 import Planet from './PlanetBox';
 
-import {useRecoilState, useRecoilValue} from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   userDataState,
   equippedPlanetIndexState,
@@ -49,7 +49,7 @@ function PlanetEdit({
     try {
       const responseData = await updateEquippedPlanet(selectedPlanetIndex);
       if (responseData.status === 'success') {
-        CustomToast({type: 'success', text1: '대표 행성 변경 성공!'});
+        CustomToast({ type: 'success', text1: '대표 행성 변경 성공!' });
       } else {
         CustomToast({
           type: 'error',
@@ -80,14 +80,14 @@ function PlanetEdit({
         const responseData = await postPlanetPurchase(selectedPlanetIndex);
         if (responseData.status === 'success' && responseData.data === true) {
           setUserPoint(userPoint - 2000); // 포인트 차감
-          CustomToast({type: 'success', text1: '구매 성공!'});
+          CustomToast({ type: 'success', text1: '구매 성공!' });
 
           if (userData) {
             const newUserData = {
               ...userData,
               planets: userData.planets.map((planet, index) => {
                 if (index === selectedPlanetIndex) {
-                  return {...planet, isPurchased: true};
+                  return { ...planet, isPurchased: true };
                 }
                 return planet;
               }),
@@ -95,9 +95,10 @@ function PlanetEdit({
             setUserData(newUserData);
           }
 
-          setShowConfetti(true); // 폭죽
-          setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
+          // setShowConfetti(true); // 폭죽
+          // setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
           setPurchaseModalVisible(false); // 모달 닫기
+
         } else {
           CustomToast({
             type: 'error',
@@ -111,7 +112,7 @@ function PlanetEdit({
         });
       }
     } else {
-      CustomToast({type: 'error', text1: '포인트가 부족합니다.'});
+      CustomToast({ type: 'error', text1: '포인트가 부족합니다.' });
     }
   }
 
@@ -122,7 +123,7 @@ function PlanetEdit({
 
   function handleEquipped() {
     console.log('시작 버튼 눌림!');
-    CustomToast({type: 'success', text1: '이미 선택된 행성입니다.'});
+    CustomToast({ type: 'success', text1: '이미 선택된 행성입니다.' });
   }
 
   return (

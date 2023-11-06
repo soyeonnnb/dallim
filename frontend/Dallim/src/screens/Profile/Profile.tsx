@@ -29,6 +29,8 @@ import {patchNicknameCheck} from '@/apis/ProfileApi';
 
 //Toast
 import Toast from 'react-native-toast-message';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { equippedCharacterIndexState, equippedEvolutionStageState, equippedPlanetIndexState, userExpState, userLevelState, userNicknameState } from '@/recoil/UserRecoil';
 
 interface ProfileProps {
   navigation: any;
@@ -39,34 +41,27 @@ function Profile({navigation}: ProfileProps) {
   const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [userData, setUserData] = useState({
-    planetIndex: 0,
-    characterIndex: 0,
-    nickname: '',
-    level: 0,
-    exp: 0,
-    evolutionStage: 0,
-  });
+  // const [userData, setUserData] = useState({
+  //   nickname: '',
+  //   level: 0,
+  //   exp: 0,
+  //   characterIndex: 0,
+  //   evolutionStage: 0,
+  //   planetIndex: 0,
+  // });
+
+  const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
+  const userLevel = useRecoilValue(userLevelState);
+  const userExp = useRecoilValue(userExpState);
+  const equippedCharacterIndex = useRecoilValue(equippedCharacterIndexState);
+  const equippedEvolutionStage = useRecoilValue(equippedEvolutionStageState);
+  const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState);
+
 
   const [competitorData, setCompetitorData] = useState([]);
-  const [isNicknameChanged, setIsNicknameChanged] = useState(false);
 
   //useEffect---------------------------------
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const data = await fetchUserProfileCard();
-        setUserData(data);
-      } catch (error) {
-        console.error('데이터 불러오기 에러 :', error);
-      }
-    };
 
-    if (isNicknameChanged) {
-      setIsNicknameChanged(false);
-    }
-    fetchProfileData();
-  }, [isNicknameChanged]);
 
   useEffect(() => {
     const fetchCompetitorData = async () => {
@@ -82,9 +77,8 @@ function Profile({navigation}: ProfileProps) {
   }, []);
 
   //dataCall ---------------------------------
-  const selectedCharacter = characterData[userData.characterIndex];
-  const selectedCharacterLevelData =
-    selectedCharacter.evolutions[userData.evolutionStage];
+  const selectedCharacter = characterData[equippedCharacterIndex];
+  const selectedCharacterLevelData = selectedCharacter.evolutions[equippedEvolutionStage];
 
   //actions---------
   const handleRunningMatePress = () => {
@@ -115,10 +109,6 @@ function Profile({navigation}: ProfileProps) {
     });
   };
 
-  const handleNicknameChangeSuccess = () => {
-    setIsNicknameChanged(true);
-  };
-  //
   return (
     <S.Container>
       <S.BackgroundImage
@@ -133,10 +123,10 @@ function Profile({navigation}: ProfileProps) {
           </S.TitleProfileBox>
           <S.ProfileBox>
             <ProfileCard
-              PlanetIndex={userData.planetIndex}
-              Nickname={userData.nickname}
-              UserLevel={userData.level}
-              experiencePercentage={userData.exp}
+              PlanetIndex={equippedPlanetIndex}
+              Nickname={userNickname}
+              UserLevel={userLevel}
+              experiencePercentage={userExp}
             />
           </S.ProfileBox>
         </S.Header>
@@ -241,8 +231,7 @@ function Profile({navigation}: ProfileProps) {
       <NicknameChangeModal
         showModal={showNicknameChangeModal}
         toggleModal={() => setShowNicknameChangeModal(!showNicknameChangeModal)}
-        handleNicknameChangeSuccess={handleNicknameChangeSuccess}
-        Nickname={userData.nickname}
+        Nickname={userNickname}
       />
       {/* <RunningMateModal
         showModal={showRunningMateModal}

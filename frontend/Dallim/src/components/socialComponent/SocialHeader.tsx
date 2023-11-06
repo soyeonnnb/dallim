@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import * as S from './SocialHeader.styles';
 import FriendManageModal from './socialModal/FriendManageModal';
 import QuestionIcon from '@/assets/icons/QuestionIcon.png';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import { Animated } from 'react-native';
 
 type SocialHeaderProps = {
     month: number | null;
@@ -14,6 +15,25 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
 
     const [showAlert, setShowAlert] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+    const [buttonFadeAnim] = useState(new Animated.Value(0));
+
+    // '친구관리' 버튼 애니메이션
+    useEffect(() => {
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(buttonFadeAnim, {
+                    toValue: 0.5,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(buttonFadeAnim, {
+                    toValue: 1,
+                    duration: 500,
+                    useNativeDriver: true,
+                }),
+            ])
+        ).start();
+    }, []);
 
     return (
         <S.Container>
@@ -23,7 +43,7 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
                 </S.HeaderLeft>
                 <S.HeaderRight>
                     <S.ManageButton onPress={() => setModalVisible(true)}>
-                        <S.ManageText>친구관리</S.ManageText>
+                        <S.AnimatedManageText style={{ opacity: buttonFadeAnim }}>친구관리</S.AnimatedManageText>
                     </S.ManageButton>
                 </S.HeaderRight>
 
@@ -40,7 +60,7 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
                 </S.BodySideBox>
             </S.Body>
 
-            <FriendManageModal 
+            <FriendManageModal
                 isVisible={modalVisible}
                 onClose={() => setModalVisible(false)}
             />

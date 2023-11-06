@@ -28,9 +28,9 @@ public class RunningAniFragment extends Fragment {
         // Inflate the layout for this fragment
         View view =binding.getRoot();
 
-        Glide.with(this)
-                .load(R.drawable.run_character)
-                .into(binding.myCha);
+//        Glide.with(this)
+//                .load(R.drawable.run_character)
+//                .into(binding.myCha);
 
         binding.btnFinish.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(), MainActivity.class);

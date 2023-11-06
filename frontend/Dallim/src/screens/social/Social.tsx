@@ -1,14 +1,12 @@
 import * as S from './Social.styles'; // 스타일 컴포넌트 import
+import { useNavigation } from '@react-navigation/native';
 import SocialHeader from '@/components/socialComponent/SocialHeader';
 import SocialBody from '@/components/socialComponent/SocialBody';
 import { useState } from 'react';
 
-interface SocialProps {
-    navigation: any;
-}
+function Social() {
 
-function Social({ navigation }: SocialProps) {
-
+    const navigation = useNavigation();
     const [isFriend, setIsFriend] = useState(false);
     const [month, setMonth] = useState<number | null>(null);
     const [week, setWeek] = useState<number | null>(null);
@@ -29,7 +27,6 @@ function Social({ navigation }: SocialProps) {
                 <S.Header>
                     <SocialHeader month={month} week={week} />
                 </S.Header>
-
                 <S.Body>
                     <SocialBody navigation={navigation} isFriend={isFriend} onToggle={toggleHandle} onUpdateDateInfo={updateDateInfo} />
                 </S.Body>

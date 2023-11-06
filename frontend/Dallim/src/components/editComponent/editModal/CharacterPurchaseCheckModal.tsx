@@ -6,7 +6,7 @@ import { useRecoilState } from 'recoil';
 import {
     selectedCharacterIndexState,
     selectedEvolutionStageState,
-} from '@/recoil/UserRecoil';
+} from '@/recoil/EditRecoil';
 
 type ModalProps = {
     handleConfirm: () => void;
@@ -19,7 +19,7 @@ function CharacterPurchaseCheckModal({ handleConfirm, handleCancel, purchaseModa
     const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
     const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
 
-    const CharacterData = characterData[selectedCharacterIndex].evolutions[selectedEvolutionStage];
+    const CharacterData = characterData[selectedCharacterIndex].levels[selectedEvolutionStage];
 
     return (
         <Modal

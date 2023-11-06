@@ -6,14 +6,14 @@ import {
   selectedCharacterIndexState,
   selectedEvolutionStageState,
   selectedCharacterIsPurchasedState,
-} from '@/recoil/UserRecoil';
+} from '@/recoil/EditRecoil';
 
 function CharacterBox() {
   const selectedCharacterIndex = useRecoilValue(selectedCharacterIndexState);
   const selectedEvolutionStage = useRecoilValue(selectedEvolutionStageState);
   const selectedCharacterIsPurchased = useRecoilValue(selectedCharacterIsPurchasedState);
 
-  const characterImage = characterData[selectedCharacterIndex].evolutions[selectedEvolutionStage].front;
+  const characterImage = characterData[selectedCharacterIndex].levels[selectedEvolutionStage].front;
 
   return (
     <S.Container>

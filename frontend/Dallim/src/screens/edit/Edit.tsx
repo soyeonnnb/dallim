@@ -13,7 +13,7 @@ import Right from '@/assets/icons/DirectionRight.png';
 import Left from '@/assets/icons/DirectionLeft.png';
 import Loading from '@/components/common/Loading';
 
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
   userDataState,
   userPointState,
@@ -29,29 +29,12 @@ import {
   selectedPlanetIndexState,
   selectedPlanetIsPurchasedState,
   isOnState
-} from '@/recoil/UserRecoil';
+} from '@/recoil/EditRecoil';
 
 
 function Edit() {
 
   const [userData, setUserData] = useRecoilState(userDataState);
-  const [userPoint, setUserPoint] = useRecoilState(userPointState);
-  const setEquippedCharacterIndex = useSetRecoilState(equippedCharacterIndexState);
-  const setEquippedCharacterLevel = useSetRecoilState(equippedCharacterLevelState);
-  const setEquippedEvolutionStage = useSetRecoilState(equippedEvolutionStageState);
-  const setEquippedPlanetIndex = useSetRecoilState(equippedPlanetIndexState);
-
-  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
-  const setSelectedCharacterLevel = useSetRecoilState(selectedCharacterLevelState);
-  const setSelectedEvolutionStage = useSetRecoilState(selectedEvolutionStageState);
-  const setSelectedCharacterExp = useSetRecoilState(selectedCharacterExpState);
-  const setSelectedCharacterIsPurchased = useSetRecoilState(selectedCharacterIsPurchasedState);
-  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(selectedPlanetIndexState);
-  const setSelectedPlanetIsPurchased = useSetRecoilState(selectedPlanetIsPurchasedState);
-
-  const [isOn, setIsOn] = useRecoilState(isOnState);
-
-  const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,6 +47,23 @@ function Edit() {
     }
     fetchData();
   }, []);
+
+  const [userPoint, setUserPoint] = useRecoilState(userPointState);
+  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
+  const [equippedCharacterLevel, setEquippedCharacterLevel] = useRecoilState(equippedCharacterLevelState);
+  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
+  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
+
+  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
+  const [selectedCharacterLevel, setSelectedCharacterLevel] = useRecoilState(selectedCharacterLevelState);
+  const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
+  const [selectedCharacterExp, setSelectedCharacterExp] = useRecoilState(selectedCharacterExpState);
+  const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] = useRecoilState(selectedCharacterIsPurchasedState);
+  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(selectedPlanetIndexState);
+  const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] = useRecoilState(selectedPlanetIsPurchasedState);
+  const [isOn, setIsOn] = useRecoilState(isOnState);
+
+  const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (userData) {
@@ -132,7 +132,7 @@ function Edit() {
   const handlePlanetChange = (selectedPlanetIndex: number) => {
     setSelectedPlanetIndex(selectedPlanetIndex);
   };
-
+  
   const handleNextPlanet = () => {
     const nextIndex = (selectedPlanetIndex + 1) % planetData.length;
     setSelectedPlanetIndex(nextIndex);

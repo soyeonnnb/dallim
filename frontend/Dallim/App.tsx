@@ -12,25 +12,9 @@ import Naver from './src/screens/login/NaverLogin';
 import Toast from 'react-native-toast-message';
 import {enableScreens} from 'react-native-screens';
 import {DeviceEventEmitter} from 'react-native';
-import {Alert} from 'react-native';
-import messaging from '@react-native-firebase/messaging';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  requestUserPermission,
-  NotificationListner,
-} from './src/utils/pushnotification_helper';
-import {
-  checkNotifications,
-  requestNotifications,
-} from 'react-native-permissions';
-import {Platform, Linking} from 'react-native';
 
 enableScreens();
 const Stack = createStackNavigator();
-
-messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('[Background Remote Message]', remoteMessage);
-});
 
 type RouteEvent = {
   name: string;
@@ -56,53 +40,6 @@ function NavigationWithListener() {
   return null; // 이 컴포넌트는 UI를 렌더링하지 않습니다.
 }
 function App() {
-  useEffect(() => {
-    requestUserPermission();
-    NotificationListner();
-  }, []);
-
-  useEffect(() => {
-    const requestNotificationPermission = async () => {
-      const {status} = await checkNotifications();
-
-      if (status === 'denied') {
-        requestNotifications(['alert', 'sound']).then(({status}) => {
-          // If the status is still denied, guide the user to the settings
-          if (
-            status === 'denied' &&
-            Platform.OS === 'android' &&
-            Platform.Version >= 33
-          ) {
-            // Open the app's settings page in the system settings
-            Linking.openSettings();
-          }
-        });
-      }
-    };
-
-    requestNotificationPermission();
-  }, []);
-
-  const getFcmToken = async () => {
-    try {
-      const fcmToken = await messaging().getToken();
-      console.log('[FCM Token] ', fcmToken);
-      // 비동기 저장 처리를 기다립니다.
-      await AsyncStorage.setItem('fcmToken', fcmToken);
-    } catch (e) {
-      // 에러 핸들링
-      console.error('Failed to fetch or save FCM token', e);
-    }
-  };
-
-  useEffect(() => {
-    getFcmToken();
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('[Remote Message] ', JSON.stringify(remoteMessage));
-    });
-    return unsubscribe;
-  }, []);
-
   return (
     <RecoilRoot>
       <NavigationContainer>

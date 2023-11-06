@@ -1,18 +1,19 @@
 import * as S from './Profile.styles';
 import React, {useState, useEffect} from 'react';
+import ChangeNicknameIcon from '../../assets/icons/ChangeNicknameIcon.png';
+import ManageRunningMateIcon from '../../assets/icons/ManageRunningMateIcon.png';
+import NotificationIcon from '../../assets/icons/NotificationIcon.png';
+import LogoutIcon from '../../assets/icons/LogoutIcon.png';
 
 import ProfileCard from '../../components/profileComponent/ProfileCard';
+// import Logout from "../../components/profileComponent/Logout";
 
 import NicknameChangeModal from '../../components/profileComponent/profileModal/NicknameChangeModal';
+import RunningMateModal from '../../components/profileComponent/profileModal/RunningMateModal';
+import NotificationModal from '../../components/profileComponent/profileModal/NotificationModal';
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
+import RunningMateSetting from './ProfileSubScreens/RunningMateSetting';
 import {characterData} from '@/recoil/CharacterData';
-
-//icon
-import logoutIcon from '@/assets/icons/logout.png';
-import TagsIcon from '@/assets/icons/TagsIcon';
-import RunningMateIcon from '@/assets/icons/RunningMateIcon';
-import RunningAlarmIcon from '@/assets/icons/RunningAlarmIcon';
-import WatchIcon from '@/assets/icons/WatchIcon';
 
 //Apis
 import {fetchUserProfileCard} from '@/apis/ProfileApi';
@@ -27,8 +28,9 @@ interface ProfileProps {
 
 function Profile({navigation}: ProfileProps) {
   //State---------------------------------
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [userData, setUserData] = useState({
     planetIndex: 0,
     characterIndex: 0,
@@ -39,7 +41,6 @@ function Profile({navigation}: ProfileProps) {
   });
 
   const [competitorData, setCompetitorData] = useState([]);
-  const [isNicknameChanged, setIsNicknameChanged] = useState(false);
 
   //useEffect---------------------------------
   useEffect(() => {
@@ -52,11 +53,8 @@ function Profile({navigation}: ProfileProps) {
       }
     };
 
-    if (isNicknameChanged) {
-      setIsNicknameChanged(false);
-    }
     fetchProfileData();
-  }, [isNicknameChanged]);
+  }, []);
 
   useEffect(() => {
     const fetchCompetitorData = async () => {
@@ -74,7 +72,7 @@ function Profile({navigation}: ProfileProps) {
   //dataCall ---------------------------------
   const selectedCharacter = characterData[userData.characterIndex];
   const selectedCharacterLevelData =
-    selectedCharacter.evolutions[userData.evolutionStage];
+    selectedCharacter.levels[userData.evolutionStage];
 
   //actions---------
   const handleRunningMatePress = () => {
@@ -90,9 +88,7 @@ function Profile({navigation}: ProfileProps) {
       });
     } else {
       // 데이터가 있을 때의 동작
-      navigation.navigate('RunningMateSetting', {
-        competitorData: competitorData,
-      });
+      navigation.navigate('RunningMateSetting');
     }
   };
 
@@ -106,10 +102,6 @@ function Profile({navigation}: ProfileProps) {
       topOffset: 10,
     });
   };
-
-  const handleNicknameChangeSuccess = () => {
-    setIsNicknameChanged(true);
-  };
   //
   return (
     <S.Container>
@@ -119,9 +111,6 @@ function Profile({navigation}: ProfileProps) {
         <S.Header>
           <S.TitleProfileBox>
             <S.Text>마이페이지</S.Text>
-            <S.DeleteButtonBox onPress={() => setShowLogoutModal(true)}>
-              <S.Logout source={logoutIcon} />
-            </S.DeleteButtonBox>
           </S.TitleProfileBox>
           <S.ProfileBox>
             <ProfileCard
@@ -134,44 +123,71 @@ function Profile({navigation}: ProfileProps) {
         </S.Header>
 
         <S.Body>
+          <S.TitleSetBox>
+            <S.Text>설정</S.Text>
+          </S.TitleSetBox>
+
           <S.SetBox>
-            <S.ButtonContainer>
-              <S.ButtonBox onPress={() => setShowNicknameChangeModal(true)}>
-                <S.IconBox>
-                  <TagsIcon width={50} height={50} color="white"></TagsIcon>
-                </S.IconBox>
-                <S.EmptyBox></S.EmptyBox>
-                <S.TextBox>
-                  <S.ButtonText>닉네임 변경</S.ButtonText>
-                </S.TextBox>
-              </S.ButtonBox>
-              <S.ButtonBox onPress={handleRunningMatePress}>
-                <S.RunningIconBox>
-                  <RunningMateIcon width={50} height={50} color="white" />
-                </S.RunningIconBox>
-                <S.TextBox>
-                  <S.ButtonText>러닝메이트</S.ButtonText>
-                </S.TextBox>
-              </S.ButtonBox>
-            </S.ButtonContainer>
-            <S.ButtonContainer>
-              <S.ButtonBox onPress={() => navigation.navigate('RunningAlarm')}>
-                <S.AlarmIconBox>
-                  <RunningAlarmIcon width={50} height={50} color="white" />
-                </S.AlarmIconBox>
-                <S.TextBox>
-                  <S.ButtonText>운동알림</S.ButtonText>
-                </S.TextBox>
-              </S.ButtonBox>
-              <S.ButtonBox onPress={handleToastTouch}>
-                <S.WatchIconBox>
-                  <WatchIcon width={50} height={50} color="white" />
-                </S.WatchIconBox>
-                <S.TextBox>
-                  <S.ButtonText>워치</S.ButtonText>
-                </S.TextBox>
-              </S.ButtonBox>
-            </S.ButtonContainer>
+            {/* <S.ButtonBox onPress={() => setShowNicknameChangeModal(true)}>
+              <S.IconBox>
+                <S.ButtonIcon source={ChangeNicknameIcon} />
+              </S.IconBox>
+              <S.TextBox>
+                <S.ButtonText>닉네임 변경</S.ButtonText>
+              </S.TextBox>
+            </S.ButtonBox> */}
+            <S.ButtonBox onPress={handleToastTouch}>
+              <S.IconBox>
+                <S.ButtonIcon source={ChangeNicknameIcon} />
+              </S.IconBox>
+              <S.TextBox>
+                <S.ButtonText>닉네임 변경</S.ButtonText>
+              </S.TextBox>
+            </S.ButtonBox>
+
+            {/* <S.ButtonBox onPress={handleRunningMatePress}>
+              <S.IconBox>
+                <S.ButtonIcon source={ManageRunningMateIcon} />
+              </S.IconBox>
+              <S.TextBox>
+                <S.ButtonText>러닝메이트 관리</S.ButtonText>
+              </S.TextBox>
+            </S.ButtonBox> */}
+            <S.ButtonBox onPress={handleToastTouch}>
+              <S.IconBox>
+                <S.ButtonIcon source={ManageRunningMateIcon} />
+              </S.IconBox>
+              <S.TextBox>
+                <S.ButtonText>러닝메이트 관리</S.ButtonText>
+              </S.TextBox>
+            </S.ButtonBox>
+
+            {/* <S.ButtonBox onPress={() => navigation.navigate('RunningAlarm')}>
+              <S.IconBox>
+                <S.ButtonIcon source={NotificationIcon} />
+              </S.IconBox>
+              <S.TextBox>
+                <S.ButtonText>운동 알림 설정</S.ButtonText>
+              </S.TextBox>
+            </S.ButtonBox> */}
+
+            <S.ButtonBox onPress={handleToastTouch}>
+              <S.IconBox>
+                <S.ButtonIcon source={NotificationIcon} />
+              </S.IconBox>
+              <S.TextBox>
+                <S.ButtonText>운동 알림 설정</S.ButtonText>
+              </S.TextBox>
+            </S.ButtonBox>
+
+            <S.DeleteButtonBox onPress={() => setShowLogoutModal(true)}>
+              <S.IconBox>
+                <S.ButtonIcon source={LogoutIcon} />
+              </S.IconBox>
+              <S.TextBox>
+                <S.ButtonText>로그아웃</S.ButtonText>
+              </S.TextBox>
+            </S.DeleteButtonBox>
           </S.SetBox>
         </S.Body>
 
@@ -185,16 +201,22 @@ function Profile({navigation}: ProfileProps) {
         />
       </S.ImageBox>
 
-      <LogoutModal
-        showModal={showLogoutModal}
-        toggleModal={() => setShowLogoutModal(!showLogoutModal)}
-      />
-
       <NicknameChangeModal
         showModal={showNicknameChangeModal}
         toggleModal={() => setShowNicknameChangeModal(!showNicknameChangeModal)}
-        handleNicknameChangeSuccess={handleNicknameChangeSuccess}
         Nickname={userData.nickname}
+      />
+      {/* <RunningMateModal
+        showModal={showRunningMateModal}
+        toggleModal={() => setShowRunningMateModal(!showRunningMateModal)}
+      /> */}
+      <NotificationModal
+        showModal={showNotificationModal}
+        toggleModal={() => setShowNotificationModal(!showNotificationModal)}
+      />
+      <LogoutModal
+        showModal={showLogoutModal}
+        toggleModal={() => setShowLogoutModal(!showLogoutModal)}
       />
     </S.Container>
   );

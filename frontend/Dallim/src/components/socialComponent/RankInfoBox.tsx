@@ -1,11 +1,9 @@
-import { characterData } from '@/recoil/CharacterData';
 import * as S from './RankInfoBox.styles';
 
 type RankInfoBoxProps = {
     userId: number;
     rank: number;
-    characterIndex: number;
-    evolutionStage: number;
+    distance: number;
     nickname: string;
     cumulativeDistance: number;
     level: number;
@@ -13,11 +11,10 @@ type RankInfoBoxProps = {
     navigation: any;
 };
 
-function RankInfoBox({ userId, rank, characterIndex, evolutionStage, nickname, cumulativeDistance, level, follower, navigation }: RankInfoBoxProps) {
+function RankInfoBox({ userId, rank, nickname, cumulativeDistance, level, follower, navigation }: RankInfoBoxProps) {
 
     const displayDistance = Math.floor(cumulativeDistance);
-    const selectedCharacter = characterData[characterIndex].evolutions[evolutionStage].front;
-   
+
     return (
         <S.Container>
             <S.Box rank={rank}>
@@ -33,11 +30,6 @@ function RankInfoBox({ userId, rank, characterIndex, evolutionStage, nickname, c
                         <S.LevelText>Lv. {level}</S.LevelText>
                     </S.Body>
                 </S.Middle>
-                <S.right>
-                    <S.ImageBox>
-                        <S.CharacterImage source={selectedCharacter} resizeMode='contain' />
-                    </S.ImageBox>
-                </S.right>
             </S.Box>
         </S.Container>
     );

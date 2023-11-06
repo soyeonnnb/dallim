@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { equippedPlanetIndexState, selectedPlanetIndexState } from '@/recoil/UserRecoil';
+import { equippedPlanetIndexState, selectedPlanetIndexState } from '@/recoil/EditRecoil';
 
 type ModalComponentProps = {
     togglePlanetSelectModal: () => void;

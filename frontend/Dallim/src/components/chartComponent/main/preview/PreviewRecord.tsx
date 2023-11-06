@@ -33,10 +33,7 @@ function PreviewWeekly({isShow, type, year, month, previewRecords}: Props) {
           <WeeklyRecord type="distance" record={previewRecords.distance} />
         </S.RecordContainer>
         <S.RecordContainer>
-          <WeeklyRecord
-            type="time"
-            record={Math.floor(previewRecords.time / 60)}
-          />
+          <WeeklyRecord type="time" record={previewRecords.time} />
         </S.RecordContainer>
       </S.View>
     </S.Container>
@@ -59,11 +56,11 @@ export function WeeklyRecord({type, record}: RecordProps) {
       setColor(colors.darkLavendar);
     } else if (type === 'distance') {
       setName('달린거리');
-      setContent(Math.ceil(record) + 'm');
+      setContent(record + 'm');
       setColor(colors.lightBlue);
     } else {
       setName('달린시간');
-      setContent(Math.ceil(record) + '분');
+      setContent(record + '분');
       setColor(colors.purpleBlue);
     }
   });

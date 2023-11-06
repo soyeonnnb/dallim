@@ -42,20 +42,10 @@ function Preview({
     count: number;
     distance: number;
     time: number;
-    runningMate: {
-      characterIndex: number;
-      evolutionStage: number;
-      nickname: string;
-    };
   }>({
     count: 0,
     distance: 0,
     time: 0,
-    runningMate: {
-      characterIndex: 0,
-      evolutionStage: 0,
-      nickname: '',
-    },
   });
 
   const snapPoints = useMemo(() => ['40%', '90%'], []); // 전체 화면에서 몇퍼센트 차지할
@@ -72,20 +62,10 @@ function Preview({
       count: number;
       distance: number;
       time: number;
-      runningMate: {
-        characterIndex: number;
-        evolutionStage: number;
-        nickname: string;
-      };
     } = {
       count: 0,
       distance: 0,
       time: 0,
-      runningMate: {
-        characterIndex: 0,
-        evolutionStage: 0,
-        nickname: '',
-      },
     };
     everyRecords?.map(monthData => {
       if (
@@ -97,10 +77,6 @@ function Preview({
           newMonth.distance += record.totalDistance;
           newMonth.time += record.totalTime;
         });
-        newMonth.runningMate.characterIndex =
-          monthData.runningMateCharacterIndex;
-        newMonth.runningMate.evolutionStage = monthData.evolutionStage;
-        newMonth.runningMate.nickname = monthData.runningMateNickName;
       }
     });
     setPreviewRecords(newMonth);
@@ -158,12 +134,7 @@ function Preview({
             isShow={isClicked ? true : false}
           />
         </S.DownPreview>
-        <PreviewMonthly
-          isShow={isUp ? true : false}
-          selectedYearMonth={selectedYearMonth}
-          setSelectedYearMonth={setSelectedYearMonth}
-          previewRecords={previewRecords}
-        />
+        <PreviewMonthly isShow={isUp ? true : false} />
       </S.Container>
     </BottomSheet>
   );

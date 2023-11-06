@@ -9,6 +9,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -28,23 +29,26 @@ import java.util.Locale;
  */
 public class CalendarWidget extends AppWidgetProvider {
 
-    static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
-
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+    public static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+    public static final String DATA_FETCH_ACTION = "com.dallim.DATA_FETCH_ACTION";
+    public static final String EXTRA_ITEM = "com.dallim.EXTRA_ITEM";
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, String[] attendances) {
         Log.d("DDDDDDDDDD", "Widget - updateAppWidget");
 
         // RemoteViews를 사용하여 위젯 UI 업데이트
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.calendar_widget);
 
 // 출석 데이터 리스트 예시
-        String[] attendances = {"2023-11-01", "2023-11-03", "2023-11-06"};
+         attendances[0]="2023-11-01";
+        attendances[1]="2023-11-03";
+        attendances[2]="2023-11-06";
+
 
 
 
         // 오늘의 날짜 정보 가져오기
         // 날짜 (월) 업데이트
             Calendar todayCal = Calendar.getInstance(Locale.KOREA);
-        String todayDate = formatter.format(todayCal.getTime());
             int currentMonth = todayCal.get(Calendar.MONTH);
 
         String currentMonthText = (currentMonth + 1) + "월";
@@ -65,14 +69,12 @@ public class CalendarWidget extends AppWidgetProvider {
         Log.d("DDDDDDDDDD", "updateAppWidget"+" "+dayOfWeek+" "+daysInMonth);
         Log.d("DDDDDDDDDD", "updateAppWidget"+" calArr"+ Arrays.toString(calendarArray));
 
-        // 오늘 날짜 문자열 생성
-        String todayDateString = formatter.format(Calendar.getInstance().getTime());
-
-// 달력 날짜를 TextView에 설정하는 로직 개선
+        // 달력 날짜를 TextView에 설정하는 로직 개선
         for (int i = 0; i < calendarArray.length; i++) {
             String dayText = calendarArray[i]; // 날짜 텍스트
 
-            if (dayText != null) { // 배열의 값이 null이 아닌 경우에만 UI 업데이트
+            // 배열의 값이 null이 아닌 경우에만 UI 업데이트
+            if (dayText != null) {
                 int textViewId = context.getResources().getIdentifier("cal" + (i + 1), "id", context.getPackageName());
                 views.setTextViewText(textViewId, dayText);
             }
@@ -84,7 +86,7 @@ public class CalendarWidget extends AppWidgetProvider {
             }
         }
 
-// 출석 데이터를 순회하며 처리
+        // 출석 데이터를 순회하며 처리
         for (String attendanceDate : attendances) {
             try {
                 // 출석 날짜 파싱
@@ -131,64 +133,24 @@ public class CalendarWidget extends AppWidgetProvider {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("DDDDDDDDDD", "Widget - onReceive");
         super.onReceive(context, intent);
 
-        if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)||intent.getAction().equals(AppWidgetManager.ACTION_APPWIDGET_UPDATE) ){
-            // 화면이 켜질 때 위젯 업데이트 로직
-            Log.d("DDDDDDDDDD", "Widget - onReceive - SCREEN");
+        // 데이터 가져오기 액션을 체크
+        if (DATA_FETCH_ACTION.equals(intent.getAction())) {
+            // 인텐트에서 데이터 가져오기
+            String[] attendances = intent.getStringArrayExtra(EXTRA_ITEM);
+
+            // 모든 위젯 인스턴스 업데이트
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, CalendarWidget.class));
-            onUpdate(context, appWidgetManager, appWidgetIds);
-        }
-
-    }
-
-
-    @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        Log.d("DDDDDDDDDD", "Widget - onUpdate");
-        // There may be multiple widgets active, so update all of them
-        for (int appWidgetId : appWidgetIds) {
-            Log.d("DDDDDDDDDD", "Widget - onUpdate - upDate"+appWidgetId);
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+            for (int appWidgetId : appWidgetIds) {
+                updateAppWidget(context, appWidgetManager, appWidgetId, attendances);
+            }
         }
     }
 
 
-    @Override
-    public void onEnabled(Context context) {
-        super.onEnabled(context);
-        Log.d("DDDDDDDDDD", "Widget - onEnabled");
 
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, CalendarWidget.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-
-        // PendingIntent.FLAG_IMMUTABLE 플래그 추가
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
-
-        long interval = 60*60 ; // 1 hour in milliseconds 1분으로 바꿔봄
-
-
-        alarmManager.setRepeating
-                (AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-    }
-
-    @Override
-    public void onDisabled(Context context) {
-        super.onDisabled(context);
-        Log.d("DDDDDDDDDD", "Widget - onDisabled");
-        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, CalendarWidget.class);
-        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-
-        // PendingIntent.FLAG_IMMUTABLE 플래그 추가
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
-        alarmManager.cancel(pendingIntent);
-    }
 
 
 }

@@ -1,10 +1,12 @@
 package com.runapp.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -13,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
@@ -51,14 +54,31 @@ public class MainActivity extends ComponentActivity{
     private int notificationId = 5;
     private String authenticateduth;
     private UserInfo userInfo;
+    private PowerManager.WakeLock wakeLock;
 
 
+    @SuppressLint("InvalidWakeLockTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         db = AppDatabase.getDatabase(getApplicationContext());
         super.onCreate(savedInstanceState);
+        PowerManager pm= (PowerManager) getSystemService(Context.POWER_SERVICE);
+        String packageName= getPackageName();
+        if (pm.isIgnoringBatteryOptimizations(packageName) ){
+
+        } else {    // 메모리 최적화가 되어 있다면, 풀기 위해 설정 화면 띄움.
+            Intent intent=new Intent();
+            intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:" + packageName));
+            startActivityForResult(intent,0);
+        }
         // 리시버 인스턴스를 생성합니다.
         networkUtil = new NetworkUtil();
+
+        // WakeLock 초기화
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "main");
+        wakeLock.acquire();
 
         // 알림을 사용하기 위한 코드(오레오 이상 버전이면 실행)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -217,9 +237,7 @@ public class MainActivity extends ComponentActivity{
                     }
                     @Override
                     public void onError(String message) {
-                        Toast toast = Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -232,11 +250,13 @@ public class MainActivity extends ComponentActivity{
 
             // 연동이 안됐으면
             if (authenticateduth == null){
-                Toast toast = Toast.makeText(MainActivity.this, "연동된 계정이 없습니다.", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+                Toast.makeText(MainActivity.this, "연동된 계정이 없습니다.", Toast.LENGTH_SHORT).show();
             }else { // 연동이 됐으면
+                // 유저 정보 가져옴
                 String email = prefs.getString("email", null);
+                String nickname = prefs.getString("nickname", null);
+                int level = prefs.getInt("level", 0);
+                
                 // AlertDialog.Builder 인스턴스 생성
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
 
@@ -245,7 +265,11 @@ public class MainActivity extends ComponentActivity{
                 View customView = inflater.inflate(R.layout.unlink_user, null);
 
                 TextView userEmail = customView.findViewById(R.id.user_email);
-                userEmail.setText(email);
+                userEmail.setText("이메일:" + email);
+                TextView userNickname = customView.findViewById(R.id.nickname);
+                userNickname.setText("닉네임:" + nickname);
+                TextView userLevel = customView.findViewById(R.id.level);
+                userLevel.setText("레벨:" + String.valueOf(level) + " LV");
 
                 builder.setView(customView);
 
@@ -266,9 +290,7 @@ public class MainActivity extends ComponentActivity{
                 // 확인 버튼에 대한 클릭 리스너
                 btnStart.setOnClickListener(b-> {
                     prefs.edit().clear().apply();
-                    Toast toast = Toast.makeText(MainActivity.this, "연동을 해제하였습니다.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    Toast.makeText(MainActivity.this, "연동을 해제하였습니다.", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 });
             }
@@ -277,6 +299,10 @@ public class MainActivity extends ComponentActivity{
 
     @Override
     protected void onDestroy() {
+        // WakeLock 해제
+        if (wakeLock != null && wakeLock.isHeld()) {
+            wakeLock.release();
+        }
         super.onDestroy();
     }
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -114,70 +115,9 @@ public class RunningActivity extends AppCompatActivity {
         timerServiceIntent = new Intent(this, TimerService.class);
         startForegroundService(timerServiceIntent);
 
-        // 타이머 서비스에서 브로드캐스트로 시간을 전송하게 만들어놓은 걸 받음.
-        timerUpdateReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                long elapsedTime = intent.getLongExtra("elapsedTime", 0);
-                updateTimer(elapsedTime);
-            }
-        };
-
         // 리시버를 시스템에 등록한다.
         registerReceiver(timerUpdateReceiver, new IntentFilter(TimerService.TIMER_BR));
     }
-
-    // 시간 업데이트 메서드
-    private void updateTimer(long elapsedTime) {
-        System.out.println("ㅋㅋ"+elapsedTime);
-        long millis = elapsedTime;
-        int seconds = (int) (millis / 1000);
-        totalTime = (long) seconds;
-        int minutes = seconds / 60;
-        seconds = seconds % 60;
-
-        RunDetail detail = new RunDetail();
-        if (runningViewModel.getOriDistance().getValue() != null) {
-            detail.setDistance(runningViewModel.getOriDistance().getValue());
-        }
-        if (runningViewModel.getMsPaceToSecond().getValue() != null) {
-            detail.setPace(runningViewModel.getMsPaceToSecond().getValue());
-        }
-        if (runningViewModel.getMsSpeed().getValue() != null) {
-            double speed = runningViewModel.getMsSpeed().getValue();
-            detail.setSpeed(speed);
-            if(speed <= 0.4){
-                detail.setState("STOP");
-            }else if(speed > 0.4 && speed <= 1.5){
-                detail.setState("WALK");
-            }
-            else if(speed > 1.5 && speed <= 3.0){
-                detail.setState("RACEWALK");
-            }else{
-                detail.setState("RUN");
-            }
-        }
-        if (runningViewModel.getHeartRate().getValue() != null) {
-            detail.setHeartRate(runningViewModel.getHeartRate().getValue());
-        }
-        detail.setSecond(totalTime);
-        if(runningViewModel.getLongitude().getValue() != null){
-            detail.setLongitude(runningViewModel.getLongitude().getValue());
-        }
-        if(runningViewModel.getLatitude().getValue() != null){
-            detail.setLatitude(runningViewModel.getLatitude().getValue());
-        }
-
-        runDetailsList.add(detail);
-
-        if(runningViewModel.getMsSpeed().getValue() != 0){
-            speedCountTime ++;
-            totalSpeed += runningViewModel.getMsSpeed().getValue();
-        }
-
-        runningViewModel.setElapsedTime(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
-    }
-
 
     // 데이터 추가(메인 스레드에서 분리하기 위해서)
     private void addRunningData(RunningData runningData) {
@@ -194,14 +134,12 @@ public class RunningActivity extends AppCompatActivity {
     protected void onDestroy() {
         stopService(sensorIntent); // 센서서비스 중지
         stopService(locationIntent); // 위치서비스 중지
-        unregisterReceiver(timerUpdateReceiver);
+//        unregisterReceiver(timerUpdateReceiver);
         // Stop the TimerService
         stopService(timerServiceIntent);
 
         if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.01) {
-            Toast toast = Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG).show();
             super.onDestroy();
             return; // 메서드를 여기서 종료
         }
@@ -211,7 +149,7 @@ public class RunningActivity extends AppCompatActivity {
         Integer heartRateCount = runningViewModel.getHeartCountTime().getValue();
         runningData.setAverageHeartRate(Math.round((totalHeartRate/heartRateCount) * 100) / 100.0);
 
-        runningData.setRunningRecordInfos(runDetailsList);
+        runningData.setRunningRecordInfos(runningViewModel.getRunDetailList().getValue());
         // 발걸음
         runningData.setStepCount(runningViewModel.getStepCount().getValue());
 
@@ -253,14 +191,10 @@ public class RunningActivity extends AppCompatActivity {
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if(response.isSuccessful()){
                         Log.d("데이터 전송", "몽고디비로 데이터 전송 성공");
-                        Toast toast = Toast.makeText(RunningActivity.this, "기록 저장 성공", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                        Toast.makeText(RunningActivity.this, "기록 저장 성공", Toast.LENGTH_SHORT).show();
                     }else{
                         Log.d("데이터 전송", "몽고디비로 데이터 전송 실패");
-                        Toast toast = Toast.makeText(RunningActivity.this, "기록 저장 실패", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                        Toast.makeText(RunningActivity.this, "기록 저장 실패", Toast.LENGTH_SHORT).show();
                     }
                 }
 

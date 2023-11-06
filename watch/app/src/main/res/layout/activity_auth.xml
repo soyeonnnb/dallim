@@ -45,12 +45,20 @@
             android:textSize="12sp"
             />
         </LinearLayout>
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:text="스마트폰에서\n달림 앱을 실행하여\n마이페이지>워치\n화면에서 인증번호를\n입력해주세요"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            />
 
     <!-- 연동 확인 버튼 -->
     <Button
         android:id="@+id/btnVerify"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="연동 확인"
         android:background="@drawable/round_background"
@@ -61,7 +69,7 @@
     <!-- 인증번호 재발급 버튼 -->
     <Button
         android:id="@+id/btnRegenerate"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_background"
         android:backgroundTint="@color/cardview_dark_background"
@@ -72,7 +80,7 @@
     <!-- 연동 취소 버튼 -->
     <Button
         android:id="@+id/btnCancel"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:background="@drawable/round_background"
         android:backgroundTint="@color/cardview_dark_background"

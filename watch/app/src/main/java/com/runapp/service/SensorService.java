@@ -79,7 +79,7 @@ public class SensorService extends Service {
         registerHeartRateSensor();
         registerStepCountSensor();
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     public SensorService(){
@@ -100,6 +100,7 @@ public class SensorService extends Service {
                     }
                     heartRate = (Math.round(heartRate * 100) / 100.0);
                     runningViewModel.setHeartRate(heartRate);
+                    Log.d("발걸음", String.valueOf(heartRate));
                 } else if (sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
                     double currentTotalSteps = sensorEvent.values[0];
                     if (initialStepCount == 0) {

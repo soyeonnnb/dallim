@@ -10,6 +10,7 @@
     <uses-feature android:name="android.hardware.type.watch" /> <!-- 포그라운드 서비스 활성화 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 바디 센서에 접근(심박수, 발걸음) -->
     <uses-permission android:name="android.permission.BODY_SENSORS" /> <!-- 기기가 절전 모드에 못 들어가게 하는 권한 -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- 기기가 인터넷에 접속이 가능하도록 허용 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 활동 상태를 감지하는 권한 허용 -->
@@ -61,12 +62,15 @@
 
         <service
             android:name=".service.SensorService"
+            android:foregroundServiceType="dataSync"
             tools:ignore="Instantiatable" />
         <service
             android:name=".service.LocationService"
+            android:foregroundServiceType="location"
             android:exported="false" />
         <service
             android:name=".service.TimerService"
+            android:foregroundServiceType="dataSync"
             android:exported="false" />
         <service
             android:name=".service.DataLayerListenerService"

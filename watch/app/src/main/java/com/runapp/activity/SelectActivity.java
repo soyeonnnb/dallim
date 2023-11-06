@@ -22,6 +22,7 @@ import com.runapp.databinding.ActivitySelectBinding;
 import com.runapp.dto.response.ApiResponseListDTO;
 import com.runapp.dto.response.RunningMateResponseDTO;
 import com.runapp.model.RunningMate;
+import com.runapp.service.RunningService;
 import com.runapp.util.AccessToken;
 import com.runapp.util.ApiUtil;
 
@@ -39,10 +40,12 @@ public class SelectActivity extends ComponentActivity {
     private ActivitySelectBinding binding;
     private final Executor executor = Executors.newSingleThreadExecutor();
     private AppDatabase db;
+    private RunningService runningService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        runningService = new RunningService(getApplicationContext());
 
         binding = ActivitySelectBinding.inflate(getLayoutInflater());
 
@@ -105,6 +108,26 @@ public class SelectActivity extends ComponentActivity {
             Intent intent = new Intent(this, MyRecordActivity.class);
             startActivity(intent);
         });
+
+        // 설정버튼
+        binding.btnSetting.setOnClickListener(v ->{
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        runningService.countNotTranslateRunningData(new RunningService.CountResultListener() {
+//            @Override
+//            public void onResult(int count) {
+//                // UI Thread에서 int 값 받아서 처리
+//                Log.d("로그", "전송되지 않은 데이터의 개수: " + count);
+//                TextView dateView = findViewById(R.id.no_connect_data);
+//                dateView.setText(String.valueOf(count) + "개");
+//            }
+//        });
     }
 
     // 카운트다운이 끝났을 때 콜백 메서드
@@ -121,7 +144,7 @@ public class SelectActivity extends ComponentActivity {
             });
 
     private void getRunningMate(){
-        deleteRunningMateDataList();
+        runningService.deleteRunningMateDataList();
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
         Call<ApiResponseListDTO<RunningMateResponseDTO>> call = ApiUtil.getApiService().getRunningMate(token);
@@ -150,7 +173,7 @@ public class SelectActivity extends ComponentActivity {
                     Log.d("실패", "실패1");
                 }
                 // 러닝메이트 저장
-                addRunningMateDataList(runningMates);
+                runningService.addRunningMateDataList(runningMates);
                 // 데이터 저장 후 RunningMateActivity 시작
                 Intent intent = new Intent(SelectActivity.this, RunningMateActivity.class);
                 startActivity(intent);
@@ -163,25 +186,7 @@ public class SelectActivity extends ComponentActivity {
         });
     }
 
-    // 데이터 추가(메인 스레드에서 분리하기 위해서)
-    private void addRunningMateDataList(List<RunningMate> runningMates) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                db.runningMateDAO().insertRunningMate(runningMates);
-                Log.d("로그", "저장 성공");
-            }
-        });
-    }
 
-    // 데이터 삭제(메인 스레드에서 분리하기 위해서)
-    private void deleteRunningMateDataList() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                db.runningMateDAO().deleteAll();
-                Log.d("로그", "삭제 성공");
-            }
-        });
-    }
+
+
 }

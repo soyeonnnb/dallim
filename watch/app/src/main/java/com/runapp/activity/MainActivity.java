@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -228,9 +227,7 @@ public class MainActivity extends ComponentActivity{
                     }
                     @Override
                     public void onError(String message) {
-                        Toast toast = Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -243,9 +240,7 @@ public class MainActivity extends ComponentActivity{
 
             // 연동이 안됐으면
             if (authenticateduth == null){
-                Toast toast = Toast.makeText(MainActivity.this, "연동된 계정이 없습니다.", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
+                Toast.makeText(MainActivity.this, "연동된 계정이 없습니다.", Toast.LENGTH_SHORT).show();
             }else { // 연동이 됐으면
                 // 유저 정보 가져옴
                 String email = prefs.getString("email", null);
@@ -285,9 +280,9 @@ public class MainActivity extends ComponentActivity{
                 // 확인 버튼에 대한 클릭 리스너
                 btnStart.setOnClickListener(b-> {
                     prefs.edit().clear().apply();
-                    Toast toast = Toast.makeText(MainActivity.this, "연동을 해제하였습니다.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    deleteRunningMate();
+                    deleteRunningData();
+                    Toast.makeText(MainActivity.this, "연동을 해제하였습니다.", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 });
             }
@@ -309,5 +304,25 @@ public class MainActivity extends ComponentActivity{
     private void startSelectActivity() {
         Intent intent = new Intent(MainActivity.this, SelectActivity.class);
         startActivity(intent);
+    }
+
+    // 러닝 데이터 삭제
+    private void deleteRunningData() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.runningDataDAO().deleteAll();
+            }
+        });
+    }
+
+    // 러닝메이트 데이터 삭제
+    private void deleteRunningMate() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.runningMateDAO().deleteAll();
+            }
+        });
     }
 }

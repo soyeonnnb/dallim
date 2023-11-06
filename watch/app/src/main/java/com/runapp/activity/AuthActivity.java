@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -85,15 +84,11 @@ public class AuthActivity extends AppCompatActivity {
                         }
                         @Override
                         public void onError(String message) {
-                            Toast toast = Toast.makeText(AuthActivity.this, message, Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
+                            Toast.makeText(AuthActivity.this, message, Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {
-                    Toast toast = Toast.makeText(AuthActivity.this, "인증이 완료되지 않았습니다.", Toast.LENGTH_SHORT);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    Toast.makeText(AuthActivity.this, "인증이 완료되지 않았습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 

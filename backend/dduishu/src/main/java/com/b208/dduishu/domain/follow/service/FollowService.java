@@ -7,6 +7,7 @@ import com.b208.dduishu.domain.follow.dto.request.FollowerInfo;
 import com.b208.dduishu.domain.follow.dto.request.RejectFollowerinfo;
 import com.b208.dduishu.domain.follow.entity.Follow;
 import com.b208.dduishu.domain.follow.entity.FollowState;
+import com.b208.dduishu.domain.follow.exception.FollowDuplicateException;
 import com.b208.dduishu.domain.follow.repository.FollowRepository;
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.entity.User;
@@ -36,14 +37,15 @@ public class FollowService {
 
         User user = getUser.getUser();
 
-        System.out.println("여기>?");
-        System.out.println(user);
+        boolean isDuplicate = checkDuplicate(user.getUserId(), req.getToUserId());
+
+        if (isDuplicate) {
+            throw new FollowDuplicateException();
+        }
 
         User toUser = userRepository.findByUserId(req.getToUserId()).orElseThrow(() -> {
             throw new NullPointerException();
         });
-
-        System.out.println("여긴가?");
 
         Follow follow = Follow.builder()
                 .fromUser(user)
@@ -54,6 +56,17 @@ public class FollowService {
 
         followRepository.save(follow);
 
+    }
+
+    @Transactional
+    public boolean checkDuplicate(Long fromUserId, Long toUserId) {
+
+        Follow res = followRepository.findByFromUserUserIdAndToUserUserIdAndState(fromUserId, toUserId, FollowState.waiting);
+
+        if (res != null) {
+            return true;
+        }
+        return false;
     }
 
     @Transactional

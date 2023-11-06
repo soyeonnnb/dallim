@@ -21,6 +21,14 @@ interface Planet {
   isPurchased: boolean;
 }
 
+interface UserData {
+  point: number;
+  mainCharacterIndex: number;
+  mainPlanetIndex: number;
+  characters: Character[];
+  planets: Planet[];
+}
+
 export const userDataState = atom<UserData | null>({
   key: 'userDataState',
   default: null,
@@ -33,7 +41,7 @@ export const userIdState = atom<UserData | null>({
 
 export const userNicknameState = atom<string>({
   key: 'userNicknameState',
-  default: "",
+  default: '',
 });
 
 export const userPointState = atom<number>({

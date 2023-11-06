@@ -14,11 +14,15 @@ import {useState, useEffect} from 'react';
 interface Props {
   paceList: itemType[];
   data: RivalRecord;
+  navigation: any;
 }
 
-function OverviewRunningMateRecord({paceList, data}: Props) {
+function OverviewRunningMateRecord({paceList, data, navigation}: Props) {
+  const characterImage =
+    characterData[data.character.characterIndex].evolutions[
+      data.character.evolutionStage
+    ].front;
   const [rivalPaceData, setRivalPaceData] = useState<itemType[]>();
-  const navigation = useNavigation();
   useEffect(() => {
     const paceData: itemType[] = [];
     data.runningRecordInfos.map(record => {
@@ -34,7 +38,7 @@ function OverviewRunningMateRecord({paceList, data}: Props) {
         <S.Title>같이달린 러닝메이트</S.Title>
         <S.Navi
           onPress={() =>
-            navigation.navigate('RunningMateChartList', {id: data.id})
+            navigation.push('RunningMateChartList', {id: data.id})
           }>
           <S.NaviText>더보기</S.NaviText>
         </S.Navi>
@@ -43,14 +47,7 @@ function OverviewRunningMateRecord({paceList, data}: Props) {
         <S.Nickname>{data.user.nickname}</S.Nickname>
         <S.Info>
           <S.CharacterView>
-            <S.CharacterImage
-              source={
-                characterData[data.character.characterIndex].evolutions[
-                  data.character.evolutionStage
-                ].front
-              }
-              resizeMode="contain"
-            />
+            <S.CharacterImage source={characterImage} resizeMode="contain" />
           </S.CharacterView>
           <S.Records>
             <RecordPreview

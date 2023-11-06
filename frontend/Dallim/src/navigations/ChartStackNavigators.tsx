@@ -10,6 +10,7 @@ import {
   CommonActions,
   useNavigation,
 } from '@react-navigation/native';
+
 import {useEffect} from 'react';
 
 type ChartStackParamList = {
@@ -17,6 +18,7 @@ type ChartStackParamList = {
   ChartDetail: {id: string};
   RunningMateChartList: {id: string};
 };
+
 const ChartStack = createStackNavigator<ChartStackParamList>();
 
 function ChartStackNavigators() {

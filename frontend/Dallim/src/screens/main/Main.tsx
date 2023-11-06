@@ -14,6 +14,7 @@ import {
   userNicknameState,
   userPointState,
   userLevelState,
+  userExpState,
   equippedCharacterIndexState,
   equippedEvolutionStageState,
   equippedPlanetIndexState,
@@ -31,6 +32,7 @@ function Main({ navigation }: MainProps) {
   const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
   const [userLevel, setUserLevel] = useRecoilState(userLevelState);
+  const [userExp, setUserExp] = useRecoilState(userExpState);
   const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
   const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
   const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
@@ -44,8 +46,9 @@ function Main({ navigation }: MainProps) {
         if (userInfo) {
           setUserId(userInfo.userId);
           setUserNickname(userInfo.nickName);
-          setUserLevel(userInfo.userLevel);
           setUserPoint(userInfo.point);
+          setUserLevel(userInfo.userLevel);
+          setUserExp(userInfo.userExp);
           setEquippedCharacterIndex(userInfo.characterIndex);
           setEquippedEvolutionStage(userInfo.evolutionStage);
           setEquippedPlanetIndex(userInfo.planetIndex);

@@ -107,6 +107,7 @@ export interface PaceDataType {
   chartData: PaceChartDataType[];
   sectionPace: PaceSectionType[];
 }
+
 const getToken = async () => {
   try {
     const token = await AsyncStorage.getItem('accessToken');
@@ -147,7 +148,29 @@ export const fetchDetailRunningData = async (id: string) => {
 
     return response.data.data;
   } catch (error) {
-    console.error('ChartApi : 월별 조회 Axios 실패 --> ', error); // 로깅을 추가합니다.
+    console.error('ChartApi : 러닝 데이터 상세 조회 Axios 실패 --> ', error); // 로깅을 추가합니다.
+    throw error;
+  }
+};
+
+// 러닝메이트와 달렸던 기록 가져오기
+export const fetchRunningMateRunningList = async (id: string) => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/api/v1/running-record/running-mate/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error(
+      'ChartApi : 러닝메이트와 달렸던 기록 리스트 조회 Axios 실패 --> ',
+      error,
+    ); // 로깅을 추가합니다.
     throw error;
   }
 };

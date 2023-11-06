@@ -14,6 +14,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+import static java.util.stream.Collectors.toList;
+
 @Data
 public class RunningRecordInfo {
 
@@ -197,6 +199,10 @@ public class RunningRecordInfo {
                 secondPerSpeed[2] += distanceDifference;
             }
         }
-        return Arrays.asList(secondPerSpeed);
+
+        return Arrays.stream(secondPerSpeed)
+                .map(speed -> new BigDecimal(speed).setScale(1, RoundingMode.HALF_UP))
+                .map(o -> o.doubleValue())
+                .collect(toList());
     }
 }

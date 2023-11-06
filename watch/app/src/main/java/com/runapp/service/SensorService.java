@@ -20,7 +20,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
 
-import com.runapp.model.RunningViewModel;
+import com.runapp.R;
+import com.runapp.view.RunningViewModel;
 
 public class SensorService extends Service {
     private RunningViewModel runningViewModel;
@@ -29,15 +30,15 @@ public class SensorService extends Service {
     private double initialStepCount = 0;
     private double totalHeartRate = 0;
     private int heartCountTime = 0;
-    private static final int NOTIFICATION_ID = 1;
-    private static final String CHANNEL_ID = "SensorServiceChannel";
+    private static final int NOTIFICATION_ID = 10;
+    private static final String CHANNEL_ID = "RunningService";
     private SharedPreferences preferences;
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
                     CHANNEL_ID,
-                    "Sensor Service Channel",
+                    "달림",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
 
@@ -48,6 +49,7 @@ public class SensorService extends Service {
 
     private Notification getNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_round)
                 .setContentTitle("Sensor Service Running")
                 .setContentText("Sensor data is being collected.");
         return builder.build();
@@ -77,7 +79,7 @@ public class SensorService extends Service {
         registerHeartRateSensor();
         registerStepCountSensor();
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     public SensorService(){
@@ -98,6 +100,7 @@ public class SensorService extends Service {
                     }
                     heartRate = (Math.round(heartRate * 100) / 100.0);
                     runningViewModel.setHeartRate(heartRate);
+                    Log.d("심박수", String.valueOf(heartRate));
                 } else if (sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
                     double currentTotalSteps = sensorEvent.values[0];
                     if (initialStepCount == 0) {

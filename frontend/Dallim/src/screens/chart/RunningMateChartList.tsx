@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useIsFocused, useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import * as S from './RunningMateChartList.styles';
 import {TouchableOpacity, Dimensions} from 'react-native';
@@ -17,11 +17,16 @@ import {
   calculatePace,
   secondToHourMinuteSeconds,
 } from '@/recoil/RunningData';
+import {fetchRunningMateRunningList} from '@/apis/ChartApi';
 import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 import {colors} from '@/components/common/globalStyles';
+import {useEvent} from 'react-native-reanimated';
 
 // 스택 내비게이션 타입을 정의
 type RootStackParamList = {
+  ChartDetail: {
+    id: string;
+  };
   RunningMateChartList: {
     id: string;
   };
@@ -44,7 +49,7 @@ const screenWidth = Dimensions.get('window').width;
 const cardWidth = screenWidth * 0.2;
 
 interface showDataType {
-  id?: string;
+  id: string;
   date?: string;
   month?: string;
   day?: string;
@@ -80,75 +85,27 @@ function RunningMateChartList({route, navigation}: Props) {
     ];
     const dayList = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     try {
-      // const getData = await fetchDetailRunningData(id);
-      const getData = [
-        {
-          id: '1',
-          createdAt: '2023-11-05T16:42:45.311',
-          speed: [0.2, 0.3, 0.2],
-          rivalSpeed: [0.1, 0.3, 0.51],
-          totalTime: 18.0,
-          totalDistance: 6.8,
-          averageHeartRate: 22,
-        },
-        {
-          id: '1',
-          createdAt: '2023-11-06T16:42:45.311',
-          speed: [0.1, 0.2, 0.3],
-          rivalSpeed: [0.1, 0.3, 0.51],
-          totalTime: 19.0,
-          totalDistance: 6.8,
-          averageHeartRate: 22,
-        },
-        {
-          id: '1',
-          createdAt: '2023-11-07T16:42:45.311',
-          speed: [0.5, 0.8, 1],
-          rivalSpeed: [1, 6, 3],
-          totalTime: 21.0,
-          totalDistance: 6.8,
-          averageHeartRate: 22,
-        },
-        {
-          id: '1',
-          createdAt: '2023-11-08T16:42:45.311',
-          speed: [2, 8, 4, 7],
-          rivalSpeed: [2, 8, 5, 4],
-          totalTime: 24.0,
-          totalDistance: 6.8,
-          averageHeartRate: 22,
-        },
-        {
-          id: '1',
-          createdAt: '2023-11-09T16:42:45.311',
-          speed: [10, 3, 24, 5, 26, 5, 3],
-          rivalSpeed: [9, 10, 5, 7, 20, 5, 1],
-          totalTime: 27.0,
-          totalDistance: 6.8,
-          averageHeartRate: 22,
-        },
-        {
-          id: '1',
-          createdAt: '2023-11-10T16:42:45.311',
-          speed: [6, 3, 4],
-          rivalSpeed: [0.1, 0.3, 0.51],
-          totalTime: 38.0,
-          totalDistance: 6.8,
-          averageHeartRate: 22,
-        },
-      ];
+      const getData: {
+        id: string;
+        createdAt: string;
+        mySpeed: number[];
+        rivalSpeed: number[];
+        totalTime: number;
+        totalDistance: number;
+        averageHeartRate: number;
+      }[] = await fetchRunningMateRunningList(id);
 
       const newData: showDataType[] = [];
       // 데이터 정제
       getData.map(record => {
-        const d: showDataType = {};
+        const d: showDataType = {id: ''};
         d.id = record.id;
         const date = new Date(record.createdAt);
         d.date = numberToTwoString(date.getDate());
         d.month = monthList[date.getMonth()];
         d.day = dayList[date.getDay()];
         const paceList: {value: number}[] = [];
-        record.speed.map(s => paceList.push({value: s}));
+        record.mySpeed.map(s => paceList.push({value: s}));
         d.paceList = paceList;
         const rivalPaceList: {value: number}[] = [];
         record.rivalSpeed.map(s => rivalPaceList.push({value: s}));
@@ -165,16 +122,26 @@ function RunningMateChartList({route, navigation}: Props) {
         newData.push(d);
       });
       setData(newData);
-      console.log('ChartApi: 달리기 기록 상세 조회 Axios 성공');
+      console.log('ChartApi: 러닝메이트와 달리기 기록 리스트 조회 Axios 성공');
       setIsLoading(false);
     } catch (error) {
-      console.error('ChartApi: 달리기 기록 상세 조회 Axios 실패: ', error);
+      console.error(
+        'ChartApi: 러닝메이트와 달리기 기록 리스트 조회 Axios 실패: ',
+        error,
+      );
     }
   };
+  useEffect(() => {
+    fetchRunningData();
+  }, [useIsFocused]);
 
   useEffect(() => {
     fetchRunningData();
   }, []);
+
+  useEffect(() => {
+    fetchRunningData();
+  }, [id]);
 
   const handleSetSelectedIndex = (index: number) => {
     setSelectedIndex(index);
@@ -225,7 +192,12 @@ function RunningMateChartList({route, navigation}: Props) {
             <S.ChartBox>
               <S.ChartHeader>
                 <S.ChartName>페이스 비교</S.ChartName>
-                <S.ChartNavi>
+                <S.ChartNavi
+                  onPress={() =>
+                    navigation.push('ChartDetail', {
+                      id: data[selectedIndex].id,
+                    })
+                  }>
                   <S.ChartNaviText>자세히보기</S.ChartNaviText>
                 </S.ChartNavi>
               </S.ChartHeader>

@@ -14,6 +14,7 @@ interface Props {
   isShow: boolean;
   records?: DailyRecord[];
 }
+
 function PreviewDaily({date, isShow, records}: Props) {
   const navigation = useNavigation();
   const [flatListKey, setFlatListKey] = useState(0);
@@ -74,7 +75,7 @@ function RunningCard({
   return (
     <S.Card
       width={cardWidth}
-      onPress={() => navigation.navigate('ChartDetail', {id: item.id})}>
+      onPress={() => navigation.push('ChartDetail', {id: item.id})}>
       <S.CardImage
         source={
           isWatch

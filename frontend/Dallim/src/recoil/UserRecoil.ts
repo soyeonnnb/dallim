@@ -32,9 +32,9 @@ export const userIdState = atom<UserData | null>({
   default: null,
 });
 
-export const userNicknameState = atom<number>({
+export const userNicknameState = atom<string>({
   key: 'userNicknameState',
-  default: 0,
+  default: "",
 });
 
 export const userPointState = atom<number>({

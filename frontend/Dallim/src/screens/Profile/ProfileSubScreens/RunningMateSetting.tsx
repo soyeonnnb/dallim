@@ -118,7 +118,7 @@ function RunningMateSetting({navigation, route}: RunningMateSettingProps) {
   );
 
   // console.log(selectedCardNum);
-
+  //
   //useEffect
   useEffect(() => {
     setCompetitorData(route.params.competitorData);

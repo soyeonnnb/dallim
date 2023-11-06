@@ -51,12 +51,8 @@ public class Conversion {
     }
 
     public double mToKM(double m){
-        double km = Math.round((m / 1000.0) / 100) * 100.0;
-        System.out.println(m/1000.0);
-        System.out.println(km);
+        double km = Math.round((m / 1000.0) * 100.0) / 100.0;
 
         return km;
     }
-
-
 }

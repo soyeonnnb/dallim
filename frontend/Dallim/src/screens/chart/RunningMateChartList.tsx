@@ -94,45 +94,45 @@ function RunningMateChartList({route, navigation}: Props) {
         {
           id: '1',
           createdAt: '2023-11-06T16:42:45.311',
-          speed: [0.2, 0.3, 0.2],
+          speed: [0.1, 0.2, 0.3],
           rivalSpeed: [0.1, 0.3, 0.51],
-          totalTime: 18.0,
+          totalTime: 19.0,
           totalDistance: 6.8,
           averageHeartRate: 22,
         },
         {
           id: '1',
           createdAt: '2023-11-07T16:42:45.311',
-          speed: [0.2, 0.3, 0.2],
-          rivalSpeed: [0.1, 0.3, 0.51],
-          totalTime: 18.0,
+          speed: [0.5, 0.8, 1],
+          rivalSpeed: [1, 6, 3],
+          totalTime: 21.0,
           totalDistance: 6.8,
           averageHeartRate: 22,
         },
         {
           id: '1',
           createdAt: '2023-11-08T16:42:45.311',
-          speed: [0.2, 0.3, 0.2],
-          rivalSpeed: [0.1, 0.3, 0.51],
-          totalTime: 18.0,
+          speed: [2, 8, 4, 7],
+          rivalSpeed: [2, 8, 5, 4],
+          totalTime: 24.0,
           totalDistance: 6.8,
           averageHeartRate: 22,
         },
         {
           id: '1',
           createdAt: '2023-11-09T16:42:45.311',
-          speed: [0.2, 0.3, 0.2],
-          rivalSpeed: [0.1, 0.3, 0.51],
-          totalTime: 18.0,
+          speed: [10, 3, 24, 5, 26, 5, 3],
+          rivalSpeed: [9, 10, 5, 7, 20, 5, 1],
+          totalTime: 27.0,
           totalDistance: 6.8,
           averageHeartRate: 22,
         },
         {
           id: '1',
           createdAt: '2023-11-10T16:42:45.311',
-          speed: [0.2, 0.3, 0.2],
+          speed: [6, 3, 4],
           rivalSpeed: [0.1, 0.3, 0.51],
-          totalTime: 18.0,
+          totalTime: 38.0,
           totalDistance: 6.8,
           averageHeartRate: 22,
         },
@@ -176,6 +176,10 @@ function RunningMateChartList({route, navigation}: Props) {
     fetchRunningData();
   }, []);
 
+  const handleSetSelectedIndex = (index: number) => {
+    setSelectedIndex(index);
+  };
+
   return (
     <>
       <S.BackgroundImage
@@ -200,10 +204,20 @@ function RunningMateChartList({route, navigation}: Props) {
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{paddingHorizontal: screenWidth * 0.1}}>
                 {data.map((record, index) => (
-                  <S.RunningDate width={cardWidth} key={index}>
-                    <S.RunningDateDay>{record.day}</S.RunningDateDay>
-                    <S.RunningDateDate>{record.date}</S.RunningDateDate>
-                    <S.RunningDateMonth>{record.month}</S.RunningDateMonth>
+                  <S.RunningDate
+                    width={cardWidth}
+                    key={index}
+                    selected={index == selectedIndex}
+                    onPress={() => handleSetSelectedIndex(index)}>
+                    <S.RunningDateDay selected={index == selectedIndex}>
+                      {record.day}
+                    </S.RunningDateDay>
+                    <S.RunningDateDate selected={index == selectedIndex}>
+                      {record.date}
+                    </S.RunningDateDate>
+                    <S.RunningDateMonth selected={index == selectedIndex}>
+                      {record.month}
+                    </S.RunningDateMonth>
                   </S.RunningDate>
                 ))}
               </S.RunningList>

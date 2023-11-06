@@ -50,7 +50,10 @@ export const ChartBox = styled.View`
   padding: 0px 30px;
 `;
 
-export const RunningDate = styled.View<{width: number}>`
+export const RunningDate = styled.TouchableOpacity<{
+  width: number;
+  selected: boolean;
+}>`
   flex: 1;
   width: ${props => props.width}px;
   margin-right: ${props => props.width * 0.2}px;
@@ -58,22 +61,23 @@ export const RunningDate = styled.View<{width: number}>`
   padding: 12px 0;
   align-items: center;
   border-radius: 15px;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: ${props =>
+    props.selected ? '#FFE67B' : 'rgba(255, 255, 255, 0.2)'};
 `;
-export const RunningDateDay = styled.Text`
+export const RunningDateDay = styled.Text<{selected: boolean}>`
   font-weight: 800;
   font-size: 17px;
-  color: white;
+  color: ${props => (props.selected ? 'black' : 'white')};
 `;
-export const RunningDateDate = styled.Text`
+export const RunningDateDate = styled.Text<{selected: boolean}>`
   font-weight: 800;
   font-size: 40px;
-  color: white;
+  color: ${props => (props.selected ? 'black' : 'white')};
 `;
-export const RunningDateMonth = styled.Text`
+export const RunningDateMonth = styled.Text<{selected: boolean}>`
   font-weight: 800;
   font-size: 20px;
-  color: white;
+  color: ${props => (props.selected ? 'black' : 'white')};
 `;
 export const ChartHeader = styled.View`
   flex-direction: row;

@@ -1,6 +1,10 @@
 import {createStackNavigator} from '@react-navigation/stack';
+
+// 화면 리스트
 import ChartMain from '@/screens/chart/ChartMain';
 import ChartDetail from '@/screens/chart/ChartDetail';
+import RunningMateChartList from '@/screens/chart/RunningMateChartList';
+
 import {
   useIsFocused,
   CommonActions,
@@ -11,6 +15,7 @@ import {useEffect} from 'react';
 type ChartStackParamList = {
   ChartMain: undefined;
   ChartDetail: {id: string};
+  RunningMateChartList: {id: string};
 };
 const ChartStack = createStackNavigator<ChartStackParamList>();
 
@@ -41,6 +46,12 @@ function ChartStackNavigators() {
       <ChartStack.Screen
         name="ChartDetail"
         component={ChartDetail}
+        options={{headerShown: false}}
+      />
+
+      <ChartStack.Screen
+        name="RunningMateChartList"
+        component={RunningMateChartList}
         options={{headerShown: false}}
       />
     </ChartStack.Navigator>

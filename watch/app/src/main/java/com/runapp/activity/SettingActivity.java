@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -13,32 +14,110 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.runapp.R;
-import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivitySettingBinding;
+import com.runapp.dto.RunningDataDTO;
+import com.runapp.model.RunningData;
+import com.runapp.service.RunningService;
+import com.runapp.util.AccessToken;
+import com.runapp.util.ApiUtil;
+import com.runapp.util.NetworkUtil;
 import com.runapp.util.PreferencesUtil;
-import com.runapp.util.UserInfo;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class SettingActivity extends AppCompatActivity {
-    private AppDatabase db;
     private ActivitySettingBinding binding;
     private final Executor executor = Executors.newSingleThreadExecutor();
     private SharedPreferences prefs;
-    private UserInfo userInfo;
+    private RunningService runningService;
+    private int unlinkCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        db = AppDatabase.getDatabase(getApplicationContext());
         super.onCreate(savedInstanceState);
-        // 바인딩 클래스를 사용해서 xml코드를 객체화시킨다. findViewById를 안 쓰고 바인딩 클래스로 편하게 사용.
         binding = ActivitySettingBinding.inflate(getLayoutInflater());
-        // xml 레이아웃의 최상위 뷰를 가져옴
         View view = binding.getRoot();
-        // 액티비티의 컨텐츠 뷰로 view를 설정. 여기서 화면에 뭐가 보일지 결정
         setContentView(view);
+        runningService = new RunningService(getApplicationContext());
 
+        // 비연동 데이터 연동하기
+        binding.btnLinkData.setOnClickListener(v ->{
+            if (unlinkCount == 0){
+                Toast.makeText(SettingActivity.this, "비연동 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
+            }else{
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
+
+                LayoutInflater inflater = getLayoutInflater();
+                // unlink_user.xml을 가져와서 객체로 생성
+                View customView = inflater.inflate(R.layout.link_data, null);
+
+                TextView linkDataTv = customView.findViewById(R.id.link_data_tv);
+                String format = String.format("%d개의 데이터를" + "\n" + "연동하시겠습니까?", unlinkCount);
+                linkDataTv.setText(format);
+
+                builder.setView(customView);
+
+                // builder 내용으로 AlertDialog 생성
+                AlertDialog dialog = builder.create();
+
+                // AlertDialog 보이기
+                dialog.show();
+
+                Button unlinkCancel = customView.findViewById(R.id.unlink_cancel);
+                Button unlinkStart = customView.findViewById(R.id.unlink_start);
+
+                
+                // 비연동 데이터 업데이트
+                unlinkStart.setOnClickListener(b ->{
+                    runningService.getNotTranslateRunningData(new RunningService.GetResultListener() {
+                        @Override
+                        public void onResult(List<RunningData> runningDataList) {
+                            String accessToken = AccessToken.getInstance().getAccessToken();
+                            String token = "Bearer " + accessToken;
+                            for(RunningData r : runningDataList){
+                                if(new NetworkUtil().isOnline(getApplicationContext())){
+                                    RunningDataDTO runningDataDTO = r.toDTO();
+                                    Log.d("보내는리스트", String.valueOf(runningDataDTO.toString()));
+                                    ApiUtil.getApiService().postRunningData(token, runningDataDTO).enqueue(new Callback<Void>() {
+                                        // api 호출이 완료되면 콜백 실행
+                                        @Override
+                                        public void onResponse(Call<Void> call, Response<Void> response) {
+                                            if(response.isSuccessful()){
+                                                Log.d("데이터 전송", "몽고디비로 데이터 전송 성공");
+                                                Toast.makeText(SettingActivity.this, "기록 저장 성공", Toast.LENGTH_SHORT).show();
+                                                runningService.updateRunningDataIsTranslate(r.getId(), true);
+                                            }else{
+                                                Log.d("데이터 전송", "몽고디비로 데이터 전송 실패");
+                                                Toast.makeText(SettingActivity.this, "기록 저장 실패", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Void> call, Throwable t) {
+                                            Log.d("데이터 전송", t.toString());
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                    dialog.dismiss();
+                });
+
+                unlinkCancel.setOnClickListener(b ->{
+                    dialog.dismiss();
+                });
+            }
+        });
+
+        // 연동해제 버튼 누르면
         binding.btnUnlink.setOnClickListener(v ->{
             String email = prefs.getString("email", null);
             String nickname = prefs.getString("nickname", null);
@@ -77,8 +156,8 @@ public class SettingActivity extends AppCompatActivity {
             // 확인 버튼에 대한 클릭 리스너
             btnStart.setOnClickListener(b-> {
                 prefs.edit().clear().apply();
-                deleteRunningMate();
-                deleteRunningData();
+                runningService.deleteRunningMateData();
+                runningService.deleteRunningData();
                 Toast.makeText(SettingActivity.this, "연동을 해제하였습니다.", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
 
@@ -90,8 +169,6 @@ public class SettingActivity extends AppCompatActivity {
                 // 현재 액티비티 종료
                 finish();
             });
-
-
         });
     }
 
@@ -100,28 +177,19 @@ public class SettingActivity extends AppCompatActivity {
         super.onResume();
         prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
 
+        runningService.countNotTranslateRunningData(new RunningService.CountResultListener() {
+            @Override
+            public void onResult(int count) {
+                // UI Thread에서 int 값 받아서 처리
+                Log.d("로그", "전송되지 않은 데이터의 개수: " + count);
+                unlinkCount = count;
+                TextView dateView = findViewById(R.id.no_connect_data);
+                dateView.setText(String.valueOf(count) + "개");
+            }
+        });
+
         String email = prefs.getString("email", null);
         TextView viewEmail = binding.email;
         viewEmail.setText(email);
-    }
-
-    // 러닝 데이터 삭제
-    private void deleteRunningData() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                db.runningDataDAO().deleteAll();
-            }
-        });
-    }
-
-    // 러닝메이트 데이터 삭제
-    private void deleteRunningMate() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                db.runningMateDAO().deleteAll();
-            }
-        });
     }
 }

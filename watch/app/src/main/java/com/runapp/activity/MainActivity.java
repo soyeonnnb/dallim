@@ -16,10 +16,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
@@ -27,7 +24,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.runapp.R;
 import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivityMainBinding;
 import com.runapp.util.AccessToken;
@@ -229,61 +225,6 @@ public class MainActivity extends ComponentActivity{
                     public void onError(String message) {
                         Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
                     }
-                });
-            }
-        });
-
-        // 연동 해제 버튼
-        binding.btnFinish.setOnClickListener(v ->{
-            authenticateduth = prefs.getString("accessToken", null);
-            Log.d("Access_Token", authenticateduth != null ? authenticateduth : "토큰 널임");
-
-            // 연동이 안됐으면
-            if (authenticateduth == null){
-                Toast.makeText(MainActivity.this, "연동된 계정이 없습니다.", Toast.LENGTH_SHORT).show();
-            }else { // 연동이 됐으면
-                // 유저 정보 가져옴
-                String email = prefs.getString("email", null);
-                String nickname = prefs.getString("nickname", null);
-                int level = prefs.getInt("level", 0);
-
-                // AlertDialog.Builder 인스턴스 생성
-                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
-
-                LayoutInflater inflater = getLayoutInflater();
-                // unlink_user.xml을 가져와서 객체로 생성
-                View customView = inflater.inflate(R.layout.unlink_user, null);
-
-                TextView userEmail = customView.findViewById(R.id.user_email);
-                userEmail.setText("이메일:" + email);
-                TextView userNickname = customView.findViewById(R.id.nickname);
-                userNickname.setText("닉네임:" + nickname);
-                TextView userLevel = customView.findViewById(R.id.level);
-                userLevel.setText("레벨:" + String.valueOf(level) + " LV");
-
-                builder.setView(customView);
-
-                // builder 내용으로 AlertDialog 생성
-                AlertDialog dialog = builder.create();
-
-                // AlertDialog 보이기
-                dialog.show();
-
-                Button btnCancel = customView.findViewById(R.id.unlink_cancel);
-                Button btnStart = customView.findViewById(R.id.unlink_start);
-
-                // 취소 버튼에 대한 클릭 리스너
-                btnCancel.setOnClickListener(b ->{
-                    dialog.dismiss();
-                });
-
-                // 확인 버튼에 대한 클릭 리스너
-                btnStart.setOnClickListener(b-> {
-                    prefs.edit().clear().apply();
-                    deleteRunningMate();
-                    deleteRunningData();
-                    Toast.makeText(MainActivity.this, "연동을 해제하였습니다.", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
                 });
             }
         });

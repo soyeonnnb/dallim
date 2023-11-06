@@ -43,7 +43,7 @@ public class MyRecordActivity extends ComponentActivity {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                List<RunningData> runningDataList = db.runningDataDAO().getAll();
+                List<RunningData> runningDataList = db.runningDataDAO().getLatestTenRunningData();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

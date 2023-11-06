@@ -74,8 +74,7 @@ public class RunningActivity extends AppCompatActivity {
         runningData.setUserId(prefs.getLong("userId", 0L));
         runningData.setDate(new Date());
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
-//        runningData.setCharacterId(prefs.getLong("characterIndex", 0L));
-        runningData.setCharacterId(6l);
+        runningData.setCharacterId(prefs.getLong("characterIndex", 0L));
         runningData.setAveragePace(0f);
         runningData.setAverageSpeed(0f);
         runningData.setAverageHeartRate(0f);
@@ -83,14 +82,17 @@ public class RunningActivity extends AppCompatActivity {
         runningData.setType("PAIR");
         runningData.setRivalRecordId("654832e0843b0e094bfe4c64");
 
-        // 혼자달리기인지 함께달리기인지 구분
-//        String type = getIntent().getStringExtra("run_type");
-//        if(type.equals("PAIR")){
-//            runningData.setType("PAIR");
-//        }else if(type.equals("ALONE")){
-//            runningData.setType("ALONE");
-//            runningData.setRivalRecordId(null);
-//        }
+        System.out.println(prefs.getLong("characterIndex", 0L));
+        System.out.println(prefs.getLong("characterId", 0L));
+
+//         혼자달리기인지 함께달리기인지 구분
+        String type = getIntent().getStringExtra("run_type");
+        if(type.equals("PAIR")){
+            runningData.setType("PAIR");
+        }else if(type.equals("ALONE")){
+            runningData.setType("ALONE");
+            runningData.setRivalRecordId(null);
+        }
 
         // 러닝 뷰 모델을 생성한다.
         runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
@@ -247,6 +249,8 @@ public class RunningActivity extends AppCompatActivity {
             runningData.setTranslation(true);
             addRunningData(runningData);
             RunningDataDTO runningDataDTO = runningData.toDTO();
+            long characterId = prefs.getLong("characterId", 0L);
+            runningDataDTO.setCharacterId(characterId);
             Log.d("보내는리스트", String.valueOf(runningDataDTO.toString()));
             ApiUtil.getApiService().postRunningData(token, runningDataDTO).enqueue(new Callback<Void>() {
                 // api 호출이 완료되면 콜백 실행

@@ -30,15 +30,16 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
 
     @NonNull
     @Override
-    public RunningMateDataAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_running_mate, parent, false);
-        return new RunningMateDataAdapter.ViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_running_mate_data, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RunningMateDataAdapter.ViewHolder holder, int position) {
         RunningMate runningMate = runningMateList.get(position);
         System.out.println(runningMate.toString());
+
 
 
 //        LocalDateTime createdAt = runningMate.getCreatedAt();

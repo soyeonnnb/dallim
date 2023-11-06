@@ -35,7 +35,7 @@ public class RivalRunningRecordInfo {
     public RivalRunningRecordInfo(RunningRecord runningRecord) {
         this.id = runningRecord.getId().toString();
         this.user = runningRecord.getUser();
-        this.location = "서울, 석촌호수";
+        this.location = runningRecord.getLocation();
         this.pace = runningRecord.getPace();
         this.character = runningRecord.getCharacter();
         this.type = runningRecord.getType();

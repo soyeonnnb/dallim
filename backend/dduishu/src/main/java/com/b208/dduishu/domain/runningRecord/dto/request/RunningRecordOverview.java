@@ -26,7 +26,7 @@ public class RunningRecordOverview {
 
     public RunningRecordOverview(RunningRecord runningRecord) {
         this.id = runningRecord.getId().toString();
-        this.location = "서울, 석촌호수";
+        this.location = runningRecord.getLocation();
         this.watchOrMobile = runningRecord.getWatchOrMobile();
         this.type = runningRecord.getType();
         this.totalTime = runningRecord.getTotalTime();

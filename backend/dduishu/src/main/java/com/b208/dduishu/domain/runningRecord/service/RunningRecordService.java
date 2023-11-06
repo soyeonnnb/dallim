@@ -347,7 +347,7 @@ public class RunningRecordService {
         return RunningRecordDetail.builder()
                 .id(res.getId())
                 .watchOrMobile(res.getWatchOrMobile())
-                .location("서울, 석촌 호수")
+                .location(res.getLocation())
                 .secondPerSpeed(res.getSecondPerSpeed())
                 .heartRate(res.getHeartRate())
                 .pace(res.getPace())

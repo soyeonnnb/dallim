@@ -1,8 +1,12 @@
 package com.b208.dduishu.domain.fcm.controller;
 
 import com.b208.dduishu.domain.fcm.dto.ScheduleInfo;
+import com.b208.dduishu.domain.fcm.dto.UpdateScheduleInfo;
+import com.b208.dduishu.domain.fcm.entity.FcmMessageId;
 import com.b208.dduishu.domain.fcm.service.JobService;
 import com.b208.dduishu.domain.follow.dto.request.FollowerInfo;
+import com.b208.dduishu.domain.user.GetUser;
+import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,21 +22,15 @@ public class ScheduleController {
 
     private final JobService jobService;
 
+    private final GetUser getUser;
+
     @PostMapping("/api/v1/schedule")
     public ApiResponse<?> createSchedule(@RequestBody ScheduleInfo req){
         try {
 
-            LocalDateTime localDateTime = LocalDateTime.of(2023, 11, 6, 0, 11);
+            User user = getUser.getUser();
 
-            // LocalDateTime 객체를 Date 객체로 변환
-            Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-
-            // Date 객체를 Unix 타임스탬프로 변환
-            long timestamp = date.getTime();
-
-            System.out.println(timestamp); // Unix 타임스탬프 출력
-
-            jobService.scheduleJob(req.getTargetToken(), req.getTitle(), req.getBody(),req.getScheduleTime());
+            jobService.scheduleJob(req.getTargetToken(), user.getUserId(), req.getDay(), req.getHour(),req.getMinute());
 
             return ApiResponse.createSuccess(true);
         } catch (Exception e) {
@@ -43,8 +41,7 @@ public class ScheduleController {
     @GetMapping("/api/v1/schedule")
     public ApiResponse<?> getSchedule(){
         try {
-
-            List<String> scheduleJob = jobService.getScheduleJob();
+            List<FcmMessageId> scheduleJob = jobService.getScheduleJob();
 
             return ApiResponse.createSuccess(scheduleJob);
         } catch (Exception e) {
@@ -56,7 +53,19 @@ public class ScheduleController {
     public ApiResponse<?> deleteSchedule(@RequestBody ScheduleInfo req){
         try {
 
-            jobService.deleteScheduleJob(req.getTargetToken());
+            jobService.deleteScheduleJob(req);
+
+            return ApiResponse.createSuccess(true);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
+    @PatchMapping("/api/v1/schedule")
+    public ApiResponse<?> updateSchedule(@RequestBody UpdateScheduleInfo req){
+        try {
+
+            jobService.updateSchedule(req);
 
             return ApiResponse.createSuccess(true);
         } catch (Exception e) {

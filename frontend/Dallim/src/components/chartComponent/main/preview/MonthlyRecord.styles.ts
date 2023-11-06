@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
-  padding: 30px;
+  padding: 25px;
   justify-content: space-between;
 `;
 
@@ -14,15 +14,15 @@ export const Title = styled.Text`
 export const View = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 5%;
+  padding: 0 20px;
 `;
 export const TotalCount = styled.View`
-  margin-right: 13px;
+  margin-right: 20px;
 `;
 
 export const AverageCompares = styled.View`
   justify-content: space-between;
-  flex: 1;
+  flex: 0.9;
 `;
 
 export const SmallContainer = styled.View`
@@ -33,24 +33,22 @@ export const SmallContainer = styled.View`
   align-items: center;
 `;
 export const SmallCircle = styled.View<{bgColor: string}>`
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background-color: ${props => props.bgColor};
   border-radius: 70px;
   justify-content: center;
   align-items: center;
 `;
 export const SmallView = styled.View`
-  flex: 1;
   justify-content: center;
-  align-items: center;
 `;
 export const SmallName = styled.Text`
   color: gray;
 `;
 export const SmallContent = styled.Text`
   font-weight: 800;
-  font-size: 18px;
+  font-size: 20px;
   color: black;
 `;
 export const FriendView = styled.View`
@@ -82,8 +80,4 @@ export const FriendName = styled.Text`
   font-weight: 800;
   font-size: 20px;
   color: black;
-`;
-
-export const NoFriendText = styled.Text`
-  font-size: 18px;
 `;

@@ -27,7 +27,7 @@ const StampModal: React.FC<Props> = ({ isVisible, onClose }) => {
     const loadUserInfo = async () => {
       try {
         const loadInfo = await fetchUserCalendar();
-        // console.log("Main : 출석 조회 Axios 성공 : ", loadInfo);
+        console.log("Main : 출석 조회 Axios 성공 2 : ", loadInfo);
 
         const formattedDates = generateMarkedDatesFromList(loadInfo.attendances || []);
         setMarkedDates(formattedDates);

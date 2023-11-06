@@ -3,164 +3,78 @@ import {ImageBackground} from 'react-native';
 
 export const ModalContainer = styled.View`
   flex: 1;
-`;
-
-export const BackgroundImage = styled(ImageBackground)`
-  width: 100%;
-  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5); // 반투명한 배경을 추가
 `;
 
 export const ModalContent = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 100%;
-  height: 100%;
-  /* background-color: #fff; */
+  width: 80%;
+  height: 550px;
+  background-color: #fff;
+  border-radius: 10px;
 `;
 
-export const Header = styled.View`
+export const Top = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  flex-direction: row;
   width: 100%;
-  height: 10%;
-`;
-export const HeaderLeft = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 20%;
-  height: 100%;
-  justify-content: center;
+  height: 5%;
   align-items: center;
-`;
-
-export const CloseButton = styled.TouchableOpacity`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 40%;
-  height: 40%;
-  justify-content: center;
-  align-items: center;
-`;
-export const CloseImage = styled.Image`
-  width: 100%;
-  height: 100%;
-`;
-
-export const HeaderCenter = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  align-items: flex-end;
-  justify-content: center;
-  width: 40%;
-  height: 100%;
 `;
 
 export const Title = styled.Text`
-  font-size: 25px;
-  color: white;
+  font-size: 20px;
+  color: black;
 `;
 
-export const HeaderRight = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 40%;
-  height: 100%;
-  padding-left: 2%;
-`;
-
-export const HeaderRightBox = styled.TouchableOpacity`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 100%;
-  height: 100%;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: 5%;
-`;
-
-export const QuestionImage = styled.Image`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 20px;
-  height: 20px;
-`;
-
-export const Body = styled.View`
+export const Middle = styled.View`
   /* border-width: 1px;
   border-color: blue; */
   width: 100%;
   height: 40%;
 `;
-export const BodyBackground = styled(ImageBackground)`
+export const MiddleBackground = styled(ImageBackground)`
   width: 100%;
   height: 100%;
   flex-direction: row;
-`;
-
-export const BodyLeft = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 50%;
-  height: 100%;
-`;
-
-export const InfoTop = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 100%;
-  height: 75%;
-  justify-content: flex-end;
-  align-items: center;
 `;
 
 export const CharacterImage = styled.Image`
   /* border-width: 1px;
   border-color: blue; */
-  width: 80%;
-  height: 80%;
-`;
-
-export const InfoMiddle = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 100%;
-  height: 10%;
-  justify-content: flex-start;
-  align-items: center;
+  width: 60%;
+  height: 60%;
 `;
 
 export const NicknameText = styled.Text`
-  /* border-width: 1px;
-  border-color: blue; */
-  font-size: 20px;
+  font-size: 15px;
   color: white;
 `;
 
-export const InfoBottom = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 100%;
-  height: 15%;
-  justify-content: flex-start;
-  align-items: center;
-`;
-
-export const LevelText = styled.Text`
-  /* border-width: 1px;
-  border-color: blue; */
-  font-size: 15px;
-  color: black;
-`;
-
-export const BodyRigth = styled.View`
+export const MiddleLeft = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 50%;
   height: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 `;
 
-export const Footer = styled.View`
+export const MiddleRigth = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 50%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+`;
+
+export const Bottom = styled.View`
   /* border-width: 1px;
   border-color: yellow; */
   width: 100%;
@@ -168,7 +82,7 @@ export const Footer = styled.View`
   align-items: center;
 `;
 
-export const FooterBox = styled.View`
+export const BottomBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
@@ -176,60 +90,19 @@ export const FooterBox = styled.View`
   align-items: center;
 `;
 
-export const FooterTextBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 100%;
-  height: 40%;
-  flex-direction: row;
-`;
-
-export const LeftTextBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 30%;
-  height: 100%;
-  justify-content: flex-end;
-  align-items: flex-start;
-`;
-export const MiddleTextBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 40%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-`;
-export const RightTextBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
-  width: 30%;
-  height: 100%;
-  justify-content: flex-end;
-  align-items: flex-end;
-`;
-
-export const FooterText = styled.Text`
-  color: white;
-  font-size: 18px;
-`;
-
-export const FooterBarBox = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
-  width: 90%;
-  height: 60%;
-  justify-content: center;
+export const BottomText = styled.Text`
+  font-size: 15px;
+  color: black;
 `;
 
 export const RateBarBox = styled.View`
   /* border-width: 1px;
-  border-color: blue; */
-  width: 100%;
+  border-color: red; */
+  width: 90%;
   height: 50%;
+  justify-content: center;
+  align-items: center;
   flex-direction: row;
-  border-radius: 50px;
-  overflow: hidden;
 `;
 
 export const RateBar = styled.View<{
@@ -240,32 +113,49 @@ export const RateBar = styled.View<{
 `;
 
 export const MyDataBar = styled.View<{widthPercentage: number}>`
-  position: relative;
   width: ${props => props.widthPercentage}%;
-  height: 100%;
+  height: 60%;
   background-color: #fdcb86; // 내 데이터 색상
+  border-radius: 40px;
 `;
 
 export const OtherDataBar = styled.View<{widthPercentage: number}>`
-  position: relative;
   width: ${props => props.widthPercentage}%;
-  height: 100%;
+  height: 60%;
   background-color: #8da478; // 상대 데이터 색상
   border-radius: 40px;
-  align-items: flex-end;
+`;
+
+export const Close = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 10%;
   justify-content: center;
+  align-items: center;
 `;
 
-export const RateLeftText = styled.Text`
-  position: absolute;
-  color: white;
-  font-size: 13px;
-  padding-left: 20%;
+export const CloseBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  border-radius: 15px;
+  background-color: #dcdde7;
+  width: 40%;
+  height: 70%;
+  justify-content: center;
+  align-items: center;
 `;
 
-export const RateRightText = styled.Text`
-  position: absolute;
+export const CloseButton = styled.TouchableOpacity`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const SendButtonText = styled.Text`
   color: white;
-  font-size: 13px;
-  padding-right: 20%;
+  font-size: 15px;
 `;

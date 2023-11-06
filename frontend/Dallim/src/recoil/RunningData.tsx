@@ -3,16 +3,9 @@ export const numberToTwoString = (data: number) => {
   else return `${data}`;
 };
 
-export const calculatePace = (
-  timeInSeconds: number,
-  meters: number = 1000,
-): string => {
-  // 초당 몇미터 ?
-  const metersPerSecond = meters / timeInSeconds;
-  // 1km를 가는 데에 걸리는 초
-  const secondsPerKilometer = 1000 / metersPerSecond;
-  const paceMinutes: number = Math.floor(secondsPerKilometer / 60);
-  const paceSeconds: number = Math.round(secondsPerKilometer % 60);
+export const calculatePace = (timeInSeconds: number): string => {
+  const paceMinutes: number = Math.floor(timeInSeconds / 60);
+  const paceSeconds: number = Math.round(timeInSeconds % 60);
 
   return `${paceMinutes}' ${paceSeconds}''`;
 };

@@ -9,9 +9,9 @@ import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
 import * as S from './BottomTab.styles';
 
 // components
-// import Main from '@/screens/main/Main';
+import Main from '@/screens/main/Main';
 // import Chart from '@/screens/chart/ChartMain';
-// import Social from '@/screens/social/Social';
+import Social from '@/screens/social/Social';
 import Edit from '@/screens/edit/Edit';
 // import Profile from '@/screens/profile/Profile';
 
@@ -19,7 +19,6 @@ import Edit from '@/screens/edit/Edit';
 import BottomTabIcon from './BottomTabIcon';
 
 // stackNavigator
-import MainStackNavigators from '../../../navigations/MainStackNavigators';
 import ProfileStackNavigators from '../../../navigations/ProfileStackNavigators';
 import ChartStackNavigators from '../../../navigations/ChartStackNavigators';
 import SocialStackNavigators from '../../../navigations/SocialStackNavigators';
@@ -143,7 +142,7 @@ function BottompTab() {
       />
       <Tab.Screen
         name="Main"
-        component={MainStackNavigators}
+        component={Main}
         options={{
           tabBarIcon: ({focused}) => (
             <BottomTabIcon focused={focused} type="main" />

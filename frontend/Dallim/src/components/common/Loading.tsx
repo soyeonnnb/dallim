@@ -32,25 +32,25 @@ function Loading() {
                 <S.Body>
                     <S.ThemeBox>
                         <S.StyledGif
-                            source={characterData[0].evolutions[0].running}
+                            source={characterData[0].levels[0].running}
                             resizeMode="contain"
                         />
                     </S.ThemeBox>
                     <S.ThemeBox>
                         <S.StyledGif
-                            source={characterData[1].evolutions[0].running}
+                            source={characterData[1].levels[0].running}
                             resizeMode="contain"
                         />
                     </S.ThemeBox>
                     <S.ThemeBox>
                         <S.StyledGif
-                            source={characterData[2].evolutions[0].running}
+                            source={characterData[2].levels[0].running}
                             resizeMode="contain"
                         />
                     </S.ThemeBox>
                     <S.ThemeBox>
                         <S.StyledGif
-                            source={characterData[3].evolutions[0].running}
+                            source={characterData[3].levels[0].running}
                             resizeMode="contain"
                         />
                     </S.ThemeBox>

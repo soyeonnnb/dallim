@@ -34,7 +34,7 @@ export const Box = styled.View<BoxProps>`
 export const Left = styled.View`
   /* border-width: 1px;
   border-color: blue; */
-  width: 15%;
+  width: 20%;
   height: 100%;
   justify-content: center;
   align-items: center;
@@ -59,7 +59,7 @@ export const RankText = styled.Text<BoxProps>`
 export const Middle = styled(TouchableOpacity)`
   /* border-width: 1px;
   border-color: blue; */
-  width: 70%;
+  width: 75%;
   height: 100%;
 `;
 
@@ -96,28 +96,4 @@ export const LevelText = styled.Text`
   font-size: 10px;
   color: #474a65;
   margin-left: 8px;
-`;
-
-export const right = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
-  width: 15%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const ImageBox = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
-  width: 90%;
-  height: 80%;
-  justify-content: center;
-`;
-
-export const CharacterImage = styled.Image`
-  /* border-width: 1px;
-  border-color: gray; */
-  width: 80%;
-  height: 100%;
 `;

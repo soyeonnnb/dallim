@@ -5,35 +5,25 @@ import MonthlyChart from './MonthlyChart';
 
 interface Props {
   isShow: boolean;
-  selectedYearMonth: {year: number; month: number};
-  setSelectedYearMonth: any;
-  previewRecords: {
-    count: number;
-    distance: number;
-    time: number;
-    runningMate: {
-      characterIndex: number;
-      evolutionStage: number;
-      nickname: string;
-    };
-  };
 }
 
-function PreviewMonthly({
-  isShow,
-  selectedYearMonth,
-  setSelectedYearMonth,
-  previewRecords,
-}: Props) {
+function PreviewMonthly({isShow}: Props) {
+  const [year, setYear] = useState<number>(2023);
+  const [month, setMonth] = useState<number>(11);
+
+  useEffect(() => {
+    const nowDate = new Date();
+    setYear(nowDate.getFullYear());
+    setMonth(nowDate.getMonth() + 1);
+  }, [isShow]);
   return (
     <S.Container isShow={isShow}>
-      <MonthlyRecord
-        selectedYearMonth={selectedYearMonth}
-        previewRecords={previewRecords}
-      />
+      <MonthlyRecord year={year} month={month} />
       <MonthlyChart
-        selectedYearMonth={selectedYearMonth}
-        setSelectedYearMonth={setSelectedYearMonth}
+        year={year}
+        month={month}
+        setYear={setYear}
+        setMonth={setMonth}
       />
     </S.Container>
   );

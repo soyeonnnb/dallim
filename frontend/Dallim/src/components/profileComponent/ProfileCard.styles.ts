@@ -3,16 +3,12 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  /* width: 100%; */
-  /* height: 110px; */
   flex: 1;
 `;
 
 export const CardImageWrapper = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 100%;
-  height: 100%;
   border-radius: 18px;
   overflow: hidden;
 `;
@@ -21,7 +17,7 @@ export const CardBox = styled.ImageBackground`
   width: 100%;
   height: 100%;
   justify-content: center;
-  /* align-items: flex-start; */
+  align-items: flex-start;
 `;
 
 export const Header = styled.View`

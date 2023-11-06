@@ -8,6 +8,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,8 +16,11 @@ import android.widget.RemoteViews;
 import android.widget.TextView;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -24,36 +28,38 @@ import java.util.Locale;
  */
 public class CalendarWidget extends AppWidgetProvider {
 
+    static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
         Log.d("DDDDDDDDDD", "Widget - updateAppWidget");
 
         // RemoteViews를 사용하여 위젯 UI 업데이트
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.calendar_widget);
 
+// 출석 데이터 리스트 예시
+        String[] attendances = {"2023-11-01", "2023-11-03", "2023-11-06"};
+
+// 날짜 포맷터
+
+
+// 오늘 날짜로 캘린더 인스턴스 생성
 
 
 
         // 오늘의 날짜 정보 가져오기
         // 날짜 (월) 업데이트
             Calendar todayCal = Calendar.getInstance(Locale.KOREA);
+        String todayDate = formatter.format(todayCal.getTime());
             int currentMonth = todayCal.get(Calendar.MONTH);
 
         String currentMonthText = (currentMonth + 1) + "월";
         views.setTextViewText(R.id.tv_date, currentMonthText);
         Log.d("DDDDDDDDDD", "updateAppWidget"+currentMonthText);
 
-        String [] calendarArray = new String[42];
-        calendarArray[0]="일";
-        calendarArray[1]="월";
-        calendarArray[2]="화";
-        calendarArray[3]="수";
-        calendarArray[4]="목";
-        calendarArray[5]="금";
-        calendarArray[6]="토";
+        String [] calendarArray = new String[35];
 
 
 
-//        CalendarHelper.setupCalendarDisplay(context, linearLayout);
 
 
         // 이번달 1일의 요일을 구함
@@ -63,57 +69,67 @@ public class CalendarWidget extends AppWidgetProvider {
         int daysInMonth = todayCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         for(int i=1;i<=daysInMonth;i++){
-            calendarArray[i+dayOfWeek+5]=i+"";
+            calendarArray[i+dayOfWeek-2]=i+"";
         }
         Log.d("DDDDDDDDDD", "updateAppWidget"+" "+dayOfWeek+" "+daysInMonth);
         Log.d("DDDDDDDDDD", "updateAppWidget"+" calArr"+ Arrays.toString(calendarArray));
 
-        views.setTextViewText(R.id.cal1, calendarArray[0]);
-        views.setTextViewText(R.id.cal2, calendarArray[1]);
-        views.setTextViewText(R.id.cal3, calendarArray[2]);
-        views.setTextViewText(R.id.cal4, calendarArray[3]);
-        views.setTextViewText(R.id.cal5, calendarArray[4]);
-        views.setTextViewText(R.id.cal6, calendarArray[5]);
-        views.setTextViewText(R.id.cal7, calendarArray[6]);
-        views.setTextViewText(R.id.cal8, calendarArray[7]);
-        views.setTextViewText(R.id.cal9, calendarArray[8]);
-        views.setTextViewText(R.id.cal10, calendarArray[9]);
-        views.setTextViewText(R.id.cal11, calendarArray[10]);
-        views.setTextViewText(R.id.cal12, calendarArray[11]);
-        views.setTextViewText(R.id.cal13, calendarArray[12]);
-        views.setTextViewText(R.id.cal14, calendarArray[13]);
-        views.setTextViewText(R.id.cal15, calendarArray[14]);
-        views.setTextViewText(R.id.cal16, calendarArray[15]);
-        views.setTextViewText(R.id.cal17, calendarArray[16]);
-        views.setTextViewText(R.id.cal18, calendarArray[17]);
-        views.setTextViewText(R.id.cal19, calendarArray[18]);
-        views.setTextViewText(R.id.cal20, calendarArray[19]);
-        views.setTextViewText(R.id.cal21, calendarArray[20]);
-        views.setTextViewText(R.id.cal22, calendarArray[21]);
-        views.setTextViewText(R.id.cal23, calendarArray[22]);
-        views.setTextViewText(R.id.cal24, calendarArray[23]);
-        views.setTextViewText(R.id.cal25, calendarArray[24]);
-        views.setTextViewText(R.id.cal26, calendarArray[25]);
-        views.setTextViewText(R.id.cal27, calendarArray[26]);
-        views.setTextViewText(R.id.cal28, calendarArray[27]);
-        views.setTextViewText(R.id.cal29, calendarArray[28]);
-        views.setTextViewText(R.id.cal30, calendarArray[29]);
-        views.setTextViewText(R.id.cal31, calendarArray[30]);
-        views.setTextViewText(R.id.cal32, calendarArray[31]);
-        views.setTextViewText(R.id.cal33, calendarArray[32]);
-        views.setTextViewText(R.id.cal34, calendarArray[33]);
-        views.setTextViewText(R.id.cal35, calendarArray[34]);
-        views.setTextViewText(R.id.cal36, calendarArray[35]);
-        views.setTextViewText(R.id.cal37, calendarArray[36]);
-        views.setTextViewText(R.id.cal38, calendarArray[37]);
-        views.setTextViewText(R.id.cal39, calendarArray[38]);
-        views.setTextViewText(R.id.cal40, calendarArray[39]);
-        views.setTextViewText(R.id.cal41, calendarArray[40]);
-        views.setTextViewText(R.id.cal42, calendarArray[41]);
-        Log.d("DDDDDDDDDD", "Widget - setting end");
+        // 오늘 날짜 문자열 생성
+        String todayDateString = formatter.format(Calendar.getInstance().getTime());
 
-        // 기존 위젯 업데이트 코드 (필요에 따라 유지)
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+// 달력 날짜를 TextView에 설정하는 로직 개선
+        for (int i = 0; i < calendarArray.length; i++) {
+            String dayText = calendarArray[i]; // 날짜 텍스트
+
+            if (dayText != null) { // 배열의 값이 null이 아닌 경우에만 UI 업데이트
+                int textViewId = context.getResources().getIdentifier("cal" + (i + 1), "id", context.getPackageName());
+                views.setTextViewText(textViewId, dayText);
+            }
+
+            if (dayText != null && Integer.parseInt(dayText) == todayCal.get(Calendar.DAY_OF_MONTH)) {
+                int textViewId = context.getResources().getIdentifier("cal" + (i + 1), "id", context.getPackageName());
+                Log.d("DDDDDDDDDD", "updateAppWidget - todayDate: " + textViewId);
+                views.setInt(textViewId, "setBackgroundResource", R.drawable.border);
+            }
+        }
+
+
+
+
+// 출석 데이터를 순회하며 처리
+        for (String attendanceDate : attendances) {
+            try {
+                // 출석 날짜 파싱
+                Date date = formatter.parse(attendanceDate);
+                todayCal.setTime(date);
+
+                // 해당하는 날짜의 일(day) 가져오기
+                int dayOfMonth = todayCal.get(Calendar.DAY_OF_MONTH);
+                Log.d("DDDDDDDDDD", "updateAppWidget"+" dayOfMonth"+dayOfMonth);
+
+                // 해당하는 TextView ID를 구성하기 - 예시: R.id.cal1, R.id.cal2, ...
+                int textViewId = context.getResources().getIdentifier("cal" + (dayOfMonth+dayOfWeek-1), "id", context.getPackageName());
+
+                // 체크 이미지 ID 구성하기 - 예시: R.id.check_image_view_1, R.id.check_image_view_2, ...
+                int checkImageViewId = context.getResources().getIdentifier("check_image_view_" + (dayOfMonth+dayOfWeek-1), "id", context.getPackageName());
+
+                // 출석 표시
+                views.setViewVisibility(checkImageViewId, View.VISIBLE);
+                views.setTextColor(textViewId, Color.parseColor("#FF000000")); // 출석한 날짜의 글자 색 변경
+
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+                // 날짜 파싱에 실패한 경우 로그 처리
+            }
+        }
+
+
+
+
+
+
+
 
         Intent intent = new Intent(context, MainActivity.class); // 앱의 메인 액티비티로 이동
 

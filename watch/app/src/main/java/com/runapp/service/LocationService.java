@@ -57,7 +57,6 @@ public class LocationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
         // 액티비티랑 러닝뷰모델을 공통으로 씀
         runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
         conversion = new Conversion();
@@ -145,7 +144,7 @@ public class LocationService extends Service {
         Notification notification = builder.build();
         startForeground(NOTIFICATION_ID, notification);
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     @Nullable

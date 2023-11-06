@@ -1,10 +1,12 @@
 package com.runapp.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -47,25 +49,39 @@ public class MainActivity extends ComponentActivity{
     private int notificationId = 5;
     private String authenticateduth;
     private UserInfo userInfo;
+    private PowerManager.WakeLock wakeLock;
 
 
+    @SuppressLint("InvalidWakeLockTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         db = AppDatabase.getDatabase(getApplicationContext());
         super.onCreate(savedInstanceState);
+        PowerManager pm= (PowerManager) getSystemService(Context.POWER_SERVICE);
+        String packageName= getPackageName();
+        if (pm.isIgnoringBatteryOptimizations(packageName) ){
+
+        } else {    // 메모리 최적화가 되어 있다면, 풀기 위해 설정 화면 띄움.
+            Intent intent=new Intent();
+            intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:" + packageName));
+            startActivityForResult(intent,0);
+        }
         // 리시버 인스턴스를 생성합니다.
         networkUtil = new NetworkUtil();
         // 어떤 권한을 확인할 지 설정 해놓은 메서드.
         checkPermission();
-
-        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
-        String packageName = getPackageName();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!pm.isIgnoringBatteryOptimizations(packageName)) {
                 Log.e("에러", "절전모드임");
             }
         }
+
+        // WakeLock 초기화
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "main");
+        wakeLock.acquire();
 
         // 알림을 사용하기 위한 코드(오레오 이상 버전이면 실행)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -232,6 +248,10 @@ public class MainActivity extends ComponentActivity{
 
     @Override
     protected void onDestroy() {
+        // WakeLock 해제
+        if (wakeLock != null && wakeLock.isHeld()) {
+            wakeLock.release();
+        }
         super.onDestroy();
     }
 

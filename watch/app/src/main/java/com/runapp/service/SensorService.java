@@ -79,7 +79,7 @@ public class SensorService extends Service {
         registerHeartRateSensor();
         registerStepCountSensor();
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     public SensorService(){

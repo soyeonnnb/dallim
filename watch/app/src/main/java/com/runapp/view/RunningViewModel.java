@@ -4,7 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.runapp.model.RunDetail;
 import com.runapp.model.RunningData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RunningViewModel extends ViewModel {
@@ -23,6 +27,12 @@ public class RunningViewModel extends ViewModel {
     private final MutableLiveData<Double> totalHeartRate = new MutableLiveData<>();
     private final MutableLiveData<Integer> heartCountTime = new MutableLiveData<>();
     private MutableLiveData<RunningData> runningData = new MutableLiveData<>();
+    private final MutableLiveData<List<RunDetail>> runDetailList = new MutableLiveData<>();
+    private final MutableLiveData<Long> totalTime = new MutableLiveData<>();
+    private final MutableLiveData<Integer> speedCountTime = new MutableLiveData<>();
+    private final MutableLiveData<Double> totalSpeed = new MutableLiveData<>();
+
+
 
     public MutableLiveData<RunningData> getRunningData() {
         return runningData;
@@ -115,5 +125,35 @@ public class RunningViewModel extends ViewModel {
     }
     public MutableLiveData<Integer> getHeartCountTime() {
         return heartCountTime;
+    }
+    public LiveData<List<RunDetail>> getRunDetailList() {
+        if (runDetailList.getValue() == null) {
+            runDetailList.setValue(new ArrayList<>());
+        }
+        return runDetailList;
+    }
+    public void setRunDetailList(List<RunDetail> dataList) {
+        runDetailList.setValue(dataList);
+    }
+
+    public MutableLiveData<Long> getTotalTime() {
+        return totalTime;
+    }
+
+    public MutableLiveData<Integer> getSpeedCountTime() {
+        return speedCountTime;
+    }
+
+    public MutableLiveData<Double> getTotalSpeed() {
+        return totalSpeed;
+    }
+    public void setTotalTime(Long value) {
+        totalTime.setValue(value);
+    }
+    public void setTotalSpeed(Double value) {
+        totalSpeed.setValue(value);
+    }
+    public void setSpeedCountTime(Integer value) {
+        speedCountTime.setValue(value);
     }
 }

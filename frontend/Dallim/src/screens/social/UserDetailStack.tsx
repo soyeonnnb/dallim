@@ -8,7 +8,6 @@ import VersusModal from '@/components/socialComponent/socialModal/VersusModal';
 import SocialCard from '@/components/socialComponent/SocialCard';
 import { characterData } from '@/recoil/CharacterData';
 import { fetchUserRecord } from '@/apis/SocialApi';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Animated } from 'react-native';
 
 interface UserDetailStackProps {
@@ -44,13 +43,12 @@ interface UserDetails {
 
 function UserDetailStack({ navigation, route }: UserDetailStackProps) {
     const userId = route.params.userId;
-    const [myId, setMyId] = useState<number | null>(null);
 
     const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
 
     const [isLoading, setIsLoading] = useState(true);
     const [fadeAnim] = useState(new Animated.Value(0));  // 초기 투명도 0
-
+    const [buttonFadeAnim] = useState(new Animated.Value(0));
 
     const fetchUserDetails = async () => {
         setIsLoading(true);
@@ -59,26 +57,12 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
             setUserDetails(details);
             setIsLoading(false);
         } catch (error) {
-            console.error("Failed to fetch user details", error);
+            console.error("유저 상세기록 가져오기 실패", error);
             setIsLoading(false);
         }
     };
     useEffect(() => {
         fetchUserDetails();
-    }, []);
-
-    useEffect(() => {
-        const fetchMyId = async () => {
-            try {
-                const storedMyId = await AsyncStorage.getItem('userId');
-                if (storedMyId !== null) {
-                    setMyId(parseInt(storedMyId));
-                }
-            } catch (error) {
-                console.error("Error retrieving myId", error);
-            }
-        };
-        fetchMyId();
     }, []);
 
     const selectedCharacterIndex = userDetails ? userDetails.characterIndex : 0;
@@ -94,10 +78,6 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
 
     async function handleSend() {
         try {
-            console.log("비교하기 버튼 확인");
-            console.log("userId : " + userId);
-            console.log("MyId : " + myId);
-
             setVersusModalVisible(true);
         } catch (error) {
             console.error("Error retrieving data", error);
@@ -124,15 +104,13 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
         if (userDetails) {
             const updatedUserDetails: UserDetails = {
                 ...userDetails,
-                // updatedUserDetails의 runningRecordOverviews 속성을 업데이트된 updatedRecords 배열로 설정
                 runningRecordOverviews: updatedRecords,
             };
-            // 사용자 정보 업데이트
             setUserDetails(updatedUserDetails);
         }
     };
 
-    // 로딩  페이드애니메이션
+    // 로딩 애니메이션
     useEffect(() => {
         Animated.loop(
             Animated.sequence([
@@ -149,6 +127,25 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
             ]),
         ).start();
     }, []);
+
+    // '비교하기' 버튼 애니메이션
+    useEffect(() => {
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(buttonFadeAnim, {
+                    toValue: 0.5,
+                    duration: 500,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(buttonFadeAnim, {
+                    toValue: 1,
+                    duration: 500,
+                    useNativeDriver: true,
+                }),
+            ])
+        ).start();
+    }, []);
+
 
     return (
         <S.Container>
@@ -167,7 +164,12 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
                             <S.HeaderBox>
                                 <S.DetailText>상세보기</S.DetailText>
                             </S.HeaderBox>
-                            <S.Empty></S.Empty>
+                            <S.VersusBox>
+                                <S.VersusButton onPress={handleSend} >
+                                    <S.AnimatedVersusText style={{ opacity: buttonFadeAnim }}>비교하기</S.AnimatedVersusText>
+                                </S.VersusButton>
+
+                            </S.VersusBox>
                         </S.Header>
                         <S.Body>
                             <S.ProfileBox>

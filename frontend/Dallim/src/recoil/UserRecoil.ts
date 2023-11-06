@@ -1,5 +1,13 @@
 import {atom} from 'recoil';
 
+interface UserData {
+  point: number;
+  mainCharacterIndex: number;
+  mainPlanetIndex: number;
+  characters: Character[];
+  planets: Planet[];
+}
+
 interface Character {
   characterIndex: number;
   evolutionStage: number;
@@ -14,7 +22,6 @@ interface Planet {
 }
 
 interface UserData {
-
   point: number;
   mainCharacterIndex: number;
   mainPlanetIndex: number;
@@ -27,14 +34,14 @@ export const userDataState = atom<UserData | null>({
   default: null,
 });
 
-export const userIdState = atom<UserData | null>({
+export const userIdState = atom<number>({
   key: 'userIdState',
-  default: null,
+  default: 0,
 });
 
 export const userNicknameState = atom<string>({
   key: 'userNicknameState',
-  default: "",
+  default: '',
 });
 
 export const userPointState = atom<number>({
@@ -47,13 +54,14 @@ export const userLevelState = atom<number>({
   default: 0,
 });
 
-export const equippedCharacterIndexState = atom<number>({
-  key: 'equippedCharacterIndexState',
+export const userExpState = atom<number>({
+  key: 'userExpState',
   default: 0,
 });
 
-export const equippedCharacterLevelState = atom<number>({
-  key: 'equippedCharacterLevelState',
+// 장착중
+export const equippedCharacterIndexState = atom<number>({
+  key: 'equippedCharacterIndexState',
   default: 0,
 });
 
@@ -62,11 +70,17 @@ export const equippedEvolutionStageState = atom<number>({
   default: 0,
 });
 
+export const equippedCharacterLevelState = atom<number>({
+  key: 'equippedCharacterLevelState',
+  default: 0,
+});
+
 export const equippedPlanetIndexState = atom<number>({
   key: 'equippedPlanetIndexState',
   default: 0,
 });
 
+// 선택
 export const selectedCharacterIndexState = atom<number>({
   key: 'selectedCharacterIndexState',
   default: 0,

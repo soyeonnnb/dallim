@@ -20,6 +20,15 @@ import {fetchCompetitorCard} from '@/apis/ProfileApi';
 
 //Toast
 import Toast from 'react-native-toast-message';
+import {useRecoilState, useRecoilValue} from 'recoil';
+import {
+  equippedCharacterIndexState,
+  equippedEvolutionStageState,
+  equippedPlanetIndexState,
+  userExpState,
+  userLevelState,
+  userNicknameState,
+} from '@/recoil/UserRecoil';
 
 interface ProfileProps {
   navigation: any;
@@ -28,35 +37,19 @@ interface ProfileProps {
 function Profile({navigation}: ProfileProps) {
   //State---------------------------------
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+
   const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
-  const [userData, setUserData] = useState({
-    planetIndex: 0,
-    characterIndex: 0,
-    nickname: '',
-    level: 0,
-    exp: 0,
-    evolutionStage: 0,
-  });
+
+  const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
+  const userLevel = useRecoilValue(userLevelState);
+  const userExp = useRecoilValue(userExpState);
+  const equippedCharacterIndex = useRecoilValue(equippedCharacterIndexState);
+  const equippedEvolutionStage = useRecoilValue(equippedEvolutionStageState);
+  const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState);
 
   const [competitorData, setCompetitorData] = useState([]);
-  const [isNicknameChanged, setIsNicknameChanged] = useState(false);
 
   //useEffect---------------------------------
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const data = await fetchUserProfileCard();
-        setUserData(data);
-      } catch (error) {
-        console.error('데이터 불러오기 에러 :', error);
-      }
-    };
-
-    if (isNicknameChanged) {
-      setIsNicknameChanged(false);
-    }
-    fetchProfileData();
-  }, [isNicknameChanged]);
 
   useEffect(() => {
     const fetchCompetitorData = async () => {
@@ -72,9 +65,9 @@ function Profile({navigation}: ProfileProps) {
   }, []);
 
   //dataCall ---------------------------------
-  const selectedCharacter = characterData[userData.characterIndex];
+  const selectedCharacter = characterData[equippedCharacterIndex];
   const selectedCharacterLevelData =
-    selectedCharacter.evolutions[userData.evolutionStage];
+    selectedCharacter.evolutions[equippedEvolutionStage];
 
   //actions---------
   const handleRunningMatePress = () => {
@@ -107,10 +100,6 @@ function Profile({navigation}: ProfileProps) {
     });
   };
 
-  const handleNicknameChangeSuccess = () => {
-    setIsNicknameChanged(true);
-  };
-  //
   return (
     <S.Container>
       <S.BackgroundImage
@@ -125,10 +114,10 @@ function Profile({navigation}: ProfileProps) {
           </S.TitleProfileBox>
           <S.ProfileBox>
             <ProfileCard
-              PlanetIndex={userData.planetIndex}
-              Nickname={userData.nickname}
-              UserLevel={userData.level}
-              experiencePercentage={userData.exp}
+              PlanetIndex={equippedPlanetIndex}
+              Nickname={userNickname}
+              UserLevel={userLevel}
+              experiencePercentage={userExp}
             />
           </S.ProfileBox>
         </S.Header>
@@ -163,7 +152,8 @@ function Profile({navigation}: ProfileProps) {
                   <S.ButtonText>운동알림</S.ButtonText>
                 </S.TextBox>
               </S.ButtonBox>
-              <S.ButtonBox onPress={handleToastTouch}>
+              <S.ButtonBox
+                onPress={() => navigation.navigate('WatchConnection')}>
                 <S.WatchIconBox>
                   <WatchIcon width={50} height={50} color="white" />
                 </S.WatchIconBox>
@@ -193,8 +183,7 @@ function Profile({navigation}: ProfileProps) {
       <NicknameChangeModal
         showModal={showNicknameChangeModal}
         toggleModal={() => setShowNicknameChangeModal(!showNicknameChangeModal)}
-        handleNicknameChangeSuccess={handleNicknameChangeSuccess}
-        Nickname={userData.nickname}
+        Nickname={userNickname}
       />
     </S.Container>
   );

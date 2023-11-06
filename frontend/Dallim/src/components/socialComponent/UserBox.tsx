@@ -2,9 +2,8 @@ import { postAddFriend } from '@/apis/SocialApi';
 import * as S from './Box.styles';
 import { characterData } from '@/recoil/CharacterData';
 
-import { useSetRecoilState } from 'recoil';
-import { friendsState } from '@/recoil/FriendRecoil';
 import { useState } from 'react';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 type UserBoxProps = {
     userId: number;
@@ -15,34 +14,20 @@ type UserBoxProps = {
     isFollower: boolean;
 };
 
-function UserBox({ userId, nickname, characterIndex, evolutionStage,  level, isFollower }: UserBoxProps) {
-
-    const setFriends = useSetRecoilState(friendsState);
+function UserBox({ userId, nickname, characterIndex, evolutionStage, level, isFollower }: UserBoxProps) {
 
     const selectedCharacter = characterData[characterIndex].evolutions[evolutionStage].front;
-    const [isFollowerCheck, setIsFollowerCheck] = useState(isFollower);
-
+    const [showAlert, setShowAlert] = useState(false);
 
     const handleaddFriend = async (userId: number) => {
         try {
             const result = await postAddFriend(userId);
             if (result) {
                 console.log('친구 요청이 성공적으로 완료');
-                setIsFollowerCheck(true); // 로컬 상태 업데이트
-                setFriends((oldFriendsList) => [
-                    ...oldFriendsList,
-                    {
-                        userId: userId,
-                        nickname: nickname,
-                        characterIndex: characterIndex,
-                        evolutionStage: evolutionStage,
-                        level: level,
-                        isFollower: true,
-                    },
-                ]);
-
+                
             } else {
                 console.log('친구 요청이 실패');
+                setShowAlert(true);
             }
         } catch (error) {
             console.error('친구 추가 중 오류가 발생', error);
@@ -64,14 +49,30 @@ function UserBox({ userId, nickname, characterIndex, evolutionStage,  level, isF
                     <S.LevelText>Lv. {level}</S.LevelText>
                 </S.Middle>
                 <S.Right>
-                    {!isFollowerCheck && (
+                    {!isFollower && (
                         <S.Button onPress={() => { handleaddFriend(userId) }}>
                             <S.FriendAddImage source={require('@/assets/icons/FriendAddIcon.png')} resizeMode='contain' />
                         </S.Button>
                     )}
                 </S.Right>
             </S.Box>
-
+            <AwesomeAlert
+                show={showAlert}
+                showProgress={false}
+                title="안내사항"
+                message="상대가 친구 수락을 대기중입니다."
+                closeOnTouchOutside={true}
+                onDismiss={() => {
+                    setShowAlert(false);
+                }}
+                closeOnHardwareBackPress={false}
+                showConfirmButton={true}
+                confirmText="확인"
+                confirmButtonColor="blue"
+                onConfirmPressed={() => {
+                    setShowAlert(false);
+                }}
+            />
         </S.Container >
     );
 };

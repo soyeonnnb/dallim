@@ -95,6 +95,25 @@ export const postAlarmRegist = async (scheduleTimestamp: number) => {
     return response.data;
   } catch (error) {
     console.error('ProfileApi : 알림 등록 axios 실패 -->', error);
+  }
+};
+// 워치 연동 API
+export const postWatchConnection = async (authCode: string) => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/v1/check-authentication-code`,
+      {authCode},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    console.log('response : ', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('ProfileApi : 워치연동 axios 실패 --> ', error);
     throw error;
   }
 };

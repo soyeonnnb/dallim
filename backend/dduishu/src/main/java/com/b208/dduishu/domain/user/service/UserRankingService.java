@@ -1,5 +1,6 @@
 package com.b208.dduishu.domain.user.service;
 
+import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.follow.entity.FollowState;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
@@ -26,6 +27,7 @@ public class UserRankingService {
     private final UserRepository userRepository;
     private final GetUser getUser;
     private final RunningRecordRepository runningRecordRepository;
+    private final CharacterRepository characterRepository;
 
     public List<RunningRecord> findRunningRecord(List<User> users) {
 

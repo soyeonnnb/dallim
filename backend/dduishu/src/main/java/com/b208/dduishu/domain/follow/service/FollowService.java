@@ -1,11 +1,15 @@
 package com.b208.dduishu.domain.follow.service;
 
+import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.follow.dto.request.AcceptFollowerinfo;
 import com.b208.dduishu.domain.follow.dto.request.CreateFollowerInfo;
 import com.b208.dduishu.domain.follow.dto.request.FollowerInfo;
 import com.b208.dduishu.domain.follow.dto.request.RejectFollowerinfo;
 import com.b208.dduishu.domain.follow.entity.Follow;
 import com.b208.dduishu.domain.follow.entity.FollowState;
+import com.b208.dduishu.domain.follow.exception.CreateFollowerNotPossibleException;
+import com.b208.dduishu.domain.follow.exception.FollowDuplicateException;
+import com.b208.dduishu.domain.follow.exception.RejectFollowerNotPossibleException;
 import com.b208.dduishu.domain.follow.repository.FollowRepository;
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.entity.User;
@@ -35,14 +39,18 @@ public class FollowService {
 
         User user = getUser.getUser();
 
-        System.out.println("여기>?");
-        System.out.println(user);
+        boolean isDuplicate = checkDuplicate(user.getUserId(), req.getToUserId());
+
+        if (isDuplicate) {
+            throw new FollowDuplicateException();
+        }
+        if (user.getUserId() == req.getToUserId()) {
+            throw new CreateFollowerNotPossibleException();
+        }
 
         User toUser = userRepository.findByUserId(req.getToUserId()).orElseThrow(() -> {
             throw new NullPointerException();
         });
-
-        System.out.println("여긴가?");
 
         Follow follow = Follow.builder()
                 .fromUser(user)
@@ -56,36 +64,40 @@ public class FollowService {
     }
 
     @Transactional
-    public void acceptFollow(AcceptFollowerinfo req) {
+    public boolean checkDuplicate(Long fromUserId, Long toUserId) {
 
+        Follow res = followRepository.findByFromUserUserIdAndToUserUserId(fromUserId, toUserId);
+
+        if (res != null) {
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public void acceptFollow(AcceptFollowerinfo req) {
         User user = getUser.getUser();
 
-        User toUser = userRepository.findByUserId(req.getToUserId()).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
-
-
-        Follow follow = followRepository.findByFromUserUserIdAndToUserUserId(user.getUserId(), toUser.getUserId());
-
-        follow.setState(FollowState.accept);
-        System.out.println("@@@@@@"+follow);
-        followRepository.save(follow);
+        Follow followToMe = followRepository.findByFromUserUserIdAndToUserUserId(req.getToUserId(), user.getUserId());
+        Follow followFromMe = followRepository.findByFromUserUserIdAndToUserUserId(user.getUserId(), req.getToUserId());
+        if (followToMe != null) {
+            followToMe.setState(FollowState.accept);
+        }
+        if (followFromMe != null) {
+            followFromMe.setState(FollowState.accept);
+        }
     }
+
     @Transactional
     public void rejectFollow(RejectFollowerinfo req) {
-
         User user = getUser.getUser();
 
-        User toUser = userRepository.findByUserId(req.getToUserId()).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
+        Follow follow = followRepository.findByFromUserUserIdAndToUserUserIdAndState(req.getToUserId(), user.getUserId(), FollowState.waiting);
 
-
-        Follow follow = followRepository.findByFromUserUserIdAndToUserUserId(user.getUserId(), toUser.getUserId());
-
+        if (follow == null) {
+            throw new RejectFollowerNotPossibleException();
+        }
         follow.setState(FollowState.reject);
-
-        followRepository.save(follow);
     }
 
 
@@ -97,7 +109,10 @@ public class FollowService {
         List<Follow> toUserFollows = followRepository.findAllByToUserUserIdAndState(user.getUserId(), FollowState.accept);
         // fromUser로서의 팔로우 리스트
         List<Follow> fromUserFollows = followRepository.findAllByFromUserUserIdAndState(user.getUserId(), FollowState.accept);
-
+        Character mainCharacter = user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
         // 두 리스트를 합쳐 중복을 제거한 User Set을 생성
         Set<User> allFriends = new HashSet<>();
 
@@ -106,14 +121,17 @@ public class FollowService {
 
         // Set 내의 모든 사용자를 FollowerInfo 리스트로 변환
         return allFriends.stream()
-                .map(FollowerInfo::new)
+                .map(o -> new FollowerInfo(o, mainCharacter))
                 .collect(Collectors.toList());
     }
 
 
     public List<FollowerInfo> getAllWatingFollowInfo() {
         User user = getUser.getUser();
-
+        Character mainCharacter = user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
         // fromUser가 아니라 toUser 기준으로 조회하며 state가 waiting인 것만 필터링
         List<Follow> waitingFollows = followRepository.findAllByToUserUserIdAndState(user.getUserId(), FollowState.waiting);
 
@@ -123,7 +141,7 @@ public class FollowService {
                 .collect(toList());
 
         List<FollowerInfo> followDTO = followUsers.stream()
-                .map(FollowerInfo::new)
+                .map(o -> new FollowerInfo(o, mainCharacter))
                 .collect(toList());
         return followDTO;
     }
@@ -134,10 +152,10 @@ public class FollowService {
         User user = getUser.getUser();
 
         // 현재 사용자가 다른 사용자를 팔로우한 경우를 삭제
-        followRepository.deleteByFromUserUserIdAndToUserUserId(user.getUserId(), toUserId);
+        followRepository.deleteByFromUserUserIdAndToUserUserIdAndState(user.getUserId(), toUserId, FollowState.accept);
 
         // 다른 사용자가 현재 사용자를 팔로우한 경우를 삭제
-        followRepository.deleteByFromUserUserIdAndToUserUserId(toUserId, user.getUserId());
+        followRepository.deleteByFromUserUserIdAndToUserUserIdAndState(toUserId, user.getUserId(), FollowState.accept);
     }
 
 }

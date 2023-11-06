@@ -24,7 +24,7 @@ public class SocialRunningRecordOverview {
 
     public SocialRunningRecordOverview(RunningRecord runningRecord, List<RunningMate> runningMates) {
         this.id = runningRecord.getId().toString();
-        this.location = "서울, 석촌호수";
+        this.location = runningRecord.getLocation();
         this.type = runningRecord.getType();
         this.totalTime = runningRecord.getTotalTime();
         this.totalDistance = runningRecord.getTotalDistance();

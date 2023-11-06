@@ -88,6 +88,17 @@ public class UserController {
         }
     }
 
+    @GetMapping("/api/v1/user/watch")
+    public ApiResponse<?> getWatchUserInfo() {
+        try {
+            WatchUserInfo res = userSocialService.getWatchUserInfo();
+
+            return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+    }
+
     @GetMapping("/api/v1/user/main")
     public ApiResponse<?> getUserMainPageInfo() {
         try {

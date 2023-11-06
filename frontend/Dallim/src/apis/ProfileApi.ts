@@ -45,9 +45,7 @@ export const fetchCompetitorCard = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
     console.log('response : ', response.data.data);
-
     return response.data.data;
   } catch (error) {
     console.error('ProfileApi : 내가등록한 경쟁자 조회 실패 --> ', error); // 로깅을 추가합니다.

@@ -62,7 +62,7 @@ export const BodyBottomCharacterImageBox = styled.View`
   height: 50%;
   top: 45%;
   justify-content: flex-end;
-  left: 40%;
+  left: 45%;
   position: absolute;
 `;
 

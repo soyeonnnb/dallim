@@ -1,11 +1,11 @@
 import * as S from './Profile.styles';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ProfileCard from '../../components/profileComponent/ProfileCard';
 
 import NicknameChangeModal from '../../components/profileComponent/profileModal/NicknameChangeModal';
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
-import {characterData} from '@/recoil/CharacterData';
+import { characterData } from '@/recoil/CharacterData';
 
 //icon
 import logoutIcon from '@/assets/icons/logout.png';
@@ -15,12 +15,14 @@ import RunningAlarmIcon from '@/assets/icons/RunningAlarmIcon';
 import WatchIcon from '@/assets/icons/WatchIcon';
 
 //Apis
-import {fetchUserProfileCard} from '@/apis/ProfileApi';
-import {fetchCompetitorCard} from '@/apis/ProfileApi';
+import { fetchUserProfileCard } from '@/apis/ProfileApi';
+import { fetchCompetitorCard } from '@/apis/ProfileApi';
 
 //Toast
 import Toast from 'react-native-toast-message';
-import {useRecoilState, useRecoilValue} from 'recoil';
+
+//Recoil
+import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   equippedCharacterIndexState,
   equippedEvolutionStageState,
@@ -29,15 +31,16 @@ import {
   userLevelState,
   userNicknameState,
 } from '@/recoil/UserRecoil';
+import { competitorDataState } from '@/recoil/RunningRecoil';
 
 interface ProfileProps {
   navigation: any;
 }
 
-function Profile({navigation}: ProfileProps) {
+function Profile({ navigation }: ProfileProps) {
   //State---------------------------------
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
 
   const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
@@ -47,7 +50,7 @@ function Profile({navigation}: ProfileProps) {
   const equippedEvolutionStage = useRecoilValue(equippedEvolutionStageState);
   const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState);
 
-  const [competitorData, setCompetitorData] = useState([]);
+  const [competitorData, setCompetitorData] = useRecoilState(competitorDataState);
 
   //useEffect---------------------------------
 
@@ -55,19 +58,17 @@ function Profile({navigation}: ProfileProps) {
     const fetchCompetitorData = async () => {
       try {
         const data = await fetchCompetitorCard();
-        setCompetitorData(data);
+        setCompetitorData(data); // Recoil 상태를 업데이트합니다.
       } catch (error) {
         console.error('경쟁자 데이터 불러오기 에러 :', error);
       }
     };
-
     fetchCompetitorData();
-  }, []);
+  }, [setCompetitorData]);
 
   //dataCall ---------------------------------
   const selectedCharacter = characterData[equippedCharacterIndex];
-  const selectedCharacterLevelData =
-    selectedCharacter.evolutions[equippedEvolutionStage];
+  const selectedCharacterLevelData = selectedCharacter.evolutions[equippedEvolutionStage];
 
   //actions---------
   const handleRunningMatePress = () => {
@@ -89,16 +90,17 @@ function Profile({navigation}: ProfileProps) {
     }
   };
 
-  const handleToastTouch = () => {
-    Toast.show({
-      type: 'error',
-      position: 'top',
-      text1: '개발중입니다!',
-      visibilityTime: 3000,
-      autoHide: true,
-      topOffset: 10,
-    });
-  };
+  // 개발중
+  // const handleToastTouch = () => {
+  //   Toast.show({
+  //     type: 'error',
+  //     position: 'top',
+  //     text1: '개발중입니다!',
+  //     visibilityTime: 3000,
+  //     autoHide: true,
+  //     topOffset: 10,
+  //   });
+  // };
 
   return (
     <S.Container>

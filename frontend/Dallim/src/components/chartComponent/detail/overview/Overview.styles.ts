@@ -77,5 +77,5 @@ export const WalkRecordContent = styled.Text`
   font-weight: 800;
 `;
 export const Footer = styled.View`
-  height: 10%;
+  height: 5%;
 `;

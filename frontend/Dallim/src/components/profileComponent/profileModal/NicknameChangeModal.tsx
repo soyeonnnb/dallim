@@ -6,6 +6,12 @@ import CustomToast from '../../../components/common/CustomToast';
 //apis
 import {patchNicknameCheck} from '@/apis/ProfileApi';
 
+// recoil : 은성
+import { useSetRecoilState } from 'recoil';
+import {
+  userNicknameState,
+} from '@/recoil/UserRecoil';
+
 type ModalComponentProps = {
   showModal: boolean;
   toggleModal: () => void;
@@ -24,6 +30,7 @@ const NicknameChangeModal = ({
 
   // state
   const [newNickname, setNewNickname] = useState(Nickname);
+  const setUserNickname = useSetRecoilState(userNicknameState); // 유저 닉네임 : 은성
 
   //action
   const handleConfirm = async () => {
@@ -51,6 +58,7 @@ const NicknameChangeModal = ({
       // 응답의 상태에 따른 처리
       if (response.status === 'success') {
         CustomToast({type: 'success', text1: '닉네임 변경 성공!'});
+        setUserNickname(trimmedNickname); // 리코일 상태 변경 추가 : 은성
         handleNicknameChangeSuccess();
         toggleModal();
       } else {

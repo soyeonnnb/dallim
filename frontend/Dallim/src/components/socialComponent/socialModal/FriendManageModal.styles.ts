@@ -160,7 +160,7 @@ export const Search = styled.View`
   flex-direction: row;
   border-radius: 15px;
   width: 65%;
-  height: 10%;
+  height: 40px;
   align-items: center;
 `;
 
@@ -172,18 +172,28 @@ export const SearchLeft = styled.View`
   margin-left: 5%;
   width: 80%;
   height: 100%;
-  justify-content: center;
-  align-items: center;
 `;
 
-export const SearchBox = styled(TextInput)`
+export const SearchBox = styled.View`
   /* border-color: green;
   border-width: 1px; */
   height: 100%;
   width: 100%;
-  padding: 5px;
   font-size: 10px;
+  padding-left: 10px;
   color: #8c8c8c;
+
+`;
+
+export const SearchInput = styled.TextInput`
+  /* border-color: green;
+  border-width: 1px; */
+  font-size: 12px;
+  color: black;
+  width: 90%;
+  height: 100%;
+  border-bottom-width: 1px;
+  border-bottom-color: #d9d9d9;
 `;
 
 export const SearchRight = styled.View`

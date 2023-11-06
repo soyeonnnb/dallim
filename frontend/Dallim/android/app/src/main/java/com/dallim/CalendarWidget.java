@@ -39,11 +39,6 @@ public class CalendarWidget extends AppWidgetProvider {
 // 출석 데이터 리스트 예시
         String[] attendances = {"2023-11-01", "2023-11-03", "2023-11-06"};
 
-// 날짜 포맷터
-
-
-// 오늘 날짜로 캘린더 인스턴스 생성
-
 
 
         // 오늘의 날짜 정보 가져오기
@@ -57,10 +52,6 @@ public class CalendarWidget extends AppWidgetProvider {
         Log.d("DDDDDDDDDD", "updateAppWidget"+currentMonthText);
 
         String [] calendarArray = new String[35];
-
-
-
-
 
         // 이번달 1일의 요일을 구함
         todayCal.set(Calendar.DAY_OF_MONTH, 1);
@@ -93,9 +84,6 @@ public class CalendarWidget extends AppWidgetProvider {
             }
         }
 
-
-
-
 // 출석 데이터를 순회하며 처리
         for (String attendanceDate : attendances) {
             try {
@@ -123,12 +111,6 @@ public class CalendarWidget extends AppWidgetProvider {
                 // 날짜 파싱에 실패한 경우 로그 처리
             }
         }
-
-
-
-
-
-
 
 
         Intent intent = new Intent(context, MainActivity.class); // 앱의 메인 액티비티로 이동

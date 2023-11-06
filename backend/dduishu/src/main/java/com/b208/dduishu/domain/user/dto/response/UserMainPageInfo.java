@@ -14,7 +14,7 @@ public class UserMainPageInfo {
     private String nickName;
     private int point;
     private int userLevel;
-    private int exp;
+    private int userExp;
     private int characterIndex;
     private int evolutionStage;
     private int planetIndex;
@@ -25,8 +25,8 @@ public class UserMainPageInfo {
         this.nickName = user.getNickname();
         this.point = user.getPoint();
         this.userLevel = user.getUserLevel().getLevel();
-        BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(character.getCharacterLevel().getExp());
-        this.exp = levelInfo.getExp();
+        BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(user.getUserLevel().getExp());
+        this.userExp = levelInfo.getExp();
         if (character != null) {
             this.characterIndex = Util.getCharacterIndexByCharacter(character);
             this.evolutionStage = getEvolutionStage(character.getCharacterLevel().getLevel());

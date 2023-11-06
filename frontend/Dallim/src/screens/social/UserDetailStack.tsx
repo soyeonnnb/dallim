@@ -8,7 +8,6 @@ import VersusModal from '@/components/socialComponent/socialModal/VersusModal';
 import SocialCard from '@/components/socialComponent/SocialCard';
 import { characterData } from '@/recoil/CharacterData';
 import { fetchUserRecord } from '@/apis/SocialApi';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Animated } from 'react-native';
 
 interface UserDetailStackProps {
@@ -44,7 +43,6 @@ interface UserDetails {
 
 function UserDetailStack({ navigation, route }: UserDetailStackProps) {
     const userId = route.params.userId;
-    const [myId, setMyId] = useState<number | null>(null);
 
     const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
 
@@ -59,26 +57,12 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
             setUserDetails(details);
             setIsLoading(false);
         } catch (error) {
-            console.error("Failed to fetch user details", error);
+            console.error("유저 상세기록 가져오기 실패", error);
             setIsLoading(false);
         }
     };
     useEffect(() => {
         fetchUserDetails();
-    }, []);
-
-    useEffect(() => {
-        const fetchMyId = async () => {
-            try {
-                const storedMyId = await AsyncStorage.getItem('userId');
-                if (storedMyId !== null) {
-                    setMyId(parseInt(storedMyId));
-                }
-            } catch (error) {
-                console.error("Error retrieving myId", error);
-            }
-        };
-        fetchMyId();
     }, []);
 
     const selectedCharacterIndex = userDetails ? userDetails.characterIndex : 0;
@@ -183,7 +167,6 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
                             <S.VersusBox>
                                 <S.VersusButton onPress={handleSend} >
                                     <S.AnimatedVersusText style={{ opacity: buttonFadeAnim }}>비교하기</S.AnimatedVersusText>
-                                    {/* <S.VersusText>비교하기</S.VersusText> */}
                                 </S.VersusButton>
 
                             </S.VersusBox>

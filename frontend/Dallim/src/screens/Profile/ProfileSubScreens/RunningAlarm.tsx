@@ -22,7 +22,7 @@ function RunningAlarm({navigation}: RunningAlarmProps) {
     return () => setShowTimePicker(false);
   }, []);
 
-  //dummydata
+  //dummydat
   const dummy = [
     {
       day: ['월'],

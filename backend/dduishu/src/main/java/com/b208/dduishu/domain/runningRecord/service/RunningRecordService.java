@@ -334,11 +334,11 @@ public class RunningRecordService {
                 .collect(toList());
     }
 
-    public RunningRecordDetail getRunningRecordDetail(ObjectId id) {
+    public RunningRecordDetail getRunningRecordDetail(String id) {
 
         System.out.println(id);
 
-        RunningRecord res = runningRecordRepository.findById(id).orElseThrow(() -> {
+        RunningRecord res = runningRecordRepository.findById(new ObjectId(id)).orElseThrow(() -> {
             throw new NullPointerException();
         });
 

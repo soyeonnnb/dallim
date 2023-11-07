@@ -22,7 +22,7 @@ public class RunningRecordController {
     private final RunningRecordService runningRecordService;
 
     @GetMapping("/api/v1/running/{id}")
-    public ApiResponse<?> getRunningRecordDetail(@PathVariable ObjectId id) {
+    public ApiResponse<?> getRunningRecordDetail(@PathVariable String id) {
 
         try {
 

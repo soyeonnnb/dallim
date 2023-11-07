@@ -15,8 +15,9 @@ export interface RunningRecord {
 export interface MonthlyRecords {
   year: number; // 년도
   month: number; // 월
-  runningMateNickname: string; // 한달간 가장 많이 함께한 러닝메이트의 유저 닉네임
-  runningMateCharacter: number; // 사용자가 지정한 캐릭터 번호
+  runningMateNickName: string; // 한달간 가장 많이 함께한 러닝메이트의 유저 닉네임
+  runningMateCharacterIndex: number; // 사용자가 지정한 캐릭터 번호
+  evolutionStage: number;
   runningMateLevel: number; // 사용자의 캐릭터 레벨
   totalCount: number; // 달린 횟수
   totalDistance: number; // 달린 총 거리(M 단위)
@@ -85,6 +86,28 @@ export interface RivalRecord extends BasicRecord {
   };
 }
 
+export interface PaceChartDataType {
+  value: number;
+  second: number;
+  fromZeroPace: string;
+}
+
+export interface PaceSectionType {
+  startTime: number;
+  finishTime: number;
+  pace: number;
+}
+
+export interface HeartChartDataType {
+  value: number;
+  second: number;
+}
+
+export interface PaceDataType {
+  chartData: PaceChartDataType[];
+  sectionPace: PaceSectionType[];
+}
+
 const getToken = async () => {
   try {
     const token = await AsyncStorage.getItem('accessToken');
@@ -125,7 +148,29 @@ export const fetchDetailRunningData = async (id: string) => {
 
     return response.data.data;
   } catch (error) {
-    console.error('ChartApi : 월별 조회 Axios 실패 --> ', error); // 로깅을 추가합니다.
+    console.error('ChartApi : 러닝 데이터 상세 조회 Axios 실패 --> ', error); // 로깅을 추가합니다.
+    throw error;
+  }
+};
+
+// 러닝메이트와 달렸던 기록 가져오기
+export const fetchRunningMateRunningList = async (id: string) => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.get(
+      `${BASE_URL}/api/v1/running-record/running-mate/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error(
+      'ChartApi : 러닝메이트와 달렸던 기록 리스트 조회 Axios 실패 --> ',
+      error,
+    ); // 로깅을 추가합니다.
     throw error;
   }
 };

@@ -1,8 +1,8 @@
-import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import Profile from '@/screens/profile/Profile';
 import RunningMateSetting from '@/screens/profile/ProfileSubScreens/RunningMateSetting';
 import RunningAlarm from '@/screens/profile/ProfileSubScreens/RunningAlarm';
+import WatchConnection from '@/screens/profile/ProfileSubScreens/WatchConnection';
 
 const ProfileStack = createStackNavigator();
 
@@ -24,6 +24,12 @@ function ProfileStackNavigators() {
       <ProfileStack.Screen
         name="RunningAlarm"
         component={RunningAlarm}
+        options={{headerShown: false}}
+      />
+
+      <ProfileStack.Screen
+        name="WatchConnection"
+        component={WatchConnection}
         options={{headerShown: false}}
       />
     </ProfileStack.Navigator>

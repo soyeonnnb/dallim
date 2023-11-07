@@ -46,18 +46,18 @@ export const TitleText = styled.Text`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px; */
+  /* border-color: red; */
   justify-content: center;
   flex-direction: row;
   align-items: center;
-  width: 100%;
+  width: 90%;
   height: 40%;
 `;
 
 export const Footer = styled.View`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   flex-direction: column;
   justify-content: center;
   align-items: center;

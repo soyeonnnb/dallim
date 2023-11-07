@@ -1,27 +1,47 @@
 import * as S from './OverviewRunningMateRecord.styles';
 import {characterData} from '@/recoil/CharacterData';
-
+import {useNavigation} from '@react-navigation/native';
 import SpeedIcon from '@/assets/icons/SpeedIcon';
 import DistanceIcon from '@/assets/icons/DistanceIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 import {RecordDetail, RivalRecord} from '@/apis/ChartApi';
 import {calculatePace, secondToHourMinuteSeconds} from '@/recoil/RunningData';
+import OverviewGraph from './OverviewGraph';
+import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
+import {useState, useEffect} from 'react';
 
 interface Props {
+  paceList: itemType[];
   data: RivalRecord;
+  navigation: any;
 }
 
-function OverviewRunningMateRecord({data}: Props) {
+function OverviewRunningMateRecord({paceList, data, navigation}: Props) {
   const characterImage =
-    characterData[data.character.characterIndex].levels[
+    characterData[data.character.characterIndex].evolutions[
       data.character.evolutionStage
     ].front;
+  const [rivalPaceData, setRivalPaceData] = useState<itemType[]>();
+  useEffect(() => {
+    const paceData: itemType[] = [];
+    data.runningRecordInfos.map(record => {
+      paceData.push({
+        value: record.speed,
+      });
+    });
+    setRivalPaceData(paceData);
+  }, []);
   return (
     <S.Container>
       <S.TitleContainer>
         <S.Title>같이달린 러닝메이트</S.Title>
-        <S.Navi>더보기</S.Navi>
+        <S.Navi
+          onPress={() =>
+            navigation.push('RunningMateChartList', {id: data.id})
+          }>
+          <S.NaviText>더보기</S.NaviText>
+        </S.Navi>
       </S.TitleContainer>
       <S.InfoContainer>
         <S.Nickname>{data.user.nickname}</S.Nickname>
@@ -42,10 +62,13 @@ function OverviewRunningMateRecord({data}: Props) {
           </S.Records>
         </S.Info>
       </S.InfoContainer>
-      <S.Chart>
-        <S.ChartTitle>페이스 비교</S.ChartTitle>
-        <S.Text>곧 페이스 비교 차트가 추가될 예정이에요 😳</S.Text>
-      </S.Chart>
+      {rivalPaceData && (
+        <OverviewGraph
+          title="페이스 비교"
+          data={paceList}
+          data2={rivalPaceData}
+        />
+      )}
     </S.Container>
   );
 }

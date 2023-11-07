@@ -1,19 +1,19 @@
 import * as S from './Edit.styles';
-import { characterData } from '@/recoil/CharacterData';
-import { backgroundImage } from '@/recoil/PlanetData';
-import { planetData } from '@/recoil/PlanetData';
-import { useRef, useState, useEffect } from 'react';
-import { Animated, Easing } from 'react-native';
-import { fetchEditInfo } from '@/apis/EditApi';
+import {characterData} from '@/recoil/CharacterData';
+import {backgroundImage} from '@/recoil/PlanetData';
+import {planetData} from '@/recoil/PlanetData';
+import {useRef, useState, useEffect} from 'react';
+import {Animated, Easing} from 'react-native';
+import {fetchEditInfo} from '@/apis/EditApi';
 import CharacterEdit from '@/components/editComponent/CharacterEdit';
 import PlanetEdit from '@/components/editComponent/PlanetEdit';
-import BasicCharacter from '@/assets/characters/Rabbit.png'
+import BasicCharacter from '@/assets/characters/Rabbit.png';
 import BasicPlanet from '@/assets/planets/PlanetBlack.png';
 import Right from '@/assets/icons/DirectionRight.png';
 import Left from '@/assets/icons/DirectionLeft.png';
 import Loading from '@/components/common/Loading';
 
-import { useRecoilState } from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {
   userDataState,
   userPointState,
@@ -28,13 +28,46 @@ import {
   selectedCharacterIsPurchasedState,
   selectedPlanetIndexState,
   selectedPlanetIsPurchasedState,
-  isOnState
-} from '@/recoil/EditRecoil';
-
+  isOnState,
+} from '@/recoil/UserRecoil';
 
 function Edit() {
-
   const [userData, setUserData] = useRecoilState(userDataState);
+  const [userPoint, setUserPoint] = useRecoilState(userPointState);
+  const setEquippedCharacterIndex = useSetRecoilState(
+    equippedCharacterIndexState,
+  );
+  const setEquippedCharacterLevel = useSetRecoilState(
+    equippedCharacterLevelState,
+  );
+  const setEquippedEvolutionStage = useSetRecoilState(
+    equippedEvolutionStageState,
+  );
+  const setEquippedPlanetIndex = useSetRecoilState(equippedPlanetIndexState);
+
+  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(
+    selectedCharacterIndexState,
+  );
+  const setSelectedCharacterLevel = useSetRecoilState(
+    selectedCharacterLevelState,
+  );
+  const setSelectedEvolutionStage = useSetRecoilState(
+    selectedEvolutionStageState,
+  );
+  const setSelectedCharacterExp = useSetRecoilState(selectedCharacterExpState);
+  const setSelectedCharacterIsPurchased = useSetRecoilState(
+    selectedCharacterIsPurchasedState,
+  );
+  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(
+    selectedPlanetIndexState,
+  );
+  const setSelectedPlanetIsPurchased = useSetRecoilState(
+    selectedPlanetIsPurchasedState,
+  );
+
+  const [isOn, setIsOn] = useRecoilState(isOnState);
+
+  const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,43 +77,40 @@ function Edit() {
       } catch (error) {
         console.error('Error fetching data:', error);
       }
-    }
+    };
     fetchData();
   }, []);
-
-  const [userPoint, setUserPoint] = useRecoilState(userPointState);
-  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
-  const [equippedCharacterLevel, setEquippedCharacterLevel] = useRecoilState(equippedCharacterLevelState);
-  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
-  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
-
-  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
-  const [selectedCharacterLevel, setSelectedCharacterLevel] = useRecoilState(selectedCharacterLevelState);
-  const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
-  const [selectedCharacterExp, setSelectedCharacterExp] = useRecoilState(selectedCharacterExpState);
-  const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] = useRecoilState(selectedCharacterIsPurchasedState);
-  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(selectedPlanetIndexState);
-  const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] = useRecoilState(selectedPlanetIsPurchasedState);
-  const [isOn, setIsOn] = useRecoilState(isOnState);
-
-  const animatedValue = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (userData) {
       setUserPoint(userData.point);
       setEquippedCharacterIndex(userData.mainCharacterIndex);
-      setEquippedCharacterLevel(userData.characters[userData.mainCharacterIndex].level);
-      setEquippedEvolutionStage(userData.characters[userData.mainCharacterIndex].evolutionStage);
+      setEquippedCharacterLevel(
+        userData.characters[userData.mainCharacterIndex].level,
+      );
+      setEquippedEvolutionStage(
+        userData.characters[userData.mainCharacterIndex].evolutionStage,
+      );
       setEquippedPlanetIndex(userData.mainPlanetIndex);
 
       setSelectedCharacterIndex(userData.mainCharacterIndex);
-      setSelectedCharacterLevel(userData.characters[userData.mainCharacterIndex].level);
-      setSelectedEvolutionStage(userData.characters[userData.mainCharacterIndex].evolutionStage);
-      setSelectedCharacterExp(userData.characters[userData.mainCharacterIndex].exp);
-      setSelectedCharacterIsPurchased(userData.characters[userData.mainCharacterIndex].isPurchased);
+      setSelectedCharacterLevel(
+        userData.characters[userData.mainCharacterIndex].level,
+      );
+      setSelectedEvolutionStage(
+        userData.characters[userData.mainCharacterIndex].evolutionStage,
+      );
+      setSelectedCharacterExp(
+        userData.characters[userData.mainCharacterIndex].exp,
+      );
+      setSelectedCharacterIsPurchased(
+        userData.characters[userData.mainCharacterIndex].isPurchased,
+      );
 
       setSelectedPlanetIndex(userData.mainPlanetIndex);
-      setSelectedPlanetIsPurchased(userData.planets[userData.mainPlanetIndex].isPurchased);
+      setSelectedPlanetIsPurchased(
+        userData.planets[userData.mainPlanetIndex].isPurchased,
+      );
     }
   }, [userData, setSelectedCharacterIndex]);
 
@@ -126,13 +156,13 @@ function Edit() {
   // 사용자가 장착하고 있는 캐릭터의 상태 업데이트
   const handleEquippedCharacterChange = (index: number) => {
     setEquippedCharacterIndex(index);
-  }
+  };
 
   // 행성 선택
   const handlePlanetChange = (selectedPlanetIndex: number) => {
     setSelectedPlanetIndex(selectedPlanetIndex);
   };
-  
+
   const handleNextPlanet = () => {
     const nextIndex = (selectedPlanetIndex + 1) % planetData.length;
     setSelectedPlanetIndex(nextIndex);
@@ -156,14 +186,20 @@ function Edit() {
   // 사용자가 장착하고 있는 행성의 상태 업데이트
   const handleEquippedPlanetChange = (index: number) => {
     setEquippedPlanetIndex(index);
-  }
+  };
 
   return (
     <S.Container>
-      {userData === null ? (<Loading />) : (
+      {userData === null ? (
+        <Loading />
+      ) : (
         <>
           <S.BackgroundImage
-            source={isOn ? backgroundImage.image : characterData[selectedCharacterIndex].background}
+            source={
+              isOn
+                ? backgroundImage.image
+                : characterData[selectedCharacterIndex].background
+            }
             resizeMode="cover">
             <S.Header>
               <S.HeaderSide />
@@ -176,9 +212,10 @@ function Edit() {
                           translateX: animatedValue,
                         },
                       ],
-                    }}
-                  >
-                    <S.ToggleImage source={isOn ? BasicPlanet : BasicCharacter} />
+                    }}>
+                    <S.ToggleImage
+                      source={isOn ? BasicPlanet : BasicCharacter}
+                    />
                   </S.ToggleButton>
                 </S.ToggleButtonWrapper>
               </S.TopMiddle>
@@ -189,20 +226,32 @@ function Edit() {
 
             <S.Body>
               <S.BodyLeft>
-                <S.DirectionBox onPress={isOn ? handlePreviousPlanet : handlePreviousCharacter}>
+                <S.DirectionBox
+                  onPress={
+                    isOn ? handlePreviousPlanet : handlePreviousCharacter
+                  }>
                   <S.Direction source={Left} />
                 </S.DirectionBox>
               </S.BodyLeft>
               <S.BodyCenter>
-                {
-                  isOn
-                    ? <PlanetEdit handleEquippedPlanetChange={handleEquippedPlanetChange} onPlanetChange={handlePlanetChange} />
-                    : <CharacterEdit handleEquippedCharacterChange={handleEquippedCharacterChange} onCharacterChange={handleCharacterChange} />
-                }
+                {isOn ? (
+                  <PlanetEdit
+                    handleEquippedPlanetChange={handleEquippedPlanetChange}
+                    onPlanetChange={handlePlanetChange}
+                  />
+                ) : (
+                  <CharacterEdit
+                    handleEquippedCharacterChange={
+                      handleEquippedCharacterChange
+                    }
+                    onCharacterChange={handleCharacterChange}
+                  />
+                )}
               </S.BodyCenter>
 
               <S.BodyRight>
-                <S.DirectionBox onPress={isOn ? handleNextPlanet : handleNextCharacter}>
+                <S.DirectionBox
+                  onPress={isOn ? handleNextPlanet : handleNextCharacter}>
                   <S.Direction source={Right} />
                 </S.DirectionBox>
               </S.BodyRight>
@@ -214,6 +263,6 @@ function Edit() {
       )}
     </S.Container>
   );
-};
+}
 
 export default Edit;

@@ -27,9 +27,10 @@ function Chart() {
     try {
       const data = await fetchUserCalendarChart();
       setEveryRecords(data);
+      console.log('ChartApi : 유저 달리기 기록 전체 조회 Axios 성공');
       setIsLoading(false);
     } catch (error) {
-      console.error('데이터 불러오기 에러 :', error);
+      console.log('ChartApi : 유저 달리기 기록 전체 조회 Axios 실패 ', error);
     }
   };
 

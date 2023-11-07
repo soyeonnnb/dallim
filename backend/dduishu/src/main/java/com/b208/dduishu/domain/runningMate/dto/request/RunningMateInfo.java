@@ -26,7 +26,7 @@ public class RunningMateInfo {
 
     @Builder
     public RunningMateInfo(RunningMate runningMate) {
-        this.id = runningMate.getRivalRecord().getId().toString();
+        this.id = runningMate.getId().toString();
         this.userId = runningMate.getRivalRecord().getUser().getUserId();
         this.nickName = runningMate.getRivalRecord().getUser().getNickname();
         this.characterIndex = runningMate.getRivalRecord().getCharacter().getCharacterIndex();

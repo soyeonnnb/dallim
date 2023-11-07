@@ -1,16 +1,16 @@
 import * as S from './SelectModal.styles';
-import { characterData } from '@/recoil/CharacterData';
-import { Modal } from 'react-native';
+import {characterData} from '@/recoil/CharacterData';
+import {Modal} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
 
-import { useRecoilState } from 'recoil';
+import {useRecoilState} from 'recoil';
 import {
   equippedCharacterIndexState,
   equippedEvolutionStageState,
   selectedCharacterIndexState,
   selectedEvolutionStageState,
-} from '@/recoil/EditRecoil';
+} from '@/recoil/UserRecoil';
 
 type ModalComponentProps = {
   toggleModal: () => void;
@@ -18,12 +18,23 @@ type ModalComponentProps = {
   characterSelectModalVisible: boolean;
 };
 
-function CharacterSelectModal({ characterSelectModalVisible, toggleModal, equippedCharacterChange }: ModalComponentProps) {
-
-  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
-  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
-  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
-  const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
+function CharacterSelectModal({
+  characterSelectModalVisible,
+  toggleModal,
+  equippedCharacterChange,
+}: ModalComponentProps) {
+  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(
+    equippedCharacterIndexState,
+  );
+  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(
+    equippedEvolutionStageState,
+  );
+  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(
+    selectedCharacterIndexState,
+  );
+  const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(
+    selectedEvolutionStageState,
+  );
 
   const handleEquippedCharacterChange = () => {
     setEquippedCharacterIndex(selectedCharacterIndex);
@@ -44,29 +55,41 @@ function CharacterSelectModal({ characterSelectModalVisible, toggleModal, equipp
     <Modal
       transparent={true}
       animationType="fade"
-      visible={characterSelectModalVisible}
-    >
+      visible={characterSelectModalVisible}>
       <S.ModalContainer>
         <S.ModalContent>
           <S.ModalHeader>
             <S.ModalText>이 캐릭터를 선택하시겠습니까?</S.ModalText>
           </S.ModalHeader>
           <S.ModalBody>
-            <S.BoxStyle >
-              <S.Image source={characterData[equippedCharacterIndex].levels[equippedEvolutionStage].front} resizeMode="contain" />
+            <S.BoxStyle>
+              <S.Image
+                source={
+                  characterData[equippedCharacterIndex].evolutions[
+                    equippedEvolutionStage
+                  ].front
+                }
+                resizeMode="contain"
+              />
             </S.BoxStyle>
             <S.ChangeBoxStyle>
               <S.ChangeBox>
                 <FastImage
                   source={require('@/assets/icons/ArrowIcon.gif')}
-                  style={{ width: 25, height: 25 }}
+                  style={{width: 25, height: 25}}
                 />
               </S.ChangeBox>
             </S.ChangeBoxStyle>
-            <S.BoxStyle >
-              <S.Image source={characterData[selectedCharacterIndex].levels[selectedEvolutionStage].front} resizeMode="contain" />
+            <S.BoxStyle>
+              <S.Image
+                source={
+                  characterData[selectedCharacterIndex].evolutions[
+                    selectedEvolutionStage
+                  ].front
+                }
+                resizeMode="contain"
+              />
             </S.BoxStyle>
-
           </S.ModalBody>
           <S.ModalFooter>
             <S.ModalButton onPress={handleEquippedCharacterChange}>
@@ -78,9 +101,8 @@ function CharacterSelectModal({ characterSelectModalVisible, toggleModal, equipp
           </S.ModalFooter>
         </S.ModalContent>
       </S.ModalContainer>
-
-    </Modal >
+    </Modal>
   );
-};
+}
 
 export default CharacterSelectModal;

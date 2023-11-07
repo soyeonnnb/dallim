@@ -19,14 +19,14 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.b208.dduishu.domain.user.repository.UserRepository;
-import com.b208.dduishu.domain.user.service.UserService;
+import com.b208.dduishu.domain.user.service.UserSocialService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class JwtFilter extends OncePerRequestFilter { // 모든 요청에 대해 토큰 유효성 검증을 진행
 
-    private final UserService userService;
+    private final UserSocialService userService;
     @Value("${jwt.secret}")
     private String secretKey;
     private final JwtUtil jwtUtil;
@@ -34,7 +34,7 @@ public class JwtFilter extends OncePerRequestFilter { // 모든 요청에 대해
     private RedisTemplate<String, String> redisTemplate;
     private static Long rfExpiredMs = 1000 * 60 * 60 * 24 * 14L; // 리프레쉬 토큰의 만료 시간(14일)
 
-    public JwtFilter(UserService userService, JwtUtil jwtUtil, String secretKey) {
+    public JwtFilter(UserSocialService userService, JwtUtil jwtUtil, String secretKey) {
         this.secretKey = secretKey;
         this.userService = userService;
         this.jwtUtil = jwtUtil;
@@ -43,8 +43,8 @@ public class JwtFilter extends OncePerRequestFilter { // 모든 요청에 대해
     @Override // 이 주소로 오는 건 토큰 없어도 됨.
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return path.startsWith("/api/oauth/login") || path.startsWith("/login/") || path.startsWith("/api/oauth2/authorization/") ||
-            path.startsWith("/api/login/oauth2/") || path.startsWith("/api/oauth/logout") || path.startsWith("/favicon.ico")||path.startsWith("/api/oauth2/code/kakao");
+        return path.startsWith("/api/v1/authentication-code/token")||path.startsWith("/api/v1/authentication-code")||path.startsWith("/swagger-ui/")||path.startsWith("/actuator")||path.startsWith("/swagger-resources")||path.startsWith("/v2/api-docs")||path.startsWith("/api/oauth/login") || path.startsWith("/login/") || path.startsWith("/api/oauth2/authorization/") ||
+            path.startsWith("/api/login/oauth2/") || path.startsWith("/api/oauth/logout") || path.startsWith("/favicon.ico")||path.startsWith("/api/oauth2/")||path.startsWith("/api/oauth2/code/naver")||path.startsWith("/api/v1/user/token");
     }
 
     @Override

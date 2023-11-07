@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.runapp.R;
-import com.runapp.adapter.RunningDataAdapter;
+import com.runapp.adapter.MyRunningDataAdapter;
 import com.runapp.database.AppDatabase;
 import com.runapp.model.RunningData;
 import com.runapp.util.CenterZoomLayoutManager;
@@ -35,7 +35,7 @@ public class MyRecordActivity extends ComponentActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(layoutManager);
-        RunningDataAdapter adapter = new RunningDataAdapter(new ArrayList<>());
+        MyRunningDataAdapter adapter = new MyRunningDataAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
         TextView tvNoData = findViewById(R.id.tv_no_data);
@@ -43,7 +43,7 @@ public class MyRecordActivity extends ComponentActivity {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                List<RunningData> runningDataList = db.runningDataDAO().getAll();
+                List<RunningData> runningDataList = db.runningDataDAO().getLatestTenRunningData();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

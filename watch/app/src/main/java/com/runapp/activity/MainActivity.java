@@ -1,14 +1,23 @@
 package com.runapp.activity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -19,24 +28,60 @@ import androidx.core.content.ContextCompat;
 
 import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivityMainBinding;
+import com.runapp.util.AccessToken;
+import com.runapp.util.NetworkUtil;
+import com.runapp.util.PreferencesUtil;
+import com.runapp.util.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MainActivity extends ComponentActivity {
+public class MainActivity extends ComponentActivity{
     // 클래스 멤버로 Executor 정의
     private final Executor executor = Executors.newSingleThreadExecutor();
     private ActivityMainBinding binding;
     private AppDatabase db;
     static int MULTIPLE_PERMISSIONS_CODE = 100;
+    private SharedPreferences prefs;
+    private NetworkUtil networkUtil;
+    private int notificationId = 5;
+    private String authenticateduth;
+    private UserInfo userInfo;
+    private PowerManager.WakeLock wakeLock;
 
 
+    @SuppressLint("InvalidWakeLockTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         db = AppDatabase.getDatabase(getApplicationContext());
         super.onCreate(savedInstanceState);
+        PowerManager pm= (PowerManager) getSystemService(Context.POWER_SERVICE);
+        String packageName= getPackageName();
+        if (pm.isIgnoringBatteryOptimizations(packageName) ){
+
+        } else {    // 메모리 최적화가 되어 있다면, 풀기 위해 설정 화면 띄움.
+            Intent intent=new Intent();
+            intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+            intent.setData(Uri.parse("package:" + packageName));
+            startActivityForResult(intent,0);
+        }
+        // 리시버 인스턴스를 생성합니다.
+        networkUtil = new NetworkUtil();
+        // 어떤 권한을 확인할 지 설정 해놓은 메서드.
+        checkPermission();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
+                Log.e("에러", "절전모드임");
+            }
+        }
+
+        // WakeLock 초기화
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "main");
+        wakeLock.acquire();
 
         // 알림을 사용하기 위한 코드(오레오 이상 버전이면 실행)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -64,20 +109,38 @@ public class MainActivity extends ComponentActivity {
         // 액티비티의 컨텐츠 뷰로 view를 설정. 여기서 화면에 뭐가 보일지 결정
         setContentView(view);
 
-        // 어떤 권한을 확인할 지 설정 해놓은 메서드.
-        checkPermission();
-
-        // 시작 버튼을 클릭하면
-        binding.btnStart.setOnClickListener(v -> {
-            /*
-            * Intent : 액티비티 간의 전환 또는 서비스를 시작할 때 사용하는 객체다.
-            * 현재 액티비티에서 전환하려는 액티비티로 설정해주면 된다.
-            * */
-            Intent intent = new Intent(MainActivity.this, SelectActivity.class);
-            startActivity(intent);
-        });
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // 인텐트 필터를 생성하고, 리시버를 등록합니다.
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkUtil, filter);
+    }
+
+    private void showAlert() {
+        new AlertDialog.Builder(this)
+                .setTitle("달림 모바일 연동")
+                .setMessage("달림을 사용하기 위해서는 인증이 필요합니다.")
+                .setPositiveButton("인증하기", (dialog, which) -> {
+                    // 인증 액티비티로 이동하는 인텐트 실행
+                    Intent intent = new Intent(MainActivity.this, AuthActivity.class);
+                    startActivity(intent);
+                })
+                .setNegativeButton("취소", (dialog, which) -> dialog.dismiss())
+                .create().show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Activity.RESULT_OK){
+            startSelectActivity();
+        }
+    }
+
 
     private void checkPermission(){
         // 필요한 권한(퍼미션)들
@@ -153,4 +216,74 @@ public class MainActivity extends ComponentActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
+
+        // 시작 버튼을 클릭하면
+        binding.btnStart.setOnClickListener(v -> {
+            authenticateduth = prefs.getString("accessToken", null);
+            Log.d("Access_Token", authenticateduth != null ? authenticateduth : "토큰 널임");
+
+            if (authenticateduth == null){
+                showAlert();
+            }else{
+                // 액세스 있으면 저장해서 사용
+                AccessToken.getInstance().setAccessToken(authenticateduth);
+                userInfo = new UserInfo();
+                userInfo.getUserInfo(getApplicationContext(), new UserInfo.UserInfoCallback() {
+                    @Override
+                    public void onSuccess() {
+                        startSelectActivity();
+                    }
+                    @Override
+                    public void onError(String message) {
+                        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        // WakeLock 해제
+        if (wakeLock != null && wakeLock.isHeld()) {
+            wakeLock.release();
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // 액티비티가 멈출 때 리시버 등록을 해제
+        unregisterReceiver(networkUtil);
+    }
+
+    private void startSelectActivity() {
+        Intent intent = new Intent(MainActivity.this, SelectActivity.class);
+        startActivity(intent);
+    }
+
+    // 러닝 데이터 삭제
+    private void deleteRunningData() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.runningDataDAO().deleteAll();
+            }
+        });
+    }
+
+    // 러닝메이트 데이터 삭제
+    private void deleteRunningMate() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.runningMateDAO().deleteAll();
+            }
+        });
+    }
 }

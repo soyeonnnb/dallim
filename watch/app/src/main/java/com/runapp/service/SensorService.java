@@ -19,26 +19,26 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStoreOwner;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.runapp.model.RunningViewModel;
+import com.runapp.R;
+import com.runapp.view.RunningViewModel;
 
 public class SensorService extends Service {
     private RunningViewModel runningViewModel;
     private SensorManager sensorManager;
     private SensorEventListener universalSensorListener;
-    private float initialStepCount = 0;
-    private float totalHeartRate = 0;
+    private double initialStepCount = 0;
+    private double totalHeartRate = 0;
     private int heartCountTime = 0;
-    private static final int NOTIFICATION_ID = 1;
-    private static final String CHANNEL_ID = "SensorServiceChannel";
+    private static final int NOTIFICATION_ID = 10;
+    private static final String CHANNEL_ID = "RunningService";
     private SharedPreferences preferences;
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
                     CHANNEL_ID,
-                    "Sensor Service Channel",
+                    "달림",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
 
@@ -49,6 +49,7 @@ public class SensorService extends Service {
 
     private Notification getNotification() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_round)
                 .setContentTitle("Sensor Service Running")
                 .setContentText("Sensor data is being collected.");
         return builder.build();
@@ -76,9 +77,9 @@ public class SensorService extends Service {
         // 여기서 센서 및 기타 작업을 시작할 수 있습니다.
 
         registerHeartRateSensor();
-        registerStepCounterSensor();
+        registerStepCountSensor();
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     public SensorService(){
@@ -90,20 +91,23 @@ public class SensorService extends Service {
             @Override
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_HEART_RATE) {
-                    float heartRate = sensorEvent.values[0];
+                    double heartRate = sensorEvent.values[0];
                     if(heartRate != 0){
                         heartCountTime++;
+                        runningViewModel.setHeartCountTime(heartCountTime);
                         totalHeartRate += heartRate;
+                        runningViewModel.setTotalHeartRate(totalHeartRate);
                     }
-                    heartRate = (float) (Math.round(heartRate * 100) / 100.0);
+                    heartRate = (Math.round(heartRate * 100) / 100.0);
                     runningViewModel.setHeartRate(heartRate);
+                    Log.d("심박수", String.valueOf(heartRate));
                 } else if (sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-                    float currentTotalSteps = sensorEvent.values[0];
+                    double currentTotalSteps = sensorEvent.values[0];
                     if (initialStepCount == 0) {
                         initialStepCount = currentTotalSteps;
                     }
-                    float sessionSteps = currentTotalSteps - initialStepCount;
-                    runningViewModel.setStepCounter(sessionSteps);
+                    double sessionSteps = currentTotalSteps - initialStepCount;
+                    runningViewModel.setStepCount(sessionSteps);
                     Log.d("발걸음", String.valueOf(sessionSteps));
                 }
             }
@@ -123,10 +127,10 @@ public class SensorService extends Service {
         }
     }
 
-    public void registerStepCounterSensor() {
-        Sensor stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if (stepCounterSensor != null) {
-            sensorManager.registerListener(universalSensorListener, stepCounterSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    public void registerStepCountSensor() {
+        Sensor StepCountSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        if (StepCountSensor != null) {
+            sensorManager.registerListener(universalSensorListener, StepCountSensor, SensorManager.SENSOR_DELAY_NORMAL);
         }
     }
 
@@ -140,12 +144,6 @@ public class SensorService extends Service {
     public void onDestroy() {
         unregisterSensors();
         stopForeground(true);
-
-        SharedPreferences sharedPreferences = getSharedPreferences("SENSOR_DATA", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putFloat("totalHeartRate", totalHeartRate);
-        editor.putInt("heartCountTime", heartCountTime);
-        editor.apply();
 
         super.onDestroy();
     }

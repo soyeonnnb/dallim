@@ -3,10 +3,9 @@ import {colors} from '@/components/common/globalStyles';
 
 export const Container = styled.View`
   flex: 1;
-  margin: 7% 0;
+  margin: 8% 0;
 `;
 export const TitleContainer = styled.View`
-  flex: 1;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
@@ -20,10 +19,12 @@ export const Title = styled.Text`
 export const Navi = styled.Text`
   color: ${colors.gray};
 `;
+
 export const Chart = styled.View`
   flex: 1;
-  height: 50%;
+  height: 200px;
 `;
+
 export const Text = styled.Text`
   color: white;
 `;

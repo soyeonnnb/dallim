@@ -7,30 +7,31 @@ import java.util.List;
 public class RunningDataDTO {
     private Long userId;
     private Long date;
+    private String watchOrMobile;
     private String formattedDate;
-    private float totalDistance;
+    private double totalDistance;
     private Long totalTime;
-    private int characterId;
-    private float stepCounter;
-    private String averagePace;
-    private float averageSpeed;
-    private float averageHeartRate;
+    private Long characterId;
+    private double stepCount;
+    private double averagePace;
+    private double averageSpeed;
+    private double averageHeartRate;
     private String type;
-    private Long rivalRecordId;
+    private String rivalRecordId;
     private List<RunDetail> runningRecordInfos;
 
     // 기본 생성자
     public RunningDataDTO() {}
 
     // 모든 필드를 파라미터로 가지는 생성자 (선택적 사용)
-    public RunningDataDTO(Long userId, Long date, String formattedDate, float totalDistance, Long totalTime, int characterId, float stepCounter, String averagePace, float averageSpeed, float averageHeartRate, String type, Long rivalRecordId, List<RunDetail> runningRecordInfos) {
+    public RunningDataDTO(Long userId, Long date, String formattedDate, double totalDistance, Long totalTime, Long characterId, double stepCount, double averagePace, double averageSpeed, double averageHeartRate, String type, String rivalRecordId, List<RunDetail> runningRecordInfos) {
         this.userId = userId;
         this.date = date;
         this.formattedDate = formattedDate;
         this.totalDistance = totalDistance;
         this.totalTime = totalTime;
         this.characterId = characterId;
-        this.stepCounter = stepCounter;
+        this.stepCount = stepCount;
         this.averagePace = averagePace;
         this.averageSpeed = averageSpeed;
         this.averageHeartRate = averageHeartRate;
@@ -66,11 +67,11 @@ public class RunningDataDTO {
         this.formattedDate = formattedDate;
     }
 
-    public float getTotalDistance() {
+    public double getTotalDistance() {
         return totalDistance;
     }
 
-    public void setTotalDistance(float totalDistance) {
+    public void setTotalDistance(double totalDistance) {
         this.totalDistance = totalDistance;
     }
 
@@ -82,43 +83,43 @@ public class RunningDataDTO {
         this.totalTime = totalTime;
     }
 
-    public int getCharacterId() {
+    public Long getCharacterId() {
         return characterId;
     }
 
-    public void setCharacterId(int characterId) {
+    public void setCharacterId(Long characterId) {
         this.characterId = characterId;
     }
 
-    public float getStepCounter() {
-        return stepCounter;
+    public double getStepCount() {
+        return stepCount;
     }
 
-    public void setStepCounter(float stepCounter) {
-        this.stepCounter = stepCounter;
+    public void setStepCount(double stepCount) {
+        this.stepCount = stepCount;
     }
 
-    public String getAveragePace() {
+    public double getAveragePace() {
         return averagePace;
     }
 
-    public void setAveragePace(String averagePace) {
+    public void setAveragePace(double averagePace) {
         this.averagePace = averagePace;
     }
 
-    public float getAverageSpeed() {
+    public double getAverageSpeed() {
         return averageSpeed;
     }
 
-    public void setAverageSpeed(float averageSpeed) {
+    public void setAverageSpeed(double averageSpeed) {
         this.averageSpeed = averageSpeed;
     }
 
-    public float getAverageHeartRate() {
+    public double getAverageHeartRate() {
         return averageHeartRate;
     }
 
-    public void setAverageHeartRate(float averageHeartRate) {
+    public void setAverageHeartRate(double averageHeartRate) {
         this.averageHeartRate = averageHeartRate;
     }
 
@@ -130,11 +131,11 @@ public class RunningDataDTO {
         this.type = type;
     }
 
-    public Long getRivalRecordId() {
+    public String getRivalRecordId() {
         return rivalRecordId;
     }
 
-    public void setRivalRecordId(Long rivalRecordId) {
+    public void setRivalRecordId(String rivalRecordId) {
         this.rivalRecordId = rivalRecordId;
     }
 
@@ -146,17 +147,26 @@ public class RunningDataDTO {
         this.runningRecordInfos = runningRecordInfos;
     }
 
+    public String getWatchOrMobile() {
+        return watchOrMobile;
+    }
+
+    public void setWatchOrMobile(String watchOrMobile) {
+        this.watchOrMobile = watchOrMobile;
+    }
+
     @Override
     public String toString() {
         return "RunningDataDTO{" +
-                ", userId=" + userId +
+                "userId=" + userId +
                 ", date=" + date +
+                ", watchOrMobile='" + watchOrMobile + '\'' +
                 ", formattedDate='" + formattedDate + '\'' +
                 ", totalDistance=" + totalDistance +
                 ", totalTime=" + totalTime +
                 ", characterId=" + characterId +
-                ", stepCounter=" + stepCounter +
-                ", averagePace='" + averagePace + '\'' +
+                ", stepCount=" + stepCount +
+                ", averagePace=" + averagePace +
                 ", averageSpeed=" + averageSpeed +
                 ", averageHeartRate=" + averageHeartRate +
                 ", type='" + type + '\'' +

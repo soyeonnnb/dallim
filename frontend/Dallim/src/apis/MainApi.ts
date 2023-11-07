@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const getToken = async () => {
   try {
     const token = await AsyncStorage.getItem('accessToken');
+    // console.log('내 토큰이다~!! : ' + token );
     return token;
   } catch (error) {
     console.error('Error fetching token:', error);
@@ -29,7 +30,7 @@ export const fetchUserProfile = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log('MainApi : 정보 조회 Axios 성공');
+    // console.log('MainApi : 정보 조회 Axios 성공');
     return response.data.data;
   } catch (error) {
     console.log('MainApi : 정보 조회 Axios 실패');
@@ -38,17 +39,6 @@ export const fetchUserProfile = async () => {
 };
 
 // 출석 조회
-export const fetchUserCalendar1 = async () => {
-  try {
-    const response = await axios.get(`/api/v1/attendance`);
-    // console.log('MainApi : 출석 조회 Axios 성공');
-    return response.data;
-  } catch (error) {
-    console.log('MainApi : 출석 조회 Axios 실패');
-    throw error;
-  }
-};
-
 export const fetchUserCalendar = async () => {
   const accessToken = await getToken();
   try {
@@ -58,7 +48,7 @@ export const fetchUserCalendar = async () => {
       },
     });
 
-    console.log('MainApi : 출석 조회 Axios 성공');
+    // console.log('MainApi : 출석 조회 Axios 성공');
     return response.data.data;
   } catch (error) {
     console.log('MainApi : 정보 조회 Axios 실패');

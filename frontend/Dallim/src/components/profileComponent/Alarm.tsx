@@ -183,21 +183,6 @@ const Alarm: React.FC<AlarmProps> = ({alarmList, onRefresh}) => {
                   // Handle the error, maybe show a toast message
                 });
             }
-
-            // console.log(rowData?.day);
-            // console.log(rowData?.hour);
-            // console.log(rowData?.minute);
-
-            // console.log(`삭제된 알람의 요일: ${rowData.day}`);
-            // console.log(`삭제된 알람의 시간: ${rowData.hour}:${rowData.minute}`);
-            // Toast.show({
-            //   type: 'success',
-            //   position: 'top',
-            //   text1: '알람이 삭제되었습니다 !',
-            //   visibilityTime: 3000,
-            //   autoHide: true,
-            //   topOffset: 10,
-            // });
           }
         }}
       />

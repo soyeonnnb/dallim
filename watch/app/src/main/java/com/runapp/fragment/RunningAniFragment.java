@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.runapp.R;
 import com.runapp.activity.MainActivity;
 import com.runapp.databinding.FragmentRunningAniBinding;
+import com.runapp.model.runningMate.Pace;
 import com.runapp.util.PreferencesUtil;
 
 public class RunningAniFragment extends Fragment {
@@ -28,27 +29,48 @@ public class RunningAniFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         prefs = PreferencesUtil.getEncryptedSharedPreferences(getContext());
         long characterIndex = prefs.getLong("characterIndex", 0L);
+        boolean evolution = prefs.getBoolean("evolution", false);
 
         binding = FragmentRunningAniBinding.inflate(getLayoutInflater());
         // Inflate the layout for this fragment
         View view = binding.getRoot();
 
-        if (characterIndex == 0){
-            Glide.with(this)
-                    .load(R.drawable.rabbit_run)
-                    .into(binding.myCha);
-        }else if(characterIndex == 1){
-            Glide.with(this)
-                    .load(R.drawable.penguin_run)
-                    .into(binding.myCha);
-        }else if(characterIndex == 2){
-            Glide.with(this)
-                    .load(R.drawable.panda_run)
-                    .into(binding.myCha);
-        }else if(characterIndex == 3){
-            Glide.with(this)
-                    .load(R.drawable.chick_run)
-                    .into(binding.myCha);
+        if (evolution){
+            if (characterIndex == 0){
+                Glide.with(this)
+                        .load(R.drawable.rabbit_run)
+                        .into(binding.myCha);
+            }else if(characterIndex == 1){
+                Glide.with(this)
+                        .load(R.drawable.penguin_run)
+                        .into(binding.myCha);
+            }else if(characterIndex == 2){
+                Glide.with(this)
+                        .load(R.drawable.panda_run)
+                        .into(binding.myCha);
+            }else if(characterIndex == 3){
+                Glide.with(this)
+                        .load(R.drawable.chick_run)
+                        .into(binding.myCha);
+            }
+        }else{
+            if (characterIndex == 0){
+                Glide.with(this)
+                        .load(R.drawable.rabbitegg_run)
+                        .into(binding.myCha);
+            }else if(characterIndex == 1){
+                Glide.with(this)
+                        .load(R.drawable.penguinegg_run)
+                        .into(binding.myCha);
+            }else if(characterIndex == 2){
+                Glide.with(this)
+                        .load(R.drawable.pandaegg_run)
+                        .into(binding.myCha);
+            }else if(characterIndex == 3){
+                Glide.with(this)
+                        .load(R.drawable.chickegg_run)
+                        .into(binding.myCha);
+            }
         }
 
         binding.btnFinish.setOnClickListener(v->{

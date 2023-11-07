@@ -8,6 +8,7 @@ public class UserInfoResponseDTO {
     private String nickName;
     private String email;
     private int level;
+    private boolean evolution;
 
     public UserInfoResponseDTO() {
     }
@@ -68,6 +69,14 @@ public class UserInfoResponseDTO {
         this.level = level;
     }
 
+    public boolean isEvolution() {
+        return evolution;
+    }
+
+    public void setEvolution(boolean evolution) {
+        this.evolution = evolution;
+    }
+
     @Override
     public String toString() {
         return "UserInfoResponseDTO{" +
@@ -78,6 +87,7 @@ public class UserInfoResponseDTO {
                 ", nickName='" + nickName + '\'' +
                 ", email='" + email + '\'' +
                 ", level=" + level +
+                ", evolution=" + evolution +
                 '}';
     }
 }

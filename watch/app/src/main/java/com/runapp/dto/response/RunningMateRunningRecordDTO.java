@@ -25,4 +25,127 @@ public class RunningMateRunningRecordDTO {
     private double totalDistance;
     private double averageSpeed;
     private LocalDateTime createdAt;
+
+    public RunningMateRunningRecordDTO() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getWatchOrMobile() {
+        return watchOrMobile;
+    }
+
+    public void setWatchOrMobile(String watchOrMobile) {
+        this.watchOrMobile = watchOrMobile;
+    }
+
+    public List<Integer> getSecondPerSpeed() {
+        return secondPerSpeed;
+    }
+
+    public void setSecondPerSpeed(List<Integer> secondPerSpeed) {
+        this.secondPerSpeed = secondPerSpeed;
+    }
+
+    public HeartRate getHeartRate() {
+        return heartRate;
+    }
+
+    public void setHeartRate(HeartRate heartRate) {
+        this.heartRate = heartRate;
+    }
+
+    public Pace getPace() {
+        return pace;
+    }
+
+    public void setPace(Pace pace) {
+        this.pace = pace;
+    }
+
+    public double getStepCount() {
+        return stepCount;
+    }
+
+    public void setStepCount(double stepCount) {
+        this.stepCount = stepCount;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Character getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public RunningRecordInfos getRunningRecordInfos() {
+        return runningRecordInfos;
+    }
+
+    public void setRunningRecordInfos(RunningRecordInfos runningRecordInfos) {
+        this.runningRecordInfos = runningRecordInfos;
+    }
+
+    public int getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(int totalTime) {
+        this.totalTime = totalTime;
+    }
+
+    public double getTotalDistance() {
+        return totalDistance;
+    }
+
+    public void setTotalDistance(double totalDistance) {
+        this.totalDistance = totalDistance;
+    }
+
+    public double getAverageSpeed() {
+        return averageSpeed;
+    }
+
+    public void setAverageSpeed(double averageSpeed) {
+        this.averageSpeed = averageSpeed;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }

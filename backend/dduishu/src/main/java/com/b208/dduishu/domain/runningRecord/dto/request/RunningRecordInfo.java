@@ -7,6 +7,7 @@ import com.b208.dduishu.domain.runningRecord.dto.CharacterRecordInfo;
 import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.character.entity.Character;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.bson.types.ObjectId;
 
@@ -30,6 +31,7 @@ public class RunningRecordInfo {
 
     private Long userId;
     private WatchOrMobile watchOrMobile;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") //데이터 포맷 변환
     private Date date;
     private String formattedDate;
     private Long characterId;
@@ -86,7 +88,7 @@ public class RunningRecordInfo {
         return build;
     }
 
-    private HeartRateInfo getHeartRateInfo(List<RunningRecordOverallInfo> runningRecordInfos) {
+    public HeartRateInfo getHeartRateInfo(List<RunningRecordOverallInfo> runningRecordInfos) {
         Integer[] heartRate = {0, 0, 0, 0, 0}; // 각 속도 범주에 대한 초를 계산하기 위한 배열
 
         runningRecordInfos.forEach(record -> {
@@ -121,7 +123,7 @@ public class RunningRecordInfo {
         return heartRateInfo;
     }
 
-    private PaceInfo getPaceInfo(List<RunningRecordOverallInfo> runningRecordInfos) {
+    public PaceInfo getPaceInfo(List<RunningRecordOverallInfo> runningRecordInfos) {
         List<PaceSectionInfo> sectionPaces = new ArrayList<>();
         PaceSectionInfo currentSection = new PaceSectionInfo();
         double nextSectionDistance = 1000.0; // 다음 구간까지의 거리
@@ -176,7 +178,7 @@ public class RunningRecordInfo {
         return paceInfo;
     }
 
-    private List<Double> getSecondPerSpeed(List<RunningRecordOverallInfo> runningRecordInfos) {
+    public List<Double> getSecondPerSpeed(List<RunningRecordOverallInfo> runningRecordInfos) {
         Double[] secondPerSpeed = {0.0, 0.0, 0.0}; // 각 속도 범주에 대한 초를 계산하기 위한 배열
 
         for (int i = 1; i < runningRecordInfos.size(); i++) {

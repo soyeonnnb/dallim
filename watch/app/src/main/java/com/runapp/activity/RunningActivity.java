@@ -139,14 +139,22 @@ public class RunningActivity extends AppCompatActivity {
     protected void onDestroy() {
         stopService(sensorIntent); // 센서서비스 중지
         stopService(locationIntent); // 위치서비스 중지
-//        unregisterReceiver(timerUpdateReceiver);
-        // Stop the TimerService
         stopService(timerServiceIntent);
 
         if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.01) {
             Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG).show();
             super.onDestroy();
             return; // 메서드를 여기서 종료
+        }
+
+        if(runningViewModel.getTotalSpeed().getValue() != 0){
+            totalSpeed = runningViewModel.getTotalSpeed().getValue();
+        }
+        if(runningViewModel.getSpeedCountTime().getValue() != 0){
+            speedCountTime = runningViewModel.getSpeedCountTime().getValue();
+        }
+        if(runningViewModel.getTotalTime().getValue() != 0){
+            totalTime = runningViewModel.getTotalTime().getValue();
         }
 
         // 평균 심박수
@@ -161,19 +169,25 @@ public class RunningActivity extends AppCompatActivity {
         // 전체 이동 거리(m)
         double totalDistance = runningViewModel.getOriDistance().getValue();
         runningData.setTotalDistance(Math.round(totalDistance * 100) / 100.0);
+        System.out.println("총 속도 : " + totalSpeed);
+        System.out.println("총 속도 카운트 : " + speedCountTime);
 
         // 평균 이동 속도(m/s)
         double avgSpeed = Math.round((totalSpeed/speedCountTime) * 100) / 100.0;
+        System.out.println("속도 : " + avgSpeed);
         runningData.setAverageSpeed(avgSpeed);
 
         // 평균 페이스
         Map<String, Integer> result = conversion.msToPace((totalSpeed / speedCountTime));
         int minute = result.get("minutes");
         int second = result.get("seconds");
+        System.out.println(minute + "분");
+        System.out.println(second + "초");
         runningData.setAveragePace((60 * minute) + second);
 
         // 최종 시간 업데이트
         runningData.setTotalTime(totalTime - 1);
+        System.out.println("최종시간 : " + totalTime);
 
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;

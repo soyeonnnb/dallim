@@ -32,8 +32,6 @@ public class RunningViewModel extends ViewModel {
     private final MutableLiveData<Integer> speedCountTime = new MutableLiveData<>();
     private final MutableLiveData<Double> totalSpeed = new MutableLiveData<>();
 
-
-
     public MutableLiveData<RunningData> getRunningData() {
         return runningData;
     }

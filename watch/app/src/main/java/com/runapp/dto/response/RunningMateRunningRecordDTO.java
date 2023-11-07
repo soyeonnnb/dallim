@@ -10,17 +10,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class RunningMateRunningRecordDTO {
-    private Long id;
+    private String id;
     private String location;
     private String watchOrMobile;
-    private List<Integer> secondPerSpeed;
+    private List<Double> secondPerSpeed;
     private HeartRate heartRate;
     private Pace pace;
     private double stepCount;
     private User user;
     private Character character;
     private String type;
-    private RunningRecordInfos runningRecordInfos;
+    private List<RunningRecordInfos> runningRecordInfos;
     private int totalTime;
     private double totalDistance;
     private double averageSpeed;
@@ -29,11 +29,12 @@ public class RunningMateRunningRecordDTO {
     public RunningMateRunningRecordDTO() {
     }
 
-    public Long getId() {
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -53,11 +54,11 @@ public class RunningMateRunningRecordDTO {
         this.watchOrMobile = watchOrMobile;
     }
 
-    public List<Integer> getSecondPerSpeed() {
+    public List<Double> getSecondPerSpeed() {
         return secondPerSpeed;
     }
 
-    public void setSecondPerSpeed(List<Integer> secondPerSpeed) {
+    public void setSecondPerSpeed(List<Double> secondPerSpeed) {
         this.secondPerSpeed = secondPerSpeed;
     }
 
@@ -109,11 +110,11 @@ public class RunningMateRunningRecordDTO {
         this.type = type;
     }
 
-    public RunningRecordInfos getRunningRecordInfos() {
+    public List<RunningRecordInfos> getRunningRecordInfos() {
         return runningRecordInfos;
     }
 
-    public void setRunningRecordInfos(RunningRecordInfos runningRecordInfos) {
+    public void setRunningRecordInfos(List<RunningRecordInfos> runningRecordInfos) {
         this.runningRecordInfos = runningRecordInfos;
     }
 
@@ -147,5 +148,26 @@ public class RunningMateRunningRecordDTO {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "RunningMateRunningRecordDTO{" +
+                "id='" + id + '\'' +
+                ", location='" + location + '\'' +
+                ", watchOrMobile='" + watchOrMobile + '\'' +
+                ", secondPerSpeed=" + secondPerSpeed +
+                ", heartRate=" + heartRate +
+                ", pace=" + pace +
+                ", stepCount=" + stepCount +
+                ", user=" + user +
+                ", character=" + character +
+                ", type='" + type + '\'' +
+                ", runningRecordInfos=" + runningRecordInfos +
+                ", totalTime=" + totalTime +
+                ", totalDistance=" + totalDistance +
+                ", averageSpeed=" + averageSpeed +
+                ", createdAt=" + createdAt +
+                '}';
     }
 }

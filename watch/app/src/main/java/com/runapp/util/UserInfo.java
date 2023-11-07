@@ -38,7 +38,7 @@ public class UserInfo {
                     edit.putLong("characterIndex", response.body().getData().getCharacterIndex());
                     edit.putLong("planetIndex", response.body().getData().getPlanetIndex());
                     edit.putInt("level", response.body().getData().getLevel());
-                    edit.putBoolean("evolution", response.body().getData().isEvolution());
+                    edit.putInt("evolutionStage", response.body().getData().getEvolutionStage());
                     edit.apply();
                     callback.onSuccess();
                 } else {

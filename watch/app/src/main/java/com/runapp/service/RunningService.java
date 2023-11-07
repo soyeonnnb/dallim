@@ -195,6 +195,7 @@ public class RunningService {
                 if (response.isSuccessful() && response != null){
                     System.out.println(response.toString());
                     System.out.println(response.body().toString());
+                    System.out.println(response.body().getData().toString());
                     Log.d("성공", "성공");
                 }else{
                     Log.d("실패", "실패1");

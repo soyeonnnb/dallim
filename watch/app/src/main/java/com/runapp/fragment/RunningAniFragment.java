@@ -29,13 +29,13 @@ public class RunningAniFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         prefs = PreferencesUtil.getEncryptedSharedPreferences(getContext());
         long characterIndex = prefs.getLong("characterIndex", 0L);
-        boolean evolution = prefs.getBoolean("evolution", false);
+        int evolutionStage = prefs.getInt("evolutionStage", 0);
 
         binding = FragmentRunningAniBinding.inflate(getLayoutInflater());
         // Inflate the layout for this fragment
         View view = binding.getRoot();
 
-        if (evolution){
+        if (evolutionStage == 1){
             if (characterIndex == 0){
                 Glide.with(this)
                         .load(R.drawable.rabbit_run)

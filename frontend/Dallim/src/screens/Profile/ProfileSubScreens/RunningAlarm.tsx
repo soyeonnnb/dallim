@@ -36,62 +36,8 @@ function RunningAlarm({navigation}: RunningAlarmProps) {
       }
     };
 
-    fetchScheduleList(); // 정의한 비동기 함수 호출
+    fetchSchedule(); // 정의한 비동기 함수 호출
   }, []);
-
-  //dummydat
-  const dummy = [
-    {
-      day: ['월'],
-      hour: 1,
-      minute: 30,
-    },
-    {
-      day: ['월', '화'],
-      hour: 13,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-  ];
 
   return (
     <S.Container>
@@ -110,7 +56,7 @@ function RunningAlarm({navigation}: RunningAlarmProps) {
         </S.Header>
         <S.Body>{showTimePicker && <TimePicker />}</S.Body>
         <S.Footer>
-          <Alarm alarmList={dummy} />
+          <Alarm alarmList={scheduleList} />
         </S.Footer>
 
         <S.TabBox />

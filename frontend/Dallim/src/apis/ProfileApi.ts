@@ -191,3 +191,68 @@ export const postSchedule = async (
     throw error;
   }
 };
+
+// 혹시 api 수정(알림 삭제)
+// export const deleteSchedule = async (
+//   selectedDays: string[],
+//   hour: number,
+//   minute: number,
+// ) => {
+//   const accessToken = await getToken();
+//   const fcmToken = await AsyncStorage.getItem('fcmToken');
+
+//   console.log('무슨날: ' + selectedDays);
+//   console.log('시: ' + hour);
+//   console.log('분: ' + minute);
+
+//   try {
+//     const response = await axios.delete(`${BASE_URL}/api/v1/schedule`, {
+//       params: {
+//         day: selectedDays,
+//         hour: hour,
+//         minute: minute,
+//       },
+//       headers: {
+//         Authorization: `Bearer ${accessToken}`,
+//       },
+//     });
+
+//     console.log('ProfileApi : 스케줄 삭제 성공', response.data.data);
+//     return response.data.data;
+//   } catch (error) {
+//     console.error('ProfileApi : 스케줄 삭제 실패', error);
+//     throw error;
+//   }
+// };
+
+export const deleteScheduleTwo = async (
+  selectedDays: string[],
+  hour: number,
+  minute: number,
+) => {
+  const accessToken = await getToken();
+
+  console.log('무슨날: ' + selectedDays);
+  console.log('시: ' + hour);
+  console.log('분: ' + minute);
+
+  try {
+    const response = await axios.delete(`${BASE_URL}/api/v1/schedule`, {
+      data: {
+        // 본문에 데이터를 포함시킵니다.
+        day: selectedDays,
+        hour: hour,
+        minute: minute,
+      },
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    console.log('ProfileApi : 스케줄 삭제 성공', response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error('ProfileApi : 스케줄 삭제 실패', error);
+    throw error;
+  }
+};

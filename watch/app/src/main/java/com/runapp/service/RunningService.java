@@ -10,10 +10,13 @@ import android.util.Log;
 
 import com.runapp.activity.RunningMateActivity;
 import com.runapp.database.AppDatabase;
+import com.runapp.dto.response.ApiResponseDTO;
 import com.runapp.dto.response.ApiResponseListDTO;
 import com.runapp.dto.response.RunningMateResponseDTO;
+import com.runapp.dto.response.RunningMateRunningRecordDTO;
 import com.runapp.model.RunningData;
 import com.runapp.model.RunningMate;
+import com.runapp.model.RunningMateRecord;
 import com.runapp.util.AccessToken;
 import com.runapp.util.ApiUtil;
 
@@ -93,6 +96,7 @@ public class RunningService {
         });
     }
 
+    // 비연동 데이터 상태 업데이트(전송 상태로 바꿈)
     public void updateRunningDataIsTranslate(Long id, boolean check){
         executor.execute(new Runnable() {
             @Override
@@ -112,7 +116,28 @@ public class RunningService {
         });
     }
 
-    // 내 러닝메이트 기록 가져오기
+    // sqlite에 러닝메이트 데이터 추가
+    public void addRunningMateRunningData(RunningMateRecord runningMateRecord) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.runningMateRecordDAO().insertRunningMateRunningRecord(runningMateRecord);
+                Log.d("로그", "저장 성공");
+            }
+        });
+    }
+
+    // sqlite에서 러닝메이트 러닝 데이터 삭제
+    public void deleteRunningMateRunningData() {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.runningMateRecordDAO().deleteAll();
+            }
+        });
+    }
+
+    // 내 러닝메이트 리스트 가져오기
     public void getRunningMate(Activity currentActivity){
         deleteRunningMateData();
         String accessToken = AccessToken.getInstance().getAccessToken();
@@ -127,8 +152,8 @@ public class RunningService {
                     List<RunningMateResponseDTO> dtoList = response.body().getData();
                     for(RunningMateResponseDTO dto : dtoList){
                         RunningMate runningMate = new RunningMate();
-                        runningMate.setUserId(dto.getUserId());
-                        runningMate.setAverageSpeed(dto.getAverageSpeed());
+                        runningMate.setObjectId(dto.getId());
+                        runningMate.setAveragePace(dto.getAveragePace());
                         runningMate.setClear(dto.isClear());
                         runningMate.setTotalDistance(dto.getTotalDistance());
                         runningMate.setTotalTime(dto.getTotalTime());
@@ -152,6 +177,38 @@ public class RunningService {
             @Override
             public void onFailure(Call<ApiResponseListDTO<RunningMateResponseDTO>> call, Throwable t) {
 
+            }
+        });
+    }
+
+    // 내 러닝메이트 달리기 기록 가져오기
+    public void getRunningMateRunningRecord(Activity currentActivity, String objectId){
+        deleteRunningMateRunningData();
+        String accessToken = AccessToken.getInstance().getAccessToken();
+        String token = "Bearer " + accessToken;
+        Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call = ApiUtil.getApiService().getRunningMateRecord(token, objectId);
+        call.enqueue(new Callback<ApiResponseDTO<RunningMateRunningRecordDTO>>() {
+            @Override
+            public void onResponse(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Response<ApiResponseDTO<RunningMateRunningRecordDTO>> response) {
+                if (response.isSuccessful() && response != null){
+                    RunningMateRunningRecordDTO data = response.body().getData();
+                    System.out.println(data.toString());
+                    Log.d("실패", "실패0");
+                }else{
+                    Log.d("실패", "실패1");
+                }
+                // 러닝메이트 저장
+//                RunningMateRecord ru = new RunningMateRecord();
+//                addRunningMateRunningData(ru);
+//                // 데이터 저장 후 RunningMateActivity 시작
+//                Intent intent = new Intent(currentActivity, RunningMateActivity.class);
+//                currentActivity.startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Throwable t) {
+                Log.e("에러", t.getMessage());
+                Log.d("실패", "실패2");
             }
         });
     }

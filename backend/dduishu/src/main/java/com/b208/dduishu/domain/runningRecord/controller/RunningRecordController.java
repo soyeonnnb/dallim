@@ -22,9 +22,7 @@ public class RunningRecordController {
 
     @GetMapping("/api/v1/running/{id}")
     public ApiResponse<?> getRunningRecordDetail(@PathVariable ObjectId id) {
-
         try {
-
             System.out.println(id);
 
             RunningRecordDetail res = runningRecordService.getRunningRecordDetail(id);

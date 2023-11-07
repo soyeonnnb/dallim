@@ -9,7 +9,7 @@ import Toast from 'react-native-toast-message';
 import MorningAlarm from '@/assets/images/MorningAlarm.png';
 import NightAlarm from '@/assets/images/NightAlarm.png';
 
-//component---------------------------------------------------------------
+//component-------------------------------------------------------------
 // import AlarmDeleteModal from './profileModal/AlarmDeleteModal';
 
 //api----------------------------------------------------------

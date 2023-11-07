@@ -12,6 +12,9 @@ import NightAlarm from '@/assets/images/NightAlarm.png';
 //component---------------------------------------------------------------
 // import AlarmDeleteModal from './profileModal/AlarmDeleteModal';
 
+//api----------------------------------------------------------
+import {deleteScheduleTwo} from '@/apis/ProfileApi';
+
 const windowWidth = Dimensions.get('window').width;
 
 type AlarmProps = {
@@ -22,13 +25,14 @@ type AlarmProps = {
     state: boolean;
     userId: number;
   }[];
+  onRefresh: () => void;
 };
 
 type DayTranslations = {
   [key: string]: string;
 };
 
-const Alarm: React.FC<AlarmProps> = ({alarmList}) => {
+const Alarm: React.FC<AlarmProps> = ({alarmList, onRefresh}) => {
   //state---------------------------------------------------------------
   // const [modalVisible, setModalVisible] = useState(false);
   // const [currentIndex, setCurrentIndex] = useState<number | null>(null);
@@ -79,6 +83,7 @@ const Alarm: React.FC<AlarmProps> = ({alarmList}) => {
       <SwipeListView
         style={{width: '90%'}}
         data={alarmList}
+        keyExtractor={(item, index) => String(index)}
         renderItem={({item: alarm, index}) => (
           <S.CardImageWrapper key={index}>
             <S.Body>
@@ -123,35 +128,46 @@ const Alarm: React.FC<AlarmProps> = ({alarmList}) => {
             </S.Body>
           </S.CardImageWrapper>
         )}
-        renderHiddenItem={({item, index}) => (
-          <View>
-            {/* <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '33%',
-                height: '100%',
-              }}>
-              <Text>삭제</Text>
-            </View> */}
-          </View>
-        )}
+        renderHiddenItem={({item, index}) => <View></View>}
         rightOpenValue={-windowWidth}
         disableRightSwipe
         showsVerticalScrollIndicator={true}
         onRowOpen={(rowKey, rowMap, toValue) => {
           if (toValue === -windowWidth) {
-            console.log(`삭제된 알람의 인덱스: ${rowKey}`); // rowKey를 직접 사용
-            console.log(`인덱스'${rowMap}`);
-            console.log(`인덱스'${toValue}`);
-            Toast.show({
-              type: 'success',
-              position: 'top',
-              text1: '알람이 삭제되었습니다 !',
-              visibilityTime: 3000,
-              autoHide: true,
-              topOffset: 10,
-            });
+            const rowData = rowMap[rowKey]?.props.item; // rowKey를 사용하여 rowMap에서 해당 데이터에 접근
+            if (rowData) {
+              deleteScheduleTwo(rowData.day, rowData.hour, rowData.minute)
+                .then(() => {
+                  Toast.show({
+                    type: 'success',
+                    position: 'top',
+                    text1: '알림삭제 성공!',
+                    visibilityTime: 3000,
+                    autoHide: true,
+                    topOffset: 10,
+                  });
+                  onRefresh();
+                })
+                .catch(error => {
+                  console.error('스케줄 삭제 실패', error);
+                  // Handle the error, maybe show a toast message
+                });
+            }
+
+            // console.log(rowData?.day);
+            // console.log(rowData?.hour);
+            // console.log(rowData?.minute);
+
+            // console.log(`삭제된 알람의 요일: ${rowData.day}`);
+            // console.log(`삭제된 알람의 시간: ${rowData.hour}:${rowData.minute}`);
+            // Toast.show({
+            //   type: 'success',
+            //   position: 'top',
+            //   text1: '알람이 삭제되었습니다 !',
+            //   visibilityTime: 3000,
+            //   autoHide: true,
+            //   topOffset: 10,
+            // });
           }
         }}
       />

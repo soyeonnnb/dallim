@@ -65,7 +65,7 @@ function RunningAlarm({navigation}: RunningAlarmProps) {
           {showTimePicker && <TimePicker onRefresh={refreshScheduleList} />}
         </S.Body>
         <S.Footer>
-          <Alarm alarmList={scheduleList} />
+          <Alarm alarmList={scheduleList} onRefresh={refreshScheduleList} />
         </S.Footer>
 
         <S.TabBox />

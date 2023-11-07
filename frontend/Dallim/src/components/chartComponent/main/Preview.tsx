@@ -57,6 +57,9 @@ function Preview({
       nickname: '',
     },
   });
+  const [runningRankingRecords, setRunningRankingRecords] = useState<
+    {stacks: {value: number; color: string}[]; label: string}[]
+  >([]);
 
   const snapPoints = useMemo(() => ['40%', '90%'], []); // 전체 화면에서 몇퍼센트 차지할
 
@@ -87,6 +90,10 @@ function Preview({
         nickname: '',
       },
     };
+    const monthNewRecords: {
+      stacks: {value: number; color: string}[];
+      label: string;
+    }[] = [];
     everyRecords?.map(monthData => {
       if (
         monthData.year === selectedYearMonth.year &&
@@ -96,6 +103,19 @@ function Preview({
           newMonth.count += 1;
           newMonth.distance += record.totalDistance;
           newMonth.time += record.totalTime;
+          monthNewRecords.push({
+            stacks: [
+              {
+                value: record.totalTime,
+                color: 'red',
+              },
+              {
+                value: record.totalDistance,
+                color: 'yellow',
+              },
+            ],
+            label: `${record.createdAt.slice(8, 10)}일`,
+          });
         });
         newMonth.runningMate.characterIndex =
           monthData.runningMateCharacterIndex;
@@ -103,6 +123,7 @@ function Preview({
         newMonth.runningMate.nickname = monthData.runningMateNickName;
       }
     });
+    setRunningRankingRecords(monthNewRecords);
     setPreviewRecords(newMonth);
   }, [selectedYearMonth]);
 
@@ -163,6 +184,7 @@ function Preview({
           selectedYearMonth={selectedYearMonth}
           setSelectedYearMonth={setSelectedYearMonth}
           previewRecords={previewRecords}
+          previewMonthRankingRecords={runningRankingRecords}
         />
       </S.Container>
     </BottomSheet>

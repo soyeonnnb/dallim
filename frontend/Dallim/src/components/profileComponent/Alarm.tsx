@@ -142,7 +142,8 @@ const Alarm: React.FC<AlarmProps> = ({alarmList}) => {
         onRowOpen={(rowKey, rowMap, toValue) => {
           if (toValue === -windowWidth) {
             console.log(`삭제된 알람의 인덱스: ${rowKey}`); // rowKey를 직접 사용
-
+            console.log(`인덱스'${rowMap}`);
+            console.log(`인덱스'${toValue}`);
             Toast.show({
               type: 'success',
               position: 'top',

@@ -188,12 +188,11 @@ public class RunningService {
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
         System.out.println(objectId);
-        Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call = ApiUtil.getApiService().getRunningMateRecord(token, "6547d077843b0e094bfe4c63");
+        Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call = ApiUtil.getApiService().getRunningMateRecord(token, objectId);
         call.enqueue(new Callback<ApiResponseDTO<RunningMateRunningRecordDTO>>() {
             @Override
             public void onResponse(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Response<ApiResponseDTO<RunningMateRunningRecordDTO>> response) {
                 if (response.isSuccessful() && response != null){
-                    System.out.println(response.toString());
                     System.out.println(response.body().toString());
                     System.out.println(response.body().getData().toString());
                     Log.d("성공", "성공");

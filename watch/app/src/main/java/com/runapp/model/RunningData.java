@@ -8,6 +8,10 @@ import androidx.room.TypeConverters;
 import com.runapp.database.RunningDataConverters;
 import com.runapp.dto.RunningDataDTO;
 
+import java.security.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -61,7 +65,7 @@ public class RunningData {
         dto.setType(this.type);
         dto.setRivalRecordId(this.rivalRecordId);
         dto.setRunningRecordInfos(this.runningRecordInfos);
-        dto.setDate(this.date.getTime());
+        dto.setDate(change(this.date.getTime()));
         dto.setWatchOrMobile("WATCH");
         return dto;
     }
@@ -192,5 +196,11 @@ public class RunningData {
 
     public void setTranslation(Boolean translation) {
         isTranslation = translation;
+    }
+
+    public LocalDateTime change(Long timestamp) {
+        Instant instant = Instant.ofEpochMilli(timestamp); // Long 값을 그대로 사용
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        return localDateTime;
     }
 }

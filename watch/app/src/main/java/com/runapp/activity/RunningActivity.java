@@ -31,6 +31,7 @@ import com.runapp.util.NetworkUtil;
 import com.runapp.util.PreferencesUtil;
 import com.runapp.view.RunningViewModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -214,6 +215,12 @@ public class RunningActivity extends AppCompatActivity {
                         Log.d("데이터 전송", "몽고디비로 데이터 전송 성공");
                         Toast.makeText(RunningActivity.this, "기록 저장 성공", Toast.LENGTH_SHORT).show();
                     }else{
+                        System.out.println(response.errorBody().toString());
+                        try {
+                            System.out.println(response.errorBody().string().toString());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         Log.d("데이터 전송", "몽고디비로 데이터 전송 실패");
                         Toast.makeText(RunningActivity.this, "기록 저장 실패", Toast.LENGTH_SHORT).show();
                     }

@@ -68,7 +68,9 @@ public class FollowService {
 
         Follow res = followRepository.findByFromUserUserIdAndToUserUserId(fromUserId, toUserId);
 
-        if (res != null) {
+        Follow alreadyFriends1 = followRepository.findByFromUserUserIdAndToUserUserIdAndState(fromUserId, toUserId, FollowState.accept);
+        Follow alreadyFriends2 = followRepository.findByFromUserUserIdAndToUserUserIdAndState(toUserId, fromUserId, FollowState.accept);
+        if (res != null || alreadyFriends1 != null || alreadyFriends2 != null) {
             return true;
         }
         return false;

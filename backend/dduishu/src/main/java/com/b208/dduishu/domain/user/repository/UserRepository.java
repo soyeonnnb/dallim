@@ -24,10 +24,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
 
-    @Query("SELECT u FROM User u WHERE u.userId = :userId OR u.userId IN (SELECT f.toUser.userId FROM Follow f WHERE f.fromUser.userId = :userId)")
-    List<User> getUserIdAndFollowerId(Long userId);
+    @Query("SELECT distinct u FROM User u WHERE u.userId = :userId OR u.userId IN (SELECT f.toUser.userId FROM Follow f WHERE f.fromUser.userId = :userId AND f.state = :state)\n" +
+            "OR u.userId IN (SELECT f.fromUser.userId FROM Follow f WHERE f.toUser.userId = :userId AND f.state = :state)")
+    List<User> getUserIdAndFollowerIdAndState(Long userId, FollowState state);
 
-    @Query("SELECT u FROM User u WHERE u.userId IN (SELECT f.toUser.userId FROM Follow f WHERE f.fromUser.userId = :userId and f.state = :state)")
+    @Query("SELECT distinct u FROM User u WHERE u.userId IN (SELECT f.toUser.userId FROM Follow f WHERE f.fromUser.userId = :userId AND f.state = :state)\n" +
+            "OR u.userId IN (SELECT f.fromUser.userId FROM Follow f WHERE f.toUser.userId = :userId AND f.state = :state)")
     List<User> getUserByFollowerUserId(Long userId, FollowState state);
 
     List<User> findByNicknameContaining(String nickname);

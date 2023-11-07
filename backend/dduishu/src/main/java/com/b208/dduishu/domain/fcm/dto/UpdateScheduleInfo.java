@@ -6,10 +6,9 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ScheduleInfo {
-
-    private String targetToken;
+public class UpdateScheduleInfo {
     private List<Day> day;
     private int hour;
     private int minute;
+    private boolean state;
 }

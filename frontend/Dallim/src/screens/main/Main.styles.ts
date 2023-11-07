@@ -49,8 +49,8 @@ export const PointText = styled.Text`
 `;
 
 export const ButtonBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: space-between;
   width: 90%;
   height: 10%;
@@ -58,8 +58,8 @@ export const ButtonBox = styled.View`
 `;
 
 export const BgmBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 20%;
   height: 100%;
   justify-content: center;
@@ -72,8 +72,8 @@ export const BgmButton = styled.TouchableOpacity`
 `;
 
 export const StampBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 20%;
   height: 100%;
   justify-content: center;

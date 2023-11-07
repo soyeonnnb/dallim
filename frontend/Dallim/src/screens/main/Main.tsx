@@ -95,16 +95,16 @@ function Main({ navigation }: MainProps) {
 
               <S.BgmBox>
                 <S.Box>
-                  <S.BgmButton onPress={BgmToggle}>
+                  {/* <S.BgmButton onPress={BgmToggle}>
                     <S.StampImage source={StampWhiteIcon} />
-                  </S.BgmButton>
+                  </S.BgmButton> */}
                 </S.Box>
               </S.BgmBox>
 
               <S.StampBox>
                 <S.Box>
                   <S.StampButton onPress={handleSend}>
-                    <S.StampImage source={StampWhiteIcon} />
+                    <S.StampImage source={StampWhiteIcon} resizeMode='contain'/>
                   </S.StampButton>
                 </S.Box>
               </S.StampBox>

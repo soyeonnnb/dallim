@@ -23,6 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -149,7 +150,7 @@ class RunningRecordServiceTest {
                 .totalDistance(totalDistance.doubleValue())
                 .averageSpeed(averageSpeed.doubleValue())
                 .averageHeartRate(averageHeartRate.doubleValue())
-                .createdAt(new Date())
+                .createdAt(LocalDateTime.now())
                 .build();
 
         runningRecordRepository.save(res);

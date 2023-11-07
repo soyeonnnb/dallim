@@ -41,6 +41,7 @@ public class LocationService extends Service {
     private RunningViewModel runningViewModel;
     private static final int NOTIFICATION_ID = 10;
     private static final String CHANNEL_ID = "RunningService";
+    private int count = 1;
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
@@ -48,7 +49,6 @@ public class LocationService extends Service {
                     "달림",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
         }
@@ -96,6 +96,13 @@ public class LocationService extends Service {
                 speed = (Math.round(speed * 100) / 100.0);
                 // m/s 저장
                 runningViewModel.setMsSpeed(speed);
+                if(runningViewModel.getTotalSpeed().getValue() != 0){
+                    Double value = runningViewModel.getTotalSpeed().getValue();
+                    runningViewModel.setTotalSpeed(value + speed);
+                    runningViewModel.setSpeedCountTime(count++);
+                }else{
+                    runningViewModel.setTotalSpeed(speed);
+                }
                 Map<String, Integer> result = conversion.msToPace(speed);
                 Integer minutes = result.get("minutes");
                 Integer seconds = result.get("seconds");

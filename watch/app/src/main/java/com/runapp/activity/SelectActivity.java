@@ -8,13 +8,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.wear.widget.WearableRecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.runapp.R;
 import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivitySelectBinding;
@@ -36,19 +35,11 @@ public class SelectActivity extends ComponentActivity {
         runningService = new RunningService(getApplicationContext());
 
         binding = ActivitySelectBinding.inflate(getLayoutInflater());
-
         View view = binding.getRoot();
-
         setContentView(view);
 
         db = AppDatabase.getDatabase(getApplicationContext());
         Context context = SelectActivity.this;
-        ImageView imageViewOne = binding.singleGif;
-
-        // 움짤 표시
-        Glide.with(context)
-                        .load(R.drawable.run_character)
-                                .into(imageViewOne);
 
         // 혼자 달리기 눌렀을 경우
         binding.btnSingle.setOnClickListener(v ->{

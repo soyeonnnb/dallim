@@ -1,29 +1,23 @@
 import * as React from 'react';
 
-import { useEffect } from 'react';
+import { requestUserPermission, NotificationListner } from './src/utils/pushnotification_helper';
+import { checkNotifications, requestNotifications } from 'react-native-permissions';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { displayNoti } from './src/utils/pushnotification_helper';
 import { createStackNavigator } from '@react-navigation/stack';
-import { RecoilRoot } from 'recoil';
-import BottomTab from './src/components/common/bottomTab/BottomTab';
-import Kakao from './src/screens/login/KakaoLogin';
-import Login from './src/screens/login/Login';
-import NotFound from './src/screens/notFound/NotFound';
-import Naver from './src/screens/login/NaverLogin';
-import Toast from 'react-native-toast-message';
 import { enableScreens } from 'react-native-screens';
 import { DeviceEventEmitter } from 'react-native';
-import messaging from '@react-native-firebase/messaging';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  requestUserPermission,
-  NotificationListner,
-} from './src/utils/pushnotification_helper';
-import {
-  checkNotifications,
-  requestNotifications,
-} from 'react-native-permissions';
 import { Platform, Linking } from 'react-native';
-import { displayNoti } from './src/utils/pushnotification_helper';
+import { RecoilRoot } from 'recoil';
+import { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BottomTab from './src/components/common/bottomTab/BottomTab';
+import messaging from '@react-native-firebase/messaging';
+import NotFound from './src/screens/notFound/NotFound';
+import Kakao from './src/screens/login/KakaoLogin';
+import Naver from './src/screens/login/NaverLogin';
+import Toast from 'react-native-toast-message';
+import Login from './src/screens/login/Login';
 import Sound from 'react-native-sound';
 
 enableScreens();
@@ -32,30 +26,6 @@ const Stack = createStackNavigator();
 messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('[Background Remote Message]', remoteMessage);
 });
-
-type RouteEvent = {
-  name: string;
-};
-
-function NavigationWithListener() {
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    const appRouteSubscription = DeviceEventEmitter.addListener(
-      'AppRouteEvent',
-      (route: RouteEvent) => {
-        if (route && route.name) {
-        }
-      },
-    );
-
-    return () => {
-      appRouteSubscription.remove();
-    };
-  }, [navigation]);
-
-  return null; // 이 컴포넌트는 UI를 렌더링하지 않습니다.
-}
 
 function App() {
   // 배경쏭
@@ -73,7 +43,6 @@ function App() {
         }
       });
     });
-
     return () => {
       bgm.release(); // 앱 종료 시 오디오 리소스 해제
     };
@@ -85,7 +54,6 @@ function App() {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       displayNoti(remoteMessage); // 위에서 작성한 함수로 넘겨준다
     });
-
     return unsubscribe;
   }, []);
 
@@ -105,7 +73,6 @@ function App() {
         });
       }
     };
-
     requestNotificationPermission();
   }, []);
 
@@ -113,10 +80,8 @@ function App() {
     try {
       const fcmToken = await messaging().getToken();
       console.log('[FCM Token] ', fcmToken);
-      // 비동기 저장 처리를 기다립니다.
       await AsyncStorage.setItem('fcmToken', fcmToken);
     } catch (e) {
-      // 에러 핸들링
       console.error('Failed to fetch or save FCM token', e);
     }
   };

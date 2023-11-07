@@ -24,6 +24,7 @@ import com.b208.dduishu.domain.user.entity.UserState;
 import com.b208.dduishu.domain.user.exception.UserNotFoundException;
 import com.b208.dduishu.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,7 @@ import static java.util.stream.Collectors.toList;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RunningRecordService {
 
     private static final String FIND_MY_RECORD = "me";
@@ -91,6 +93,9 @@ public class RunningRecordService {
                 .filter(Planet::isMainPlanet)
                 .findFirst()
                 .orElse(null);
+
+        log.info("planet! {}", planet.getId());
+
         String addressName = req.getRunningRecordInfos()
                             .stream()
                             .findFirst()

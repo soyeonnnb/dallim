@@ -16,11 +16,14 @@ import CustomToast from '../common/CustomToast';
 import {postSchedule} from '@/apis/ProfileApi';
 
 type DayOfWeek = '일' | '월' | '화' | '수' | '목' | '금' | '토';
+interface TimePickerProps {
+  onRefresh: () => void;
+}
 
 const screenHeight = Dimensions.get('window').height;
 const itemHeight = screenHeight / 20;
 
-const TimePicker = () => {
+const TimePicker: React.FC<TimePickerProps> = ({onRefresh}) => {
   //state
   const [selectedHour, setSelectedHour] = useState('12');
   const [selectedMinute, setSelectedMinute] = useState('30');
@@ -93,7 +96,19 @@ const TimePicker = () => {
         hourForRequest,
         minuteForRequest,
       );
-      console.log('저장된 요일과 시간:', response);
+
+      if (response) {
+        CustomToast({
+          type: 'success',
+          text1: '알림이 등록되었습니다.',
+        });
+        onRefresh();
+      } else {
+        CustomToast({
+          type: 'error',
+          text1: '중복된 알람이 존재합니다. ',
+        });
+      }
     } catch (error) {
       // Handle any errors that occur during the API call
       console.error('Schedule Save Error:', error);

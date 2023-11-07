@@ -19,6 +19,7 @@ function RunningAlarm({navigation}: RunningAlarmProps) {
   // state--------------------
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [scheduleList, setScheduleList] = useState([]);
+  const [refreshKey, setRefreshKey] = useState(false);
   //
   //useEffect
   useEffect(() => {
@@ -37,7 +38,13 @@ function RunningAlarm({navigation}: RunningAlarmProps) {
     };
 
     fetchSchedule(); // 정의한 비동기 함수 호출
-  }, []);
+  }, [refreshKey]);
+
+  //action
+
+  const refreshScheduleList = () => {
+    setRefreshKey(prev => !prev);
+  };
 
   return (
     <S.Container>
@@ -54,7 +61,9 @@ function RunningAlarm({navigation}: RunningAlarmProps) {
           </S.BackButtonFlexBoxRight>
           <S.BackButtonFlexBoxLeft></S.BackButtonFlexBoxLeft>
         </S.Header>
-        <S.Body>{showTimePicker && <TimePicker />}</S.Body>
+        <S.Body>
+          {showTimePicker && <TimePicker onRefresh={refreshScheduleList} />}
+        </S.Body>
         <S.Footer>
           <Alarm alarmList={scheduleList} />
         </S.Footer>

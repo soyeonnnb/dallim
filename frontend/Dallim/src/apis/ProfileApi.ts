@@ -116,15 +116,35 @@ export const postWatchConnection = async (authCode: string) => {
   }
 };
 
-// 런닝메이트 삭제
-export const deleteRunningMate = async (competitorId: string): Promise<boolean> => {
+export const fetchScheduleList = async () => {
   const accessToken = await getToken();
   try {
-    const response = await axios.delete(`${BASE_URL}/api/v1/running-mate/${competitorId}`, {
+    const response = await axios.get(`${BASE_URL}/api/v1/schedule`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+    console.log('response : ', response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error('ProfileApi : 스케줄 불러오기--> ', error); // 로깅을 추가합니다.
+    throw error;
+  }
+};
+
+export const deleteRunningMate = async (
+  competitorId: string,
+): Promise<boolean> => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.delete(
+      `${BASE_URL}/api/v1/running-mate/${competitorId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
 
     if (response.data.status === 'success' && response.data.data === true) {
       console.log('ProfileApi : 런닝메이트 삭제 성공');

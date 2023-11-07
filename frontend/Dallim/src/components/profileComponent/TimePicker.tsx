@@ -9,6 +9,10 @@ import {
   NativeScrollEvent,
 } from 'react-native';
 
+import CustomToast from '../common/CustomToast';
+
+type DayOfWeek = '일' | '월' | '화' | '수' | '목' | '금' | '토';
+
 const screenHeight = Dimensions.get('window').height;
 const itemHeight = screenHeight / 20;
 
@@ -26,6 +30,16 @@ const TimePicker = () => {
   const hours = Array.from({length: 24}, (_, i) => (i < 10 ? '0' : '') + i);
   const minutes = Array.from({length: 60}, (_, i) => (i < 10 ? '0' : '') + i);
   const days = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const dayMapping: {[key in DayOfWeek]: string} = {
+    일: 'SUNDAY',
+    월: 'MONDAY',
+    화: 'TUESDAY',
+    수: 'WEDNESDAY',
+    목: 'THURSDAY',
+    금: 'FRIDAY',
+    토: 'SATURDAY',
+  };
 
   //useEffect
   useEffect(() => {
@@ -51,10 +65,21 @@ const TimePicker = () => {
   };
 
   const handleSave = () => {
+    const isAnyDaySelected = selectedDays.some(day => day);
+    if (!isAnyDaySelected) {
+      CustomToast({
+        type: 'error',
+        text1: '요일을 선택해주세요!',
+      });
+      return;
+    }
+
     const selectedDaysString = selectedDays
-      .map((selected, index) => (selected ? days[index] : null))
+      .map((selected, index) =>
+        selected ? dayMapping[days[index] as DayOfWeek] : null,
+      )
       .filter(Boolean)
-      .join(', ');
+      .join(',');
 
     console.log('저장된 요일:', selectedDaysString);
     console.log('저장된 시간:', selectedHour, selectedMinute);

@@ -8,6 +8,9 @@ import BackButtonIcon from '@/assets/icons/ArrowLeft';
 import TimePicker from '@/components/profileComponent/TimePicker';
 import Alarm from '@/components/profileComponent/Alarm';
 
+//apis
+import {fetchScheduleList} from '@/apis/ProfileApi';
+
 interface RunningAlarmProps {
   navigation: any;
 }
@@ -15,66 +18,26 @@ interface RunningAlarmProps {
 function RunningAlarm({navigation}: RunningAlarmProps) {
   // state--------------------
   const [showTimePicker, setShowTimePicker] = useState(false);
-
+  const [scheduleList, setScheduleList] = useState([]);
+  //
   //useEffect
   useEffect(() => {
     setShowTimePicker(true);
     return () => setShowTimePicker(false);
   }, []);
 
-  //dummydat
-  const dummy = [
-    {
-      day: ['월'],
-      hour: 1,
-      minute: 30,
-    },
-    {
-      day: ['월', '화'],
-      hour: 13,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-    {
-      day: ['월', '화', '수', '목', '금', '토', '일'],
-      hour: 14,
-      minute: 30,
-    },
-  ];
+  useEffect(() => {
+    const fetchSchedule = async () => {
+      try {
+        const data = await fetchScheduleList(); // API 호출
+        setScheduleList(data); // 상태 업데이트
+      } catch (error) {
+        console.error('스케줄 리스트를 가져오는데 실패', error);
+      }
+    };
+
+    fetchSchedule(); // 정의한 비동기 함수 호출
+  }, []);
 
   return (
     <S.Container>
@@ -93,7 +56,7 @@ function RunningAlarm({navigation}: RunningAlarmProps) {
         </S.Header>
         <S.Body>{showTimePicker && <TimePicker />}</S.Body>
         <S.Footer>
-          <Alarm alarmList={dummy} />
+          <Alarm alarmList={scheduleList} />
         </S.Footer>
 
         <S.TabBox />

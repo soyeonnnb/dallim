@@ -128,4 +128,12 @@ public class Util {
         return PlanetName.BLACK;
     }
 
+    public static int getEvolutionStage(int level) {
+        if (level < 10) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
 }

@@ -10,12 +10,16 @@ public class FollowerInfo {
 
     private Long userId;
     private int characterIndex;
+    private int evolutionStage;
     private String nickname;
     private int level;
 
-    public FollowerInfo(User user) {
+    public FollowerInfo(User user, Character character) {
         this.userId = user.getUserId();
-        this.characterIndex = Util.getCharacterIndexByUser(user);
+        if (character != null) {
+            this.characterIndex = Util.getCharacterIndexByCharacter(character);
+            this.evolutionStage = Util.getEvolutionStage(character.getCharacterLevel().getLevel());
+        }
         this.nickname = user.getNickname();
         this.level = user.getUserLevel().getLevel();
     }

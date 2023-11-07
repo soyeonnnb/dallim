@@ -4,5 +4,8 @@
     <font android:fontStyle="normal"
         android:fontWeight="400"
         android:font="@font/insungit_cutelively_jisu_regular"/>
+    <font android:fontStyle="normal"
+        android:fontWeight="400"
+        android:font="@font/nps_font_regular"/>
 
 </font-family>

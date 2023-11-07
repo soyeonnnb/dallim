@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".activity.MyRecordActivity">
+    tools:context=".activity.RunningMateActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/rv_running_mate"
         android:layout_width="189dp"
         android:layout_height="189dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,10 +19,12 @@
     <TextView
         android:id="@+id/tv_no_data"
         android:layout_width="120dp"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:text="측정된 기록이\n없습니다."
-        android:textSize="15dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="86dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="86dp"
+        android:text="러닝메이트가 없습니다"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textStyle="bold"

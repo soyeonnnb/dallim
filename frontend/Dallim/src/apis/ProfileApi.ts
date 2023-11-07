@@ -115,3 +115,31 @@ export const postWatchConnection = async (authCode: string) => {
     throw error;
   }
 };
+
+// 런닝메이트 삭제
+export const deleteRunningMate = async (
+  competitorId: string,
+): Promise<boolean> => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.delete(
+      `${BASE_URL}/api/v1/running-mate/${competitorId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+
+    if (response.data.status === 'success' && response.data.data === true) {
+      console.log('ProfileApi : 런닝메이트 삭제 성공');
+      return true;
+    } else {
+      console.log('ProfileApi : 런닝메이트 삭제 실패');
+      return false;
+    }
+  } catch (error) {
+    console.error('런닝메이트 삭제 오류', error);
+    throw error;
+  }
+};

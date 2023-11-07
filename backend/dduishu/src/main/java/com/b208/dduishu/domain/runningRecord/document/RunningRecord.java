@@ -49,7 +49,7 @@ public class RunningRecord {
     private String formattedDate;
 
     @Builder
-    public RunningRecord(UserInfo user, String location, WatchOrMobile watchOrMobile, List<Double> secondPerSpeed, HeartRateInfo heartRate, PaceInfo pace, CharacterRecordInfo character, Date createdAt, double stepCount, double averagePace, double averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed) {
+    public RunningRecord(UserInfo user, String location, WatchOrMobile watchOrMobile, List<Double> secondPerSpeed, HeartRateInfo heartRate, PaceInfo pace, CharacterRecordInfo character, LocalDateTime createdAt, double stepCount, double averagePace, double averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed) {
         this.user = user;
         this.location = location;
         this.watchOrMobile = watchOrMobile;
@@ -67,7 +67,7 @@ public class RunningRecord {
         this.averageHeartRate = averageHeartRate;
         this.formattedDate = formattedDate;
         this.averageSpeed = averageSpeed;
-        this.createdAt = toLocalDateTime(createdAt);
+        this.createdAt = createdAt;
     }
 
     private static LocalDateTime toLocalDateTime(Date date) {

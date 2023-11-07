@@ -13,6 +13,7 @@ import org.bson.types.ObjectId;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.*;
 
 import static java.util.stream.Collectors.toList;
@@ -31,8 +32,7 @@ public class RunningRecordInfo {
 
     private Long userId;
     private WatchOrMobile watchOrMobile;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss") //데이터 포맷 변환
-    private Date date;
+    private LocalDateTime date;
     private String formattedDate;
     private Long characterId;
     private RunningType type;

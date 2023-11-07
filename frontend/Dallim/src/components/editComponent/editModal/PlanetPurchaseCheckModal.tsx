@@ -3,7 +3,7 @@ import { Modal } from 'react-native';
 import { planetData } from '@/recoil/PlanetData';
 import SpinAnimation from '@/components/common/SpinAnimation';
 import { useRecoilValue } from 'recoil';
-import { selectedPlanetIndexState } from '@/recoil/EditRecoil';
+import { selectedPlanetIndexState } from '@/recoil/UserRecoil';
 
 type ModalProps = {
     handleConfirm: () => void;

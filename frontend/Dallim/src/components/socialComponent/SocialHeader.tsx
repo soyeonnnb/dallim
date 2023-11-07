@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import * as S from './SocialHeader.styles';
-import FriendListModal from './socialModal/FriendListModal';
-import QuestionIcon from '../../assets/icons/QuestionIcon.png';
+import FriendManageModal from './socialModal/FriendManageModal';
+import QuestionIcon from '@/assets/icons/QuestionIcon.png';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import { Animated } from 'react-native';
 
 type SocialHeaderProps = {
     month: number | null;
@@ -14,9 +15,26 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
 
     const [showAlert, setShowAlert] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
-    
-    // 개발중 ALERT
-    const [tempShowAlert, setTempShowAlert] = useState(false);
+    const [buttonFadeAnim] = useState(new Animated.Value(0));
+
+    // '친구관리' 버튼 애니메이션
+    useEffect(() => {
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(buttonFadeAnim, {
+                    toValue: 0.5,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(buttonFadeAnim, {
+                    toValue: 1,
+                    duration: 500,
+                    useNativeDriver: true,
+                }),
+            ])
+        ).start();
+    }, []);
+
     return (
         <S.Container>
             <S.Header>
@@ -24,10 +42,8 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
                     <S.DateText>{month}월 {week}주차 랭킹</S.DateText>
                 </S.HeaderLeft>
                 <S.HeaderRight>
-                    {/* 아직 개발중 */}
-                    {/* <S.ManageButton onPress={() => setModalVisible(true)}> */}
-                    <S.ManageButton onPress={() => setTempShowAlert(true)}>
-                        <S.ManageText>친구관리</S.ManageText>
+                    <S.ManageButton onPress={() => setModalVisible(true)}>
+                        <S.AnimatedManageText style={{ opacity: buttonFadeAnim }}>친구관리</S.AnimatedManageText>
                     </S.ManageButton>
                 </S.HeaderRight>
 
@@ -44,7 +60,7 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
                 </S.BodySideBox>
             </S.Body>
 
-            <FriendListModal
+            <FriendManageModal
                 isVisible={modalVisible}
                 onClose={() => setModalVisible(false)}
             />
@@ -53,7 +69,7 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
                 show={showAlert}
                 showProgress={false}
                 title="안내사항"
-                message={"상위 20명의 거리 기준 랭킹입니다."}
+                message={"상위 거리 기준 랭킹입니다."}
                 closeOnTouchOutside={true}
                 onDismiss={() => {
                     setShowAlert(false);
@@ -64,24 +80,6 @@ function SocialHeader({ month, week }: SocialHeaderProps) {
                 confirmButtonColor="blue"
                 onConfirmPressed={() => {
                     setShowAlert(false);
-                }}
-            />
-
-            <AwesomeAlert
-                show={tempShowAlert}
-                showProgress={false}
-                title="안내사항"
-                message={"아직 개발중입니다."}
-                closeOnTouchOutside={true}
-                onDismiss={() => {
-                    setTempShowAlert(false);
-                }}
-                closeOnHardwareBackPress={false}
-                showConfirmButton={true}
-                confirmText="확인"
-                confirmButtonColor="blue"
-                onConfirmPressed={() => {
-                    setTempShowAlert(false);
                 }}
             />
 

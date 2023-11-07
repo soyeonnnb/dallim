@@ -1,9 +1,23 @@
 import * as S from './HeartRate.styles';
-function HeartRate() {
+
+import HeartRateGraph from './HeartRateGraph';
+import HeartRatePie from './HeartRatePie';
+
+interface Props {
+  data: {
+    chartData: {
+      value: number;
+      second: number;
+    }[];
+    secondPerHeartRateSection: number[];
+  };
+}
+
+function HeartRate({data}: Props) {
   return (
     <S.Container>
-      <S.Text>심박수 관련 페이지</S.Text>
-      <S.Text>아직 개발중이에요😭</S.Text>
+      <HeartRateGraph data={data.chartData} />
+      <HeartRatePie data={data.secondPerHeartRateSection} />
     </S.Container>
   );
 }

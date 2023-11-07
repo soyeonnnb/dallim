@@ -101,7 +101,7 @@ public class CountdownActivity extends ComponentActivity {
                 // 시간을 계산하여 텍스트 뷰 업데이트
                 int secondsRemaining = countdownTime - (int)(fraction * countdownTime);
                 if (secondsRemaining == 0) {
-                    countdownText.setText("시작");
+                    countdownText.setText("START");
                     countdownText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
                     countdownTimerView.setAngle(360);
                     countdownTimerView.setColor(getResources().getColor(R.color.red));

@@ -25,6 +25,9 @@ public class RunningRecord {
 
     @Id
     private ObjectId id;
+
+    @Enumerated(EnumType.STRING)
+    private WatchOrMobile watchOrMobile;
     private String location;
     private UserInfo user;
     private CharacterRecordInfo character;
@@ -32,7 +35,7 @@ public class RunningRecord {
     private RivalRunningRecordInfo rivalRecord;
     private List<RunningRecordOverallInfo> runningRecordInfos;
 
-    private List<Integer> secondPerSpeed;
+    private List<Double> secondPerSpeed;
     private HeartRateInfo heartRate;
     private PaceInfo pace;
 
@@ -46,9 +49,10 @@ public class RunningRecord {
     private String formattedDate;
 
     @Builder
-    public RunningRecord(UserInfo user, String location, List<Integer> secondPerSpeed, HeartRateInfo heartRate, PaceInfo pace, CharacterRecordInfo character, Date createdAt, double stepCount, double averagePace, double averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed) {
+    public RunningRecord(UserInfo user, String location, WatchOrMobile watchOrMobile, List<Double> secondPerSpeed, HeartRateInfo heartRate, PaceInfo pace, CharacterRecordInfo character, Date createdAt, double stepCount, double averagePace, double averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed) {
         this.user = user;
         this.location = location;
+        this.watchOrMobile = watchOrMobile;
         this.secondPerSpeed = secondPerSpeed;
         this.pace = pace;
         this.heartRate = heartRate;

@@ -5,6 +5,7 @@ import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
+import com.b208.dduishu.domain.runningRecord.dto.response.RunningRecordWithRunningMate;
 import com.b208.dduishu.domain.runningRecord.service.RunningRecordService;
 import com.b208.dduishu.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,22 @@ public class RunningRecordController {
 
     }
 
+    @GetMapping("/api/v1/running-record/running-mate/{id}")
+    public ApiResponse<?> getRunningRecordWithRunningMate(@PathVariable ObjectId id) {
+
+        try {
+
+            System.out.println(id);
+
+            List<RunningRecordWithRunningMate> res = runningRecordService.getRunningRecordWithRunningMate(id);
+
+            return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+
+    }
+
     @PostMapping("/api/v1/running")
     public ApiResponse<?> createRunningRecord(@RequestBody RunningRecordInfo req) {
         try {
@@ -46,6 +63,8 @@ public class RunningRecordController {
             return ApiResponse.createError(e.getMessage());
         }
     }
+
+
 
     @PostMapping("/api/v1/running/start")
     public ApiResponse<?> startRunning() {

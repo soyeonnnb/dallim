@@ -29,13 +29,14 @@ public class RivalRunningRecordInfo {
     private double totalTime;
     private double totalDistance;
     private double averageSpeed;
+    private double averagePace;
     private LocalDateTime createdAt;
 
     @Builder
     public RivalRunningRecordInfo(RunningRecord runningRecord) {
         this.id = runningRecord.getId().toString();
         this.user = runningRecord.getUser();
-        this.location = "서울, 석촌호수";
+        this.location = runningRecord.getLocation();
         this.pace = runningRecord.getPace();
         this.character = runningRecord.getCharacter();
         this.type = runningRecord.getType();
@@ -43,6 +44,7 @@ public class RivalRunningRecordInfo {
         this.totalTime = runningRecord.getTotalTime();
         this.totalDistance = runningRecord.getTotalDistance();
         this.averageSpeed = runningRecord.getAverageSpeed();
+        this.averagePace = runningRecord.getAveragePace();
         this.createdAt = runningRecord.getCreatedAt();
     }
 }

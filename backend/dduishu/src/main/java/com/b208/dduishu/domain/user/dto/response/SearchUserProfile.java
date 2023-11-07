@@ -1,5 +1,6 @@
 package com.b208.dduishu.domain.user.dto.response;
 
+import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.util.Util;
@@ -14,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SearchUserProfile {
     private Long userId;
     private int characterIndex;
+    private int evolutionStage;
     private String nickname;
     private int level;
     @JsonProperty("isFollower")
@@ -24,9 +26,18 @@ public class SearchUserProfile {
         this.userId = user.getUserId();
         this.nickname = user.getNickname();
         this.characterIndex = Util.getCharacterIndexByUser(user);
+        Character character = getMainCharacter(user);
+        this.evolutionStage = Util.getEvolutionStage(character.getCharacterLevel().getLevel());
         this.level = user.getUserLevel().getLevel();
         this.isFollower = follower.stream()
                 .anyMatch(f -> f.getUserId().equals(this.userId));
+    }
+
+    public Character getMainCharacter(User user) {
+        return user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
     }
 
 }

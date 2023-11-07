@@ -142,7 +142,7 @@ public class RunningActivity extends AppCompatActivity {
         stopService(locationIntent); // 위치서비스 중지
         stopService(timerServiceIntent);
 
-        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.01) {
+        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.001) {
             Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG).show();
             super.onDestroy();
             return; // 메서드를 여기서 종료

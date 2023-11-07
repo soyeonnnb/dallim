@@ -133,8 +133,17 @@ public class UserSocialService {
         User pair = userRepository.findByUserId(id).orElseThrow(() -> {
             throw new NullPointerException();
         });
+        Character myCharacter = user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
 
-        return new CompareUserProfile(user, pair);
+        Character pairCharacter = pair.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
+
+        return new CompareUserProfile(user, myCharacter, pair, pairCharacter);
     }
 
     public List<SearchUserProfile> searchUserProfile(String q) {
@@ -224,5 +233,25 @@ public class UserSocialService {
                 .forEach(planetOverviews::add);
         planetOverviews.sort(Comparator.comparingInt(PlanetOverview::getPlanetIndex));
         return planetOverviews;
+    }
+
+    public WatchUserInfo getWatchUserInfo() {
+
+        User user = getUser.getUser();
+        Character mainCharacter = user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
+        List<Planet> findPlanets = planetRepository.findAllByUserUserId(user.getUserId());
+        Planet mainPlanet = findPlanets.stream()
+                .filter(Planet::isMainPlanet)
+                .findFirst()
+                .orElse(null);
+
+        return WatchUserInfo.builder()
+                .user(user)
+                .character(mainCharacter)
+                .planet(mainPlanet)
+                .build();
     }
 }

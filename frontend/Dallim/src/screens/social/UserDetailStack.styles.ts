@@ -1,13 +1,9 @@
 import styled from 'styled-components/native';
 import {ImageBackground, TouchableOpacity} from 'react-native';
+import {Animated} from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
-`;
-
-export const BackgroundImageWrapper = styled.View`
-  width: 100%;
-  height: 100%;
 `;
 
 export const BackgroundImage = styled(ImageBackground)`
@@ -42,6 +38,7 @@ export const CloseButton = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
 `;
+
 export const CloseImage = styled.Image`
   /* border-width: 1px;
   border-color: red; */
@@ -52,7 +49,7 @@ export const CloseImage = styled.Image`
 export const HeaderBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 60%;
+  width: 50%;
   height: 100%;
   justify-content: center;
   align-items: flex-start;
@@ -63,11 +60,32 @@ export const DetailText = styled.Text`
   color: white;
 `;
 
-export const Empty = styled.View`
+export const VersusBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 20%;
+  width: 30%;
   height: 100%;
+`;
+
+export const VersusButton = styled.TouchableOpacity`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const VersusText = styled.Text`
+  font-size: 15px;
+  color: white;
+`;
+
+export const AnimatedVersusText = styled(Animated.Text)`
+  /* border-width: 1px;
+  border-color: red; */
+  font-size: 15px;
+  color: white;
 `;
 
 export const Body = styled.View`
@@ -96,6 +114,13 @@ export const ImageBox = styled.View`
 `;
 
 export const CharacterImage = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
+
+export const CharacterTouch = styled(TouchableOpacity)`
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 100%;
 `;
@@ -134,8 +159,14 @@ export const FooterLine = styled.View`
   border-color: blue; */
   width: 45%;
   height: 100%;
-  justify-content: center;
-  align-items: flex-end;
+  padding-top: 3%;
+`;
+
+export const Line = styled.View`
+  border-bottom-color: gray;
+  border-bottom-width: 1px;
+  width: 100%;
+  height: 50%;
 `;
 
 export const SortBox = styled.View`
@@ -212,4 +243,20 @@ export const TabBox = styled.View`
   border-color: red; */
   width: 100%;
   height: 10%;
+`;
+
+export const LoadingBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const AnimatedFooterText = styled(Animated.Text)`
+  /* border-width: 1px;
+  border-color: red; */
+  font-size: 25px;
+  color: white;
 `;

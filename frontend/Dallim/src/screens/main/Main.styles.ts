@@ -29,25 +29,8 @@ export const HeaderLeft = styled.View`
   border-color: yellow; */
   width: 40%;
   height: 100%;
-  justify-content: flex-end;
-`;
-
-
-export const ToggleButtonBackground = styled(TouchableOpacity)`
-  /* border-width: 1px;
-  border-color: green; */
-  flex: 1;
-  justify-content: flex-end;
-  align-items: flex-start;
-`;
-
-export const ToggleButton = styled(
-  Animated.createAnimatedComponent(ImageBackground),
-)<{isOn?: boolean}>`
-  width: 30px;
-  height: 30px;
-  border-radius: 100px;
-  background-color: transparent;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const HeaderRight = styled.View`
@@ -65,22 +48,43 @@ export const PointText = styled.Text`
   color: white;
 `;
 
-export const StampBox = styled.View`
+export const ButtonBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  justify-content: flex-end;
-  align-items: flex-end;
+  justify-content: space-between;
   width: 90%;
   height: 10%;
   flex-direction: row;
 `;
 
-export const Stamp = styled.View`
+export const BgmBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 20%;
+  height: 100%;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
+export const BgmButton = styled.TouchableOpacity`
+  width: 100%;
+  height: 100%;
+`;
+
+export const StampBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 20%;
+  height: 100%;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
+export const Box = styled.View`
   /* border-width: 1px;
   border-color: blue; */
-  /* align-items: center; */
-  width: 45px;
-  height: 45px;
+  width: 50px;
+  height: 50px;
 `;
 
 export const StampImage = styled.Image`
@@ -88,7 +92,7 @@ export const StampImage = styled.Image`
   height: 100%;
 `;
 
-export const SendButton = styled.TouchableOpacity`
+export const StampButton = styled.TouchableOpacity`
   width: 100%;
   height: 100%;
 `;
@@ -165,7 +169,7 @@ export const StartButton = styled.TouchableOpacity`
   border-width: 1px;
   border-color: white;
   border-radius: 20px;
-  background-color: #2A2C45;
+  background-color: #2a2c45;
   justify-content: center;
   align-items: center;
   width: 50%;

@@ -159,15 +159,6 @@ function BottompTab() {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <BottomTabIcon focused={focused} type="profile" />
-          ),
-        }}
-      /> */}
       <Tab.Screen
         name="ProfileStack"
         component={ProfileStackNavigators}
@@ -175,6 +166,7 @@ function BottompTab() {
           tabBarIcon: ({focused}) => (
             <BottomTabIcon focused={focused} type="profile" />
           ),
+          unmountOnBlur:true,
         }}
       />
     </Tab.Navigator>

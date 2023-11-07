@@ -1,5 +1,5 @@
 import * as S from './Alarm.styles';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, View, Text, Dimensions} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SwipeListView} from 'react-native-swipe-list-view';
@@ -13,7 +13,7 @@ import NightAlarm from '@/assets/images/NightAlarm.png';
 // import AlarmDeleteModal from './profileModal/AlarmDeleteModal';
 
 //api----------------------------------------------------------
-import {deleteScheduleTwo} from '@/apis/ProfileApi';
+import {deleteScheduleTwo, patchSchedule} from '@/apis/ProfileApi';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -39,6 +39,13 @@ const Alarm: React.FC<AlarmProps> = ({alarmList, onRefresh}) => {
   const [toggles, setToggles] = useState<boolean[]>(
     alarmList.map(alarm => alarm.state),
   );
+
+  //useEffect
+  useEffect(() => {
+    // alarmList에서 각 알람의 state를 사용하여 toggles 배열 초기화
+    const initialToggles = alarmList.map(alarm => alarm.state);
+    setToggles(initialToggles);
+  }, [alarmList]);
   //action---------------------------------------------------------------
   const getImageForTime = (hour: number) => {
     return hour >= 6 && hour < 18 ? MorningAlarm : NightAlarm;
@@ -47,7 +54,6 @@ const Alarm: React.FC<AlarmProps> = ({alarmList, onRefresh}) => {
   const formatHourAndMinute = (hour: number, minute: number) => {
     const formattedHour = hour === 0 || hour === 12 ? 12 : hour % 12;
     const formattedMinute = String(minute).padStart(2, '0');
-    // console.log('몇분인데' + formattedMinute);
     return `${formattedHour}  :  ${formattedMinute}`;
   };
 
@@ -56,12 +62,32 @@ const Alarm: React.FC<AlarmProps> = ({alarmList, onRefresh}) => {
   };
 
   const toggleAlarm = (index: number) => {
-    setToggles(prevToggles => {
-      const newToggles = [...prevToggles];
-      newToggles[index] = !newToggles[index];
-      console.log('토글값' + newToggles);
-      return newToggles;
-    });
+    const newToggles = toggles.map((toggle, i) =>
+      i === index ? !toggle : toggle,
+    );
+
+    // 알람 상태 업데이트
+    setToggles(newToggles);
+
+    // API 호출을 위한 알람 데이터 준비
+    const alarm = alarmList[index];
+    const updatedState = newToggles[index];
+    console.log('가져온 알림 리스트' + alarm);
+
+    console.log('토글상태변화' + updatedState);
+
+    // API 호출하여 서버에 알람 상태 업데이트
+    patchSchedule(alarm.day, alarm.hour, alarm.minute, updatedState)
+      .then(response => {
+        console.log('알람 상태 업데이트 성공:', response);
+        onRefresh();
+        // console.log(updatedState);
+        // 필요한 경우 여기서 추가적인 상태 업데이트나 UI 반영을 할 수 있습니다.
+      })
+      .catch(error => {
+        console.error('알람 상태 업데이트 실패:', error);
+        // 에러 처리 로직, 사용자에게 피드백 제공 등을 여기서 수행합니다.
+      });
   };
 
   const dayTranslations: DayTranslations = {
@@ -94,14 +120,14 @@ const Alarm: React.FC<AlarmProps> = ({alarmList, onRefresh}) => {
                   <S.BodyContainerBoX>
                     <S.ToggleContainer>
                       <TouchableOpacity onPress={() => toggleAlarm(index)}>
-                        {toggles[index] ? (
-                          <S.BodyTopToggleButton>
-                            <S.Circle></S.Circle>
-                          </S.BodyTopToggleButton>
-                        ) : (
+                        {alarm.state ? (
                           <S.BodyTopToggleFalseButton>
                             <S.Circle></S.Circle>
                           </S.BodyTopToggleFalseButton>
+                        ) : (
+                          <S.BodyTopToggleButton>
+                            <S.Circle></S.Circle>
+                          </S.BodyTopToggleButton>
                         )}
                       </TouchableOpacity>
                     </S.ToggleContainer>
@@ -146,28 +172,17 @@ const Alarm: React.FC<AlarmProps> = ({alarmList, onRefresh}) => {
                     autoHide: true,
                     topOffset: 10,
                   });
+
                   onRefresh();
+                  if (rowMap[rowKey]) {
+                    rowMap[rowKey].closeRow();
+                  }
                 })
                 .catch(error => {
                   console.error('스케줄 삭제 실패', error);
                   // Handle the error, maybe show a toast message
                 });
             }
-
-            // console.log(rowData?.day);
-            // console.log(rowData?.hour);
-            // console.log(rowData?.minute);
-
-            // console.log(`삭제된 알람의 요일: ${rowData.day}`);
-            // console.log(`삭제된 알람의 시간: ${rowData.hour}:${rowData.minute}`);
-            // Toast.show({
-            //   type: 'success',
-            //   position: 'top',
-            //   text1: '알람이 삭제되었습니다 !',
-            //   visibilityTime: 3000,
-            //   autoHide: true,
-            //   topOffset: 10,
-            // });
           }
         }}
       />

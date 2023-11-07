@@ -22,7 +22,7 @@ function ProfileStackNavigators() {
         CommonActions.reset({
           index: 0, // 초기 화면의 인덱스, 0으로 설정하면 첫 번째 화면으로 이동
           routes: [
-            {name: 'Profile'}, // 초기화 후 이동할 화면의 이름을 지정
+            {name: 'Profile'}, // 초기화 후 이동할 화면의 이름을
           ],
         }),
       );

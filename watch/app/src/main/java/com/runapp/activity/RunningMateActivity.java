@@ -1,8 +1,11 @@
 package com.runapp.activity;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +27,6 @@ public class RunningMateActivity extends AppCompatActivity {
 
     private AppDatabase db;
     private Executor executor = Executors.newSingleThreadExecutor();
-    private ViewPager2 viewPager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class RunningMateActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rv_running_mate);
         recyclerView.setLayoutManager(layoutManager);
-        RunningMateDataAdapter adapter = new RunningMateDataAdapter(new ArrayList<>());
+        RunningMateDataAdapter adapter = new RunningMateDataAdapter(this, new ArrayList<>(), RunningMateActivity.this);
         recyclerView.setAdapter(adapter);
 
         TextView tvNoData = findViewById(R.id.tv_no_data);

@@ -46,8 +46,8 @@ export const TitleText = styled.Text`
 `;
 
 export const Body = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  /* border-width: 1px; */
+  /* border-color: red; */
   justify-content: center;
   flex-direction: row;
   align-items: center;

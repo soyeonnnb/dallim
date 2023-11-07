@@ -9,5 +9,9 @@
 
         <!-- 다른 스타일 속성 -->
     </style>
+    <style name="AppTheme.NoSwipeToDismiss" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowSwipeToDismiss">false</item>
+        <!-- 필요한 다른 스타일 아이템들을 여기에 추가할 수 있습니다 -->
+    </style>
 
 </resources>

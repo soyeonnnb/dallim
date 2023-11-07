@@ -50,13 +50,16 @@ public class Conversion {
         return localDateTime.format(formatter);
     }
 
+
+    // 로컬데이트 타임 포맷 변경(러닝메이트 날짜)
+    public String LocalDateTimeToDate(LocalDateTime localDateTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 (E)", Locale.KOREAN);
+        return localDateTime.format(formatter);
+    }
+
     public double mToKM(double m){
-        double km = Math.round((m / 1000.0) / 100) * 100.0;
-        System.out.println(m/1000.0);
-        System.out.println(km);
+        double km = Math.round((m / 1000.0) * 100.0) / 100.0;
 
         return km;
     }
-
-
 }

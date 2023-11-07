@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,13 +9,22 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:src="@drawable/background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingBottom="30dp">
 
     <LinearLayout
         android:id="@+id/btn_single"
@@ -24,7 +34,7 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +56,7 @@
             android:text="혼자 달리기"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="10dp"
+            android:textSize="14dp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -78,7 +88,7 @@
             android:text="함께 달리기"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="10dp"
+            android:textSize="14dp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -110,8 +120,41 @@
             android:text="나의 기록 보기"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="10dp"
+            android:textSize="13dp"
             android:textStyle="bold" />
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/btn_setting"
+        android:layout_width="125dp"
+        android:layout_height="41dp"
+        android:background="@drawable/round_check_btn"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_multi"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/penguin" />
+
+        <TextView
+            android:layout_width="69dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:text="설정"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="13dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

@@ -45,9 +45,7 @@ export const fetchCompetitorCard = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
     console.log('response : ', response.data.data);
-
     return response.data.data;
   } catch (error) {
     console.error('ProfileApi : 내가등록한 경쟁자 조회 실패 --> ', error); // 로깅을 추가합니다.
@@ -76,6 +74,27 @@ export const patchNicknameCheck = async (nickname: string) => {
   }
 };
 
+export const postAlarmRegist = async (scheduleTimestamp: number) => {
+  const accessToken = await getToken();
+  const fcmToken = await AsyncStorage.getItem('fcmToken');
+
+  const body = {
+    targetToken: fcmToken,
+    scheduleTime: scheduleTimestamp.toString(),
+  };
+
+  try {
+    const response = await axios.post(`${BASE_URL}/api/v1/schedule`, body, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // Header에 AccessToken을 포함시킵니다.
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('ProfileApi : 알림 등록 axios 실패 -->', error);
+  }
+};
 // 워치 연동 API
 export const postWatchConnection = async (authCode: string) => {
   const accessToken = await getToken();
@@ -93,6 +112,29 @@ export const postWatchConnection = async (authCode: string) => {
     return response.data;
   } catch (error) {
     console.error('ProfileApi : 워치연동 axios 실패 --> ', error);
+    throw error;
+  }
+};
+
+// 런닝메이트 삭제
+export const deleteRunningMate = async (competitorId: string): Promise<boolean> => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.delete(`${BASE_URL}/api/v1/running-mate/${competitorId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    if (response.data.status === 'success' && response.data.data === true) {
+      console.log('ProfileApi : 런닝메이트 삭제 성공');
+      return true;
+    } else {
+      console.log('ProfileApi : 런닝메이트 삭제 실패');
+      return false;
+    }
+  } catch (error) {
+    console.error('런닝메이트 삭제 오류', error);
     throw error;
   }
 };

@@ -4,6 +4,7 @@ import WebView from 'react-native-webview';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '@/components/common/Loading';
+import {postFcmToken} from '@/apis/LoginApi';
 
 interface KakaoLoginProps {
   navigation: any;
@@ -32,6 +33,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
 
       await AsyncStorage.setItem('userId', String(data.uesrId));
       await AsyncStorage.setItem('accessToken', data.accessToken);
+      await postFcmToken();
     } catch (error) {
       console.error('Error during login request:', error);
       throw error; // 또는 적절한 에러 처리

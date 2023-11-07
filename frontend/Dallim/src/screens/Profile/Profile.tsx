@@ -1,19 +1,11 @@
 import * as S from './Profile.styles';
-import React, {useState, useEffect} from 'react';
-import ChangeNicknameIcon from '../../assets/icons/ChangeNicknameIcon.png';
-import ManageRunningMateIcon from '../../assets/icons/ManageRunningMateIcon.png';
-import NotificationIcon from '../../assets/icons/NotificationIcon.png';
-import LogoutIcon from '../../assets/icons/LogoutIcon.png';
+import React, { useState, useEffect } from 'react';
 
 import ProfileCard from '../../components/profileComponent/ProfileCard';
-// import Logout from "../../components/profileComponent/Logout";
 
 import NicknameChangeModal from '../../components/profileComponent/profileModal/NicknameChangeModal';
-import RunningMateModal from '../../components/profileComponent/profileModal/RunningMateModal';
-import NotificationModal from '../../components/profileComponent/profileModal/NotificationModal';
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
-import RunningMateSetting from './ProfileSubScreens/RunningMateSetting';
-import {characterData} from '@/recoil/CharacterData';
+import { characterData } from '@/recoil/CharacterData';
 
 //icon
 import logoutIcon from '@/assets/icons/logout.png';
@@ -23,68 +15,60 @@ import RunningAlarmIcon from '@/assets/icons/RunningAlarmIcon';
 import WatchIcon from '@/assets/icons/WatchIcon';
 
 //Apis
-import {fetchUserProfileCard} from '@/apis/ProfileApi';
-import {fetchCompetitorCard} from '@/apis/ProfileApi';
-import {patchNicknameCheck} from '@/apis/ProfileApi';
+import { fetchUserProfileCard } from '@/apis/ProfileApi';
+import { fetchCompetitorCard } from '@/apis/ProfileApi';
 
 //Toast
 import Toast from 'react-native-toast-message';
+
+//Recoil
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  equippedCharacterIndexState,
+  equippedEvolutionStageState,
+  equippedPlanetIndexState,
+  userExpState,
+  userLevelState,
+  userNicknameState,
+} from '@/recoil/UserRecoil';
+import { competitorDataState } from '@/recoil/RunningRecoil';
 
 interface ProfileProps {
   navigation: any;
 }
 
-function Profile({navigation}: ProfileProps) {
+function Profile({ navigation }: ProfileProps) {
   //State---------------------------------
-  const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
-  const [showNotificationModal, setShowNotificationModal] = useState(false);
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [userData, setUserData] = useState({
-    planetIndex: 0,
-    characterIndex: 0,
-    nickname: '',
-    level: 0,
-    exp: 0,
-    evolutionStage: 0,
-  });
 
-  const [competitorData, setCompetitorData] = useState([]);
-  const [isNicknameChanged, setIsNicknameChanged] = useState(false);
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showNicknameChangeModal, setShowNicknameChangeModal] = useState(false);
+
+  const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
+  const userLevel = useRecoilValue(userLevelState);
+  const userExp = useRecoilValue(userExpState);
+  const equippedCharacterIndex = useRecoilValue(equippedCharacterIndexState);
+  const equippedEvolutionStage = useRecoilValue(equippedEvolutionStageState);
+  const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState);
+
+  const [competitorData, setCompetitorData] = useRecoilState(competitorDataState);
 
   //useEffect---------------------------------
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const data = await fetchUserProfileCard();
-        setUserData(data);
-      } catch (error) {
-        console.error('데이터 불러오기 에러 :', error);
-      }
-    };
-
-    if (isNicknameChanged) {
-      setIsNicknameChanged(false);
-    }
-    fetchProfileData();
-  }, [isNicknameChanged]);
 
   useEffect(() => {
     const fetchCompetitorData = async () => {
       try {
         const data = await fetchCompetitorCard();
-        setCompetitorData(data);
+        setCompetitorData(data); // Recoil 상태를 업데이트합니다.
       } catch (error) {
         console.error('경쟁자 데이터 불러오기 에러 :', error);
       }
     };
-
     fetchCompetitorData();
-  }, []);
+  }, [setCompetitorData]);
 
   //dataCall ---------------------------------
-  const selectedCharacter = characterData[userData.characterIndex];
-  const selectedCharacterLevelData =
-    selectedCharacter.evolutions[userData.evolutionStage];
+  const selectedCharacter = characterData[equippedCharacterIndex];
+  const selectedCharacterLevelData = selectedCharacter.evolutions[equippedEvolutionStage];
 
   //actions---------
   const handleRunningMatePress = () => {
@@ -100,25 +84,24 @@ function Profile({navigation}: ProfileProps) {
       });
     } else {
       // 데이터가 있을 때의 동작
-      navigation.navigate('RunningMateSetting');
+      navigation.navigate('RunningMateSetting', {
+        competitorData: competitorData,
+      });
     }
   };
 
-  const handleToastTouch = () => {
-    Toast.show({
-      type: 'error',
-      position: 'top',
-      text1: '개발중입니다!',
-      visibilityTime: 3000,
-      autoHide: true,
-      topOffset: 10,
-    });
-  };
+  // 개발중
+  // const handleToastTouch = () => {
+  //   Toast.show({
+  //     type: 'error',
+  //     position: 'top',
+  //     text1: '개발중입니다!',
+  //     visibilityTime: 3000,
+  //     autoHide: true,
+  //     topOffset: 10,
+  //   });
+  // };
 
-  const handleNicknameChangeSuccess = () => {
-    setIsNicknameChanged(true);
-  };
-  //
   return (
     <S.Container>
       <S.BackgroundImage
@@ -133,10 +116,10 @@ function Profile({navigation}: ProfileProps) {
           </S.TitleProfileBox>
           <S.ProfileBox>
             <ProfileCard
-              PlanetIndex={userData.planetIndex}
-              Nickname={userData.nickname}
-              UserLevel={userData.level}
-              experiencePercentage={userData.exp}
+              PlanetIndex={equippedPlanetIndex}
+              Nickname={userNickname}
+              UserLevel={userLevel}
+              experiencePercentage={userExp}
             />
           </S.ProfileBox>
         </S.Header>
@@ -181,50 +164,6 @@ function Profile({navigation}: ProfileProps) {
                 </S.TextBox>
               </S.ButtonBox>
             </S.ButtonContainer>
-
-            {/* <S.ButtonBox onPress={handleRunningMatePress}>
-              <S.IconBox>
-                <S.ButtonIcon source={ManageRunningMateIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>러닝메이트 관리</S.ButtonText>
-              </S.TextBox>
-            </S.ButtonBox> */}
-            {/* <S.ButtonBox onPress={handleToastTouch}>
-              <S.IconBox>
-                <S.ButtonIcon source={ManageRunningMateIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>러닝메이트 관리</S.ButtonText>
-              </S.TextBox>
-            </S.ButtonBox> */}
-
-            {/* <S.ButtonBox onPress={() => navigation.navigate('RunningAlarm')}>
-              <S.IconBox>
-                <S.ButtonIcon source={NotificationIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>운동 알림 설정</S.ButtonText>
-              </S.TextBox>
-            </S.ButtonBox> */}
-
-            {/* <S.ButtonBox onPress={handleToastTouch}>
-              <S.IconBox>
-                <S.ButtonIcon source={NotificationIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>운동 알림 설정</S.ButtonText>
-              </S.TextBox>
-            </S.ButtonBox> */}
-
-            {/* <S.DeleteButtonBox onPress={() => setShowLogoutModal(true)}>
-              <S.IconBox>
-                <S.ButtonIcon source={LogoutIcon} />
-              </S.IconBox>
-              <S.TextBox>
-                <S.ButtonText>로그아웃</S.ButtonText>
-              </S.TextBox>
-            </S.DeleteButtonBox> */}
           </S.SetBox>
         </S.Body>
 
@@ -238,23 +177,15 @@ function Profile({navigation}: ProfileProps) {
         />
       </S.ImageBox>
 
-      <NicknameChangeModal
-        showModal={showNicknameChangeModal}
-        toggleModal={() => setShowNicknameChangeModal(!showNicknameChangeModal)}
-        handleNicknameChangeSuccess={handleNicknameChangeSuccess}
-        Nickname={userData.nickname}
-      />
-      {/* <RunningMateModal
-        showModal={showRunningMateModal}
-        toggleModal={() => setShowRunningMateModal(!showRunningMateModal)}
-      /> */}
-      <NotificationModal
-        showModal={showNotificationModal}
-        toggleModal={() => setShowNotificationModal(!showNotificationModal)}
-      />
       <LogoutModal
         showModal={showLogoutModal}
         toggleModal={() => setShowLogoutModal(!showLogoutModal)}
+      />
+
+      <NicknameChangeModal
+        showModal={showNicknameChangeModal}
+        toggleModal={() => setShowNicknameChangeModal(!showNicknameChangeModal)}
+        Nickname={userNickname}
       />
     </S.Container>
   );

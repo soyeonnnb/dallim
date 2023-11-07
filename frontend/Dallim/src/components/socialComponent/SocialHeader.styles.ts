@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { TouchableOpacity } from 'react-native';
+import {Animated} from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
@@ -47,6 +48,13 @@ export const ManageButton = styled(TouchableOpacity)`
 `;
 
 export const ManageText = styled.Text`
+  font-size: 15px;
+  color: white;
+`;
+
+export const AnimatedManageText = styled(Animated.Text)`
+  /* border-width: 1px;
+  border-color: red; */
   font-size: 15px;
   color: white;
 `;

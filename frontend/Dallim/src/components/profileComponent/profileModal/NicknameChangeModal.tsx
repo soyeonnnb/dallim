@@ -6,16 +6,13 @@ import CustomToast from '../../../components/common/CustomToast';
 //apis
 import {patchNicknameCheck} from '@/apis/ProfileApi';
 
-// recoil : 은성
-import { useSetRecoilState } from 'recoil';
-import {
-  userNicknameState,
-} from '@/recoil/UserRecoil';
+// recoil
+import {useSetRecoilState} from 'recoil';
+import {userNicknameState} from '@/recoil/UserRecoil';
 
 type ModalComponentProps = {
   showModal: boolean;
   toggleModal: () => void;
-  handleNicknameChangeSuccess: () => void;
   Nickname: string;
 };
 
@@ -23,14 +20,13 @@ const NicknameChangeModal = ({
   showModal,
   toggleModal,
   Nickname,
-  handleNicknameChangeSuccess,
 }: ModalComponentProps) => {
   // variable
   const NoticeText = '닉네임은 한글/영문/숫자로 최대 5자까지 입력 가능합니다.';
 
   // state
   const [newNickname, setNewNickname] = useState(Nickname);
-  const setUserNickname = useSetRecoilState(userNicknameState); // 유저 닉네임 : 은성
+  const setUserNickname = useSetRecoilState(userNicknameState);
 
   //action
   const handleConfirm = async () => {
@@ -59,7 +55,6 @@ const NicknameChangeModal = ({
       if (response.status === 'success') {
         CustomToast({type: 'success', text1: '닉네임 변경 성공!'});
         setUserNickname(trimmedNickname); // 리코일 상태 변경 추가 : 은성
-        handleNicknameChangeSuccess();
         toggleModal();
       } else {
         CustomToast({type: 'error', text1: '중복된 닉네임이 있습니다!'});

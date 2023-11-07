@@ -64,6 +64,10 @@ function Main({ navigation }: MainProps) {
     loadUserInfo();
   }, []);
 
+  function BgmToggle() {
+    console.log('BGM 토글 눌림!');
+  }
+
   function handleSend() {
     console.log('출석체크 버튼 눌림!');
     setStampModalVisible(true);
@@ -79,19 +83,33 @@ function Main({ navigation }: MainProps) {
             source={require('@/assets/images/MainBackground4.png')}
             resizeMode="cover">
             <S.Header>
-              <S.HeaderLeft></S.HeaderLeft>
+              <S.HeaderLeft>
+
+              </S.HeaderLeft>
               <S.HeaderRight>
                 <S.PointText>{userPoint} P</S.PointText>
               </S.HeaderRight>
             </S.Header>
 
-            <S.StampBox>
-              <S.Stamp>
-                <S.SendButton onPress={handleSend}>
-                  <S.StampImage source={StampWhiteIcon} />
-                </S.SendButton>
-              </S.Stamp>
-            </S.StampBox>
+            <S.ButtonBox>
+
+              <S.BgmBox>
+                <S.Box>
+                  {/* <S.BgmButton onPress={BgmToggle}>
+                    <S.StampImage source={StampWhiteIcon} />
+                  </S.BgmButton> */}
+                </S.Box>
+              </S.BgmBox>
+
+              <S.StampBox>
+                <S.Box>
+                  <S.StampButton onPress={handleSend}>
+                    <S.StampImage source={StampWhiteIcon} resizeMode='contain'/>
+                  </S.StampButton>
+                </S.Box>
+              </S.StampBox>
+
+            </S.ButtonBox>
 
             <S.Body>
               <S.ThemeBox>

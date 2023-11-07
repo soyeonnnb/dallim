@@ -8,6 +8,9 @@ import BackButtonIcon from '@/assets/icons/ArrowLeft';
 import TimePicker from '@/components/profileComponent/TimePicker';
 import Alarm from '@/components/profileComponent/Alarm';
 
+//apis
+import {fetchScheduleList} from '@/apis/ProfileApi';
+
 interface RunningAlarmProps {
   navigation: any;
 }
@@ -15,11 +18,25 @@ interface RunningAlarmProps {
 function RunningAlarm({navigation}: RunningAlarmProps) {
   // state--------------------
   const [showTimePicker, setShowTimePicker] = useState(false);
+  const [scheduleList, setScheduleList] = useState([]);
   //
   //useEffect
   useEffect(() => {
     setShowTimePicker(true);
     return () => setShowTimePicker(false);
+  }, []);
+
+  useEffect(() => {
+    const fetchSchedule = async () => {
+      try {
+        const data = await fetchScheduleList(); // API 호출
+        setScheduleList(data); // 상태 업데이트
+      } catch (error) {
+        console.error('스케줄 리스트를 가져오는데 실패', error);
+      }
+    };
+
+    fetchScheduleList(); // 정의한 비동기 함수 호출
   }, []);
 
   //dummydat

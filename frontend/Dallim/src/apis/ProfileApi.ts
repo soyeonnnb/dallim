@@ -115,3 +115,19 @@ export const postWatchConnection = async (authCode: string) => {
     throw error;
   }
 };
+
+export const fetchScheduleList = async () => {
+  const accessToken = await getToken();
+  try {
+    const response = await axios.get(`${BASE_URL}/api/v1/schedule`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    console.log('response : ', response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error('ProfileApi : 스케줄 불러오기--> ', error); // 로깅을 추가합니다.
+    throw error;
+  }
+};

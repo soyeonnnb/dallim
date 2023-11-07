@@ -104,7 +104,6 @@ function RunningDataBox({
 
             <S.AddBox>
               {!registration ? (
-                // <S.AddButton onPress={handleRecordSave}>
                 <S.AddButton onPress={toggleCheckModal}>
                   <S.AddText>등록하기</S.AddText>
                 </S.AddButton>

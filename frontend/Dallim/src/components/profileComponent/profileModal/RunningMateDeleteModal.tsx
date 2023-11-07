@@ -8,11 +8,12 @@ import { competitorDataState } from '@/recoil/RunningRecoil';
 
 
 type DeleteModalProps = {
-  toggleDeleteModal: () => void;
   competitorId: string;
+  toggleDeleteModal: () => void;
+  onDeleteSuccess: () => void;
 };
 
-function RunningMateDeleteModal({ toggleDeleteModal, competitorId }: DeleteModalProps) {
+function RunningMateDeleteModal({ competitorId, toggleDeleteModal, onDeleteSuccess }: DeleteModalProps) {
 
   const setCompetitorData = useSetRecoilState(competitorDataState);
 
@@ -31,6 +32,7 @@ function RunningMateDeleteModal({ toggleDeleteModal, competitorId }: DeleteModal
         setCompetitorData((oldCompetitorData) =>
           oldCompetitorData.filter((competitor) => competitor.id !== competitorId)
         );
+        onDeleteSuccess(); // 성공 콜백
       } else {
         throw new Error('삭제하는데 에러발생');
       }

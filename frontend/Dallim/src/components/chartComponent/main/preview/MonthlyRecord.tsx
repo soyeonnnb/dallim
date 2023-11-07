@@ -106,13 +106,24 @@ function SmallRecord({type, record, count}: SmallRecordProps) {
         setAvg('0분');
         return;
       }
-      if (record >= 60) {
-        setTotal(`${Math.floor(record / 60)}분 ${record % 60}초`);
-        const average = record / count;
-        if (average >= 60)
-          setAvg(`${Math.floor(average / 60)}분 ${average % 60}초`);
-        else setAvg(`${Math.ceil(average % 60)}초`);
+      if (record >= 3600) {
+        setTotal(
+          `${Math.floor(record / 3600)}시간 ${Math.round(
+            (record % 3600) / 60,
+          )}분`,
+        );
       } else {
+        setTotal(`${Math.floor(record / 60)}분 ${Math.round(record % 60)}초`);
+      }
+      const average = record / count;
+      if (average >= 3600) {
+        setAvg(
+          `${Math.floor(average / 3600)}시간 ${Math.round(
+            (average % 3600) / 60,
+          )}분`,
+        );
+      } else {
+        setTotal(`${Math.floor(average / 60)}분 ${Math.round(average % 60)}초`);
       }
     }
   }, [record, count]);

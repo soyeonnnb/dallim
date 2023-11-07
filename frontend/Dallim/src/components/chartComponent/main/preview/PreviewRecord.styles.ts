@@ -19,7 +19,8 @@ export const View = styled.View`
 `;
 
 export const RecordContainer = styled.View`
-  margin: 0 20px;
+  flex: 1;
+  margin: 0 10px;
 `;
 
 export const Component = styled.View`
@@ -39,6 +40,6 @@ export const Name = styled.Text`
 `;
 export const Content = styled.Text`
   font-weight: 800;
-  font-size: 20px;
+  font-size: 19px;
   color: black;
 `;

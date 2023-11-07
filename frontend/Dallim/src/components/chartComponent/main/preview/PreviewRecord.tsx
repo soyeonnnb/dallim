@@ -59,11 +59,23 @@ export function WeeklyRecord({type, record}: RecordProps) {
       setColor(colors.darkLavendar);
     } else if (type === 'distance') {
       setName('달린거리');
-      setContent(Math.ceil(record) + 'm');
+      if (record >= 1000) {
+        setContent((record / 1000).toFixed(1) + 'km');
+      } else {
+        setContent(Math.ceil(record) + 'm');
+      }
       setColor(colors.lightBlue);
     } else {
       setName('달린시간');
-      setContent(Math.ceil(record) + '분');
+      if (record < 3600) {
+        setContent(`${Math.ceil(record / 60)}분 ${Math.ceil(record % 60)}초`);
+      } else {
+        setContent(
+          `${Math.ceil(record / 3600)}시간 ${Math.ceil(
+            (record % 3600) / 60,
+          )}분`,
+        );
+      }
       setColor(colors.purpleBlue);
     }
   });
@@ -74,7 +86,12 @@ export function WeeklyRecord({type, record}: RecordProps) {
         {type === 'count' ? (
           <NumberIcon width={40} height={40} color={colors.lightLavender} />
         ) : type === 'distance' ? (
-          <RunningThinIcon width={40} height={40} color={colors.darkLavendar} />
+          <RunningThinIcon
+            width={40}
+            height={40}
+            color={colors.darkLavendar}
+            stroke={2}
+          />
         ) : (
           <ClockIcon width={40} height={40} color={colors.lightLavender} />
         )}

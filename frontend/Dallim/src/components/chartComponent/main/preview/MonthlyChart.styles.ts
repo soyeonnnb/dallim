@@ -31,4 +31,8 @@ export const ChartScrollView = styled.ScrollView`
 export const Footer = styled.View`
   flex: 0.2;
 `;
-export const Text = styled.Text``;
+export const NoText = styled.Text`
+  font-size: 18px;
+  flex: 1;
+  margin-top: 20%;
+`;

@@ -10,20 +10,16 @@ interface Props {
   };
   setSelectedYearMonth: any;
   previewMonthRankingRecords: {
-    stacks: {value: number; color: string}[];
+    stacks: {value: number; color: string; id: string}[];
     label: string;
   }[];
 }
-function MonthlyChart({
-  previewMonthRankingRecords,
-  selectedYearMonth,
-  setSelectedYearMonth,
-}: Props) {
+function MonthlyChart({previewMonthRankingRecords}: Props) {
   const [barChartWidth, setBarChartWidth] = useState(0);
 
   const [showChartData, setShowChartData] = useState<
     {
-      stacks: {value: number; color: string}[];
+      stacks: {value: number; color: string; id: string}[];
       label: string;
     }[][]
   >();
@@ -44,27 +40,30 @@ function MonthlyChart({
   }, [previewMonthRankingRecords]);
   return (
     <S.Container>
-      <S.Header>러닝 순위</S.Header>
+      <S.Header>러닝 그래프</S.Header>
       <S.ChartSheet onLayout={handleLayout}>
-        {showChart && (
-          <FlatList
-            horizontal
-            data={showChartData}
-            key={1} // 이걸 이용해서 records가 변경될 때마다 flat리스트가 재 랜더링되도록 함
-            renderItem={({item}) => (
-              <BarChart
-                noOfSections={4}
-                stackData={item}
-                width={barChartWidth}
-                barWidth={barWidth}
-                height={scrollViewHeight * 0.75}
-                hideYAxisText
-              />
-            )}
-            showsHorizontalScrollIndicator={false} // 가로 스크롤바 표시
-            initialScrollIndex={0}
-          />
-        )}
+        {showChart &&
+          (showChartData && showChartData[0]?.length > 0 ? (
+            <FlatList
+              horizontal
+              data={showChartData}
+              key={1} // 이걸 이용해서 records가 변경될 때마다 flat리스트가 재 랜더링되도록 함
+              renderItem={({item}) => (
+                <BarChart
+                  noOfSections={4}
+                  stackData={item}
+                  width={barChartWidth}
+                  barWidth={barWidth}
+                  height={scrollViewHeight * 0.75}
+                  hideYAxisText
+                />
+              )}
+              showsHorizontalScrollIndicator={false} // 가로 스크롤바 표시
+              initialScrollIndex={0}
+            />
+          ) : (
+            <S.NoText>달린 적이 없어요 😥</S.NoText>
+          ))}
       </S.ChartSheet>
       <S.Footer />
     </S.Container>

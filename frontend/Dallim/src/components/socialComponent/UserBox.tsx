@@ -18,19 +18,23 @@ function UserBox({ userId, nickname, characterIndex, evolutionStage, level, isFo
 
     const selectedCharacter = characterData[characterIndex].evolutions[evolutionStage].front;
     const [showAlert, setShowAlert] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
 
-    const handleaddFriend = async (userId: number) => {
+    const handleAddFriend = async (userId: number) => {
         try {
             const result = await postAddFriend(userId);
             if (result) {
                 console.log('친구 요청이 성공적으로 완료');
-                
+                setAlertMessage("친구 요청이 성공적으로 완료되었습니다.");
+                setShowAlert(true);
             } else {
-                console.log('친구 요청이 실패');
+                setAlertMessage("친구의 수락을 기다려주세요!");
                 setShowAlert(true);
             }
         } catch (error) {
             console.error('친구 추가 중 오류가 발생', error);
+            setAlertMessage("오류가 발생했습니다. 잠시후 다시 시도해주세요!");
+            setShowAlert(true);
         }
     };
 
@@ -50,7 +54,7 @@ function UserBox({ userId, nickname, characterIndex, evolutionStage, level, isFo
                 </S.Middle>
                 <S.Right>
                     {!isFollower && (
-                        <S.Button onPress={() => { handleaddFriend(userId) }}>
+                        <S.Button onPress={() => { handleAddFriend(userId) }}>
                             <S.FriendAddImage source={require('@/assets/icons/FriendAddIcon.png')} resizeMode='contain' />
                         </S.Button>
                     )}
@@ -60,7 +64,7 @@ function UserBox({ userId, nickname, characterIndex, evolutionStage, level, isFo
                 show={showAlert}
                 showProgress={false}
                 title="안내사항"
-                message="상대가 친구 수락을 대기중입니다."
+                message={alertMessage}
                 closeOnTouchOutside={true}
                 onDismiss={() => {
                     setShowAlert(false);

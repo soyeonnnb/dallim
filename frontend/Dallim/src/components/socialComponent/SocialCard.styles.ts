@@ -23,11 +23,51 @@ export const CardBox = styled.ImageBackground`
 export const Header = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+  height: 30%;
+`;
+
+export const HeaderLeft = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  justify-content: center;
   align-items: flex-start;
-  width: 90%;
-  height: 15%;
-  padding-left: 10px;
+  width: 50%;
+  height: 100%;
+  padding-left: 20px;
+`;
+export const HeaderRight = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  justify-content: center;
+  align-items: flex-end;
+  width: 50%;
+  height: 100%;
+  padding-right: 15px;
+`;
+
+export const AddIcon = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 30%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const AddButton = styled.TouchableOpacity`
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const AddImage = styled.Image`
+  width: 70%;
+  height: 70%;
 `;
 
 export const Body = styled.View`
@@ -37,8 +77,8 @@ export const Body = styled.View`
   justify-content: space-between;
   align-items: flex-end;
   width: 65%;
-  height: 65%;
-  padding-left: 10px;
+  height: 40%;
+  padding-left: 20px;
 `;
 
 export const LeftBox = styled.View`
@@ -46,16 +86,17 @@ export const LeftBox = styled.View`
   border-color: red; */
   justify-content: flex-end;
   align-items: flex-start;
-  gap: 5px;
 `;
 
 export const NicknameText = styled.Text`
-  font-size: 22px;
+  font-size: 25px;
+  font-weight: bold;
   color: white;
 `;
 
 export const LevelText = styled.Text`
-  font-size: 15px;
+  font-size: 20px;
+  font-weight: bold;
   color: white;
 `;
 
@@ -68,6 +109,7 @@ export const RightBox = styled.View`
 
 export const percentageText = styled.Text`
   font-size: 15px;
+  font-weight: bold;
   color: #2c2c46;
 `;
 
@@ -75,10 +117,10 @@ export const Footer = styled.View`
   /* border-width: 1px;
   border-color: red; */
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   width: 65%;
-  height: 20%;
-  padding-left: 10px;
+  height: 30%;
+  padding-left: 20px;
 `;
 
 export const LevelBox = styled.View`

@@ -256,3 +256,40 @@ export const deleteScheduleTwo = async (
     throw error;
   }
 };
+
+export const patchSchedule = async (
+  selectedDays: string[],
+  hour: number,
+  minute: number,
+  state: boolean,
+) => {
+  const accessToken = await getToken();
+
+  console.log(`무슨날: ${selectedDays}`);
+  console.log(`시: ${hour}`);
+  console.log(`분: ${minute}`);
+  console.log(`이게 true야 false야: ${state}`);
+
+  try {
+    const response = await axios.patch(
+      `${BASE_URL}/api/v1/schedule`,
+      {
+        day: selectedDays,
+        hour: hour,
+        minute: minute,
+        state: state,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+
+    console.log('ProfileApi : 알람 활성화 요청 성공', response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error('ProfileApi : 알람 활성화 실패');
+    throw error;
+  }
+};

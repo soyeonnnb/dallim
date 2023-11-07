@@ -51,14 +51,16 @@ function RunningMateSetting({ navigation }: RunningMateSettingProps) {
 
   //action
   const showDeleteModal = () => {
-    if (selectedCardNum !== null) {
-      const currentCompetitorId = competitorData[selectedCardNum]?.id;
+    // selectedCardNum이 null이 아니고, 정상 범위 내에 있는지 확인합니다.
+    if (selectedCardNum !== null && selectedCardNum > 0 && selectedCardNum <= competitorData.length) {
+      const currentCompetitorId = competitorData[selectedCardNum - 1]?.id;
       if (currentCompetitorId) {
         setSelectedCompetitorId(currentCompetitorId);
         setDeleteModalVisible(true);
       }
     }
   };
+
 
   return (
     <S.Container>
@@ -82,17 +84,17 @@ function RunningMateSetting({ navigation }: RunningMateSettingProps) {
             offset={36}
             competitorData={competitorData}
             pageWidth={screenWidth - (16 + 36) * 2}
-            onCardSelected={(index: number) => setSelectedCardNum(index)}
+            onCardSelected={(index: number) => setSelectedCardNum(index + 1)}
           />
         </S.Body>
         <S.Footer>
-          <S.FooterTopBox></S.FooterTopBox>
           <S.DeleteButtonMiddleBox onPress={showDeleteModal}>
             <S.DeleteButtonText>삭제</S.DeleteButtonText>
           </S.DeleteButtonMiddleBox>
           <S.FooterBottomBox></S.FooterBottomBox>
         </S.Footer>
         <S.TabBox />
+
         {isDeleteModalVisible && selectedCompetitorId && (
           <RunningMateDeleteModal
             competitorId={selectedCompetitorId}

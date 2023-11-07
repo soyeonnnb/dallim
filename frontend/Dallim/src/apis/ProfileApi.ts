@@ -145,7 +145,6 @@ export const deleteRunningMate = async (
         },
       },
     );
-
     if (response.data.status === 'success' && response.data.data === true) {
       console.log('ProfileApi : 런닝메이트 삭제 성공');
       return true;

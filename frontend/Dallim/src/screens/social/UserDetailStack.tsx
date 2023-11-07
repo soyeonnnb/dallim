@@ -40,7 +40,6 @@ interface UserDetails {
     runningRecordOverviews: RunningRecord[];
 }
 
-
 function UserDetailStack({ navigation, route }: UserDetailStackProps) {
     const userId = route.params.userId;
 
@@ -144,7 +143,7 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
                 }),
             ])
         ).start();
-    }, []);
+    }, []); 
 
 
     return (
@@ -173,7 +172,8 @@ function UserDetailStack({ navigation, route }: UserDetailStackProps) {
                         </S.Header>
                         <S.Body>
                             <S.ProfileBox>
-                                <SocialCard
+                                <SocialCard 
+                                    userId={userId}
                                     planetIndex={selectedPlanetIndex}
                                     nickname={selectedNickname}
                                     userLevel={selectedLevel}

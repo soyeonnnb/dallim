@@ -89,7 +89,7 @@ export const ViewSelector = styled.View`
   /* border-color: blue;
   border-width: 1px; */
   width: 100%;
-  height: 100%;
+  height: 70px;
   align-items: flex-start;
   justify-content: center;
   flex-direction: row;

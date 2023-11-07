@@ -11,7 +11,7 @@ export const BackgroundImage = styled(ImageBackground)`
   height: 100%;
 `;
 
-export const ModalContent = styled.View`
+export const ModalContent = styled.View` 
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
@@ -130,12 +130,13 @@ export const Footer = styled.View`
   border-color: yellow; */
   width: 100%;
   height: 50%;
+  align-items: center;
 `;
 
 export const FooterTop = styled.View`
   /* border-width: 1px;
   border-color: yellow; */
-  width: 100%;
+  width: 90%;
   height: 15%;
   flex-direction: row;
 `;

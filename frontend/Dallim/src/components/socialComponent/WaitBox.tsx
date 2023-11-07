@@ -76,7 +76,7 @@ function WaitBox({ userId, characterIndex, evolutionStage, nickname, level }: Wa
                     {/* 수락버튼 */}
                     <S.Button_AcceptWait>
                         <S.Button_Wait onPress={handleRequestAccept}>
-                            <S.WaitImage source={require('@/assets/icons/AceptIcon.png')} resizeMode='contain' />
+                            <S.WaitImage source={require('@/assets/icons/AcceptIcon.png')} resizeMode='contain' />
                         </S.Button_Wait>
                     </S.Button_AcceptWait>
                     <S.Button_DenyWait>

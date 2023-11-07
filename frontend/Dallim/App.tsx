@@ -6,7 +6,6 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { displayNoti } from './src/utils/pushnotification_helper';
 import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
-import { DeviceEventEmitter } from 'react-native';
 import { Platform, Linking } from 'react-native';
 import { RecoilRoot } from 'recoil';
 import { useEffect } from 'react';
@@ -31,7 +30,7 @@ function App() {
   // 배경쏭
   useEffect(() => {
     Sound.setCategory('Playback'); // 배경음악 재생 설정
-    const bgm = new Sound('samplebgm.wav', Sound.MAIN_BUNDLE, (error) => {
+    const bgm = new Sound('bgm2.mp3', Sound.MAIN_BUNDLE, (error) => {
       if (error) {
         console.log('오디오 로드 실패:', error);
         return;
@@ -44,7 +43,7 @@ function App() {
       });
     });
     return () => {
-      bgm.release(); // 앱 종료 시 오디오 리소스 해제
+      bgm.release();
     };
   }, []);
 

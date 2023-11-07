@@ -34,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="160dp"
+        android:fontFamily="@font/insungit_cutelively_jisu_regular"
         android:text="운동 종료" />
 
 

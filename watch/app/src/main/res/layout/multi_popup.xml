@@ -19,6 +19,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:text="null"
+            android:fontFamily="@font/insungit_cutelively_jisu_regular"
             android:gravity="center">
 
         </TextView>
@@ -27,6 +28,7 @@
             android:layout_height="wrap_content"
             android:text="함께 달리기\n시작하시겠습니까?"
             android:textStyle="bold"
+            android:fontFamily="@font/insungit_cutelively_jisu_regular"
             android:textColor="@color/black"
             android:gravity="center_horizontal"
             android:textSize="15sp" />
@@ -47,6 +49,7 @@
             android:layout_height="30dp"
             android:background="@drawable/round_check_btn"
             android:text="취소"
+            android:fontFamily="@font/insungit_cutelively_jisu_regular"
             android:layout_marginRight="6dp"/>
 
         <Button
@@ -55,6 +58,7 @@
             android:layout_height="30dp"
             android:layout_marginLeft="6dp"
             android:background="@drawable/round_check_btn"
+            android:fontFamily="@font/insungit_cutelively_jisu_regular"
             android:text="시작" />
     </LinearLayout>
 </LinearLayout>

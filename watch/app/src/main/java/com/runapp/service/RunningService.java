@@ -20,6 +20,7 @@ import com.runapp.model.RunningMateRecord;
 import com.runapp.util.AccessToken;
 import com.runapp.util.ApiUtil;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -186,14 +187,15 @@ public class RunningService {
         deleteRunningMateRunningData();
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
+        System.out.println(objectId);
         Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call = ApiUtil.getApiService().getRunningMateRecord(token, objectId);
         call.enqueue(new Callback<ApiResponseDTO<RunningMateRunningRecordDTO>>() {
             @Override
             public void onResponse(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Response<ApiResponseDTO<RunningMateRunningRecordDTO>> response) {
                 if (response.isSuccessful() && response != null){
-                    RunningMateRunningRecordDTO data = response.body().getData();
-                    System.out.println(data.toString());
-                    Log.d("실패", "실패0");
+                    System.out.println(response.body().toString());
+                    System.out.println(response.body().getData().toString());
+                    Log.d("성공", "성공");
                 }else{
                     Log.d("실패", "실패1");
                 }
@@ -204,7 +206,6 @@ public class RunningService {
 //                Intent intent = new Intent(currentActivity, RunningMateActivity.class);
 //                currentActivity.startActivity(intent);
             }
-
             @Override
             public void onFailure(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Throwable t) {
                 Log.e("에러", t.getMessage());

@@ -105,12 +105,14 @@ public class RunningDataConverters {
     }
 
     @TypeConverter
-    public static RunningRecordInfos fromRunningRecordInfosString(String value) {
-        return value == null ? null : gson.fromJson(value, RunningRecordInfos.class);
+    public static List<RunningRecordInfos> fromRunningRecordInfosString(String value) {
+        Type listType = new TypeToken<List<RunningRecordInfos>>() {}.getType();
+        return value == null ? null : gson.fromJson(value, listType);
     }
 
+
     @TypeConverter
-    public static String toRunningRecordInfosString(RunningRecordInfos runningRecordInfos) {
+    public static String toRunningRecordInfosString(List<RunningRecordInfos> runningRecordInfos) {
         return gson.toJson(runningRecordInfos);
     }
 

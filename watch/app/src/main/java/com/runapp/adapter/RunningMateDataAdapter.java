@@ -63,7 +63,7 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
         System.out.println(runningMate.toString());
 
         holder.formattedDate.setText(conversion.LocalDateTimeToDate(runningMate.getCreatedAt()));
-        // 시간
+        
         holder.time.setText(convertTime((long) runningMate.getTotalTime()));
 
         // 상대방이 달린 캐릭터
@@ -164,9 +164,10 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
 
     // ms를 분:초로 변환해주는 컨버터(ex 00:00)
     public SpannableString convertTime(Long time){
-        int totalSeconds = (int)(time / 1000);
-        int minutes = totalSeconds / 60;
-        int seconds = totalSeconds % 60;
+        int minutes = (int) (time / 60);
+        int seconds = (int) (time % 60);
+        System.out.println(minutes + "분");
+        System.out.println(seconds + "초");
 
         String timeStr = String.format("%02d분 %02d초", minutes, seconds);
         SpannableString spannableString = new SpannableString(timeStr);

@@ -2,11 +2,13 @@ package com.runapp.dto;
 
 import com.runapp.model.RunDetail;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class RunningDataDTO {
     private Long userId;
-    private Long date;
+    private LocalDateTime date;
     private String watchOrMobile;
     private String formattedDate;
     private double totalDistance;
@@ -23,26 +25,6 @@ public class RunningDataDTO {
     // 기본 생성자
     public RunningDataDTO() {}
 
-    // 모든 필드를 파라미터로 가지는 생성자 (선택적 사용)
-    public RunningDataDTO(Long userId, Long date, String formattedDate, double totalDistance, Long totalTime, Long characterId, double stepCount, double averagePace, double averageSpeed, double averageHeartRate, String type, String rivalRecordId, List<RunDetail> runningRecordInfos) {
-        this.userId = userId;
-        this.date = date;
-        this.formattedDate = formattedDate;
-        this.totalDistance = totalDistance;
-        this.totalTime = totalTime;
-        this.characterId = characterId;
-        this.stepCount = stepCount;
-        this.averagePace = averagePace;
-        this.averageSpeed = averageSpeed;
-        this.averageHeartRate = averageHeartRate;
-        this.type = type;
-        this.rivalRecordId = rivalRecordId;
-        this.runningRecordInfos = runningRecordInfos;
-    }
-
-
-
-
     public Long getUserId() {
         return userId;
     }
@@ -51,11 +33,11 @@ public class RunningDataDTO {
         this.userId = userId;
     }
 
-    public long getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Long date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 

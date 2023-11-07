@@ -37,7 +37,7 @@ public class RunningMateRecord {
     @ColumnInfo(name = "type")
     private String type;
     @ColumnInfo(name = "running_record_infos")
-    private RunningRecordInfos runningRecordInfos;
+    private List<RunningRecordInfos> runningRecordInfos;
     @ColumnInfo(name = "total_time")
     private int totalTime;
     @ColumnInfo(name = "total_distance")
@@ -127,11 +127,11 @@ public class RunningMateRecord {
         this.type = type;
     }
 
-    public RunningRecordInfos getRunningRecordInfos() {
+    public List<RunningRecordInfos> getRunningRecordInfos() {
         return runningRecordInfos;
     }
 
-    public void setRunningRecordInfos(RunningRecordInfos runningRecordInfos) {
+    public void setRunningRecordInfos(List<RunningRecordInfos> runningRecordInfos) {
         this.runningRecordInfos = runningRecordInfos;
     }
 

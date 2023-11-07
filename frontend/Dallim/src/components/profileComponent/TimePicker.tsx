@@ -9,7 +9,11 @@ import {
   NativeScrollEvent,
 } from 'react-native';
 
+//component
 import CustomToast from '../common/CustomToast';
+
+//apis
+import {postSchedule} from '@/apis/ProfileApi';
 
 type DayOfWeek = '일' | '월' | '화' | '수' | '목' | '금' | '토';
 
@@ -31,7 +35,7 @@ const TimePicker = () => {
   const minutes = Array.from({length: 60}, (_, i) => (i < 10 ? '0' : '') + i);
   const days = ['일', '월', '화', '수', '목', '금', '토'];
 
-  const dayMapping: {[key in DayOfWeek]: string} = {
+  const dayMapping: Record<DayOfWeek, string> = {
     일: 'SUNDAY',
     월: 'MONDAY',
     화: 'TUESDAY',
@@ -64,7 +68,7 @@ const TimePicker = () => {
     setSelectedDays(updatedDays);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const isAnyDaySelected = selectedDays.some(day => day);
     if (!isAnyDaySelected) {
       CustomToast({
@@ -74,15 +78,30 @@ const TimePicker = () => {
       return;
     }
 
-    const selectedDaysString = selectedDays
-      .map((selected, index) =>
-        selected ? dayMapping[days[index] as DayOfWeek] : null,
-      )
-      .filter(Boolean)
-      .join(',');
+    const selectedDaysForRequest = days
+      .filter((_, index) => selectedDays[index])
+      .map(day => dayMapping[day as DayOfWeek]);
 
-    console.log('저장된 요일:', selectedDaysString);
-    console.log('저장된 시간:', selectedHour, selectedMinute);
+    console.log(selectedDaysForRequest);
+
+    const hourForRequest = parseInt(selectedHour, 10);
+    const minuteForRequest = parseInt(selectedMinute, 10);
+    try {
+      // Call postSchedule and pass the selected days and time
+      const response = await postSchedule(
+        selectedDaysForRequest,
+        hourForRequest,
+        minuteForRequest,
+      );
+      console.log('저장된 요일과 시간:', response);
+    } catch (error) {
+      // Handle any errors that occur during the API call
+      console.error('Schedule Save Error:', error);
+      CustomToast({
+        type: 'error',
+        text1: '알림 등록에 실패했습니다.',
+      });
+    }
   };
 
   const handleHourChange = (event: NativeSyntheticEvent<NativeScrollEvent>) => {

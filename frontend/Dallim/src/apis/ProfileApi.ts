@@ -157,3 +157,37 @@ export const deleteRunningMate = async (
     throw error;
   }
 };
+
+export const postSchedule = async (
+  selectedDays: string[],
+  hour: number,
+  minute: number,
+) => {
+  const accessToken = await getToken();
+  const fcmToken = await AsyncStorage.getItem('fcmToken');
+  console.log(selectedDays);
+  console.log(hour);
+  console.log(minute);
+
+  try {
+    const response = await axios.post(
+      `${BASE_URL}/api/v1/schedule`,
+      {
+        targetToken: fcmToken,
+        day: selectedDays,
+        hour: hour,
+        minute: minute,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    console.log('ProfileApi : 알림등록하기 성공 ', response.data.data);
+    return response.data.data;
+  } catch (error) {
+    console.error('ProfileApi : 알림 등록하기--> ', error);
+    throw error;
+  }
+};

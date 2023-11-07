@@ -5,6 +5,7 @@ import {FlatList} from 'react-native-gesture-handler';
 import {CalendarType} from '@/recoil/CalendarData';
 import {DailyRecord} from '@/apis/ChartApi';
 import {useNavigation} from '@react-navigation/native';
+import {meterToKMOrMeter, secondToMinuteText} from '@/recoil/RunningData';
 
 const screenWidth = Dimensions.get('window').width;
 const cardWidth = screenWidth * 0.8;
@@ -47,7 +48,6 @@ function PreviewDaily({date, isShow, records}: Props) {
 function RunningCard({
   item,
   navigation,
-  isAlone,
 }: {
   item: DailyRecord;
   navigation: any;
@@ -59,26 +59,6 @@ function RunningCard({
     const minutes = Math.floor(remainingSeconds / 60);
     return {hours, minutes};
   };
-  const [spend, setSpend] = useState<string>('');
-  const [distance, setDistance] = useState<string>('');
-  useEffect(() => {
-    // 거리
-    if (item.distance >= 1000)
-      setDistance(`${(item.distance / 1000).toFixed(2)}km`);
-    else setDistance(`${Math.round(item.distance)}m`);
-
-    // 시간
-    const hours = Math.floor(item.time / 3600); // 시간 계산
-    const minutes = Math.floor((item.time % 3600) / 60); // 분 계산
-    const seconds = item.time % 60; // 초 계산
-    if (item.time >= 3600) {
-      setSpend(`${hours}시간 ${minutes}분`);
-    } else if (item.time >= 60) {
-      setSpend(`${minutes}분 ${seconds}초`);
-    } else {
-      setSpend(`${seconds}초`);
-    }
-  }, [item]);
   return (
     <S.Card
       width={cardWidth}
@@ -94,13 +74,13 @@ function RunningCard({
       <S.CardTexts>
         <S.CardTitle>{item.location}</S.CardTitle>
         <S.CardDatas>
-          <S.CardData>{distance}</S.CardData>
+          <S.CardData>{meterToKMOrMeter(item.distance)}</S.CardData>
           <S.CardData>|</S.CardData>
           <S.CardData>
             {item.hour}시 {item.minute}분 시작
           </S.CardData>
           <S.CardData>|</S.CardData>
-          <S.CardData>{spend}</S.CardData>
+          <S.CardData>{secondToMinuteText(item.time)}</S.CardData>
         </S.CardDatas>
       </S.CardTexts>
     </S.Card>

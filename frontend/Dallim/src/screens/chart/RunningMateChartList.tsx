@@ -16,6 +16,7 @@ import {
   numberToTwoString,
   calculatePace,
   secondToHourMinuteSeconds,
+  meterToKMOrMeter,
 } from '@/recoil/RunningData';
 import {fetchRunningMateRunningList} from '@/apis/ChartApi';
 import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
@@ -58,7 +59,7 @@ interface showDataType {
   totalDistance?: string;
   totalTime?: string;
   avgPace?: string;
-  avgHeartRate?: string;
+  avgHeartRate?: number;
 }
 
 function RunningMateChartList({route, navigation}: Props) {
@@ -110,15 +111,9 @@ function RunningMateChartList({route, navigation}: Props) {
         const rivalPaceList: {value: number}[] = [];
         record.rivalSpeed.map(s => rivalPaceList.push({value: s}));
         d.rivalPaceList = rivalPaceList;
-        d.totalDistance =
-          record.totalDistance < 1000
-            ? `${record.totalDistance}m`
-            : `${(record.totalDistance / 1000).toFixed(1)}km`;
-        d.totalTime = secondToHourMinuteSeconds(record.totalTime);
+        d.totalDistance = meterToKMOrMeter(record.totalDistance, 1);
         d.avgPace = calculatePace(record.totalTime, record.totalDistance);
-        d.avgHeartRate = record.averageHeartRate
-          ? `${record.averageHeartRate} BPM`
-          : '핸드폰 러닝';
+        d.avgHeartRate = record.averageHeartRate;
         newData.push(d);
       });
       setData(newData);
@@ -233,7 +228,7 @@ function RunningMateChartList({route, navigation}: Props) {
                 />
                 <Record
                   title="평균 심박수"
-                  content={data[selectedIndex].avgHeartRate}
+                  content={`${data[selectedIndex].avgHeartRate} BPM`}
                   titleColor="black"
                   contentColor={colors.neon.pink}
                 />

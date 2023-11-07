@@ -7,6 +7,8 @@ import NumberIcon from '@/assets/icons/NumberIcon';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 
+import {meterToKMOrMeter, secondToMinuteText} from '@/recoil/RunningData';
+
 interface Props {
   type: 'week' | 'month';
   year: number;
@@ -59,23 +61,11 @@ export function WeeklyRecord({type, record}: RecordProps) {
       setColor(colors.darkLavendar);
     } else if (type === 'distance') {
       setName('달린거리');
-      if (record >= 1000) {
-        setContent((record / 1000).toFixed(1) + 'km');
-      } else {
-        setContent(Math.ceil(record) + 'm');
-      }
+      setContent(meterToKMOrMeter(record));
       setColor(colors.lightBlue);
     } else {
       setName('달린시간');
-      if (record < 3600) {
-        setContent(`${Math.ceil(record / 60)}분 ${Math.ceil(record % 60)}초`);
-      } else {
-        setContent(
-          `${Math.ceil(record / 3600)}시간 ${Math.ceil(
-            (record % 3600) / 60,
-          )}분`,
-        );
-      }
+      setContent(secondToMinuteText(record));
       setColor(colors.purpleBlue);
     }
   });

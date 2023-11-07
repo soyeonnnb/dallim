@@ -17,6 +17,7 @@ import {
   numberToTwoString,
   calculatePace,
   secondToHourMinuteSeconds,
+  meterToKMOrMeter,
 } from '@/recoil/RunningData';
 
 import Loading from '@/components/common/Loading';
@@ -28,6 +29,7 @@ interface Props {
 
 function Overview({data, navigation}: Props) {
   const [timeline, setTimeLine] = useState<string>('00:00:00 - 00:00:00');
+  const [distance, setDistance] = useState<string>('');
   const [spendTime, setSpendTime] = useState<string>('00:00:00');
   const [avgPace, setAvgPace] = useState<string>();
   const [maxPace, setMaxPace] = useState<string>();
@@ -53,6 +55,7 @@ function Overview({data, navigation}: Props) {
           data.totalTime,
         )}`,
       );
+      setDistance(meterToKMOrMeter(data.totalDistance, 2));
       setSpendTime(secondToHourMinuteSeconds(data.totalTime));
       setAvgPace(calculatePace(data.pace.averagePace));
       setMaxPace(calculatePace(data.pace.maxPace));
@@ -92,7 +95,7 @@ function Overview({data, navigation}: Props) {
               <S.RecordBox>
                 <Record
                   title="거리"
-                  content={`${data?.totalDistance}m`}
+                  content={distance}
                   titleColor="white"
                   contentColor={colors.neon.yellow}
                 />
@@ -154,7 +157,6 @@ function Overview({data, navigation}: Props) {
               />
             </S.WalkRecords>
             <OverviewGraph title="페이스" data={paceList} />
-            {/* 심박수 부분은 추후에 핸드폰 러닝이면 제외로 빼기*/}
             <OverviewGraph title="심박수" data={heartRateList} />
             {data?.rivalRecord ? (
               <RunningMateRecord
@@ -222,7 +224,9 @@ function WalkRecord({type, record, color}: WalkRecordProps) {
         <Run3Icon width={iconSize} height={iconSize} color={color} />
       )}
       <S.WalkRecordTitle>{title}</S.WalkRecordTitle>
-      <S.WalkRecordContent>{record} m</S.WalkRecordContent>
+      <S.WalkRecordContent>
+        {record && meterToKMOrMeter(record)}
+      </S.WalkRecordContent>
     </S.WalkRecordContainer>
   );
 }

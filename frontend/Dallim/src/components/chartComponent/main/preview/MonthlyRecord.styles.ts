@@ -50,7 +50,7 @@ export const SmallName = styled.Text`
 `;
 export const SmallContent = styled.Text`
   font-weight: 800;
-  font-size: 18px;
+  font-size: 15px;
   color: black;
 `;
 export const FriendView = styled.View`

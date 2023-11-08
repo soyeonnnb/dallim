@@ -1,17 +1,17 @@
 import * as S from './RunningMateSetting.styles';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 //icon
 import BackButtonIcon from '@/assets/icons/ArrowLeft';
 
 //carousel
 import Carousel from '@/components/profileComponent/Carousel';
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 
 //component
 import RunningMateDeleteModal from '@/components/profileComponent/profileModal/RunningMateDeleteModal';
-import { useRecoilValue } from 'recoil';
-import { competitorDataState } from '@/recoil/RunningRecoil';
+import {useRecoilValue} from 'recoil';
+import {competitorDataState} from '@/recoil/RunningRecoil';
 
 interface CompetitorDataType {
   userId: number;
@@ -32,8 +32,7 @@ interface RunningMateSettingProps {
   navigation: any;
 }
 
-function RunningMateSetting({ navigation }: RunningMateSettingProps) {
-
+function RunningMateSetting({navigation}: RunningMateSettingProps) {
   // 다음 화면 미리보기--------------------
   const screenWidth = Dimensions.get('window').width;
 
@@ -42,22 +41,36 @@ function RunningMateSetting({ navigation }: RunningMateSettingProps) {
 
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
 
-  const [selectedCardNum, setSelectedCardNum] = useState<number | null>(1 || null);
+  const [selectedCardNum, setSelectedCardNum] = useState<number | null>(
+    1 || null,
+  );
 
   // 선택(런닝메이트) Id
-  const [selectedCompetitorId, setSelectedCompetitorId] = useState<string | null>(null);
+  const [selectedCompetitorId, setSelectedCompetitorId] = useState<
+    string | null
+  >(null);
 
   //useEffect
 
   //action
   const showDeleteModal = () => {
-    if (selectedCardNum !== null) {
-      const currentCompetitorId = competitorData[selectedCardNum]?.id;
+    // selectedCardNum이 null이 아니고, 정상 범위 내에 있는지 확인합니다.
+    if (
+      selectedCardNum !== null &&
+      selectedCardNum > 0 &&
+      selectedCardNum <= competitorData.length
+    ) {
+      const currentCompetitorId = competitorData[selectedCardNum - 1]?.id;
       if (currentCompetitorId) {
         setSelectedCompetitorId(currentCompetitorId);
         setDeleteModalVisible(true);
       }
     }
+  };
+
+  const handleDeleteSuccess = () => {
+    setDeleteModalVisible(false);
+    setSelectedCardNum(null); // 삭제 후 선택된 카드 번호를 리셋
   };
 
   return (
@@ -80,23 +93,26 @@ function RunningMateSetting({ navigation }: RunningMateSettingProps) {
           <Carousel
             gap={16}
             offset={36}
-            competitorData={competitorData}
             pageWidth={screenWidth - (16 + 36) * 2}
-            onCardSelected={(index: number) => setSelectedCardNum(index)}
+            onCardSelected={(index: number) => setSelectedCardNum(index + 1)}
           />
         </S.Body>
+
         <S.Footer>
-          <S.FooterTopBox></S.FooterTopBox>
-          <S.DeleteButtonMiddleBox onPress={showDeleteModal}>
-            <S.DeleteButtonText>삭제</S.DeleteButtonText>
-          </S.DeleteButtonMiddleBox>
+          {competitorData.length > 0 && (
+            <S.DeleteButtonMiddleBox onPress={showDeleteModal}>
+              <S.DeleteButtonText>삭제</S.DeleteButtonText>
+            </S.DeleteButtonMiddleBox>
+          )}
           <S.FooterBottomBox></S.FooterBottomBox>
         </S.Footer>
+
         <S.TabBox />
         {isDeleteModalVisible && selectedCompetitorId && (
           <RunningMateDeleteModal
             competitorId={selectedCompetitorId}
             toggleDeleteModal={() => setDeleteModalVisible(false)}
+            onDeleteSuccess={handleDeleteSuccess}
           />
         )}
       </S.BackgroundImage>

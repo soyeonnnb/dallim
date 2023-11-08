@@ -117,7 +117,7 @@ export const DayBox = styled.View`
 `;
 
 export const DayText = styled.Text`
-  font-size: 13px;
+  font-size: 15px;
   color: white;
 `;
 
@@ -163,7 +163,7 @@ export const BottomTimeTextBox = styled.View`
 `;
 
 export const TimeText = styled.Text`
-  font-size: 25px;
+  font-size: 23px;
   font-weight: bold;
   color: white;
 `;

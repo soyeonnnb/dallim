@@ -24,7 +24,6 @@ import ProfileStackNavigators from '../../../navigations/ProfileStackNavigators'
 import ChartStackNavigators from '../../../navigations/ChartStackNavigators';
 import SocialStackNavigators from '../../../navigations/SocialStackNavigators';
 
-
 const Tab = createBottomTabNavigator();
 
 const AnimatedTabBar = ({
@@ -159,15 +158,6 @@ function BottompTab() {
           ),
         }}
       />
-      {/* <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <BottomTabIcon focused={focused} type="profile" />
-          ),
-        }}
-      /> */}
       <Tab.Screen
         name="ProfileStack"
         component={ProfileStackNavigators}
@@ -175,6 +165,7 @@ function BottompTab() {
           tabBarIcon: ({focused}) => (
             <BottomTabIcon focused={focused} type="profile" />
           ),
+          unmountOnBlur:true,
         }}
       />
     </Tab.Navigator>

@@ -1,24 +1,28 @@
+import * as S from './Carousel.styles';
 import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
-
+import NoFriendImage from '@/assets/images/NoFriend.png';
 import CardPage from './CardPage';
-import * as S from './Carousel.styles';
 
 interface CarouselProps {
   gap: number;
   offset: number;
-  competitorData: any[];
+  // competitorData: any[];
   pageWidth: number;
   onCardSelected?: (num: number) => void;
 }
 
+import { useRecoilValue } from 'recoil';
+import { competitorDataState } from '@/recoil/RunningRecoil';
+
 export default function Carousel({
   gap,
   offset,
-  competitorData,
   pageWidth,
   onCardSelected,
 }: CarouselProps) {
+
+  const competitorData = useRecoilValue(competitorDataState);
 
   useEffect(() => {
     console.log('데이터가 넘어옴??:' + JSON.stringify(competitorData, null, 2));
@@ -31,7 +35,7 @@ export default function Carousel({
     return (
       <S.CardContainer style={{ width: pageWidth, marginHorizontal: gap / 2 }}>
         <CardPage item={item} />
-      </S.CardContainer> 
+      </S.CardContainer>
     );
   };
 
@@ -48,32 +52,42 @@ export default function Carousel({
 
   return (
     <S.Container>
-      <FlatList
-        automaticallyAdjustContentInsets={false}
-        contentContainerStyle={{
-          paddingHorizontal: offset + gap / 2,
-        }}
-        data={competitorData}
-        decelerationRate="fast"
-        horizontal
-        keyExtractor={(item: any) => `page__${item.id}`}
-        onScroll={onScroll}
-        pagingEnabled
-        renderItem={renderItem}
-        snapToInterval={pageWidth + gap}
-        snapToAlignment="start"
-        showsHorizontalScrollIndicator={false}
-      />
+      {competitorData.length > 0 ? (
+        <>
+          <FlatList
+            automaticallyAdjustContentInsets={false}
+            contentContainerStyle={{
+              paddingHorizontal: offset + gap / 2,
+            }}
+            data={competitorData}
+            decelerationRate="fast"
+            horizontal
+            keyExtractor={(item: any) => `page__${item.id}`}
+            onScroll={onScroll}
+            pagingEnabled
+            renderItem={renderItem}
+            snapToInterval={pageWidth + gap}
+            snapToAlignment="start"
+            showsHorizontalScrollIndicator={false}
+          />
 
-      <S.Footer>
-        <S.IndicatorWrapper>
-          {Array.from({ length: competitorData.length }, (_, i) => (
-            <S.Indicator key={`indicator_${i}`} focused={i === page} />
-          ))}
-        </S.IndicatorWrapper>
-        
-      </S.Footer>
+          <S.Footer>
+            <S.IndicatorWrapper>
+              {Array.from({ length: competitorData.length }, (_, i) => (
+                <S.Indicator key={`indicator_${i}`} focused={i === page} />
+              ))}
+            </S.IndicatorWrapper>
 
+          </S.Footer>
+        </>
+      ) : (
+
+        <S.EmptyBox>
+          <S.EmptyImage source={NoFriendImage} resizeMode="contain" />
+          <S.EmptyText style={{ marginRight: 10 }}>등록된 런닝메이트가 없어요.</S.EmptyText>
+
+        </S.EmptyBox>
+      )}
     </S.Container>
 
   );

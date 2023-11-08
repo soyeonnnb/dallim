@@ -1,12 +1,13 @@
 import * as S from './OverviewGraph.styles';
 import {useState, useEffect} from 'react';
 import {LineChart} from 'react-native-gifted-charts';
+import {HeartChartDataType, PaceChartDataType} from '@/apis/ChartApi';
 import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 
 interface Props {
   title: string;
-  data?: itemType[];
-  data2?: itemType[];
+  data?: PaceChartDataType[] | HeartChartDataType[] | itemType[];
+  data2?: PaceChartDataType[] | itemType[];
 }
 
 function OverviewGraph({title, data, data2}: Props) {

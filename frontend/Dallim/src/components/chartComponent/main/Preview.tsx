@@ -1,4 +1,3 @@
-/* eslint-disable curly */
 import React, {useRef, useState, useMemo, useCallback, useEffect} from 'react';
 import BottomSheet from '@gorhom/bottom-sheet';
 import PreviewDaily from './preview/Daily';
@@ -6,7 +5,7 @@ import PreviewRecord from './preview/PreviewRecord';
 import PreviewMonthly from './preview/Monthly';
 import * as S from './Preview.styles';
 import {CalendarType} from '@/recoil/CalendarData';
-import {MonthlyRecords} from '@/apis/ChartApi';
+import {MonthlyRecords, DailyRecord} from '@/apis/ChartApi';
 
 interface Props {
   isClicked?: boolean;
@@ -15,15 +14,6 @@ interface Props {
   selectedYearMonth: {year: number; month: number};
   setSelectedYearMonth?: any;
   previewChartType: 'week' | 'month';
-}
-
-export interface DailyRecord {
-  id: string;
-  location: string; // 출발 위치
-  distance: number; // 거리
-  hour: number; // 출발 기준 시
-  minute: number; // 출발 기준 분
-  time: number; // 얼마나 걸렸는지 (시간)
 }
 
 function Preview({
@@ -57,6 +47,9 @@ function Preview({
       nickname: '',
     },
   });
+  const [runningRankingRecords, setRunningRankingRecords] = useState<
+    {stacks: {value: number; color: string; id: string}[]; label: string}[]
+  >([]);
 
   const snapPoints = useMemo(() => ['40%', '90%'], []); // 전체 화면에서 몇퍼센트 차지할
 
@@ -87,6 +80,10 @@ function Preview({
         nickname: '',
       },
     };
+    const monthNewRecords: {
+      stacks: {value: number; color: string; id: string}[];
+      label: string;
+    }[] = [];
     everyRecords?.map(monthData => {
       if (
         monthData.year === selectedYearMonth.year &&
@@ -96,6 +93,21 @@ function Preview({
           newMonth.count += 1;
           newMonth.distance += record.totalDistance;
           newMonth.time += record.totalTime;
+          monthNewRecords.push({
+            stacks: [
+              {
+                value: record.totalTime,
+                color: 'red',
+                id: record.id,
+              },
+              {
+                value: record.totalDistance,
+                color: 'yellow',
+                id: record.id,
+              },
+            ],
+            label: `${record.createdAt.slice(8, 10)}일`,
+          });
         });
         newMonth.runningMate.characterIndex =
           monthData.runningMateCharacterIndex;
@@ -103,6 +115,7 @@ function Preview({
         newMonth.runningMate.nickname = monthData.runningMateNickName;
       }
     });
+    setRunningRankingRecords(monthNewRecords);
     setPreviewRecords(newMonth);
   }, [selectedYearMonth]);
 
@@ -128,6 +141,7 @@ function Preview({
               hour: Number(record.createdAt.slice(11, 13)),
               minute: Number(record.createdAt.slice(14, 16)),
               time: record.totalTime,
+              type: record.type,
             });
           }
         });
@@ -163,6 +177,7 @@ function Preview({
           selectedYearMonth={selectedYearMonth}
           setSelectedYearMonth={setSelectedYearMonth}
           previewRecords={previewRecords}
+          previewMonthRankingRecords={runningRankingRecords}
         />
       </S.Container>
     </BottomSheet>

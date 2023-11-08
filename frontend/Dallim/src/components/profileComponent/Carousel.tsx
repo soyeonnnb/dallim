@@ -14,12 +14,10 @@ interface CarouselProps {
 
 import { useRecoilValue } from 'recoil';
 import { competitorDataState } from '@/recoil/RunningRecoil';
-import Loading from '../common/Loading';
 
 export default function Carousel({
   gap,
   offset,
-  // competitorData,
   pageWidth,
   onCardSelected,
 }: CarouselProps) {
@@ -50,13 +48,6 @@ export default function Carousel({
     if (onCardSelected) {
       onCardSelected(newPage);
     }
-  };
-
-  // 인디케이터 렌더링 함수
-  const renderIndicator = () => {
-    return Array.from({ length: competitorData.length }, (_, i) => (
-      <S.Indicator key={`indicator_${i}`} focused={i === page} />
-    ));
   };
 
   return (

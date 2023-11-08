@@ -70,7 +70,7 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
 
   const handleDeleteSuccess = () => {
     setDeleteModalVisible(false);
-    setSelectedCardNum(null); // 삭제 후 선택된 카드 번호를 리셋합니다.
+    setSelectedCardNum(null); // 삭제 후 선택된 카드 번호를 리셋
   };
 
   return (
@@ -93,7 +93,6 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
           <Carousel
             gap={16}
             offset={36}
-            // competitorData={competitorData}
             pageWidth={screenWidth - (16 + 36) * 2}
             onCardSelected={(index: number) => setSelectedCardNum(index + 1)}
           />

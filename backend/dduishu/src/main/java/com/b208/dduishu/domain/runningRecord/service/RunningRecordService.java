@@ -91,11 +91,8 @@ public class RunningRecordService {
                 .filter(Planet::isMainPlanet)
                 .findFirst()
                 .orElse(null);
-        String addressName = req.getRunningRecordInfos()
-                            .stream()
-                            .findFirst()
-                            .map(recordInfo -> addressService.getAddressName(recordInfo.getLongitude(), recordInfo.getLatitude()))
-                            .orElse(null);
+
+        String addressName = addressService.getAddressName(req.getInitLongitude(), req.getInitLatitude());
 
         List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserId(user.getUserId());
         // 유저 평균 스피드 정산

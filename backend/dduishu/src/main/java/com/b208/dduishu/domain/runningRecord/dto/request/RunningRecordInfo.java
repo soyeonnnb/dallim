@@ -43,6 +43,9 @@ public class RunningRecordInfo {
     private double averageHeartRate;
     private double averagePace;
     private double stepCount;
+    private double initLatitude;
+    private double initLongitude;
+
     //러닝 데이터 받아오기
     // 운동일시, 총 시간, 평균 속력, 이동 거리, 평균 심박수
     // + 위치정보
@@ -83,6 +86,8 @@ public class RunningRecordInfo {
                 .createdAt(this.date)
                 .formattedDate(this.formattedDate)
                 .stepCount(this.stepCount)
+                .initLatitude(this.initLatitude)
+                .initLongitude(this.initLongitude)
                 .build();
 
         return build;

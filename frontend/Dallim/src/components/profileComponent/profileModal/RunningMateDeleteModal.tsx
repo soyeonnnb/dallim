@@ -1,11 +1,10 @@
-import { deleteRunningMate } from '@/apis/ProfileApi';
+import {deleteRunningMate} from '@/apis/ProfileApi';
 import * as S from './RunningMateDeleteModal.styles';
-import { Modal } from 'react-native';
+import {Modal} from 'react-native';
 import Toast from 'react-native-toast-message';
 
-import { useSetRecoilState } from 'recoil';
-import { competitorDataState } from '@/recoil/RunningRecoil';
-
+import {useSetRecoilState} from 'recoil';
+import {competitorDataState} from '@/recoil/RunningRecoil';
 
 type DeleteModalProps = {
   competitorId: string;
@@ -13,8 +12,11 @@ type DeleteModalProps = {
   onDeleteSuccess: () => void;
 };
 
-function RunningMateDeleteModal({ competitorId, toggleDeleteModal, onDeleteSuccess }: DeleteModalProps) {
-
+function RunningMateDeleteModal({
+  competitorId,
+  toggleDeleteModal,
+  onDeleteSuccess,
+}: DeleteModalProps) {
   const setCompetitorData = useSetRecoilState(competitorDataState);
 
   const handleRunningMateListChange = async () => {
@@ -29,8 +31,10 @@ function RunningMateDeleteModal({ competitorId, toggleDeleteModal, onDeleteSucce
           autoHide: true,
           topOffset: 10,
         });
-        setCompetitorData((oldCompetitorData) =>
-          oldCompetitorData.filter((competitor) => competitor.id !== competitorId)
+        setCompetitorData(oldCompetitorData =>
+          oldCompetitorData.filter(
+            competitor => competitor.id !== competitorId,
+          ),
         );
         onDeleteSuccess(); // 성공 콜백
       } else {

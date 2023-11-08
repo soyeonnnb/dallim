@@ -24,7 +24,6 @@ import ProfileStackNavigators from '../../../navigations/ProfileStackNavigators'
 import ChartStackNavigators from '../../../navigations/ChartStackNavigators';
 import SocialStackNavigators from '../../../navigations/SocialStackNavigators';
 
-
 const Tab = createBottomTabNavigator();
 
 const AnimatedTabBar = ({

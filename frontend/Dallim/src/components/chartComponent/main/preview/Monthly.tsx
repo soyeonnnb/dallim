@@ -17,6 +17,10 @@ interface Props {
       nickname: string;
     };
   };
+  previewMonthRankingRecords: {
+    stacks: {value: number; color: string; id: string}[];
+    label: string;
+  }[];
 }
 
 function PreviewMonthly({
@@ -24,6 +28,7 @@ function PreviewMonthly({
   selectedYearMonth,
   setSelectedYearMonth,
   previewRecords,
+  previewMonthRankingRecords,
 }: Props) {
   return (
     <S.Container isShow={isShow}>
@@ -34,6 +39,7 @@ function PreviewMonthly({
       <MonthlyChart
         selectedYearMonth={selectedYearMonth}
         setSelectedYearMonth={setSelectedYearMonth}
+        previewMonthRankingRecords={previewMonthRankingRecords}
       />
     </S.Container>
   );

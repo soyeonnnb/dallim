@@ -3,6 +3,7 @@ package com.runapp.adapter;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +14,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.runapp.R;
-import com.runapp.model.RunDetail;
 import com.runapp.model.RunningData;
 import com.runapp.util.Conversion;
 
 import java.util.List;
 import java.util.Map;
 
-public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.ViewHolder> {
+public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdapter.ViewHolder> {
 
     private List<RunningData> runningDataList;
-    private RunDetail runDetail;
     private Conversion conversion = new Conversion();
 
-    public RunningDataAdapter(List<RunningData> runningDataList) {
+    public MyRunningDataAdapter(List<RunningData> runningDataList) {
         this.runningDataList = runningDataList;
     }
 
@@ -43,8 +42,11 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
         // 데이터를 ViewHolder의 뷰에 바인딩합니다.
         holder.formattedDate.setText(String.valueOf(runningData.getFormattedDate()));
 
+        Log.e("거리", String.valueOf(runningData.getTotalDistance()));
+
         // 총 거리
         double totalDistance = conversion.mToKM(runningData.getTotalDistance());
+        Log.e("km거리", String.valueOf(totalDistance));
         String distanceText = String.valueOf(totalDistance + " km");
         SpannableString spannableDistance = new SpannableString(distanceText);
         int indexOfDISTANCE = distanceText.indexOf("km");
@@ -72,14 +74,14 @@ public class RunningDataAdapter extends RecyclerView.Adapter<RunningDataAdapter.
         holder.heartRate.setText(spannableHeartRate);
 
         holder.time.setText(convertTime(runningData.getTotalTime()));
-        int characterInfoId = runningData.getCharacterInfoId();
-        if(characterInfoId == 1){
+        Long characterId = runningData.getCharacterId();
+        if(characterId == 0){
             holder.myRecordCharacter.setImageResource(R.drawable.rabbit);
-        }else if(characterInfoId == 2){
+        }else if(characterId == 1){
             holder.myRecordCharacter.setImageResource(R.drawable.penguin);
-        }else if(characterInfoId == 3){
+        }else if(characterId == 2){
             holder.myRecordCharacter.setImageResource(R.drawable.panda);
-        }else if(characterInfoId == 4){
+        }else if(characterId == 3){
             holder.myRecordCharacter.setImageResource(R.drawable.chick);
         }
     }

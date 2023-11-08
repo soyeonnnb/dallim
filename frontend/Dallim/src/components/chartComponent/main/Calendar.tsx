@@ -2,15 +2,18 @@ import {useEffect, useState} from 'react';
 import {Dimensions, Text} from 'react-native';
 
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import Toast from 'react-native-toast-message';
 
 import * as S from './Calendar.styles';
+import {colors} from '@/components/common/globalStyles';
 
+// 컴포넌트
 import ArrowLeft from '@/assets/icons/ArrowLeft';
 import ArrowRight from '@/assets/icons/ArrowRight';
+
+// API
 import {MonthlyRecords} from '@/apis/ChartApi';
-import Toast from 'react-native-toast-message';
 import {CalendarType, getDateObject} from '@/recoil/CalendarData';
-import {colors} from '@/components/common/globalStyles';
 import {numberToTwoString} from '@/recoil/RunningData';
 
 interface Props {
@@ -31,9 +34,7 @@ function ChartCalendar({
   setIsClicked,
   setSelectedDate,
   everyRecords,
-  // selectedYearMonth,
   setSelectedYearMonth,
-  // previewChartType,
   setPreviewChartType,
 }: Props) {
   const [nowDateString, setNowDateString] = useState<string>();
@@ -147,7 +148,6 @@ function ChartCalendar({
       <S.CalendarContainer>
         <CalendarList
           style={{
-            // backgroundColor: 'transparent', // 얘만 나중에 transparent로 바꾸기
             width: Dimensions.get('window').width, // calendar scroll시 가운데로 가도록 해줌
           }}
           // 화살표

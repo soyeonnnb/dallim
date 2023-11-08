@@ -23,7 +23,8 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.runapp.model.RunningViewModel;
+import com.runapp.R;
+import com.runapp.view.RunningViewModel;
 import com.runapp.util.Conversion;
 import com.runapp.util.MyApplication;
 
@@ -38,13 +39,13 @@ public class LocationService extends Service {
     private Conversion conversion;
     private LocationCallback locationCallback;
     private RunningViewModel runningViewModel;
-    private static final int NOTIFICATION_ID = 1;
-    private static final String CHANNEL_ID = "SensorServiceChannel";
+    private static final int NOTIFICATION_ID = 10;
+    private static final String CHANNEL_ID = "RunningService";
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
                     CHANNEL_ID,
-                    "Location Service Channel",
+                    "달림",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
 
@@ -53,17 +54,9 @@ public class LocationService extends Service {
         }
     }
 
-    private Notification getNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("Location Service Running")
-                .setContentText("Location data is being collected.");
-        return builder.build();
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
-
         // 액티비티랑 러닝뷰모델을 공통으로 씀
         runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
         conversion = new Conversion();
@@ -95,12 +88,11 @@ public class LocationService extends Service {
     }
 
     private void onLocationUpdated(Location location) {
-
         if (lastLocation != null) {
 
             double speed = location.getSpeed();
             // 초속 0.4 이상이면 걷는 걸로 판단.
-            if(speed >= 0.4){
+            if(speed >= 0.01){
                 speed = (Math.round(speed * 100) / 100.0);
                 // m/s 저장
                 runningViewModel.setMsSpeed(speed);
@@ -126,13 +118,11 @@ public class LocationService extends Service {
                 runningViewModel.setLongitude(longitude);
             }
             Log.d("자른 이동거리", String.valueOf((double) Math.round(totalDistance * 10) / 10.0));
-//            Log.d(TAG,  "총 이동거리" + totalDistance + "KM, 이동거리: " + distance + " M, 속도: " + speed + " m/s");
         }
         lastLocation = location;
     }
 
     public void startLocationUpdates() {
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -144,11 +134,17 @@ public class LocationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        System.out.println("들어옴");
         createNotificationChannel();
-        Notification notification = getNotification();
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_round)
+                .setContentTitle("Location Service Running")
+                .setContentText("Location data is being collected.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        Notification notification = builder.build();
         startForeground(NOTIFICATION_ID, notification);
 
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
     @Nullable
@@ -163,5 +159,6 @@ public class LocationService extends Service {
         if(locationCallback != null && fusedLocationProviderClient != null){
             fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         }
+        stopForeground(true);
     }
 }

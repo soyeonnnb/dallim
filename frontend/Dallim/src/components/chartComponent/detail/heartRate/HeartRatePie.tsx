@@ -1,39 +1,24 @@
 import * as S from './HeartRatePie.styles';
 import {useEffect, useState} from 'react';
 import {PieChart} from 'react-native-gifted-charts';
+import {useEvent} from 'react-native-reanimated';
 
 interface Props {
-  data: number[];
+  data: {
+    value: number;
+    color: string;
+  }[];
+  chartColor: string[];
 }
 
-function HeartRatePie({data}: Props) {
-  const chartColor: string[] = [
-    '#FF1178',
-    '#FFF205',
-    '#7CFF01',
-    '#01FFF4',
-    '#9C00FF',
-  ];
+function HeartRatePie({data, chartColor}: Props) {
   const [pieRadius, setpieRadius] = useState(0);
-  const [showData, setShowData] = useState<
-    {
-      value: number;
-      color: string;
-    }[]
-  >([]);
-
-  useEffect(() => {
-    const newShowData: {value: number; color: string}[] = [];
-    data.map((d, index) => {
-      newShowData.push({value: d, color: chartColor[index]});
-    });
-    setShowData(newShowData);
-  }, []);
 
   const handleChartRadius = (event: any) => {
     const {width} = event.nativeEvent.layout;
     setpieRadius(width / 2.5);
   };
+
   const [chartInfoHeight, setChartInfoHeight] = useState<number>(0);
 
   const handleChartInfoHeight = (event: any) => {
@@ -44,7 +29,7 @@ function HeartRatePie({data}: Props) {
     <S.Container>
       <S.Middle>
         <S.ChartSection onLayout={handleChartRadius}>
-          <PieChart data={showData} radius={pieRadius} />
+          {pieRadius > 0 && <PieChart data={data} radius={pieRadius} />}
         </S.ChartSection>
         <S.ChartInfos onLayout={handleChartInfoHeight}>
           <PieChartInfo

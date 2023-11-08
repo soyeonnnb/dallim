@@ -16,18 +16,24 @@ import androidx.activity.result.contract.ActivityResultContracts;
 
 import com.bumptech.glide.Glide;
 import com.runapp.R;
-import com.runapp.database.RiverDataDAO;
+import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivitySelectBinding;
-import com.runapp.model.RiverData;
+import com.runapp.service.RunningService;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class SelectActivity extends ComponentActivity {
 
     private ActivitySelectBinding binding;
-    private RiverDataDAO riverDataDAO;
+    private final Executor executor = Executors.newSingleThreadExecutor();
+    private AppDatabase db;
+    private RunningService runningService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        runningService = new RunningService(getApplicationContext());
 
         binding = ActivitySelectBinding.inflate(getLayoutInflater());
 
@@ -35,6 +41,7 @@ public class SelectActivity extends ComponentActivity {
 
         setContentView(view);
 
+        db = AppDatabase.getDatabase(getApplicationContext());
         Context context = SelectActivity.this;
         ImageView imageViewOne = binding.singleGif;
 
@@ -81,42 +88,7 @@ public class SelectActivity extends ComponentActivity {
 
         // 함께 달리기 눌렀을 경우
         binding.btnMulti.setOnClickListener(v ->{
-            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
-
-            LayoutInflater inflater = getLayoutInflater();
-            View customView = inflater.inflate(R.layout.multi_popup, null);
-
-            RiverData riverData = riverDataDAO.getOneData();
-
-//            if(riverData != null){
-//                TextView distanceView = findViewById(R.id.distance);
-//                TextView timeView = findViewById(R.id.tv_time);
-//                TextView distanceView = findViewById(R.id.distance);
-//            }
-
-            builder.setView(customView);
-
-            // AlertDialog 생성
-            AlertDialog dialog = builder.create();
-
-            dialog.show();
-
-            Button btnCancel = customView.findViewById(R.id.multi_cancel);
-            Button btnStart = customView.findViewById(R.id.multi_start);
-
-            // 취소 버튼에 대한 클릭 리스너
-            btnCancel.setOnClickListener(b ->{
-                dialog.dismiss();
-            });
-
-            // 확인 버튼에 대한 클릭 리스너
-            btnStart.setOnClickListener(b-> {
-                // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
-                Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
-                intent.putExtra("run_type", "PAIR"); // 인자로 넘겨줌
-                countdownActivityResultLauncher.launch(intent);
-                dialog.dismiss();
-            });
+            runningService.getRunningMate(SelectActivity.this);
         });
 
         // 나의 기록 보기
@@ -124,6 +96,17 @@ public class SelectActivity extends ComponentActivity {
             Intent intent = new Intent(this, MyRecordActivity.class);
             startActivity(intent);
         });
+
+        // 설정버튼
+        binding.btnSetting.setOnClickListener(v ->{
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivity(intent);
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     // 카운트다운이 끝났을 때 콜백 메서드
@@ -138,4 +121,5 @@ public class SelectActivity extends ComponentActivity {
                     startActivity(nextActivityIntent);
                 }
             });
+
 }

@@ -1,14 +1,14 @@
 import * as S from './Main.styles';
-import { useEffect, useState } from 'react';
-import { fetchUserProfile } from '@/apis/MainApi';
-import { characterData } from '@/recoil/CharacterData';
-import { planetData } from '@/recoil/PlanetData';
+import {useEffect, useState} from 'react';
+import {fetchUserProfile} from '@/apis/MainApi';
+import {characterData} from '@/recoil/CharacterData';
+import {planetData} from '@/recoil/PlanetData';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
 import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';
 import Loading from '@/components/common/Loading';
 
-import { useRecoilState } from 'recoil';
+import {useRecoilState} from 'recoil';
 import {
   userIdState,
   userNicknameState,
@@ -24,7 +24,7 @@ interface MainProps {
   navigation: any;
 }
 
-function Main({ navigation }: MainProps) {
+function Main({navigation}: MainProps) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
 
@@ -33,9 +33,15 @@ function Main({ navigation }: MainProps) {
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
   const [userLevel, setUserLevel] = useRecoilState(userLevelState);
   const [userExp, setUserExp] = useRecoilState(userExpState);
-  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
-  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
-  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
+  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(
+    equippedCharacterIndexState,
+  );
+  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(
+    equippedEvolutionStageState,
+  );
+  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(
+    equippedPlanetIndexState,
+  );
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -52,13 +58,12 @@ function Main({ navigation }: MainProps) {
           setEquippedCharacterIndex(userInfo.characterIndex);
           setEquippedEvolutionStage(userInfo.evolutionStage);
           setEquippedPlanetIndex(userInfo.planetIndex);
+          setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
         }
       } catch (error) {
         console.error('Main : 정보 조회 Axios 실패 ');
       } finally {
-        setTimeout(() => {
-          setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
-        }, 1000);
+        setTimeout(() => {}, 1000);
       }
     };
     loadUserInfo();
@@ -103,8 +108,9 @@ function Main({ navigation }: MainProps) {
                 </SpinAnimation>
                 <S.StyledGif
                   source={
-                    characterData[equippedCharacterIndex].evolutions[equippedEvolutionStage]
-                      .running
+                    characterData[equippedCharacterIndex].evolutions[
+                      equippedEvolutionStage
+                    ].running
                   }
                   resizeMode="contain"
                 />
@@ -118,10 +124,12 @@ function Main({ navigation }: MainProps) {
               </S.FooterBox>
 
               <S.StartBox>
-                <S.StartButton onPress={() => navigation.navigate('GameStartStack', { userId: userId })}>
+                <S.StartButton
+                  onPress={() =>
+                    navigation.navigate('GameStartStack', {userId: userId})
+                  }>
                   <S.StartText>달리기</S.StartText>
                 </S.StartButton>
-
               </S.StartBox>
             </S.Footer>
 

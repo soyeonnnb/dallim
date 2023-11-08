@@ -49,6 +49,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
       const authCode = url.substring(startIndex + exp.length);
 
       setIsLoading(true);
+      console.log('여기 코드 들어옴?           xxxxxxxxxxxxxxx ' + authCode);
 
       await axios
 
@@ -73,7 +74,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
       });
     }
   };
-
+  //
   return (
     <View style={{flex: 1}}>
       {isLoading ? (

@@ -9,7 +9,6 @@ import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';
 import Loading from '@/components/common/Loading';
 import GuideModal from '@/components/mainComponent/GuideModal';
-
 import {
   userIdState,
   userNicknameState,

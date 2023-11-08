@@ -86,7 +86,6 @@ function RunningMateSetting({ navigation }: RunningMateSettingProps) {
           <Carousel
             gap={16}
             offset={36}
-            // competitorData={competitorData}
             pageWidth={screenWidth - (16 + 36) * 2}
             onCardSelected={(index: number) => setSelectedCardNum(index + 1)}
           />

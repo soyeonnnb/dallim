@@ -5,11 +5,17 @@ import androidx.room.TypeConverter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.runapp.model.RunDetail;
+import com.runapp.model.runningMate.Character;
+import com.runapp.model.runningMate.HeartRate;
+import com.runapp.model.runningMate.Pace;
+import com.runapp.model.runningMate.RunningRecordInfos;
+import com.runapp.model.runningMate.User;
 
 import java.lang.reflect.Type;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.List;
 
 /*
@@ -45,4 +51,81 @@ public class RunningDataConverters {
     public static Long localDateTimeToTimestamp(LocalDateTime date) {
         return date == null ? null : date.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
     }
+
+    @TypeConverter
+    public static List<Integer> fromString(String value) {
+        Type listType = new TypeToken<List<Integer>>() {}.getType();
+        return gson.fromJson(value, listType);
+    }
+
+    @TypeConverter
+    public static String fromList(List<Integer> list) {
+        return gson.toJson(list);
+    }
+
+    @TypeConverter
+    public static List<Double> doubleFromString(String value) {
+        Type listType = new TypeToken<List<Double>>() {}.getType();
+        return gson.fromJson(value, listType);
+    }
+
+    @TypeConverter
+    public static String doubleFromList(List<Double> list) {
+        return gson.toJson(list);
+    }
+
+    // Type converters for custom objects (example for HeartRate, similar needed for other custom objects)
+    @TypeConverter
+    public static HeartRate fromHeartRateString(String value) {
+        return value == null ? null : gson.fromJson(value, HeartRate.class);
+    }
+
+    @TypeConverter
+    public static String toHeartRateString(HeartRate heartRate) {
+        return gson.toJson(heartRate);
+    }
+
+    @TypeConverter
+    public static Pace fromPaceString(String value) {
+        return value == null ? null : gson.fromJson(value, Pace.class);
+    }
+
+    @TypeConverter
+    public static String toPaceString(Pace pace) {
+        return gson.toJson(pace);
+    }
+
+    @TypeConverter
+    public static User fromUserString(String value) {
+        return value == null ? null : gson.fromJson(value, User.class);
+    }
+
+    @TypeConverter
+    public static String toUserString(User user) {
+        return gson.toJson(user);
+    }
+
+    @TypeConverter
+    public static Character fromCharacterString(String value) {
+        return value == null ? null : gson.fromJson(value, Character.class);
+    }
+
+    @TypeConverter
+    public static String toCharacterString(Character character) {
+        return gson.toJson(character);
+    }
+
+    @TypeConverter
+    public static List<RunningRecordInfos> fromRunningRecordInfosString(String value) {
+        Type listType = new TypeToken<List<RunningRecordInfos>>() {}.getType();
+        return value == null ? null : gson.fromJson(value, listType);
+    }
+
+
+    @TypeConverter
+    public static String toRunningRecordInfosString(List<RunningRecordInfos> runningRecordInfos) {
+        return gson.toJson(runningRecordInfos);
+    }
+
+
 }

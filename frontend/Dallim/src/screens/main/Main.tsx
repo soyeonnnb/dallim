@@ -1,15 +1,14 @@
 import * as S from './Main.styles';
-import { useEffect, useState } from 'react';
-import { fetchUserProfile } from '@/apis/MainApi';
-import { characterData } from '@/recoil/CharacterData';
-import { planetData } from '@/recoil/PlanetData';
+import {useEffect, useState} from 'react';
+import {fetchUserProfile} from '@/apis/MainApi';
+import {characterData} from '@/recoil/CharacterData';
+import {planetData} from '@/recoil/PlanetData';
 import GuideIcon from '@/assets/icons/GuideIcon.png';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
 import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';
 import Loading from '@/components/common/Loading';
 import GuideModal from '@/components/mainComponent/GuideModal';
-
 import {
   userIdState,
   userNicknameState,
@@ -20,13 +19,13 @@ import {
   equippedEvolutionStageState,
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 
 interface MainProps {
   navigation: any;
 }
 
-function Main({ navigation }: MainProps) {
+function Main({navigation}: MainProps) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
   const [isGuideModalVisible, setGuideModalVisible] = useState(false); // 가이드 모달
@@ -36,9 +35,15 @@ function Main({ navigation }: MainProps) {
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
   const [userLevel, setUserLevel] = useRecoilState(userLevelState);
   const setUserExp = useSetRecoilState(userExpState);
-  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
-  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
-  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
+  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(
+    equippedCharacterIndexState,
+  );
+  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(
+    equippedEvolutionStageState,
+  );
+  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(
+    equippedPlanetIndexState,
+  );
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -55,7 +60,7 @@ function Main({ navigation }: MainProps) {
           setEquippedCharacterIndex(userInfo.characterIndex);
           setEquippedEvolutionStage(userInfo.evolutionStage);
           setEquippedPlanetIndex(userInfo.planetIndex);
-          
+
           setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
         }
       } catch (error) {
@@ -85,20 +90,17 @@ function Main({ navigation }: MainProps) {
             source={require('@/assets/images/MainBackground4.png')}
             resizeMode="cover">
             <S.Header>
-              <S.HeaderLeft>
-
-              </S.HeaderLeft>
+              <S.HeaderLeft></S.HeaderLeft>
               <S.HeaderRight>
                 <S.PointText>{userPoint} P</S.PointText>
               </S.HeaderRight>
             </S.Header>
 
             <S.ButtonBox>
-
               <S.GuideBox>
                 <S.Box>
                   <S.ButtonStyle onPress={GuideAction}>
-                    <S.ImageStyle source={GuideIcon} resizeMode='contain' />
+                    <S.ImageStyle source={GuideIcon} resizeMode="contain" />
                   </S.ButtonStyle>
                 </S.Box>
               </S.GuideBox>
@@ -106,11 +108,13 @@ function Main({ navigation }: MainProps) {
               <S.StampBox>
                 <S.Box>
                   <S.ButtonStyle onPress={StampAction}>
-                    <S.ImageStyle source={StampWhiteIcon} resizeMode='contain' />
+                    <S.ImageStyle
+                      source={StampWhiteIcon}
+                      resizeMode="contain"
+                    />
                   </S.ButtonStyle>
                 </S.Box>
               </S.StampBox>
-
             </S.ButtonBox>
 
             <S.Body>
@@ -123,8 +127,9 @@ function Main({ navigation }: MainProps) {
                 </SpinAnimation>
                 <S.StyledGif
                   source={
-                    characterData[equippedCharacterIndex].evolutions[equippedEvolutionStage]
-                      .running
+                    characterData[equippedCharacterIndex].evolutions[
+                      equippedEvolutionStage
+                    ].running
                   }
                   resizeMode="contain"
                 />
@@ -141,7 +146,6 @@ function Main({ navigation }: MainProps) {
                 {/* <S.StartButton onPress={() => navigation.navigate('GameStartStack', { userId: userId })}>
                   <S.StartText>달리기</S.StartText>
                 </S.StartButton> */}
-
               </S.StartBox>
             </S.Footer>
 

@@ -29,6 +29,15 @@ public class ApiResponseDTO<T> {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "ApiResponseDTO{" +
+                "status='" + status + '\'' +
+                ", data=" + data +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }
 
 

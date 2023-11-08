@@ -23,6 +23,7 @@
                 android:resource="@xml/directrun_widget_info" />
         </receiver>
 
+
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
@@ -35,6 +36,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".UpdateWidgetService"
+        >
+        </service>
 
 
         <receiver

@@ -10,8 +10,10 @@ import java.time.LocalDateTime;
 public class RunningMate {
     @PrimaryKey(autoGenerate = true)
     private Long id;
-    @ColumnInfo(name = "object_id")
-    private String objectId;
+    @ColumnInfo(name = "running_record_id")
+    private String runningRecordId; // 기록에 대한 id
+    @ColumnInfo(name = "running_mate_id")
+    private String runningMateId; // 러닝메이트 id
     @ColumnInfo(name = "user_id")
     private Long userId;
     @ColumnInfo(name = "nick_name")
@@ -121,18 +123,28 @@ public class RunningMate {
         this.createdAt = createdAt;
     }
 
-    public String getObjectId() {
-        return objectId;
+    public String getRunningRecordId() {
+        return runningRecordId;
     }
 
-    public void setObjectId(String objectId) {
-        this.objectId = objectId;
+    public void setRunningRecordId(String runningRecordId) {
+        this.runningRecordId = runningRecordId;
+    }
+
+    public String getRunningMateId() {
+        return runningMateId;
+    }
+
+    public void setRunningMateId(String runningMateId) {
+        this.runningMateId = runningMateId;
     }
 
     @Override
     public String toString() {
         return "RunningMate{" +
                 "id=" + id +
+                ", runningRecordId='" + runningRecordId + '\'' +
+                ", runningMateId='" + runningMateId + '\'' +
                 ", userId=" + userId +
                 ", nickName='" + nickName + '\'' +
                 ", characterIndex=" + characterIndex +

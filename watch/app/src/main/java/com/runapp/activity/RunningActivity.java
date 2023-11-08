@@ -84,6 +84,7 @@ public class RunningActivity extends AppCompatActivity {
         runningData.setUserId(prefs.getLong("userId", 0L));
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
         runningData.setCharacterId(prefs.getLong("characterIndex", 0L));
+        runningData.setEvolutionStage(prefs.getInt("evolutionStage", 0));
 
 
         String type = getIntent().getStringExtra("run_type");
@@ -210,8 +211,6 @@ public class RunningActivity extends AppCompatActivity {
         Map<String, Integer> result = conversion.msToPace((totalSpeed / speedCountTime));
         int minute = result.get("minutes");
         int second = result.get("seconds");
-        System.out.println(minute + "분");
-        System.out.println(second + "초");
         runningData.setAveragePace((60 * minute) + second);
 
         // 최종 시간 업데이트

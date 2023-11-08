@@ -175,11 +175,12 @@ public class RunningService {
         call.enqueue(new Callback<ApiResponseListDTO<RunningMateResponseDTO>>() {
             @Override
             public void onResponse(Call<ApiResponseListDTO<RunningMateResponseDTO>> call, Response<ApiResponseListDTO<RunningMateResponseDTO>> response) {
+                System.out.println(response.body());
                 List<RunningMate> runningMates = new ArrayList<>();
                 Log.d("내 러닝메이트 리스트(성공)", response.body().getData().toString());
                 if (response.isSuccessful() && response != null){
-                    List<RunningMateResponseDTO> dtoList = response.body().getData();
-                    for(RunningMateResponseDTO dto : dtoList){
+                    List<RunningMateResponseDTO> data = response.body().getData();
+                    for(RunningMateResponseDTO dto : data){
                         RunningMate runningMate = new RunningMate();
                         runningMate.setUserId(dto.getUserId());
                         runningMate.setRunningRecordId(dto.getRunningRecordId());

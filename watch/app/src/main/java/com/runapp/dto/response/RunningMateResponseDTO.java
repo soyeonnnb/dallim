@@ -13,7 +13,7 @@ public class RunningMateResponseDTO {
     private double averagePace;
     private double totalDistance;
     private double totalTime;
-    private boolean isClear;
+    private boolean clear;
     private LocalDateTime createdAt;
 
     public RunningMateResponseDTO() {
@@ -100,11 +100,11 @@ public class RunningMateResponseDTO {
     }
 
     public boolean isClear() {
-        return isClear;
+        return clear;
     }
 
     public void setClear(boolean clear) {
-        isClear = clear;
+        this.clear = clear;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -128,7 +128,7 @@ public class RunningMateResponseDTO {
                 ", averagePace=" + averagePace +
                 ", totalDistance=" + totalDistance +
                 ", totalTime=" + totalTime +
-                ", isClear=" + isClear +
+                ", clear=" + clear +
                 ", createdAt=" + createdAt +
                 '}';
     }

@@ -12,6 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/insungit_cutelively_jisu_regular"
         android:text="연동을 \n해제하시겠습니까?"
         android:textStyle="bold"
         android:textColor="@color/black"
@@ -23,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="이메일"
+        android:fontFamily="@font/insungit_cutelively_jisu_regular"
         android:textColor="@color/black"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"/>
@@ -32,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="닉네임이다"
+        android:fontFamily="@font/insungit_cutelively_jisu_regular"
         android:textColor="@color/black"
         android:gravity="center"/>
     <TextView
@@ -39,6 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="레벨"
+        android:fontFamily="@font/insungit_cutelively_jisu_regular"
         android:textColor="@color/black"
         android:gravity="center_horizontal"/>
 
@@ -55,6 +59,7 @@
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:background="@drawable/round_check_btn"
+            android:fontFamily="@font/insungit_cutelively_jisu_regular"
             android:text="취소"
             android:layout_marginRight="6dp"/>
 
@@ -63,6 +68,7 @@
             android:layout_width="60dp"
             android:layout_height="30dp"
             android:layout_marginLeft="6dp"
+            android:fontFamily="@font/insungit_cutelively_jisu_regular"
             android:background="@drawable/round_check_btn"
             android:text="확인" />
     </LinearLayout>

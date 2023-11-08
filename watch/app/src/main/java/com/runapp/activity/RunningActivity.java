@@ -31,6 +31,7 @@ import com.runapp.util.NetworkUtil;
 import com.runapp.util.PreferencesUtil;
 import com.runapp.view.RunningViewModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -73,18 +74,8 @@ public class RunningActivity extends AppCompatActivity {
 
         runningData = new RunningData();
         runningData.setUserId(prefs.getLong("userId", 0L));
-        runningData.setDate(new Date());
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
         runningData.setCharacterId(prefs.getLong("characterIndex", 0L));
-        runningData.setAveragePace(0f);
-        runningData.setAverageSpeed(0f);
-        runningData.setAverageHeartRate(0f);
-        runningData.setWatchOrMobile("WATCH");
-        runningData.setType("PAIR");
-        runningData.setRivalRecordId("654832e0843b0e094bfe4c64");
-
-        System.out.println(prefs.getLong("characterIndex", 0L));
-        System.out.println(prefs.getLong("characterId", 0L));
 
 //         혼자달리기인지 함께달리기인지 구분
         String type = getIntent().getStringExtra("run_type");
@@ -139,14 +130,22 @@ public class RunningActivity extends AppCompatActivity {
     protected void onDestroy() {
         stopService(sensorIntent); // 센서서비스 중지
         stopService(locationIntent); // 위치서비스 중지
-//        unregisterReceiver(timerUpdateReceiver);
-        // Stop the TimerService
         stopService(timerServiceIntent);
 
-        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.01) {
+        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.001) {
             Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG).show();
             super.onDestroy();
             return; // 메서드를 여기서 종료
+        }
+
+        if(runningViewModel.getTotalSpeed().getValue() != 0){
+            totalSpeed = runningViewModel.getTotalSpeed().getValue();
+        }
+        if(runningViewModel.getSpeedCountTime().getValue() != 0){
+            speedCountTime = runningViewModel.getSpeedCountTime().getValue();
+        }
+        if(runningViewModel.getTotalTime().getValue() != 0){
+            totalTime = runningViewModel.getTotalTime().getValue();
         }
 
         // 평균 심박수
@@ -161,19 +160,29 @@ public class RunningActivity extends AppCompatActivity {
         // 전체 이동 거리(m)
         double totalDistance = runningViewModel.getOriDistance().getValue();
         runningData.setTotalDistance(Math.round(totalDistance * 100) / 100.0);
+        System.out.println("총 속도 : " + totalSpeed);
+        System.out.println("총 속도 카운트 : " + speedCountTime);
+
+        // 초기 위경도 추가
+        runningData.setInitLatitude(runningViewModel.getInitLatitude().getValue());
+        runningData.setInitLongitude(runningViewModel.getInitLongitude().getValue());
 
         // 평균 이동 속도(m/s)
         double avgSpeed = Math.round((totalSpeed/speedCountTime) * 100) / 100.0;
+        System.out.println("속도 : " + avgSpeed);
         runningData.setAverageSpeed(avgSpeed);
 
         // 평균 페이스
         Map<String, Integer> result = conversion.msToPace((totalSpeed / speedCountTime));
         int minute = result.get("minutes");
         int second = result.get("seconds");
+        System.out.println(minute + "분");
+        System.out.println(second + "초");
         runningData.setAveragePace((60 * minute) + second);
 
         // 최종 시간 업데이트
         runningData.setTotalTime(totalTime - 1);
+        System.out.println("최종시간 : " + totalTime);
 
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
@@ -185,7 +194,6 @@ public class RunningActivity extends AppCompatActivity {
             * 비동기적으로 처리되게끔 요청을 큐에 집어넣는다.
             * 그리고 해당 API 호출의 응답이 돌아오면 실행될 콜백 함수를 정의해놓는다.
             * */
-
             runningData.setTranslation(true);
             addRunningData(runningData);
             RunningDataDTO runningDataDTO = runningData.toDTO();
@@ -200,6 +208,12 @@ public class RunningActivity extends AppCompatActivity {
                         Log.d("데이터 전송", "몽고디비로 데이터 전송 성공");
                         Toast.makeText(RunningActivity.this, "기록 저장 성공", Toast.LENGTH_SHORT).show();
                     }else{
+                        System.out.println(response.errorBody().toString());
+                        try {
+                            System.out.println(response.errorBody().string().toString());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
                         Log.d("데이터 전송", "몽고디비로 데이터 전송 실패");
                         Toast.makeText(RunningActivity.this, "기록 저장 실패", Toast.LENGTH_SHORT).show();
                     }

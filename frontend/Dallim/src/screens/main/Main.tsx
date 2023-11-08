@@ -10,6 +10,7 @@ import SpinAnimation from '@/components/common/SpinAnimation';
 import Loading from '@/components/common/Loading';
 import GuideModal from '@/components/mainComponent/GuideModal';
 
+import {useRecoilState} from 'recoil';
 import {
   userIdState,
   userNicknameState,
@@ -26,7 +27,7 @@ interface MainProps {
   navigation: any;
 }
 
-function Main({ navigation }: MainProps) {
+function Main({navigation}: MainProps) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
   const [isGuideModalVisible, setGuideModalVisible] = useState(false); // 가이드 모달
@@ -123,8 +124,9 @@ function Main({ navigation }: MainProps) {
                 </SpinAnimation>
                 <S.StyledGif
                   source={
-                    characterData[equippedCharacterIndex].evolutions[equippedEvolutionStage]
-                      .running
+                    characterData[equippedCharacterIndex].evolutions[
+                      equippedEvolutionStage
+                    ].running
                   }
                   resizeMode="contain"
                 />

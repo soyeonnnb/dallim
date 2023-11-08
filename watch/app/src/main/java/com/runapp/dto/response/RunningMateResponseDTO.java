@@ -3,18 +3,36 @@ package com.runapp.dto.response;
 import java.time.LocalDateTime;
 
 public class RunningMateResponseDTO {
+    private String runningMateId;
+    private String runningRecordId;
     private Long userId;
     private String nickName;
     private int characterIndex;
     private int planetIndex;
     private int level;
-    private double averageSpeed;
+    private double averagePace;
     private double totalDistance;
     private double totalTime;
     private boolean isClear;
     private LocalDateTime createdAt;
 
     public RunningMateResponseDTO() {
+    }
+
+    public String getRunningMateId() {
+        return runningMateId;
+    }
+
+    public void setRunningMateId(String runningMateId) {
+        this.runningMateId = runningMateId;
+    }
+
+    public String getRunningRecordId() {
+        return runningRecordId;
+    }
+
+    public void setRunningRecordId(String runningRecordId) {
+        this.runningRecordId = runningRecordId;
     }
 
     public Long getUserId() {
@@ -57,12 +75,12 @@ public class RunningMateResponseDTO {
         this.level = level;
     }
 
-    public double getAverageSpeed() {
-        return averageSpeed;
+    public double getAveragePace() {
+        return averagePace;
     }
 
-    public void setAverageSpeed(double averageSpeed) {
-        this.averageSpeed = averageSpeed;
+    public void setAveragePace(double averagePace) {
+        this.averagePace = averagePace;
     }
 
     public double getTotalDistance() {
@@ -100,12 +118,14 @@ public class RunningMateResponseDTO {
     @Override
     public String toString() {
         return "RunningMateResponseDTO{" +
-                "userId=" + userId +
+                "runningMateId='" + runningMateId + '\'' +
+                ", runningRecordId='" + runningRecordId + '\'' +
+                ", userId=" + userId +
                 ", nickName='" + nickName + '\'' +
                 ", characterIndex=" + characterIndex +
                 ", planetIndex=" + planetIndex +
                 ", level=" + level +
-                ", averageSpeed=" + averageSpeed +
+                ", averagePace=" + averagePace +
                 ", totalDistance=" + totalDistance +
                 ", totalTime=" + totalTime +
                 ", isClear=" + isClear +

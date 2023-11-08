@@ -69,6 +69,9 @@ dependencies {
 
 	//geo json
 	implementation 'org.json:json:20230227'
+
+	implementation 'com.aayushatharva.brotli4j:brotli4j:1.13.0'
+	runtimeOnly("com.aayushatharva.brotli4j:native-osx-x86_64:1.13.0")
 }
 
 tasks.named('test') {

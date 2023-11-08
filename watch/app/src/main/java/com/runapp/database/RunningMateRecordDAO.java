@@ -19,5 +19,5 @@ public interface RunningMateRecordDAO {
 
     // 모든 러닝메이트 기록 데이터 삭제
     @Query("DELETE FROM runningmaterecord")
-    void deleteAll();
+    void deleteRunningMateRunningRecord();
 }

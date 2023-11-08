@@ -3,7 +3,8 @@ package com.runapp.dto.response;
 import java.time.LocalDateTime;
 
 public class RunningMateResponseDTO {
-    private String id;
+    private String runningMateId;
+    private String runningRecordId;
     private Long userId;
     private String nickName;
     private int characterIndex;
@@ -18,12 +19,20 @@ public class RunningMateResponseDTO {
     public RunningMateResponseDTO() {
     }
 
-    public String getId() {
-        return id;
+    public String getRunningMateId() {
+        return runningMateId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setRunningMateId(String runningMateId) {
+        this.runningMateId = runningMateId;
+    }
+
+    public String getRunningRecordId() {
+        return runningRecordId;
+    }
+
+    public void setRunningRecordId(String runningRecordId) {
+        this.runningRecordId = runningRecordId;
     }
 
     public Long getUserId() {
@@ -109,7 +118,8 @@ public class RunningMateResponseDTO {
     @Override
     public String toString() {
         return "RunningMateResponseDTO{" +
-                "id='" + id + '\'' +
+                "runningMateId='" + runningMateId + '\'' +
+                ", runningRecordId='" + runningRecordId + '\'' +
                 ", userId=" + userId +
                 ", nickName='" + nickName + '\'' +
                 ", characterIndex=" + characterIndex +

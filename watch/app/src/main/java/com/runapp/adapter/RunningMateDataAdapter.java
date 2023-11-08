@@ -1,8 +1,11 @@
 package com.runapp.adapter;
 
+import static androidx.activity.result.ActivityResultCallerKt.registerForActivityResult;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
@@ -14,10 +17,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.runapp.R;
+import com.runapp.activity.CountdownActivity;
+import com.runapp.activity.RunningActivity;
+import com.runapp.activity.RunningMateActivity;
+import com.runapp.activity.SelectActivity;
 import com.runapp.dto.response.ApiResponseDTO;
 import com.runapp.dto.response.RunningMateRunningRecordDTO;
 import com.runapp.model.RunningMate;
@@ -40,11 +49,13 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
     private static RunningService runningService;
     private Context context;
     private static Activity activity;
+    private static ActivityResultLauncher<Intent> countdownActivityResultLauncher;
 
-    public RunningMateDataAdapter(Context context, List<RunningMate> runningMateList, Activity activity) {
+    public RunningMateDataAdapter(Context context, List<RunningMate> runningMateList, Activity activity, ActivityResultLauncher<Intent> countdownActivityResultLauncher) {
         this.runningMateList = runningMateList;
         this.context = context;
         this.activity = activity;
+        this.countdownActivityResultLauncher = countdownActivityResultLauncher;
         runningService = new RunningService(context);
     }
 
@@ -146,13 +157,15 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
                 cancel.setOnClickListener(b-> {
                     dialog.dismiss();
                 });
-
                 String accessToken = AccessToken.getInstance().getAccessToken();
 
                 // 시작하기 눌렀을 때
                 start.setOnClickListener(b -> {
-                    String objectId = currentRunningMate.getObjectId();
-                    runningService.getRunningMateRunningRecord(activity, objectId);
+                    String runningRecordId = currentRunningMate.getRunningRecordId();
+                    runningService.getRunningMateRunningRecord(activity, runningRecordId);
+                    Intent intent = new Intent(activity, CountdownActivity.class);
+                    countdownActivityResultLauncher.launch(intent);
+                    dialog.dismiss();
                 });
             });
         }

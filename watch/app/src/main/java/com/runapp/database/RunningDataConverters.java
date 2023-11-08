@@ -63,6 +63,17 @@ public class RunningDataConverters {
         return gson.toJson(list);
     }
 
+    @TypeConverter
+    public static List<Double> doubleFromString(String value) {
+        Type listType = new TypeToken<List<Double>>() {}.getType();
+        return gson.fromJson(value, listType);
+    }
+
+    @TypeConverter
+    public static String doubleFromList(List<Double> list) {
+        return gson.toJson(list);
+    }
+
     // Type converters for custom objects (example for HeartRate, similar needed for other custom objects)
     @TypeConverter
     public static HeartRate fromHeartRateString(String value) {

@@ -73,6 +73,7 @@ dependencies {
     // android
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation("androidx.activity:activity-ktx:1.8.0")
     implementation("androidx.fragment:fragment:1.4.0")
     implementation("androidx.preference:preference-ktx:1.2.1")
     // wear-os

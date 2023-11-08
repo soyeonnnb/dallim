@@ -1,10 +1,17 @@
 package com.runapp.activity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -24,7 +31,6 @@ public class RunningMateActivity extends AppCompatActivity {
 
     private AppDatabase db;
     private Executor executor = Executors.newSingleThreadExecutor();
-    private ViewPager2 viewPager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +42,7 @@ public class RunningMateActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rv_running_mate);
         recyclerView.setLayoutManager(layoutManager);
-        RunningMateDataAdapter adapter = new RunningMateDataAdapter(new ArrayList<>());
+        RunningMateDataAdapter adapter = new RunningMateDataAdapter(this, new ArrayList<>(), RunningMateActivity.this, startForCountdownResult);
         recyclerView.setAdapter(adapter);
 
         TextView tvNoData = findViewById(R.id.tv_no_data);
@@ -62,4 +68,19 @@ public class RunningMateActivity extends AppCompatActivity {
             }
         });
     }
+
+    // RunningMateActivity에서
+    ActivityResultLauncher<Intent> startForCountdownResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    // 모든 액티비티를 종료하고 RunningActivity로 이동
+                    Intent runningActivityIntent = new Intent(this, RunningActivity.class);
+                    runningActivityIntent.putExtra("run_type", "PAIR");
+                    runningActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(runningActivityIntent);
+                    finish();
+                }
+            }
+    );
 }

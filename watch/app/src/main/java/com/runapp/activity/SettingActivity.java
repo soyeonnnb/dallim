@@ -119,56 +119,59 @@ public class SettingActivity extends AppCompatActivity {
 
         // 연동해제 버튼 누르면
         binding.btnUnlink.setOnClickListener(v ->{
-            String email = prefs.getString("email", null);
-            String nickname = prefs.getString("nickname", null);
-            int level = prefs.getInt("level", 0);
+            Intent intent = new Intent(SettingActivity.this, UnlinkActivity.class);
+            startActivity(intent);
 
-            // AlertDialog.Builder 인스턴스 생성
-            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
+//            String email = prefs.getString("email", null);
+//            String nickname = prefs.getString("nickname", null);
+//            int level = prefs.getInt("level", 0);
 
-            LayoutInflater inflater = getLayoutInflater();
-            // unlink_user.xml을 가져와서 객체로 생성
-            View customView = inflater.inflate(R.layout.unlink_user, null);
-
-            TextView userEmail = customView.findViewById(R.id.user_email);
-            userEmail.setText("이메일:" + email);
-            TextView userNickname = customView.findViewById(R.id.nickname);
-            userNickname.setText("닉네임:" + nickname);
-            TextView userLevel = customView.findViewById(R.id.level);
-            userLevel.setText("레벨:" + String.valueOf(level) + " LV");
-
-            builder.setView(customView);
-
-            // builder 내용으로 AlertDialog 생성
-            AlertDialog dialog = builder.create();
-
-            // AlertDialog 보이기
-            dialog.show();
-
-            Button btnCancel = customView.findViewById(R.id.unlink_cancel);
-            Button btnStart = customView.findViewById(R.id.unlink_start);
-
-            // 취소 버튼에 대한 클릭 리스너
-            btnCancel.setOnClickListener(b ->{
-                dialog.dismiss();
-            });
-
-            // 확인 버튼에 대한 클릭 리스너
-            btnStart.setOnClickListener(b-> {
-                prefs.edit().clear().apply();
-                runningService.deleteRunningMateData();
-                runningService.deleteRunningData();
-                Toast.makeText(SettingActivity.this, "연동을 해제하였습니다.", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-
-                // 모든 액티비티를 종료하고 메인 액티비티로 이동하는 인텐트 생성
-                Intent intent = new Intent(SettingActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-
-                // 현재 액티비티 종료
-                finish();
-            });
+//            // AlertDialog.Builder 인스턴스 생성
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
+//
+//            LayoutInflater inflater = getLayoutInflater();
+//            // unlink_user.xml을 가져와서 객체로 생성
+//            View customView = inflater.inflate(R.layout.unlink_user, null);
+//
+//            TextView userEmail = customView.findViewById(R.id.user_email);
+//            userEmail.setText("이메일:" + email);
+//            TextView userNickname = customView.findViewById(R.id.nickname);
+//            userNickname.setText("닉네임:" + nickname);
+//            TextView userLevel = customView.findViewById(R.id.level);
+//            userLevel.setText("레벨:" + String.valueOf(level) + " LV");
+//
+//            builder.setView(customView);
+//
+//            // builder 내용으로 AlertDialog 생성
+//            AlertDialog dialog = builder.create();
+//
+//            // AlertDialog 보이기
+//            dialog.show();
+//
+//            Button btnCancel = customView.findViewById(R.id.unlink_cancel);
+//            Button btnStart = customView.findViewById(R.id.unlink_start);
+//
+//            // 취소 버튼에 대한 클릭 리스너
+//            btnCancel.setOnClickListener(b ->{
+//                dialog.dismiss();
+//            });
+//
+//            // 확인 버튼에 대한 클릭 리스너
+//            btnStart.setOnClickListener(b-> {
+//                prefs.edit().clear().apply();
+//                runningService.deleteRunningMateData();
+//                runningService.deleteRunningData();
+//                Toast.makeText(SettingActivity.this, "연동을 해제하였습니다.", Toast.LENGTH_SHORT).show();
+//                dialog.dismiss();
+//
+//                // 모든 액티비티를 종료하고 메인 액티비티로 이동하는 인텐트 생성
+//                Intent intent = new Intent(SettingActivity.this, MainActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
+//
+//                // 현재 액티비티 종료
+//                finish();
+//            });
         });
     }
 

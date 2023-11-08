@@ -41,6 +41,7 @@ public class LocationService extends Service {
     private RunningViewModel runningViewModel;
     private static final int NOTIFICATION_ID = 10;
     private static final String CHANNEL_ID = "RunningService";
+    private int count = 1;
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
@@ -48,7 +49,6 @@ public class LocationService extends Service {
                     "달림",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
         }
@@ -89,13 +89,19 @@ public class LocationService extends Service {
 
     private void onLocationUpdated(Location location) {
         if (lastLocation != null) {
-
             double speed = location.getSpeed();
             // 초속 0.4 이상이면 걷는 걸로 판단.
-            if(speed >= 0.01){
+            if(speed >= 0.001){
                 speed = (Math.round(speed * 100) / 100.0);
                 // m/s 저장
                 runningViewModel.setMsSpeed(speed);
+                if(runningViewModel.getTotalSpeed().getValue() != 0){
+                    Double value = runningViewModel.getTotalSpeed().getValue();
+                    runningViewModel.setTotalSpeed(value + speed);
+                    runningViewModel.setSpeedCountTime(count++);
+                }else{
+                    runningViewModel.setTotalSpeed(speed);
+                }
                 Map<String, Integer> result = conversion.msToPace(speed);
                 Integer minutes = result.get("minutes");
                 Integer seconds = result.get("seconds");
@@ -114,6 +120,11 @@ public class LocationService extends Service {
 
                 double latitude = location.getLatitude(); // 위도
                 double longitude = location.getLongitude(); // 경도
+                if(runningViewModel.getInitLatitude().getValue() == null && runningViewModel.getInitLongitude().getValue() == null) {
+                    System.out.println("들어옴");
+                    runningViewModel.setInitLatitude(latitude);
+                    runningViewModel.setInitLongitude(longitude);
+                }
                 runningViewModel.setLatitude(latitude);
                 runningViewModel.setLongitude(longitude);
             }

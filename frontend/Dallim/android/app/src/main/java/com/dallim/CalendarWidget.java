@@ -38,11 +38,6 @@ public class CalendarWidget extends AppWidgetProvider {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.calendar_widget);
         Log.d("DDDDDDDDDD", "Widget - updateAppWidget2");
 // 출석 데이터 리스트 예시
-        attendances[0]="2023-11-01";
-        attendances[1]="2023-11-02";
-        attendances[2]="2023-11-03";
-        attendances[4]="2023-11-05";
-        attendances[6]="2023-11-07";
 
 
 
@@ -174,11 +169,23 @@ public class CalendarWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // 위젯이 여러 개 있을 수 있으므로 모든 위젯을 업데이트합니다.
+        Log.d("DDDDDDDDDD", "updateAppWidget"+" onUpdate");
         for (int appWidgetId : appWidgetIds) {
             // 현재는 attendances 데이터가 하드코드되어 있으나 실제 사용 시에는 동적으로 데이터를 가져와야 합니다.
             String[] attendances = new String[31]; // 필요한 경우 데이터를 초기화합니다.
             // attendances 데이터 채우기
-            updateAppWidget(context, appWidgetManager, appWidgetId, attendances);
+            Context applicationContext = context.getApplicationContext();
+            Log.d("DDDDDDDDDD", "updateAppWidget"+" applicationContext"+applicationContext);
+            Intent serviceIntent = new Intent(applicationContext, UpdateWidgetService.class);
+            Log.d("DDDDDDDDDD", "updateAppWidget"+" serviceIntent"+serviceIntent);
+            Log.d("DDDDDDDDDD", "updateAppWidget"+" serviceIntent"+serviceIntent.getData());
+            Log.d("DDDDDDDDDD", "updateAppWidget"+" serviceIntent"+serviceIntent.getExtras());
+            Log.d("DDDDDDDDDD", "updateAppWidget"+" serviceIntent"+serviceIntent.getPackage());
+            Log.d("DDDDDDDDDD", "updateAppWidget"+" serviceIntent"+serviceIntent.getDataString());
+            Log.d("DDDDDDDDDD", "Context: " + context);
+
+            applicationContext.startService(serviceIntent);
+
         }
     }
 

@@ -5,7 +5,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '@/components/common/Loading';
 import {postFcmToken} from '@/apis/LoginApi';
-
+//
 interface KakaoLoginProps {
   navigation: any;
 }

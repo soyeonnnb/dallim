@@ -121,7 +121,6 @@ public class RunningDataConverters {
         return value == null ? null : gson.fromJson(value, listType);
     }
 
-
     @TypeConverter
     public static String toRunningRecordInfosString(List<RunningRecordInfos> runningRecordInfos) {
         return gson.toJson(runningRecordInfos);

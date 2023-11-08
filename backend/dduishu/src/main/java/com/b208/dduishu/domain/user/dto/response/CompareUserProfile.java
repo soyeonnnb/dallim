@@ -13,10 +13,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Data
 public class CompareUserProfile {
 
-    private int myProfileIndex;
+    private int myCharacterIndex;
+    private int myEvolutionStage;
     private String myNickName;
     private int myLevel;
-    private int pairProfileIndex;
+    private int pairCharacterIndex;
+    private int pairEvolutionStage;
     private String pairNickName;
     private int pairLevel;
 
@@ -29,11 +31,13 @@ public class CompareUserProfile {
     private float mySpeed;
     private float pairSpeed;
 
-    public CompareUserProfile(User user , User pair) {
-        this.myProfileIndex = Util.getCharacterIndexByUser(user);
+    public CompareUserProfile(User user , Character mycharacter, User pair, Character paircharacter) {
+        this.myCharacterIndex = Util.getCharacterIndexByUser(user);
+        this.myEvolutionStage = Util.getEvolutionStage(mycharacter.getCharacterLevel().getLevel());
         this.myNickName = user.getNickname();
         this.myLevel = user.getUserLevel().getLevel();
-        this.pairProfileIndex = Util.getCharacterIndexByUser(pair);
+        this.pairCharacterIndex = Util.getCharacterIndexByUser(pair);
+        this.pairEvolutionStage = Util.getEvolutionStage(paircharacter.getCharacterLevel().getLevel());
         this.pairNickName = pair.getNickname();
         this.pairLevel = pair.getUserLevel().getLevel();
         this.myDay = getPercent(user.getCumulativeRunningDay(), pair.getCumulativeRunningDay());

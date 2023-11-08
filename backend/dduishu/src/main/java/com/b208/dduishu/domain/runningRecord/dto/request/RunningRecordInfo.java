@@ -14,6 +14,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+import static java.util.stream.Collectors.toList;
+
 @Data
 public class RunningRecordInfo {
 
@@ -27,6 +29,7 @@ public class RunningRecordInfo {
 
 
     private Long userId;
+    private WatchOrMobile watchOrMobile;
     private Date date;
     private String formattedDate;
     private Long characterId;
@@ -44,7 +47,7 @@ public class RunningRecordInfo {
     // + 생체정보 +a
     private List<RunningRecordOverallInfo> runningRecordInfos;
 
-    public RunningRecord toRunningRecord(User user, Planet planet, Character character, RunningRecord rivalRecord){
+    public RunningRecord toRunningRecord(User user, Planet planet, String addressName, Character character, RunningRecord rivalRecord){
 
         UserInfo userInfo = new UserInfo(user);
         CharacterRecordInfo characterInfo = new CharacterRecordInfo(character, planet);
@@ -54,15 +57,16 @@ public class RunningRecordInfo {
         }
 
 //        String location = getLocation();
-        List<Integer> secondPerSpeed = getSecondPerSpeed(this.runningRecordInfos);
+        List<Double> secondPerSpeed = getSecondPerSpeed(this.runningRecordInfos);
         PaceInfo pace = getPaceInfo(this.runningRecordInfos);
         HeartRateInfo heartRate = getHeartRateInfo(this.runningRecordInfos);
 
 
         RunningRecord build = RunningRecord.builder()
                 .user(userInfo)
+                .watchOrMobile(this.watchOrMobile)
                 .pace(pace)
-                .location("서울, 석촌호수")
+                .location(addressName)
                 .heartRate(heartRate)
                 .secondPerSpeed(secondPerSpeed)
                 .character(characterInfo)
@@ -103,8 +107,15 @@ public class RunningRecordInfo {
 
         HeartRateInfo heartRateInfo = new HeartRateInfo();
 
-        heartRateInfo.setAverageHeartRate(Arrays.stream(heartRate).mapToInt(Integer::intValue).average().orElse(0));
-        heartRateInfo.setMaxHeartRate(Arrays.stream(heartRate).mapToInt(Integer::intValue).max().orElse(0));
+        double averageHeartRate = runningRecordInfos.stream()
+                .filter(record -> record.getHeartRate() != 0.0)
+                .mapToDouble(RunningRecordOverallInfo::getHeartRate)
+                .average()
+                .orElse(0);
+        BigDecimal formattedAverage = new BigDecimal(averageHeartRate).setScale(2, RoundingMode.HALF_UP);
+
+        heartRateInfo.setAverageHeartRate(formattedAverage.doubleValue());
+        heartRateInfo.setMaxHeartRate(runningRecordInfos.stream().mapToDouble(RunningRecordOverallInfo::getHeartRate).max().orElse(0));
         heartRateInfo.setSecondPerHeartRateSection(Arrays.asList(heartRate));
 
         return heartRateInfo;
@@ -134,7 +145,7 @@ public class RunningRecordInfo {
         }
 
         // 마지막 구간 추가 (스트림이 끝났을 때 마지막 구간을 처리)
-        if (currentSection.getStartTime() != 0) {
+        if (currentSection.getStartTime() != runningRecordInfos.get(runningRecordInfos.size() - 1).getSecond()) {
             RunningRecordOverallInfo lastRecord = runningRecordInfos.get(runningRecordInfos.size() - 1);
 
             currentSection.setFinishTime(lastRecord.getSecond());
@@ -154,33 +165,41 @@ public class RunningRecordInfo {
 
 
         PaceInfo paceInfo = new PaceInfo();
-        double averagePace = sectionPaces.stream()
-                .mapToDouble(PaceSectionInfo::getPace)
-                .average()
-                .orElse(0);
+
+        double averagePace = ( this.totalTime / this.totalDistance ) * 1000.0;
         BigDecimal formattedAverage = new BigDecimal(averagePace).setScale(2, RoundingMode.HALF_UP);
 
         paceInfo.setAveragePace(formattedAverage.doubleValue());
-        paceInfo.setMaxPace(sectionPaces.stream().mapToDouble(PaceSectionInfo::getPace).max().orElse(0));
+        paceInfo.setMaxPace(sectionPaces.stream().mapToDouble(PaceSectionInfo::getPace).min().orElse(0));
         paceInfo.setSection(sectionPaces);
 
         return paceInfo;
     }
 
-    private List<Integer> getSecondPerSpeed(List<RunningRecordOverallInfo> runningRecordInfos) {
-        Integer[] secondPerSpeed = {0, 0, 0}; // 각 속도 범주에 대한 초를 계산하기 위한 배열
+    private List<Double> getSecondPerSpeed(List<RunningRecordOverallInfo> runningRecordInfos) {
+        Double[] secondPerSpeed = {0.0, 0.0, 0.0}; // 각 속도 범주에 대한 초를 계산하기 위한 배열
 
-        runningRecordInfos.forEach(record -> {
-            double speedKmH = record.getSpeed(); // getSpeed()가 km/h 단위의 속도를 반환한다고 가정
+        for (int i = 1; i < runningRecordInfos.size(); i++) {
+            RunningRecordOverallInfo currentRecord = runningRecordInfos.get(i);
+            RunningRecordOverallInfo previousRecord = runningRecordInfos.get(i - 1);
+
+            double speedKmH = currentRecord.getSpeed(); // getSpeed()가 km/h 단위의 속도를 반환한다고 가정
+
+            // 현재 레코드와 이전 레코드의 cumulativeDistance 차이를 구하여 해당 속도 범주의 초에 설정
+            double distanceDifference = currentRecord.getDistance() - previousRecord.getDistance();
 
             if (speedKmH < SLOW_WALK_THRESHOLD) {
-                secondPerSpeed[0]++;
+                secondPerSpeed[0] += distanceDifference;
             } else if (speedKmH < FAST_WALK_THRESHOLD) {
-                secondPerSpeed[1]++;
+                secondPerSpeed[1] += distanceDifference;
             } else {
-                secondPerSpeed[2]++;
+                secondPerSpeed[2] += distanceDifference;
             }
-        });
-        return Arrays.asList(secondPerSpeed);
+        }
+
+        return Arrays.stream(secondPerSpeed)
+                .map(speed -> new BigDecimal(speed).setScale(1, RoundingMode.HALF_UP))
+                .map(o -> o.doubleValue())
+                .collect(toList());
     }
 }

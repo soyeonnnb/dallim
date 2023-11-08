@@ -15,6 +15,7 @@ import com.runapp.dto.response.ApiResponseDTO;
 import com.runapp.dto.response.ApiResponseListDTO;
 import com.runapp.dto.response.RunningMateResponseDTO;
 import com.runapp.dto.response.RunningMateRunningRecordDTO;
+import com.runapp.model.RunDetail;
 import com.runapp.model.RunningData;
 import com.runapp.model.RunningMate;
 import com.runapp.model.RunningMateRecord;
@@ -134,7 +135,28 @@ public class RunningService {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                db.runningMateRecordDAO().deleteAll();
+                db.runningMateRecordDAO().deleteRunningMateRunningRecord();
+            }
+        });
+    }
+
+    // sqlite에서 러닝메이트 러닝 기록 가져오기
+    public void getRunningMateRunningData(DataCallback callback) {
+        long startTime = System.currentTimeMillis();
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<String> records = db.runningMateRecordDAO().getRunningMateRunningRecord();
+                long endTime = System.currentTimeMillis();
+                System.out.println("데이터" + records);
+                Log.d("시간", "걸린 시간" + (endTime - startTime));
+                // 메인 스레드에서 콜백을 실행합니다.
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onDataLoaded(records);
+                    }
+                });
             }
         });
     }
@@ -198,6 +220,7 @@ public class RunningService {
                     RunningMateRunningRecordDTO data = response.body().getData();
                     RunningMateRecord runningMateRecord = new RunningMateRecord();
                     runningMateRecord = runningMateRecord.toEntity(data);
+                    System.out.println(runningMateRecord.toString());
 
                     addRunningMateRunningData(runningMateRecord);
                     Log.d("성공", "성공");
@@ -218,5 +241,8 @@ public class RunningService {
     }
     public interface GetResultListener {
         void onResult(List<RunningData> runningDataList);
+    }
+    public interface DataCallback {
+        void onDataLoaded(List<String> records);
     }
 }

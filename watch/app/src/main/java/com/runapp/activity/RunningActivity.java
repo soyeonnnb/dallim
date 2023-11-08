@@ -16,11 +16,13 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.runapp.adapter.ViewPagerAdapter;
 import com.runapp.database.AppDatabase;
+import com.runapp.database.RunningDataConverters;
 import com.runapp.databinding.ActivityRunningBinding;
 import com.runapp.dto.RunningDataDTO;
 import com.runapp.model.RunDetail;
 import com.runapp.model.RunningData;
 import com.runapp.service.LocationService;
+import com.runapp.service.RunningService;
 import com.runapp.service.SensorService;
 import com.runapp.service.TimerService;
 import com.runapp.util.AccessToken;
@@ -59,19 +61,24 @@ public class RunningActivity extends AppCompatActivity {
     private Intent sensorIntent;
     private Intent locationIntent;
     private Intent timerServiceIntent;
-    private BroadcastReceiver timerUpdateReceiver;
     private SharedPreferences prefs;
+    private List<RunDetail> runningMateRecord = new ArrayList<>();
+    private RunningService runningService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityRunningBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        runningService = new RunningService(getApplicationContext());
 
         prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
 
         db = AppDatabase.getDatabase(getApplicationContext());
 
+
+        long startTime = System.currentTimeMillis();
+        System.out.println("시작 시간 : " + startTime);
         runningData = new RunningData();
         runningData.setUserId(prefs.getLong("userId", 0L));
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
@@ -81,38 +88,83 @@ public class RunningActivity extends AppCompatActivity {
         String type = getIntent().getStringExtra("run_type");
         if(type.equals("PAIR")){
             runningData.setType("PAIR");
+            runningService.getRunningMateRunningData(new RunningService.DataCallback() {
+                @Override
+                public void onDataLoaded(List<String> records) {
+                    List<Double> value = new ArrayList<>();
+                    for (String json : records) {
+                        List<RunDetail> runDetails = RunningDataConverters.toRunDetailList(json);
+                        for(RunDetail r : runDetails){
+                            double distance = r.getDistance();
+                            value.add(distance);
+                        }
+                    }
+                    long endTime = System.currentTimeMillis();
+                    System.out.println("걸린 시간 : " + (endTime - startTime));
+
+                    startForegroundService(locationIntent);
+                    startForegroundService(sensorIntent);
+                    String data = RunningDataConverters.doubleFromList(value);
+                    timerServiceIntent.putExtra("running_mate_record", data);
+                    startForegroundService(timerServiceIntent);
+                }
+            });
+            String runningRecordId = prefs.getString("runningRecordId", null);
+            runningData.setRivalRecordId(runningRecordId);
+            // 러닝 뷰 모델을 생성한다.
+            runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
+
+            runningViewModel.getRunningData().setValue(runningData);
+            runningViewModel.setDistance(0f);
+            runningViewModel.setStepCount(0f);
+            runningViewModel.setMsSpeed(0f);
+            runningViewModel.setMsPace("0'00''");
+
+            // 뷰페이저2를 생성(activity_running.xml에서 가져옴)
+            ViewPager2 viewPager = binding.viewPager;
+            // 뷰페이저 어댑터 생성하고 설정
+            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
+            viewPager.setAdapter(viewPagerAdapter);
+
+            // 위치서비스 포그라운드 실행
+            locationIntent = new Intent(this, LocationService.class);
+
+            // 센서서비스 포그라운드 실행
+            sensorIntent = new Intent(this, SensorService.class);
+
+            // 타임서비스 포그라운드 실행
+            timerServiceIntent = new Intent(this, TimerService.class);
+
         }else if(type.equals("ALONE")){
             runningData.setType("ALONE");
-            runningData.setRivalRecordId(null);
+            // 러닝 뷰 모델을 생성한다.
+            runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
+
+            runningViewModel.getRunningData().setValue(runningData);
+            runningViewModel.setDistance(0f);
+            runningViewModel.setStepCount(0f);
+            runningViewModel.setMsSpeed(0f);
+            runningViewModel.setMsPace("0'00''");
+
+            // 뷰페이저2를 생성(activity_running.xml에서 가져옴)
+            ViewPager2 viewPager = binding.viewPager;
+            // 뷰페이저 어댑터 생성하고 설정
+            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
+            viewPager.setAdapter(viewPagerAdapter);
+
+            // 위치서비스 포그라운드 실행
+            locationIntent = new Intent(this, LocationService.class);
+            startForegroundService(locationIntent);
+            // 센서서비스 포그라운드 실행
+            sensorIntent = new Intent(this, SensorService.class);
+            startForegroundService(sensorIntent);
+            // 타임서비스 포그라운드 실행
+            timerServiceIntent = new Intent(this, TimerService.class);
+            startForegroundService(timerServiceIntent);
         }
 
-        // 러닝 뷰 모델을 생성한다.
-        runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
 
-        runningViewModel.getRunningData().setValue(runningData);
-        runningViewModel.setDistance(0f);
-        runningViewModel.setStepCount(0f);
-        runningViewModel.setMsSpeed(0f);
-        runningViewModel.setMsPace("0'00''");
 
-        // 뷰페이저2를 생성(activity_running.xml에서 가져옴)
-        ViewPager2 viewPager = binding.viewPager;
-        // 뷰페이저 어댑터 생성하고 설정
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
-        viewPager.setAdapter(viewPagerAdapter);
-
-        // 위치서비스 포그라운드 실행
-        locationIntent = new Intent(this, LocationService.class);
-        startForegroundService(locationIntent);
-        // 센서서비스 포그라운드 실행
-        sensorIntent = new Intent(this, SensorService.class);
-        startForegroundService(sensorIntent);
-        // 타임서비스 포그라운드 실행
-        timerServiceIntent = new Intent(this, TimerService.class);
-        startForegroundService(timerServiceIntent);
-
-        // 리시버를 시스템에 등록한다.
-        registerReceiver(timerUpdateReceiver, new IntentFilter(TimerService.TIMER_BR));
     }
 
     // 데이터 추가(메인 스레드에서 분리하기 위해서)

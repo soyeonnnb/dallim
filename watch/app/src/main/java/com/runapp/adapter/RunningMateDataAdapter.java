@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
@@ -24,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.runapp.R;
 import com.runapp.activity.CountdownActivity;
+import com.runapp.activity.LoadingActivity;
 import com.runapp.activity.RunningActivity;
 import com.runapp.activity.RunningMateActivity;
 import com.runapp.activity.SelectActivity;
@@ -34,6 +36,7 @@ import com.runapp.service.RunningService;
 import com.runapp.util.AccessToken;
 import com.runapp.util.ApiUtil;
 import com.runapp.util.Conversion;
+import com.runapp.util.PreferencesUtil;
 
 import org.w3c.dom.Text;
 
@@ -48,6 +51,7 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
     private Conversion conversion = new Conversion();
     private static RunningService runningService;
     private Context context;
+    private static SharedPreferences prefs;
     private static Activity activity;
     private static ActivityResultLauncher<Intent> countdownActivityResultLauncher;
 
@@ -56,6 +60,7 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
         this.context = context;
         this.activity = activity;
         this.countdownActivityResultLauncher = countdownActivityResultLauncher;
+        prefs = PreferencesUtil.getEncryptedSharedPreferences(context);
         runningService = new RunningService(context);
     }
 
@@ -123,7 +128,6 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             formattedDate = itemView.findViewById(R.id.formatted_date);
             distance = itemView.findViewById(R.id.distance);
             speed = itemView.findViewById(R.id.speed);
@@ -144,6 +148,17 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
                 TextView mateNickname = customView.findViewById(R.id.running_mate_nickname);
                 mateNickname.setText("'"+currentRunningMate.getNickName()+"' 님과");
 
+                SharedPreferences.Editor edit = prefs.edit();
+                String runningRecordId1 = prefs.getString("runningRecordId", "");
+                if (!runningRecordId1.equals("")){
+                    edit.remove("runningRecordId");
+                    edit.apply();
+                }
+                String runningRecordId = currentRunningMate.getRunningRecordId();
+                edit.putString("runningRecordId", runningRecordId);
+                edit.apply();
+                runningService.getRunningMateRunningRecord(activity, runningRecordId);
+
                 // builder 내용으로 AlertDialog 생성
                 AlertDialog dialog = builder.create();
 
@@ -161,9 +176,7 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
 
                 // 시작하기 눌렀을 때
                 start.setOnClickListener(b -> {
-                    String runningRecordId = currentRunningMate.getRunningRecordId();
-                    runningService.getRunningMateRunningRecord(activity, runningRecordId);
-                    Intent intent = new Intent(activity, CountdownActivity.class);
+                    Intent intent = new Intent(activity, LoadingActivity.class);
                     countdownActivityResultLauncher.launch(intent);
                     dialog.dismiss();
                 });

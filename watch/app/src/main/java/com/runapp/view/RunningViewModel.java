@@ -33,6 +33,11 @@ public class RunningViewModel extends ViewModel {
     private final MutableLiveData<Double> totalSpeed = new MutableLiveData<>();
     private final MutableLiveData<Double> initLatitude = new MutableLiveData<>();
     private final MutableLiveData<Double> initLongitude = new MutableLiveData<>();
+    private final MutableLiveData<Double> distanceDifference = new MutableLiveData<>();
+
+    public RunningViewModel() {
+        distanceDifference.setValue(0.0);
+    }
 
     public MutableLiveData<RunningData> getRunningData() {
         return runningData;
@@ -169,5 +174,12 @@ public class RunningViewModel extends ViewModel {
     }
     public void setInitLatitude(Double value) {
         initLatitude.setValue(value);
+    }
+
+    public MutableLiveData<Double> getDistanceDifference() {
+        return distanceDifference;
+    }
+    public void setDistanceDifference(Double value) {
+        distanceDifference.setValue(value);
     }
 }

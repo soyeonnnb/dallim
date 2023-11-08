@@ -83,7 +83,7 @@ public class RunningService {
             @Override
             public void run() {
                 db.runningMateDAO().insertRunningMate(runningMates);
-                Log.d("로그", "저장 성공");
+                Log.d("sqlite 러닝메이트 기록 저장", "성공");
             }
         });
     }
@@ -94,7 +94,7 @@ public class RunningService {
             @Override
             public void run() {
                 db.runningMateDAO().deleteAll();
-                Log.d("로그", "삭제 성공");
+                Log.d("sqlite 러닝메이트 기록 삭제", "성공");
             }
         });
     }
@@ -124,8 +124,11 @@ public class RunningService {
         executor.execute(new Runnable() {
             @Override
             public void run() {
+                long start = System.currentTimeMillis();
                 db.runningMateRecordDAO().insertRunningMateRunningRecord(runningMateRecord);
-                Log.d("로그", "저장 성공");
+                long end = System.currentTimeMillis();
+                Log.d("시간", String.valueOf(end - start));
+                Log.d("sqlite에 러닝메이트 기록 추가", "성공");
             }
         });
     }
@@ -146,7 +149,7 @@ public class RunningService {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                List<String> records = db.runningMateRecordDAO().getRunningMateRunningRecord();
+                RunningMateRecord records = db.runningMateRecordDAO().getRunningMateRunningRecord();
                 long endTime = System.currentTimeMillis();
                 System.out.println("데이터" + records);
                 Log.d("시간", "걸린 시간" + (endTime - startTime));
@@ -163,7 +166,9 @@ public class RunningService {
 
     // 내 러닝메이트 리스트 가져오기
     public void getRunningMate(Activity currentActivity){
+        // 기존 데이터 삭제
         deleteRunningMateData();
+
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
         Call<ApiResponseListDTO<RunningMateResponseDTO>> call = ApiUtil.getApiService().getRunningMate(token);
@@ -171,11 +176,12 @@ public class RunningService {
             @Override
             public void onResponse(Call<ApiResponseListDTO<RunningMateResponseDTO>> call, Response<ApiResponseListDTO<RunningMateResponseDTO>> response) {
                 List<RunningMate> runningMates = new ArrayList<>();
-                System.out.println(response.body().getData());
+                Log.d("내 러닝메이트 리스트(성공)", response.body().getData().toString());
                 if (response.isSuccessful() && response != null){
                     List<RunningMateResponseDTO> dtoList = response.body().getData();
                     for(RunningMateResponseDTO dto : dtoList){
                         RunningMate runningMate = new RunningMate();
+                        runningMate.setUserId(dto.getUserId());
                         runningMate.setRunningRecordId(dto.getRunningRecordId());
                         runningMate.setRunningMateId(dto.getRunningMateId());
                         runningMate.setAveragePace(dto.getAveragePace());
@@ -189,49 +195,58 @@ public class RunningService {
                         runningMate.setPlanetIndex(dto.getPlanetIndex());
                         runningMates.add(runningMate);
                     }
+                    // 러닝메이트 저장
+                    addRunningMateDataList(runningMates);
+                    // 데이터 저장 후 RunningMateActivity 시작
+                    Intent intent = new Intent(currentActivity, RunningMateActivity.class);
+                    currentActivity.startActivity(intent);
                 }else{
-                    Log.d("실패", "실패1");
+                    Log.e("내 러닝메이트 리스트(실패) ", response.errorBody().toString());
+                    // 이후 에러처리 해야함.
                 }
-                // 러닝메이트 저장
-                addRunningMateDataList(runningMates);
-                // 데이터 저장 후 RunningMateActivity 시작
-                Intent intent = new Intent(currentActivity, RunningMateActivity.class);
-                currentActivity.startActivity(intent);
             }
 
             @Override
             public void onFailure(Call<ApiResponseListDTO<RunningMateResponseDTO>> call, Throwable t) {
-
+                Log.e("내 러닝메이트 리스트(응답실패)", t.getMessage());
             }
         });
     }
 
     // 내 러닝메이트 달리기 기록 가져오기
     public void getRunningMateRunningRecord(Activity currentActivity, String objectId){
+        // 기존에 있던 러닝메이트 달리기 기록 삭제
         deleteRunningMateRunningData();
+
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
-        System.out.println(objectId);
-        Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call = ApiUtil.getApiService().getRunningMateRecord(token, objectId);
-        call.enqueue(new Callback<ApiResponseDTO<RunningMateRunningRecordDTO>>() {
+        long start = System.currentTimeMillis();
+        Call<ApiResponseDTO<RunningMateRecord>> call = ApiUtil.getApiService().getRunningMateRecord(token, objectId);
+        call.enqueue(new Callback<ApiResponseDTO<RunningMateRecord>>() {
             @Override
-            public void onResponse(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Response<ApiResponseDTO<RunningMateRunningRecordDTO>> response) {
+            public void onResponse(Call<ApiResponseDTO<RunningMateRecord>> call, Response<ApiResponseDTO<RunningMateRecord>> response) {
                 if (response.isSuccessful() && response != null){
-                    RunningMateRunningRecordDTO data = response.body().getData();
+                    long end1 = System.currentTimeMillis();
+                    Log.d("스프링api", String.valueOf(end1-start));
+                    RunningMateRecord mateRunningData = response.body().getData();
                     RunningMateRecord runningMateRecord = new RunningMateRecord();
-                    runningMateRecord = runningMateRecord.toEntity(data);
-                    System.out.println(runningMateRecord.toString());
+                    runningMateRecord.setDistance(mateRunningData.getDistance());
+                    runningMateRecord.setAveragePace(mateRunningData.getAveragePace());
+                    runningMateRecord.setTotalTime(mateRunningData.getTotalTime());
+                    Log.d("러닝메이트 기록 가져오기(성공)", runningMateRecord.toString());
 
+                    // 러닝메이트 기록 추가
                     addRunningMateRunningData(runningMateRecord);
-                    Log.d("성공", "성공");
+                    long end2 = System.currentTimeMillis();
+                    Log.d("sqlite", String.valueOf(end2-start));
                 }else{
-                    Log.d("실패", "실패1");
+                    Log.e("러닝메이트 기록 가져오기(실패)", response.errorBody().toString());
+                    // 에러처리
                 }
             }
             @Override
-            public void onFailure(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Throwable t) {
-                Log.e("에러", t.getMessage());
-                Log.d("실패", "실패2");
+            public void onFailure(Call<ApiResponseDTO<RunningMateRecord>> call, Throwable t) {
+                Log.e("러닝메이트 기록 가져오기(응답실패)", t.getMessage());
             }
         });
     }
@@ -243,6 +258,6 @@ public class RunningService {
         void onResult(List<RunningData> runningDataList);
     }
     public interface DataCallback {
-        void onDataLoaded(List<String> records);
+        void onDataLoaded(RunningMateRecord records);
     }
 }

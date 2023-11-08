@@ -59,7 +59,6 @@ public class RunningMateActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (runningMateList.size() != 0) {
-                            Log.d("run", "run 들어옴");
                             adapter.setData(runningMateList);
                             adapter.notifyDataSetChanged();
                             tvNoData.setVisibility(View.GONE); // 데이터 있으면 메시지 숨김
@@ -92,7 +91,5 @@ public class RunningMateActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        String ex = prefs.getString("ex", "");
-        System.out.println(ex + "ddd");
     }
 }

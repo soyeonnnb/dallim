@@ -90,17 +90,14 @@ public class TimerService extends Service {
     }
 
     private void updateRunDetailList(long elapsedTime) {
-        System.out.println("ㅋㅋ" + elapsedTime);
         int seconds = (int) (elapsedTime / 1000);
-        System.out.println(mateRunningDetail.toString());
-        if (runningViewModel.getOriDistance() != null && runningViewModel.getOriDistance().getValue() != 0) {
-            Double mateDistance = mateRunningDetail.get(seconds);
-            Double curDistance = runningViewModel.getOriDistance().getValue();
-            Log.d("메이트", String.valueOf(mateDistance));
-            Log.d("내기록", String.valueOf(curDistance));
-            runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
-        }
-        System.out.println(seconds);
+//        if (runningViewModel.getOriDistance().getValue() != null && runningViewModel.getOriDistance().getValue() != 0) {
+//            Double mateDistance = mateRunningDetail.get(seconds);
+//            Double curDistance = runningViewModel.getOriDistance().getValue();
+//            Log.d("메이트", String.valueOf(mateDistance));
+//            Log.d("내기록", String.valueOf(curDistance));
+//            runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
+//        }
         runningViewModel.setTotalTime((long) seconds);
         int minutes = seconds / 60;
         seconds = seconds % 60;

@@ -55,13 +55,11 @@ function Main({ navigation }: MainProps) {
           setEquippedCharacterIndex(userInfo.characterIndex);
           setEquippedEvolutionStage(userInfo.evolutionStage);
           setEquippedPlanetIndex(userInfo.planetIndex);
+          
           setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
         }
       } catch (error) {
         console.error('Main : 정보 조회 Axios 실패 ');
-      } finally {
-        setTimeout(() => {
-        }, 1000);
       }
     };
     loadUserInfo();

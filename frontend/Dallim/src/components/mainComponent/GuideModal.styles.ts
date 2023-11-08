@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {ImageBackground, Image} from 'react-native';
+import {ImageBackground} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 export const ModalContainer = styled.View`
@@ -15,6 +15,17 @@ export const ModalContent = styled.View`
   border-radius: 20px;
   width: 90%;
   height: 80%;
+`;
+
+export const StyledPage = styled.View`
+  flex: 1;
+  width: 100%;
+`;
+
+export const StyledImage = styled.Image`
+  /* border-width: 1px;
+  border-color: blue; */
+  width: 100%;
 `;
 
 export const MainBox = styled.View`
@@ -185,12 +196,6 @@ export const ThemeBox = styled.View`
   width: 100%;
   bottom: -30%;
   position: absolute;
-`;
-
-export const StyledImage = styled(Image)`
-  /* border-width: 1px;
-  border-color: blue; */
-  width: 100%;
 `;
 
 export const CharacterBox = styled.View`

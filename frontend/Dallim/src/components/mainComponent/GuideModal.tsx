@@ -1,7 +1,8 @@
 import * as S from './GuideModal.styles';
 import React from 'react';
-import { Modal } from 'react-native';
+import { Modal, View, Image, Dimensions } from 'react-native';
 import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
+import PagerView from 'react-native-pager-view';
 
 interface Props {
   isVisible: boolean;
@@ -11,11 +12,16 @@ interface Props {
 const GuideModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
   const Guides = [
-    require('@/assets/images/MainBackground1.png'),
-    require('@/assets/images/MainBackground2.png'),
-    require('@/assets/images/MainBackground3.png'),
+    require('@/assets/characters/Chick_Background.png'),
+    require('@/assets/characters/Panda_Background.png'),
+    require('@/assets/characters/Rabbit_Background.png'),
   ];
 
+  const renderPage = (imageSource: number, index: number) => (
+    <S.StyledPage key={index} >
+      <S.StyledImage source={imageSource} />
+    </S.StyledPage>
+  );
 
   return (
     <Modal
@@ -38,7 +44,9 @@ const GuideModal: React.FC<Props> = ({ isVisible, onClose }) => {
             </S.Header>
 
             <S.Body>
-
+              <PagerView style={{ flex: 1 }} initialPage={0}>
+                {Guides.map((source, index) => renderPage(source, index))}
+              </PagerView>
             </S.Body>
           </S.MainBox>
         </S.ModalContent>

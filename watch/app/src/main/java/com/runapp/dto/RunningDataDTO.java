@@ -20,6 +20,8 @@ public class RunningDataDTO {
     private double averageHeartRate;
     private String type;
     private String rivalRecordId;
+    private double initLatitude; // 위도
+    private double initLongitude; // 경도
     private List<RunDetail> runningRecordInfos;
 
     // 기본 생성자
@@ -137,6 +139,22 @@ public class RunningDataDTO {
         this.watchOrMobile = watchOrMobile;
     }
 
+    public double getInitLatitude() {
+        return initLatitude;
+    }
+
+    public void setInitLatitude(double initLatitude) {
+        this.initLatitude = initLatitude;
+    }
+
+    public double getInitLongitude() {
+        return initLongitude;
+    }
+
+    public void setInitLongitude(double initLongitude) {
+        this.initLongitude = initLongitude;
+    }
+
     @Override
     public String toString() {
         return "RunningDataDTO{" +
@@ -152,7 +170,9 @@ public class RunningDataDTO {
                 ", averageSpeed=" + averageSpeed +
                 ", averageHeartRate=" + averageHeartRate +
                 ", type='" + type + '\'' +
-                ", rivalRecordId=" + rivalRecordId +
+                ", rivalRecordId='" + rivalRecordId + '\'' +
+                ", initLatitude=" + initLatitude +
+                ", initLongitude=" + initLongitude +
                 ", runningRecordInfos=" + runningRecordInfos +
                 '}';
     }

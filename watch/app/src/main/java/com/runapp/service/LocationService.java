@@ -89,7 +89,6 @@ public class LocationService extends Service {
 
     private void onLocationUpdated(Location location) {
         if (lastLocation != null) {
-
             double speed = location.getSpeed();
             // 초속 0.4 이상이면 걷는 걸로 판단.
             if(speed >= 0.001){
@@ -121,6 +120,11 @@ public class LocationService extends Service {
 
                 double latitude = location.getLatitude(); // 위도
                 double longitude = location.getLongitude(); // 경도
+                if(runningViewModel.getInitLatitude().getValue() == null && runningViewModel.getInitLongitude().getValue() == null) {
+                    System.out.println("들어옴");
+                    runningViewModel.setInitLatitude(latitude);
+                    runningViewModel.setInitLongitude(longitude);
+                }
                 runningViewModel.setLatitude(latitude);
                 runningViewModel.setLongitude(longitude);
             }

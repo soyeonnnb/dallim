@@ -127,7 +127,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/running_moon"
+        android:id="@+id/running_planet"
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:layout_marginLeft="20dp"

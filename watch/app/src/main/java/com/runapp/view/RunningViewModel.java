@@ -31,6 +31,8 @@ public class RunningViewModel extends ViewModel {
     private final MutableLiveData<Long> totalTime = new MutableLiveData<>();
     private final MutableLiveData<Integer> speedCountTime = new MutableLiveData<>();
     private final MutableLiveData<Double> totalSpeed = new MutableLiveData<>();
+    private final MutableLiveData<Double> initLatitude = new MutableLiveData<>();
+    private final MutableLiveData<Double> initLongitude = new MutableLiveData<>();
 
     public MutableLiveData<RunningData> getRunningData() {
         return runningData;
@@ -153,5 +155,19 @@ public class RunningViewModel extends ViewModel {
     }
     public void setSpeedCountTime(Integer value) {
         speedCountTime.setValue(value);
+    }
+
+    public MutableLiveData<Double> getInitLatitude() {
+        return initLatitude;
+    }
+
+    public MutableLiveData<Double> getInitLongitude() {
+        return initLongitude;
+    }
+    public void setInitLongitude(Double value) {
+        initLongitude.setValue(value);
+    }
+    public void setInitLatitude(Double value) {
+        initLatitude.setValue(value);
     }
 }

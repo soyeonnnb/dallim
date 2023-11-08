@@ -74,18 +74,8 @@ public class RunningActivity extends AppCompatActivity {
 
         runningData = new RunningData();
         runningData.setUserId(prefs.getLong("userId", 0L));
-        runningData.setDate(new Date());
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
         runningData.setCharacterId(prefs.getLong("characterIndex", 0L));
-        runningData.setAveragePace(0f);
-        runningData.setAverageSpeed(0f);
-        runningData.setAverageHeartRate(0f);
-        runningData.setWatchOrMobile("WATCH");
-        runningData.setType("PAIR");
-        runningData.setRivalRecordId("654832e0843b0e094bfe4c64");
-
-        System.out.println(prefs.getLong("characterIndex", 0L));
-        System.out.println(prefs.getLong("characterId", 0L));
 
 //         혼자달리기인지 함께달리기인지 구분
         String type = getIntent().getStringExtra("run_type");
@@ -173,6 +163,10 @@ public class RunningActivity extends AppCompatActivity {
         System.out.println("총 속도 : " + totalSpeed);
         System.out.println("총 속도 카운트 : " + speedCountTime);
 
+        // 초기 위경도 추가
+        runningData.setInitLatitude(runningViewModel.getInitLatitude().getValue());
+        runningData.setInitLongitude(runningViewModel.getInitLongitude().getValue());
+
         // 평균 이동 속도(m/s)
         double avgSpeed = Math.round((totalSpeed/speedCountTime) * 100) / 100.0;
         System.out.println("속도 : " + avgSpeed);
@@ -200,7 +194,6 @@ public class RunningActivity extends AppCompatActivity {
             * 비동기적으로 처리되게끔 요청을 큐에 집어넣는다.
             * 그리고 해당 API 호출의 응답이 돌아오면 실행될 콜백 함수를 정의해놓는다.
             * */
-
             runningData.setTranslation(true);
             addRunningData(runningData);
             RunningDataDTO runningDataDTO = runningData.toDTO();

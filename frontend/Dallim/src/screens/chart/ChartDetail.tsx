@@ -66,7 +66,7 @@ function ChartDetail({route, navigation}: Props) {
   const [heartRateData, setHeartRateData] = useState<{
     chartData: HeartChartDataType[];
     secondPerHeartRateSection: number[];
-  }>();
+  }>({chartData: [], secondPerHeartRateSection: []});
 
   const runningInfosToPaceChartData = (
     data: RunningRecordData[],
@@ -166,7 +166,15 @@ function ChartDetail({route, navigation}: Props) {
             <ArrowLeft width={30} height={30} color="transparent" />
           </S.Header>
           <ScrollView horizontal pagingEnabled>
-            {data && <Overview data={data} navigation={navigation} />}
+            {data && (
+              <Overview
+                data={data}
+                navigation={navigation}
+                paceData={paceData}
+                rivalPaceData={rivalPaceData}
+                heartRateData={heartRateData}
+              />
+            )}
             {paceData && (
               <Pace
                 data={paceData}

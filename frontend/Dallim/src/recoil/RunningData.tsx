@@ -26,3 +26,21 @@ export const secondToHourMinuteSeconds = (data: number) => {
     minutes,
   )}:${numberToTwoString(seconds)}`;
 };
+
+export const secondToMinuteText = (time: number) => {
+  const hours = Math.floor(time / 3600); // 시간 계산
+  const minutes = Math.floor((time % 3600) / 60); // 분 계산
+  const seconds = time % 60; // 초 계산
+  if (time >= 3600) {
+    return `${hours}시간 ${minutes}분`;
+  } else if (time >= 60) {
+    return `${minutes}분 ${seconds}초`;
+  } else {
+    return `${seconds}초`;
+  }
+};
+
+export const meterToKMOrMeter = (meter: number, fixed: number = 1) => {
+  if (meter >= 1000) return `${(meter / 1000).toFixed(fixed)}km`;
+  else return `${Math.floor(meter)}m`;
+};

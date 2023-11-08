@@ -5,33 +5,33 @@ import SpeedIcon from '@/assets/icons/SpeedIcon';
 import DistanceIcon from '@/assets/icons/DistanceIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
-import {RecordDetail, RivalRecord} from '@/apis/ChartApi';
-import {calculatePace, secondToHourMinuteSeconds} from '@/recoil/RunningData';
+import {PaceChartDataType, RecordDetail, RivalRecord} from '@/apis/ChartApi';
+import {
+  calculatePace,
+  secondToHourMinuteSeconds,
+  meterToKMOrMeter,
+} from '@/recoil/RunningData';
 import OverviewGraph from './OverviewGraph';
 import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 import {useState, useEffect} from 'react';
 
 interface Props {
-  paceList: itemType[];
   data: RivalRecord;
   navigation: any;
+  paceData?: PaceChartDataType[];
+  rivalPaceData?: PaceChartDataType[];
 }
 
-function OverviewRunningMateRecord({paceList, data, navigation}: Props) {
+function OverviewRunningMateRecord({
+  data,
+  navigation,
+  paceData,
+  rivalPaceData,
+}: Props) {
   const characterImage =
     characterData[data.character.characterIndex].evolutions[
       data.character.evolutionStage
     ].front;
-  const [rivalPaceData, setRivalPaceData] = useState<itemType[]>();
-  useEffect(() => {
-    const paceData: itemType[] = [];
-    data.runningRecordInfos.map(record => {
-      paceData.push({
-        value: record.speed,
-      });
-    });
-    setRivalPaceData(paceData);
-  }, []);
   return (
     <S.Container>
       <S.TitleContainer>
@@ -54,7 +54,10 @@ function OverviewRunningMateRecord({paceList, data, navigation}: Props) {
               type="pace"
               record={calculatePace(data.pace.averagePace)}
             />
-            <RecordPreview type="distance" record={data.totalDistance + 'm'} />
+            <RecordPreview
+              type="distance"
+              record={meterToKMOrMeter(data.totalDistance, 2)}
+            />
             <RecordPreview
               type="time"
               record={secondToHourMinuteSeconds(data.totalTime)}
@@ -65,7 +68,7 @@ function OverviewRunningMateRecord({paceList, data, navigation}: Props) {
       {rivalPaceData && (
         <OverviewGraph
           title="페이스 비교"
-          data={paceList}
+          data={paceData}
           data2={rivalPaceData}
         />
       )}

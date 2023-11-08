@@ -5,19 +5,13 @@ import {LineChart} from 'react-native-gifted-charts';
 import {View, Text} from 'react-native';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
 
-import {PaceChartDataType, PaceSectionType} from '@/apis/ChartApi';
+import {PaceChartDataType, PaceDataType} from '@/apis/ChartApi';
 import {computeMaxAndMinItems} from 'react-native-gifted-charts/src/utils';
 
 interface Props {
   isPair: boolean;
-  data: {
-    chartData: PaceChartDataType[];
-    sectionPace: PaceSectionType[];
-  };
-  rivalData?: {
-    chartData: PaceChartDataType[];
-    sectionPace: PaceSectionType[];
-  };
+  data: PaceDataType;
+  rivalData?: PaceDataType;
   second: number;
   setSecond: any;
 }
@@ -44,19 +38,34 @@ function PaceChart({isPair, data, rivalData, second, setSecond}: Props) {
     setPreviewWidth(width);
   };
 
+  // const handleGestureEvent = (event
   const handleGestureEvent = (event: any) => {
     if (event.nativeEvent.state === State.ACTIVE) {
-      // 이곳에서 ChartBox를 가로로 스크롤하도록 처리합니다.
-      // event.nativeEvent.translationX를 사용하여 가로 스크롤 이동을 처리할 수 있습니다.
+      // 차트의 특정 지점에 대한 데이터를 계산합니다.
+      // 예시 코드이므로 실제로는 이벤트 데이터에 따라 다른 로직이 필요할 수 있습니다.
+      // const dataIndex = calculateDataIndexFromGesture(event.nativeEvent);
+      // const items = data.chartData[dataIndex];
+      // setPreviewTime(secondToHourMinuteSeconds(items.second));
+      // setPreviewPace(items.fromZeroPace);
+      // // 'isPair' 상태가 true이고 rivalData가 있는 경우, 두 번째 데이터도 설정합니다.
+      // if (isPair && rivalData) {
+      //   const rivalItems = rivalData.chartData[dataIndex];
+      //   setPreviewTime2(secondToHourMinuteSeconds(rivalItems.second));
+      //   setPreviewPace2(rivalItems.fromZeroPace);
+      // }
     }
   };
-
-  const handlePreviewData = (items: PaceChartDataType[]) => {
-    setPreviewTime(secondToHourMinuteSeconds(items[0].second));
-    setPreviewPace(items[0].fromZeroPace);
-    if (items[1]) {
-      setPreviewTime2(secondToHourMinuteSeconds(items[1].second));
-      setPreviewPace2(items[1].fromZeroPace);
+  const handlePreviewData = (pointerIndex: number) => {
+    if (pointerIndex === -1) return;
+    setPreviewTime(
+      secondToHourMinuteSeconds(data.chartData[pointerIndex].second),
+    );
+    setPreviewPace(data.chartData[pointerIndex].fromZeroPace);
+    if (rivalData) {
+      setPreviewTime2(
+        secondToHourMinuteSeconds(rivalData.chartData[pointerIndex].second),
+      );
+      setPreviewPace2(rivalData.chartData[pointerIndex].fromZeroPace);
     } else {
       setPreviewTime2('');
       setPreviewPace2('');
@@ -64,7 +73,7 @@ function PaceChart({isPair, data, rivalData, second, setSecond}: Props) {
   };
 
   useEffect(() => {
-    handlePreviewData([data.chartData[data.chartData.length - 1]]);
+    handlePreviewData(data.chartData.length - 1);
     let max = 0;
     data.chartData.map(d => {
       max = max > d.value ? max : d.value;
@@ -142,29 +151,14 @@ function PaceChart({isPair, data, rivalData, second, setSecond}: Props) {
                   activatePointersOnLongPress: true,
                   autoAdjustPointerLabelPosition: false,
                   pointerLabelComponent: (items: any) => {
-                    handlePreviewData(items);
                     return (
-                      <View
-                        style={{
-                          height: 80,
-                          width: 100,
-                          justifyContent: 'center',
-                          marginTop: -20,
-                          marginLeft: -40,
-                        }}>
-                        <View
-                          style={{
-                            paddingHorizontal: 14,
-                            paddingVertical: 6,
-                            borderRadius: 16,
-                            backgroundColor: 'white',
-                          }}>
-                          <Text
-                            style={{fontWeight: 'bold', textAlign: 'center'}}>
-                            {items[0].value + 'm/s'}
-                          </Text>
-                        </View>
-                      </View>
+                      <Label
+                        items={items}
+                        setPreviewTime={setPreviewTime}
+                        setPreviewPace={setPreviewPace}
+                        setPreviewTime2={setPreviewTime2}
+                        setPreviewPace2={setPreviewPace2}
+                      />
                     );
                   },
                 }}
@@ -191,5 +185,53 @@ function DataPreview({width, borderColor, time, pace}: DataPreviewProps) {
       <S.DataPreviewTime>{time}</S.DataPreviewTime>
       <S.DataPreviewPace>{pace}</S.DataPreviewPace>
     </S.DataPreview>
+  );
+}
+
+function Label({
+  items,
+  setPreviewTime,
+  setPreviewPace,
+  setPreviewTime2,
+  setPreviewPace2,
+}: {
+  items: any;
+  setPreviewTime: any;
+  setPreviewPace: any;
+  setPreviewTime2: any;
+  setPreviewPace2: any;
+}) {
+  useEffect(() => {
+    setPreviewTime(secondToHourMinuteSeconds(items[0].second));
+    setPreviewPace(items[0].fromZeroPace);
+    if (items[1]) {
+      setPreviewTime2(secondToHourMinuteSeconds(items[1].second));
+      setPreviewPace2(items[1].fromZeroPace);
+    } else {
+      setPreviewTime2('');
+      setPreviewPace2('');
+    }
+  });
+  return (
+    <View
+      style={{
+        height: 80,
+        width: 100,
+        justifyContent: 'center',
+        marginTop: -20,
+        marginLeft: -40,
+      }}>
+      <View
+        style={{
+          paddingHorizontal: 14,
+          paddingVertical: 6,
+          borderRadius: 16,
+          backgroundColor: 'white',
+        }}>
+        <Text style={{fontWeight: 'bold', textAlign: 'center'}}>
+          {items[0].value + 'm/s'}
+        </Text>
+      </View>
+    </View>
   );
 }

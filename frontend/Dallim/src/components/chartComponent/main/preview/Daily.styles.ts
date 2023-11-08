@@ -33,7 +33,7 @@ export const CardDatas = styled.View`
 `;
 export const CardData = styled.Text`
   color: white;
-  margin-right: 15%;
+  margin-right: 3%;
 `;
 
 export const CardImage = styled(ImageBackground)`

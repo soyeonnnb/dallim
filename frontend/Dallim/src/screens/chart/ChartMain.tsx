@@ -1,17 +1,20 @@
 import {useState, useEffect} from 'react';
 import {useIsFocused} from '@react-navigation/native';
-import * as S from './ChartMain.styles'; // 스타일 컴포넌트 import
+import * as S from './ChartMain.styles';
 
+// 컴포넌트
 import Calendar from '../../components/chartComponent/main/Calendar';
 import Preview from '../../components/chartComponent/main/Preview';
-import {CalendarType} from '@/recoil/CalendarData';
-import {MonthlyRecords, fetchUserCalendarChart} from '@/apis/ChartApi';
 import Loading from '@/components/common/Loading';
+
+// API
+import {MonthlyRecords, fetchUserCalendarChart} from '@/apis/ChartApi';
+import {CalendarType} from '@/recoil/CalendarData';
 
 function Chart() {
   const isFocused = useIsFocused();
 
-  const [isClicked, setIsClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<CalendarType>();
   const [everyRecords, setEveryRecords] = useState<MonthlyRecords[]>([]);
   const [selectedYearMonth, setSelectedYearMonth] = useState<{

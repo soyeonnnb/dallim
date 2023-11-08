@@ -3,12 +3,13 @@ import { useEffect, useState } from 'react';
 import { fetchUserProfile } from '@/apis/MainApi';
 import { characterData } from '@/recoil/CharacterData';
 import { planetData } from '@/recoil/PlanetData';
+import GuideIcon from '@/assets/icons/GuideIcon.png';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
 import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';
 import Loading from '@/components/common/Loading';
+import GuideModal from '@/components/mainComponent/GuideModal';
 
-import { useRecoilState } from 'recoil';
 import {
   userIdState,
   userNicknameState,
@@ -19,6 +20,7 @@ import {
   equippedEvolutionStageState,
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 interface MainProps {
   navigation: any;
@@ -27,12 +29,13 @@ interface MainProps {
 function Main({ navigation }: MainProps) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
+  const [isGuideModalVisible, setGuideModalVisible] = useState(false); // 가이드 모달
 
   const [userId, setUserId] = useRecoilState(userIdState); // 유저 아이디
   const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
   const [userLevel, setUserLevel] = useRecoilState(userLevelState);
-  const [userExp, setUserExp] = useRecoilState(userExpState);
+  const setUserExp = useSetRecoilState(userExpState);
   const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
   const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
   const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
@@ -52,19 +55,22 @@ function Main({ navigation }: MainProps) {
           setEquippedCharacterIndex(userInfo.characterIndex);
           setEquippedEvolutionStage(userInfo.evolutionStage);
           setEquippedPlanetIndex(userInfo.planetIndex);
+          
+          setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
         }
       } catch (error) {
         console.error('Main : 정보 조회 Axios 실패 ');
-      } finally {
-        setTimeout(() => {
-          setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
-        }, 1000);
       }
     };
     loadUserInfo();
   }, []);
 
-  function handleSend() {
+  function GuideAction() {
+    console.log('사용설명서 버튼 눌림!');
+    setGuideModalVisible(true);
+  }
+
+  function StampAction() {
     console.log('출석체크 버튼 눌림!');
     setStampModalVisible(true);
   }
@@ -79,19 +85,33 @@ function Main({ navigation }: MainProps) {
             source={require('@/assets/images/MainBackground4.png')}
             resizeMode="cover">
             <S.Header>
-              <S.HeaderLeft></S.HeaderLeft>
+              <S.HeaderLeft>
+
+              </S.HeaderLeft>
               <S.HeaderRight>
                 <S.PointText>{userPoint} P</S.PointText>
               </S.HeaderRight>
             </S.Header>
 
-            <S.StampBox>
-              <S.Stamp>
-                <S.SendButton onPress={handleSend}>
-                  <S.StampImage source={StampWhiteIcon} />
-                </S.SendButton>
-              </S.Stamp>
-            </S.StampBox>
+            <S.ButtonBox>
+
+              <S.GuideBox>
+                <S.Box>
+                  <S.ButtonStyle onPress={GuideAction}>
+                    <S.ImageStyle source={GuideIcon} resizeMode='contain' />
+                  </S.ButtonStyle>
+                </S.Box>
+              </S.GuideBox>
+
+              <S.StampBox>
+                <S.Box>
+                  <S.ButtonStyle onPress={StampAction}>
+                    <S.ImageStyle source={StampWhiteIcon} resizeMode='contain' />
+                  </S.ButtonStyle>
+                </S.Box>
+              </S.StampBox>
+
+            </S.ButtonBox>
 
             <S.Body>
               <S.ThemeBox>
@@ -128,6 +148,10 @@ function Main({ navigation }: MainProps) {
             <S.TabBox />
           </S.BackgroundImage>
 
+          <GuideModal
+            isVisible={isGuideModalVisible}
+            onClose={() => setGuideModalVisible(false)}
+          />
           <StampModal
             isVisible={isStampModalVisible}
             onClose={() => setStampModalVisible(false)}

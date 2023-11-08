@@ -50,10 +50,10 @@ function Profile({ navigation }: ProfileProps) {
   const equippedEvolutionStage = useRecoilValue(equippedEvolutionStageState);
   const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState);
 
+  // 런닝메이트 데이터 저장
   const [competitorData, setCompetitorData] = useRecoilState(competitorDataState);
 
   //useEffect---------------------------------
-
   useEffect(() => {
     const fetchCompetitorData = async () => {
       try {
@@ -89,19 +89,7 @@ function Profile({ navigation }: ProfileProps) {
       });
     }
   };
-
-  // 개발중
-  // const handleToastTouch = () => {
-  //   Toast.show({
-  //     type: 'error',
-  //     position: 'top',
-  //     text1: '개발중입니다!',
-  //     visibilityTime: 3000,
-  //     autoHide: true,
-  //     topOffset: 10,
-  //   });
-  // };
-
+  
   return (
     <S.Container>
       <S.BackgroundImage

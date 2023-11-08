@@ -1,8 +1,6 @@
 import styled from 'styled-components/native';
 import {ImageBackground} from 'react-native';
 
-// 사용하지 않는 ModalContainer 스타일을 제거했습니다.
-
 export const BackgroundImage = styled(ImageBackground)`
   width: 100%;
   height: 100%;

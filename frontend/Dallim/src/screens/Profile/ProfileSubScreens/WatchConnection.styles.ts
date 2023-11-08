@@ -93,6 +93,8 @@ export const NumberInputText = styled.Text`
   color: white;
 `;
 export const InfoBox = styled.TouchableOpacity`
+border-width: 1px;
+  border-color: blue;
   flex: 0.1;
   justify-content: flex-start;
 `;

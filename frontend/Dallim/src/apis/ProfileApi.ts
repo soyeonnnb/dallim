@@ -132,6 +132,7 @@ export const fetchScheduleList = async () => {
   }
 };
 
+// 런닝메이트 삭제
 export const deleteRunningMate = async (
   competitorId: string,
 ): Promise<boolean> => {

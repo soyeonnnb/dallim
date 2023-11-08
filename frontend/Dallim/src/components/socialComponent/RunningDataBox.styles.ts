@@ -114,7 +114,6 @@ export const AddButton = styled(TouchableOpacity)`
   align-items: center;
   background-color: #2A2C45;
   border-radius: 10px;
-
 `;
 
 export const AddText = styled.Text`

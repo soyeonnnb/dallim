@@ -46,7 +46,7 @@ function GameStartStack({ navigation }: GameStartStackProps) {
       <S.BackgroundImage source={require('@/assets/images/MainBackground5.png')}
         resizeMode="cover">
         <S.Header>
-          <S.CloseButton onPress={() => navigation.navigate('Main')}>
+          <S.CloseButton onPress={() => navigation.navigate('MainMain')}>
             <S.CloseImage source={CloseIcon} />
           </S.CloseButton>
           <S.HeaderBox>

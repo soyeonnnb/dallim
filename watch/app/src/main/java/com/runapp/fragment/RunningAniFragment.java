@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,10 +39,25 @@ public class RunningAniFragment extends Fragment {
         prefs = PreferencesUtil.getEncryptedSharedPreferences(getContext());
         long characterIndex = prefs.getLong("characterIndex", 0L);
         int evolutionStage = prefs.getInt("evolutionStage", 0);
+        long planetIndex = prefs.getLong("planetIndex", 0);
 
         binding = FragmentRunningAniBinding.inflate(getLayoutInflater());
         // Inflate the layout for this fragment
         View view = binding.getRoot();
+        ImageView viewById = view.findViewById(R.id.running_planet);
+        System.out.println(planetIndex + " : 행성 번호");
+
+        if (planetIndex == 0){
+            viewById.setImageResource(R.drawable.planetblack);
+        }else if (planetIndex == 1){
+            viewById.setImageResource(R.drawable.planetyellow);
+        }else if (planetIndex == 2){
+            viewById.setImageResource(R.drawable.planetblue);
+        }else if (planetIndex == 3){
+            viewById.setImageResource(R.drawable.planetpurple);
+        }else if (planetIndex == 4){
+            viewById.setImageResource(R.drawable.planetred);
+        }
 
         if (evolutionStage == 1){
             if (characterIndex == 0){

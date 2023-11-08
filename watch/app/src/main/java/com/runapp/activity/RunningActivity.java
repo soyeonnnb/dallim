@@ -194,7 +194,6 @@ public class RunningActivity extends AppCompatActivity {
             * 비동기적으로 처리되게끔 요청을 큐에 집어넣는다.
             * 그리고 해당 API 호출의 응답이 돌아오면 실행될 콜백 함수를 정의해놓는다.
             * */
-
             runningData.setTranslation(true);
             addRunningData(runningData);
             RunningDataDTO runningDataDTO = runningData.toDTO();

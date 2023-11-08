@@ -31,7 +31,7 @@ public class CalendarWidget extends AppWidgetProvider {
 
     public static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
     public static final String DATA_FETCH_ACTION = "com.dallim.DATA_FETCH_ACTION";
-    public static final String EXTRA_ITEM = "com.dallim.EXT                                                                                                                                                                                                                                                                                                                 RA_ITEM";
+    public static final String EXTRA_ITEM = "com.dallim.EXTRA_ITEM";
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, String[] attendances) {
         Log.d("DDDDDDDDDD", "Widget - updateAppWidget1");
         // RemoteViews를 사용하여 위젯 UI 업데이트

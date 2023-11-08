@@ -18,7 +18,7 @@ import {
   secondToHourMinuteSeconds,
   meterToKMOrMeter,
 } from '@/recoil/RunningData';
-import {fetchRunningMateRunningList} from '@/apis/ChartApi';
+import {PaceChartDataType, fetchRunningMateRunningList} from '@/apis/ChartApi';
 import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 import {colors} from '@/components/common/globalStyles';
 import {useEvent} from 'react-native-reanimated';

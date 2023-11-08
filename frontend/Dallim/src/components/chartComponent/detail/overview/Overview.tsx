@@ -8,7 +8,7 @@ import Run1Icon from '@/assets/icons/Run1Icon';
 import Run2Icon from '@/assets/icons/Run2Icon';
 import Run3Icon from '@/assets/icons/Run3Icon';
 
-import {RecordDetail} from '@/apis/ChartApi';
+import {PaceDataType, RecordDetail, HeartChartDataType} from '@/apis/ChartApi';
 
 import RunningMateRecord from './OverviewRunningMateRecord';
 import OverviewGraph from './OverviewGraph';
@@ -25,17 +25,27 @@ import Loading from '@/components/common/Loading';
 interface Props {
   data?: RecordDetail;
   navigation: any;
+  paceData?: PaceDataType;
+  rivalPaceData?: PaceDataType;
+  heartRateData: {
+    chartData: HeartChartDataType[];
+    secondPerHeartRateSection: number[];
+  };
 }
 
-function Overview({data, navigation}: Props) {
+function Overview({
+  data,
+  navigation,
+  paceData,
+  rivalPaceData,
+  heartRateData,
+}: Props) {
   const [timeline, setTimeLine] = useState<string>('00:00:00 - 00:00:00');
   const [distance, setDistance] = useState<string>('');
   const [spendTime, setSpendTime] = useState<string>('00:00:00');
   const [avgPace, setAvgPace] = useState<string>();
   const [maxPace, setMaxPace] = useState<string>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [paceList, setPaceList] = useState<itemType[]>([]);
-  const [heartRateList, setHeartRateList] = useState<itemType[]>([]);
 
   const stringTimeAddSecond = (date: string, second: number) => {
     const createdDateTime = new Date(date);
@@ -59,14 +69,6 @@ function Overview({data, navigation}: Props) {
       setSpendTime(secondToHourMinuteSeconds(data.totalTime));
       setAvgPace(calculatePace(data.pace.averagePace));
       setMaxPace(calculatePace(data.pace.maxPace));
-      const paces: itemType[] = [];
-      const hearts: itemType[] = [];
-      data.runningRecordInfos.map(d => {
-        paces.push({value: d.speed});
-        hearts.push({value: d.heartRate});
-      });
-      setPaceList(paces);
-      setHeartRateList(hearts);
       setIsLoading(false);
     }
   };
@@ -156,12 +158,13 @@ function Overview({data, navigation}: Props) {
                 color={colors.neon.red}
               />
             </S.WalkRecords>
-            <OverviewGraph title="페이스" data={paceList} />
-            <OverviewGraph title="심박수" data={heartRateList} />
+            <OverviewGraph title="페이스" data={paceData?.chartData} />
+            <OverviewGraph title="심박수" data={heartRateData.chartData} />
             {data?.rivalRecord ? (
               <RunningMateRecord
                 data={data.rivalRecord}
-                paceList={paceList}
+                paceData={paceData?.chartData}
+                rivalPaceData={rivalPaceData?.chartData}
                 navigation={navigation}
               />
             ) : (

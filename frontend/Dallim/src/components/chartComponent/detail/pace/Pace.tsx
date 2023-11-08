@@ -4,17 +4,15 @@ import PaceChart from './PaceChart';
 import PaceRecord from './PaceRecord';
 import {Switch} from 'react-native-gesture-handler';
 
-import {PaceChartDataType, PaceSectionType} from '@/apis/ChartApi';
+import {
+  PaceChartDataType,
+  PaceDataType,
+  PaceSectionType,
+} from '@/apis/ChartApi';
 
 interface Props {
-  data: {
-    chartData: PaceChartDataType[];
-    sectionPace: PaceSectionType[];
-  };
-  rivalData?: {
-    chartData: PaceChartDataType[];
-    sectionPace: PaceSectionType[];
-  };
+  data: PaceDataType;
+  rivalData?: PaceDataType;
   isAlone: boolean;
 }
 

@@ -62,7 +62,7 @@ export default function Carousel({
             data={competitorData}
             decelerationRate="fast"
             horizontal
-            keyExtractor={(item: any) => `page__${item.id}`}
+            keyExtractor={(item: any) => `page__${item.runnigMateId}`}
             onScroll={onScroll}
             pagingEnabled
             renderItem={renderItem}

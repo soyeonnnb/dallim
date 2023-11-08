@@ -116,9 +116,13 @@ public class RunningAniFragment extends Fragment {
             distanceView.setText(distance.toString());
         });
 
-        if (runningViewModel.getDistanceDifference().getValue() != null){
+        TextView distanceDifferenceView = view.findViewById(R.id.distance_difference);
+        if (runningViewModel.getDistanceDifference().getValue() != null && runningViewModel.getDistanceDifference().getValue() == -1.0){
+            distanceDifferenceView.setVisibility(View.GONE);
+            System.out.println("들어옴");
+        } else if(runningViewModel.getDistanceDifference().getValue() != null && runningViewModel.getDistanceDifference().getValue() != 0){
             Log.e("차이", String.valueOf(runningViewModel.getDistanceDifference().getValue()));
-            TextView distanceDifferenceView = view.findViewById(R.id.distance_difference);
+            distanceDifferenceView = view.findViewById(R.id.distance_difference);
             distanceDifferenceView.setText(String.valueOf(runningViewModel.getDistanceDifference().getValue()));
         }
 

@@ -76,7 +76,6 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
     public void onBindViewHolder(@NonNull RunningMateDataAdapter.ViewHolder holder, int position) {
         RunningMate runningMate = runningMateList.get(position);
         holder.currentRunningMate = runningMate;
-        System.out.println(runningMate.toString());
 
         holder.formattedDate.setText(conversion.LocalDateTimeToDate(runningMate.getCreatedAt()));
         
@@ -139,6 +138,7 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
             Button selectMate = itemView.findViewById(R.id.select_running_mate_btn);
             selectMate.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext(), R.style.CustomDialogTheme);
+                SharedPreferences.Editor edit = prefs.edit();
 
                 LayoutInflater inflater = LayoutInflater.from(itemView.getContext());
                 // multi_popup.xml을 가져와서 객체로 생성
@@ -148,15 +148,18 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
                 TextView mateNickname = customView.findViewById(R.id.running_mate_nickname);
                 mateNickname.setText("'"+currentRunningMate.getNickName()+"' 님과");
 
-                SharedPreferences.Editor edit = prefs.edit();
+
                 String runningRecordId1 = prefs.getString("runningRecordId", "");
+                // 내부 저장소에 기록 아이디 있으면 삭제
                 if (!runningRecordId1.equals("")){
                     edit.remove("runningRecordId");
                     edit.apply();
                 }
+
                 String runningRecordId = currentRunningMate.getRunningRecordId();
                 edit.putString("runningRecordId", runningRecordId);
                 edit.apply();
+                // 러닝메이트 기록 가져와서 sqlite에 저장
                 runningService.getRunningMateRunningRecord(activity, runningRecordId);
 
                 // builder 내용으로 AlertDialog 생성
@@ -192,8 +195,6 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
     public SpannableString convertTime(Long time){
         int minutes = (int) (time / 60);
         int seconds = (int) (time % 60);
-        System.out.println(minutes + "분");
-        System.out.println(seconds + "초");
 
         String timeStr = String.format("%02d분 %02d초", minutes, seconds);
         SpannableString spannableString = new SpannableString(timeStr);

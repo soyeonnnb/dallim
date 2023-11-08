@@ -64,7 +64,7 @@ public class SettingActivity extends AppCompatActivity {
 
                 builder.setView(customView);
 
-                // builder 내용으로 AlertDialog 생성
+                // builder 내용으로 AlertDialog 생성ㅇ
                 AlertDialog dialog = builder.create();
 
                 // AlertDialog 보이기

@@ -23,6 +23,6 @@ public interface RunningMateRecordDAO {
     void deleteRunningMateRunningRecord();
 
     // 모든 러닝메이트 기록 가져오기
-    @Query("SELECT running_record_infos FROM runningmaterecord")
-    List<String> getRunningMateRunningRecord();
+    @Query("SELECT * FROM runningmaterecord")
+    RunningMateRecord getRunningMateRunningRecord();
 }

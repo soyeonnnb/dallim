@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.runapp.R;
 import com.runapp.database.RunningDataConverters;
 import com.runapp.model.RunDetail;
+import com.runapp.model.RunningMateRecord;
 import com.runapp.service.RunningService;
 import com.runapp.util.PreferencesUtil;
 
@@ -32,16 +33,8 @@ public class LoadingActivity extends AppCompatActivity {
 
         runningService.getRunningMateRunningData(new RunningService.DataCallback() {
             @Override
-            public void onDataLoaded(List<String> records) {
-                System.out.println(records);
+            public void onDataLoaded(RunningMateRecord records) {
                 List<Double> value = new ArrayList<>();
-                for (String json : records) {
-                    List<RunDetail> runDetails = RunningDataConverters.toRunDetailList(json);
-                    for(RunDetail r : runDetails){
-                        double distance = r.getDistance();
-                        value.add(distance);
-                    }
-                }
                 System.out.println("성공");
                 SharedPreferences.Editor edit = prefs.edit();
                 System.out.println(value);

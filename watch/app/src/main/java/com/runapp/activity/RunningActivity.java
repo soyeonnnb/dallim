@@ -21,6 +21,7 @@ import com.runapp.databinding.ActivityRunningBinding;
 import com.runapp.dto.RunningDataDTO;
 import com.runapp.model.RunDetail;
 import com.runapp.model.RunningData;
+import com.runapp.model.RunningMateRecord;
 import com.runapp.service.LocationService;
 import com.runapp.service.RunningService;
 import com.runapp.service.SensorService;
@@ -83,32 +84,13 @@ public class RunningActivity extends AppCompatActivity {
         runningData.setUserId(prefs.getLong("userId", 0L));
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
         runningData.setCharacterId(prefs.getLong("characterIndex", 0L));
+        runningData.setEvolutionStage(prefs.getInt("evolutionStage", 0));
 
-//         혼자달리기인지 함께달리기인지 구분
+
         String type = getIntent().getStringExtra("run_type");
+        // 같이 달리기
         if(type.equals("PAIR")){
             runningData.setType("PAIR");
-            runningService.getRunningMateRunningData(new RunningService.DataCallback() {
-                @Override
-                public void onDataLoaded(List<String> records) {
-                    List<Double> value = new ArrayList<>();
-                    for (String json : records) {
-                        List<RunDetail> runDetails = RunningDataConverters.toRunDetailList(json);
-                        for(RunDetail r : runDetails){
-                            double distance = r.getDistance();
-                            value.add(distance);
-                        }
-                    }
-                    long endTime = System.currentTimeMillis();
-                    System.out.println("걸린 시간 : " + (endTime - startTime));
-
-                    startForegroundService(locationIntent);
-                    startForegroundService(sensorIntent);
-                    String data = RunningDataConverters.doubleFromList(value);
-                    timerServiceIntent.putExtra("running_mate_record", data);
-                    startForegroundService(timerServiceIntent);
-                }
-            });
             String runningRecordId = prefs.getString("runningRecordId", null);
             runningData.setRivalRecordId(runningRecordId);
             // 러닝 뷰 모델을 생성한다.
@@ -144,6 +126,7 @@ public class RunningActivity extends AppCompatActivity {
             runningViewModel.setDistance(0f);
             runningViewModel.setStepCount(0f);
             runningViewModel.setMsSpeed(0f);
+            runningViewModel.setDistanceDifference(-1.0);
             runningViewModel.setMsPace("0'00''");
 
             // 뷰페이저2를 생성(activity_running.xml에서 가져옴)
@@ -228,8 +211,6 @@ public class RunningActivity extends AppCompatActivity {
         Map<String, Integer> result = conversion.msToPace((totalSpeed / speedCountTime));
         int minute = result.get("minutes");
         int second = result.get("seconds");
-        System.out.println(minute + "분");
-        System.out.println(second + "초");
         runningData.setAveragePace((60 * minute) + second);
 
         // 최종 시간 업데이트

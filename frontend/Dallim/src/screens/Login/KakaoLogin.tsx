@@ -74,7 +74,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
       });
     }
   };
-
+  //
   return (
     <View style={{flex: 1}}>
       {isLoading ? (

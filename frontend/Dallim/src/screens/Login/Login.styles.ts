@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import {Image} from 'react-native';
+import {Image, ImageBackground} from 'react-native';
 import Video from 'react-native-video';
 
 export const BackgroundVideo = styled(Video)`
@@ -10,16 +10,22 @@ export const BackgroundVideo = styled(Video)`
   right: 0;
 `;
 
+export const BackgroundImage = styled(ImageBackground)`
+  border-width: 1px;
+  border-color: blue;
+  width: 100%;
+  height: 100%;
+`;
+
 export const Container = styled.View`
   flex: 1;
-  justify-content: center;
   align-items: center;
   /* background-color: transparent; */
 `;
 
 export const Top = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
+  border-width: 1px;
+  border-color: blue;
   justify-content: flex-end;
   align-items: center;
   width: 100%;
@@ -27,37 +33,39 @@ export const Top = styled.View`
 `;
 
 export const TitleBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   align-items: center;
   width: 200px;
-  height: 30px;
+  height: 40px;
 `;
 
-export const TitleImage = styled(Image)`
+export const TitleImage = styled.Image`
   width: 90%;
   height: 100%;
 `;
 
 export const Body = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50%;
+  height: 30%;
 `;
 
 export const BodyBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   justify-content: center;
   align-items: center;
   width: 80%;
   height: 85%;
 `;
 
-export const StyledImage = styled(Image)`
+export const StyledImage = styled.Image`
+  border-width: 1px;
+  border-color: blue;
   width: 250px;
   height: 330px;
 `;
@@ -67,13 +75,13 @@ export const Title = styled.Text`
   margin-bottom: 20px;
 `;
 
-export const Bottom = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+export const Footer = styled.View`
+  border-width: 1px;
+  border-color: red;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 30%;
+  height: 50%;
 `;
 
 export const NaverButton = styled.TouchableOpacity`

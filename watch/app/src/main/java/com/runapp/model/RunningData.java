@@ -47,9 +47,21 @@ public class RunningData {
     private String watchOrMobile;
     @ColumnInfo(name = "is_translation")
     private Boolean isTranslation;
+    @ColumnInfo(name = "init_latitude")
+    private double initLatitude; // 시작 위도
+    @ColumnInfo(name = "init_longitude")
+    private double initLongitude; // 시작 경도
     @TypeConverters(RunningDataConverters.class)
     @ColumnInfo(name = "running_record_infos")
     private List<RunDetail> runningRecordInfos;
+
+    public RunningData() {
+        this.date = new Date();
+        this.averagePace = 0;
+        this.averageHeartRate = 0;
+        this.averageSpeed = 0;
+        this.watchOrMobile = "WATCH";
+    }
 
     public RunningDataDTO toDTO(){
         RunningDataDTO dto = new RunningDataDTO();
@@ -67,6 +79,8 @@ public class RunningData {
         dto.setRunningRecordInfos(this.runningRecordInfos);
         dto.setDate(change(this.date.getTime()));
         dto.setWatchOrMobile("WATCH");
+        dto.setInitLatitude(this.initLatitude);
+        dto.setInitLongitude(this.initLongitude);
         return dto;
     }
 
@@ -196,6 +210,22 @@ public class RunningData {
 
     public void setTranslation(Boolean translation) {
         isTranslation = translation;
+    }
+
+    public double getInitLatitude() {
+        return initLatitude;
+    }
+
+    public void setInitLatitude(double initLatitude) {
+        this.initLatitude = initLatitude;
+    }
+
+    public double getInitLongitude() {
+        return initLongitude;
+    }
+
+    public void setInitLongitude(double initLongitude) {
+        this.initLongitude = initLongitude;
     }
 
     public LocalDateTime change(Long timestamp) {

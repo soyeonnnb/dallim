@@ -96,6 +96,7 @@ public class TimerService extends Service {
         System.out.println("ㅋㅋ"+elapsedTime);
         long millis = elapsedTime;
         int seconds = (int) (millis / 1000);
+        System.out.println(seconds);
         runningViewModel.setTotalTime((long) seconds);
         int minutes = seconds / 60;
         seconds = seconds % 60;

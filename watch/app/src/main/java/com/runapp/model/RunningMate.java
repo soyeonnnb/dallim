@@ -10,6 +10,10 @@ import java.time.LocalDateTime;
 public class RunningMate {
     @PrimaryKey(autoGenerate = true)
     private Long id;
+    @ColumnInfo(name = "running_record_id")
+    private String runningRecordId; // 기록에 대한 id
+    @ColumnInfo(name = "running_mate_id")
+    private String runningMateId; // 러닝메이트 id
     @ColumnInfo(name = "user_id")
     private Long userId;
     @ColumnInfo(name = "nick_name")
@@ -20,8 +24,8 @@ public class RunningMate {
     private int planetIndex;
     @ColumnInfo(name = "level")
     private int level;
-    @ColumnInfo(name = "average_speed")
-    private double averageSpeed;
+    @ColumnInfo(name = "average_pace")
+    private double averagePace;
     @ColumnInfo(name = "total_distance")
     private double totalDistance;
     @ColumnInfo(name = "total_time")
@@ -79,12 +83,12 @@ public class RunningMate {
         this.level = level;
     }
 
-    public double getAverageSpeed() {
-        return averageSpeed;
+    public double getAveragePace() {
+        return averagePace;
     }
 
-    public void setAverageSpeed(double averageSpeed) {
-        this.averageSpeed = averageSpeed;
+    public void setAveragePace(double averagePace) {
+        this.averagePace = averagePace;
     }
 
     public double getTotalDistance() {
@@ -119,16 +123,34 @@ public class RunningMate {
         this.createdAt = createdAt;
     }
 
+    public String getRunningRecordId() {
+        return runningRecordId;
+    }
+
+    public void setRunningRecordId(String runningRecordId) {
+        this.runningRecordId = runningRecordId;
+    }
+
+    public String getRunningMateId() {
+        return runningMateId;
+    }
+
+    public void setRunningMateId(String runningMateId) {
+        this.runningMateId = runningMateId;
+    }
+
     @Override
     public String toString() {
         return "RunningMate{" +
                 "id=" + id +
+                ", runningRecordId='" + runningRecordId + '\'' +
+                ", runningMateId='" + runningMateId + '\'' +
                 ", userId=" + userId +
                 ", nickName='" + nickName + '\'' +
                 ", characterIndex=" + characterIndex +
                 ", planetIndex=" + planetIndex +
                 ", level=" + level +
-                ", averageSpeed=" + averageSpeed +
+                ", averagePace=" + averagePace +
                 ", totalDistance=" + totalDistance +
                 ", totalTime=" + totalTime +
                 ", isClear=" + isClear +

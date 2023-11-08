@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.runapp.dto.response.RunningMateRunningRecordDTO;
 import com.runapp.model.runningMate.Character;
 import com.runapp.model.runningMate.HeartRate;
 import com.runapp.model.runningMate.Pace;
@@ -23,7 +24,7 @@ public class RunningMateRecord {
     @ColumnInfo(name = "watch_or_mobile")
     private String watchOrMobile;
     @ColumnInfo(name = "second_per_speed")
-    private List<Integer> secondPerSpeed;
+    private List<Double> secondPerSpeed;
     @ColumnInfo(name = "heart_rate")
     private HeartRate heartRate;
     @ColumnInfo(name = "pace")
@@ -46,6 +47,30 @@ public class RunningMateRecord {
     private double averageSpeed;
     @ColumnInfo(name = "created_at")
     private LocalDateTime createdAt;
+
+    public RunningMateRecord() {
+    }
+
+    public RunningMateRecord toEntity(RunningMateRunningRecordDTO runningMateRunningRecordDTO){
+
+        RunningMateRecord runningMateRecord = new RunningMateRecord();
+        runningMateRecord.setLocation(runningMateRunningRecordDTO.getLocation());
+        runningMateRecord.setWatchOrMobile(runningMateRunningRecordDTO.getWatchOrMobile());
+        runningMateRecord.setSecondPerSpeed(runningMateRunningRecordDTO.getSecondPerSpeed());
+        runningMateRecord.setHeartRate(runningMateRunningRecordDTO.getHeartRate());
+        runningMateRecord.setPace(runningMateRunningRecordDTO.getPace());
+        runningMateRecord.setStepCount(runningMateRunningRecordDTO.getStepCount());
+        runningMateRecord.setUser(runningMateRunningRecordDTO.getUser());
+        runningMateRecord.setCharacter(runningMateRunningRecordDTO.getCharacter());
+        runningMateRecord.setType(runningMateRunningRecordDTO.getType());
+        runningMateRecord.setRunningRecordInfos(runningMateRunningRecordDTO.getRunningRecordInfos());
+        runningMateRecord.setTotalDistance(runningMateRunningRecordDTO.getTotalDistance());
+        runningMateRecord.setTotalTime(runningMateRunningRecordDTO.getTotalTime());
+        runningMateRecord.setAverageSpeed(runningMateRunningRecordDTO.getAverageSpeed());
+        runningMateRecord.setCreatedAt(runningMateRunningRecordDTO.getCreatedAt());
+
+        return runningMateRecord;
+    }
 
     public Long getId() {
         return id;
@@ -71,11 +96,11 @@ public class RunningMateRecord {
         this.watchOrMobile = watchOrMobile;
     }
 
-    public List<Integer> getSecondPerSpeed() {
+    public List<Double> getSecondPerSpeed() {
         return secondPerSpeed;
     }
 
-    public void setSecondPerSpeed(List<Integer> secondPerSpeed) {
+    public void setSecondPerSpeed(List<Double> secondPerSpeed) {
         this.secondPerSpeed = secondPerSpeed;
     }
 

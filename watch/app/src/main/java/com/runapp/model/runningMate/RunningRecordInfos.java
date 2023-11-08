@@ -73,4 +73,18 @@ public class RunningRecordInfos {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    @Override
+    public String toString() {
+        return "RunningRecordInfos{" +
+                "second=" + second +
+                ", heartRate=" + heartRate +
+                ", distance=" + distance +
+                ", speed=" + speed +
+                ", pace=" + pace +
+                ", state='" + state + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
 }

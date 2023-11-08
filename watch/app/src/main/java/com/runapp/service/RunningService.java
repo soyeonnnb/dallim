@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.runapp.activity.CountdownActivity;
 import com.runapp.activity.RunningMateActivity;
 import com.runapp.database.AppDatabase;
 import com.runapp.dto.response.ApiResponseDTO;
@@ -153,7 +154,8 @@ public class RunningService {
                     List<RunningMateResponseDTO> dtoList = response.body().getData();
                     for(RunningMateResponseDTO dto : dtoList){
                         RunningMate runningMate = new RunningMate();
-                        runningMate.setObjectId(dto.getId());
+                        runningMate.setRunningRecordId(dto.getRunningRecordId());
+                        runningMate.setRunningMateId(dto.getRunningMateId());
                         runningMate.setAveragePace(dto.getAveragePace());
                         runningMate.setClear(dto.isClear());
                         runningMate.setTotalDistance(dto.getTotalDistance());
@@ -193,18 +195,15 @@ public class RunningService {
             @Override
             public void onResponse(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Response<ApiResponseDTO<RunningMateRunningRecordDTO>> response) {
                 if (response.isSuccessful() && response != null){
-                    System.out.println(response.body().toString());
-                    System.out.println(response.body().getData().toString());
+                    RunningMateRunningRecordDTO data = response.body().getData();
+                    RunningMateRecord runningMateRecord = new RunningMateRecord();
+                    runningMateRecord = runningMateRecord.toEntity(data);
+
+                    addRunningMateRunningData(runningMateRecord);
                     Log.d("성공", "성공");
                 }else{
                     Log.d("실패", "실패1");
                 }
-                // 러닝메이트 저장
-//                RunningMateRecord ru = new RunningMateRecord();
-//                addRunningMateRunningData(ru);
-//                // 데이터 저장 후 RunningMateActivity 시작
-//                Intent intent = new Intent(currentActivity, RunningMateActivity.class);
-//                currentActivity.startActivity(intent);
             }
             @Override
             public void onFailure(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Throwable t) {

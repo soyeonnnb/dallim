@@ -1,157 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.SelectActivity">
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="220dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/background" />
-
-    <ScrollView
-        android:id="@+id/select_scroll_view"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        >
+        android:layout_height="match_parent">
 
-        <LinearLayout
+
+        <androidx.wear.widget.WearableRecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
-            android:paddingBottom="30dp">
+            android:layout_height="match_parent"
+            android:background="@drawable/background"
+            android:scrollbars="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/btn_single"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:background="@drawable/round_select_menu_list"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_multi">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/penguinegg" />
 
-        <TextView
-            android:layout_width="115dp"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/insungit_cutelively_jisu_regular"
-            android:text="혼자 달리기"
-            android:layout_marginLeft="25dp"
-            android:textColor="@color/white"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/btn_multi"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:background="@drawable/round_select_menu_list"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_single"
-        app:layout_constraintBottom_toTopOf="@id/btn_my_record">
 
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/chickegg" />
-
-        <TextView
-            android:layout_width="115dp"
-            android:layout_height="wrap_content"
-            android:text="함께 달리기"
-            android:fontFamily="@font/insungit_cutelively_jisu_regular"
-            android:layout_marginLeft="25dp"
-            android:textColor="@color/white"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/btn_my_record"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:background="@drawable/round_select_menu_list"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:layout_marginBottom="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_multi"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/pandaegg" />
-
-        <TextView
-            android:layout_width="115dp"
-            android:layout_height="wrap_content"
-            android:text="기록 보기"
-            android:fontFamily="@font/insungit_cutelively_jisu_regular"
-            android:layout_marginLeft="35dp"
-            android:textColor="@color/white"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/btn_setting"
-        android:layout_width="200dp"
-        android:layout_height="80dp"
-        android:background="@drawable/round_select_menu_list"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:layout_marginBottom="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_multi"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/rabbitegg" />
-
-        <TextView
-            android:layout_width="115dp"
-            android:layout_height="wrap_content"
-            android:text="설정"
-            android:fontFamily="@font/insungit_cutelively_jisu_regular"
-            android:layout_marginLeft="45dp"
-            android:textColor="@color/white"
-            android:textSize="18dp"
-            android:textStyle="bold" />
-    </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-</FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

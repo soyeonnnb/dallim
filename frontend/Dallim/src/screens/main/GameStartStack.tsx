@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 
 import AloneRunModal from '@/components/mainComponent/AloneRunModal';
-// import TogetherModal from 
 
 interface GameStartStackProps {
   navigation: any;

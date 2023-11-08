@@ -57,18 +57,13 @@ export const ButtonBox = styled.View`
   flex-direction: row;
 `;
 
-export const BgmBox = styled.View`
+export const GuideBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 20%;
   height: 100%;
   justify-content: center;
   align-items: flex-start;
-`;
-
-export const BgmButton = styled.TouchableOpacity`
-  width: 100%;
-  height: 100%;
 `;
 
 export const StampBox = styled.View`
@@ -83,16 +78,16 @@ export const StampBox = styled.View`
 export const Box = styled.View`
   /* border-width: 1px;
   border-color: blue; */
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 `;
 
-export const StampImage = styled.Image`
+export const ImageStyle = styled.Image`
   width: 100%;
   height: 100%;
 `;
 
-export const StampButton = styled.TouchableOpacity`
+export const ButtonStyle = styled.TouchableOpacity`
   width: 100%;
   height: 100%;
 `;

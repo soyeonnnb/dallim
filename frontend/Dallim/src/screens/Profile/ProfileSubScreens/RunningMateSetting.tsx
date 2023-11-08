@@ -51,7 +51,7 @@ function RunningMateSetting({ navigation }: RunningMateSettingProps) {
 
   //action
   const showDeleteModal = () => {
-    // selectedCardNum이 null이 아니고, 정상 범위 내에 있는지 확인합니다.
+    // selectedCardNum이 null이 아니고, 정상 범위 내에 있는지 확인
     if (selectedCardNum !== null && selectedCardNum > 0 && selectedCardNum <= competitorData.length) {
       const currentCompetitorId = competitorData[selectedCardNum - 1]?.id;
       if (currentCompetitorId) {
@@ -63,7 +63,7 @@ function RunningMateSetting({ navigation }: RunningMateSettingProps) {
 
   const handleDeleteSuccess = () => {
     setDeleteModalVisible(false);
-    setSelectedCardNum(null); // 삭제 후 선택된 카드 번호를 리셋합니다.
+    setSelectedCardNum(null); // 삭제 후 선택된 카드 번호를 리셋
   };
 
   return (

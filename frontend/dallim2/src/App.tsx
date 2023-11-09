@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import * as S from "./App.styles";
-
 // page components
 import Main from "./components/Main";
 import Running from "./components/Running";
@@ -11,14 +10,17 @@ import Widget from "./components/Widget";
 
 function App() {
   return (
-    <S.Container>
-      <Main />
-      <Running />
-      <RunningMate />
-      <Statistics />
-      <Theme />
-      <Widget />
-    </S.Container>
+    <>
+      <S.GlobalStyle />
+      <S.Container>
+        <Main />
+        <Running />
+        <RunningMate />
+        <Statistics />
+        <Theme />
+        <Widget />
+      </S.Container>
+    </>
   );
 }
 

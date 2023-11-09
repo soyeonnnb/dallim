@@ -13,5 +13,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Runapp"
+rootProject.name = "Dallim"
 include(":app")

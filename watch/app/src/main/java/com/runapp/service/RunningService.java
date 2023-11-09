@@ -171,11 +171,13 @@ public class RunningService {
 
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
+        Log.d("액세스", token);
         Call<ApiResponseListDTO<RunningMateResponseDTO>> call = ApiUtil.getApiService().getRunningMate(token);
+        Log.d("응답", "들어옴");
+        Log.d("call 로그", call.toString());
         call.enqueue(new Callback<ApiResponseListDTO<RunningMateResponseDTO>>() {
             @Override
             public void onResponse(Call<ApiResponseListDTO<RunningMateResponseDTO>> call, Response<ApiResponseListDTO<RunningMateResponseDTO>> response) {
-                System.out.println(response.body());
                 List<RunningMate> runningMates = new ArrayList<>();
                 Log.d("내 러닝메이트 리스트(성공)", response.body().getData().toString());
                 if (response.isSuccessful() && response != null){
@@ -206,10 +208,11 @@ public class RunningService {
                     // 이후 에러처리 해야함.
                 }
             }
-
             @Override
             public void onFailure(Call<ApiResponseListDTO<RunningMateResponseDTO>> call, Throwable t) {
                 Log.e("내 러닝메이트 리스트(응답실패)", t.getMessage());
+
+                t.printStackTrace();
             }
         });
     }
@@ -222,14 +225,14 @@ public class RunningService {
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
         long start = System.currentTimeMillis();
-        Call<ApiResponseDTO<RunningMateRecord>> call = ApiUtil.getApiService().getRunningMateRecord(token, objectId);
-        call.enqueue(new Callback<ApiResponseDTO<RunningMateRecord>>() {
+        Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call = ApiUtil.getApiService().getRunningMateRecord(token, objectId);
+        call.enqueue(new Callback<ApiResponseDTO<RunningMateRunningRecordDTO>>() {
             @Override
-            public void onResponse(Call<ApiResponseDTO<RunningMateRecord>> call, Response<ApiResponseDTO<RunningMateRecord>> response) {
+            public void onResponse(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Response<ApiResponseDTO<RunningMateRunningRecordDTO>> response) {
                 if (response.isSuccessful() && response != null){
                     long end1 = System.currentTimeMillis();
                     Log.d("스프링api", String.valueOf(end1-start));
-                    RunningMateRecord mateRunningData = response.body().getData();
+                    RunningMateRunningRecordDTO mateRunningData = response.body().getData();
                     RunningMateRecord runningMateRecord = new RunningMateRecord();
                     runningMateRecord.setDistance(mateRunningData.getDistance());
                     runningMateRecord.setAveragePace(mateRunningData.getAveragePace());
@@ -246,7 +249,7 @@ public class RunningService {
                 }
             }
             @Override
-            public void onFailure(Call<ApiResponseDTO<RunningMateRecord>> call, Throwable t) {
+            public void onFailure(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Throwable t) {
                 Log.e("러닝메이트 기록 가져오기(응답실패)", t.getMessage());
             }
         });

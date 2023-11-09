@@ -5,11 +5,13 @@ import com.google.gson.GsonBuilder;
 import com.runapp.adapter.LocalDateTimeAdapter;
 import com.runapp.service.ApiService;
 
+import org.brotli.dec.BrotliInputStream;
+
 import java.time.LocalDateTime;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ApiUtil {
 
@@ -22,8 +24,13 @@ public class ApiUtil {
                     .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                     .create();
 
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .addInterceptor(new BrotliInterceptor())
+                    .build();
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
+                    .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
 

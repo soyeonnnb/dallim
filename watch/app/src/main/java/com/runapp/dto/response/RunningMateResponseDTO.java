@@ -1,5 +1,7 @@
 package com.runapp.dto.response;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.time.LocalDateTime;
 
 public class RunningMateResponseDTO {
@@ -8,13 +10,16 @@ public class RunningMateResponseDTO {
     private Long userId;
     private String nickName;
     private int characterIndex;
+    private int evolutionStage;
     private int planetIndex;
     private int level;
     private double averagePace;
     private double totalDistance;
     private double totalTime;
-    private boolean clear;
+    @SerializedName("clear")
+    private boolean isClear;
     private LocalDateTime createdAt;
+
 
     public RunningMateResponseDTO() {
     }
@@ -100,11 +105,19 @@ public class RunningMateResponseDTO {
     }
 
     public boolean isClear() {
-        return clear;
+        return isClear;
     }
 
     public void setClear(boolean clear) {
-        this.clear = clear;
+        isClear = clear;
+    }
+
+    public int getEvolutionStage() {
+        return evolutionStage;
+    }
+
+    public void setEvolutionStage(int evolutionStage) {
+        this.evolutionStage = evolutionStage;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -123,12 +136,13 @@ public class RunningMateResponseDTO {
                 ", userId=" + userId +
                 ", nickName='" + nickName + '\'' +
                 ", characterIndex=" + characterIndex +
+                ", evolutionStage=" + evolutionStage +
                 ", planetIndex=" + planetIndex +
                 ", level=" + level +
                 ", averagePace=" + averagePace +
                 ", totalDistance=" + totalDistance +
                 ", totalTime=" + totalTime +
-                ", clear=" + clear +
+                ", clear=" + isClear +
                 ", createdAt=" + createdAt +
                 '}';
     }

@@ -41,7 +41,7 @@ public interface ApiService {
 
     // 러닝메이트 기록 가져오기
     @GET("api/v1/running/{id}")
-    Call<ApiResponseDTO<RunningMateRecord>> getRunningMateRecord(@Header("Authorization") String token, @Path("id") String runningRecordId);
+    Call<ApiResponseDTO<RunningMateRunningRecordDTO>> getRunningMateRecord(@Header("Authorization") String token, @Path("id") String runningRecordId);
 
     // 유저 정보 가져오기
     @GET("api/v1/user/watch")

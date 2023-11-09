@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -40,7 +41,12 @@ import com.runapp.util.PreferencesUtil;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -77,20 +83,33 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
         RunningMate runningMate = runningMateList.get(position);
         holder.currentRunningMate = runningMate;
 
-        holder.formattedDate.setText(conversion.LocalDateTimeToDate(runningMate.getCreatedAt()));
+        holder.formattedDate.setText(formatDate(runningMate.getCreatedAt()));
         
         holder.time.setText(convertTime((long) runningMate.getTotalTime()));
 
         // 상대방이 달린 캐릭터
+        int evolutionStage = runningMate.getEvolutionStage();
         int characterIndex = runningMate.getCharacterIndex();
-        if(characterIndex == 0){
-            holder.runningMateRecordCharacter.setImageResource(R.drawable.rabbit);
-        }else if(characterIndex == 1){
-            holder.runningMateRecordCharacter.setImageResource(R.drawable.penguin);
-        }else if(characterIndex == 2){
-            holder.runningMateRecordCharacter.setImageResource(R.drawable.panda);
-        }else if(characterIndex == 3){
-            holder.runningMateRecordCharacter.setImageResource(R.drawable.chick);
+        if (evolutionStage == 0){
+            if(characterIndex == 0){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.rabbitegg_background_black);
+            }else if(characterIndex == 1){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.penguinegg_background_black);
+            }else if(characterIndex == 2){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.pandaegg_background_black);
+            }else if(characterIndex == 3){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.chickegg_background_black);
+            }
+        } else {
+            if(characterIndex == 0){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.rabbit_background_black);
+            }else if(characterIndex == 1){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.penguin_background_black);
+            }else if(characterIndex == 2){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.panda_background_black);
+            }else if(characterIndex == 3){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.chick_background_black);
+            }
         }
 
         // 상대방이 달린 거리
@@ -122,7 +141,7 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView formattedDate, distance, speed, nickname, time;
-        public ImageView runningMateRecordCharacter;
+        public LinearLayout runningMateRecordCharacter;
         public RunningMate currentRunningMate;
 
         public ViewHolder(@NonNull View itemView) {
@@ -132,7 +151,7 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
             speed = itemView.findViewById(R.id.speed);
             nickname = itemView.findViewById(R.id.nickname);
             time = itemView.findViewById(R.id.time);
-            runningMateRecordCharacter = itemView.findViewById(R.id.my_record_character);
+            runningMateRecordCharacter = itemView.findViewById(R.id.running_mate_record_character);
 
             // 선택하기 버튼
             Button selectMate = itemView.findViewById(R.id.select_running_mate_btn);
@@ -212,5 +231,10 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
         }
 
         return spannableString;
+    }
+
+    public String formatDate(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN);
+        return date.format(formatter);
     }
 }

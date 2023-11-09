@@ -18,7 +18,7 @@ function PaceRecord({isPair, data, rivalData, second, setSecond}: Props) {
   return (
     <S.Container>
       <S.RecordBox>
-        {isPair ? (
+        {isPair && rivalData ? (
           <PairPace
             data={data}
             rivalData={rivalData}

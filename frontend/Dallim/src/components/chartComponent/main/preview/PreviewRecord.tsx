@@ -35,10 +35,7 @@ function PreviewWeekly({isShow, type, year, month, previewRecords}: Props) {
           <WeeklyRecord type="distance" record={previewRecords.distance} />
         </S.RecordContainer>
         <S.RecordContainer>
-          <WeeklyRecord
-            type="time"
-            record={Math.floor(previewRecords.time / 60)}
-          />
+          <WeeklyRecord type="time" record={previewRecords.time} />
         </S.RecordContainer>
       </S.View>
     </S.Container>

@@ -46,15 +46,13 @@ public class JobService {
 
     public void scheduleJob(Long userId, List<Day> day, int hour, int minute) throws SchedulerException {
 
-        User user = getUser.getUser();
-
-        FcmToken targetToken = fcmRepository.findByUserUserId(user.getUserId());
+        FcmToken targetToken = fcmRepository.findByUserUserId(userId);
 
         String title = "Dallim 운동 알림";
         String body = String.format("%d시 %d분에 예약한 운동 알림 발송!", hour, minute);;
         // jobKey Nameing Rule : userId:{userId}-day:{day}-{hour}-{minute}
         JobDataMap jobDataMap = new JobDataMap();
-        jobDataMap.put("targetToken", targetToken);
+        jobDataMap.put("targetToken", targetToken.getFcmToken());
         jobDataMap.put("title", title);
         jobDataMap.put("body", body);
         jobDataMap.put("firebaseCloudMessageService", firebaseCloudMessageService); // FireBaseCloudMessageService 인스턴스 저장

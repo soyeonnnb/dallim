@@ -19,7 +19,7 @@ public class GzipFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return !path.startsWith("/api/v1/running/");
+        return path.startsWith("/");
     }
     @Override
     public void doFilterInternal(

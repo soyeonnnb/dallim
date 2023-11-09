@@ -1,6 +1,6 @@
 import * as S from './Carousel.styles';
-import React, { useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {FlatList} from 'react-native';
 import NoFriendImage from '@/assets/images/NoFriend.png';
 import CardPage from './CardPage';
 
@@ -12,8 +12,8 @@ interface CarouselProps {
   onCardSelected?: (num: number) => void;
 }
 
-import { useRecoilValue } from 'recoil';
-import { competitorDataState } from '@/recoil/RunningRecoil';
+import {useRecoilValue} from 'recoil';
+import {competitorDataState} from '@/recoil/RunningRecoil';
 
 export default function Carousel({
   gap,
@@ -21,7 +21,6 @@ export default function Carousel({
   pageWidth,
   onCardSelected,
 }: CarouselProps) {
-
   const competitorData = useRecoilValue(competitorDataState);
 
   useEffect(() => {
@@ -31,9 +30,9 @@ export default function Carousel({
   const [page, setPage] = useState(0);
 
   // CardPage 컴포넌트를 렌더링
-  const renderItem = ({ item }: any) => {
+  const renderItem = ({item}: any) => {
     return (
-      <S.CardContainer style={{ width: pageWidth, marginHorizontal: gap / 2 }}>
+      <S.CardContainer style={{width: pageWidth, marginHorizontal: gap / 2}}>
         <CardPage item={item} />
       </S.CardContainer>
     );
@@ -73,22 +72,20 @@ export default function Carousel({
 
           <S.Footer>
             <S.IndicatorWrapper>
-              {Array.from({ length: competitorData.length }, (_, i) => (
+              {Array.from({length: competitorData.length}, (_, i) => (
                 <S.Indicator key={`indicator_${i}`} focused={i === page} />
               ))}
             </S.IndicatorWrapper>
-
           </S.Footer>
         </>
       ) : (
-
         <S.EmptyBox>
           <S.EmptyImage source={NoFriendImage} resizeMode="contain" />
-          <S.EmptyText style={{ marginRight: 10 }}>등록된 런닝메이트가 없어요.</S.EmptyText>
-
+          <S.EmptyText style={{marginRight: 10}}>
+            등록된 런닝메이트가 없어요.
+          </S.EmptyText>
         </S.EmptyBox>
       )}
     </S.Container>
-
   );
 }

@@ -1,10 +1,10 @@
-import { deleteRunningMate } from '@/apis/ProfileApi';
+import {deleteRunningMate} from '@/apis/ProfileApi';
 import * as S from './RunningMateDeleteModal.styles';
-import { Modal } from 'react-native';
+import {Modal} from 'react-native';
 import Toast from 'react-native-toast-message';
 
-import { useSetRecoilState } from 'recoil';
-import { competitorDataState } from '@/recoil/RunningRecoil';
+import {useSetRecoilState} from 'recoil';
+import {competitorDataState} from '@/recoil/RunningRecoil';
 
 type DeleteModalProps = {
   isVisible: boolean;
@@ -57,9 +57,7 @@ function RunningMateDeleteModal({
   };
 
   return (
-    <Modal transparent={true}
-      visible={isVisible}
-    >
+    <Modal transparent={true} visible={isVisible}>
       <S.ModalContainer>
         <S.ModalContent>
           <S.ModalHeader>

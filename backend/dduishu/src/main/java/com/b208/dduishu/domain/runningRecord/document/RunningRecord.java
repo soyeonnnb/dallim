@@ -25,6 +25,9 @@ public class RunningRecord {
 
     @Id
     private ObjectId id;
+
+    @Enumerated(EnumType.STRING)
+    private WatchOrMobile watchOrMobile;
     private String location;
     private UserInfo user;
     private CharacterRecordInfo character;
@@ -32,7 +35,7 @@ public class RunningRecord {
     private RivalRunningRecordInfo rivalRecord;
     private List<RunningRecordOverallInfo> runningRecordInfos;
 
-    private List<Integer> secondPerSpeed;
+    private List<Double> secondPerSpeed;
     private HeartRateInfo heartRate;
     private PaceInfo pace;
 
@@ -44,11 +47,16 @@ public class RunningRecord {
     private double averageHeartRate;
     private LocalDateTime createdAt;
     private String formattedDate;
+    private double initLatitude;
+    private double initLongitude;
 
     @Builder
-    public RunningRecord(UserInfo user, String location, List<Integer> secondPerSpeed, HeartRateInfo heartRate, PaceInfo pace, CharacterRecordInfo character, Date createdAt, double stepCount, double averagePace, double averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed) {
+    public RunningRecord(UserInfo user, String location, double initLatitude, double initLongitude, WatchOrMobile watchOrMobile, List<Double> secondPerSpeed, HeartRateInfo heartRate, PaceInfo pace, CharacterRecordInfo character, LocalDateTime createdAt, double stepCount, double averagePace, double averageHeartRate, String formattedDate, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed) {
         this.user = user;
         this.location = location;
+        this.initLatitude = initLatitude;
+        this.initLongitude = initLongitude;
+        this.watchOrMobile = watchOrMobile;
         this.secondPerSpeed = secondPerSpeed;
         this.pace = pace;
         this.heartRate = heartRate;
@@ -63,7 +71,7 @@ public class RunningRecord {
         this.averageHeartRate = averageHeartRate;
         this.formattedDate = formattedDate;
         this.averageSpeed = averageSpeed;
-        this.createdAt = toLocalDateTime(createdAt);
+        this.createdAt = createdAt;
     }
 
     private static LocalDateTime toLocalDateTime(Date date) {

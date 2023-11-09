@@ -1,5 +1,6 @@
 package com.b208.dduishu.domain.user.service;
 
+import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.follow.entity.FollowState;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
@@ -26,6 +27,7 @@ public class UserRankingService {
     private final UserRepository userRepository;
     private final GetUser getUser;
     private final RunningRecordRepository runningRecordRepository;
+    private final CharacterRepository characterRepository;
 
     public List<RunningRecord> findRunningRecord(List<User> users) {
 
@@ -104,7 +106,7 @@ public class UserRankingService {
     public AllUserRankingInfo getWeeklyRankingWithFollower() {
 
         User user = getUser.getUser();
-        List<User> res = userRepository.getUserIdAndFollowerId(user.getUserId());
+        List<User> res = userRepository.getUserIdAndFollowerIdAndState(user.getUserId(), FollowState.accept);
 
         Map<Long, User> users = getUserInfoMap(res);
         List<RunningRecord> findRunningRecord = findRunningRecord(res);

@@ -1,5 +1,9 @@
 package com.b208.dduishu.domain.user.service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
@@ -7,6 +11,7 @@ import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.follow.entity.FollowState;
+import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
@@ -133,8 +138,17 @@ public class UserSocialService {
         User pair = userRepository.findByUserId(id).orElseThrow(() -> {
             throw new NullPointerException();
         });
+        Character myCharacter = user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
 
-        return new CompareUserProfile(user, pair);
+        Character pairCharacter = pair.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
+
+        return new CompareUserProfile(user, myCharacter, pair, pairCharacter);
     }
 
     public List<SearchUserProfile> searchUserProfile(String q) {
@@ -224,5 +238,37 @@ public class UserSocialService {
                 .forEach(planetOverviews::add);
         planetOverviews.sort(Comparator.comparingInt(PlanetOverview::getPlanetIndex));
         return planetOverviews;
+    }
+
+    public WatchUserInfo getWatchUserInfo() {
+
+        User user = getUser.getUser();
+        Character mainCharacter = user.getCharacterList().stream()
+                .filter(Character::isMainCharacter)
+                .findFirst()
+                .orElse(null);
+        List<Planet> findPlanets = planetRepository.findAllByUserUserId(user.getUserId());
+        Planet mainPlanet = findPlanets.stream()
+                .filter(Planet::isMainPlanet)
+                .findFirst()
+                .orElse(null);
+
+        return WatchUserInfo.builder()
+                .user(user)
+                .character(mainCharacter)
+                .planet(mainPlanet)
+                .build();
+    }
+
+    public AttendanceInfo checkUserAttendance() {
+        User user = getUser.getUser();
+        LocalDateTime today = LocalDateTime.now().with(LocalTime.MIN);
+
+        List<RunningRecord> res = runningRecordRepository.findByCreatedAtGreaterThanEqualAndUserUserId(today, user.getUserId());
+
+        if (res.isEmpty()) {
+            return AttendanceInfo.builder().isAttendance(true).build();
+        }
+        return AttendanceInfo.builder().isAttendance(false).build();
     }
 }

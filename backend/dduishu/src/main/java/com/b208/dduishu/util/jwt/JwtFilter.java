@@ -43,7 +43,7 @@ public class JwtFilter extends OncePerRequestFilter { // 모든 요청에 대해
     @Override // 이 주소로 오는 건 토큰 없어도 됨.
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return path.startsWith("/swagger-ui/")||path.startsWith("/actuator")||path.startsWith("/swagger-resources")||path.startsWith("/v2/api-docs")||path.startsWith("/api/oauth/login") || path.startsWith("/login/") || path.startsWith("/api/oauth2/authorization/") ||
+        return path.startsWith("/api/v1/authentication-code/token")||path.startsWith("/api/v1/authentication-code")||path.startsWith("/swagger-ui/")||path.startsWith("/actuator")||path.startsWith("/swagger-resources")||path.startsWith("/v2/api-docs")||path.startsWith("/api/oauth/login") || path.startsWith("/login/") || path.startsWith("/api/oauth2/authorization/") ||
             path.startsWith("/api/login/oauth2/") || path.startsWith("/api/oauth/logout") || path.startsWith("/favicon.ico")||path.startsWith("/api/oauth2/")||path.startsWith("/api/oauth2/code/naver")||path.startsWith("/api/v1/user/token");
     }
 

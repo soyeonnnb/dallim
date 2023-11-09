@@ -16,6 +16,7 @@ import com.runapp.database.RunningDataConverters;
 import com.runapp.model.RunDetail;
 import com.runapp.model.RunningMateRecord;
 import com.runapp.service.RunningService;
+import com.runapp.util.MyApplication;
 import com.runapp.util.PreferencesUtil;
 import com.runapp.view.RunningMateRecordViewModel;
 
@@ -37,7 +38,7 @@ public class LoadingActivity extends AppCompatActivity {
         SharedPreferences.Editor edit = prefs.edit();
         setContentView(R.layout.activity_loading);
         runningService = new RunningService(getApplicationContext());
-        viewModel = new ViewModelProvider(this).get(RunningMateRecordViewModel.class);
+        viewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningMateRecordViewModel.class);
 
         String runningRecordId1 = prefs.getString("runningRecordId", "");
         // 내부 저장소에 기록 아이디 있으면 삭제
@@ -61,6 +62,7 @@ public class LoadingActivity extends AppCompatActivity {
             @Override
             public void onDataLoaded(RunningMateRecord record) {
                 viewModel.setMateRecord(record);
+                System.out.println(viewModel.getMateRecord().getValue().getDistance());
                 startCountdownActivity();
             }
         });

@@ -90,72 +90,49 @@ public class RunningActivity extends AppCompatActivity {
         runningData.setCharacterId(prefs.getLong("characterIndex", 0L));
         runningData.setEvolutionStage(prefs.getInt("evolutionStage", 0));
 
+        // 러닝 뷰 모델을 생성한다.
+        runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
+
+        runningViewModel.getRunningData().setValue(runningData);
+
 
         String type = getIntent().getStringExtra("run_type");
         // 같이 달리기
         if(type.equals("PAIR")){
+            Log.e("달리기", "함께 달리기");
             runningData.setType("PAIR");
             String runningRecordId = prefs.getString("runningRecordId", null);
             runningData.setRivalRecordId(runningRecordId);
             // 러닝 뷰 모델을 생성한다.
-            runningMateRecordViewModel = new ViewModelProvider(this).get(RunningMateRecordViewModel.class);
-
-            runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
-
-            List<Double> distance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
-            System.out.println(distance);
-            runningViewModel.getRunningData().setValue(runningData);
-            runningViewModel.setDistance(0f);
-            runningViewModel.setStepCount(0f);
-            runningViewModel.setMsSpeed(0f);
-            runningViewModel.setMsPace("0'00''");
-
-            // 뷰페이저2를 생성(activity_running.xml에서 가져옴)
-            ViewPager2 viewPager = binding.viewPager;
-            // 뷰페이저 어댑터 생성하고 설정
-            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
-            viewPager.setAdapter(viewPagerAdapter);
-
-            // 위치서비스 포그라운드 실행
-            locationIntent = new Intent(this, LocationService.class);
-
-            // 센서서비스 포그라운드 실행
-            sensorIntent = new Intent(this, SensorService.class);
-
-            // 타임서비스 포그라운드 실행
-            timerServiceIntent = new Intent(this, TimerService.class);
-
-        }else if(type.equals("ALONE")){
-            runningData.setType("ALONE");
-            // 러닝 뷰 모델을 생성한다.
-            runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
-
-            runningViewModel.getRunningData().setValue(runningData);
-            runningViewModel.setDistance(0f);
-            runningViewModel.setStepCount(0f);
-            runningViewModel.setMsSpeed(0f);
-            runningViewModel.setDistanceDifference(-1.0);
-            runningViewModel.setMsPace("0'00''");
-
-            // 뷰페이저2를 생성(activity_running.xml에서 가져옴)
-            ViewPager2 viewPager = binding.viewPager;
-            // 뷰페이저 어댑터 생성하고 설정
-            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
-            viewPager.setAdapter(viewPagerAdapter);
-
-            // 위치서비스 포그라운드 실행
-            locationIntent = new Intent(this, LocationService.class);
-            startForegroundService(locationIntent);
-            // 센서서비스 포그라운드 실행
-            sensorIntent = new Intent(this, SensorService.class);
-            startForegroundService(sensorIntent);
-            // 타임서비스 포그라운드 실행
-            timerServiceIntent = new Intent(this, TimerService.class);
-            startForegroundService(timerServiceIntent);
+            runningMateRecordViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningMateRecordViewModel.class);
+            runningViewModel.setPairCheck(true);
         }
+        // 혼자 달리기
+        else if(type.equals("ALONE")){
+            Log.e("달리기", "싱글 달리기");
+            runningData.setType("ALONE");
+            runningViewModel.setPairCheck(false);
+        }
+        
+        
+        // 뷰페이저2를 생성(activity_running.xml에서 가져옴)
+        ViewPager2 viewPager = binding.viewPager;
+        // 뷰페이저 어댑터 생성하고 설정
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
+        viewPager.setAdapter(viewPagerAdapter);
 
+        // 위치서비스 포그라운드 실행
+        locationIntent = new Intent(this, LocationService.class);
+        startForegroundService(locationIntent);
 
+        // 센서서비스 포그라운드 실행
+        sensorIntent = new Intent(this, SensorService.class);
+        startForegroundService(sensorIntent);
 
+        // 타임서비스 포그라운드 실행
+        timerServiceIntent = new Intent(this, TimerService.class);
+        startForegroundService(timerServiceIntent);
+        
     }
 
     // 데이터 추가(메인 스레드에서 분리하기 위해서)

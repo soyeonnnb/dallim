@@ -19,7 +19,7 @@ export const Title = styled.Text`
 `;
 export const Navi = styled.TouchableOpacity``;
 export const NaviText = styled.Text`
-  color: ${colors.gray};
+  color: ${colors.grey._300};
 `;
 export const InfoContainer = styled.View`
   margin-bottom: 5%;

@@ -117,6 +117,7 @@ public class  OAuth2Controller {
                 return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 이미 처리 중인 경우 409 Conflict 반환
             }
             isProcessing = true;
+//            System.out.println("코드 들어옴????"+code);
             // 엑세스 토큰 저장
             String accessToken = userSocialLoginService.getKakaoAccessToken(code);
             // 여기서 accessToken을 사용자 정보 가져오는데 사용할 것입니다.
@@ -211,13 +212,15 @@ public class  OAuth2Controller {
             User user = null;
 
             if(optionalUser.isEmpty()){
-                //유저 생성
                 user = User.builder()
                     .accountType(provider)
                     .email(email)
                     .nickname(nNick())
                     .accessToken(accessToken)
                     .privateAccess(encoder.encode(accessToken))
+                    .state(UserState.standard)
+                    .userLevel(UserLevel.builder().level(0).exp(0).build())
+                    .registDate(LocalDateTime.now())
                     .build();
                 user = userRepository.save(user);
 

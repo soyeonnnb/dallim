@@ -7,12 +7,14 @@ import {useSetRecoilState} from 'recoil';
 import {competitorDataState} from '@/recoil/RunningRecoil';
 
 type DeleteModalProps = {
+  isVisible: boolean;
   competitorId: string;
   toggleDeleteModal: () => void;
   onDeleteSuccess: () => void;
 };
 
 function RunningMateDeleteModal({
+  isVisible,
   competitorId,
   toggleDeleteModal,
   onDeleteSuccess,
@@ -33,7 +35,7 @@ function RunningMateDeleteModal({
         });
         setCompetitorData(oldCompetitorData =>
           oldCompetitorData.filter(
-            competitor => competitor.id !== competitorId,
+            competitor => competitor.runningMateId !== competitorId,
           ),
         );
         onDeleteSuccess(); // 성공 콜백
@@ -55,7 +57,7 @@ function RunningMateDeleteModal({
   };
 
   return (
-    <Modal transparent={true}>
+    <Modal transparent={true} visible={isVisible}>
       <S.ModalContainer>
         <S.ModalContent>
           <S.ModalHeader>

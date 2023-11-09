@@ -1,5 +1,9 @@
 package com.b208.dduishu.domain.user.service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
@@ -7,6 +11,7 @@ import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.follow.entity.FollowState;
+import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
@@ -253,5 +258,17 @@ public class UserSocialService {
                 .character(mainCharacter)
                 .planet(mainPlanet)
                 .build();
+    }
+
+    public AttendanceInfo checkUserAttendance() {
+        User user = getUser.getUser();
+        LocalDateTime today = LocalDateTime.now().with(LocalTime.MIN);
+
+        List<RunningRecord> res = runningRecordRepository.findByCreatedAtGreaterThanEqualAndUserUserId(today, user.getUserId());
+
+        if (res.isEmpty()) {
+            return AttendanceInfo.builder().isAttendance(true).build();
+        }
+        return AttendanceInfo.builder().isAttendance(false).build();
     }
 }

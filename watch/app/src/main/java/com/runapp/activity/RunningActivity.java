@@ -11,16 +11,21 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.gms.common.internal.BaseGmsClient;
 import com.runapp.adapter.ViewPagerAdapter;
 import com.runapp.database.AppDatabase;
+import com.runapp.database.RunningDataConverters;
 import com.runapp.databinding.ActivityRunningBinding;
 import com.runapp.dto.RunningDataDTO;
 import com.runapp.model.RunDetail;
 import com.runapp.model.RunningData;
+import com.runapp.model.RunningMateRecord;
 import com.runapp.service.LocationService;
+import com.runapp.service.RunningService;
 import com.runapp.service.SensorService;
 import com.runapp.service.TimerService;
 import com.runapp.util.AccessToken;
@@ -29,6 +34,7 @@ import com.runapp.util.Conversion;
 import com.runapp.util.MyApplication;
 import com.runapp.util.NetworkUtil;
 import com.runapp.util.PreferencesUtil;
+import com.runapp.view.RunningMateRecordViewModel;
 import com.runapp.view.RunningViewModel;
 
 import java.io.IOException;
@@ -48,6 +54,7 @@ public class RunningActivity extends AppCompatActivity {
 
     private ActivityRunningBinding binding;
     private RunningViewModel runningViewModel;
+    private RunningMateRecordViewModel runningMateRecordViewModel;
     private List<RunDetail> runDetailsList = new ArrayList<>();
     private AppDatabase db;
     private RunningData runningData;
@@ -59,42 +66,55 @@ public class RunningActivity extends AppCompatActivity {
     private Intent sensorIntent;
     private Intent locationIntent;
     private Intent timerServiceIntent;
-    private BroadcastReceiver timerUpdateReceiver;
     private SharedPreferences prefs;
+    private List<RunDetail> runningMateRecord = new ArrayList<>();
+    private RunningService runningService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityRunningBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        runningService = new RunningService(getApplicationContext());
 
         prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
 
         db = AppDatabase.getDatabase(getApplicationContext());
 
+
+        long startTime = System.currentTimeMillis();
+        System.out.println("시작 시간 : " + startTime);
         runningData = new RunningData();
         runningData.setUserId(prefs.getLong("userId", 0L));
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
         runningData.setCharacterId(prefs.getLong("characterIndex", 0L));
-
-//         혼자달리기인지 함께달리기인지 구분
-        String type = getIntent().getStringExtra("run_type");
-        if(type.equals("PAIR")){
-            runningData.setType("PAIR");
-        }else if(type.equals("ALONE")){
-            runningData.setType("ALONE");
-            runningData.setRivalRecordId(null);
-        }
+        runningData.setEvolutionStage(prefs.getInt("evolutionStage", 0));
 
         // 러닝 뷰 모델을 생성한다.
         runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
 
         runningViewModel.getRunningData().setValue(runningData);
-        runningViewModel.setDistance(0f);
-        runningViewModel.setStepCount(0f);
-        runningViewModel.setMsSpeed(0f);
-        runningViewModel.setMsPace("0'00''");
 
+
+        String type = getIntent().getStringExtra("run_type");
+        // 같이 달리기
+        if(type.equals("PAIR")){
+            Log.e("달리기", "함께 달리기");
+            runningData.setType("PAIR");
+            String runningRecordId = prefs.getString("runningRecordId", null);
+            runningData.setRivalRecordId(runningRecordId);
+            // 러닝 뷰 모델을 생성한다.
+            runningMateRecordViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningMateRecordViewModel.class);
+            runningViewModel.setPairCheck(true);
+        }
+        // 혼자 달리기
+        else if(type.equals("ALONE")){
+            Log.e("달리기", "싱글 달리기");
+            runningData.setType("ALONE");
+            runningViewModel.setPairCheck(false);
+        }
+        
+        
         // 뷰페이저2를 생성(activity_running.xml에서 가져옴)
         ViewPager2 viewPager = binding.viewPager;
         // 뷰페이저 어댑터 생성하고 설정
@@ -104,15 +124,15 @@ public class RunningActivity extends AppCompatActivity {
         // 위치서비스 포그라운드 실행
         locationIntent = new Intent(this, LocationService.class);
         startForegroundService(locationIntent);
+
         // 센서서비스 포그라운드 실행
         sensorIntent = new Intent(this, SensorService.class);
         startForegroundService(sensorIntent);
+
         // 타임서비스 포그라운드 실행
         timerServiceIntent = new Intent(this, TimerService.class);
         startForegroundService(timerServiceIntent);
-
-        // 리시버를 시스템에 등록한다.
-        registerReceiver(timerUpdateReceiver, new IntentFilter(TimerService.TIMER_BR));
+        
     }
 
     // 데이터 추가(메인 스레드에서 분리하기 위해서)
@@ -176,8 +196,6 @@ public class RunningActivity extends AppCompatActivity {
         Map<String, Integer> result = conversion.msToPace((totalSpeed / speedCountTime));
         int minute = result.get("minutes");
         int second = result.get("seconds");
-        System.out.println(minute + "분");
-        System.out.println(second + "초");
         runningData.setAveragePace((60 * minute) + second);
 
         // 최종 시간 업데이트
@@ -208,19 +226,14 @@ public class RunningActivity extends AppCompatActivity {
                         Log.d("데이터 전송", "몽고디비로 데이터 전송 성공");
                         Toast.makeText(RunningActivity.this, "기록 저장 성공", Toast.LENGTH_SHORT).show();
                     }else{
-                        System.out.println(response.errorBody().toString());
-                        try {
-                            System.out.println(response.errorBody().string().toString());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        Log.d("데이터 전송", "몽고디비로 데이터 전송 실패");
+                        Log.e("달리기 기록 저장 실패", response.errorBody().toString());
                         Toast.makeText(RunningActivity.this, "기록 저장 실패", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
+                    Log.e("달리기 기록 저장 실패(서버)", t.getMessage());
                     Log.d("데이터 전송", t.toString());
                 }
             });

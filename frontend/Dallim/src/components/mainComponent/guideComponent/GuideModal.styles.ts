@@ -13,6 +13,8 @@ export const ModalContent = styled.View`
 `;
 
 export const StyledPage = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
   flex: 1;
   width: 100%;
 `;
@@ -22,14 +24,16 @@ export const StyledImage = styled.Image`
 `;
 
 export const Header = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 10%;
   flex-direction: row;
 `;
 
 export const CloseButton = styled.TouchableOpacity`
+  /* border-width: 1px;
+  border-color: red; */
   width: 20%;
   height: 100%;
   justify-content: center;
@@ -37,64 +41,28 @@ export const CloseButton = styled.TouchableOpacity`
 `;
 
 export const CloseImage = styled.Image`
+  /* border-width: 1px;
+  border-color: red; */
   width: 35%;
   height: 35%;
 `;
 
-export const TitleBox = styled.View`
+export const RenderBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
   width: 60%;
   height: 100%;
   justify-content: center;
   align-items: center;
 `;
 
-export const TitleText = styled.Text`
-  font-size: 20px;
-  color: black;
-`;
-
-export const TempBox = styled.View`
-  width: 20%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const Body = styled.View`
-  border-width: 1px;
-  border-color: red;
-  width: 100%;
-  height: 80%;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const Content = styled.View`
-  border-width: 1px;
-  border-color: blue;
-  width: 80%;
-  height: 80%;
-`;
-
-export const Footer = styled.View`
-  border-width: 1px;
-  border-color: red;
-  width: 100%;
-  height: 10%;
-`;
-
-export const FooterLeft = styled.View`
-  border-width: 1px;
-  border-color: blue;
-  width: 40%;
-  height: 100%;
-`;
-
 export const PotBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 100%;
   height: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 interface IndicatorProps {
@@ -106,5 +74,28 @@ export const Indicator = styled.View<IndicatorProps>`
   height: 10px;
   border-radius: 5px;
   margin: 5px;
-  background-color: ${props => (props.active ? 'white' : 'gray')};
+  background-color: ${props => (props.active ? 'yellow' : 'white')};
+`;
+
+export const TempBox = styled.View`
+  width: 20%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Body = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 90%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const Content = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
+  width: 90%;
+  height: 90%;
 `;

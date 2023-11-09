@@ -71,7 +71,7 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
               parentHeight={parentHeight}
               key={rowIndex}
               record={record}
-              color={colors.gray}
+              color={colors.grey._300}
             />
           ))}
         </S.RecordBox>

@@ -24,7 +24,7 @@ export const SectionBox = styled.View`
 
 export const SectionBar = styled.View`
   width: 5px;
-  background-color: ${colors.darkBlue};
+  background-color: ${colors.blue._900};
   align-items: center;
 `;
 
@@ -34,7 +34,7 @@ export const SectionCircles = styled.View`
 `;
 
 export const SectionCircle = styled.View<{parentWidth: number}>`
-  background-color: ${colors.darkBlue};
+  background-color: ${colors.blue._900};
   width: ${props => props.parentWidth / 10}px;
   height: ${props => props.parentWidth / 10}px;
   border-radius: ${props => props.parentWidth / 10}px;

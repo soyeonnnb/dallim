@@ -41,8 +41,8 @@ function ChartCalendar({
   const [markedDates, setMarkedDates] = useState<{[key: string]: MarkType}>({});
   const [dayHaveDatas, setDayHaveDatas] = useState<string[]>([]);
 
-  const defaultSelectedColor = colors.lightLavender;
-  const clickedSelectedColor = colors.darkPurple;
+  const defaultSelectedColor = colors.purple._100;
+  const clickedSelectedColor = colors.purple._800;
 
   type MarkType = {
     selected?: boolean;
@@ -69,7 +69,7 @@ function ChartCalendar({
         )}-${numberToTwoString(recordDate.date)}`;
         marks[recordDateString] = {
           selected: true,
-          selectedTextColor: colors.darkPurple,
+          selectedTextColor: colors.purple._800,
           selectedColor: defaultSelectedColor,
         };
         keyList.push(recordDateString);
@@ -118,7 +118,7 @@ function ChartCalendar({
       updatedMarkedDates[day.dateString] = {
         selected: true,
         selectedColor: defaultSelectedColor,
-        selectedTextColor: colors.darkPurple,
+        selectedTextColor: colors.depth._600,
       };
       setMarkedDates(updatedMarkedDates);
       setSelectedDate(null);
@@ -129,7 +129,7 @@ function ChartCalendar({
         updatedMarkedDates[selectedDate.dateString] = {
           selected: true,
           selectedColor: defaultSelectedColor,
-          selectedTextColor: colors.darkPurple,
+          selectedTextColor: colors.purple._800,
         };
       }
       updatedMarkedDates[day.dateString] = {

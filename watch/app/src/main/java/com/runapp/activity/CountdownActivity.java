@@ -108,6 +108,7 @@ public class CountdownActivity extends ComponentActivity {
                     countdownTimerView.invalidate();
 
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        System.out.println("여긴 들어왔나");
                         String type = getIntent().getStringExtra("run_type");
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("run_type", type);

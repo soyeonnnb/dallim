@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,8 @@ import com.runapp.util.Conversion;
 import com.runapp.util.MyApplication;
 import com.runapp.util.PreferencesUtil;
 import com.runapp.view.RunningViewModel;
+
+import org.w3c.dom.Text;
 
 public class RunningAniFragment extends Fragment {
 
@@ -112,6 +115,17 @@ public class RunningAniFragment extends Fragment {
             TextView distanceView = view.findViewById(R.id.ani_distance);
             distanceView.setText(distance.toString());
         });
+
+        TextView distanceDifferenceView = view.findViewById(R.id.distance_difference);
+        if (runningViewModel.getDistanceDifference().getValue() != null && runningViewModel.getDistanceDifference().getValue() == -1.0){
+            distanceDifferenceView.setVisibility(View.GONE);
+            System.out.println("들어옴");
+        } else if(runningViewModel.getDistanceDifference().getValue() != null && runningViewModel.getDistanceDifference().getValue() != 0){
+            Log.e("차이", String.valueOf(runningViewModel.getDistanceDifference().getValue()));
+            distanceDifferenceView = view.findViewById(R.id.distance_difference);
+            distanceDifferenceView.setText(String.valueOf(runningViewModel.getDistanceDifference().getValue()));
+        }
+
 
         Glide.with(this)
                 .asGif()

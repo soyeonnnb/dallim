@@ -9,6 +9,10 @@ import com.runapp.dto.response.AuthCodeResponseDTO;
 import com.runapp.dto.response.RunningMateResponseDTO;
 import com.runapp.dto.response.RunningMateRunningRecordDTO;
 import com.runapp.dto.response.UserInfoResponseDTO;
+import com.runapp.model.RunningMate;
+import com.runapp.model.RunningMateRecord;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -36,7 +40,7 @@ public interface ApiService {
     Call<ApiResponseListDTO<RunningMateResponseDTO>> getRunningMate(@Header("Authorization") String token);
 
     // 러닝메이트 기록 가져오기
-    @GET("api/v1/running/{id}")
+    @GET("api/v1/running/overview/{id}")
     Call<ApiResponseDTO<RunningMateRunningRecordDTO>> getRunningMateRecord(@Header("Authorization") String token, @Path("id") String runningRecordId);
 
     // 유저 정보 가져오기

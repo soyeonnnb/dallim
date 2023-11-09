@@ -10,10 +10,12 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Chronometer;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.dallim.R;
 import com.dallim.database.RunningDataConverters;
@@ -40,7 +42,9 @@ public class TimerService extends Service {
     private double totalSpeed = 0;
     private List<Double> mateRunningDetail = new ArrayList<>();
     private RunDetail mateRunDetail = new RunDetail();
+    private Double lastDistance;
     private boolean check = false;
+    private int seconds = 0;
 
     @SuppressLint("InvalidWakeLockTag")
     @Override
@@ -82,7 +86,7 @@ public class TimerService extends Service {
         timerRunnable = new Runnable() {
             @Override
             public void run() {
-                // Broadcast an intent to update the timer in the activity.
+
                 long elapsedTime = System.currentTimeMillis() - startTime;
                 Log.d("로그", String.valueOf(elapsedTime));
                 updateRunDetailList(elapsedTime);
@@ -91,13 +95,14 @@ public class TimerService extends Service {
                 sendBroadcast(intent);
                 // 1초마다 현재 Runnable을 다시 실행하도록 예약
                 timerHandler.postDelayed(this, 1000);
+
             }
         };
         timerHandler.post(timerRunnable);
     }
 
     private void updateRunDetailList(long elapsedTime) {
-        int seconds = (int) (elapsedTime / 1000);
+        seconds = (int) (elapsedTime / 1000);
 
         // 함께달리기인 경우에만 거리 차이 계산
         if (check){
@@ -108,9 +113,17 @@ public class TimerService extends Service {
                 Log.d("내기록", String.valueOf(curDistance));
                 runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
             }
+            // Broadcast an intent to update the timer in the activity.
+            if(seconds == mateRunningDetail.size() - 1){
+                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+                Intent intent = new Intent(TIMER_BR);
+                intent.putExtra("finish_activity", true);
+                localBroadcastManager.sendBroadcast(intent);
+            }
         }
 
         runningViewModel.setTotalTime((long) seconds);
+        Log.d("총 시간", String.valueOf(seconds));
         int minutes = seconds / 60;
         seconds = seconds % 60;
 

@@ -153,7 +153,7 @@ public class RunningViewModel extends ViewModel {
         runDetailList.setValue(dataList);
     }
 
-    public MutableLiveData<Long> getTotalTime() {
+    public LiveData<Long> getTotalTime() {
         return totalTime;
     }
 

@@ -84,6 +84,7 @@ public class RunningData {
         dto.setWatchOrMobile("WATCH");
         dto.setInitLatitude(this.initLatitude);
         dto.setInitLongitude(this.initLongitude);
+        dto.setWinOrLose(this.winOrLose);
         return dto;
     }
 

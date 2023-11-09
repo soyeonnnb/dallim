@@ -139,6 +139,7 @@ public class MainActivity extends ComponentActivity{
         permissionsNeeded.add(Manifest.permission.ACCESS_COARSE_LOCATION);
         permissionsNeeded.add(Manifest.permission.BODY_SENSORS);
         permissionsNeeded.add(Manifest.permission.POST_NOTIFICATIONS);
+        permissionsNeeded.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
 
         requestNextPermission();
     }

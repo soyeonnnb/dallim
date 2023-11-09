@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
@@ -22,14 +23,20 @@ import com.dallim.databinding.FragmentRunningAniBinding;
 import com.dallim.util.Conversion;
 import com.dallim.util.MyApplication;
 import com.dallim.util.PreferencesUtil;
+import com.dallim.view.RunningMateRecordViewModel;
 import com.dallim.view.RunningViewModel;
+
+import java.util.List;
 
 public class RunningAniFragment extends Fragment {
 
     private FragmentRunningAniBinding binding;
     private SharedPreferences prefs;
     private RunningViewModel runningViewModel;
+    private RunningMateRecordViewModel runningMateRecordViewModel;
     private Conversion conversion = new Conversion();
+    private double lastDistance;
+    private List<Double> mateDistance;
 
     @Nullable
     @Override
@@ -123,6 +130,15 @@ public class RunningAniFragment extends Fragment {
                 distanceDifferenceView.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
                 distanceKm.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
             }
+
+            // 이긴 상태
+            if(distanceDifference >= lastDistance){
+                FragmentActivity activity = getActivity();
+                if (activity != null){
+                    activity.finish();
+                }
+            }
+
         });
 
         Glide.with(this)
@@ -144,6 +160,13 @@ public class RunningAniFragment extends Fragment {
 
             // ViewModel을 초기화할 때 애플리케이션의 Application 객체를 사용합니다.
             runningViewModel = new ViewModelProvider(myApplication).get(RunningViewModel.class);
+            Boolean value = runningViewModel.getPairCheck().getValue();
+            if(value){
+                runningMateRecordViewModel = new ViewModelProvider(myApplication).get(RunningMateRecordViewModel.class);
+                mateDistance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
+                // 마지막 거리 저장
+                lastDistance = mateDistance.get(mateDistance.size() - 1);
+            }
         }
     }
 

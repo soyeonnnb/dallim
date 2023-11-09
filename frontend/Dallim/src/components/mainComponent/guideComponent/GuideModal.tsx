@@ -4,6 +4,13 @@ import { Modal } from 'react-native';
 import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
 import PagerView from 'react-native-pager-view';
 
+import Guide_1 from './Guide_1';
+import Guide_2 from './Guide_2';
+import Guide_3 from './Guide_3';
+import Guide_4 from './Guide_4';
+import Guide_5 from './Guide_5';
+import Guide_6 from './Guide_6';
+
 interface Props {
   isVisible: boolean;
   onClose: () => void;
@@ -13,21 +20,14 @@ const GuideModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
   const [currentPoint, setCurrentPoint] = useState(0);
 
-  const Background = [
-    require('@/assets/characters/Chick_Background.png'),
-    require('@/assets/characters/Panda_Background.png'),
-    require('@/assets/characters/Rabbit_Background.png'),
-  ];
 
   const Guides = [
-    require('@/assets/characters/Chick.png'),
-    require('@/assets/characters/Panda.png'),
-    require('@/assets/characters/Rabbit.png'),
+    <Guide_1 />, <Guide_2 />, <Guide_3 />, <Guide_4 />, <Guide_5 />, <Guide_6 />
   ];
 
-  const renderPage = (imageSource: number, index: number) => (
+  const renderPage = (GuideComponent: JSX.Element, index: number) => (
     <S.StyledPage key={index} >
-      <S.StyledImage source={imageSource} />
+      {GuideComponent}
     </S.StyledPage>
   );
 
@@ -46,15 +46,15 @@ const GuideModal: React.FC<Props> = ({ isVisible, onClose }) => {
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <S.BackgroundImage source={Background[currentPoint]} resizeMode='cover'>
+      <S.BackgroundImage source={require('@/assets/images/MainBackground4.png')} resizeMode='cover'>
         <S.ModalContent>
           <S.Header>
             <S.CloseButton onPress={onClose}>
               <S.CloseImage source={CloseIcon} />
             </S.CloseButton>
-            <S.TitleBox>
-              <S.TitleText>사용 설명서</S.TitleText>
-            </S.TitleBox>
+            <S.RenderBox>
+              {renderIndicators(currentPoint, Guides.length)}
+            </S.RenderBox>
             <S.TempBox />
           </S.Header>
 
@@ -65,15 +65,10 @@ const GuideModal: React.FC<Props> = ({ isVisible, onClose }) => {
                 initialPage={0}
                 onPageSelected={e => setCurrentPoint(e.nativeEvent.position)}
               >
-                {Guides.map((source, index) => renderPage(source, index))}
+                {Guides.map((GuideComponent, index) => renderPage(GuideComponent, index))}
               </PagerView>
             </S.Content>
           </S.Body>
-          <S.Footer>
-            <S.FooterLeft>
-              {renderIndicators(currentPoint, Guides.length)}
-            </S.FooterLeft>
-          </S.Footer>
         </S.ModalContent>
       </S.BackgroundImage>
     </Modal>

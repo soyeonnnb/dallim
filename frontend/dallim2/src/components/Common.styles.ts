@@ -1,11 +1,16 @@
 import styled from "styled-components";
 
-export const innerDiv = styled.div`
+export const InnerDiv = styled.div`
   height: 100vh;
+  width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  font-size: 100px;
+`;
+
+export const ComponentDiv = styled.div`
+  width: 90%;
+  max-width: 1080px;
 `;
 
 export const colors = {};

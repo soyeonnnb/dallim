@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { innerDiv } from "./Common.styles";
+import { InnerDiv } from "./Common.styles";
 
-export const Container = styled(innerDiv)`
+export const Container = styled(InnerDiv)`
   background-color: mintcream;
 `;

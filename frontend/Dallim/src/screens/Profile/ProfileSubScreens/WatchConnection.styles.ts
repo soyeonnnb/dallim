@@ -93,7 +93,7 @@ export const NumberInputText = styled.Text`
   color: white;
 `;
 export const InfoBox = styled.TouchableOpacity`
-border-width: 1px;
+  border-width: 1px;
   border-color: blue;
   flex: 0.1;
   justify-content: flex-start;
@@ -117,7 +117,7 @@ export const ConnectionButtonText = styled.Text`
   text-align: center;
   font-size: 17px;
   font-weight: 900;
-  color: ${colors.darkBlue};
+  color: ${colors.blue._900};
 `;
 export const InputNumpadRows = styled.View`
   width: 80%;
@@ -139,5 +139,5 @@ export const InputNumpad = styled.TouchableOpacity`
 export const InputNumpadText = styled.Text`
   font-size: 35px;
   font-weight: 700;
-  color: ${colors.darkBlue};
+  color: ${colors.blue._900};
 `;

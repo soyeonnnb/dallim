@@ -99,11 +99,11 @@ function SmallRecord({type, record, count}: SmallRecordProps) {
   return (
     <S.SmallContainer>
       <S.SmallCircle
-        bgColor={type == 'm' ? colors.lightBlue : colors.purpleBlue}>
+        bgColor={type == 'm' ? colors.purple._200 : colors.point.skyBluePoint}>
         {type == 'm' ? (
-          <RunningThinIcon width={25} height={25} color={colors.darkLavendar} />
+          <RunningThinIcon width={25} height={25} color={colors.depth._600} />
         ) : (
-          <ClockIcon width={25} height={25} color={colors.lightLavender} />
+          <ClockIcon width={25} height={25} color={colors.purple._100} />
         )}
       </S.SmallCircle>
       <S.SmallView>

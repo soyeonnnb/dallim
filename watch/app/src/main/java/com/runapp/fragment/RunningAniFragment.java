@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -99,16 +100,12 @@ public class RunningAniFragment extends Fragment {
                         .into(binding.myCha);
             }
         }
+
         // ViewModel의 시간 데이터를 구독하고 UI 업데이트
         runningViewModel.getElapsedTime().observe(getViewLifecycleOwner(), elapsedTime -> {
             // elapsedTime은 "MM:SS" 형식의 문자열입니다.
             TextView timeView = view.findViewById(R.id.ani_time);
             timeView.setText(elapsedTime);
-        });
-        // ms로 들어옴
-        runningViewModel.getMsPace().observe(getViewLifecycleOwner(), pace ->{
-            TextView paceView = view.findViewById(R.id.ani_pace);
-            paceView.setText(pace);
         });
 
         runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance ->{
@@ -116,23 +113,27 @@ public class RunningAniFragment extends Fragment {
             distanceView.setText(distance.toString());
         });
 
-        TextView distanceDifferenceView = view.findViewById(R.id.distance_difference);
-        if (runningViewModel.getDistanceDifference().getValue() != null && runningViewModel.getDistanceDifference().getValue() == -1.0){
-            distanceDifferenceView.setVisibility(View.GONE);
-        } else if(runningViewModel.getDistanceDifference().getValue() != null && runningViewModel.getDistanceDifference().getValue() != 0){
-            Log.e("차이", String.valueOf(runningViewModel.getDistanceDifference().getValue()));
-            distanceDifferenceView = view.findViewById(R.id.distance_difference);
-            distanceDifferenceView.setText(String.valueOf(runningViewModel.getDistanceDifference().getValue()));
-        }
+        runningViewModel.getDistanceDifference().observe(getViewLifecycleOwner(), distanceDifference ->{
+            String km = formatDistance(distanceDifference);
+            TextView distanceDifferenceView = view.findViewById(R.id.distance_difference);
+            TextView distanceKm = view.findViewById(R.id.distance_difference_km);
+            distanceDifferenceView.setText(String.valueOf(km));
 
+            Log.d("거리 차이", km);
+            // 거리에 따라 색 변경
+            if (km.contains("+")) {
+                distanceDifferenceView.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
+                distanceKm.setTextColor(ContextCompat.getColor(getContext(), R.color.blue));
+            } else if (km.contains("-")) {
+                distanceDifferenceView.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+                distanceKm.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
+            }
+        });
 
         Glide.with(this)
                 .asGif()
                 .load(R.drawable.up_arrow)
                 .into((android.widget.ImageView) view.findViewById(R.id.up_arrow));
-
-
-
 
         return view;
     }
@@ -149,5 +150,11 @@ public class RunningAniFragment extends Fragment {
             // ViewModel을 초기화할 때 애플리케이션의 Application 객체를 사용합니다.
             runningViewModel = new ViewModelProvider(myApplication).get(RunningViewModel.class);
         }
+    }
+
+    // 미터 값을 킬로미터로 변환하고 소수점 두 자리로 포매팅하는 메소드
+    public String formatDistance(double meters) {
+        double kilometers = meters / 1000.0; // 미터를 킬로미터로 변환
+        return String.format("%.2f", kilometers); // 소수점 두 자리로 포매팅
     }
 }

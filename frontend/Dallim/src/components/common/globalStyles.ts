@@ -148,8 +148,17 @@ export const colors = {
     _900: '#003636',
   },
   text: {
-    textBlack: '#211D4C',
-    textWhite: '#FFFFFF',
+    black: '#211D4C',
+    white: '#FFFFFF',
+  },
+  weather: {
+    moon: '#FCD116',
+    sun: '#FF0000',
+  },
+  button: {
+    selected: '#2A2C45',
+    confirm: '#576599',
+    cancel: '#E36F6F',
   },
 };
 

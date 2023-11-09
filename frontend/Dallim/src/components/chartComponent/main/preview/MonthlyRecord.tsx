@@ -88,7 +88,7 @@ function SmallRecord({type, record, count}: SmallRecordProps) {
       setTotal('0' + type);
       setAvg('0' + type);
       return;
-    } else if (type === '거리') {
+    } else if (type === 'm') {
       setTotal(meterToKMOrMeter(record));
       setAvg(meterToKMOrMeter(record / count));
     } else {

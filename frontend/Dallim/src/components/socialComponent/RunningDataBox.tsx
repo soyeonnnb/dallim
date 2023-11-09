@@ -98,7 +98,7 @@ function RunningDataBox({
               <S.IconImage source={TimeIcon} />
             </S.Icon>
             <S.Text>
-              {formatTime(totalTime)}분
+              {formatTime(totalTime)}
             </S.Text>
           </S.MiddleRight>
         </S.Middle>

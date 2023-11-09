@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -24,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.runapp.R;
 import com.runapp.activity.CountdownActivity;
+import com.runapp.activity.LoadingActivity;
 import com.runapp.activity.RunningActivity;
 import com.runapp.activity.RunningMateActivity;
 import com.runapp.activity.SelectActivity;
@@ -34,10 +37,16 @@ import com.runapp.service.RunningService;
 import com.runapp.util.AccessToken;
 import com.runapp.util.ApiUtil;
 import com.runapp.util.Conversion;
+import com.runapp.util.PreferencesUtil;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -48,14 +57,14 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
     private Conversion conversion = new Conversion();
     private static RunningService runningService;
     private Context context;
+    private static SharedPreferences prefs;
     private static Activity activity;
-    private static ActivityResultLauncher<Intent> countdownActivityResultLauncher;
 
-    public RunningMateDataAdapter(Context context, List<RunningMate> runningMateList, Activity activity, ActivityResultLauncher<Intent> countdownActivityResultLauncher) {
+    public RunningMateDataAdapter(Context context, List<RunningMate> runningMateList, Activity activity) {
         this.runningMateList = runningMateList;
         this.context = context;
         this.activity = activity;
-        this.countdownActivityResultLauncher = countdownActivityResultLauncher;
+        prefs = PreferencesUtil.getEncryptedSharedPreferences(context);
         runningService = new RunningService(context);
     }
 
@@ -71,22 +80,34 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
     public void onBindViewHolder(@NonNull RunningMateDataAdapter.ViewHolder holder, int position) {
         RunningMate runningMate = runningMateList.get(position);
         holder.currentRunningMate = runningMate;
-        System.out.println(runningMate.toString());
 
-        holder.formattedDate.setText(conversion.LocalDateTimeToDate(runningMate.getCreatedAt()));
+        holder.formattedDate.setText(formatDate(runningMate.getCreatedAt()));
         
         holder.time.setText(convertTime((long) runningMate.getTotalTime()));
 
         // 상대방이 달린 캐릭터
+        int evolutionStage = runningMate.getEvolutionStage();
         int characterIndex = runningMate.getCharacterIndex();
-        if(characterIndex == 0){
-            holder.runningMateRecordCharacter.setImageResource(R.drawable.rabbit);
-        }else if(characterIndex == 1){
-            holder.runningMateRecordCharacter.setImageResource(R.drawable.penguin);
-        }else if(characterIndex == 2){
-            holder.runningMateRecordCharacter.setImageResource(R.drawable.panda);
-        }else if(characterIndex == 3){
-            holder.runningMateRecordCharacter.setImageResource(R.drawable.chick);
+        if (evolutionStage == 0){
+            if(characterIndex == 0){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.rabbitegg_background_black);
+            }else if(characterIndex == 1){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.penguinegg_background_black);
+            }else if(characterIndex == 2){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.pandaegg_background_black);
+            }else if(characterIndex == 3){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.chickegg_background_black);
+            }
+        } else {
+            if(characterIndex == 0){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.rabbit_background_black);
+            }else if(characterIndex == 1){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.penguin_background_black);
+            }else if(characterIndex == 2){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.panda_background_black);
+            }else if(characterIndex == 3){
+                holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.chick_background_black);
+            }
         }
 
         // 상대방이 달린 거리
@@ -118,23 +139,23 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView formattedDate, distance, speed, nickname, time;
-        public ImageView runningMateRecordCharacter;
+        public LinearLayout runningMateRecordCharacter;
         public RunningMate currentRunningMate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
             formattedDate = itemView.findViewById(R.id.formatted_date);
             distance = itemView.findViewById(R.id.distance);
             speed = itemView.findViewById(R.id.speed);
             nickname = itemView.findViewById(R.id.nickname);
             time = itemView.findViewById(R.id.time);
-            runningMateRecordCharacter = itemView.findViewById(R.id.my_record_character);
+            runningMateRecordCharacter = itemView.findViewById(R.id.running_mate_record_character);
 
             // 선택하기 버튼
             Button selectMate = itemView.findViewById(R.id.select_running_mate_btn);
             selectMate.setOnClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext(), R.style.CustomDialogTheme);
+                SharedPreferences.Editor edit = prefs.edit();
 
                 LayoutInflater inflater = LayoutInflater.from(itemView.getContext());
                 // multi_popup.xml을 가져와서 객체로 생성
@@ -161,10 +182,9 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
 
                 // 시작하기 눌렀을 때
                 start.setOnClickListener(b -> {
-                    String runningRecordId = currentRunningMate.getRunningRecordId();
-                    runningService.getRunningMateRunningRecord(activity, runningRecordId);
-                    Intent intent = new Intent(activity, CountdownActivity.class);
-                    countdownActivityResultLauncher.launch(intent);
+                    Intent intent = new Intent(activity, LoadingActivity.class);
+                    intent.putExtra("running_record_id", currentRunningMate.getRunningRecordId());
+                    activity.startActivity(intent);
                     dialog.dismiss();
                 });
             });
@@ -179,8 +199,6 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
     public SpannableString convertTime(Long time){
         int minutes = (int) (time / 60);
         int seconds = (int) (time % 60);
-        System.out.println(minutes + "분");
-        System.out.println(seconds + "초");
 
         String timeStr = String.format("%02d분 %02d초", minutes, seconds);
         SpannableString spannableString = new SpannableString(timeStr);
@@ -198,5 +216,10 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
         }
 
         return spannableString;
+    }
+
+    public String formatDate(LocalDateTime date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN);
+        return date.format(formatter);
     }
 }

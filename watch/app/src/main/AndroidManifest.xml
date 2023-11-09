@@ -28,6 +28,14 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault">
         <activity
+            android:name=".activity.ResultActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
+        <activity
+            android:name=".activity.LoadingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
             android:name=".activity.UnlinkActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

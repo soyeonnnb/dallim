@@ -211,7 +211,7 @@ function Label({
       setPreviewTime2('');
       setPreviewPace2('');
     }
-  });
+  }, [items]);
   return (
     <View
       style={{

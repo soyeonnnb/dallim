@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +52,6 @@ public class SettingActivity extends AppCompatActivity {
             if (unlinkCount == 0){
                 Toast.makeText(SettingActivity.this, "비연동 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
             }else{
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
 
                 LayoutInflater inflater = getLayoutInflater();
@@ -64,7 +64,7 @@ public class SettingActivity extends AppCompatActivity {
 
                 builder.setView(customView);
 
-                // builder 내용으로 AlertDialog 생성
+                // builder 내용으로 AlertDialog 생성ㅇ
                 AlertDialog dialog = builder.create();
 
                 // AlertDialog 보이기
@@ -179,20 +179,26 @@ public class SettingActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
-
         runningService.countNotTranslateRunningData(new RunningService.CountResultListener() {
             @Override
             public void onResult(int count) {
                 // UI Thread에서 int 값 받아서 처리
                 Log.d("로그", "전송되지 않은 데이터의 개수: " + count);
+                ImageView dateView = findViewById(R.id.btn_link_data);
                 unlinkCount = count;
-                TextView dateView = findViewById(R.id.no_connect_data);
-                dateView.setText(String.valueOf(count) + "개");
+                // 비연동 데이터가 있으면
+                if (unlinkCount != 0){
+                    dateView.setImageResource(R.drawable.unknown_nodata);
+                }
+                // 없으면
+                else{
+                    dateView.setImageResource(R.drawable.unknown_data);
+                }
             }
         });
 
-        String email = prefs.getString("email", null);
-        TextView viewEmail = binding.email;
-        viewEmail.setText(email);
+//        String email = prefs.getString("email", null);
+//        TextView viewEmail = binding.email;
+//        viewEmail.setText(email);
     }
 }

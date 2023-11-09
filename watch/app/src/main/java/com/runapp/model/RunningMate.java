@@ -22,6 +22,8 @@ public class RunningMate {
     private int characterIndex;
     @ColumnInfo(name = "planet_index")
     private int planetIndex;
+    @ColumnInfo(name = "evolution_stage")
+    private int evolutionStage;
     @ColumnInfo(name = "level")
     private int level;
     @ColumnInfo(name = "average_pace")
@@ -131,6 +133,14 @@ public class RunningMate {
         this.runningRecordId = runningRecordId;
     }
 
+    public int getEvolutionStage() {
+        return evolutionStage;
+    }
+
+    public void setEvolutionStage(int evolutionStage) {
+        this.evolutionStage = evolutionStage;
+    }
+
     public String getRunningMateId() {
         return runningMateId;
     }
@@ -149,6 +159,7 @@ public class RunningMate {
                 ", nickName='" + nickName + '\'' +
                 ", characterIndex=" + characterIndex +
                 ", planetIndex=" + planetIndex +
+                ", evolutionStage=" + evolutionStage +
                 ", level=" + level +
                 ", averagePace=" + averagePace +
                 ", totalDistance=" + totalDistance +

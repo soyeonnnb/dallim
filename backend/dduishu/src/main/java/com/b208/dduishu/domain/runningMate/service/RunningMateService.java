@@ -3,6 +3,7 @@ package com.b208.dduishu.domain.runningMate.service;
 import com.b208.dduishu.domain.runningMate.document.RunningMate;
 import com.b208.dduishu.domain.runningMate.dto.request.CreateRunningMateInfo;
 import com.b208.dduishu.domain.runningMate.dto.request.RunningMateInfo;
+import com.b208.dduishu.domain.runningMate.exception.RunningMateDuplicationException;
 import com.b208.dduishu.domain.runningMate.repository.RunningMateRepository;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.request.RivalRunningRecordInfo;
@@ -32,6 +33,9 @@ public class RunningMateService {
     public void createRunningMate(CreateRunningMateInfo req) {
         User user = getUser.getUser();
 
+        if (isDuplicate(user.getUserId(), new ObjectId(req.getObjectId()))) {
+            throw new RunningMateDuplicationException();
+        }
         RunningRecord record = runningRecordRepository.findById((new ObjectId(req.getObjectId()))).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -42,6 +46,15 @@ public class RunningMateService {
                 .build();
 
         runningMateRepository.save(runningMate);
+    }
+
+    private boolean isDuplicate(Long userId, ObjectId objectId) {
+        boolean runningMate = runningMateRepository.existsRunningMateByUserUserIdAndRivalRecordId(userId, objectId);
+
+        if (runningMate) {
+            return true;
+        }
+        return false;
     }
 
     public List<RunningMateInfo> getAllRunningMate() {

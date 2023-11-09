@@ -127,5 +127,8 @@ dependencies {
     // 암호화
     implementation("androidx.security:security-crypto-ktx:1.1.0-alpha06")
 
+    // Brotli 디코더 라이브러리 추가
+    implementation ("org.brotli:dec:0.1.2")
+
 
 }

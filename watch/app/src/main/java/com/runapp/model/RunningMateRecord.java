@@ -24,7 +24,7 @@ public class RunningMateRecord {
     @ColumnInfo(name = "average_pace")
     private double averagePace;
     @ColumnInfo(name = "total_time")
-    private int totalTime;
+    private Long totalTime;
 
     public RunningMateRecord() {
     }
@@ -53,11 +53,11 @@ public class RunningMateRecord {
         this.averagePace = averagePace;
     }
 
-    public int getTotalTime() {
+    public Long getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(int totalTime) {
+    public void setTotalTime(Long totalTime) {
         this.totalTime = totalTime;
     }
 

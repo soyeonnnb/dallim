@@ -61,7 +61,7 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
         Map<String, Integer> result = conversion.sToPace(averagePace);
         Integer minutes = result.get("minutes");
         Integer seconds = result.get("seconds");
-        String speedText = String.valueOf(minutes + "'" + seconds + "''");
+        String speedText = String.valueOf(minutes + "' " + seconds + "''");
         SpannableString spannableSpeed = new SpannableString(speedText);
         holder.speed.setText(spannableSpeed);
 

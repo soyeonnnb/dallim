@@ -33,7 +33,7 @@ public class RunningMateService {
     public void createRunningMate(CreateRunningMateInfo req) {
         User user = getUser.getUser();
 
-        if (isDuplicate(new ObjectId(req.getObjectId()))) {
+        if (isDuplicate(user.getUserId(), new ObjectId(req.getObjectId()))) {
             throw new RunningMateDuplicationException();
         }
         RunningRecord record = runningRecordRepository.findById((new ObjectId(req.getObjectId()))).orElseThrow(() -> {
@@ -48,8 +48,8 @@ public class RunningMateService {
         runningMateRepository.save(runningMate);
     }
 
-    private boolean isDuplicate(ObjectId objectId) {
-        boolean runningMate = runningMateRepository.existsRunningMateByRivalRecordId(objectId);
+    private boolean isDuplicate(Long userId, ObjectId objectId) {
+        boolean runningMate = runningMateRepository.existsRunningMateByUserUserIdAndRivalRecordId(userId, objectId);
 
         if (runningMate) {
             return true;

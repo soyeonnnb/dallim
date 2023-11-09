@@ -6,15 +6,22 @@
 
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NativeModules} from 'react-native';
 
 // 나중에 분리 예정 : 단일책임원칙
+
+const {TokenModule} = NativeModules;
+
 const getToken = async () => {
   try {
     const token = await AsyncStorage.getItem('accessToken');
-    // console.log('내 토큰이다~!! : ' + token );
+    // console.log('내 토큰이다~!! : ' + token);
+
+    // 네이티브 모듈을 사용해 Android SharedPreferences에 토큰 저장
+    await TokenModule.setToken(token);
     return token;
   } catch (error) {
-    console.error('Error fetching token:', error);
+    console.error('???Error fetching token:', error);
     throw error;
   }
 };

@@ -7,6 +7,8 @@ import NumberIcon from '@/assets/icons/NumberIcon';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 
+import {meterToKMOrMeter, secondToMinuteText} from '@/recoil/RunningData';
+
 interface Props {
   type: 'week' | 'month';
   year: number;
@@ -56,15 +58,15 @@ export function WeeklyRecord({type, record}: RecordProps) {
     if (type === 'count') {
       setName('달린횟수');
       setContent(record + '번');
-      setColor(colors.darkLavendar);
+      setColor(colors.depth._600);
     } else if (type === 'distance') {
       setName('달린거리');
-      setContent(Math.ceil(record) + 'm');
-      setColor(colors.lightBlue);
+      setContent(meterToKMOrMeter(record));
+      setColor(colors.purple._200);
     } else {
       setName('달린시간');
-      setContent(Math.ceil(record) + '분');
-      setColor(colors.purpleBlue);
+      setContent(secondToMinuteText(record));
+      setColor(colors.point.skyBluePoint);
     }
   });
 
@@ -72,11 +74,16 @@ export function WeeklyRecord({type, record}: RecordProps) {
     <S.Component>
       <S.Circle bgColor={color}>
         {type === 'count' ? (
-          <NumberIcon width={40} height={40} color={colors.lightLavender} />
+          <NumberIcon width={40} height={40} color={colors.purple._100} />
         ) : type === 'distance' ? (
-          <RunningThinIcon width={40} height={40} color={colors.darkLavendar} />
+          <RunningThinIcon
+            width={40}
+            height={40}
+            color={colors.depth._600}
+            stroke={2}
+          />
         ) : (
-          <ClockIcon width={40} height={40} color={colors.lightLavender} />
+          <ClockIcon width={40} height={40} color={colors.purple._100} />
         )}
       </S.Circle>
       <S.Name>{name}</S.Name>

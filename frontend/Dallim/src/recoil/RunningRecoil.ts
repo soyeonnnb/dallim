@@ -1,8 +1,9 @@
 // RunningRecoil.ts
-import { atom } from 'recoil';
+import {atom} from 'recoil';
 
 export interface Competitor {
-  id: string;
+  runningMateId: string;
+  runningRecordId: string;
   userId: number;
   nickName: string;
   characterIndex: number;

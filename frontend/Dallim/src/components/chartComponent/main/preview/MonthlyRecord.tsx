@@ -5,6 +5,7 @@ import ClockIcon from '@/assets/icons/ClockIcon';
 import {colors} from '@/components/common/globalStyles';
 import {characterData} from '@/recoil/CharacterData';
 import {useEffect, useState} from 'react';
+import {meterToKMOrMeter, secondToMinuteText} from '@/recoil/RunningData';
 
 interface Props {
   selectedYearMonth: {
@@ -34,12 +35,12 @@ function MonthlyRecord({selectedYearMonth, previewRecords}: Props) {
         </S.TotalCount>
         <S.AverageCompares>
           <SmallRecord
-            type="거리"
+            type="m"
             record={previewRecords.distance}
             count={previewRecords.count}
           />
           <SmallRecord
-            type="시간"
+            type="분"
             record={previewRecords.time}
             count={previewRecords.count}
           />
@@ -83,55 +84,34 @@ function SmallRecord({type, record, count}: SmallRecordProps) {
   const [avg, setAvg] = useState<string>('');
   const [total, setTotal] = useState<string>('');
   useEffect(() => {
-    if (type === '거리') {
-      if (count == 0) {
-        setTotal('0m');
-        setAvg('0m');
-        return;
-      }
-      if (record < 1000) {
-        setTotal(`${Math.round(record)}m`);
-      } else {
-        setTotal(`${parseFloat((record / 1000).toFixed(1))}km`);
-      }
-      const average = record / count;
-      if (average < 1000) {
-        setAvg(`${parseFloat(average.toFixed(1))}m`);
-      } else {
-        setAvg(`${parseFloat((average / 1000).toFixed(1))}km`);
-      }
+    if (count === 0) {
+      setTotal('0' + type);
+      setAvg('0' + type);
+      return;
+    } else if (type === '거리') {
+      setTotal(meterToKMOrMeter(record));
+      setAvg(meterToKMOrMeter(record / count));
     } else {
-      if (count == 0) {
-        setTotal('0분');
-        setAvg('0분');
-        return;
-      }
-      if (record >= 60) {
-        setTotal(`${Math.floor(record / 60)}분 ${record % 60}초`);
-        const average = record / count;
-        if (average >= 60)
-          setAvg(`${Math.floor(average / 60)}분 ${average % 60}초`);
-        else setAvg(`${Math.ceil(average % 60)}초`);
-      } else {
-      }
+      setTotal(secondToMinuteText(record));
+      setAvg(secondToMinuteText(record / count));
     }
   }, [record, count]);
   return (
     <S.SmallContainer>
       <S.SmallCircle
-        bgColor={type == '거리' ? colors.lightBlue : colors.purpleBlue}>
-        {type == '거리' ? (
-          <RunningThinIcon width={25} height={25} color={colors.darkLavendar} />
+        bgColor={type == 'm' ? colors.purple._200 : colors.point.skyBluePoint}>
+        {type == 'm' ? (
+          <RunningThinIcon width={25} height={25} color={colors.depth._600} />
         ) : (
-          <ClockIcon width={25} height={25} color={colors.lightLavender} />
+          <ClockIcon width={25} height={25} color={colors.purple._100} />
         )}
       </S.SmallCircle>
       <S.SmallView>
-        <S.SmallName>달린{type}</S.SmallName>
+        <S.SmallName>달린{type === 'm' ? '거리' : '시간'}</S.SmallName>
         <S.SmallContent>{total}</S.SmallContent>
       </S.SmallView>
       <S.SmallView>
-        <S.SmallName>평균{type}</S.SmallName>
+        <S.SmallName>평균{type === 'm' ? '거리' : '시간'}</S.SmallName>
         <S.SmallContent>{avg}</S.SmallContent>
       </S.SmallView>
     </S.SmallContainer>

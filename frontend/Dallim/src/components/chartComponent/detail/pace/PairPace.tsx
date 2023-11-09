@@ -33,11 +33,6 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
     setSectionNum(data.length + 1);
   }, []);
 
-  useEffect(() => {}, [second]);
-
-  const handlePress = (data: any) => {
-    console.log('Pressed data:', data);
-  };
   return (
     <S.Container
       contentContainerStyle={{
@@ -52,7 +47,7 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
               key={rowIndex}
               record={record}
               color={
-                rivalData && rivalData[rowIndex].pace > record.pace
+                rivalData && rivalData[rowIndex].pace >= record.pace
                   ? '#96B986'
                   : '#E4A4A4'
               }
@@ -76,7 +71,7 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
               parentHeight={parentHeight}
               key={rowIndex}
               record={record}
-              color={colors.gray}
+              color={colors.grey._300}
             />
           ))}
         </S.RecordBox>

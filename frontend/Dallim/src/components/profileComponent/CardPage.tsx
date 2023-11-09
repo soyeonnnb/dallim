@@ -1,4 +1,3 @@
-import { ViewStyle, Text } from 'react-native';
 import * as S from './CardPage.styles';
 import { planetData } from '@/recoil/PlanetData';
 import { characterData } from '@/recoil/CharacterData';
@@ -42,6 +41,17 @@ export default function CardPage({ item }: ICardPage) {
   // 속력
   const speed = item.totalDistance / item.totalDistance;
 
+  // 시간 변환 함수 ( 60분 이상 경우에 )
+  const formatTime = (totalMinutes: number) => {
+    if (totalMinutes >= 60) {
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      return `${hours}시간 ${minutes}분`;
+    } else {
+      return `${totalMinutes}분`;
+    }
+  };
+
   return (
     // <S.PageItem style={style}>
     <S.PageItem>
@@ -74,7 +84,7 @@ export default function CardPage({ item }: ICardPage) {
                 <S.IconImage source={TimeIcon} />
               </S.Icon>
               <S.FooterText>
-                {item.totalTime}분
+                {formatTime(item.totalTime)}
               </S.FooterText>
             </S.MiddleBox>
             <S.BottomBox>
@@ -99,15 +109,15 @@ export default function CardPage({ item }: ICardPage) {
 
         </S.StyledImage>
 
-          </S.ImageWrapper>
+      </S.ImageWrapper>
 
-        {/* 캐릭터 */}
-        <S.BodyBottomCharacterImageBox>
-          <S.CharacterImage
-            source={selectedCharacterLevelData.front}
-            resizeMode="contain"
-          />
-        </S.BodyBottomCharacterImageBox>
+      {/* 캐릭터 */}
+      <S.BodyBottomCharacterImageBox>
+        <S.CharacterImage
+          source={selectedCharacterLevelData.front}
+          resizeMode="contain"
+        />
+      </S.BodyBottomCharacterImageBox>
 
     </S.PageItem>
   );

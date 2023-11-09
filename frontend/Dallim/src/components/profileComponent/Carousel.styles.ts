@@ -71,3 +71,25 @@ export const CharacterImage = styled.Image`
   width: 100%;
   height: 100%;
 `;
+
+export const EmptyBox = styled.View`
+/* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const EmptyImage = styled.Image`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 60%;
+`;
+
+export const EmptyText = styled.Text`
+  font-size: 25px;
+  color: #8c8c8c;
+  text-align: center;
+`;

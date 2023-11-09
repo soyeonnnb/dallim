@@ -17,7 +17,7 @@ export const Title = styled.Text`
   color: white;
 `;
 export const Navi = styled.Text`
-  color: ${colors.gray};
+  color: ${colors.grey._300};
 `;
 
 export const Chart = styled.View`

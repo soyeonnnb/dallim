@@ -6,14 +6,19 @@ import Toast from 'react-native-toast-message';
 import { useSetRecoilState } from 'recoil';
 import { competitorDataState } from '@/recoil/RunningRecoil';
 
-
 type DeleteModalProps = {
-  toggleDeleteModal: () => void;
+  isVisible: boolean;
   competitorId: string;
+  toggleDeleteModal: () => void;
+  onDeleteSuccess: () => void;
 };
 
-function RunningMateDeleteModal({ toggleDeleteModal, competitorId }: DeleteModalProps) {
-
+function RunningMateDeleteModal({
+  isVisible,
+  competitorId,
+  toggleDeleteModal,
+  onDeleteSuccess,
+}: DeleteModalProps) {
   const setCompetitorData = useSetRecoilState(competitorDataState);
 
   const handleRunningMateListChange = async () => {
@@ -28,9 +33,12 @@ function RunningMateDeleteModal({ toggleDeleteModal, competitorId }: DeleteModal
           autoHide: true,
           topOffset: 10,
         });
-        setCompetitorData((oldCompetitorData) =>
-          oldCompetitorData.filter((competitor) => competitor.id !== competitorId)
+        setCompetitorData(oldCompetitorData =>
+          oldCompetitorData.filter(
+            competitor => competitor.runningMateId !== competitorId,
+          ),
         );
+        onDeleteSuccess(); // 성공 콜백
       } else {
         throw new Error('삭제하는데 에러발생');
       }
@@ -49,7 +57,9 @@ function RunningMateDeleteModal({ toggleDeleteModal, competitorId }: DeleteModal
   };
 
   return (
-    <Modal transparent={true}>
+    <Modal transparent={true}
+      visible={isVisible}
+    >
       <S.ModalContainer>
         <S.ModalContent>
           <S.ModalHeader>

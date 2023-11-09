@@ -17,13 +17,107 @@
         android:background="@android:color/transparent"
         android:gravity="center_vertical"
         android:textColor="@color/color_ffffff"
-        android:textSize="13sp" />
+        android:textSize="18sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.8"
         android:orientation="vertical">
+
+        <!-- 요일 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.16"
+            android:background="@android:color/transparent"
+            android:orientation="horizontal">
+
+            <!-- 일요일 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
+                android:gravity="center"
+                android:textFontWeight="500"
+                android:text="S"
+                android:fontFamily="@font/grandifloraoneregular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="15sp" />
+
+
+
+            <!-- 월요일 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
+                android:gravity="center"
+                android:textFontWeight="500"
+                android:text="M"
+                android:fontFamily="@font/grandifloraoneregular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="15sp" />
+            <!-- 화요일 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
+                android:gravity="center"
+                android:textFontWeight="500"
+                android:text="T"
+                android:fontFamily="@font/orbitregular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="15sp" />
+            <!-- 수요일 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
+                android:gravity="center"
+                android:textFontWeight="500"
+                android:text="W"
+                android:fontFamily="@font/orbitregular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="15sp" />
+
+            <!-- 목요일 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
+                android:gravity="center"
+                android:textFontWeight="500"
+                android:text="T"
+                android:fontFamily="@font/changa_regular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="15sp" />
+
+            <!-- 금요일 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
+                android:gravity="center"
+                android:textFontWeight="500"
+                android:text="F"
+                android:fontFamily="@font/changa_regular"
+                android:textColor="@color/color_ffffff"
+                android:textSize="15sp" />
+
+            <!-- 토요일 -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.14"
+                android:gravity="center"
+                android:textFontWeight="500"
+                android:text="S"
+                android:fontFamily="@font/"
+                android:textColor="@color/color_ffffff"
+                android:textSize="15sp" />
+        </LinearLayout>
+
 
         <!-- 1주차 -->
         <LinearLayout
@@ -34,90 +128,171 @@
             android:orientation="horizontal">
 
             <!-- 일요일 -->
-            <TextView
-                android:id="@+id/cal1"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="@integer/google_play_services_version"
-                android:fontFamily="@font/changa_regular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="11sp" />
+                android:layout_weight="0.14">
 
+                <ImageView
+                    android:id="@+id/check_image_view_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/grandifloraoneregular"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 월요일 -->
-            <TextView
-                android:id="@+id/cal2"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="@integer/google_play_services_version"
-                android:fontFamily="@font/changa_regular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="11sp" />
+                android:layout_weight="0.14">
 
+                <ImageView
+                    android:id="@+id/check_image_view_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/grandifloraoneregular"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 화요일 -->
-            <TextView
-                android:id="@+id/cal3"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="@integer/google_play_services_version"
-                android:fontFamily="@font/changa_regular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="11sp" />
+                android:layout_weight="0.14">
 
+                <ImageView
+                    android:id="@+id/check_image_view_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/orbitregular"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 수요일 -->
-            <TextView
-                android:id="@+id/cal4"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="@integer/google_play_services_version"
-                android:fontFamily="@font/changa_regular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="11sp" />
+                android:layout_weight="0.14">
 
+                <ImageView
+                    android:id="@+id/check_image_view_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/orbitregular"
+                    android:textSize="12sp" />
+
+            </FrameLayout>
             <!-- 목요일 -->
-            <TextView
-                android:id="@+id/cal5"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="@integer/google_play_services_version"
-                android:fontFamily="@font/changa_regular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="11sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
 
             <!-- 금요일 -->
-            <TextView
-                android:id="@+id/cal6"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="@integer/google_play_services_version"
-                android:fontFamily="@font/changa_regular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="11sp" />
+                android:layout_weight="0.14">
 
+                <ImageView
+                    android:id="@+id/check_image_view_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 토요일 -->
-            <TextView
-                android:id="@+id/cal7"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="@integer/google_play_services_version"
-                android:fontFamily="@font/changa_regular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="11sp" />
-        </LinearLayout>
+                android:layout_weight="0.14">
 
+                <ImageView
+                    android:id="@+id/check_image_view_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
+        </LinearLayout>
 
         <!-- 2주차 -->
         <LinearLayout
@@ -128,76 +303,170 @@
             android:orientation="horizontal">
 
             <!-- 일요일 -->
-            <TextView
-                android:id="@+id/cal8"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 월요일 -->
-            <TextView
-                android:id="@+id/cal9"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 화요일 -->
-            <TextView
-                android:id="@+id/cal10"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_10"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal10"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 수요일 -->
-            <TextView
-                android:id="@+id/cal11"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_11"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal11"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 목요일 -->
-            <TextView
-                android:id="@+id/cal12"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_12"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal12"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 금요일 -->
-            <TextView
-                android:id="@+id/cal13"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_13"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal13"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 토요일 -->
-            <TextView
-                android:id="@+id/cal14"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_14"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal14"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
         </LinearLayout>
+        <!-- ... -->
 
         <!-- 3주차 -->
         <LinearLayout
@@ -208,75 +477,170 @@
             android:orientation="horizontal">
 
             <!-- 일요일 -->
-            <TextView
-                android:id="@+id/cal15"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_15"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal15"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 월요일 -->
-            <TextView
-                android:id="@+id/cal16"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_16"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal16"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 화요일 -->
-            <TextView
-                android:id="@+id/cal17"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_17"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal17"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 수요일 -->
-            <TextView
-                android:id="@+id/cal18"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_18"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal18"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 목요일 -->
-            <TextView
-                android:id="@+id/cal19"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_19"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+                <TextView
+                    android:id="@+id/cal19"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 금요일 -->
-            <TextView
-                android:id="@+id/cal20"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_20"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal20"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 토요일 -->
-            <TextView
-                android:id="@+id/cal21"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_21"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal21"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
         </LinearLayout>
         <!-- ... -->
 
@@ -289,75 +653,173 @@
             android:orientation="horizontal">
 
             <!-- 일요일 -->
-            <TextView
-                android:id="@+id/cal22"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_22"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal22"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 월요일 -->
-            <TextView
-                android:id="@+id/cal23"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_23"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal23"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 화요일 -->
-            <TextView
-                android:id="@+id/cal24"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_24"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal24"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 수요일 -->
-            <TextView
-                android:id="@+id/cal25"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_25"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal25"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 목요일 -->
-            <TextView
-                android:id="@+id/cal26"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_26"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal26"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 금요일 -->
-            <TextView
-                android:id="@+id/cal27"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_27"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal27"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 토요일 -->
-            <TextView
-                android:id="@+id/cal28"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_28"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal28"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
         </LinearLayout>
         <!-- ... -->
 
@@ -370,156 +832,173 @@
             android:orientation="horizontal">
 
             <!-- 일요일 -->
-            <TextView
-                android:id="@+id/cal29"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
-            <!-- 월요일 -->
-            <TextView
-                android:id="@+id/cal30"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
-            <!-- 화요일 -->
-            <TextView
-                android:id="@+id/cal31"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
-            <!-- 수요일 -->
-            <TextView
-                android:id="@+id/cal32"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
-            <!-- 목요일 -->
-            <TextView
-                android:id="@+id/cal33"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
-            <!-- 금요일 -->
-            <TextView
-                android:id="@+id/cal34"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
-            <!-- 토요일 -->
-            <TextView
-                android:id="@+id/cal35"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
-        </LinearLayout>
-        <!-- ... -->
+                android:layout_weight="0.14">
 
-        <!-- 6주차 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.16"
-            android:background="@android:color/transparent"
-            android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/check_image_view_29"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
 
-            <!-- 일요일 -->
-            <TextView
-                android:id="@+id/cal36"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                <TextView
+                    android:id="@+id/cal29"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 월요일 -->
-            <TextView
-                android:id="@+id/cal37"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_30"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal30"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 화요일 -->
-            <TextView
-                android:id="@+id/cal38"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_31"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal31"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 수요일 -->
-            <TextView
-                android:id="@+id/cal39"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_32"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal32"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 목요일 -->
-            <TextView
-                android:id="@+id/cal40"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_33"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal33"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 금요일 -->
-            <TextView
-                android:id="@+id/cal41"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_34"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal34"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
             <!-- 토요일 -->
-            <TextView
-                android:id="@+id/cal42"
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textColor="@color/color_ffffff"
-                android:fontFamily="@font/changa_extralight"
-                android:textSize="9sp" />
+                android:layout_weight="0.14">
+
+                <ImageView
+                    android:id="@+id/check_image_view_35"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_check_circle2"
+                    android:background="@drawable/circle"
+                    android:visibility="gone"
+                    android:scaleType="centerInside"/>
+
+                <TextView
+                    android:id="@+id/cal35"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textColor="@color/color_ffffff"
+                    android:fontFamily="@font/changa_extralight"
+                    android:textSize="12sp" />
+            </FrameLayout>
         </LinearLayout>
         <!-- ... -->
     </LinearLayout>

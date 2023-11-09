@@ -16,6 +16,7 @@ public class WatchUserInfo {
     private int evolutionStage;
     private int planetIndex;
     private String nickName;
+    private String type;
     private String email;
     private int level;
 
@@ -27,6 +28,7 @@ public class WatchUserInfo {
         this.evolutionStage = Util.getEvolutionStage(character.getCharacterLevel().getLevel());
         this.planetIndex = Util.getMainPlanetIndex(planet);
         this.nickName = user.getNickname();
+        this.type = user.getAccountType();
         this.email = user.getEmail();
         this.level = user.getUserLevel().getLevel();
     }

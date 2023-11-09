@@ -21,6 +21,7 @@ import com.runapp.R;
 import com.runapp.database.RunningDataConverters;
 import com.runapp.model.RunDetail;
 import com.runapp.util.MyApplication;
+import com.runapp.view.RunningMateRecordViewModel;
 import com.runapp.view.RunningViewModel;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class TimerService extends Service {
     private static final String CHANNEL_ID = "RunningService";
     public static final String TIMER_BR = "com.runapp.service.timerbroadcast";
     private RunningViewModel runningViewModel;
+    private RunningMateRecordViewModel runningMateRecordViewModel;
     private Long totalTime = 1L;
     private int speedCountTime = 0;
     private double totalSpeed = 0;
@@ -48,6 +50,8 @@ public class TimerService extends Service {
         startTime = System.currentTimeMillis();
         timerHandler = new Handler();
         runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
+        runningMateRecordViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningMateRecordViewModel.class);
+        mateRunningDetail = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
         createNotificationChannel();
     }
 
@@ -91,13 +95,13 @@ public class TimerService extends Service {
 
     private void updateRunDetailList(long elapsedTime) {
         int seconds = (int) (elapsedTime / 1000);
-//        if (runningViewModel.getOriDistance().getValue() != null && runningViewModel.getOriDistance().getValue() != 0) {
-//            Double mateDistance = mateRunningDetail.get(seconds);
-//            Double curDistance = runningViewModel.getOriDistance().getValue();
-//            Log.d("메이트", String.valueOf(mateDistance));
-//            Log.d("내기록", String.valueOf(curDistance));
-//            runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
-//        }
+        if (runningViewModel.getOriDistance().getValue() != null && runningViewModel.getOriDistance().getValue() != 0) {
+            Double mateDistance = mateRunningDetail.get(seconds);
+            Double curDistance = runningViewModel.getOriDistance().getValue();
+            Log.d("메이트", String.valueOf(mateDistance));
+            Log.d("내기록", String.valueOf(curDistance));
+            runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
+        }
         runningViewModel.setTotalTime((long) seconds);
         int minutes = seconds / 60;
         seconds = seconds % 60;

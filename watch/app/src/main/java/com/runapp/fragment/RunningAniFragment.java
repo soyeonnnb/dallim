@@ -119,7 +119,6 @@ public class RunningAniFragment extends Fragment {
         TextView distanceDifferenceView = view.findViewById(R.id.distance_difference);
         if (runningViewModel.getDistanceDifference().getValue() != null && runningViewModel.getDistanceDifference().getValue() == -1.0){
             distanceDifferenceView.setVisibility(View.GONE);
-            System.out.println("들어옴");
         } else if(runningViewModel.getDistanceDifference().getValue() != null && runningViewModel.getDistanceDifference().getValue() != 0){
             Log.e("차이", String.valueOf(runningViewModel.getDistanceDifference().getValue()));
             distanceDifferenceView = view.findViewById(R.id.distance_difference);

@@ -34,6 +34,7 @@ public class RunningViewModel extends ViewModel {
     private final MutableLiveData<Double> initLatitude = new MutableLiveData<>();
     private final MutableLiveData<Double> initLongitude = new MutableLiveData<>();
     private final MutableLiveData<Double> distanceDifference = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> pairCheck = new MutableLiveData<>();
 
     public RunningViewModel() {
         distanceDifference.setValue(0.0);
@@ -181,5 +182,12 @@ public class RunningViewModel extends ViewModel {
     }
     public void setDistanceDifference(Double value) {
         distanceDifference.setValue(value);
+    }
+
+    public MutableLiveData<Boolean> getPairCheck() {
+        return pairCheck;
+    }
+    public void setPairCheck(boolean value) {
+        pairCheck.setValue(value);
     }
 }

@@ -38,6 +38,16 @@ public class RunningViewModel extends ViewModel {
 
     public RunningViewModel() {
         distanceDifference.setValue(0.0);
+        heartRate.setValue(0.0);
+        msSpeed.setValue(0.0);
+        distance.setValue(0.0);
+        msPaceToSecond.setValue(0.0);
+        oriDistance.setValue(0.0);
+        totalHeartRate.setValue(0.0);
+        totalTime.setValue(0L);
+        totalSpeed.setValue(0.0);
+        msPace.setValue("0'00''");
+        heartCountTime.setValue(0);
     }
 
     public MutableLiveData<RunningData> getRunningData() {
@@ -177,7 +187,7 @@ public class RunningViewModel extends ViewModel {
         initLatitude.setValue(value);
     }
 
-    public MutableLiveData<Double> getDistanceDifference() {
+    public LiveData<Double> getDistanceDifference() {
         return distanceDifference;
     }
     public void setDistanceDifference(Double value) {

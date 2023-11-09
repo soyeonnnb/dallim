@@ -197,8 +197,8 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        String email = prefs.getString("email", null);
-        TextView viewEmail = binding.email;
-        viewEmail.setText(email);
+//        String email = prefs.getString("email", null);
+//        TextView viewEmail = binding.email;
+//        viewEmail.setText(email);
     }
 }

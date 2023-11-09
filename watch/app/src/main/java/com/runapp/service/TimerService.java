@@ -15,6 +15,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.runapp.R;
@@ -42,6 +43,7 @@ public class TimerService extends Service {
     private double totalSpeed = 0;
     private List<Double> mateRunningDetail = new ArrayList<>();
     private RunDetail mateRunDetail = new RunDetail();
+    private boolean check = false;
 
     @SuppressLint("InvalidWakeLockTag")
     @Override
@@ -50,8 +52,12 @@ public class TimerService extends Service {
         startTime = System.currentTimeMillis();
         timerHandler = new Handler();
         runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
-        runningMateRecordViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningMateRecordViewModel.class);
-        mateRunningDetail = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
+        // check가 true면 함께달리기
+        check = runningViewModel.getPairCheck().getValue();
+        if (check){
+            runningMateRecordViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningMateRecordViewModel.class);
+            mateRunningDetail = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
+        }
         createNotificationChannel();
     }
 
@@ -95,13 +101,18 @@ public class TimerService extends Service {
 
     private void updateRunDetailList(long elapsedTime) {
         int seconds = (int) (elapsedTime / 1000);
-        if (runningViewModel.getOriDistance().getValue() != null && runningViewModel.getOriDistance().getValue() != 0) {
-            Double mateDistance = mateRunningDetail.get(seconds);
-            Double curDistance = runningViewModel.getOriDistance().getValue();
-            Log.d("메이트", String.valueOf(mateDistance));
-            Log.d("내기록", String.valueOf(curDistance));
-            runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
+
+        // 함께달리기인 경우에만 거리 차이 계산
+        if (check){
+            if (runningViewModel.getOriDistance().getValue() != null && runningViewModel.getOriDistance().getValue() != 0) {
+                Double mateDistance = mateRunningDetail.get(seconds);
+                Double curDistance = runningViewModel.getOriDistance().getValue();
+                Log.d("메이트", String.valueOf(mateDistance));
+                Log.d("내기록", String.valueOf(curDistance));
+                runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
+            }
         }
+
         runningViewModel.setTotalTime((long) seconds);
         int minutes = seconds / 60;
         seconds = seconds % 60;

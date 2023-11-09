@@ -3,12 +3,12 @@ import {useEffect, useState} from 'react';
 import {fetchUserProfile} from '@/apis/MainApi';
 import {characterData} from '@/recoil/CharacterData';
 import {planetData} from '@/recoil/PlanetData';
-import GuideIcon from '@/assets/icons/GuideIcon.png';
+import GuideIcon from '@/assets/icons/WatchIcon.png';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
 import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';
 import Loading from '@/components/common/Loading';
-import GuideModal from '@/components/mainComponent/GuideModal';
+import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
 import {
   userIdState,
   userNicknameState,

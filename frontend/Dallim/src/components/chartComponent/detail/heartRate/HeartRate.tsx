@@ -31,7 +31,8 @@ function HeartRate({data}: Props) {
   useEffect(() => {
     const newShowData: {value: number; color: string}[] = [];
     data.secondPerHeartRateSection.map((d, index) => {
-      if (d != 0) newShowData.push({value: d, color: chartColor[index]});
+      if (d != 0)
+        newShowData.push({value: Math.round(d), color: chartColor[index]});
     });
     setShowData(newShowData);
   }, []);

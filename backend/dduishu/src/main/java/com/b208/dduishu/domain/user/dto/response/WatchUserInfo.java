@@ -13,8 +13,10 @@ public class WatchUserInfo {
     private Long userId;
     private Long characterId;
     private int characterIndex;
+    private int evolutionStage;
     private int planetIndex;
     private String nickName;
+    private String type;
     private String email;
     private int level;
 
@@ -23,8 +25,10 @@ public class WatchUserInfo {
         this.userId = user.getUserId();
         this.characterId = character.getId();
         this.characterIndex = Util.getCharacterIndexByCharacter(character);
+        this.evolutionStage = Util.getEvolutionStage(character.getCharacterLevel().getLevel());
         this.planetIndex = Util.getMainPlanetIndex(planet);
         this.nickName = user.getNickname();
+        this.type = user.getAccountType();
         this.email = user.getEmail();
         this.level = user.getUserLevel().getLevel();
     }

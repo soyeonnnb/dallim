@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +18,10 @@ import com.runapp.R;
 import com.runapp.model.RunningData;
 import com.runapp.util.Conversion;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdapter.ViewHolder> {
@@ -40,7 +44,8 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         RunningData runningData = runningDataList.get(position);
         // 데이터를 ViewHolder의 뷰에 바인딩합니다.
-        holder.formattedDate.setText(String.valueOf(runningData.getFormattedDate()));
+
+        holder.formattedDate.setText(String.valueOf(formatDate(runningData.getDate())));
 
         Log.e("거리", String.valueOf(runningData.getTotalDistance()));
 
@@ -49,10 +54,6 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
         Log.e("km거리", String.valueOf(totalDistance));
         String distanceText = String.valueOf(totalDistance + " km");
         SpannableString spannableDistance = new SpannableString(distanceText);
-        int indexOfDISTANCE = distanceText.indexOf("km");
-        if (indexOfDISTANCE != -1) {
-            spannableDistance.setSpan(new RelativeSizeSpan(0.70f), indexOfDISTANCE, indexOfDISTANCE + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
         holder.distance.setText(spannableDistance);
 
         // 페이스
@@ -60,30 +61,44 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
         Map<String, Integer> result = conversion.sToPace(averagePace);
         Integer minutes = result.get("minutes");
         Integer seconds = result.get("seconds");
-        String speedText = String.valueOf(minutes + "'" + seconds + "''");
+        String speedText = String.valueOf(minutes + "' " + seconds + "''");
         SpannableString spannableSpeed = new SpannableString(speedText);
         holder.speed.setText(spannableSpeed);
 
         // 평균 심박수
-        String heartRateText = String.valueOf(runningData.getAverageHeartRate()) + " bpm";
+        String heartRateText = String.valueOf(runningData.getAverageHeartRate()) + " BPM";
         SpannableString spannableHeartRate = new SpannableString(heartRateText);
-        int indexOfBPM = heartRateText.indexOf("bpm");
+        int indexOfBPM = heartRateText.indexOf("BPM");
         if (indexOfBPM != -1) {
-            spannableHeartRate.setSpan(new RelativeSizeSpan(0.70f), indexOfBPM, indexOfBPM + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableHeartRate.setSpan(new RelativeSizeSpan(1.0f), indexOfBPM, indexOfBPM + 3, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         holder.heartRate.setText(spannableHeartRate);
 
         holder.time.setText(convertTime(runningData.getTotalTime()));
         Long characterId = runningData.getCharacterId();
-        if(characterId == 0){
-            holder.myRecordCharacter.setImageResource(R.drawable.rabbit);
-        }else if(characterId == 1){
-            holder.myRecordCharacter.setImageResource(R.drawable.penguin);
-        }else if(characterId == 2){
-            holder.myRecordCharacter.setImageResource(R.drawable.panda);
-        }else if(characterId == 3){
-            holder.myRecordCharacter.setImageResource(R.drawable.chick);
+        int evolutionStage = runningData.getEvolutionStage();
+        if (evolutionStage == 0){
+            if(characterId == 0){
+                holder.myRecordCharacter.setBackgroundResource(R.drawable.rabbitegg_background_black);
+            }else if(characterId == 1){
+                holder.myRecordCharacter.setBackgroundResource(R.drawable.penguinegg_background_black);
+            }else if(characterId == 2){
+                holder.myRecordCharacter.setBackgroundResource(R.drawable.pandaegg_background_black);
+            }else if(characterId == 3){
+                holder.myRecordCharacter.setBackgroundResource(R.drawable.chickegg_background_black);
+            }
+        }else{
+            if(characterId == 0){
+                holder.myRecordCharacter.setBackgroundResource(R.drawable.rabbit_background_black);
+            }else if(characterId == 1){
+                holder.myRecordCharacter.setBackgroundResource(R.drawable.penguin_background_black);
+            }else if(characterId == 2){
+                holder.myRecordCharacter.setBackgroundResource(R.drawable.panda_background_black);
+            }else if(characterId == 3){
+                holder.myRecordCharacter.setBackgroundResource(R.drawable.chick_background_black);
+            }
         }
+
     }
 
     @Override
@@ -93,14 +108,14 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView formattedDate, distance, speed, heartRate, time;
-        public ImageView myRecordCharacter;
+        public LinearLayout myRecordCharacter;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             formattedDate = itemView.findViewById(R.id.formatted_date);
             distance = itemView.findViewById(R.id.distance);
             speed = itemView.findViewById(R.id.speed);
-            heartRate = itemView.findViewById(R.id.heartRate);
+            heartRate = itemView.findViewById(R.id.heart_rate);
             time = itemView.findViewById(R.id.time);
             myRecordCharacter = itemView.findViewById(R.id.my_record_character);
         }
@@ -111,26 +126,19 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
     }
 
     // ms를 분:초로 변환해주는 컨버터(ex 00:00)
-    public SpannableString convertTime(Long time){
-        int minutes = (int) (time / 60);
+    public SpannableString convertTime(Long time) {
+        int hours = (int) (time / 3600);
+        int minutes = (int) ((time % 3600) / 60);
         int seconds = (int) (time % 60);
 
-        String timeStr = String.format("%02d분 %02d초", minutes, seconds);
-        SpannableString spannableString = new SpannableString(timeStr);
+        String timeStr = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        return new SpannableString(timeStr);
+    }
 
-        // "분"과 "초"의 위치를 찾습니다.
-        int indexOfMinute = timeStr.indexOf("분");
-        int indexOfSecond = timeStr.indexOf("초");
 
-        // "분"과 "초"에 대해 RelativeSizeSpan을 적용하여 텍스트 크기를 줄입니다.
-        if(indexOfMinute != -1) {
-            spannableString.setSpan(new RelativeSizeSpan(0.60f), indexOfMinute, indexOfMinute+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        if(indexOfSecond != -1) {
-            spannableString.setSpan(new RelativeSizeSpan(0.60f), indexOfSecond, indexOfSecond+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        return spannableString;
+    public String formatDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREAN);
+        return sdf.format(date);
     }
 }
 

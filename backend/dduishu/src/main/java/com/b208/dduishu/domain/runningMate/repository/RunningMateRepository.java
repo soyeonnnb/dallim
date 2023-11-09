@@ -9,4 +9,6 @@ import java.util.List;
 public interface RunningMateRepository extends MongoRepository<RunningMate, ObjectId> {
 
     List<RunningMate> findAllByUserUserId(Long userId);
+
+    boolean existsRunningMateByUserUserIdAndRivalRecordId(Long userId, ObjectId objectId);
 }

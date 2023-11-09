@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -21,8 +22,11 @@ import com.runapp.R;
 import com.runapp.adapter.RunningMateDataAdapter;
 import com.runapp.database.AppDatabase;
 import com.runapp.model.RunningMate;
+import com.runapp.model.RunningMateRecord;
+import com.runapp.service.RunningService;
 import com.runapp.util.CenterZoomLayoutManager;
 import com.runapp.util.PreferencesUtil;
+import com.runapp.view.RunningMateRecordViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +39,7 @@ public class RunningMateActivity extends AppCompatActivity {
     private Executor executor = Executors.newSingleThreadExecutor();
     private SharedPreferences prefs;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +51,7 @@ public class RunningMateActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rv_running_mate);
         recyclerView.setLayoutManager(layoutManager);
-        RunningMateDataAdapter adapter = new RunningMateDataAdapter(this, new ArrayList<>(), RunningMateActivity.this, startForCountdownResult);
+        RunningMateDataAdapter adapter = new RunningMateDataAdapter(this, new ArrayList<>(), RunningMateActivity.this);
         recyclerView.setAdapter(adapter);
 
         TextView tvNoData = findViewById(R.id.tv_no_data);
@@ -70,23 +75,9 @@ public class RunningMateActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
-    // RunningMateActivity에서
-    ActivityResultLauncher<Intent> startForCountdownResult = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    // 모든 액티비티를 종료하고 RunningActivity로 이동
-                    System.out.println("이거 들어옴?");
-                    Intent intent = new Intent(this, RunningActivity.class);
-                    intent.putExtra("run_type", "PAIR");
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-    );
 
     @Override
     protected void onResume() {

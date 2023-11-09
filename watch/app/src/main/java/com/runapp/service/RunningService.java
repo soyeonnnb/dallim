@@ -8,6 +8,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import androidx.lifecycle.ViewModelProvider;
+
 import com.runapp.activity.CountdownActivity;
 import com.runapp.activity.RunningMateActivity;
 import com.runapp.database.AppDatabase;
@@ -21,6 +23,8 @@ import com.runapp.model.RunningMate;
 import com.runapp.model.RunningMateRecord;
 import com.runapp.util.AccessToken;
 import com.runapp.util.ApiUtil;
+import com.runapp.util.MyApplication;
+import com.runapp.view.RunningMateRecordViewModel;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
@@ -36,6 +40,7 @@ public class RunningService {
     private AppDatabase db;
 
     private SharedPreferences prefs;
+    RunningMateRecordViewModel runningMateRecordViewModel;
     private Context context;
     private final Executor executor = Executors.newSingleThreadExecutor();
 
@@ -218,7 +223,7 @@ public class RunningService {
     }
 
     // 내 러닝메이트 달리기 기록 가져오기
-    public void getRunningMateRunningRecord(Activity currentActivity, String objectId){
+    public void getRunningMateRunningRecord(Activity currentActivity, String objectId, DataCallback callback){
         // 기존에 있던 러닝메이트 달리기 기록 삭제
         deleteRunningMateRunningData();
 
@@ -243,6 +248,9 @@ public class RunningService {
                     addRunningMateRunningData(runningMateRecord);
                     long end2 = System.currentTimeMillis();
                     Log.d("sqlite", String.valueOf(end2-start));
+
+                    runningMateRecordViewModel= new ViewModelProvider((MyApplication) context).get(RunningMateRecordViewModel .class);
+                    callback.onDataLoaded(runningMateRecord);
                 }else{
                     Log.e("러닝메이트 기록 가져오기(실패)", response.errorBody().toString());
                     // 에러처리

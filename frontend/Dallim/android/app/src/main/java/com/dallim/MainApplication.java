@@ -3,6 +3,9 @@ package com.dallim;
 import android.app.Application;
 import android.util.Log;
 
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
+
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
@@ -31,7 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
 
               packages.add(new CalendarWidgetModulePackage());
               packages.add(new DirectRunWidgetModulePackage());
-
+              packages.add(new TokenModulePackage());
+              Log.d("DDDDDDDDDD", "MainApplication - Packages"+packages);
               return packages;
           }
 

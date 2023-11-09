@@ -8,6 +8,10 @@ import androidx.room.TypeConverters;
 import com.runapp.database.RunningDataConverters;
 import com.runapp.dto.RunningDataDTO;
 
+import java.security.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -26,9 +30,7 @@ public class RunningData {
     @ColumnInfo(name = "total_time")
     private Long totalTime; // 총 시간
     @ColumnInfo(name = "character_id")
-    private int characterId; // 어떤 캐릭터 pk인지
-    @ColumnInfo(name = "character_info_id")
-    private int characterInfoId; // 어떤 캐릭터인지
+    private Long characterId; // 어떤 캐릭터 pk인지
     @ColumnInfo(name = "step_count")
     private double stepCount; // 발걸음
     @ColumnInfo(name = "avgrage_pace")
@@ -40,10 +42,26 @@ public class RunningData {
     @ColumnInfo(name = "type")
     private String type; // 혼자뛰었는지 같이 뛰었는지
     @ColumnInfo(name = "rival_record_id")
-    private Long rivalRecordId;
+    private String rivalRecordId;
+    @ColumnInfo(name = "watch_or_mobile")
+    private String watchOrMobile;
+    @ColumnInfo(name = "is_translation")
+    private Boolean isTranslation;
+    @ColumnInfo(name = "init_latitude")
+    private double initLatitude; // 시작 위도
+    @ColumnInfo(name = "init_longitude")
+    private double initLongitude; // 시작 경도
     @TypeConverters(RunningDataConverters.class)
     @ColumnInfo(name = "running_record_infos")
     private List<RunDetail> runningRecordInfos;
+
+    public RunningData() {
+        this.date = new Date();
+        this.averagePace = 0;
+        this.averageHeartRate = 0;
+        this.averageSpeed = 0;
+        this.watchOrMobile = "WATCH";
+    }
 
     public RunningDataDTO toDTO(){
         RunningDataDTO dto = new RunningDataDTO();
@@ -54,15 +72,24 @@ public class RunningData {
         dto.setTotalDistance(this.totalDistance);
         dto.setTotalTime(this.totalTime);
         dto.setCharacterId(this.characterId);
-        dto.setCharacterInfoId(this.characterInfoId);
         dto.setStepCount(this.stepCount);
         dto.setAverageHeartRate(this.averageHeartRate);
         dto.setType(this.type);
         dto.setRivalRecordId(this.rivalRecordId);
         dto.setRunningRecordInfos(this.runningRecordInfos);
-        dto.setDate(this.date.getTime());
-
+        dto.setDate(change(this.date.getTime()));
+        dto.setWatchOrMobile("WATCH");
+        dto.setInitLatitude(this.initLatitude);
+        dto.setInitLongitude(this.initLongitude);
         return dto;
+    }
+
+    public String getWatchOrMobile() {
+        return watchOrMobile;
+    }
+
+    public void setWatchOrMobile(String watchOrMobile) {
+        this.watchOrMobile = watchOrMobile;
     }
 
     public Long getId() {
@@ -113,11 +140,11 @@ public class RunningData {
         this.totalTime = totalTime;
     }
 
-    public int getCharacterId() {
+    public Long getCharacterId() {
         return characterId;
     }
 
-    public void setCharacterId(int characterId) {
+    public void setCharacterId(Long characterId) {
         this.characterId = characterId;
     }
 
@@ -161,11 +188,11 @@ public class RunningData {
         this.type = type;
     }
 
-    public Long getRivalRecordId() {
+    public String getRivalRecordId() {
         return rivalRecordId;
     }
 
-    public void setRivalRecordId(Long rivalRecordId) {
+    public void setRivalRecordId(String rivalRecordId) {
         this.rivalRecordId = rivalRecordId;
     }
 
@@ -177,11 +204,33 @@ public class RunningData {
         this.runningRecordInfos = runningRecordInfos;
     }
 
-    public int getCharacterInfoId() {
-        return characterInfoId;
+    public Boolean getTranslation() {
+        return isTranslation;
     }
 
-    public void setCharacterInfoId(int characterInfoId) {
-        this.characterInfoId = characterInfoId;
+    public void setTranslation(Boolean translation) {
+        isTranslation = translation;
+    }
+
+    public double getInitLatitude() {
+        return initLatitude;
+    }
+
+    public void setInitLatitude(double initLatitude) {
+        this.initLatitude = initLatitude;
+    }
+
+    public double getInitLongitude() {
+        return initLongitude;
+    }
+
+    public void setInitLongitude(double initLongitude) {
+        this.initLongitude = initLongitude;
+    }
+
+    public LocalDateTime change(Long timestamp) {
+        Instant instant = Instant.ofEpochMilli(timestamp); // Long 값을 그대로 사용
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        return localDateTime;
     }
 }

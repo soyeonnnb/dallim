@@ -5,6 +5,8 @@ import DistIcon from '@/assets/icons/DistIcon.png';
 import TimeIcon from '@/assets/icons/TimeIcon.png';
 import SpeedIcon from '@/assets/icons/SpeedIcon.png';
 import { postRecordSave } from '@/apis/SocialApi';
+import CheckModal from './socialModal/CheckModal';
+import { useState } from 'react';
 
 interface RunningDataBoxProps {
   id: string;
@@ -34,13 +36,30 @@ function RunningDataBox({
     return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일`;
   };
 
-  const handleRecordSave = async () => {
-    console.log("기록 저장 버튼 클릭 확인, id:", id);
+  const handleModalRecordSave = async () => {
+    console.log("모달에서 기록 저장 버튼 클릭 확인, id:", id);
     try {
       await postRecordSave(id); // 서버 전송
       onUpdateRegistration(id); // 상태 업데이트
     } catch (error) {
       console.error("런닝메이트 등록 오류", error);
+    }
+  };
+
+  const [checkModalVisible, setCheckModalVisible] = useState(false); // 행성 선택 확인 모달
+
+  function toggleCheckModal() {
+    setCheckModalVisible(!checkModalVisible);
+  }
+
+  // 시간 변환 함수 ( 60분 이상 경우에 )
+  const formatTime = (totalMinutes: number) => {
+    if (totalMinutes >= 60) {
+      const hours = Math.floor(totalMinutes / 60);
+      const minutes = totalMinutes % 60;
+      return `${hours}시간 ${minutes}분`;
+    } else {
+      return `${totalMinutes}분`;
     }
   };
 
@@ -79,7 +98,7 @@ function RunningDataBox({
               <S.IconImage source={TimeIcon} />
             </S.Icon>
             <S.Text>
-              {totalTime}분
+              {formatTime(totalTime)}분
             </S.Text>
           </S.MiddleRight>
         </S.Middle>
@@ -96,7 +115,7 @@ function RunningDataBox({
 
             <S.AddBox>
               {!registration ? (
-                <S.AddButton onPress={handleRecordSave}>
+                <S.AddButton onPress={toggleCheckModal}>
                   <S.AddText>등록하기</S.AddText>
                 </S.AddButton>
               ) : (
@@ -109,6 +128,13 @@ function RunningDataBox({
           </S.BottomRight>
         </S.Bottom>
       </S.Box>
+
+      <CheckModal
+        checkModalVisible={checkModalVisible}
+        handleModalRecordSave={handleModalRecordSave}
+        toggleCheckModal={toggleCheckModal}
+      />
+
     </S.Container>
   );
 };

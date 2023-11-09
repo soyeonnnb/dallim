@@ -8,25 +8,40 @@ import Run1Icon from '@/assets/icons/Run1Icon';
 import Run2Icon from '@/assets/icons/Run2Icon';
 import Run3Icon from '@/assets/icons/Run3Icon';
 
-import {RecordDetail} from '@/apis/ChartApi';
+import {PaceDataType, RecordDetail, HeartChartDataType} from '@/apis/ChartApi';
 
 import RunningMateRecord from './OverviewRunningMateRecord';
 import OverviewGraph from './OverviewGraph';
-import {useSafeAreaFrame} from 'react-native-safe-area-context';
+import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 import {
   numberToTwoString,
   calculatePace,
   secondToHourMinuteSeconds,
+  meterToKMOrMeter,
 } from '@/recoil/RunningData';
 
 import Loading from '@/components/common/Loading';
 
 interface Props {
   data?: RecordDetail;
+  navigation: any;
+  paceData?: PaceDataType;
+  rivalPaceData?: PaceDataType;
+  heartRateData: {
+    chartData: HeartChartDataType[];
+    secondPerHeartRateSection: number[];
+  };
 }
 
-function Overview({data}: Props) {
+function Overview({
+  data,
+  navigation,
+  paceData,
+  rivalPaceData,
+  heartRateData,
+}: Props) {
   const [timeline, setTimeLine] = useState<string>('00:00:00 - 00:00:00');
+  const [distance, setDistance] = useState<string>('');
   const [spendTime, setSpendTime] = useState<string>('00:00:00');
   const [avgPace, setAvgPace] = useState<string>();
   const [maxPace, setMaxPace] = useState<string>();
@@ -42,7 +57,7 @@ function Overview({data}: Props) {
     )}`;
   };
 
-  useEffect(() => {
+  const handleSetData = () => {
     if (data) {
       setTimeLine(
         `${data.createdAt.slice(11, 20)} - ${stringTimeAddSecond(
@@ -50,26 +65,20 @@ function Overview({data}: Props) {
           data.totalTime,
         )}`,
       );
+      setDistance(meterToKMOrMeter(data.totalDistance, 2));
       setSpendTime(secondToHourMinuteSeconds(data.totalTime));
       setAvgPace(calculatePace(data.pace.averagePace));
       setMaxPace(calculatePace(data.pace.maxPace));
+      setIsLoading(false);
     }
-    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    handleSetData();
   }, [data]);
 
   useEffect(() => {
-    if (data) {
-      setTimeLine(
-        `${data.createdAt.slice(11, 20)} - ${stringTimeAddSecond(
-          data.createdAt,
-          data.totalTime,
-        )}`,
-      );
-      setSpendTime(secondToHourMinuteSeconds(data.totalTime));
-      setAvgPace(calculatePace(data.pace.averagePace));
-      setMaxPace(calculatePace(data.pace.maxPace));
-    }
-    setIsLoading(false);
+    handleSetData();
   }, []);
 
   return (
@@ -88,7 +97,7 @@ function Overview({data}: Props) {
               <S.RecordBox>
                 <Record
                   title="거리"
-                  content={`${data?.totalDistance}m`}
+                  content={distance}
                   titleColor="white"
                   contentColor={colors.neon.yellow}
                 />
@@ -116,13 +125,17 @@ function Overview({data}: Props) {
               <S.RecordBox>
                 <Record
                   title="평균 심박수"
-                  content={`${data?.heartRate.averageHeartRate} bpm`}
+                  content={`${
+                    data ? Math.round(data.heartRate.averageHeartRate) : 0
+                  } bpm`}
                   titleColor="white"
                   contentColor={colors.neon.purple}
                 />
                 <Record
                   title="최대 심박수"
-                  content={`${data?.heartRate.maxHeartRate} bpm`}
+                  content={`${
+                    data ? Math.round(data.heartRate.maxHeartRate) : 0
+                  } bpm`}
                   titleColor="white"
                   contentColor={colors.neon.red}
                 />
@@ -145,13 +158,19 @@ function Overview({data}: Props) {
                 color={colors.neon.red}
               />
             </S.WalkRecords>
-            <OverviewGraph title="페이스" />
-            <OverviewGraph title="심박수" />
+            <OverviewGraph title="페이스" data={paceData?.chartData} />
+            <OverviewGraph title="심박수" data={heartRateData.chartData} />
             {data?.rivalRecord ? (
-              <RunningMateRecord data={data.rivalRecord} />
+              <RunningMateRecord
+                data={data.rivalRecord}
+                paceData={paceData?.chartData}
+                rivalPaceData={rivalPaceData?.chartData}
+                navigation={navigation}
+              />
             ) : (
               ''
             )}
+            <S.Footer />
           </S.MainContent>
           <S.ArrowContainer>
             <ArrowRight width={20} height={20} color="white" />
@@ -208,7 +227,9 @@ function WalkRecord({type, record, color}: WalkRecordProps) {
         <Run3Icon width={iconSize} height={iconSize} color={color} />
       )}
       <S.WalkRecordTitle>{title}</S.WalkRecordTitle>
-      <S.WalkRecordContent>{record} m</S.WalkRecordContent>
+      <S.WalkRecordContent>
+        {record && meterToKMOrMeter(record)}
+      </S.WalkRecordContent>
     </S.WalkRecordContainer>
   );
 }

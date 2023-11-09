@@ -1,9 +1,58 @@
 import * as S from './Pace.styles';
-function Pace() {
+import {useState, useEffect} from 'react';
+import PaceChart from './PaceChart';
+import PaceRecord from './PaceRecord';
+import {Switch} from 'react-native-gesture-handler';
+
+import {
+  PaceChartDataType,
+  PaceDataType,
+  PaceSectionType,
+} from '@/apis/ChartApi';
+
+interface Props {
+  data: PaceDataType;
+  rivalData?: PaceDataType;
+  isAlone: boolean;
+}
+
+function Pace({data, rivalData, isAlone}: Props) {
+  const [comparePair, setcompairPair] = useState<boolean>(true);
+  const [second, setSecond] = useState<number>(
+    data.chartData.length > 0 ? data.chartData.length - 1 : 0,
+  );
+
+  const handleSetIsPairToggle = () => {
+    setcompairPair(!comparePair);
+  };
+
+  useEffect(() => {
+    if (isAlone) setcompairPair(false);
+  }, []);
   return (
     <S.Container>
-      <S.Text>Pace 관련 페이지</S.Text>
-      <S.Text>아직 개발중이에요😭</S.Text>
+      <PaceChart
+        isPair={comparePair}
+        data={data}
+        second={second}
+        setSecond={setSecond}
+        rivalData={rivalData}
+      />
+      <S.ToggleBox>
+        {!isAlone && (
+          <>
+            <S.ToggleText>같이 달리기 비교</S.ToggleText>
+            <Switch onValueChange={handleSetIsPairToggle} value={comparePair} />
+          </>
+        )}
+      </S.ToggleBox>
+      <PaceRecord
+        isPair={comparePair}
+        data={data.sectionPace}
+        rivalData={rivalData?.sectionPace}
+        second={second}
+        setSecond={setSecond}
+      />
     </S.Container>
   );
 }

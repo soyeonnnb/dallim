@@ -26,7 +26,6 @@ public class RunningRecordController {
     public ApiResponse<?> getRunningRecordDetail(@PathVariable String id) {
 
         try {
-
             System.out.println(id);
 
             RunningRecordDetail res = runningRecordService.getRunningRecordDetail(id);

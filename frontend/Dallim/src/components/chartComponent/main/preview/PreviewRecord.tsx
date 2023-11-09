@@ -7,6 +7,8 @@ import NumberIcon from '@/assets/icons/NumberIcon';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 
+import {meterToKMOrMeter, secondToMinuteText} from '@/recoil/RunningData';
+
 interface Props {
   type: 'week' | 'month';
   year: number;
@@ -33,7 +35,10 @@ function PreviewWeekly({isShow, type, year, month, previewRecords}: Props) {
           <WeeklyRecord type="distance" record={previewRecords.distance} />
         </S.RecordContainer>
         <S.RecordContainer>
-          <WeeklyRecord type="time" record={previewRecords.time} />
+          <WeeklyRecord
+            type="time"
+            record={Math.floor(previewRecords.time / 60)}
+          />
         </S.RecordContainer>
       </S.View>
     </S.Container>
@@ -56,11 +61,11 @@ export function WeeklyRecord({type, record}: RecordProps) {
       setColor(colors.darkLavendar);
     } else if (type === 'distance') {
       setName('달린거리');
-      setContent(record + 'm');
+      setContent(meterToKMOrMeter(record));
       setColor(colors.lightBlue);
     } else {
       setName('달린시간');
-      setContent(record + '분');
+      setContent(secondToMinuteText(record));
       setColor(colors.purpleBlue);
     }
   });
@@ -71,7 +76,12 @@ export function WeeklyRecord({type, record}: RecordProps) {
         {type === 'count' ? (
           <NumberIcon width={40} height={40} color={colors.lightLavender} />
         ) : type === 'distance' ? (
-          <RunningThinIcon width={40} height={40} color={colors.darkLavendar} />
+          <RunningThinIcon
+            width={40}
+            height={40}
+            color={colors.darkLavendar}
+            stroke={2}
+          />
         ) : (
           <ClockIcon width={40} height={40} color={colors.lightLavender} />
         )}

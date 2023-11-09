@@ -1,27 +1,47 @@
 import * as S from './OverviewRunningMateRecord.styles';
 import {characterData} from '@/recoil/CharacterData';
-
+import {useNavigation} from '@react-navigation/native';
 import SpeedIcon from '@/assets/icons/SpeedIcon';
 import DistanceIcon from '@/assets/icons/DistanceIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
-import {RecordDetail, RivalRecord} from '@/apis/ChartApi';
-import {calculatePace, secondToHourMinuteSeconds} from '@/recoil/RunningData';
+import {PaceChartDataType, RecordDetail, RivalRecord} from '@/apis/ChartApi';
+import {
+  calculatePace,
+  secondToHourMinuteSeconds,
+  meterToKMOrMeter,
+} from '@/recoil/RunningData';
+import OverviewGraph from './OverviewGraph';
+import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
+import {useState, useEffect} from 'react';
 
 interface Props {
   data: RivalRecord;
+  navigation: any;
+  paceData?: PaceChartDataType[];
+  rivalPaceData?: PaceChartDataType[];
 }
 
-function OverviewRunningMateRecord({data}: Props) {
+function OverviewRunningMateRecord({
+  data,
+  navigation,
+  paceData,
+  rivalPaceData,
+}: Props) {
   const characterImage =
-    characterData[data.character.characterIndex].levels[
+    characterData[data.character.characterIndex].evolutions[
       data.character.evolutionStage
     ].front;
   return (
     <S.Container>
       <S.TitleContainer>
         <S.Title>같이달린 러닝메이트</S.Title>
-        <S.Navi>더보기</S.Navi>
+        <S.Navi
+          onPress={() =>
+            navigation.push('RunningMateChartList', {id: data.id})
+          }>
+          <S.NaviText>더보기</S.NaviText>
+        </S.Navi>
       </S.TitleContainer>
       <S.InfoContainer>
         <S.Nickname>{data.user.nickname}</S.Nickname>
@@ -34,7 +54,10 @@ function OverviewRunningMateRecord({data}: Props) {
               type="pace"
               record={calculatePace(data.pace.averagePace)}
             />
-            <RecordPreview type="distance" record={data.totalDistance + 'm'} />
+            <RecordPreview
+              type="distance"
+              record={meterToKMOrMeter(data.totalDistance, 2)}
+            />
             <RecordPreview
               type="time"
               record={secondToHourMinuteSeconds(data.totalTime)}
@@ -42,10 +65,13 @@ function OverviewRunningMateRecord({data}: Props) {
           </S.Records>
         </S.Info>
       </S.InfoContainer>
-      <S.Chart>
-        <S.ChartTitle>페이스 비교</S.ChartTitle>
-        <S.Text>곧 페이스 비교 차트가 추가될 예정이에요 😳</S.Text>
-      </S.Chart>
+      {rivalPaceData && (
+        <OverviewGraph
+          title="페이스 비교"
+          data={paceData}
+          data2={rivalPaceData}
+        />
+      )}
     </S.Container>
   );
 }

@@ -6,6 +6,10 @@ import BackButtonIcon from '@/assets/icons/ArrowLeft';
 
 //component
 import TimePicker from '@/components/profileComponent/TimePicker';
+import Alarm from '@/components/profileComponent/Alarm';
+
+//apis
+import {fetchScheduleList} from '@/apis/ProfileApi';
 
 interface RunningAlarmProps {
   navigation: any;
@@ -14,13 +18,34 @@ interface RunningAlarmProps {
 function RunningAlarm({navigation}: RunningAlarmProps) {
   // state--------------------
   const [showTimePicker, setShowTimePicker] = useState(false);
-
+  const [scheduleList, setScheduleList] = useState([]);
+  const [refreshKey, setRefreshKey] = useState(false);
+  //
   //useEffect
   useEffect(() => {
     setShowTimePicker(true);
-    // 만약 페이지를 벗어날 때 TimePicker를 숨기고 싶다면 여기서 cleanup 함수를 반환합니다.
     return () => setShowTimePicker(false);
   }, []);
+
+  useEffect(() => {
+    const fetchSchedule = async () => {
+      try {
+        const data = await fetchScheduleList(); // API 호출
+        setScheduleList(data); // 상태 업데이트
+      } catch (error) {
+        console.error('스케줄 리스트를 가져오는데 실패', error);
+      }
+    };
+
+    fetchSchedule(); // 정의한 비동기 함수 호출
+  }, [refreshKey]);
+
+  //action
+
+  const refreshScheduleList = () => {
+    setRefreshKey(prev => !prev);
+  };
+
   return (
     <S.Container>
       <S.BackgroundImage
@@ -36,8 +61,12 @@ function RunningAlarm({navigation}: RunningAlarmProps) {
           </S.BackButtonFlexBoxRight>
           <S.BackButtonFlexBoxLeft></S.BackButtonFlexBoxLeft>
         </S.Header>
-        <S.Body>{showTimePicker && <TimePicker />}</S.Body>
-        <S.Footer></S.Footer>
+        <S.Body>
+          {showTimePicker && <TimePicker onRefresh={refreshScheduleList} />}
+        </S.Body>
+        <S.Footer>
+          <Alarm alarmList={scheduleList} onRefresh={refreshScheduleList} />
+        </S.Footer>
 
         <S.TabBox />
       </S.BackgroundImage>

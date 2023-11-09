@@ -61,6 +61,7 @@ public class RunningRecordService {
         updateUserState(false);
         String saveRunningRecordId = saveRunningRecord(req);
 
+
         return saveRunningRecordId;
     }
     public void updateUserState(boolean run){

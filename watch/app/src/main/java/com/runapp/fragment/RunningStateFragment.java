@@ -1,6 +1,7 @@
 package com.runapp.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,14 +13,19 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bumptech.glide.Glide;
 import com.runapp.R;
-import com.runapp.model.RunningViewModel;
+import com.runapp.activity.MainActivity;
+import com.runapp.databinding.FragmentRunningAniBinding;
+import com.runapp.databinding.FragmentRunningStateBinding;
+import com.runapp.view.RunningViewModel;
 import com.runapp.util.Conversion;
 import com.runapp.util.MyApplication;
 
 public class RunningStateFragment extends Fragment {
 
     private RunningViewModel runningViewModel;
+    private FragmentRunningStateBinding binding;
     private Conversion conversion = new Conversion();
 
     @Nullable
@@ -27,7 +33,9 @@ public class RunningStateFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_running_state, container, false);
+        binding = FragmentRunningStateBinding.inflate(getLayoutInflater());
+        // Inflate the layout for this fragment
+        View view = binding.getRoot();
 
         // ViewModel의 심박수 데이터를 구독하고 UI 업데이트
         runningViewModel.getHeartRate().observe(getViewLifecycleOwner(), heartRate -> {
@@ -51,8 +59,25 @@ public class RunningStateFragment extends Fragment {
 
         runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance ->{
             TextView distanceView = view.findViewById(R.id.tv_distance);
-            distanceView.setText(distance.toString());
+            if (distance.equals(0.0)){
+                distanceView.setText("0.00");
+            }else{
+                distanceView.setText(distance.toString());
+            }
         });
+
+        Glide.with(this)
+                .asGif()
+                .load(R.drawable.down_arrow)
+                .into((android.widget.ImageView) view.findViewById(R.id.down_arrow));
+
+        binding.btnFinish.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(), MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            getActivity().finish(); // 현재 액티비티 종료 (옵션)
+        });
+
         return view;
     }
 

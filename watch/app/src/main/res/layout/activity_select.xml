@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,57 +9,65 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:src="@drawable/background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="220dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background" />
+
+    <ScrollView
+        android:id="@+id/select_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingBottom="30dp">
 
     <LinearLayout
         android:id="@+id/btn_single"
-        android:layout_width="125dp"
-        android:layout_height="41dp"
-        android:background="@drawable/round_check_btn"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:background="@drawable/round_select_menu_list"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:layout_marginTop="10dp"
+        android:paddingStart="20dp"
         android:layout_marginBottom="10dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btn_multi"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintVertical_bias="0.5">
+        app:layout_constraintBottom_toTopOf="@id/btn_multi">
 
         <ImageView
-            android:id="@+id/single_gif"
-            android:layout_width="35dp"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/penguinegg" />
 
         <TextView
-            android:layout_width="69dp"
+            android:layout_width="115dp"
             android:layout_height="wrap_content"
-            android:layout_weight="7"
+            android:fontFamily="@font/insungit_cutelively_jisu_regular"
             android:text="혼자 달리기"
-            android:textAlignment="center"
+            android:layout_marginLeft="25dp"
             android:textColor="@color/white"
-            android:textSize="10dp"
+            android:textSize="14dp"
             android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/btn_multi"
-        android:layout_width="125dp"
-        android:layout_height="41dp"
-        android:background="@drawable/round_check_btn"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:background="@drawable/round_select_menu_list"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="10dp"
-        android:layout_marginTop="10dp"
+        android:paddingStart="20dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,31 +75,30 @@
         app:layout_constraintBottom_toTopOf="@id/btn_my_record">
 
         <ImageView
-            android:layout_width="41dp"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:scaleType="fitXY"
-            android:src="@drawable/two_rabbit" />
+            android:src="@drawable/chickegg" />
 
         <TextView
-            android:layout_width="69dp"
+            android:layout_width="115dp"
             android:layout_height="wrap_content"
-            android:layout_weight="7"
             android:text="함께 달리기"
-            android:textAlignment="center"
+            android:fontFamily="@font/insungit_cutelively_jisu_regular"
+            android:layout_marginLeft="25dp"
             android:textColor="@color/white"
-            android:textSize="10dp"
+            android:textSize="14dp"
             android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/btn_my_record"
-        android:layout_width="125dp"
-        android:layout_height="41dp"
-        android:background="@drawable/round_check_btn"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:background="@drawable/round_select_menu_list"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:layout_marginTop="10dp"
+        android:paddingStart="20dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,20 +106,51 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <ImageView
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:scaleType="fitXY"
-            android:src="@drawable/penguin" />
+            android:src="@drawable/pandaegg" />
 
         <TextView
-            android:layout_width="69dp"
+            android:layout_width="115dp"
             android:layout_height="wrap_content"
-            android:layout_weight="7"
-            android:text="나의 기록 보기"
-            android:textAlignment="center"
+            android:text="기록 보기"
+            android:fontFamily="@font/insungit_cutelively_jisu_regular"
+            android:layout_marginLeft="35dp"
             android:textColor="@color/white"
-            android:textSize="10dp"
+            android:textSize="14dp"
             android:textStyle="bold" />
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/btn_setting"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:background="@drawable/round_select_menu_list"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_multi"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/rabbitegg" />
+
+        <TextView
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:text="설정"
+            android:fontFamily="@font/insungit_cutelively_jisu_regular"
+            android:layout_marginLeft="45dp"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

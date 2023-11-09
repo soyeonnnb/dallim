@@ -4,6 +4,7 @@ import WebView from 'react-native-webview';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '@/components/common/Loading';
+import {postFcmToken} from '@/apis/LoginApi';
 
 interface NaverLoginProps {
   navigation: any;
@@ -45,6 +46,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
       console.log(data);
       await AsyncStorage.setItem('userId', String(data.uesrId));
       await AsyncStorage.setItem('accessToken', data.accessToken);
+      await postFcmToken();
     } catch (error) {
       console.error('Error during login request:', error);
       throw error;
@@ -101,7 +103,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
           scalesPageToFit={false}
           style={{marginTop: 30}}
           source={{
-            uri: 'https://nid.naver.com/oauth2.0/authorize?client_id=U981wCCDuUbK6_3C3WJo&response_type=code&redirect_uri=http://localhost:8080/login/oauth2/code/naver', // 네이버 로그인 페이지 URL
+            uri: 'https://nid.naver.com/oauth2.0/authorize?client_id=U981wCCDuUbK6_3C3WJo&response_type=code&redirect_uri=https://k9b208.p.ssafy.io/login/oauth2/code/naver', // 네이버 로그인 페이지 URL
             headers: {
               'Accept-Language': 'ko-KR,ko',
             },
@@ -116,6 +118,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
           onNavigationStateChange={navState => {
             parseAuthCode(navState.url);
           }}
+          // uri: 'https://nid.naver.com/oauth2.0/authorize?client_id=U981wCCDuUbK6_3C3WJo&response_type=code&redirect_uri=http://localhost:8080/login/oauth2/code/naver',
         />
       )}
     </View>

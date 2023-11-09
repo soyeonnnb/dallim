@@ -1,5 +1,5 @@
 import * as S from './RunningMateSetting.styles';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 //icon
 import BackButtonIcon from '@/assets/icons/ArrowLeft';
@@ -10,90 +10,68 @@ import {Dimensions} from 'react-native';
 
 //component
 import RunningMateDeleteModal from '@/components/profileComponent/profileModal/RunningMateDeleteModal';
+import {useRecoilValue} from 'recoil';
+import {competitorDataState} from '@/recoil/RunningRecoil';
+
+interface CompetitorDataType {
+  userId: number;
+  id: string;
+  nickName: string;
+  characterIndex: number;
+  evolutionStage: number;
+  planetIndex: number;
+  level: number;
+  averagePace: number;
+  totalDistance: number;
+  totalTime: number;
+  createdAt: string;
+  clear: boolean;
+}
 
 interface RunningMateSettingProps {
   navigation: any;
 }
 
 function RunningMateSetting({navigation}: RunningMateSettingProps) {
-  //임시데이터--------------
-  const PAGES = [
-    {
-      num: 1,
-      planetIndex: 0,
-      characterIndex: 0,
-      characterlevel: 0,
-      date: '2023-11-01',
-      level: 5,
-      nickname: 'PengSoshi',
-      distance: '5.5km',
-      minutes: 15,
-      speed: '22km/h',
-      togetherrun: false,
-    },
-    {
-      num: 2,
-      planetIndex: 0,
-      characterIndex: 1,
-      characterlevel: 0,
-      date: '2023-11-01',
-      level: 5,
-      nickname: 'PengSoshi',
-      distance: '5.5km',
-      minutes: 15,
-      speed: '22km/h',
-      togetherrun: false,
-    },
-    {
-      num: 3,
-      planetIndex: 0,
-      characterIndex: 2,
-      characterlevel: 1,
-      date: '2023-11-01',
-      level: 5,
-      nickname: 'PengSoshi',
-      distance: '5.5km',
-      minutes: 15,
-      speed: '22km/h',
-      togetherrun: true,
-    },
-    {
-      num: 4,
-      planetIndex: 0,
-      characterIndex: 3,
-      characterlevel: 1,
-      date: '2023-11-01',
-      level: 5,
-      nickname: 'PengSoshi',
-      distance: '5.5km',
-      minutes: 15,
-      speed: '22km/h',
-      togetherrun: true,
-    },
-    {
-      num: 5,
-      planetIndex: 0,
-      characterIndex: 0,
-      characterlevel: 0,
-      date: '2023-11-01',
-      level: 5,
-      nickname: 'PengSoshi',
-      distance: '5.5km',
-      minutes: 15,
-      speed: '22km/h',
-      togetherrun: true,
-    },
-  ];
   // 다음 화면 미리보기--------------------
   const screenWidth = Dimensions.get('window').width;
 
   // state--------------------
+  const competitorData = useRecoilValue(competitorDataState);
+
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+
   const [selectedCardNum, setSelectedCardNum] = useState<number | null>(
-    PAGES[0]?.num || null,
+    1 || null,
   );
 
-  console.log(selectedCardNum);
+  // 선택(런닝메이트) Id
+  const [selectedCompetitorId, setSelectedCompetitorId] = useState<
+    string | null
+  >(null);
+
+  //useEffect
+
+  //action
+  const showDeleteModal = () => {
+    // selectedCardNum이 null이 아니고, 정상 범위 내에 있는지 확인합니다.
+    if (
+      selectedCardNum !== null &&
+      selectedCardNum > 0 &&
+      selectedCardNum <= competitorData.length
+    ) {
+      const currentCompetitorId = competitorData[selectedCardNum - 1]?.id;
+      if (currentCompetitorId) {
+        setSelectedCompetitorId(currentCompetitorId);
+        setDeleteModalVisible(true);
+      }
+    }
+  };
+
+  const handleDeleteSuccess = () => {
+    setDeleteModalVisible(false);
+    setSelectedCardNum(null); // 삭제 후 선택된 카드 번호를 리셋
+  };
 
   return (
     <S.Container>
@@ -115,26 +93,26 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
           <Carousel
             gap={16}
             offset={36}
-            pages={PAGES}
             pageWidth={screenWidth - (16 + 36) * 2}
-            onCardSelected={(num: number) => setSelectedCardNum(num)}
+            onCardSelected={(index: number) => setSelectedCardNum(index + 1)}
           />
         </S.Body>
+
         <S.Footer>
-          <S.FooterTopBox></S.FooterTopBox>
-          <S.DeleteButtonMiddleBox
-            onPress={() => {
-              setDeleteModalVisible(true);
-              console.log('삭제 버튼이 클릭되었습니다.');
-            }}>
-            <S.DeleteButtonText>삭제</S.DeleteButtonText>
-          </S.DeleteButtonMiddleBox>
+          {competitorData.length > 0 && (
+            <S.DeleteButtonMiddleBox onPress={showDeleteModal}>
+              <S.DeleteButtonText>삭제</S.DeleteButtonText>
+            </S.DeleteButtonMiddleBox>
+          )}
           <S.FooterBottomBox></S.FooterBottomBox>
         </S.Footer>
+
         <S.TabBox />
-        {isDeleteModalVisible && (
+        {isDeleteModalVisible && selectedCompetitorId && (
           <RunningMateDeleteModal
+            competitorId={selectedCompetitorId}
             toggleDeleteModal={() => setDeleteModalVisible(false)}
+            onDeleteSuccess={handleDeleteSuccess}
           />
         )}
       </S.BackgroundImage>

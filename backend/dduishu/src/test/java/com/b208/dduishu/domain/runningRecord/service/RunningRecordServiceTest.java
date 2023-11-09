@@ -51,26 +51,44 @@ class RunningRecordServiceTest {
     @Test
     void saveRunningRecord() {
 
-        int size = 7431;
+        int size = 15000;
         List<RunningRecordOverallInfo> runningRecordOverallInfos = new ArrayList<>();
         Random random = new Random();
 
         double distance = 0.0;
+        double lastSpeed = 2; // 초기 속도 설정
+        double lastHeartRate = 100;
 
         for (int i = 0; i < size; i++) {
-            double randomDistance = random.nextDouble() * 5 + 0.4; // 0 ~ 2 사이의 랜덤한 실수값 생성
-            BigDecimal formattedRandomDistance = new BigDecimal(randomDistance).setScale(2, RoundingMode.HALF_UP);
+            // 속도 변경을 더 부드럽게 만들기 위해 이전 속도에 랜덤 값을 일부만 혼합
+            double randomChange = (random.nextDouble() - 0.5) * 0.1; // -0.05 ~ 0.05 사이의 변화량
+            BigDecimal formattedRandomDistance = new BigDecimal(randomChange).setScale(2, RoundingMode.HALF_UP);
             double distanceChange = formattedRandomDistance.doubleValue();
+            double heartRateChange = randomChange * 20; // 속도 변화량에 20을 곱하여 심박수 변화량을 결정
 
-            distance += distanceChange;
+            double speed = lastSpeed + distanceChange;
+            double heartRate = lastHeartRate + heartRateChange;
+
+            // 속도가 0 이하가 되지 않도록 하고, 5를 초과하지 않도록 조정
+            speed = Math.max(0, Math.min(5, speed));
+            heartRate = Math.max(60, Math.min(180, heartRate));
+
+            lastSpeed = speed; // 다음 루프를 위해 마지막 속도 업데이트
+            lastHeartRate = heartRate;
+
+            distance += speed;
 
             BigDecimal formattedDistance = new BigDecimal(distance).setScale(2, RoundingMode.HALF_UP);
 
-            // distance가 증가할수록 speed와 heartRate도 증가하도록 모델링
-            double speed = distanceChange;
-            int heartRate = (int) (80 + (distanceChange * 10));
+//            // distance가 증가할수록 speed와 heartRate도 증가하도록 모델링
+//            double speed = distanceChange;
+//            int heartRate = (int) (80 + (distanceChange * 100));
 
-            double pace = (1000 / speed);
+            double pace = 100000.0;
+            if ( speed != 0) {
+                pace = (1000 / speed);
+            }
+
             BigDecimal formattedPace = new BigDecimal(pace).setScale(2, RoundingMode.HALF_UP);
             double formattedPaceVal = formattedPace.doubleValue();
 
@@ -124,13 +142,13 @@ class RunningRecordServiceTest {
         PaceInfo paceInfo = runningRecordInfo.getPaceInfo(reducedRunningRecordOverallInfos);
         HeartRateInfo heartRateInfo = runningRecordInfo.getHeartRateInfo(reducedRunningRecordOverallInfos);
 
-        User user = userRepository.findByUserId(6L).orElse(null);
-        Character character = characterRepository.findById(5L).orElse(null);
-        Planet planet = planetRepository.findById(6L).orElse(null);
+        User user = userRepository.findByUserId(18L).orElse(null);
+        Character character = characterRepository.findById(28L).orElse(null);
+        Planet planet = planetRepository.findById(44L).orElse(null);
         UserInfo userInfo = new UserInfo(user);
         CharacterRecordInfo characterInfo = new CharacterRecordInfo(character,planet);
 
-        RunningRecord rivalRecord = runningRecordRepository.findById(new ObjectId("6549f07f0b2dfc24659823df")).orElse(null);
+        RunningRecord rivalRecord = runningRecordRepository.findById(new ObjectId("654ce890ee843068f886b2a1")).orElse(null);
         RivalRunningRecordInfo rivalRunningRecordInfo = new RivalRunningRecordInfo(rivalRecord);
 
         RunningRecord res = RunningRecord.builder()

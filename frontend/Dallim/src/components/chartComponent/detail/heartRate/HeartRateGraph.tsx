@@ -116,7 +116,7 @@ function Label({
 }) {
   useEffect(() => {
     handlePreviewData(items[0]);
-  });
+  }, [items]);
   return (
     <View
       style={{
@@ -134,7 +134,7 @@ function Label({
           backgroundColor: 'white',
         }}>
         <Text style={{fontWeight: 'bold', textAlign: 'center'}}>
-          {items[0].value + 'm/s'}
+          {items[0].value}
         </Text>
       </View>
     </View>

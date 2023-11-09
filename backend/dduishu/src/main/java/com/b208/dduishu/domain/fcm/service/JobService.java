@@ -5,6 +5,8 @@ import com.b208.dduishu.domain.fcm.dto.ScheduleInfo;
 import com.b208.dduishu.domain.fcm.dto.UpdateScheduleInfo;
 import com.b208.dduishu.domain.fcm.entity.Day;
 import com.b208.dduishu.domain.fcm.entity.FcmMessageId;
+import com.b208.dduishu.domain.fcm.entity.FcmToken;
+import com.b208.dduishu.domain.fcm.repository.FcmRepository;
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +39,16 @@ public class JobService {
 
     private final FireBaseCloudMessageService firebaseCloudMessageService;
 
+    private final FcmRepository fcmRepository;
+
     private final GetUser getUser;
 
 
-    public void scheduleJob(String targetToken, Long userId, List<Day> day, int hour, int minute) throws SchedulerException {
+    public void scheduleJob(Long userId, List<Day> day, int hour, int minute) throws SchedulerException {
+
+        User user = getUser.getUser();
+
+        FcmToken targetToken = fcmRepository.findByUserUserId(user.getUserId());
 
         String title = "Dallim 운동 알림";
         String body = String.format("%d시 %d분에 예약한 운동 알림 발송!", hour, minute);;

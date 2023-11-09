@@ -1,52 +1,75 @@
 package com.runapp.util;
 
 import okhttp3.Interceptor;
-import okhttp3.MediaType;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.BufferedSource;
-
 import org.brotli.dec.BrotliInputStream;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.Objects;
 
+/**
+ * Transparent Brotli response support.
+ *
+ * Adds Accept-Encoding: br to request and checks (and strips) for Content-Encoding: br in
+ * responses. This replaces the transparent gzip compression in BridgeInterceptor.
+ */
 public class BrotliInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Response originalResponse = chain.proceed(chain.request());
-        if ("br".equals(originalResponse.header("Content-Encoding"))) {
-            return originalResponse.newBuilder()
-                    .body(new BrotliResponseBody(originalResponse.body()))
-                    .build();
+        if (chain.request().header("Accept-Encoding") == null) {
+            // Add Accept-Encoding header
+            Response originalResponse = chain.proceed(chain.request().newBuilder()
+                    .header("Accept-Encoding", "br,gzip")
+                    .build());
+
+            // Check if we have a Brotli Content-Encoding response
+            if ("br".equalsIgnoreCase(originalResponse.header("Content-Encoding"))) {
+                // Strip the content encoding
+                ResponseBody body = originalResponse.body();
+                BufferedSource source = body.source();
+                BrotliInputStream brotliInputStream = new BrotliInputStream(source.inputStream());
+                String contentType = body.contentType().toString();
+                long contentLength = body.contentLength();
+
+                // Build a new response without the content-encoding header and with the BrotliInputStream
+                return originalResponse.newBuilder()
+                        .header("Content-Encoding", contentType)
+                        .body(new BrotliResponseBody(contentType, contentLength, brotliInputStream))
+                        .build();
+            }
+
+            return originalResponse;
+        } else {
+            return chain.proceed(chain.request());
         }
-        return originalResponse;
     }
 
     private static class BrotliResponseBody extends ResponseBody {
-        private final ResponseBody responseBody;
-        private InputStream brotliInputStream;
+        private final String contentType;
+        private final long contentLength;
+        private final BrotliInputStream brotliInputStream;
 
-        BrotliResponseBody(ResponseBody responseBody) throws IOException {
-            this.responseBody = responseBody;
-            this.brotliInputStream = new BrotliInputStream(responseBody.byteStream());
+        BrotliResponseBody(String contentType, long contentLength, BrotliInputStream brotliInputStream) {
+            this.contentType = contentType;
+            this.contentLength = contentLength;
+            this.brotliInputStream = brotliInputStream;
         }
 
         @Override
-        public MediaType contentType() {
-            return null;
+        public okhttp3.MediaType contentType() {
+            return okhttp3.MediaType.parse(contentType);
         }
 
         @Override
         public long contentLength() {
-            return 0;
+            return contentLength;
         }
 
         @Override
         public BufferedSource source() {
-            return null;
+            return okio.Okio.buffer(okio.Okio.source(brotliInputStream));
         }
-
-        // 이하 메소드 구현 생략...
     }
 }

@@ -59,13 +59,11 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
     private Context context;
     private static SharedPreferences prefs;
     private static Activity activity;
-    private static ActivityResultLauncher<Intent> countdownActivityResultLauncher;
 
-    public RunningMateDataAdapter(Context context, List<RunningMate> runningMateList, Activity activity, ActivityResultLauncher<Intent> countdownActivityResultLauncher) {
+    public RunningMateDataAdapter(Context context, List<RunningMate> runningMateList, Activity activity) {
         this.runningMateList = runningMateList;
         this.context = context;
         this.activity = activity;
-        this.countdownActivityResultLauncher = countdownActivityResultLauncher;
         prefs = PreferencesUtil.getEncryptedSharedPreferences(context);
         runningService = new RunningService(context);
     }
@@ -167,20 +165,6 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
                 TextView mateNickname = customView.findViewById(R.id.running_mate_nickname);
                 mateNickname.setText("'"+currentRunningMate.getNickName()+"' 님과");
 
-
-                String runningRecordId1 = prefs.getString("runningRecordId", "");
-                // 내부 저장소에 기록 아이디 있으면 삭제
-                if (!runningRecordId1.equals("")){
-                    edit.remove("runningRecordId");
-                    edit.apply();
-                }
-
-                String runningRecordId = currentRunningMate.getRunningRecordId();
-                edit.putString("runningRecordId", runningRecordId);
-                edit.apply();
-                // 러닝메이트 기록 가져와서 sqlite에 저장
-                runningService.getRunningMateRunningRecord(activity, runningRecordId);
-
                 // builder 내용으로 AlertDialog 생성
                 AlertDialog dialog = builder.create();
 
@@ -199,7 +183,8 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
                 // 시작하기 눌렀을 때
                 start.setOnClickListener(b -> {
                     Intent intent = new Intent(activity, LoadingActivity.class);
-                    countdownActivityResultLauncher.launch(intent);
+                    intent.putExtra("running_record_id", currentRunningMate.getRunningRecordId());
+                    activity.startActivity(intent);
                     dialog.dismiss();
                 });
             });

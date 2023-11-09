@@ -10,18 +10,18 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class RunningMateRunningRecordDTO {
-    private Long averagePace;
+    private Double averagePace;
     private List<Double> distance;
     private Long totalTime;
 
     public RunningMateRunningRecordDTO() {
     }
 
-    public Long getAveragePace() {
+    public Double getAveragePace() {
         return averagePace;
     }
 
-    public void setAveragePace(Long averagePace) {
+    public void setAveragePace(Double averagePace) {
         this.averagePace = averagePace;
     }
 

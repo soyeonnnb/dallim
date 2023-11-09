@@ -11,9 +11,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.gms.common.internal.BaseGmsClient;
 import com.runapp.adapter.ViewPagerAdapter;
 import com.runapp.database.AppDatabase;
 import com.runapp.database.RunningDataConverters;
@@ -32,6 +34,7 @@ import com.runapp.util.Conversion;
 import com.runapp.util.MyApplication;
 import com.runapp.util.NetworkUtil;
 import com.runapp.util.PreferencesUtil;
+import com.runapp.view.RunningMateRecordViewModel;
 import com.runapp.view.RunningViewModel;
 
 import java.io.IOException;
@@ -51,6 +54,7 @@ public class RunningActivity extends AppCompatActivity {
 
     private ActivityRunningBinding binding;
     private RunningViewModel runningViewModel;
+    private RunningMateRecordViewModel runningMateRecordViewModel;
     private List<RunDetail> runDetailsList = new ArrayList<>();
     private AppDatabase db;
     private RunningData runningData;
@@ -94,8 +98,12 @@ public class RunningActivity extends AppCompatActivity {
             String runningRecordId = prefs.getString("runningRecordId", null);
             runningData.setRivalRecordId(runningRecordId);
             // 러닝 뷰 모델을 생성한다.
+            runningMateRecordViewModel = new ViewModelProvider(this).get(RunningMateRecordViewModel.class);
+
             runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
 
+            List<Double> distance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
+            System.out.println(distance);
             runningViewModel.getRunningData().setValue(runningData);
             runningViewModel.setDistance(0f);
             runningViewModel.setStepCount(0f);
@@ -241,19 +249,14 @@ public class RunningActivity extends AppCompatActivity {
                         Log.d("데이터 전송", "몽고디비로 데이터 전송 성공");
                         Toast.makeText(RunningActivity.this, "기록 저장 성공", Toast.LENGTH_SHORT).show();
                     }else{
-                        System.out.println(response.errorBody().toString());
-                        try {
-                            System.out.println(response.errorBody().string().toString());
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        Log.d("데이터 전송", "몽고디비로 데이터 전송 실패");
+                        Log.e("달리기 기록 저장 실패", response.errorBody().toString());
                         Toast.makeText(RunningActivity.this, "기록 저장 실패", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
+                    Log.e("달리기 기록 저장 실패(서버)", t.getMessage());
                     Log.d("데이터 전송", t.toString());
                 }
             });

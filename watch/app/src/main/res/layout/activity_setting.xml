@@ -1,145 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="vertical"
+    android:background="@drawable/background"
     tools:context=".activity.SettingActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center">
+        android:layout_gravity="center">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="설정"
-                android:textStyle="bold"
-                android:textSize="20sp" />
-        </LinearLayout>
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="20dp">
-            <LinearLayout
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="@drawable/round_setting_btn">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="음악"
-                    android:gravity="center"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:textAppearance="?android:attr/textAppearanceButton"
-                    />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="20dp">
-            <LinearLayout
+            <ImageView
                 android:id="@+id/btn_link_data"
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="@drawable/round_setting_btn">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="비연동 데이터"
-                    android:textStyle="bold"
-                    android:textSize="17sp"
-                    android:gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceButton"
-                    />
-                <TextView
-                    android:id="@+id/no_connect_data"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0개"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    />
-            </LinearLayout>
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/unknown_data"
+                android:layout_marginRight="20dp"
+                ></ImageView>
+
+            <ImageView
+                android:id="@+id/btn_unlink"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/unlink"
+                ></ImageView>
+
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="20dp">
-            <LinearLayout
-                android:layout_width="180dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:background="@drawable/round_setting_btn">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="버전"
-                    android:textSize="17sp"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textAppearance="?android:attr/textAppearanceButton"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1.03V"
-                    android:textSize="17sp"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    />
-            </LinearLayout>
+            android:layout_gravity="center">
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
             <TextView
-                android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="null"
-                android:textSize="15dp"
+                android:layout_marginRight="35dp"
                 android:textColor="@color/white"
-                android:layout_marginBottom="20dp"
-                />
-            <Button
-                android:id="@+id/btn_unlink"
-                android:background="@drawable/round_check_btn"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:text="연동 해제"
-                android:textSize="17sp"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="50dp"/>
+                android:text="데이터 연동">
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:text="연동 설정">
+
+            </TextView>
         </LinearLayout>
+
     </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+</FrameLayout>

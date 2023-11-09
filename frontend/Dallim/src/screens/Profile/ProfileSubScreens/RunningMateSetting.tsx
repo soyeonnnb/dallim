@@ -1,17 +1,17 @@
 import * as S from './RunningMateSetting.styles';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 //icon
 import BackButtonIcon from '@/assets/icons/ArrowLeft';
 
 //carousel
 import Carousel from '@/components/profileComponent/Carousel';
-import { Dimensions } from 'react-native';
+import {Dimensions} from 'react-native';
 
 //component
 import RunningMateDeleteModal from '@/components/profileComponent/profileModal/RunningMateDeleteModal';
-import { useRecoilValue } from 'recoil';
-import { competitorDataState } from '@/recoil/RunningRecoil';
+import {useRecoilValue} from 'recoil';
+import {competitorDataState} from '@/recoil/RunningRecoil';
 
 interface CompetitorDataType {
   userId: number;
@@ -32,7 +32,7 @@ interface RunningMateSettingProps {
   navigation: any;
 }
 
-function RunningMateSetting({ navigation }: RunningMateSettingProps) {
+function RunningMateSetting({navigation}: RunningMateSettingProps) {
   // 다음 화면 미리보기--------------------
   const screenWidth = Dimensions.get('window').width;
 
@@ -58,8 +58,9 @@ function RunningMateSetting({ navigation }: RunningMateSettingProps) {
       selectedCardNum > 0 &&
       selectedCardNum <= competitorData.length
     ) {
-      console.log("삭제버튼 눌림")
-      const currentCompetitorId = competitorData[selectedCardNum - 1]?.runningMateId;
+      console.log('삭제버튼 눌림');
+      const currentCompetitorId =
+        competitorData[selectedCardNum - 1]?.runningMateId;
       if (currentCompetitorId) {
         setSelectedCompetitorId(currentCompetitorId);
         setDeleteModalVisible(true);

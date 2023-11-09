@@ -8,18 +8,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.wear.widget.WearableLinearLayoutManager;
+import androidx.wear.widget.WearableRecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.runapp.R;
+import com.runapp.adapter.MenuAdapter;
 import com.runapp.database.AppDatabase;
 import com.runapp.databinding.ActivitySelectBinding;
+import com.runapp.model.MenuItem;
 import com.runapp.service.RunningService;
+import com.runapp.util.CustomScrollingLayoutCallback;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -29,6 +35,9 @@ public class SelectActivity extends ComponentActivity {
     private final Executor executor = Executors.newSingleThreadExecutor();
     private AppDatabase db;
     private RunningService runningService;
+    private WearableRecyclerView recyclerView;
+    private MenuAdapter menuAdapter;
+    private List<MenuItem> menuList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,71 +45,84 @@ public class SelectActivity extends ComponentActivity {
         runningService = new RunningService(getApplicationContext());
 
         binding = ActivitySelectBinding.inflate(getLayoutInflater());
-
         View view = binding.getRoot();
-
         setContentView(view);
+
+        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setEdgeItemsCenteringEnabled(true);
+
+        menuList = new ArrayList<>();
+        // Add items to the menuList here
+        menuList.add(new MenuItem(R.drawable.penguinegg, "혼자 달리기"));
+        menuList.add(new MenuItem(R.drawable.chickegg, "함께 달리기"));
+        menuList.add(new MenuItem(R.drawable.pandaegg, "기록 보기"));
+        menuList.add(new MenuItem(R.drawable.rabbitegg, "설정"));
+
+        menuAdapter = new MenuAdapter(this, menuList);
+        recyclerView.setAdapter(menuAdapter);
+
+        CustomScrollingLayoutCallback customScrollingLayoutCallback =
+                new CustomScrollingLayoutCallback();
+        recyclerView.setLayoutManager(
+                new WearableLinearLayoutManager(this, customScrollingLayoutCallback));
+
 
         db = AppDatabase.getDatabase(getApplicationContext());
         Context context = SelectActivity.this;
-        ImageView imageViewOne = binding.singleGif;
 
-        // 움짤 표시
-        Glide.with(context)
-                        .load(R.drawable.run_character)
-                                .into(imageViewOne);
+        // 클릭 이벤트 처리
+        menuAdapter.setOnItemClickListener(new MenuAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                MenuItem clickedItem = menuList.get(position);
+                switch (clickedItem.getTitle()) {
+                    case "혼자 달리기":
+//                         AlertDialog.Builder 인스턴스 생성
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SelectActivity.this, R.style.CustomDialogTheme);
 
-        // 혼자 달리기 눌렀을 경우
-        binding.btnSingle.setOnClickListener(v ->{
-            // AlertDialog.Builder 인스턴스 생성
-            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
+                        LayoutInflater inflater = getLayoutInflater();
+                        // single_popup.xml을 가져와서 객체로 생성
+                        View customView = inflater.inflate(R.layout.single_popup, null);
 
-            LayoutInflater inflater = getLayoutInflater();
-            // single_popup.xml을 가져와서 객체로 생성
-            View customView = inflater.inflate(R.layout.single_popup, null);
+                        builder.setView(customView);
 
-            builder.setView(customView);
+                        // builder 내용으로 AlertDialog 생성
+                        AlertDialog dialog = builder.create();
 
-            // builder 내용으로 AlertDialog 생성
-            AlertDialog dialog = builder.create();
+                        // AlertDialog 보이기
+                        dialog.show();
 
-            // AlertDialog 보이기
-            dialog.show();
+                        Button btnCancel = customView.findViewById(R.id.single_cancel);
+                        Button btnStart = customView.findViewById(R.id.single_start);
 
-            Button btnCancel = customView.findViewById(R.id.single_cancel);
-            Button btnStart = customView.findViewById(R.id.single_start);
+                        // 취소 버튼에 대한 클릭 리스너
+                        btnCancel.setOnClickListener(b -> {
+                            dialog.dismiss();
+                        });
 
-            // 취소 버튼에 대한 클릭 리스너
-            btnCancel.setOnClickListener(b ->{
-                dialog.dismiss();
-            });
-
-            // 확인 버튼에 대한 클릭 리스너
-            btnStart.setOnClickListener(b-> {
-                // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
-                Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
-                // 다른 액티비티로 값을 넘길 때 쓴다. 키 밸류로 구분
-                intent.putExtra("run_type", "ALONE");
-                countdownActivityResultLauncher.launch(intent);
-                dialog.dismiss();
-            });
-        });
-
-        // 함께 달리기 눌렀을 경우
-        binding.btnMulti.setOnClickListener(v ->{
-            runningService.getRunningMate(SelectActivity.this);
-        });
-
-        // 나의 기록 보기
-        binding.btnMyRecord.setOnClickListener(v ->{
-            Intent intent = new Intent(this, MyRecordActivity.class);
-            startActivity(intent);
-        });
-
-        // 설정버튼
-        binding.btnSetting.setOnClickListener(v ->{
-            Intent intent = new Intent(this, SettingActivity.class);
-            startActivity(intent);
+                        // 확인 버튼에 대한 클릭 리스너
+                        btnStart.setOnClickListener(b -> {
+                            // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
+                            Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
+                            // 다른 액티비티로 값을 넘길 때 쓴다. 키 밸류로 구분
+                            intent.putExtra("run_type", "ALONE");
+                            countdownActivityResultLauncher.launch(intent);
+                            dialog.dismiss();
+                        });
+                        break;
+                    case "함께 달리기":
+                        runningService.getRunningMate(SelectActivity.this);
+                        break;
+                    case "기록 보기":
+                        Intent intent = new Intent(SelectActivity.this, MyRecordActivity.class);
+                        startActivity(intent);
+                        break;
+                    case "설정":
+                        intent = new Intent(SelectActivity.this, SettingActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+            }
         });
     }
 

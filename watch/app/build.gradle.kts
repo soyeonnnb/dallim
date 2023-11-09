@@ -73,6 +73,7 @@ dependencies {
     // android
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation("androidx.activity:activity-ktx:1.8.0")
     implementation("androidx.fragment:fragment:1.4.0")
     implementation("androidx.preference:preference-ktx:1.2.1")
     // wear-os
@@ -121,9 +122,13 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
 
     // 암호화
     implementation("androidx.security:security-crypto-ktx:1.1.0-alpha06")
+
+    // Brotli 디코더 라이브러리 추가
+    implementation ("org.brotli:dec:0.1.2")
 
 
 }

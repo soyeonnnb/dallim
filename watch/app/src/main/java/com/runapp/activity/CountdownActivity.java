@@ -101,13 +101,14 @@ public class CountdownActivity extends ComponentActivity {
                 // 시간을 계산하여 텍스트 뷰 업데이트
                 int secondsRemaining = countdownTime - (int)(fraction * countdownTime);
                 if (secondsRemaining == 0) {
-                    countdownText.setText("시작");
+                    countdownText.setText("START");
                     countdownText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 60);
                     countdownTimerView.setAngle(360);
                     countdownTimerView.setColor(getResources().getColor(R.color.red));
                     countdownTimerView.invalidate();
 
                     new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        System.out.println("여긴 들어왔나");
                         String type = getIntent().getStringExtra("run_type");
                         Intent returnIntent = new Intent();
                         returnIntent.putExtra("run_type", type);

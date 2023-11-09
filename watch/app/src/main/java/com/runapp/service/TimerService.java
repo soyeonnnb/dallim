@@ -18,6 +18,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.runapp.R;
+import com.runapp.database.RunningDataConverters;
 import com.runapp.model.RunDetail;
 import com.runapp.util.MyApplication;
 import com.runapp.view.RunningViewModel;
@@ -37,7 +38,8 @@ public class TimerService extends Service {
     private Long totalTime = 1L;
     private int speedCountTime = 0;
     private double totalSpeed = 0;
-    private PowerManager.WakeLock wakeLock;
+    private List<Double> mateRunningDetail = new ArrayList<>();
+    private RunDetail mateRunDetail = new RunDetail();
 
     @SuppressLint("InvalidWakeLockTag")
     @Override
@@ -47,11 +49,6 @@ public class TimerService extends Service {
         timerHandler = new Handler();
         runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
         createNotificationChannel();
-
-        // WakeLock 초기화
-        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "TimerServiceWakeLock");
-        wakeLock.acquire();
     }
 
     private void createNotificationChannel() {
@@ -93,9 +90,14 @@ public class TimerService extends Service {
     }
 
     private void updateRunDetailList(long elapsedTime) {
-        System.out.println("ㅋㅋ"+elapsedTime);
-        long millis = elapsedTime;
-        int seconds = (int) (millis / 1000);
+        int seconds = (int) (elapsedTime / 1000);
+//        if (runningViewModel.getOriDistance().getValue() != null && runningViewModel.getOriDistance().getValue() != 0) {
+//            Double mateDistance = mateRunningDetail.get(seconds);
+//            Double curDistance = runningViewModel.getOriDistance().getValue();
+//            Log.d("메이트", String.valueOf(mateDistance));
+//            Log.d("내기록", String.valueOf(curDistance));
+//            runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
+//        }
         runningViewModel.setTotalTime((long) seconds);
         int minutes = seconds / 60;
         seconds = seconds % 60;
@@ -110,14 +112,13 @@ public class TimerService extends Service {
         if (runningViewModel.getMsSpeed().getValue() != null) {
             double speed = runningViewModel.getMsSpeed().getValue();
             detail.setSpeed(speed);
-            if(speed <= 0.4){
+            if (speed <= 0.4) {
                 detail.setState("STOP");
-            }else if(speed > 0.4 && speed <= 1.5){
+            } else if (speed > 0.4 && speed <= 1.5) {
                 detail.setState("WALK");
-            }
-            else if(speed > 1.5 && speed <= 3.0){
+            } else if (speed > 1.5 && speed <= 3.0) {
                 detail.setState("RACEWALK");
-            }else{
+            } else {
                 detail.setState("RUN");
             }
         }
@@ -125,27 +126,29 @@ public class TimerService extends Service {
             detail.setHeartRate(runningViewModel.getHeartRate().getValue());
         }
         detail.setSecond(runningViewModel.getTotalTime().getValue());
-        if(runningViewModel.getLongitude().getValue() != null){
+        if (runningViewModel.getLongitude().getValue() != null) {
             detail.setLongitude(runningViewModel.getLongitude().getValue());
         }
-        if(runningViewModel.getLatitude().getValue() != null){
+        if (runningViewModel.getLatitude().getValue() != null) {
             detail.setLatitude(runningViewModel.getLatitude().getValue());
         }
 
-        if(runningViewModel.getMsSpeed().getValue() != null){
+        if (runningViewModel.getMsSpeed().getValue() != null) {
             speedCountTime++;
             runningViewModel.setSpeedCountTime(speedCountTime);
             totalSpeed += runningViewModel.getMsSpeed().getValue();
             runningViewModel.setTotalSpeed(totalSpeed);
         }
         List<RunDetail> runDetails = runningViewModel.getRunDetailList().getValue();
-        if (runDetails == null){
+        if (runDetails == null) {
             runDetails = new ArrayList<>();
         }
         runDetails.add(detail);
         runningViewModel.setRunDetailList(runDetails);
 
+
         runningViewModel.setElapsedTime(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
+
     }
 
     public void stopTimer() {
@@ -156,6 +159,11 @@ public class TimerService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null && intent.hasExtra("running_mate_record")) {
+            String runningMateRecordJson = intent.getStringExtra("running_mate_record");
+            Log.e("출력", runningMateRecordJson);
+            mateRunningDetail = RunningDataConverters.doubleFromString(runningMateRecordJson);
+        }
         startForeground(NOTIFICATION_ID, getNotification());
         startTimer();
 
@@ -164,10 +172,6 @@ public class TimerService extends Service {
 
     @Override
     public void onDestroy() {
-        // WakeLock 해제
-        if (wakeLock != null && wakeLock.isHeld()) {
-            wakeLock.release();
-        }
         stopTimer();
         super.onDestroy();
         stopForeground(true);

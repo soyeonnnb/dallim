@@ -17,7 +17,7 @@ import Edit from '@/screens/edit/Edit';
 
 // icon
 import BottomTabIcon from './BottomTabIcon';
-import BottomBarTestIcon from '@/assets/icons/바텀바테스트.svg'
+import BottomBarIcon from '@/assets/icons/BottomBarIcon.svg'
 
 // stackNavigator
 import MainStackNavigators from '../../../navigations/MainStackNavigators';
@@ -74,7 +74,7 @@ const TabBarComponent = ({ active, options, onPress }: TabBarComponentProps) => 
     return {
       transform: [
         {
-          scale: withTiming(active ? 1 : 0, { duration: 250 }),
+          scale: withTiming(active ? 1 : 0, { duration: 200 }),
         },
         {
           translateY: withTiming(active ? -25 : 0, { duration: 200 }),
@@ -88,7 +88,7 @@ const TabBarComponent = ({ active, options, onPress }: TabBarComponentProps) => 
     return {
       transform: [
         {
-          translateY: withTiming(active ? -25 : 0, { duration: 200 }),
+          translateY: withTiming(active ? -35 : 0, { duration: 200 }),
         },
       ],
       opacity: withTiming(active ? 1 : 0.5, { duration: 200 }),
@@ -105,7 +105,13 @@ const TabBarComponent = ({ active, options, onPress }: TabBarComponentProps) => 
           style={[animationStyles.iconContainer, animatedIconContainerStyles]}>
 
           {active && (
-            <BottomBarTestIcon width={80} height={80} style={StyleSheet.absoluteFill} />
+            <BottomBarIcon width={80} height={80}
+              // style={StyleSheet.absoluteFill}
+              style={{
+                ...StyleSheet.absoluteFillObject,
+                transform: [{ translateY: -5 }]
+              }}
+            />
           )}
 
           {options.tabBarIcon && typeof options.tabBarIcon === 'function' ? (
@@ -115,7 +121,7 @@ const TabBarComponent = ({ active, options, onPress }: TabBarComponentProps) => 
               size: 25,
             })
           ) : (
-            <Text>No Icon</Text>
+            <Text>로딩중</Text>
           )}
         </Animated.View>
       </S.PressableContainer>
@@ -193,15 +199,15 @@ const animationStyles = StyleSheet.create({
     flex: 1,
   },
   componentCircle: {
-    borderRadius: 30,
-    width: 80,
-    height: 80,
     position: 'absolute',
+    borderRadius: 30,
+    width: 60,
+    height: 60,
     // backgroundColor: 'black',
   },
   iconContainer: {
     position: 'absolute',
-    top: -15,
+    top: 0,
     left: -10,
     right: -15,
     bottom: 0,

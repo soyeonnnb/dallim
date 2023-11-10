@@ -142,7 +142,7 @@ public class  OAuth2Controller {
                     .accessToken(accessToken)
                     .privateAccess(encoder.encode(accessToken))
                     .state(UserState.standard)
-                    .userLevel(UserLevel.builder().level(0).exp(0).build())
+                    .userLevel(UserLevel.builder().level(1).exp(0).build())
                     .registDate(LocalDateTime.now())
                     .build();
                 user = userRepository.save(user);
@@ -150,7 +150,7 @@ public class  OAuth2Controller {
                 Character character = Character.builder()
                         .user(user)
                         .characterInfo(characterInfoRepository.findById(1L).orElse(null))
-                        .characterLevel(CharacterLevel.builder().level(0).exp(0).build())
+                        .characterLevel(CharacterLevel.builder().level(1).exp(0).build())
                         .isMainCharacter(true)
                         .build();
                 characterRepository.save(character);
@@ -219,7 +219,7 @@ public class  OAuth2Controller {
                     .accessToken(accessToken)
                     .privateAccess(encoder.encode(accessToken))
                     .state(UserState.standard)
-                    .userLevel(UserLevel.builder().level(0).exp(0).build())
+                    .userLevel(UserLevel.builder().level(1).exp(0).build())
                     .registDate(LocalDateTime.now())
                     .build();
                 user = userRepository.save(user);
@@ -227,7 +227,7 @@ public class  OAuth2Controller {
                 Character character = Character.builder()
                         .user(user)
                         .characterInfo(characterInfoRepository.findById(1L).orElse(null))
-                        .characterLevel(CharacterLevel.builder().level(0).exp(0).build())
+                        .characterLevel(CharacterLevel.builder().level(1).exp(0).build())
                         .isMainCharacter(true)
                         .build();
                 characterRepository.save(character);

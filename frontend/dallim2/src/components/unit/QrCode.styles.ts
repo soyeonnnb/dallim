@@ -20,7 +20,8 @@ export const QrLeft = styled.div`
 
 export const GooglePlayImage = styled.img`
   width: 90%;
-  height: 80%;
+  height: 60%;
+  object-fit: contain;
 `;
 
 export const QrRight = styled.div`
@@ -33,8 +34,9 @@ export const QrRight = styled.div`
 `;
 
 export const QrImage = styled.img`
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 `;
 
 export const TempImage = styled.img`

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.runapp"
+    namespace = "com.dallim"
     compileSdk = 34
 
     buildFeatures{
@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.runapp"
+        applicationId = "com.dallim"
         minSdk = 30
         targetSdk = 33
         versionCode = 1

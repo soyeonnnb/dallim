@@ -1,14 +1,20 @@
 import * as React from 'react';
 
-import { requestUserPermission, NotificationListner } from './src/utils/pushnotification_helper';
-import { checkNotifications, requestNotifications } from 'react-native-permissions';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import { displayNoti } from './src/utils/pushnotification_helper';
-import { createStackNavigator } from '@react-navigation/stack';
-import { enableScreens } from 'react-native-screens';
-import { Platform, Linking } from 'react-native';
-import { RecoilRoot } from 'recoil';
-import { useEffect } from 'react';
+import {
+  requestUserPermission,
+  NotificationListner,
+} from './src/utils/pushnotification_helper';
+import {
+  checkNotifications,
+  requestNotifications,
+} from 'react-native-permissions';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {displayNoti} from './src/utils/pushnotification_helper';
+import {createStackNavigator} from '@react-navigation/stack';
+import {enableScreens} from 'react-native-screens';
+import {Platform, Linking} from 'react-native';
+import {RecoilRoot} from 'recoil';
+import {useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomTab from './src/components/common/bottomTab/BottomTab';
 import messaging from '@react-native-firebase/messaging';
@@ -26,17 +32,21 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('[Background Remote Message]', remoteMessage);
 });
 
-function App() {
+interface AutomaticLoginProps {
+  navigation: any;
+}
+
+function App({navigation}: AutomaticLoginProps) {
   // 배경쏭
   useEffect(() => {
     Sound.setCategory('Playback'); // 배경음악 재생 설정
-    const bgm = new Sound('bgm2.mp3', Sound.MAIN_BUNDLE, (error) => {
+    const bgm = new Sound('bgm2.mp3', Sound.MAIN_BUNDLE, error => {
       if (error) {
         console.log('오디오 로드 실패:', error);
         return;
       }
       bgm.setNumberOfLoops(-1); // 무한 반복
-      bgm.play((success) => {
+      bgm.play(success => {
         if (!success) {
           console.log('오디오 재생 실패:');
         }
@@ -58,10 +68,10 @@ function App() {
 
   useEffect(() => {
     const requestNotificationPermission = async () => {
-      const { status } = await checkNotifications();
+      const {status} = await checkNotifications();
 
       if (status === 'denied') {
-        requestNotifications(['alert', 'sound']).then(({ status }) => {
+        requestNotifications(['alert', 'sound']).then(({status}) => {
           if (
             status === 'denied' &&
             Platform.OS === 'android' &&
@@ -80,6 +90,13 @@ function App() {
       const fcmToken = await messaging().getToken();
       console.log('[FCM Token] ', fcmToken);
       await AsyncStorage.setItem('fcmToken', fcmToken);
+      const token = await AsyncStorage.getItem('accessToken');
+      console.log('엑세스토큰이 있나요?' + token);
+      // if (token) {
+      //   navigation.navigate('BottomTab', {
+      //     screen: 'Main',
+      //   });
+      // }
     } catch (e) {
       console.error('Failed to fetch or save FCM token', e);
     }
@@ -100,27 +117,27 @@ function App() {
           <Stack.Screen
             name="BottomTab"
             component={BottomTab}
-            options={{ headerShown: false }} // BottomTab의 헤더 숨기기
+            options={{headerShown: false}} // BottomTab의 헤더 숨기기
           />
           <Stack.Screen
             name="Login"
             component={Login}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="NotFound"
             component={NotFound}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Kakao"
             component={Kakao}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Naver"
             component={Naver}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
         </Stack.Navigator>
 

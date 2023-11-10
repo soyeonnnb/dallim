@@ -21,9 +21,12 @@ const NotificationModal = ({isVisible, onClose}: ModalComponentProps) => {
       <S.ModalContainer>
         <S.ModalContent>
           <S.ModalHeader>
-            <S.TitleText>개인정보처리방침 페이지 이동</S.TitleText>
+            <S.TextBox>
+              <S.TitleText>개인정보처리방침 페이지로</S.TitleText>
+              <S.TitleText>이동하시겠습니까?</S.TitleText>
+            </S.TextBox>
           </S.ModalHeader>
-          <S.ModalBody></S.ModalBody>
+
           <S.ModalFooter>
             <S.ModalButton onPress={handleConfirm}>
               <S.ModalButtonText>확인</S.ModalButtonText>

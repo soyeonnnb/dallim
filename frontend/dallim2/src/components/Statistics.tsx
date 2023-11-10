@@ -1,6 +1,47 @@
 import * as S from "./Statistics.styles";
+import bgImg from "../assets/images/night_background.jpg";
+import QrCode from "./unit/QrCode";
+import Phone from "../assets/images/statistics/Phone.png";
+import Versus from "../assets/images/statistics/Versus.png"
 
 function Statistics() {
-  return <S.Container>Statistic</S.Container>;
+  return (
+    <S.Container>
+      <S.BackgroundImage src={bgImg} />
+      <S.Header>
+        <S.qrBox> <QrCode /> </S.qrBox>
+      </S.Header>
+
+      <S.Body>
+        <S.TitleMainBox>
+          <S.TextTempBox />
+          <S.RealText> 통계</S.RealText>
+        </S.TitleMainBox>
+
+        <S.TitleSubBox>
+          <S.TextTempBox />
+          <S.MainText>App으로 러닝 데이터를 확인해보세요</S.MainText>
+          <S.SubText> 1초마다 데이터를 <S.HighlightedText>저장</S.HighlightedText>하고 <S.HighlightedText>압축</S.HighlightedText>해서 관리해요</S.SubText>
+          <S.SubText> 4종의 시각화 방법을 통해 데이터를 확인해요</S.SubText>
+        </S.TitleSubBox>
+      </S.Body>
+
+      <S.Footer>
+        <S.LeftBox>
+          <S.LeftBoxTitleBox>
+            <S.LeftTitle>
+              러닝기록을 잊지 않도록 알려드릴께요 <br />
+              데이터를 보면서 자기관리를 할 수 있어요
+            </S.LeftTitle>
+          </S.LeftBoxTitleBox>
+        </S.LeftBox>
+        <S.RightBox>
+        </S.RightBox>
+      </S.Footer>
+      <S.PhoneImage src={Phone} />
+      <S.VersusImage src={Versus} />
+
+    </S.Container >
+  );
 }
 export default Statistics;

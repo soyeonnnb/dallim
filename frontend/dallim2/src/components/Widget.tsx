@@ -2,6 +2,7 @@ import * as S from "./Widget.styles";
 import QrCode from "./unit/QrCode";
 import Widget_1 from "../assets/images/widget/Widget_1.png";
 import Widget_2 from "../assets/images/widget/Widget_2.png";
+import BottomBar from "./unit/BottomBar";
 
 function Widget() {
   return (
@@ -56,6 +57,7 @@ function Widget() {
 
 
       <S.Footer>
+        <BottomBar />
       </S.Footer>
 
     </S.Container>

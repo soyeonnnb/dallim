@@ -76,44 +76,16 @@ public class SelectActivity extends ComponentActivity {
                 MenuItem clickedItem = menuList.get(position);
                 switch (clickedItem.getTitle()) {
                     case "혼자 달리기":
-//                         AlertDialog.Builder 인스턴스 생성
-                        AlertDialog.Builder builder = new AlertDialog.Builder(SelectActivity.this, R.style.CustomDialogTheme);
-
-                        LayoutInflater inflater = getLayoutInflater();
-                        // single_popup.xml을 가져와서 객체로 생성
-                        View customView = inflater.inflate(R.layout.single_popup, null);
-
-                        builder.setView(customView);
-
-                        // builder 내용으로 AlertDialog 생성
-                        AlertDialog dialog = builder.create();
-
-                        // AlertDialog 보이기
-                        dialog.show();
-
-                        Button btnCancel = customView.findViewById(R.id.single_cancel);
-                        Button btnStart = customView.findViewById(R.id.single_start);
-
-                        // 취소 버튼에 대한 클릭 리스너
-                        btnCancel.setOnClickListener(b -> {
-                            dialog.dismiss();
-                        });
-
-                        // 확인 버튼에 대한 클릭 리스너
-                        btnStart.setOnClickListener(b -> {
-                            // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
-                            Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
-                            // 다른 액티비티로 값을 넘길 때 쓴다. 키 밸류로 구분
-                            intent.putExtra("run_type", "ALONE");
-                            countdownActivityResultLauncher.launch(intent);
-                            dialog.dismiss();
-                        });
+                        Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
+                        // 다른 액티비티로 값을 넘길 때 쓴다. 키 밸류로 구분
+                        intent.putExtra("run_type", "ALONE");
+                        countdownActivityResultLauncher.launch(intent);
                         break;
                     case "함께 달리기":
                         runningService.getRunningMate(SelectActivity.this);
                         break;
                     case "기록 보기":
-                        Intent intent = new Intent(SelectActivity.this, MyRecordActivity.class);
+                        intent = new Intent(SelectActivity.this, MyRecordActivity.class);
                         startActivity(intent);
                         break;
                     case "설정":

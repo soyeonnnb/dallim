@@ -10,10 +10,7 @@ import com.b208.dduishu.domain.planet.repository.PlanetRepository;
 import com.b208.dduishu.domain.runningMate.document.RunningMate;
 import com.b208.dduishu.domain.runningMate.repository.RunningMateRepository;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDetail;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
-import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
+import com.b208.dduishu.domain.runningRecord.dto.request.*;
 import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.response.RunningRecordWithRunningMate;
 import com.b208.dduishu.domain.runningRecord.dto.response.WatchRunningRecordOverview;
@@ -40,6 +37,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -345,7 +343,15 @@ public class RunningRecordService {
             throw new NullPointerException();
         });
 
-        System.out.println(res.getId());
+        List<RunningRecordOverallInfo> runningRecordOverallInfos = res.getRunningRecordInfos();
+
+        int targetSize = 200; // 줄이고 싶은 개수 (200개로 설정)
+        int step = (int) Math.floor(runningRecordOverallInfos.size() / targetSize);
+
+        List<RunningRecordOverallInfo> reducedRunningRecordOverallInfos = IntStream.range(0, runningRecordOverallInfos.size())
+                .filter(i -> i % step == 0 || i == runningRecordOverallInfos.size() - 1) // 규칙적인 간격으로 필터링
+                .mapToObj(runningRecordOverallInfos::get) // 인덱스를 기반으로 요소 가져오기
+                .collect(toList());
 
         return RunningRecordDetail.builder()
                 .id(res.getId())
@@ -359,7 +365,7 @@ public class RunningRecordService {
                 .character(res.getCharacter())
                 .rivalRecord(res.getRivalRecord())
                 .type(res.getType())
-                .runningRecordInfos(res.getRunningRecordInfos())
+                .runningRecordInfos(reducedRunningRecordOverallInfos)
                 .totalTime(res.getTotalTime())
                 .totalDistance(res.getTotalDistance())
                 .averageSpeed(res.getAverageSpeed())

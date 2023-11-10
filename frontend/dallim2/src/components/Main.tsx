@@ -1,9 +1,9 @@
 import * as S from "./Main.styles";
 import bgImg from "../assets/images/night_background.jpg";
-import phoneImg from "../assets/images/phone.png";
-import watchImg from "../assets/images/watch.png";
-import playStoreImg from "../assets/images/play_store.png";
-import qrImg from "../assets/images/dallim_qr.png";
+import phoneImg from "../assets/images/main/phone.png";
+import watchImg from "../assets/images/main/watch.png";
+import playStoreImg from "../assets/images/main/GooglePlayImage.png";
+import qrImg from "../assets/images/main/dallim_qr.png";
 
 function Main() {
   return (

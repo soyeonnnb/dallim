@@ -1,6 +1,22 @@
 import styled from "styled-components";
 import { InnerDiv, ComponentDiv } from "./Common.styles";
 
+export const Temp = styled.div`
+  border: 1px solid #000;
+  border-radius: 5px;
+  width: 150px;
+  height: 220px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  @media (max-width: 700px) {
+    width: 25vw;
+  }
+`;
+
 export const Container = styled(InnerDiv)`
   position: relative;
   justify-content: center;

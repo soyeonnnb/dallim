@@ -104,7 +104,7 @@
                         android:layout_gravity="center"
                         android:text="0.00"
                         android:fontFamily="@font/oagothic_extrabold"
-                        android:textColor="@color/green"
+                        android:textColor="@color/white"
                         android:textSize="20dp">
                     </TextView>
                 </LinearLayout>
@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/oagothic_extrabold"
                         android:text="Km"
-                        android:textColor="@color/green"
+                        android:textColor="@color/white"
                         android:textSize="12dp" />
 
                 </LinearLayout>

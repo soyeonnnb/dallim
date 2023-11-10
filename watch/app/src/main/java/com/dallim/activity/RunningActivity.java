@@ -128,9 +128,6 @@ public class RunningActivity extends AppCompatActivity {
         // 타임서비스 포그라운드 실행
         timerServiceIntent = new Intent(this, TimerService.class);
         startForegroundService(timerServiceIntent);
-
-
-        
     }
 
     // 데이터 추가(메인 스레드에서 분리하기 위해서)

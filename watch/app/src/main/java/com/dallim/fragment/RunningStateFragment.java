@@ -106,7 +106,6 @@ public class RunningStateFragment extends Fragment {
             startActivity(intent);
             getActivity().finish(); // 현재 액티비티 종료 (옵션)
         });
-
         return view;
     }
 

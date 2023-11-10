@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -93,6 +94,43 @@ public class MainActivity extends ComponentActivity{
         setContentView(view);
 
         checkPermission();
+
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        boolean isPowerSaveMode = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && powerManager.isPowerSaveMode();
+        boolean isIgnoringBatteryOptimizations = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && powerManager.isIgnoringBatteryOptimizations(getPackageName());
+
+        if (isPowerSaveMode) {
+            // Code to show an alert dialog that informs the user that the main activity is blocked while in power save mode
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("절전 모드 감지");
+            builder.setMessage("절전 모드를 해제하고 어플을 다시 실행해주세요.");
+            builder.setPositiveButton("설정으로 이동", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // 사용자가 OK 버튼을 클릭했을 때 절전 모드 설정 화면으로 이동
+                    Intent intent;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        intent = new Intent(Settings.ACTION_BATTERY_SAVER_SETTINGS);
+                    } else {
+                        // 이전 버전의 안드로이드에서는 절전 모드 설정을 직접 열 수 없으므로 일반 설정 화면으로 이동
+                        intent = new Intent(Settings.ACTION_SETTINGS);
+                    }
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    // 대화 상자가 닫힐 때 액티비티를 종료
+                    finish();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        if (!isIgnoringBatteryOptimizations) {
+            System.out.println("최적화모드 아님");
+        }
     }
 
     @Override

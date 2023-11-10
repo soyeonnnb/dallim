@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.dallim.R;
+import com.dallim.activity.RunningActivity;
 import com.dallim.database.RunningDataConverters;
 import com.dallim.model.RunDetail;
 import com.dallim.util.MyApplication;
@@ -75,10 +77,17 @@ public class TimerService extends Service {
     }
 
     private Notification getNotification() {
+
+        Intent notificationIntent = new Intent(this, RunningActivity.class);
+        PendingIntent pendingIntent =
+                PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_round)
                 .setContentTitle("기록중")
-                .setContentText("당신의 달리기를 기록하고 있어요");
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setContentText("당신의 달리기를 기록하고 있어요")
+                .setOngoing(true);
         return builder.build();
     }
 
@@ -86,7 +95,6 @@ public class TimerService extends Service {
         timerRunnable = new Runnable() {
             @Override
             public void run() {
-
                 long elapsedTime = System.currentTimeMillis() - startTime;
                 Log.d("로그", String.valueOf(elapsedTime));
                 updateRunDetailList(elapsedTime);
@@ -95,7 +103,6 @@ public class TimerService extends Service {
                 sendBroadcast(intent);
                 // 1초마다 현재 Runnable을 다시 실행하도록 예약
                 timerHandler.postDelayed(this, 1000);
-
             }
         };
         timerHandler.post(timerRunnable);
@@ -181,9 +188,7 @@ public class TimerService extends Service {
         runDetails.add(detail);
         runningViewModel.setRunDetailList(runDetails);
 
-
         runningViewModel.setElapsedTime(String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds));
-
     }
 
     public void stopTimer() {

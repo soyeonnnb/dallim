@@ -119,6 +119,7 @@ function Main({navigation}: MainProps) {
                       source={privacyPolicyIcon}
                       resizeMode="contain"
                     />
+                    {/*  */}
                     {/* <PrivacyPolicyIcon
                       width={15}
                       height={15}

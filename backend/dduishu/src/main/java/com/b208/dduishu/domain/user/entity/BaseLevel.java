@@ -37,7 +37,7 @@ public class BaseLevel {
 
     public static LevelInfo getLevelInfo(int exp) {
         return baseLevels.stream()
-                .filter(o -> o.getStartExp() <= exp && exp <= o.getEndExp())
+                .filter(o -> o.getStartExp() <= exp && exp < o.getEndExp())
                 .map(o -> {
                     LevelInfo levelInfo = new LevelInfo();
                     levelInfo.setCurExp(exp - o.getStartExp());

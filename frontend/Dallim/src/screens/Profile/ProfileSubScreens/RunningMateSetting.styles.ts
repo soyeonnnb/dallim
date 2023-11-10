@@ -55,13 +55,6 @@ export const Body = styled.View`
   height: 70%;
 `;
 
-export const FooterTopBox = styled.View`
-  /* border-width: 2px;
-  border-color: red;
-  width: 100%; */
-  height: 10%;
-`;
-
 export const DeleteButtonMiddleBox = styled.TouchableOpacity`
   border-width: 2px;
   border-color: red;

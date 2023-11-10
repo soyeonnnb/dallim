@@ -1,5 +1,6 @@
 package com.b208.dduishu.config;
 
+import com.b208.dduishu.util.gzip.GzipFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,11 +16,6 @@ import com.b208.dduishu.util.OAuthAPI.handler.OAuthSuccessHandler;
 import com.b208.dduishu.util.OAuthAPI.service.PrincipalOauth2UserService;
 import com.b208.dduishu.util.jwt.JwtFilter;
 import com.b208.dduishu.util.jwt.JwtUtil;
-
-
-
-
-
 
 
 @EnableWebSecurity // 이거 설정해놓으면 시큐리티가 모든 요청을 막아버림.
@@ -54,6 +50,7 @@ public class SecurityConfig {
                 .and()
                 // jwt filters
                 .addFilterBefore(new JwtFilter(userService, jwtUtil, secretKey), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new GzipFilter(), JwtFilter.class)
                 // request authorization
                 .authorizeRequests()
                 .antMatchers("/api/oauth/login", "/login/**", "/oauth2/**", "/chat-gpt/question", "/api/oauth2/code/kakao").permitAll() // 회원가입과 로그인은 언제나 가능
@@ -62,8 +59,7 @@ public class SecurityConfig {
                 .oauth2Login()
                 .successHandler(new OAuthSuccessHandler())
                 .failureHandler(new OAuthFailHandler())
-                .userInfoEndpoint().userService(principalOauth2UserService)
-                .and();
+                .userInfoEndpoint().userService(principalOauth2UserService);
 
         return http.build();
     }

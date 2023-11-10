@@ -14,7 +14,7 @@ import {colors} from '@/components/common/globalStyles';
 
 interface Props {
   data: PaceSectionType[];
-  rivalData?: PaceSectionType[];
+  rivalData: PaceSectionType[];
   second: number;
   setSecond: any;
 }
@@ -23,6 +23,7 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
   const [sectionNum, setSectionNum] = useState<number>(0);
   const [parentWidth, setParentWidth] = useState(0);
   const [parentHeight, setParentHeight] = useState(0);
+
   const onLayout = (event: any) => {
     const {width, height} = event.nativeEvent.layout;
     setParentWidth(width);
@@ -30,14 +31,9 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
   };
 
   useEffect(() => {
-    setSectionNum(data.length + 1);
+    setSectionNum(rivalData.length + 1);
   }, []);
 
-  useEffect(() => {}, [second]);
-
-  const handlePress = (data: any) => {
-    console.log('Pressed data:', data);
-  };
   return (
     <S.Container
       contentContainerStyle={{
@@ -52,7 +48,7 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
               key={rowIndex}
               record={record}
               color={
-                rivalData && rivalData[rowIndex].pace > record.pace
+                rivalData && rivalData[rowIndex].pace >= record.pace
                   ? '#96B986'
                   : '#E4A4A4'
               }
@@ -76,7 +72,7 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
               parentHeight={parentHeight}
               key={rowIndex}
               record={record}
-              color={colors.gray}
+              color={colors.grey._300}
             />
           ))}
         </S.RecordBox>

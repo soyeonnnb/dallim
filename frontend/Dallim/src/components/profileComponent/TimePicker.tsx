@@ -9,10 +9,21 @@ import {
   NativeScrollEvent,
 } from 'react-native';
 
+//component
+import CustomToast from '../common/CustomToast';
+
+//apis
+import {postSchedule} from '@/apis/ProfileApi';
+
+type DayOfWeek = '일' | '월' | '화' | '수' | '목' | '금' | '토';
+interface TimePickerProps {
+  onRefresh: () => void;
+}
+
 const screenHeight = Dimensions.get('window').height;
 const itemHeight = screenHeight / 20;
 
-const TimePicker = () => {
+const TimePicker: React.FC<TimePickerProps> = ({onRefresh}) => {
   //state
   const [selectedHour, setSelectedHour] = useState('12');
   const [selectedMinute, setSelectedMinute] = useState('30');
@@ -26,6 +37,16 @@ const TimePicker = () => {
   const hours = Array.from({length: 24}, (_, i) => (i < 10 ? '0' : '') + i);
   const minutes = Array.from({length: 60}, (_, i) => (i < 10 ? '0' : '') + i);
   const days = ['일', '월', '화', '수', '목', '금', '토'];
+
+  const dayMapping: Record<DayOfWeek, string> = {
+    일: 'SUNDAY',
+    월: 'MONDAY',
+    화: 'TUESDAY',
+    수: 'WEDNESDAY',
+    목: 'THURSDAY',
+    금: 'FRIDAY',
+    토: 'SATURDAY',
+  };
 
   //useEffect
   useEffect(() => {
@@ -50,14 +71,52 @@ const TimePicker = () => {
     setSelectedDays(updatedDays);
   };
 
-  const handleSave = () => {
-    const selectedDaysString = selectedDays
-      .map((selected, index) => (selected ? days[index] : null))
-      .filter(Boolean)
-      .join(', ');
+  const handleSave = async () => {
+    const isAnyDaySelected = selectedDays.some(day => day);
+    if (!isAnyDaySelected) {
+      CustomToast({
+        type: 'error',
+        text1: '요일을 선택해주세요!',
+      });
+      return;
+    }
 
-    console.log('저장된 요일:', selectedDaysString);
-    console.log('저장된 시간:', selectedHour, selectedMinute);
+    const selectedDaysForRequest = days
+      .filter((_, index) => selectedDays[index])
+      .map(day => dayMapping[day as DayOfWeek]);
+
+    console.log(selectedDaysForRequest);
+
+    const hourForRequest = parseInt(selectedHour, 10);
+    const minuteForRequest = parseInt(selectedMinute, 10);
+    try {
+      // Call postSchedule and pass the selected days and time
+      const response = await postSchedule(
+        selectedDaysForRequest,
+        hourForRequest,
+        minuteForRequest,
+      );
+
+      if (response) {
+        CustomToast({
+          type: 'success',
+          text1: '알림이 등록되었습니다.',
+        });
+        onRefresh();
+      } else {
+        CustomToast({
+          type: 'error',
+          text1: '중복된 알람이 존재합니다. ',
+        });
+      }
+    } catch (error) {
+      // Handle any errors that occur during the API call
+      console.error('Schedule Save Error:', error);
+      CustomToast({
+        type: 'error',
+        text1: '알림 등록에 실패했습니다.',
+      });
+    }
   };
 
   const handleHourChange = (event: NativeSyntheticEvent<NativeScrollEvent>) => {

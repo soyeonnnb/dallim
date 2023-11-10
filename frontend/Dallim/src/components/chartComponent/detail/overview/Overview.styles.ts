@@ -34,7 +34,7 @@ export const Location = styled.Text`
   margin-bottom: 5px;
 `;
 export const FullTime = styled.Text`
-  color: ${colors.gray};
+  color: ${colors.grey._300};
 `;
 
 // 개인 기록 관련 스타일

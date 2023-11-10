@@ -14,6 +14,7 @@ import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.response.RunningRecordWithRunningMate;
+import com.b208.dduishu.domain.runningRecord.dto.response.WatchRunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.exception.RunningRecordNotFoundException;
 import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
 import com.b208.dduishu.domain.runningRecordlog.repository.RunningRecordLogRepository;
@@ -60,6 +61,7 @@ public class RunningRecordService {
         updateUserState(false);
         String saveRunningRecordId = saveRunningRecord(req);
 
+
         return saveRunningRecordId;
     }
     public void updateUserState(boolean run){
@@ -91,11 +93,8 @@ public class RunningRecordService {
                 .filter(Planet::isMainPlanet)
                 .findFirst()
                 .orElse(null);
-        String addressName = req.getRunningRecordInfos()
-                            .stream()
-                            .findFirst()
-                            .map(recordInfo -> addressService.getAddressName(recordInfo.getLongitude(), recordInfo.getLatitude()))
-                            .orElse(null);
+
+        String addressName = addressService.getAddressName(req.getInitLongitude(), req.getInitLatitude());
 
         List<RunningRecord> findRunningRecord = runningRecordRepository.findByUserUserId(user.getUserId());
         // 유저 평균 스피드 정산
@@ -334,11 +333,11 @@ public class RunningRecordService {
                 .collect(toList());
     }
 
-    public RunningRecordDetail getRunningRecordDetail(ObjectId id) {
+    public RunningRecordDetail getRunningRecordDetail(String id) {
 
         System.out.println(id);
 
-        RunningRecord res = runningRecordRepository.findById(id).orElseThrow(() -> {
+        RunningRecord res = runningRecordRepository.findById(new ObjectId(id)).orElseThrow(() -> {
             throw new NullPointerException();
         });
 
@@ -375,6 +374,14 @@ public class RunningRecordService {
                 .map(o -> new RunningRecordWithRunningMate(o, rivalRecord))
                 .collect(toList());
 
+    }
+
+    public WatchRunningRecordOverview getRunningRecordOverview(String id) {
+        RunningRecord record = runningRecordRepository.findById((new ObjectId(id))).orElseThrow(() -> {
+            throw new RunningRecordNotFoundException();
+        });
+
+        return WatchRunningRecordOverview.builder().runningRecord(record).build();
     }
 
 

@@ -35,9 +35,9 @@ public class UserInfo {
                     edit.putLong("characterId", response.body().getData().getCharacterId());
                     edit.putString("email", response.body().getData().getEmail());
                     edit.putLong("userId", response.body().getData().getUserId());
-                    edit.putLong("characterIndex", response.body().getData().getCharacterIndex());
                     edit.putLong("planetIndex", response.body().getData().getPlanetIndex());
                     edit.putInt("level", response.body().getData().getLevel());
+                    edit.putLong("characterIndex", response.body().getData().getCharacterIndex());
                     edit.putInt("evolutionStage", response.body().getData().getEvolutionStage());
                     edit.putString("type", response.body().getData().getType());
                     edit.apply();

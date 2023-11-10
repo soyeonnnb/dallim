@@ -1,4 +1,3 @@
-import React from 'react';
 import {useState, useEffect} from 'react';
 
 // icons
@@ -19,9 +18,7 @@ interface NavIconProps {
 const getNavIconColor = (focused: boolean) => {
   let iconColor;
 
-  iconColor = focused
-    ? varStyles.colors.lightPurple
-    : varStyles.colors.darkBlue;
+  iconColor = focused ? 'white' : varStyles.colors.depth._50;
   return iconColor;
 };
 

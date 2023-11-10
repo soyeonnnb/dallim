@@ -4,7 +4,6 @@ import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 
 import AloneRunModal from '@/components/mainComponent/AloneRunModal';
-// import TogetherModal from 
 
 interface GameStartStackProps {
   navigation: any;
@@ -46,7 +45,7 @@ function GameStartStack({ navigation }: GameStartStackProps) {
       <S.BackgroundImage source={require('@/assets/images/MainBackground5.png')}
         resizeMode="cover">
         <S.Header>
-          <S.CloseButton onPress={() => navigation.navigate('Main')}>
+          <S.CloseButton onPress={() => navigation.navigate('MainMain')}>
             <S.CloseImage source={CloseIcon} />
           </S.CloseButton>
           <S.HeaderBox>

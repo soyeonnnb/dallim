@@ -1,5 +1,5 @@
 import * as S from "./BottomBar.styles";
-import QR from "../../assets/images/widget/QR.png";
+import Logo from "../../assets/Icons/Logo.png";
 
 function BottomBar() {
   return (
@@ -7,7 +7,7 @@ function BottomBar() {
       <S.Box>
         <S.LeftBox>
           <S.ImageBox>
-            <S.Image src={QR} />
+            <S.Image src={Logo} />
           </S.ImageBox>
         </S.LeftBox>
         <S.RightBox>

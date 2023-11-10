@@ -7,23 +7,25 @@ export const Container = styled(InnerDiv)`
 `;
 
 export const BackgroundImage = styled.img`
-  width: 100%;
-  height: 70%;
+  width: 100vw;
+  height: 80%;
   top: 0;
   position: absolute;
   z-index: -1;
 `;
 
 export const Main = styled(ComponentDiv)`
+  /* border: 1px solid blue; */
   height: 100%;
 `;
 
 export const Header = styled.div`
+  /* border: 1px solid blue; */
+
   font-size: 200%;
   font-weight: 800;
   color: white;
   height: 10%;
-  max-height: 70px;
   align-items: center;
   display: flex;
 `;
@@ -42,15 +44,18 @@ export const SectionLeft = styled.div`
   align-items: center;
   width: 33%;
 `;
+
 export const QRImage = styled.img`
   width: 50%;
   min-width: 100px;
   border-radius: 10%;
 `;
+
 export const PhoneImage = styled.img`
   width: 100%;
   object-fit: contain;
 `;
+
 export const PlayStoreImage = styled.img`
   width: 50%;
   min-width: 100px;
@@ -59,9 +64,11 @@ export const PlayStoreImage = styled.img`
 `;
 
 export const WatchImage = styled.img`
-  width: 100%;
+  width: 70%;
   transform: rotate(30deg);
   object-fit: contain;
+  padding-left: 10%;
+
 `;
 export const SectionMiddle = styled.div`
   display: flex;
@@ -77,7 +84,7 @@ export const LogoBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 40%;
+  margin-bottom: 50%;
 `;
 export const DownloadBox = styled.div`
   align-items: center;

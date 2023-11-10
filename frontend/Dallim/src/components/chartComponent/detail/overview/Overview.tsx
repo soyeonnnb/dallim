@@ -228,7 +228,7 @@ function WalkRecord({type, record, color}: WalkRecordProps) {
       )}
       <S.WalkRecordTitle>{title}</S.WalkRecordTitle>
       <S.WalkRecordContent>
-        {record && meterToKMOrMeter(record)}
+        {record && (record === 0 ? '-' : meterToKMOrMeter(record))}
       </S.WalkRecordContent>
     </S.WalkRecordContainer>
   );

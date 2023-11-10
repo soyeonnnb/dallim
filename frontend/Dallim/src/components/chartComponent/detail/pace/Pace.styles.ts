@@ -20,11 +20,11 @@ export const ToggleBox = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  flex: 0.05;
+  /* flex: 0.05; */
 `;
 
 export const ToggleText = styled.Text`
-  margin-right: 10px;
+  /* margin-right: 10px; */
   font-size: 15px;
   line-height: 20px;
   vertical-align: middle;

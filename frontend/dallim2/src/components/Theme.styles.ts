@@ -1,6 +1,8 @@
 import styled from "styled-components";
+import { InnerDiv } from "./Common.styles";
 
-export const Container = styled.div`
+export const Container = styled(InnerDiv)`
+  position: relative;
   justify-content: center;
   width: 100%;
   height: 100%;

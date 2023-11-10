@@ -215,7 +215,7 @@ export const MainImageBox = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 30%;
-  margin-left: 15%;
+  margin-left: 30%;
 `;
 
 export const Footer = styled.div`

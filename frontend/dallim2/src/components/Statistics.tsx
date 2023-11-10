@@ -19,7 +19,7 @@ function Statistics() {
 
         <S.TitleSubBox>
           <S.MainText>App으로 러닝 데이터를 확인해보세요</S.MainText>
-          <S.SubText> 1초마다 데이터를 <S.HighlightedText>저장</S.HighlightedText>하고 <S.HighlightedText>압축</S.HighlightedText>해서 관리해요</S.SubText>
+          <S.SubText> 1초마다 데이터를&nbsp;<S.HighlightedText>저장</S.HighlightedText>하고&nbsp;<S.HighlightedText>압축</S.HighlightedText>해서 관리해요</S.SubText>
           <S.SubText> 4종의 시각화 방법을 통해 데이터를 확인해요</S.SubText>
         </S.TitleSubBox>
       </S.Body>

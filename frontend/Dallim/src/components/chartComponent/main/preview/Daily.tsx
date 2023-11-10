@@ -66,8 +66,8 @@ function RunningCard({
       <S.CardImage
         source={
           item.type === 'PAIR'
-            ? require('@/assets/images/RunWithWatch.png') // 함께 달리기일 시
-            : require('@/assets/images/RunWithPhone.png') // 혼자 달리기일 시
+            ? require('@/assets/images/RunTogetherPanel.png') // 함께 달리기일 시
+            : require('@/assets/images/RunAlonePanel.png') // 혼자 달리기일 시
         }
         resizeMode="contain"
       />

@@ -121,7 +121,7 @@ function WatchConnection({navigation}: WatchConnectionProps) {
         <S.BackButtonFlexBoxRight>
           <S.TitleText>워치 설정</S.TitleText>
         </S.BackButtonFlexBoxRight>
-        <S.BackButtonFlexBoxLeft></S.BackButtonFlexBoxLeft>
+        <S.BackButtonFlexBoxLeft />
       </S.Header>
 
       <S.Body>

@@ -56,13 +56,14 @@ export const RealText = styled.div`
   flex-direction: row;
   width: 400px;
   height: 150px;
-  font-size: 70px;
+  font-size: 400%;
+  font-weight: bold;
   color: #554bab;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   padding-right: 20px;
-  margin-top: 50px;
+  margin-top: 7%;
 `;
 
 export const TitleSubBox = styled.div`
@@ -73,11 +74,6 @@ export const TitleSubBox = styled.div`
   flex-direction: column;
 `;
 
-export const TextTempBox = styled.div`
-  width: 100%;
-  height: 30%;
-`;
-
 export const MainText = styled.div`
   flex-direction: row;
   width: 100%;
@@ -86,6 +82,8 @@ export const MainText = styled.div`
   justify-content: flex-start;
   align-items: flex-end;
   font-size: 200%;
+  padding-bottom: 5%;
+  font-weight: bold;
   color: white;
 `;
 
@@ -96,7 +94,8 @@ export const SubText = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  font-size: 120%;
+  font-size: 150%;
+  font-weight: bold;
   color: #d5d1fb;
 `;
 
@@ -123,10 +122,12 @@ export const LeftBox = styled.div`
 `;
 
 export const LeftBoxTitleBox = styled.div`
+  /* border: 1px solid blue; */
+
   width: 70%;
   height: 70%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
 `;
 
@@ -134,9 +135,11 @@ export const LeftTitle = styled.div`
   width: 70%;
   height: 70%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: flex-end;
   color: white;
+  font-size: 130%;
+  font-weight: bold;
 `;
 
 export const RightBox = styled.div`
@@ -162,11 +165,11 @@ export const ImageBox = styled.div`
 `;
 
 export const PhoneImage = styled.img`
-  width: 70%;
+  width: 60%;
   height: 70%;
   position: absolute;
-  top: 25%;
-  left: -10%;
+  top: 15%;
+  left: 5%;
   z-index: -1;
   object-fit: contain;
 `;

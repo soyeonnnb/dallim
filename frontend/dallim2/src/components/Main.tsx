@@ -1,6 +1,6 @@
 import * as S from "./Main.styles";
 import bgImg from "../assets/images/night_background.jpg";
-import phoneImg from "../assets/images/main/phone.png";
+import phoneImg from "../assets/images/main/main-phone.gif";
 import watchImg from "../assets/images/main/main-watch.png";
 import playStoreImg from "../assets/images/main/GooglePlayImage.png";
 import qrImg from "../assets/images/main/dallim_qr.png";

@@ -52,10 +52,10 @@ function MonthlyChart({previewMonthRankingRecords}: Props) {
                 <BarChart
                   noOfSections={4}
                   stackData={item}
-                  width={barChartWidth}
                   barWidth={barWidth}
                   height={scrollViewHeight * 0.75}
                   hideYAxisText
+                  yAxisColor="rgba(0, 0, 0, 0)"
                 />
               )}
               showsHorizontalScrollIndicator={false} // 가로 스크롤바 표시

@@ -30,7 +30,7 @@ export const secondToHourMinuteSeconds = (data: number) => {
 export const secondToMinuteText = (time: number) => {
   const hours = Math.floor(time / 3600); // 시간 계산
   const minutes = Math.floor((time % 3600) / 60); // 분 계산
-  const seconds = time % 60; // 초 계산
+  const seconds = Math.round(time % 60); // 초 계산
   if (time >= 3600) {
     return `${hours}시간 ${minutes}분`;
   } else if (time >= 60) {

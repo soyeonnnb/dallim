@@ -17,14 +17,15 @@ export const Box = styled.div`
 
 export const LeftBox = styled.div`
   justify-content: center;
-  width: 30%;
+  width: 20%;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  padding-right: 20px;
 `;
 
-export const Text1 = styled.div`
+export const MainText = styled.div`
   flex-direction: row;
   width: 100%;
   height: 30%;
@@ -35,7 +36,7 @@ export const Text1 = styled.div`
   color: #545b63;
 `;
 
-export const Text2 = styled.div`
+export const SubText = styled.div`
   flex-direction: row;
   width: 100%;
   height: 30%;
@@ -61,7 +62,7 @@ export const Image = styled.img`
 
 export const RightBox = styled.div`
   justify-content: center;
-  width: 70%;
+  width: 80%;
   height: 100%;
 `;
 
@@ -74,46 +75,13 @@ export const TextMain = styled.div`
 `;
 
 export const TextSub = styled.div`
+  padding-top: 5px;
   justify-content: center;
   width: 100%;
   height: 60%;
 `;
 
-export const QrLeft = styled.div`
-  width: 70%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
-export const GooglePlayImage = styled.img`
-  width: 90%;
-  height: 60%;
-  object-fit: contain;
-`;
 
-export const QrRight = styled.div`
-  width: 30%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 
-export const QrImage = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-`;
 
-export const TempImage = styled.img`
-  width: 100%;
-  transform: rotate(30deg);
-`;
-
-export const TempText = styled.div`
-  color: white;
-  font-size: 200%;
-  font-weight: 700;
-`;

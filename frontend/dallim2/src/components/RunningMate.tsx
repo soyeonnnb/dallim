@@ -1,7 +1,7 @@
 import * as S from "./RunningMate.styles";
 import QrCode from "./unit/QrCode";
 import bgImg from "../assets/images/night_background.jpg";
-import SelectImage from "../assets/images/runningMate/SelectImage.png";
+import SelectImage from "../assets/images/runningMate/runningmate.png";
 
 function RunningMate() {
   return (

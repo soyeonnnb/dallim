@@ -29,6 +29,7 @@ export const qrBox = styled.div`
 export const Body = styled.div`
   flex-direction: row;
   width: 100%;
+  max-width: 1200px;
   height: 80%;
   display: flex;
   flex-direction: column;
@@ -114,7 +115,8 @@ export const SideText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 150%;
+  font-size: 250%;
+  font-weight: bold;
   color: #554bab;
 `;
 

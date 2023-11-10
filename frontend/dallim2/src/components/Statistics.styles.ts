@@ -16,6 +16,7 @@ export const BackgroundImage = styled.img`
 `;
 
 export const Header = styled.div`
+  /* border: 1px solid blue; */
   color: white;
   width: 100vw;
   height: 10%;
@@ -27,7 +28,7 @@ export const qrBox = styled.div`
   color: white;
   width: 20%;
   height: 100%;
-  margin-right: 2%;
+  padding-right: 2%;
 `;
 
 export const Body = styled.div`

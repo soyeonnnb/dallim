@@ -9,13 +9,13 @@ export const Container = styled(InnerDiv)`
 export const BackgroundImage = styled.img`
   width: 100%;
   height: 70%;
-  top: 0;
   position: absolute;
-  top: 40%;
+  top: 50%;
   z-index: -2;
 `;
 
 export const Header = styled.div`
+  /* border: 1px solid blue; */
   color: white;
   width: 100vw;
   height: 10%;
@@ -27,12 +27,12 @@ export const qrBox = styled.div`
   color: white;
   width: 20%;
   height: 100%;
-  margin-right: 2%;
+  padding-right: 2%;
 `;
 
 export const Body = styled.div`
   flex-direction: row;
-  width: 60vw;
+  width: 80%;
   height: 30%;
   display: flex;
   flex-direction: column;
@@ -45,8 +45,9 @@ export const EmptyBox = styled.div`
 `;
 
 export const TitleBox = styled.div`
+
   flex-direction: row;
-  width: 50%;
+  width: 60%;
   height: 80%;
   display: flex;
   flex-direction: column;
@@ -55,22 +56,24 @@ export const TitleBox = styled.div`
 export const MainText = styled.div`
   flex-direction: row;
   width: 100%;
-  height: 40%;
+  height: 35%;
   display: flex;
   justify-content: center;
-  align-items: flex-end;
-  font-size: 200%;
+  align-items: center;
+  font-size: 400%;
+  font-weight: bold;
   color: #554bab;
 `;
 
 export const SubText = styled.div`
   flex-direction: row;
   width: 100%;
-  height: 30%;
+  height: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 150%;
+  font-size: 200%;
+  font-weight: bold;
   color: black;
 `;
 
@@ -81,7 +84,9 @@ export const HighlightedText = styled.span`
 export const AddText = styled.div`
   flex-direction: row;
   width: 100%;
-  height: 30%;
+  height: 20%;
+  font-size: 150%;
+  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -105,10 +110,11 @@ export const ImageBox = styled.div`
 
 export const SelectImage = styled.img`
   width: 90%;
+  max-width: 1100px;
   height: 80%;
-  position: absolute;
   top: 15%;
   z-index: -1;
+  position: absolute;
   object-fit: contain;
 `;
 

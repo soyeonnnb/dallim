@@ -21,7 +21,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
     }
 
     signingConfigs {
@@ -129,6 +128,4 @@ dependencies {
 
     // Brotli 디코더 라이브러리 추가
     implementation ("org.brotli:dec:0.1.2")
-
-
 }

@@ -29,25 +29,28 @@ public class UserInfo {
             @Override
             public void onResponse(Call<ApiResponseDTO<UserInfoResponseDTO>> call, Response<ApiResponseDTO<UserInfoResponseDTO>> response) {
                 if (response.isSuccessful() && response.body().getData() != null){
-                    Log.d("성공", String.valueOf(response.body().getData().toString()));
+                    Log.d("유저 정보 가져오기 성공", String.valueOf(response.body().getData().toString()));
                     SharedPreferences.Editor edit = prefs.edit();
                     edit.putString("nickname", response.body().getData().getNickName());
                     edit.putLong("characterId", response.body().getData().getCharacterId());
                     edit.putString("email", response.body().getData().getEmail());
                     edit.putLong("userId", response.body().getData().getUserId());
-                    edit.putLong("characterIndex", response.body().getData().getCharacterIndex());
                     edit.putLong("planetIndex", response.body().getData().getPlanetIndex());
                     edit.putInt("level", response.body().getData().getLevel());
+                    edit.putLong("characterIndex", response.body().getData().getCharacterIndex());
                     edit.putInt("evolutionStage", response.body().getData().getEvolutionStage());
+                    edit.putString("type", response.body().getData().getType());
                     edit.apply();
                     callback.onSuccess();
                 } else {
+                    Log.e("유저 정보 가져오기 실패", response.errorBody().toString());
                     callback.onError("유저 정보를 가져오는데 실패했습니다.");
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponseDTO<UserInfoResponseDTO>> call, Throwable t) {
+                Log.e("유저 정보 가져오기 실패(서버)", t.getMessage());
                 callback.onError("서버 에러 발생");
             }
         });

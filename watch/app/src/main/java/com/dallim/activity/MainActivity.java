@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -50,6 +51,11 @@ public class MainActivity extends ComponentActivity{
     private String authenticateduth;
     private UserInfo userInfo;
     private PowerManager.WakeLock wakeLock;
+    // 권한 요청과 관련된 변수
+    private int permissionIndex = 0;
+    private List<String> permissionsNeeded;
+    private boolean shouldShowSettings = false;
+    private static final int SETTINGS_REQUEST_CODE = 160;
 
 
     @SuppressLint("InvalidWakeLockTag")
@@ -57,39 +63,17 @@ public class MainActivity extends ComponentActivity{
     protected void onCreate(Bundle savedInstanceState) {
         db = AppDatabase.getDatabase(getApplicationContext());
         super.onCreate(savedInstanceState);
-        PowerManager pm= (PowerManager) getSystemService(Context.POWER_SERVICE);
-        String packageName= getPackageName();
-        if (pm.isIgnoringBatteryOptimizations(packageName) ){
 
-        } else {    // 메모리 최적화가 되어 있다면, 풀기 위해 설정 화면 띄움.
-            Intent intent=new Intent();
-            intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-            intent.setData(Uri.parse("package:" + packageName));
-            startActivityForResult(intent,0);
-        }
         // 리시버 인스턴스를 생성합니다.
         networkUtil = new NetworkUtil();
-        // 어떤 권한을 확인할 지 설정 해놓은 메서드.
-        checkPermission();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!pm.isIgnoringBatteryOptimizations(packageName)) {
-                Log.e("에러", "절전모드임");
-            }
-        }
-
-        // WakeLock 초기화
-        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "main");
-        wakeLock.acquire();
 
         // 알림을 사용하기 위한 코드(오레오 이상 버전이면 실행)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             /*새로운 알림 채널 생성
-            * id : 채널의 아이디
-            * name : 사용자에게 보여지는 채널 이름
-            * 채널의 중요도 설정
-            * */
+             * id : 채널의 아이디
+             * name : 사용자에게 보여지는 채널 이름
+             * 채널의 중요도 설정
+             * */
             NotificationChannel serviceChannel = new NotificationChannel(
                     "dallim_channel",
                     "달림 알림",
@@ -109,7 +93,44 @@ public class MainActivity extends ComponentActivity{
         // 액티비티의 컨텐츠 뷰로 view를 설정. 여기서 화면에 뭐가 보일지 결정
         setContentView(view);
 
+        checkPermission();
 
+        PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        boolean isPowerSaveMode = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && powerManager.isPowerSaveMode();
+        boolean isIgnoringBatteryOptimizations = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && powerManager.isIgnoringBatteryOptimizations(getPackageName());
+
+        if (isPowerSaveMode) {
+            // Code to show an alert dialog that informs the user that the main activity is blocked while in power save mode
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle("절전 모드 감지");
+            builder.setMessage("절전 모드를 해제하고 어플을 다시 실행해주세요.");
+            builder.setPositiveButton("설정으로 이동", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    // 사용자가 OK 버튼을 클릭했을 때 절전 모드 설정 화면으로 이동
+                    Intent intent;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+                        intent = new Intent(Settings.ACTION_BATTERY_SAVER_SETTINGS);
+                    } else {
+                        // 이전 버전의 안드로이드에서는 절전 모드 설정을 직접 열 수 없으므로 일반 설정 화면으로 이동
+                        intent = new Intent(Settings.ACTION_SETTINGS);
+                    }
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    // 대화 상자가 닫힐 때 액티비티를 종료
+                    finish();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        if (!isIgnoringBatteryOptimizations) {
+            System.out.println("최적화모드 아님");
+        }
     }
 
     @Override
@@ -136,85 +157,101 @@ public class MainActivity extends ComponentActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Activity.RESULT_OK){
-            startSelectActivity();
+        // 설정에서 돌아온 경우 권한을 다시 확인합니다.
+        if (requestCode == SETTINGS_REQUEST_CODE) {
+            checkPermissionsAgain();
         }
     }
 
-
-    private void checkPermission(){
-        // 필요한 권한(퍼미션)들
-        String[] requiredPermissions = {
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACTIVITY_RECOGNITION,
-                Manifest.permission.BODY_SENSORS,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-        };
-
-        // 거절되었거나 아직 수락하지 않은 권한(퍼미션)을 저장할 문자열 리스트
-        List<String> rejectedPermissionList = new ArrayList<>();
-
-        // 필요한 퍼미션들을 하나씩 끄집어내서 현재 권한을 받았는지 체크
-        for (String permission : requiredPermissions) {
-            // 특정 퍼미션을 확인하는데 값이 PERMISSION_GRANTED와 같지 않으면 권한이 없다는 뜻.
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                // 만약 권한이 없다면 rejectedPermissionList에 추가
-                rejectedPermissionList.add(permission);
-            }
-        }
-
-        // 거절 퍼미션 리스트가 비어있지 않다면
-        if (!rejectedPermissionList.isEmpty()) {
-            // 권한 요청!
-            String[] array = new String[rejectedPermissionList.size()];
-            array = rejectedPermissionList.toArray(array);
-            // 현재 액티비티에서 요청권한 리스트에게 다시 재요청을 보냄.
-            ActivityCompat.requestPermissions(this, array, MULTIPLE_PERMISSIONS_CODE);
-        }
-    }
 
     /*
-    * 요청에 대한 사용자의 권한 응답(승인 or 거절)을 받으면 실행된다.
-    * onRequestPermissionsResult는 프래그먼트에서 사용되길 권장한다.
-    * 하지만 메인 액티비티에서 권한 확인을 받는 게 맞아보여서 액티비티에서 사용함.
-    */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+     * 요청에 대한 사용자의 권한 응답(승인 or 거절)을 받으면 실행된다.
+     * onRequestPermissionsResult는 프래그먼트에서 사용되길 권장한다.
+     * 하지만 메인 액티비티에서 권한 확인을 받는 게 맞아보여서 액티비티에서 사용함.
+     */
 
-        // 요청 코드가 우리가 보낸 권한요청의 결과와 맞는지 확인한다.(100)
-        if (requestCode == MULTIPLE_PERMISSIONS_CODE) {
-            boolean allPermissionsGranted = true;
-            // 모든 권한이 승인되었는지 확인
-            for (int grantResult : grantResults) {
-                // 하나라도 승인이 안 됐으면 false로 만들고 정지
-                if (grantResult != PackageManager.PERMISSION_GRANTED) {
-                    allPermissionsGranted = false;
-                    break;
-                }
-            }
+    // 권한 요청을 시작하는 메서드
+    private void checkPermission() {
+        permissionsNeeded = new ArrayList<>();
+        permissionsNeeded.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        permissionsNeeded.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+        permissionsNeeded.add(Manifest.permission.BODY_SENSORS);
+        permissionsNeeded.add(Manifest.permission.POST_NOTIFICATIONS);
+        permissionsNeeded.add(Manifest.permission.ACCESS_BACKGROUND_LOCATION);
 
-            // 승인이 안 됐으면
-            if (!allPermissionsGranted) {
-                Toast.makeText(
-                        getApplicationContext(),
-                        "설정에서 모든 권한을 허용하고 다시 실행해주세요.",
-                        Toast.LENGTH_LONG
-                ).show();
+        requestNextPermission();
+    }
 
-                // 설정창으로 이동
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
-                finish();
-
+    // 다음 권한을 요청하는 메서드
+    private void requestNextPermission() {
+        if (permissionIndex < permissionsNeeded.size()) {
+            String permission = permissionsNeeded.get(permissionIndex);
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{permission}, permissionIndex);
             } else {
+                permissionIndex++;
+                requestNextPermission();
+            }
+        } else {
+            checkAllPermissionsGranted();
+        }
+    }
+
+    // 모든 권한이 승인되었는지 확인하는 메서드
+    private void checkAllPermissionsGranted() {
+        if (shouldShowSettings) {
+            // 모든 권한이 승인되지 않았으므로 사용자에게 설정 창으로 이동하라는 알림을 표시합니다.
+            showSettingsAlert();
+        } else {
+            // 모든 권한이 승인되었습니다. 앱의 다음 흐름으로 넘어갑니다.
+            continueAppFlow();
+        }
+    }
+    // 설정 창으로 이동하라는 알림을 표시하는 메서드
+    private void showSettingsAlert() {
+        new AlertDialog.Builder(this)
+                .setTitle("권한 설정 필요")
+                .setMessage("앱의 모든 기능을 사용하려면 필요한 권한을 설정에서 승인해야 합니다.")
+                .setPositiveButton("설정으로 이동", (dialog, which) -> goToSettings())
+                .setNegativeButton("취소", (dialog, which) -> finish())
+                .create().show();
+    }
+
+    // 앱의 다음 흐름으로 넘어가는 메서드
+    private void continueAppFlow() {
+        // 모든 권한이 승인된 후에 해야 할 작업을 여기에 구현합니다.
+    }
+
+    // 설정 창으로 이동하는 메서드
+    private void goToSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.fromParts("package", getPackageName(), null));
+        startActivityForResult(intent, SETTINGS_REQUEST_CODE);
+        finish();
+    }
+
+    // 권한 요청 결과를 처리하는 메서드
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode < permissionsNeeded.size()) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 승인된 경우 다음 권한을 요청합니다.
+                permissionIndex++;
+                requestNextPermission();
+            } else {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0])) {
+                    // 사용자가 '다시 묻지 않음'을 선택한 경우
+                    shouldShowSettings = true;
+                }
+                // 거부된 경우 다음 권한을 요청합니다.
+                permissionIndex++;
+                requestNextPermission();
             }
         }
     }
+
 
     @Override
     protected void onResume() {
@@ -246,12 +283,30 @@ public class MainActivity extends ComponentActivity{
         });
     }
 
+    private void checkPermissionsAgain() {
+        // 모든 필요한 권한을 다시 확인합니다.
+        boolean allPermissionsGranted = true;
+        for (String permission : permissionsNeeded) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                // 하나라도 권한이 승인되지 않았다면
+                allPermissionsGranted = false;
+                break;
+            }
+        }
+
+        if (!allPermissionsGranted) {
+            // 권한이 여전히 승인되지 않았다면 적절한 조치를 취합니다.
+            // 예를 들어, 사용자에게 권한이 필요한 이유를 다시 설명하거나, 앱을 종료할 수 있습니다.
+            Toast.makeText(this, "필요한 모든 권한이 승인되지 않았습니다.", Toast.LENGTH_LONG).show();
+            finish(); // 앱을 종료
+        } else {
+            // 모든 권한이 승인되었다면, 앱의 흐름을 계속 진행합니다.
+            continueAppFlow();
+        }
+    }
+
     @Override
     protected void onDestroy() {
-        // WakeLock 해제
-        if (wakeLock != null && wakeLock.isHeld()) {
-            wakeLock.release();
-        }
         super.onDestroy();
     }
 
@@ -265,25 +320,5 @@ public class MainActivity extends ComponentActivity{
     private void startSelectActivity() {
         Intent intent = new Intent(MainActivity.this, SelectActivity.class);
         startActivity(intent);
-    }
-
-    // 러닝 데이터 삭제
-    private void deleteRunningData() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                db.runningDataDAO().deleteAll();
-            }
-        });
-    }
-
-    // 러닝메이트 데이터 삭제
-    private void deleteRunningMate() {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                db.runningMateDAO().deleteAll();
-            }
-        });
     }
 }

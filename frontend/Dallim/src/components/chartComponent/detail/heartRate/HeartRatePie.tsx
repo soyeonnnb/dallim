@@ -85,7 +85,7 @@ function PieChartInfo({index, chartInfo, color, height}: PieChartInfoProps) {
         <S.ChartInfoName>영역 {index + 1}</S.ChartInfoName>
       </S.ChartInfoLeft>
       <S.ChartRight>
-        <S.ChartInfoContent>{chartInfo} BPM</S.ChartInfoContent>
+        <S.ChartInfoContent>{chartInfo}</S.ChartInfoContent>
       </S.ChartRight>
     </S.ChartInfo>
   );

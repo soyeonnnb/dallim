@@ -52,6 +52,8 @@ public class RunningData {
     private double initLatitude; // 시작 위도
     @ColumnInfo(name = "init_longitude")
     private double initLongitude; // 시작 경도
+    @ColumnInfo(name = "win_or_lose")
+    private String winOrLose;
     @TypeConverters(RunningDataConverters.class)
     @ColumnInfo(name = "running_record_infos")
     private List<RunDetail> runningRecordInfos;
@@ -82,7 +84,16 @@ public class RunningData {
         dto.setWatchOrMobile("WATCH");
         dto.setInitLatitude(this.initLatitude);
         dto.setInitLongitude(this.initLongitude);
+        dto.setWinOrLose(this.winOrLose);
         return dto;
+    }
+
+    public String getWinOrLose() {
+        return winOrLose;
+    }
+
+    public void setWinOrLose(String winOrLose) {
+        this.winOrLose = winOrLose;
     }
 
     public String getWatchOrMobile() {

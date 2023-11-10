@@ -108,7 +108,7 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
         Map<String, Integer> result = conversion.sToPace(averagePace);
         Integer minutes = result.get("minutes");
         Integer seconds = result.get("seconds");
-        String speedText = String.valueOf(minutes + "'" + seconds + "''");
+        String speedText = String.valueOf(minutes + "’" + seconds + "”");
         SpannableString spannableSpeed = new SpannableString(speedText);
         holder.speed.setText(spannableSpeed);
 
@@ -167,6 +167,13 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
                 start.setOnClickListener(b -> {
                     Intent intent = new Intent(activity, LoadingActivity.class);
                     intent.putExtra("running_record_id", currentRunningMate.getRunningRecordId());
+
+                    Log.e("상대 진화", String.valueOf(currentRunningMate.getEvolutionStage()));
+                    Log.e("상대 캐릭터", String.valueOf(currentRunningMate.getCharacterIndex()));
+                    // 상대방 캐릭터 저장
+                    edit.putInt("mate_evolution_stage", currentRunningMate.getEvolutionStage());
+                    edit.putInt("mate_character_index", currentRunningMate.getCharacterIndex());
+                    edit.apply();
                     activity.startActivity(intent);
                     dialog.dismiss();
                 });

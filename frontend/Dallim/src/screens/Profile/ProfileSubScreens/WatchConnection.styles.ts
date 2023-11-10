@@ -49,7 +49,7 @@ export const TitleText = styled.Text`
 
 export const Body = styled.View`
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   width: 100%;
   height: 50%;
   /* background-color: red; */
@@ -58,7 +58,8 @@ export const Body = styled.View`
 
 export const Footer = styled.View`
   background-color: white;
-  border-radius: 40px;
+  border-top-right-radius: 40px;
+  border-top-left-radius: 40px;
   align-items: center;
   width: 100%;
   flex: 0.45;

@@ -21,6 +21,7 @@ public class RunningDataDTO {
     private String rivalRecordId;
     private double initLatitude; // 위도
     private double initLongitude; // 경도
+    private String winOrLose;
     private List<RunDetail> runningRecordInfos;
 
     // 기본 생성자
@@ -154,6 +155,14 @@ public class RunningDataDTO {
         this.initLongitude = initLongitude;
     }
 
+    public String getWinOrLose() {
+        return winOrLose;
+    }
+
+    public void setWinOrLose(String winOrLose) {
+        this.winOrLose = winOrLose;
+    }
+
     @Override
     public String toString() {
         return "RunningDataDTO{" +
@@ -172,6 +181,7 @@ public class RunningDataDTO {
                 ", rivalRecordId='" + rivalRecordId + '\'' +
                 ", initLatitude=" + initLatitude +
                 ", initLongitude=" + initLongitude +
+                ", winOrLose='" + winOrLose + '\'' +
                 ", runningRecordInfos=" + runningRecordInfos +
                 '}';
     }

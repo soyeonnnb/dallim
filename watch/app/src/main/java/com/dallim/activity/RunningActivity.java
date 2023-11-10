@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.dallim.adapter.ViewPagerAdapter;
@@ -58,10 +59,13 @@ public class RunningActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     private List<RunDetail> runningMateRecord = new ArrayList<>();
     private RunningService runningService;
+    private String type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocalBroadcastManager.getInstance(this).registerReceiver(finishReceiver,
+                new IntentFilter(TimerService.TIMER_BR));
         binding = ActivityRunningBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         runningService = new RunningService(getApplicationContext());
@@ -72,7 +76,6 @@ public class RunningActivity extends AppCompatActivity {
 
 
         long startTime = System.currentTimeMillis();
-        System.out.println("시작 시간 : " + startTime);
         runningData = new RunningData();
         runningData.setUserId(prefs.getLong("userId", 0L));
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
@@ -85,7 +88,7 @@ public class RunningActivity extends AppCompatActivity {
         runningViewModel.getRunningData().setValue(runningData);
 
 
-        String type = getIntent().getStringExtra("run_type");
+        type = getIntent().getStringExtra("run_type");
         // 같이 달리기
         if(type.equals("PAIR")){
             Log.e("달리기", "함께 달리기");
@@ -101,6 +104,7 @@ public class RunningActivity extends AppCompatActivity {
             Log.e("달리기", "싱글 달리기");
             runningData.setType("ALONE");
             runningViewModel.setPairCheck(false);
+            runningData.setWinOrLose(null);
         }
         
         
@@ -121,7 +125,6 @@ public class RunningActivity extends AppCompatActivity {
         // 타임서비스 포그라운드 실행
         timerServiceIntent = new Intent(this, TimerService.class);
         startForegroundService(timerServiceIntent);
-        
     }
 
     // 데이터 추가(메인 스레드에서 분리하기 위해서)
@@ -134,12 +137,23 @@ public class RunningActivity extends AppCompatActivity {
         });
     }
 
+    private BroadcastReceiver finishReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getBooleanExtra("finish_activity", false)) {
+                System.out.println("브로드캐스트 받음");
+                finish(); // 액티비티 종료
+            }
+        }
+    };
+
     // 종료
     @Override
     protected void onDestroy() {
         stopService(sensorIntent); // 센서서비스 중지
         stopService(locationIntent); // 위치서비스 중지
-        stopService(timerServiceIntent);
+        stopService(timerServiceIntent); // 타임서비스 중지
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(finishReceiver);
 
         if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.001) {
             Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG).show();
@@ -169,8 +183,6 @@ public class RunningActivity extends AppCompatActivity {
         // 전체 이동 거리(m)
         double totalDistance = runningViewModel.getOriDistance().getValue();
         runningData.setTotalDistance(Math.round(totalDistance * 100) / 100.0);
-        System.out.println("총 속도 : " + totalSpeed);
-        System.out.println("총 속도 카운트 : " + speedCountTime);
 
         // 초기 위경도 추가
         runningData.setInitLatitude(runningViewModel.getInitLatitude().getValue());
@@ -178,7 +190,6 @@ public class RunningActivity extends AppCompatActivity {
 
         // 평균 이동 속도(m/s)
         double avgSpeed = Math.round((totalSpeed/speedCountTime) * 100) / 100.0;
-        System.out.println("속도 : " + avgSpeed);
         runningData.setAverageSpeed(avgSpeed);
 
         // 평균 페이스
@@ -189,10 +200,30 @@ public class RunningActivity extends AppCompatActivity {
 
         // 최종 시간 업데이트
         runningData.setTotalTime(totalTime - 1);
-        System.out.println("최종시간 : " + totalTime);
+
+        // 같이 달리기인 경우
+        if(type.equals("PAIR")){
+            List<Double> distance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
+            Double lastDistance = distance.get(distance.size() - 1);
+            Log.e("상대방 거리", String.valueOf(lastDistance));
+            Log.e("내 거리", String.valueOf(totalDistance));
+            // 상대방 거리보다 작을 경우
+            if (lastDistance > totalDistance){
+                runningData.setWinOrLose("LOSE");
+            }
+            // 이긴 경우
+            else if (lastDistance <= totalDistance){
+                runningData.setWinOrLose("WIN");
+            }
+        }
 
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
+
+        runningViewModel.clearData();
+        if (runningMateRecordViewModel != null) {
+            runningMateRecordViewModel.clearData();
+        }
 
         // 네트워크 연결됐는지 확인
         if(new NetworkUtil().isOnline(this)){

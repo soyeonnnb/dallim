@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.runapp"
+    namespace = "com.dallim"
     compileSdk = 34
 
     buildFeatures{
@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.runapp"
+        applicationId = "com.dallim"
         minSdk = 30
         targetSdk = 33
         versionCode = 1
@@ -21,7 +21,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
     }
 
     signingConfigs {
@@ -129,6 +128,4 @@ dependencies {
 
     // Brotli 디코더 라이브러리 추가
     implementation ("org.brotli:dec:0.1.2")
-
-
 }

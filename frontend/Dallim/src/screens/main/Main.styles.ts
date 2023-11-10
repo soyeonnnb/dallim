@@ -49,17 +49,18 @@ export const PointText = styled.Text`
 `;
 
 export const ButtonBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   justify-content: space-between;
+  flex-direction: row;
   width: 90%;
   height: 10%;
   flex-direction: row;
 `;
 
 export const GuideBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   width: 20%;
   height: 100%;
   justify-content: center;
@@ -87,6 +88,10 @@ export const ImageStyle = styled.Image`
   height: 100%;
 `;
 
+export const PrivacyImg = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
 export const ButtonStyle = styled.TouchableOpacity`
   width: 100%;
   height: 100%;

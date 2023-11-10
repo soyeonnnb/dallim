@@ -15,7 +15,7 @@ function Running() {
           <S.TitleBox>
             <S.MainText>러닝</S.MainText>
             <S.SubText>
-              <S.HighlightedText>혼자</S.HighlightedText>혹은<S.HighlightedText>함께</S.HighlightedText> 뛰어요
+              <S.HighlightedText>혼자&nbsp;</S.HighlightedText>혹은&nbsp;<S.HighlightedText>함께&nbsp;</S.HighlightedText> 뛰어요
             </S.SubText>
             <S.AddText>삼성 갤럭시워치의 헬스데이터를 기반으로</S.AddText>
             <S.AddText>보다 정확하게 러닝데이터를 기록해요</S.AddText>

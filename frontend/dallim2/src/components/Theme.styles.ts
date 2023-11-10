@@ -67,7 +67,7 @@ export const SubText = styled.div`
   color: black;
 `;
 
-export const HighlightedText = styled.span`
+export const HighlightedText = styled.div`
   color: #a59bf6; /* 특정 단어에 적용할 색상 */
 `;
 

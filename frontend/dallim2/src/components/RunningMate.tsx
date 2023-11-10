@@ -15,9 +15,9 @@ function RunningMate() {
         <S.TitleBox>
           <S.MainText>러닝메이트</S.MainText>
           <S.SubText>
-            함께 뛸 데이터를 저장하고  관리해요
+            함께 뛸 데이터를 저장하고 관리해요
           </S.SubText>
-          <S.AddText> 과거의 나 또는 다른 유저의 <S.HighlightedText>러닝 기록과 경쟁</S.HighlightedText>할 수 있어요</S.AddText>
+          <S.AddText> 과거의 나 또는 다른 유저의&nbsp; <S.HighlightedText>러닝 기록과 경쟁&nbsp;</S.HighlightedText>할 수 있어요</S.AddText>
         </S.TitleBox>
       </S.Body>
       <S.Footer>

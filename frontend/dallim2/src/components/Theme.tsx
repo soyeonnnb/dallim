@@ -17,7 +17,7 @@ function Theme() {
             당신만의 화면을 꾸며보세요
           </S.SubText>
           <S.AddText>삼성 갤럭시워치의 헬스데이터를 기반으로
-            <S.HighlightedText> &nbsp;혼자&nbsp;</S.HighlightedText> 혹은 &nbsp; <S.HighlightedText>함께</S.HighlightedText> 뛰어요
+            <S.HighlightedText> &nbsp;혼자&nbsp;</S.HighlightedText> 혹은&nbsp;  <S.HighlightedText>함께</S.HighlightedText> 뛰어요
           </S.AddText>
         </S.TitleBox>
 

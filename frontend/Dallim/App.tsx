@@ -8,7 +8,11 @@ import {
   checkNotifications,
   requestNotifications,
 } from 'react-native-permissions';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import {
+  CommonActions,
+  NavigationContainer,
+  useNavigation,
+} from '@react-navigation/native';
 import {displayNoti} from './src/utils/pushnotification_helper';
 import {createStackNavigator} from '@react-navigation/stack';
 import {enableScreens} from 'react-native-screens';
@@ -24,7 +28,7 @@ import Naver from './src/screens/login/NaverLogin';
 import Toast from 'react-native-toast-message';
 import Login from './src/screens/login/Login';
 import Sound from 'react-native-sound';
-
+import AccessToken from './src/screens/login/AccessToken';
 enableScreens();
 const Stack = createStackNavigator();
 
@@ -32,11 +36,10 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('[Background Remote Message]', remoteMessage);
 });
 
-interface AutomaticLoginProps {
-  navigation: any;
-}
+function App() {
+  //function
+  // const navigation = useNavigation();
 
-function App({navigation}: AutomaticLoginProps) {
   // 배경쏭
   useEffect(() => {
     Sound.setCategory('Playback'); // 배경음악 재생 설정
@@ -90,40 +93,59 @@ function App({navigation}: AutomaticLoginProps) {
       const fcmToken = await messaging().getToken();
       console.log('[FCM Token] ', fcmToken);
       await AsyncStorage.setItem('fcmToken', fcmToken);
-      const token = await AsyncStorage.getItem('accessToken');
-      console.log('엑세스토큰이 있나요?' + token);
-      // if (token) {
-      //   navigation.navigate('BottomTab', {
-      //     screen: 'Main',
-      //   });
-      // }
     } catch (e) {
       console.error('Failed to fetch or save FCM token', e);
     }
   };
+
+  // const accessToken = async () => {
+  //   try {
+  //     const token = await AsyncStorage.getItem('accessToken');
+  //     console.log('[access Token]' + token);
+  //     if (token) {
+  //       // navigation.dispatch(
+  //       //   CommonActions.reset({
+  //       //     routes: [{name: 'BottomTab'}],
+  //       //   }),
+  //       // );
+  //     }
+  //     return token;
+  //   } catch (error) {
+  //     console.error('Error fetching token:', error);
+  //     throw error;
+  //   }
+  // };
 
   useEffect(() => {
     getFcmToken();
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       console.log('[Remote Message] ', JSON.stringify(remoteMessage));
     });
+    // accessToken();
+
     return unsubscribe;
   }, []);
 
   return (
     <RecoilRoot>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="AccessToken">
           <Stack.Screen
-            name="BottomTab"
-            component={BottomTab}
-            options={{headerShown: false}} // BottomTab의 헤더 숨기기
+            name="AccessToken"
+            component={AccessToken}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Login"
             component={Login}
             options={{headerShown: false}}
           />
+          <Stack.Screen
+            name="BottomTab"
+            component={BottomTab}
+            options={{headerShown: false}} // BottomTab의 헤더 숨기기
+          />
+
           <Stack.Screen
             name="NotFound"
             component={NotFound}

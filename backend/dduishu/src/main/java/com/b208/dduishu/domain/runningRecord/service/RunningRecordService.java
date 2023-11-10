@@ -1,5 +1,7 @@
 package com.b208.dduishu.domain.runningRecord.service;
 
+import com.b208.dduishu.domain.attendance.entity.Attendance;
+import com.b208.dduishu.domain.attendance.service.AttendanceService;
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.geo.service.AddressService;
@@ -52,6 +54,7 @@ public class RunningRecordService {
     private final UserRepository userRepository;
     private final CharacterRepository characterRepository;
     private final RunningMateRepository runningMateRepository;
+    private final AttendanceService attendanceService;
 
     private final PlanetRepository planetRepository;
     private final AddressService addressService;
@@ -122,7 +125,7 @@ public class RunningRecordService {
         return savedRunningRecord.getId().toString();
     }
 
-    private static void computeCumulativeRunningDays(User user, List<RunningRecord> runningRecords) {
+    private void computeCumulativeRunningDays(User user, List<RunningRecord> runningRecords) {
         // 오늘의 레코드 확인
         LocalDate today = LocalDateTime.now().toLocalDate();
         boolean hasTodayRecord = runningRecords.stream()
@@ -131,6 +134,7 @@ public class RunningRecordService {
         // 누적 운동 날짜 갱신
         if (!hasTodayRecord) {
             user.addCumulativeRunningDay(1);
+            attendanceService.markUserAttendance();
         }
     }
 

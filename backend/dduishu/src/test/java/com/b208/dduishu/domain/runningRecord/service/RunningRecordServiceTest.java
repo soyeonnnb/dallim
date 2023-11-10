@@ -51,7 +51,7 @@ class RunningRecordServiceTest {
     @Test
     void saveRunningRecord() {
 
-        int size = 15000;
+        int size = 14400 * 5;
         List<RunningRecordOverallInfo> runningRecordOverallInfos = new ArrayList<>();
         Random random = new Random();
 
@@ -84,7 +84,7 @@ class RunningRecordServiceTest {
 //            double speed = distanceChange;
 //            int heartRate = (int) (80 + (distanceChange * 100));
 
-            double pace = 100000.0;
+            double pace = 0.0;
             if ( speed != 0) {
                 pace = (1000 / speed);
             }
@@ -108,10 +108,7 @@ class RunningRecordServiceTest {
                     .heartRate(heartRate)
                     .pace(formattedPaceVal)
                     .speed(speed)
-                    .state(state)
                     .distance(formattedDistance.doubleValue())
-                    .latitude(36.355172)
-                    .longitude(127.2979108)
                     .build();
             runningRecordOverallInfos.add(info);
         }
@@ -126,6 +123,8 @@ class RunningRecordServiceTest {
                 .collect(toList());
         size = reducedRunningRecordOverallInfos.size();
 
+//        List<RunningRecordOverallInfo> reducedRunningRecordOverallInfos = runningRecordOverallInfos;
+
         BigDecimal totalDistance = new BigDecimal(reducedRunningRecordOverallInfos.get(size-1).getDistance()).setScale(2, RoundingMode.HALF_UP);
         BigDecimal averageSpeed = new BigDecimal(reducedRunningRecordOverallInfos.stream()
                 .mapToDouble(RunningRecordOverallInfo::getSpeed).average().orElse(0.0)).setScale(2, RoundingMode.HALF_UP);
@@ -138,31 +137,30 @@ class RunningRecordServiceTest {
         runningRecordInfo.setTotalTime(totalTime);
         runningRecordInfo.setTotalDistance(totalDistance.doubleValue());
 
-        List<Double> secondPerSpeed = runningRecordInfo.getSecondPerSpeed(reducedRunningRecordOverallInfos);
-        PaceInfo paceInfo = runningRecordInfo.getPaceInfo(reducedRunningRecordOverallInfos);
-        HeartRateInfo heartRateInfo = runningRecordInfo.getHeartRateInfo(reducedRunningRecordOverallInfos);
+//        List<Double> secondPerSpeed = runningRecordInfo.getSecondPerSpeed(reducedRunningRecordOverallInfos);
+//        PaceInfo paceInfo = runningRecordInfo.getPaceInfo(reducedRunningRecordOverallInfos);
+//        HeartRateInfo heartRateInfo = runningRecordInfo.getHeartRateInfo(reducedRunningRecordOverallInfos);
 
-        User user = userRepository.findByUserId(18L).orElse(null);
-        Character character = characterRepository.findById(28L).orElse(null);
-        Planet planet = planetRepository.findById(44L).orElse(null);
+        User user = userRepository.findByUserId(20L).orElse(null);
+        Character character = characterRepository.findById(32L).orElse(null);
+        Planet planet = planetRepository.findById(47L).orElse(null);
         UserInfo userInfo = new UserInfo(user);
         CharacterRecordInfo characterInfo = new CharacterRecordInfo(character,planet);
 
-        RunningRecord rivalRecord = runningRecordRepository.findById(new ObjectId("654ce890ee843068f886b2a1")).orElse(null);
-        RivalRunningRecordInfo rivalRunningRecordInfo = new RivalRunningRecordInfo(rivalRecord);
+//        RunningRecord rivalRecord = runningRecordRepository.findById(new ObjectId("654ce890ee843068f886b2a1")).orElse(null);
+//        RivalRunningRecordInfo rivalRunningRecordInfo = new RivalRunningRecordInfo(rivalRecord);
 
         RunningRecord res = RunningRecord.builder()
                 .watchOrMobile(WatchOrMobile.MOBILE)
                 .location("대전 유성구 덕명동")
                 .user(userInfo)
                 .character(characterInfo)
-                .type(RunningType.PAIR)
-                .rivalRecord(rivalRunningRecordInfo)
+                .type(RunningType.ALONE)
+                .rivalRecord(null)
                 .runningRecordInfos(reducedRunningRecordOverallInfos)
-                .secondPerSpeed(secondPerSpeed)
-                .pace(paceInfo)
-                .heartRate(heartRateInfo)
-                .stepCount(0)
+//                .secondPerSpeed(secondPerSpeed)
+//                .pace(paceInfo)
+//                .heartRate(heartRateInfo)
                 .averagePace(averagePace.doubleValue())
                 .totalTime(totalTime)
                 .totalDistance(totalDistance.doubleValue())

@@ -1,12 +1,17 @@
 package com.dallim.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +25,8 @@ import androidx.lifecycle.ViewModelProvider;
 import com.bumptech.glide.Glide;
 import com.dallim.R;
 import com.dallim.activity.MainActivity;
+import com.dallim.activity.ResultActivity;
+import com.dallim.activity.SelectActivity;
 import com.dallim.databinding.FragmentRunningAniBinding;
 import com.dallim.databinding.FragmentRunningStateBinding;
 import com.dallim.util.PreferencesUtil;
@@ -81,16 +88,16 @@ public class RunningStateFragment extends Fragment {
         });
 
         // ms로 들어옴
-        runningViewModel.getMsPace().observe(getViewLifecycleOwner(), pace ->{
+        runningViewModel.getMsPace().observe(getViewLifecycleOwner(), pace -> {
             TextView paceView = view.findViewById(R.id.tv_pace);
             paceView.setText(pace);
         });
 
-        runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance ->{
+        runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance -> {
             TextView distanceView = view.findViewById(R.id.tv_distance);
-            if (distance.equals(0.0)){
+            if (distance.equals(0.0)) {
                 distanceView.setText("0.00km");
-            }else{
+            } else {
                 distanceView.setText(distance.toString() + "km");
             }
         });
@@ -100,13 +107,38 @@ public class RunningStateFragment extends Fragment {
 //                .load(R.drawable.down_arrow)
 //                .into((android.widget.ImageView) view.findViewById(R.id.down_arrow));
 
-        binding.btnFinish.setOnClickListener(v->{
-            Intent intent = new Intent(getActivity(), MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            getActivity().finish(); // 현재 액티비티 종료 (옵션)
+        binding.btnFinish.setOnClickListener(v -> {
+            LayoutInflater inflater1 = requireActivity().getLayoutInflater();
+            View dialogView = inflater1.inflate(R.layout.finish_popup, null);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setView(dialogView);
+
+            AlertDialog dialog = builder.create();
+
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0x80000000));
+            }
+            dialog.show();
+
+            Button cancel = dialogView.findViewById(R.id.cancel);
+            Button finish = dialogView.findViewById(R.id.finish);
+
+            cancel.setOnClickListener(b ->{
+                dialog.dismiss();
+            });
+
+            finish.setOnClickListener(b ->{
+                Intent intent = new Intent(getActivity(), ResultActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                getActivity().finish();
+            });
+
         });
         return view;
+
+
     }
 
     @Override
@@ -121,7 +153,7 @@ public class RunningStateFragment extends Fragment {
             runningViewModel = new ViewModelProvider(myApplication).get(RunningViewModel.class);
 
             Boolean value = runningViewModel.getPairCheck().getValue();
-            if(value){
+            if (value) {
                 runningMateRecordViewModel = new ViewModelProvider(myApplication).get(RunningMateRecordViewModel.class);
                 mateDistance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
                 // 마지막 거리 저장

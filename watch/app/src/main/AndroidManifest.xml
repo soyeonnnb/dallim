@@ -28,7 +28,7 @@
         <activity
             android:name="com.dallim.activity.ResultActivity"
             android:exported="false"
-            android:theme="@android:style/Theme.DeviceDefault.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name="com.dallim.activity.LoadingActivity"
             android:exported="false"

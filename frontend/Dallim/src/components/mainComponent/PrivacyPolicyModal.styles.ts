@@ -24,11 +24,6 @@ export const ModalHeader = styled.View`
   height: 20%;
 `;
 
-export const TitleText = styled.Text`
-  font-size: 20px;
-  color: black;
-`;
-
 export const ModalBody = styled.View`
   border-width: 1px;
   border-color: green;
@@ -52,31 +47,4 @@ export const ModalFooter = styled.View`
 export const ModalText = styled.Text`
   font-size: 20px;
   color: black;
-`;
-
-export const ModalButton = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: white;
-  border-radius: 20px;
-  justify-content: center;
-  align-items: center;
-  background-color: #315182;
-  width: 75px;
-  height: 40px;
-`;
-
-export const ModalCancelButton = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: white;
-  border-radius: 20px;
-  justify-content: center;
-  align-items: center;
-  background-color: #e36f6f;
-  width: 75px;
-  height: 40px;
-`;
-
-export const ModalButtonText = styled.Text`
-  font-size: 15px;
-  color: white;
 `;

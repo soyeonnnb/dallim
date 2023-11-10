@@ -18,7 +18,7 @@ export const Header = styled.View`
   border-color: red; */
   flex-direction: row;
   width: 100%;
-  height: 15%;
+  height: 13%;
 `;
 
 export const TopMiddle = styled.View`
@@ -121,7 +121,7 @@ export const TabBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
-  height: 10%;
+  height: 12%;
 `;
 
 export const LoadingText = styled.Text`

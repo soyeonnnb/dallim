@@ -1,6 +1,9 @@
 import styled from "styled-components";
+import { InnerDiv } from "./Common.styles";
 
-export const Container = styled.div`
+export const Container = styled(InnerDiv)`
+  position: relative;
+
   justify-content: center;
   width: 100%;
   height: 100%;
@@ -11,7 +14,6 @@ export const Container = styled.div`
 `;
 
 export const TitleBox = styled.div`
-  border: 1px solid red;
   width: 60%;
   height: 80%;
   display: flex;
@@ -21,7 +23,6 @@ export const TitleBox = styled.div`
 `;
 
 export const Header = styled.div`
-  border: 1px solid red;
   color: white;
   width: 100vw;
   height: 10%;
@@ -30,7 +31,6 @@ export const Header = styled.div`
 `;
 
 export const qrBox = styled.div`
-  border: 1px solid green;
   color: white;
   width: 20%;
   height: 100%;
@@ -38,7 +38,6 @@ export const qrBox = styled.div`
 `;
 
 export const Body = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 75%;
   height: 75%;
@@ -47,7 +46,6 @@ export const Body = styled.div`
 `;
 
 export const BodyTop = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 30%;
@@ -56,7 +54,6 @@ export const BodyTop = styled.div`
   justify-content: flex-end;
 `;
 export const BodyMiddle = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 35%;
@@ -65,7 +62,6 @@ export const BodyMiddle = styled.div`
   justify-content: flex-start;
 `;
 export const BodyBottom = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 35%;
@@ -75,7 +71,6 @@ export const BodyBottom = styled.div`
 `;
 
 export const MainText = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 50%;
@@ -87,7 +82,6 @@ export const MainText = styled.div`
 `;
 
 export const SubText = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 100%;
   height: 30%;
@@ -103,7 +97,6 @@ export const HighlightedText = styled.span`
 `;
 
 export const AddText = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 20%;
@@ -114,7 +107,6 @@ export const AddText = styled.div`
 `;
 
 export const MainText2 = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 50%;
@@ -126,7 +118,6 @@ export const MainText2 = styled.div`
 `;
 
 export const SubText2 = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 100%;
   height: 30%;
@@ -138,7 +129,6 @@ export const SubText2 = styled.div`
 `;
 
 export const AddText2 = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 20%;
@@ -149,7 +139,6 @@ export const AddText2 = styled.div`
 `;
 
 export const Footer = styled.div`
-  border: 1px solid red;
   width: 100vw;
   height: 15%;
   display: flex;
@@ -159,7 +148,6 @@ export const Footer = styled.div`
 `;
 
 export const FooterLeft = styled.div`
-  border: 1px solid red;
   width: 70%;
   height: 100%;
   display: flex;
@@ -168,7 +156,6 @@ export const FooterLeft = styled.div`
 `;
 
 export const PhoneBox = styled.div`
-  border: 1px solid red;
   width: 80%;
   height: 80%;
 `;
@@ -180,7 +167,6 @@ export const PhoneImage = styled.img`
 `;
 
 export const FooterRight = styled.div`
-  border: 1px solid red;
   width: 30%;
   height: 100%;
   display: flex;
@@ -189,7 +175,6 @@ export const FooterRight = styled.div`
 `;
 
 export const WatchBox = styled.div`
-  border: 1px solid red;
   height: 40%;
 `;
 
@@ -230,7 +215,6 @@ export const WidgetImage2 = styled.img`
 `;
 
 export const TempBox = styled.div`
-  border: 1px solid #000;
   border-radius: 5px;
   width: 100vw;
   height: 100vh;
@@ -255,4 +239,3 @@ export const TempText = styled.div`
   font-size: 200%;
   font-weight: 700;
 `;
-

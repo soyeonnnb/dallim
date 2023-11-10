@@ -16,7 +16,6 @@ export const BackgroundImage = styled.img`
 `;
 
 export const Header = styled.div`
-  border: 1px solid red;
   color: white;
   width: 100vw;
   height: 10%;
@@ -25,7 +24,6 @@ export const Header = styled.div`
 `;
 
 export const qrBox = styled.div`
-  border: 1px solid green;
   color: white;
   width: 20%;
   height: 100%;
@@ -33,7 +31,6 @@ export const qrBox = styled.div`
 `;
 
 export const Body = styled.div`
-  border: 1px solid blue;
   width: 80vw;
   height: 30%;
   display: flex;
@@ -42,13 +39,11 @@ export const Body = styled.div`
 `;
 
 export const EmptyBox = styled.div`
-  border: 1px solid red;
   width: 50%;
   height: 20%;
 `;
 
 export const TitleMainBox = styled.div`
-  border: 1px solid red;
   flex-direction: column;
   width: 50%;
   height: 100%;
@@ -57,7 +52,6 @@ export const TitleMainBox = styled.div`
 `;
 
 export const RealText = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 400px;
   height: 150px;
@@ -71,7 +65,6 @@ export const RealText = styled.div`
 `;
 
 export const TitleSubBox = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 50%;
   height: 100%;
@@ -80,13 +73,11 @@ export const TitleSubBox = styled.div`
 `;
 
 export const TextTempBox = styled.div`
-  border: 1px solid red;
   width: 100%;
   height: 30%;
 `;
 
 export const MainText = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 40%;
@@ -98,7 +89,6 @@ export const MainText = styled.div`
 `;
 
 export const SubText = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 100%;
   height: 15%;
@@ -114,7 +104,6 @@ export const HighlightedText = styled.span`
 `;
 
 export const Footer = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100vw;
   height: 60%;
@@ -124,7 +113,6 @@ export const Footer = styled.div`
 `;
 
 export const LeftBox = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 55%;
   height: 100%;
@@ -134,7 +122,6 @@ export const LeftBox = styled.div`
 `;
 
 export const LeftBoxTitleBox = styled.div`
-  border: 1px solid blue;
   width: 70%;
   height: 70%;
   display: flex;
@@ -143,7 +130,6 @@ export const LeftBoxTitleBox = styled.div`
 `;
 
 export const LeftTitle = styled.div`
-  border: 1px solid blue;
   width: 70%;
   height: 70%;
   display: flex;
@@ -153,7 +139,6 @@ export const LeftTitle = styled.div`
 `;
 
 export const RightBox = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 45%;
   height: 100%;
@@ -170,7 +155,6 @@ export const VersusImage = styled.img`
 `;
 
 export const ImageBox = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 80%;
   height: 50vh;
@@ -187,7 +171,6 @@ export const PhoneImage = styled.img`
 `;
 
 export const TempBox = styled.div`
-  border: 1px solid #000;
   border-radius: 5px;
   width: 100vw;
   height: 100vh;

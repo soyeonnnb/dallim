@@ -11,7 +11,6 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.div`
-  border: 1px solid red;
   color: white;
   width: 100vw;
   height: 10%;
@@ -20,7 +19,6 @@ export const Header = styled.div`
 `;
 
 export const qrBox = styled.div`
-  border: 1px solid green;
   color: white;
   width: 20%;
   height: 100%;
@@ -28,7 +26,6 @@ export const qrBox = styled.div`
 `;
 
 export const Body = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 80vw;
   height: 90%;
@@ -37,7 +34,6 @@ export const Body = styled.div`
 `;
 
 export const TopBox = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 20%;
@@ -48,7 +44,6 @@ export const TopBox = styled.div`
 `;
 
 export const TitleBox = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 40%;
   height: 100%;
@@ -59,7 +54,6 @@ export const TitleBox = styled.div`
 `;
 
 export const MainText = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 35%;
@@ -71,7 +65,6 @@ export const MainText = styled.div`
 `;
 
 export const SubText = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 100%;
   height: 25%;
@@ -87,7 +80,6 @@ export const HighlightedText = styled.span`
 `;
 
 export const AddText = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 20%;
@@ -99,7 +91,6 @@ export const AddText = styled.div`
 
 
 export const ImageBox = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 100%;
   height: 75%;
@@ -108,7 +99,6 @@ export const ImageBox = styled.div`
 `;
 
 export const SideText = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 100%;
   height: 25%;
@@ -120,7 +110,6 @@ export const SideText = styled.div`
 `;
 
 export const LeftBox = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 45%;
   height: 100%;
@@ -129,7 +118,6 @@ export const LeftBox = styled.div`
 `;
 
 export const LeftSideBox = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 50%;
   height: 100%;
@@ -140,7 +128,6 @@ export const LeftSideBox = styled.div`
 `;
 
 export const LeftSideTop = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 70%;
@@ -157,7 +144,6 @@ export const RunningImage = styled.img`
 `;
 
 export const LeftSideBottom = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 30%;
@@ -167,7 +153,6 @@ export const LeftSideBottom = styled.div`
 `;
 
 export const RightSideBox = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 50%;
   height: 100%;
@@ -178,7 +163,6 @@ export const RightSideBox = styled.div`
 `;
 
 export const RightSideTop = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 30%;
@@ -189,7 +173,6 @@ export const RightSideTop = styled.div`
 `;
 
 export const RightSideBottom = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 70%;
@@ -200,7 +183,6 @@ export const RightSideBottom = styled.div`
 `;
 
 export const RightBox = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 55%;
   height: 100%;
@@ -211,7 +193,6 @@ export const RightBox = styled.div`
 `;
 
 export const MainImageBox = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100%;
   height: 100%;
@@ -223,7 +204,6 @@ export const MainImageBox = styled.div`
 `;
 
 export const Footer = styled.div`
-  border: 1px solid red;
   flex-direction: row;
   width: 100vw;
   height: 20%;
@@ -235,7 +215,6 @@ export const Footer = styled.div`
 
 
 export const TempBox = styled.div`
-  border: 1px solid #000;
   border-radius: 5px;
   width: 100vw;
   height: 100vh;

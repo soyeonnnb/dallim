@@ -10,7 +10,6 @@ export const Container = styled.div`
 `;
 
 export const QrLeft = styled.div`
-  border: 1px solid blue;
   width: 70%;
   height: 100%;
   display: flex;
@@ -25,7 +24,6 @@ export const GooglePlayImage = styled.img`
 `;
 
 export const QrRight = styled.div`
-  border: 1px solid red;
   width: 30%;
   height: 100%;
   display: flex;

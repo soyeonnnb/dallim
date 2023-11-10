@@ -16,7 +16,6 @@ export const Box = styled.div`
 `;
 
 export const LeftBox = styled.div`
-  border: 1px solid blue;
   justify-content: center;
   width: 30%;
   height: 100%;
@@ -26,7 +25,6 @@ export const LeftBox = styled.div`
 `;
 
 export const Text1 = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 100%;
   height: 30%;
@@ -34,11 +32,10 @@ export const Text1 = styled.div`
   justify-content: flex-start;
   align-items: center;
   font-size: 15px;
-  color: #545B63;
+  color: #545b63;
 `;
 
 export const Text2 = styled.div`
-  border: 1px solid blue;
   flex-direction: row;
   width: 100%;
   height: 30%;
@@ -50,7 +47,6 @@ export const Text2 = styled.div`
 `;
 
 export const ImageBox = styled.div`
-  border: 1px solid blue;
   justify-content: center;
   width: 100px;
   height: 100px;
@@ -64,14 +60,12 @@ export const Image = styled.img`
 `;
 
 export const RightBox = styled.div`
-  border: 1px solid red;
   justify-content: center;
   width: 70%;
   height: 100%;
 `;
 
 export const TextMain = styled.div`
-  border: 1px solid red;
   width: 100%;
   height: 40%;
   display: flex;
@@ -80,14 +74,12 @@ export const TextMain = styled.div`
 `;
 
 export const TextSub = styled.div`
-  border: 1px solid red;
   justify-content: center;
   width: 100%;
   height: 60%;
 `;
 
 export const QrLeft = styled.div`
-  border: 1px solid blue;
   width: 70%;
   height: 100%;
   display: flex;
@@ -102,7 +94,6 @@ export const GooglePlayImage = styled.img`
 `;
 
 export const QrRight = styled.div`
-  border: 1px solid red;
   width: 30%;
   height: 100%;
   display: flex;

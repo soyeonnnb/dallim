@@ -1,12 +1,12 @@
 import * as S from './AloneRunModal.styles';
-import React, { useEffect, useState } from 'react';
-import { Modal } from 'react-native';
-import { planetData } from '@/recoil/PlanetData';
-import { characterData } from '@/recoil/CharacterData';
+import React, {useEffect, useState} from 'react';
+import {Modal} from 'react-native';
+import {planetData} from '@/recoil/PlanetData';
+import {characterData} from '@/recoil/CharacterData';
 import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
 import SpinAnimation from '@/components/common/SpinAnimation';
 
-import { useRecoilValue } from 'recoil';
+import {useRecoilValue} from 'recoil';
 import {
   equippedCharacterIndexState,
   equippedEvolutionStageState,
@@ -18,15 +18,16 @@ interface Props {
   onClose: () => void;
 }
 
-const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
-
+const AloneRunModal: React.FC<Props> = ({isVisible, onClose}) => {
   const equippedCharacterIndex = useRecoilValue(equippedCharacterIndexState);
   const equippedEvolutionStage = useRecoilValue(equippedEvolutionStageState);
   const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState);
 
   // 임시 페이스
   const [timer, setTimer] = useState<string>('00:00:00'.replace(/:/g, ' : '));
-  const [avgPace, setAvgPace] = useState<string>('00:00'.replace(/:/, "' ") + '"');
+  const [avgPace, setAvgPace] = useState<string>(
+    '00:00'.replace(/:/, '’ ') + '”',
+  );
 
   // 카운트다운 상태 관리
   const [isCountdownActive, setIsCountdownActive] = useState(false);
@@ -40,7 +41,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
     setShowStart(false);
     setCountdown(3);
     const intervalId = setInterval(() => {
-      setCountdown((currentCountdown) => {
+      setCountdown(currentCountdown => {
         if (currentCountdown <= 1) {
           clearInterval(intervalId);
           setIsCountdownActive(false);
@@ -56,9 +57,9 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   // 버튼 텍스트를 결정하는 함수
   const displayButtonText = () => {
     if (isCountdownActive) {
-      return countdown.toString(); 
+      return countdown.toString();
     }
-    return '시작'; 
+    return '시작';
   };
 
   // 카운트다운이 끝났을 때 호출할 함수
@@ -71,9 +72,9 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       animationType="fade"
       transparent={true}
       visible={isVisible}
-      onRequestClose={onClose}
-    >
-      <S.BackgroundImage source={require('@/assets/images/MainBackground3.png')}
+      onRequestClose={onClose}>
+      <S.BackgroundImage
+        source={require('@/assets/images/MainBackground3.png')}
         resizeMode="cover">
         <S.ModalContainer>
           <S.Header>
@@ -88,12 +89,13 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
             </S.TimerBox>
 
             <S.StartBox>
-              <S.ButtonBackground source={require('@/assets/images/StartButton.png')}
-                resizeMode="contain"
-              >
-                <S.RunButton onPress={() => {
-                  StartAlone();
-                }}>
+              <S.ButtonBackground
+                source={require('@/assets/images/StartButton.png')}
+                resizeMode="contain">
+                <S.RunButton
+                  onPress={() => {
+                    StartAlone();
+                  }}>
                   <S.StartText>{displayButtonText()}</S.StartText>
                 </S.RunButton>
               </S.ButtonBackground>
@@ -117,7 +119,6 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
                 </S.RecodeBottomBox>
               </S.RecodeRight>
             </S.RecodeBox>
-
           </S.Body>
 
           {/* 행성 */}
@@ -134,13 +135,13 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
           <S.CharacterBox>
             <S.StyledGif
               source={
-                characterData[equippedCharacterIndex].evolutions[equippedEvolutionStage].running
+                characterData[equippedCharacterIndex].evolutions[
+                  equippedEvolutionStage
+                ].running
               }
               resizeMode="contain"
             />
           </S.CharacterBox>
-
-
         </S.ModalContainer>
       </S.BackgroundImage>
     </Modal>

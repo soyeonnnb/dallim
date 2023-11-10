@@ -32,7 +32,11 @@ messaging().setBackgroundMessageHandler(async remoteMessage => {
   console.log('[Background Remote Message]', remoteMessage);
 });
 
-function App() {
+interface AutomaticLoginProps {
+  navigation: any;
+}
+
+function App({navigation}: AutomaticLoginProps) {
   // 배경쏭
   useEffect(() => {
     Sound.setCategory('Playback'); // 배경음악 재생 설정
@@ -88,6 +92,11 @@ function App() {
       await AsyncStorage.setItem('fcmToken', fcmToken);
       const token = await AsyncStorage.getItem('accessToken');
       console.log('엑세스토큰이 있나요?' + token);
+      // if (token) {
+      //   navigation.navigate('BottomTab', {
+      //     screen: 'Main',
+      //   });
+      // }
     } catch (e) {
       console.error('Failed to fetch or save FCM token', e);
     }

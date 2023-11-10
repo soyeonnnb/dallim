@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import * as S from "./App.styles";
 // page components
 import Main from "./components/Main";
@@ -13,12 +13,12 @@ function App() {
     <>
       <S.GlobalStyle />
       <S.Container>
-        <Main />
-        <Running />
-        <RunningMate />
-        <Statistics />
-        <Theme />
-        <Widget />
+        <S.Page><Main /></S.Page>
+        <S.Page><Running /></S.Page>
+        <S.Page><RunningMate /></S.Page>
+        <S.Page><Statistics /></S.Page>
+        <S.Page><Theme /></S.Page>
+        <S.Page><Widget /></S.Page>
       </S.Container>
     </>
   );

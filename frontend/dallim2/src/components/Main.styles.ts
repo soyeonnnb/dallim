@@ -54,13 +54,13 @@ export const SectionLeft = styled.div`
 `;
 
 export const QRImage = styled.img`
-  border: 1px solid blue;
+  /* border: 1px solid blue; */
   width: 30%;
   border-radius: 10%;
 `;
 
 export const PhoneImage = styled.img`
-  width: 80%;
+  height: 90%;
   object-fit: contain;
 `;
 
@@ -71,7 +71,7 @@ export const PlayStoreImage = styled.img`
 `;
 
 export const WatchImage = styled.img`
-  width: 70%;
+  height: 70%;
   transform: rotate(30deg);
   object-fit: contain;
 `;

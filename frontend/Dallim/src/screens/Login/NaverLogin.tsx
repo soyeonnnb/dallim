@@ -124,10 +124,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
           onNavigationStateChange={navState => {
             parseAuthCode(navState.url);
           }}
-<<<<<<< HEAD
           // uri: 'https://nid.naver.com/oauth2.0/authorize?client_id=U981wCCDuUbK6_3C3WJo&response_type=code&redirect_uri=https://k9b208.p.ssafy.io/login/oauth2/code/naver', // 네이버 로그인 페이지 URL
-=======
->>>>>>> 5985531522c17c447aaf2b05bec9b9759c578be7
         />
       )}
     </View>

@@ -18,7 +18,7 @@ const AccessToken = ({navigation}: Props) => {
           screen: 'Main',
         });
       } else {
-        // token이 없으면 Login 화면으로 navigate합니다.
+        // token이 없으면 Login페이지
         navigation.replace('Login');
       }
     };

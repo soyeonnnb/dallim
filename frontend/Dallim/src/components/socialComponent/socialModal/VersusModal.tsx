@@ -1,12 +1,11 @@
-
-import React, { useEffect, useState } from 'react';
-import { Modal } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Modal} from 'react-native';
 import * as S from './VersusModal.styles';
-import { characterData } from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/CharacterData';
 import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
 import QuestionIcon from '@/assets/icons/QuestionIcon.png';
 import AwesomeAlert from 'react-native-awesome-alerts';
-import { fetchCompare } from '@/apis/SocialApi';
+import {fetchCompare} from '@/apis/SocialApi';
 
 interface Props {
   userId: number;
@@ -14,8 +13,7 @@ interface Props {
   onClose: () => void;
 }
 
-const VersusModal: React.FC<Props> = ({ userId, isVisible, onClose }) => {
-
+const VersusModal: React.FC<Props> = ({userId, isVisible, onClose}) => {
   const [userData, setUserData] = useState({
     myCharacterIndex: 0,
     myEvolutionStage: 0,
@@ -54,9 +52,10 @@ const VersusModal: React.FC<Props> = ({ userId, isVisible, onClose }) => {
     pairSpeed,
   } = userData;
 
-
-  const myCharacterImage = characterData[myCharacterIndex].evolutions[myEvolutionStage].front;
-  const pairCharacterImage = characterData[pairCharacterIndex].evolutions[pairEvolutionStage].front;
+  const myCharacterImage =
+    characterData[myCharacterIndex].evolutions[myEvolutionStage].front;
+  const pairCharacterImage =
+    characterData[pairCharacterIndex].evolutions[pairEvolutionStage].front;
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -75,7 +74,7 @@ const VersusModal: React.FC<Props> = ({ userId, isVisible, onClose }) => {
     const totalValue = myValue + otherValue;
     return {
       myRate: (myValue / totalValue) * 100,
-      otherRate: (otherValue / totalValue) * 100
+      otherRate: (otherValue / totalValue) * 100,
     };
   };
 
@@ -91,18 +90,16 @@ const VersusModal: React.FC<Props> = ({ userId, isVisible, onClose }) => {
       animationType="fade"
       transparent={true}
       visible={isVisible}
-      onRequestClose={onClose}
-    >
-
-      <S.BackgroundImage source={require('@/assets/images/MainBackground4.png')}
+      onRequestClose={onClose}>
+      <S.BackgroundImage
+        source={require('@/assets/images/MainBackground4.png')}
         resizeMode="cover">
         <S.ModalContainer>
-
           <S.ModalContent>
             <S.Header>
               <S.HeaderLeft>
                 <S.CloseButton onPress={onClose}>
-                  <S.CloseImage source={CloseIcon} resizeMode='contain' />
+                  <S.CloseImage source={CloseIcon} resizeMode="contain" />
                 </S.CloseButton>
               </S.HeaderLeft>
               <S.HeaderCenter>
@@ -110,17 +107,21 @@ const VersusModal: React.FC<Props> = ({ userId, isVisible, onClose }) => {
               </S.HeaderCenter>
               <S.HeaderRight>
                 <S.HeaderRightBox onPress={() => setShowAlert(true)}>
-                  <S.QuestionImage source={QuestionIcon} resizeMode='contain' />
+                  <S.QuestionImage source={QuestionIcon} resizeMode="contain" />
                 </S.HeaderRightBox>
               </S.HeaderRight>
             </S.Header>
 
-
             <S.Body>
-              <S.BodyBackground source={require('@/assets/images/VersusBackground.png')} resizeMode='cover'>
+              <S.BodyBackground
+                source={require('@/assets/images/VersusBackground.png')}
+                resizeMode="cover">
                 <S.BodyLeft>
                   <S.InfoTop>
-                    <S.CharacterImage source={myCharacterImage} resizeMode='contain' />
+                    <S.CharacterImage
+                      source={myCharacterImage}
+                      resizeMode="contain"
+                    />
                   </S.InfoTop>
                   <S.InfoMiddle>
                     <S.NicknameText>{myNickName}</S.NicknameText>
@@ -132,7 +133,10 @@ const VersusModal: React.FC<Props> = ({ userId, isVisible, onClose }) => {
 
                 <S.BodyRigth>
                   <S.InfoTop>
-                    <S.CharacterImage source={pairCharacterImage} resizeMode='contain' />
+                    <S.CharacterImage
+                      source={pairCharacterImage}
+                      resizeMode="contain"
+                    />
                   </S.InfoTop>
                   <S.InfoMiddle>
                     <S.NicknameText>{pairNickName}</S.NicknameText>
@@ -141,10 +145,8 @@ const VersusModal: React.FC<Props> = ({ userId, isVisible, onClose }) => {
                     <S.LevelText>Lv. {pairLevel}</S.LevelText>
                   </S.InfoBottom>
                 </S.BodyRigth>
-
               </S.BodyBackground>
             </S.Body>
-
 
             <S.Footer>
               <S.FooterBox>
@@ -196,7 +198,9 @@ const VersusModal: React.FC<Props> = ({ userId, isVisible, onClose }) => {
                     <S.FooterText>거리</S.FooterText>
                   </S.MiddleTextBox>
                   <S.RightTextBox>
-                    <S.RateRightText>{pairDistance.toFixed(1)}km</S.RateRightText>
+                    <S.RateRightText>
+                      {pairDistance.toFixed(1)}km
+                    </S.RateRightText>
                   </S.RightTextBox>
                 </S.FooterTextBox>
                 <S.FooterBarBox>
@@ -216,7 +220,9 @@ const VersusModal: React.FC<Props> = ({ userId, isVisible, onClose }) => {
                     <S.FooterText>속도</S.FooterText>
                   </S.MiddleTextBox>
                   <S.RightTextBox>
-                    <S.RateRightText>{pairSpeed.toFixed(1)}km/h</S.RateRightText>
+                    <S.RateRightText>
+                      {pairSpeed.toFixed(1)}km/h
+                    </S.RateRightText>
                   </S.RightTextBox>
                 </S.FooterTextBox>
                 <S.FooterBarBox>
@@ -225,19 +231,17 @@ const VersusModal: React.FC<Props> = ({ userId, isVisible, onClose }) => {
                     <S.OtherDataBar widthPercentage={speedRates.otherRate} />
                   </S.RateBarBox>
                 </S.FooterBarBox>
-              </S.FooterBox>   
-
+              </S.FooterBox>
             </S.Footer>
           </S.ModalContent>
         </S.ModalContainer>
-
       </S.BackgroundImage>
 
       <AwesomeAlert
         show={showAlert}
         showProgress={false}
         title="😆"
-        message={"데이터 누적 기준입니다."}
+        message={'누적 데이터 기준입니다.'}
         closeOnTouchOutside={true}
         onDismiss={() => {
           setShowAlert(false);
@@ -246,12 +250,11 @@ const VersusModal: React.FC<Props> = ({ userId, isVisible, onClose }) => {
         showConfirmButton={true}
         confirmText="확인"
         confirmButtonColor="gray"
-        contentContainerStyle={{ width: 200, height: 150 }}
+        contentContainerStyle={{width: 200, height: 150}}
         onConfirmPressed={() => {
           setShowAlert(false);
         }}
       />
-
     </Modal>
   );
 };

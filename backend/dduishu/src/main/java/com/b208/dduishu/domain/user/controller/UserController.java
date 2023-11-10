@@ -5,7 +5,10 @@ import java.util.List;
 import com.b208.dduishu.domain.user.dto.request.UserEmail;
 import com.b208.dduishu.domain.user.dto.request.UserNickName;
 import com.b208.dduishu.domain.user.dto.request.UserPoint;
+import com.b208.dduishu.domain.user.dto.request.UserRankingInfo;
 import com.b208.dduishu.domain.user.dto.response.*;
+import com.b208.dduishu.domain.user.entity.User;
+import com.b208.dduishu.domain.user.repository.UserRepository;
 import com.b208.dduishu.domain.user.service.UserRankingService;
 import com.b208.dduishu.util.response.ApiResponse;
 import io.swagger.annotations.ApiOperation;
@@ -16,12 +19,15 @@ import com.b208.dduishu.domain.user.service.UserSocialService;
 
 import lombok.RequiredArgsConstructor;
 
+import static java.util.stream.Collectors.toList;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserSocialService userSocialService;
     private final UserRankingService userRankingService;
+    private final UserRepository userRepository;
 
     @ApiOperation(value="accessToken 토큰 발급", notes="사용자 accesstoken을 발급한다.")
     @PostMapping("/api/v1/user/token")
@@ -70,6 +76,17 @@ public class UserController {
         try {
             AllUserRankingInfo res = userRankingService.getWeeklyRankingWithFollower();
 
+            // UserResponse에 setter가 있다고 가정한다면
+            List<UserRankingInfo> collect = res.getRankingInfos()
+                    .stream()
+                    .filter(o -> {
+                        User user = userRepository.findByUserId(o.getUserId()).orElse(null);
+                        return user != null && !user.isAdmin();
+                    })
+                    .collect(toList());
+
+            res.setRankingInfos(collect);
+
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
             return ApiResponse.createError(e.getMessage());
@@ -81,6 +98,17 @@ public class UserController {
     public ApiResponse<?> getWeeklyRankingWithAll() {
         try {
             AllUserRankingInfo res = userRankingService.getWeeklyRankingWithAll();
+
+            // UserResponse에 setter가 있다고 가정한다면
+            List<UserRankingInfo> collect = res.getRankingInfos()
+                    .stream()
+                    .filter(o -> {
+                        User user = userRepository.findByUserId(o.getUserId()).orElse(null);
+                        return user != null && !user.isAdmin();
+                    })
+                    .collect(toList());
+
+            res.setRankingInfos(collect);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {

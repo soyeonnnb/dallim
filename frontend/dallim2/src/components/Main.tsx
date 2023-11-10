@@ -10,11 +10,14 @@ function Main() {
     <S.Container>
       <S.BackgroundImage src={bgImg} />
       <S.Main>
-        <S.Header>DALLIM</S.Header>
+        <S.Header>
+          <S.Logo>DALLIM</S.Logo>
+        </S.Header>
         <S.Body>
           <S.SectionLeft>
             <S.PhoneImage src={phoneImg} />
           </S.SectionLeft>
+
           <S.SectionMiddle>
             <S.LogoBox>
               <S.LogoText>DALLIM</S.LogoText>
@@ -25,8 +28,8 @@ function Main() {
               <S.QRImage src={qrImg} />
             </S.DownloadBox>
           </S.SectionMiddle>
+
           <S.SectionRight>
-            <S.MarginBox margin="5%" />
             <S.WatchImage src={watchImg} />
           </S.SectionRight>
         </S.Body>

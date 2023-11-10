@@ -1,93 +1,107 @@
 import styled from "styled-components";
-import { InnerDiv, ComponentDiv } from "./Common.styles";
 
-export const Container = styled(InnerDiv)`
+export const Container = styled.div`
   position: relative;
   justify-content: center;
+  height: 100vh;
+  width: 100vw;
 `;
 
 export const BackgroundImage = styled.img`
-  width: 100%;
-  height: 70%;
+  width: 100vw;
+  height: 80%;
   top: 0;
   position: absolute;
   z-index: -1;
 `;
 
-export const Main = styled(ComponentDiv)`
+export const Main = styled.div`
+  /* border: 1px solid blue; */
   height: 100%;
 `;
 
 export const Header = styled.div`
+  color: white;
+  height: 20%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const Logo = styled.div`
+  color: white;
   font-size: 200%;
   font-weight: 800;
-  color: white;
-  height: 10%;
-  max-height: 70px;
-  align-items: center;
+  height: 100%;
+  width: 80%;
   display: flex;
+  align-items: center;
 `;
 
 export const Body = styled.div`
-  /* border: 1px solid blue; */
   flex-direction: row;
   width: 100%;
-  height: 90%;
+  height: 80%;
   display: flex;
-  justify-content: space-between;
 `;
 export const SectionLeft = styled.div`
-  /* border: 1px solid blue; */
   display: flex;
   align-items: center;
-  width: 33%;
+  justify-content: flex-end;
+  width: 35%;
+  height: 100%;
 `;
+
 export const QRImage = styled.img`
-  width: 50%;
-  min-width: 100px;
+  /* border: 1px solid blue; */
+  width: 30%;
   border-radius: 10%;
 `;
+
 export const PhoneImage = styled.img`
-  width: 100%;
+  height: 90%;
   object-fit: contain;
 `;
+
 export const PlayStoreImage = styled.img`
-  width: 50%;
-  min-width: 100px;
+  width: 30%;
   margin-bottom: 10%;
   object-fit: contain;
 `;
 
 export const WatchImage = styled.img`
-  width: 100%;
+  height: 70%;
   transform: rotate(30deg);
   object-fit: contain;
 `;
 export const SectionMiddle = styled.div`
+  width: 35%;
+  height: 100%;
   display: flex;
-  align-items: center;
-  width: 33%;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
 export const SectionRight = styled.div`
-  width: 33%;
+  width: 30%;
+  height: 100%;
 `;
 export const LogoBox = styled.div`
+  height: 40%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 40%;
 `;
 export const DownloadBox = styled.div`
+  height: 60%;
+  width: 100%;
+  display: flex;
   align-items: center;
   flex-direction: column;
-  display: flex;
-  width: 100%;
 `;
-export const MarginBox = styled.div<{ margin: string }>`
-  height: ${props => props.margin};
-`;
+
 export const LogoText = styled.span`
   color: white;
   font-size: 400%;
@@ -98,19 +112,3 @@ export const InfoText = styled.span`
   font-size: 200%;
   font-weight: 700;
 `;
-
-// export const Temp = styled.div`
-//   border: 1px solid #000;
-//   border-radius: 5px;
-//   width: 150px;
-//   height: 220px;
-//   background-color: white;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   padding: 15px;
-//   @media (max-width: 700px) {
-//     width: 25vw;
-//   }
-// `;

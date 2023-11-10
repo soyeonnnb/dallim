@@ -1,8 +1,8 @@
 import * as S from "./Running.styles";
 import QrCode from "./unit/QrCode";
-import Running_1 from '../assets/images/running/Running_1.png';
-import Running_2 from '../assets/images/running/Running_2.png';
-import Running_3 from '../assets/images/running/Running_3.png';
+import Running_1 from '../assets/images/running/running-alone.png';
+import Running_2 from '../assets/images/running/running-together.png';
+import Running_3 from '../assets/images/running/running-menu.png';
 
 function Running() {
   return (
@@ -42,11 +42,12 @@ function Running() {
           </S.LeftBox>
           <S.RightBox>
             <S.MainImageBox>
-              <S.RunningImage src={Running_3} />
+              <S.RunningImage2 src={Running_3} />
             </S.MainImageBox>
           </S.RightBox>
         </S.ImageBox>
       </S.Body>
+      <S.EmptyBox />
 
     </S.Container>
   );

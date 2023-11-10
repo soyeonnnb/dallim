@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   justify-content: center;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -11,6 +11,7 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.div`
+  /* border: 1px solid blue; */
   color: white;
   width: 100vw;
   height: 10%;
@@ -22,21 +23,27 @@ export const qrBox = styled.div`
   color: white;
   width: 20%;
   height: 100%;
-  margin-right: 2%;
+  padding-right: 2%;
 `;
 
 export const Body = styled.div`
   flex-direction: row;
-  width: 80vw;
-  height: 90%;
+  width: 100%;
+  max-width: 1200px;
+  height: 80%;
   display: flex;
   flex-direction: column;
+`;
+
+export const EmptyBox = styled.div`
+  width: 100%;
+  height: 10%;
 `;
 
 export const TopBox = styled.div`
   flex-direction: row;
   width: 100%;
-  height: 20%;
+  height: 30%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -45,7 +52,7 @@ export const TopBox = styled.div`
 
 export const TitleBox = styled.div`
   flex-direction: row;
-  width: 40%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -60,8 +67,9 @@ export const MainText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 300%;
-  color: #554BAB;
+  font-size: 400%;
+  font-weight: bold;
+  color: #554bab;
 `;
 
 export const SubText = styled.div`
@@ -71,29 +79,31 @@ export const SubText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 150%;
+  font-size: 200%;
+  font-weight: bold;
   color: black;
 `;
 
 export const HighlightedText = styled.span`
-  color: #A59BF6; /* 특정 단어에 적용할 색상 */
+  color: #a59bf6; /* 특정 단어에 적용할 색상 */
 `;
 
 export const AddText = styled.div`
   flex-direction: row;
   width: 100%;
   height: 20%;
+  font-size: 150%;
+  font-weight: bold;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #8C8C8C;
+  color: #8c8c8c;
 `;
-
 
 export const ImageBox = styled.div`
   flex-direction: row;
   width: 100%;
-  height: 75%;
+  height: 70%;
   display: flex;
   flex-direction: row;
 `;
@@ -105,8 +115,9 @@ export const SideText = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 150%;
-  color: #554BAB;
+  font-size: 250%;
+  font-weight: bold;
+  color: #554bab;
 `;
 
 export const LeftBox = styled.div`
@@ -138,11 +149,14 @@ export const LeftSideTop = styled.div`
 `;
 
 export const RunningImage = styled.img`
-  width: 100%;
   height: 100%;
   object-fit: contain;
 `;
 
+export const RunningImage2 = styled.img`
+  height: 120%;
+  object-fit: contain;
+`;
 export const LeftSideBottom = styled.div`
   flex-direction: row;
   width: 100%;
@@ -194,13 +208,14 @@ export const RightBox = styled.div`
 
 export const MainImageBox = styled.div`
   flex-direction: row;
-  width: 100%;
+  width: 80%;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20%;
+  margin-bottom: 30%;
+  margin-left: 15%;
 `;
 
 export const Footer = styled.div`
@@ -212,7 +227,6 @@ export const Footer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 
 export const TempBox = styled.div`
   border-radius: 5px;

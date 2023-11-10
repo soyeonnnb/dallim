@@ -6,6 +6,7 @@ import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.response.RunningRecordWithRunningMate;
+import com.b208.dduishu.domain.runningRecord.dto.response.WatchRunningRecordOverview;
 import com.b208.dduishu.domain.runningRecord.service.RunningRecordService;
 import com.b208.dduishu.util.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,11 +23,28 @@ public class RunningRecordController {
     private final RunningRecordService runningRecordService;
 
     @GetMapping("/api/v1/running/{id}")
-    public ApiResponse<?> getRunningRecordDetail(@PathVariable ObjectId id) {
+    public ApiResponse<?> getRunningRecordDetail(@PathVariable String id) {
+
         try {
             System.out.println(id);
 
             RunningRecordDetail res = runningRecordService.getRunningRecordDetail(id);
+
+            return ApiResponse.createSuccess(res);
+        } catch (Exception e) {
+            return ApiResponse.createError(e.getMessage());
+        }
+
+    }
+
+    @GetMapping("/api/v1/running/overview/{id}")
+    public ApiResponse<?> getRunningRecordOverview(@PathVariable String id) {
+
+        try {
+
+            System.out.println(id);
+
+            WatchRunningRecordOverview res = runningRecordService.getRunningRecordOverview(id);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {

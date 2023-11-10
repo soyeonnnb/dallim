@@ -89,14 +89,16 @@ function HeartRateGraph({data, chartColor}: Props) {
                 radius: 3,
                 activatePointersOnLongPress: true,
                 autoAdjustPointerLabelPosition: false,
-                pointerLabelComponent: (items: any) => {
-                  return (
-                    <Label
-                      items={items}
-                      handlePreviewData={handlePreviewData}
-                    />
-                  );
-                },
+              }}
+              getPointerProps={({pointerIndex}: {pointerIndex: number}) => {
+                if (pointerIndex === -1) return;
+                console.log(pointerIndex, 'Ddd');
+                return (
+                  <Label
+                    items={data[pointerIndex]}
+                    handlePreviewData={handlePreviewData}
+                  />
+                );
               }}
             />
           )}
@@ -111,12 +113,15 @@ function Label({
   items,
   handlePreviewData,
 }: {
-  items: any;
+  items: {
+    value: number;
+    second: number;
+  };
   handlePreviewData: any;
 }) {
   useEffect(() => {
-    handlePreviewData(items[0]);
-  });
+    handlePreviewData(items);
+  }, [items]);
   return (
     <View
       style={{
@@ -134,7 +139,7 @@ function Label({
           backgroundColor: 'white',
         }}>
         <Text style={{fontWeight: 'bold', textAlign: 'center'}}>
-          {items[0].value + 'm/s'}
+          {items.value}
         </Text>
       </View>
     </View>

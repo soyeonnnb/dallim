@@ -150,17 +150,21 @@ function PaceChart({isPair, data, rivalData, second, setSecond}: Props) {
                   radius: 3,
                   activatePointersOnLongPress: true,
                   autoAdjustPointerLabelPosition: false,
-                  pointerLabelComponent: (items: any) => {
-                    return (
-                      <Label
-                        items={items}
-                        setPreviewTime={setPreviewTime}
-                        setPreviewPace={setPreviewPace}
-                        setPreviewTime2={setPreviewTime2}
-                        setPreviewPace2={setPreviewPace2}
-                      />
-                    );
-                  },
+                }}
+                getPointerProps={({pointerIndex}: {pointerIndex: number}) => {
+                  if (pointerIndex === -1) return;
+                  return (
+                    <Label2
+                      data={data}
+                      rivalData={rivalData}
+                      isPair={isPair}
+                      pointerIndex={pointerIndex}
+                      setPreviewTime={setPreviewTime}
+                      setPreviewPace={setPreviewPace}
+                      setPreviewTime2={setPreviewTime2}
+                      setPreviewPace2={setPreviewPace2}
+                    />
+                  );
                 }}
               />
             )}
@@ -211,7 +215,7 @@ function Label({
       setPreviewTime2('');
       setPreviewPace2('');
     }
-  });
+  }, [items]);
   return (
     <View
       style={{
@@ -230,6 +234,60 @@ function Label({
         }}>
         <Text style={{fontWeight: 'bold', textAlign: 'center'}}>
           {items[0].value + 'm/s'}
+        </Text>
+      </View>
+    </View>
+  );
+}
+function Label2({
+  data,
+  rivalData,
+  isPair,
+  pointerIndex,
+  setPreviewTime,
+  setPreviewPace,
+  setPreviewTime2,
+  setPreviewPace2,
+}: {
+  data: any;
+  rivalData: any;
+  isPair: any;
+  pointerIndex: any;
+  setPreviewTime: any;
+  setPreviewPace: any;
+  setPreviewTime2: any;
+  setPreviewPace2: any;
+}) {
+  useEffect(() => {
+    console.log(pointerIndex);
+    const items = data.chartData[pointerIndex];
+    setPreviewTime(secondToHourMinuteSeconds(items.second));
+    setPreviewPace(items.fromZeroPace);
+    // 'isPair' 상태가 true이고 rivalData가 있는 경우, 두 번째 데이터도 설정합니다.
+    if (isPair && rivalData) {
+      const rivalItems = rivalData.chartData[pointerIndex];
+      setPreviewTime2(secondToHourMinuteSeconds(rivalItems.second));
+      setPreviewPace2(rivalItems.fromZeroPace);
+    }
+  }, [pointerIndex]);
+  return (
+    <View
+      style={{
+        height: 80,
+        width: 100,
+        justifyContent: 'center',
+        marginTop: -20,
+        marginLeft: -40,
+      }}>
+      <View
+        style={{
+          paddingHorizontal: 14,
+          paddingVertical: 6,
+          borderRadius: 16,
+          backgroundColor: 'white',
+        }}>
+        <Text style={{fontWeight: 'bold', textAlign: 'center'}}>
+          {data.chartData[pointerIndex].value + 'm/s'}
         </Text>
       </View>
     </View>

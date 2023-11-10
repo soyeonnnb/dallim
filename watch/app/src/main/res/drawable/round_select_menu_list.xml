@@ -5,6 +5,7 @@
     <solid android:color="#60000000"></solid>
     <size
         android:width="30dp"
-        android:height="13dp" /> <!-- 버튼 크기 설정 -->
-    <!-- 색상 악센트를 추가하는 방법은 복잡할 수 있으며, 별도의 뷰나 이미지를 추가해야 할 수 있습니다. -->
+        android:height="13dp" />
+    <stroke android:width="0.5dp" android:color="@color/white" />
+
 </shape>

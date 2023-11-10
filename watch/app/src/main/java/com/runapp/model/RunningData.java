@@ -31,6 +31,8 @@ public class RunningData {
     private Long totalTime; // 총 시간
     @ColumnInfo(name = "character_id")
     private Long characterId; // 어떤 캐릭터 pk인지
+    @ColumnInfo(name = "evolution_stage")
+    private int evolutionStage;
     @ColumnInfo(name = "step_count")
     private double stepCount; // 발걸음
     @ColumnInfo(name = "avgrage_pace")
@@ -226,6 +228,14 @@ public class RunningData {
 
     public void setInitLongitude(double initLongitude) {
         this.initLongitude = initLongitude;
+    }
+
+    public int getEvolutionStage() {
+        return evolutionStage;
+    }
+
+    public void setEvolutionStage(int evolutionStage) {
+        this.evolutionStage = evolutionStage;
     }
 
     public LocalDateTime change(Long timestamp) {

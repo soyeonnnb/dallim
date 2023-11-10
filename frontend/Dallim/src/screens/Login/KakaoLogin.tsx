@@ -17,7 +17,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
   const sendLoginRequest = async (token: string) => {
     try {
       const response = await axios.get(
-        'http://k9b208.p.ssafy.io/api/oauth/login',
+        'https://k9b208.p.ssafy.io/api/oauth/login',
         {
           params: {
             access: token,
@@ -53,7 +53,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
 
       await axios
 
-        .get('http://k9b208.p.ssafy.io/api/oauth2/code/kakao', {
+        .get('https://k9b208.p.ssafy.io/api/oauth2/code/kakao', {
           params: {
             code: authCode,
           },
@@ -74,7 +74,7 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
       });
     }
   };
-
+  //
   return (
     <View style={{flex: 1}}>
       {isLoading ? (

@@ -51,16 +51,16 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
   >(null);
 
   //useEffect
-
   //action
   const showDeleteModal = () => {
-    // selectedCardNum이 null이 아니고, 정상 범위 내에 있는지 확인합니다.
     if (
       selectedCardNum !== null &&
       selectedCardNum > 0 &&
       selectedCardNum <= competitorData.length
     ) {
-      const currentCompetitorId = competitorData[selectedCardNum - 1]?.id;
+      console.log('삭제버튼 눌림');
+      const currentCompetitorId =
+        competitorData[selectedCardNum - 1]?.runningMateId;
       if (currentCompetitorId) {
         setSelectedCompetitorId(currentCompetitorId);
         setDeleteModalVisible(true);
@@ -70,7 +70,7 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
 
   const handleDeleteSuccess = () => {
     setDeleteModalVisible(false);
-    setSelectedCardNum(null); // 삭제 후 선택된 카드 번호를 리셋
+    setSelectedCardNum(null);
   };
 
   return (
@@ -108,8 +108,9 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
         </S.Footer>
 
         <S.TabBox />
-        {isDeleteModalVisible && selectedCompetitorId && (
+        {selectedCompetitorId && (
           <RunningMateDeleteModal
+            isVisible={isDeleteModalVisible}
             competitorId={selectedCompetitorId}
             toggleDeleteModal={() => setDeleteModalVisible(false)}
             onDeleteSuccess={handleDeleteSuccess}

@@ -55,7 +55,7 @@ export const CardTexts = styled.View`
   justify-content: space-evenly;
   /* shadow-opacity: 0.9;
   shadow-radius: 1px;
-  shadow-color: ${colors.darkPurple};
+  shadow-color: ${colors.purple._800};
   shadow-offset: 0px 10px;
   elevation: 10; */
 `;

@@ -24,6 +24,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.runapp.R;
+import com.runapp.view.RunningMateRecordViewModel;
 import com.runapp.view.RunningViewModel;
 import com.runapp.util.Conversion;
 import com.runapp.util.MyApplication;
@@ -59,6 +60,7 @@ public class LocationService extends Service {
         super.onCreate();
         // 액티비티랑 러닝뷰모델을 공통으로 씀
         runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
+
         conversion = new Conversion();
         initLocationClient();
         initLocationCallback();

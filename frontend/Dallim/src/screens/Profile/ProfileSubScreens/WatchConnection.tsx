@@ -2,6 +2,7 @@ import * as S from './WatchConnection.styles';
 import {useState} from 'react';
 import Toast from 'react-native-toast-message';
 import WatchSyncInfoModal from '@/components/profileComponent/profileModal/WatchSyncInfoModal';
+import InfoModal from '@/components/profileComponent/profileModal/InfoModal';
 
 //icon
 import BackButtonIcon from '@/assets/icons/ArrowLeft';
@@ -96,6 +97,17 @@ function WatchConnection({navigation}: WatchConnectionProps) {
     }
   };
 
+  // 연동 설명서 모달
+  const [isInfoModalVisible, setInfoModalVisible] = useState(false);
+  function ActionInfo() {
+    console.log('연동 설명서 버튼이 눌렸습니다.');
+    setInfoModalVisible(true);
+  }
+  // 연동 설명서 모달 열기 & 닫기
+  function closeInfoModal() {
+    setInfoModalVisible(false);
+  }
+
   return (
     <S.Container>
       <S.BackgroundImage
@@ -123,7 +135,7 @@ function WatchConnection({navigation}: WatchConnectionProps) {
             );
           })}
         </S.NumberInputBox>
-        <S.InfoBox>
+        <S.InfoBox onPress={ActionInfo}>
           <S.InfoText>워치에 연동하는 법</S.InfoText>
         </S.InfoBox>
         <S.ConnectButtonBox onPress={() => handleWatchConnect()}>
@@ -146,7 +158,7 @@ function WatchConnection({navigation}: WatchConnectionProps) {
                         <DeleteIcon
                           width={35}
                           height={35}
-                          color={colors.darkBlue}
+                          color={colors.blue._900}
                         />
                       ) : (
                         <S.InputNumpadText>{number}</S.InputNumpadText>
@@ -159,7 +171,10 @@ function WatchConnection({navigation}: WatchConnectionProps) {
           })}
         </S.InputNumpadRows>
       </S.Footer>
+
+      {/* 모달 */}
       {/* <WatchSyncInfoModal showModal={false} toggleModal={} /> */}
+      <InfoModal isVisible={isInfoModalVisible} onClose={closeInfoModal} />
     </S.Container>
   );
 }

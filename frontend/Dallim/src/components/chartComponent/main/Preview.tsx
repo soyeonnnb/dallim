@@ -6,6 +6,7 @@ import PreviewMonthly from './preview/Monthly';
 import * as S from './Preview.styles';
 import {CalendarType} from '@/recoil/CalendarData';
 import {MonthlyRecords, DailyRecord} from '@/apis/ChartApi';
+import {colors} from '@/components/common/globalStyles';
 
 interface Props {
   isClicked?: boolean;
@@ -96,13 +97,13 @@ function Preview({
           monthNewRecords.push({
             stacks: [
               {
-                value: record.totalTime,
-                color: 'red',
+                value: record.totalDistance,
+                color: colors.chart.record.distance,
                 id: record.id,
               },
               {
-                value: record.totalDistance,
-                color: 'yellow',
+                value: record.totalTime,
+                color: '#C3A9F6',
                 id: record.id,
               },
             ],

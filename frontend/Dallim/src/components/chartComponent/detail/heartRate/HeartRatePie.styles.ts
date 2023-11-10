@@ -4,7 +4,7 @@ import {Dimensions} from 'react-native';
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export const Container = styled.View`
-  flex: 0.45;
+  flex: 0.5;
   background-color: white;
   width: 100%;
   align-items: center;

@@ -79,7 +79,6 @@ public class RunningActivity extends AppCompatActivity {
 
 
         long startTime = System.currentTimeMillis();
-        System.out.println("시작 시간 : " + startTime);
         runningData = new RunningData();
         runningData.setUserId(prefs.getLong("userId", 0L));
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
@@ -226,6 +225,11 @@ public class RunningActivity extends AppCompatActivity {
 
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
+
+        runningViewModel.clearData();
+        if (runningMateRecordViewModel != null) {
+            runningMateRecordViewModel.clearData();
+        }
 
         // 네트워크 연결됐는지 확인
         if(new NetworkUtil().isOnline(this)){

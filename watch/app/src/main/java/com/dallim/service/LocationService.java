@@ -109,7 +109,7 @@ public class LocationService extends Service {
                 // 페이스를 초로 변환해서 저장
                 runningViewModel.setMsPaceToSecond((minutes * 60) + seconds);
                 // 페이스 저장
-                String format = String.format("%d'%02d''", minutes, seconds);
+                String format = String.format("%d’%02d”", minutes, seconds);
                 runningViewModel.setMsPace(format);
 
                 double distance = lastLocation.distanceTo(location);
@@ -122,7 +122,6 @@ public class LocationService extends Service {
                 double latitude = location.getLatitude(); // 위도
                 double longitude = location.getLongitude(); // 경도
                 if(runningViewModel.getInitLatitude().getValue() == null && runningViewModel.getInitLongitude().getValue() == null) {
-                    System.out.println("들어옴");
                     runningViewModel.setInitLatitude(latitude);
                     runningViewModel.setInitLongitude(longitude);
                 }

@@ -48,7 +48,8 @@
                 android:layout_marginRight="35dp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="데이터 연동">
+                android:fontFamily="@font/oagothic_medium"
+                android:text="데이터 동기화">
 
             </TextView>
 
@@ -57,7 +58,8 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textStyle="bold"
-                android:text="연동 설정">
+                android:fontFamily="@font/oagothic_medium"
+                android:text="기기 연결 설정">
 
             </TextView>
         </LinearLayout>

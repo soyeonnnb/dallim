@@ -46,9 +46,33 @@ public class RunningViewModel extends ViewModel {
         totalHeartRate.setValue(0.0);
         totalTime.setValue(0L);
         totalSpeed.setValue(0.0);
-        msPace.setValue("0'00''");
+        msPace.setValue("0’00”");
         heartCountTime.setValue(0);
         StepCount.setValue(0.0);
+    }
+
+    public void clearData(){
+        distanceDifference.setValue(0.0);
+        heartRate.setValue(0.0);
+        msSpeed.setValue(0.0);
+        distance.setValue(0.0);
+        msPaceToSecond.setValue(0.0);
+        oriDistance.setValue(0.0);
+        totalHeartRate.setValue(0.0);
+        totalTime.setValue(0L);
+        totalSpeed.setValue(0.0);
+        msPace.setValue("0’00”");
+        heartCountTime.setValue(0);
+        StepCount.setValue(0.0);
+        elapsedTime.setValue("00:00");
+        latitude.setValue(0.0);
+        longitude.setValue(0.0);
+        runningData.setValue(new RunningData());
+        runDetailList.setValue(new ArrayList<>());
+        initLatitude.setValue(0.0);
+        initLongitude.setValue(0.0);
+        pairCheck.setValue(false);
+        speedCountTime.setValue(0);
     }
 
     public MutableLiveData<RunningData> getRunningData() {

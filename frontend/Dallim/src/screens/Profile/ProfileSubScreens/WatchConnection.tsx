@@ -1,7 +1,7 @@
 import * as S from './WatchConnection.styles';
 import {useState} from 'react';
 import Toast from 'react-native-toast-message';
-import WatchSyncInfoModal from '@/components/profileComponent/profileModal/WatchSyncInfoModal';
+
 import InfoModal from '@/components/profileComponent/profileModal/InfoModal';
 
 //icon
@@ -121,7 +121,7 @@ function WatchConnection({navigation}: WatchConnectionProps) {
         <S.BackButtonFlexBoxRight>
           <S.TitleText>워치 설정</S.TitleText>
         </S.BackButtonFlexBoxRight>
-        <S.BackButtonFlexBoxLeft></S.BackButtonFlexBoxLeft>
+        <S.BackButtonFlexBoxLeft />
       </S.Header>
 
       <S.Body>
@@ -135,9 +135,6 @@ function WatchConnection({navigation}: WatchConnectionProps) {
             );
           })}
         </S.NumberInputBox>
-        <S.InfoBox onPress={ActionInfo}>
-          <S.InfoText>워치에 연동하는 법</S.InfoText>
-        </S.InfoBox>
         <S.ConnectButtonBox onPress={() => handleWatchConnect()}>
           <S.ConnectionButtonText>연동</S.ConnectionButtonText>
         </S.ConnectButtonBox>

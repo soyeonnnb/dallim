@@ -128,7 +128,7 @@ export const Footer = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
-  height: 25%;
+  height: 20%;
 `;
 
 export const FooterBox = styled.View`
@@ -180,5 +180,5 @@ export const TabBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
-  height: 10%;
+  height: 15%;
 `;

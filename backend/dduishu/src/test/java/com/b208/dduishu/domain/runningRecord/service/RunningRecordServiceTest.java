@@ -54,7 +54,7 @@ class RunningRecordServiceTest {
 
     @Test
     void saveRunning() {
-        int size = 500;
+        int size = 7200;
         List<RunningRecordOverallInfo> runningRecordOverallInfos = new ArrayList<>();
         Random random = new Random();
 
@@ -113,12 +113,12 @@ class RunningRecordServiceTest {
 
         RunningRecordInfo build = RunningRecordInfo.builder()
                 .userId(20L)
-                .characterId(38L)
+                .characterId(32L)
                 .watchOrMobile(WatchOrMobile.WATCH)
                 .date(LocalDateTime.now())
                 .formattedDate("11월 11일 (토)")
-                .type(RunningType.ALONE)
-                .rivalRecordId(null)
+                .type(RunningType.PAIR)
+                .rivalRecordId(new ObjectId("654f60c075c9d615719c6165"))
                 .totalTime(size)
                 .totalDistance(lastRecord.getDistance())
                 .averageSpeed(formattedAverageSpeed.doubleValue())

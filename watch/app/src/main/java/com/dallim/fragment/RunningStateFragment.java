@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +38,7 @@ import com.dallim.util.Conversion;
 import com.dallim.util.MyApplication;
 
 import java.util.List;
+import java.util.Map;
 
 public class RunningStateFragment extends Fragment {
 
@@ -109,8 +112,15 @@ public class RunningStateFragment extends Fragment {
 
         binding.btnFinish.setOnClickListener(v -> {
             LayoutInflater inflater1 = requireActivity().getLayoutInflater();
-            View dialogView = inflater1.inflate(R.layout.finish_popup, null);
+            View dialogView = inflater1.inflate(R.layout.modal, null);
 
+            Button cancel = dialogView.findViewById(R.id.cancel);
+            Button finish = dialogView.findViewById(R.id.finish);
+
+            TextView text = dialogView.findViewById(R.id.text_view);
+            text.setText("런닝을\n종료하시겠습니까?");
+            finish.setText("종료");
+            
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setView(dialogView);
 
@@ -121,20 +131,16 @@ public class RunningStateFragment extends Fragment {
             }
             dialog.show();
 
-            Button cancel = dialogView.findViewById(R.id.cancel);
-            Button finish = dialogView.findViewById(R.id.finish);
+            
 
             cancel.setOnClickListener(b ->{
                 dialog.dismiss();
             });
 
             finish.setOnClickListener(b ->{
-                Intent intent = new Intent(getActivity(), ResultActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
                 getActivity().finish();
+                dialog.dismiss();
             });
-
         });
         return view;
 

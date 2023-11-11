@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.RelativeSizeSpan;
@@ -57,7 +58,7 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_running_mate_data, parent, false);
         runningService = new RunningService(parent.getContext());
-        return new ViewHolder(view);
+        return new ViewHolder(view, activity);
     }
 
     @Override
@@ -125,9 +126,11 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
         public TextView formattedDate, distance, speed, nickname, time;
         public LinearLayout runningMateRecordCharacter;
         public RunningMate currentRunningMate;
+        public Activity activity;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, Activity activity) {
             super(itemView);
+            this.activity = activity;
             formattedDate = itemView.findViewById(R.id.formatted_date);
             distance = itemView.findViewById(R.id.distance);
             speed = itemView.findViewById(R.id.speed);
@@ -135,37 +138,36 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
             time = itemView.findViewById(R.id.time);
             runningMateRecordCharacter = itemView.findViewById(R.id.running_mate_record_character);
 
-            // 선택하기 버튼
-            Button selectMate = itemView.findViewById(R.id.select_running_mate_btn);
-            selectMate.setOnClickListener(v -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder(itemView.getContext(), R.style.CustomDialogTheme);
+            // 러닝메이트 선택
+            LinearLayout viewById = itemView.findViewById(R.id.running_mate_record_character);
+            viewById.setOnClickListener(v -> {
                 SharedPreferences.Editor edit = prefs.edit();
+                // 이제 activity를 사용하여 LayoutInflater 얻기
+                LayoutInflater inflater1 = activity.getLayoutInflater();
+                View dialogView = inflater1.inflate(R.layout.modal, null);
 
-                LayoutInflater inflater = LayoutInflater.from(itemView.getContext());
-                // multi_popup.xml을 가져와서 객체로 생성
-                View customView = inflater.inflate(R.layout.multi_popup, null);
+                TextView text = dialogView.findViewById(R.id.text_view);
+                text.setText("함께달리기\n시작하시겠습니까?");
 
-                builder.setView(customView);
-                TextView mateNickname = customView.findViewById(R.id.running_mate_nickname);
-                mateNickname.setText("'"+currentRunningMate.getNickName()+"' 님과");
+                Button cancel = dialogView.findViewById(R.id.cancel);
+                Button finish = dialogView.findViewById(R.id.finish);
+                finish.setText("선택");
 
-                // builder 내용으로 AlertDialog 생성
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setView(dialogView);
+
                 AlertDialog dialog = builder.create();
 
-                // AlertDialog 보이기
+                if (dialog.getWindow() != null) {
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xD0000000));
+                }
                 dialog.show();
 
-                Button cancel = customView.findViewById(R.id.multi_cancel);
-                Button start = customView.findViewById(R.id.multi_start);
-
-                // 취소하기 눌렀을 때
-                cancel.setOnClickListener(b-> {
+                cancel.setOnClickListener(b ->{
                     dialog.dismiss();
                 });
-                String accessToken = AccessToken.getInstance().getAccessToken();
 
-                // 시작하기 눌렀을 때
-                start.setOnClickListener(b -> {
+                finish.setOnClickListener(b ->{
                     Intent intent = new Intent(activity, LoadingActivity.class);
                     intent.putExtra("running_record_id", currentRunningMate.getRunningRecordId());
 
@@ -210,7 +212,7 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
     }
 
     public String formatDate(LocalDateTime date) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일", Locale.KOREAN);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM월 dd일 (E)", Locale.KOREAN);
         return date.format(formatter);
     }
 }

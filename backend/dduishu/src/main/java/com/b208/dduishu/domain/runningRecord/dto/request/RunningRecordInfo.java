@@ -75,8 +75,8 @@ public class RunningRecordInfo {
 
     private List<RunningRecordOverallInfo> runningRecordInfos;
 
-        public RawRunningRecord toWatchRunningRecord(RunningRecord runningRecord) {
-            List<Double> distances = this.runningRecordInfos.stream()
+        public RawRunningRecord toWatchRunningRecord(RunningRecord runningRecord, RunningRecordInfo req) {
+            List<Double> distances = req.getRunningRecordInfos().stream()
                     .map(o -> o.getDistance())
                     .collect(toList());
 

@@ -54,7 +54,7 @@ class RunningRecordServiceTest {
 
     @Test
     void saveRunning() {
-        int size = 180;
+        int size = 500;
         List<RunningRecordOverallInfo> runningRecordOverallInfos = new ArrayList<>();
         Random random = new Random();
 
@@ -101,6 +101,16 @@ class RunningRecordServiceTest {
             runningRecordOverallInfos.add(info);
         }
 
+        RunningRecordOverallInfo lastRecord = runningRecordOverallInfos.get(runningRecordOverallInfos.size()-1);
+
+        double averageSpeed = runningRecordOverallInfos.stream().mapToDouble(RunningRecordOverallInfo::getSpeed).average().orElse(0.0);
+        double averageHeartRate = runningRecordOverallInfos.stream().mapToDouble(RunningRecordOverallInfo::getHeartRate).average().orElse(0.0);
+        double averagePace = runningRecordOverallInfos.stream().mapToDouble(RunningRecordOverallInfo::getPace).average().orElse(0.0);
+
+        BigDecimal formattedAverageSpeed = new BigDecimal(averageSpeed).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal formattedAverageHeartRate = new BigDecimal(averageHeartRate).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal formattedAveragePace = new BigDecimal(averagePace).setScale(2, RoundingMode.HALF_UP);
+
         RunningRecordInfo build = RunningRecordInfo.builder()
                 .userId(20L)
                 .characterId(38L)
@@ -109,11 +119,11 @@ class RunningRecordServiceTest {
                 .formattedDate("11월 11일 (토)")
                 .type(RunningType.ALONE)
                 .rivalRecordId(null)
-                .totalTime(10)
-                .totalDistance(100)
-                .averageSpeed(100)
-                .averageHeartRate(100)
-                .averagePace(100)
+                .totalTime(size)
+                .totalDistance(lastRecord.getDistance())
+                .averageSpeed(formattedAverageSpeed.doubleValue())
+                .averageHeartRate(formattedAverageHeartRate.doubleValue())
+                .averagePace(formattedAveragePace.doubleValue())
                 .initLatitude(36.3551347)
                 .initLongitude(127.2986507)
                 .winOrLose(WinOrLose.WIN)

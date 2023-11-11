@@ -120,7 +120,7 @@ public class RunningRecordService {
         // runningRecord 저장
         RunningRecord savedRunningRecord = runningRecordRepository.save(runningRecord);
 
-        RawRunningRecord rawRunningRecord = req.toWatchRunningRecord(savedRunningRecord);
+        RawRunningRecord rawRunningRecord = req.toWatchRunningRecord(savedRunningRecord, req);
 
         rawRunningRecordRepository.save(rawRunningRecord);
 

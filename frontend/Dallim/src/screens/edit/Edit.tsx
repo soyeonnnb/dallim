@@ -11,7 +11,7 @@ import BasicCharacter from '@/assets/characters/Rabbit.png';
 import BasicPlanet from '@/assets/planets/PlanetBlack.png';
 import Right from '@/assets/icons/DirectionRight.png';
 import Left from '@/assets/icons/DirectionLeft.png';
-import Loading from '@/components/common/Loading';
+import Loading from '@/components/common/Loading_Run';
 
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import {

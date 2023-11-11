@@ -49,6 +49,7 @@ public class RunningStateFragment extends Fragment {
     private RunningMateRecordViewModel runningMateRecordViewModel;
     private double lastDistance;
     private List<Double> mateDistance;
+    private Boolean value;
 
     @Nullable
     @Override
@@ -131,13 +132,15 @@ public class RunningStateFragment extends Fragment {
             }
             dialog.show();
 
-            
-
             cancel.setOnClickListener(b ->{
                 dialog.dismiss();
             });
 
             finish.setOnClickListener(b ->{
+                // 만약 함께 달리기면
+                if(value){
+                    runningMateRecordViewModel.setGiveUp((Boolean) true);
+                }
                 getActivity().finish();
                 dialog.dismiss();
             });
@@ -158,7 +161,7 @@ public class RunningStateFragment extends Fragment {
             // ViewModel을 초기화할 때 애플리케이션의 Application 객체를 사용합니다.
             runningViewModel = new ViewModelProvider(myApplication).get(RunningViewModel.class);
 
-            Boolean value = runningViewModel.getPairCheck().getValue();
+            value = runningViewModel.getPairCheck().getValue();
             if (value) {
                 runningMateRecordViewModel = new ViewModelProvider(myApplication).get(RunningMateRecordViewModel.class);
                 mateDistance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();

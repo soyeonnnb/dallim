@@ -149,12 +149,15 @@ public class RunningActivity extends AppCompatActivity {
             return; // 메서드를 여기서 종료
         }
 
+        // 전체 속도
         if(runningViewModel.getTotalSpeed().getValue() != 0){
             totalSpeed = runningViewModel.getTotalSpeed().getValue();
         }
+        // 전체 속도 카운트 횟수
         if(runningViewModel.getSpeedCountTime().getValue() != 0){
             speedCountTime = runningViewModel.getSpeedCountTime().getValue();
         }
+        // 총 시작
         if(runningViewModel.getTotalTime().getValue() != 0){
             totalTime = runningViewModel.getTotalTime().getValue();
         }
@@ -164,7 +167,6 @@ public class RunningActivity extends AppCompatActivity {
         Integer heartRateCount = runningViewModel.getHeartCountTime().getValue();
         runningData.setAverageHeartRate(Math.round((totalHeartRate/heartRateCount) * 100) / 100.0);
 
-        runningData.setRunningRecordInfos(runningViewModel.getRunDetailList().getValue());
         // 발걸음
         runningData.setStepCount(runningViewModel.getStepCount().getValue());
 
@@ -189,19 +191,34 @@ public class RunningActivity extends AppCompatActivity {
         // 최종 시간 업데이트
         runningData.setTotalTime(totalTime - 1);
 
+        // 전체 기록
+        runningData.setRunningRecordInfos(runningViewModel.getRunDetailList().getValue());
+
         // 같이 달리기인 경우
         if(type.equals("PAIR")){
+            // 거리
             List<Double> distance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
+            // 상대방 최종 거리
             Double lastDistance = distance.get(distance.size() - 1);
             Log.e("상대방 거리", String.valueOf(lastDistance));
             Log.e("내 거리", String.valueOf(totalDistance));
             // 상대방 거리보다 작을 경우
             if (lastDistance > totalDistance){
-                runningData.setWinOrLose("LOSE");
+                // 만약에 종료를 누른 상태면(포기로 간주)
+                if(runningMateRecordViewModel.getGiveUp().getValue()){
+                    runningData.setWinOrLose("GIVEUP");
+                }else{
+                    runningData.setWinOrLose("LOSE");
+                }
             }
             // 이긴 경우
             else if (lastDistance <= totalDistance){
-                runningData.setWinOrLose("WIN");
+                // 시간을 초과한 경우
+                if (runningMateRecordViewModel.getMateRecord().getValue().getTotalTime() <= totalTime - 1){
+                    runningData.setWinOrLose("LOSE");
+                }else{
+                    runningData.setWinOrLose("WIN");
+                }
             }
         }
 

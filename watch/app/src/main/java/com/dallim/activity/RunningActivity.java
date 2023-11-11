@@ -130,15 +130,7 @@ public class RunningActivity extends AppCompatActivity {
         startForegroundService(timerServiceIntent);
     }
 
-    // 데이터 추가(메인 스레드에서 분리하기 위해서)
-    private void addRunningData(RunningData runningData) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                db.runningDataDAO().insert(runningData);
-            }
-        });
-    }
+
 
     private BroadcastReceiver finishReceiver = new BroadcastReceiver() {
         @Override
@@ -236,7 +228,7 @@ public class RunningActivity extends AppCompatActivity {
             * 그리고 해당 API 호출의 응답이 돌아오면 실행될 콜백 함수를 정의해놓는다.
             * */
             runningData.setTranslation(true);
-            addRunningData(runningData);
+            runningService.addRunningData(runningData);
             RunningDataDTO runningDataDTO = runningData.toDTO();
             long characterId = prefs.getLong("characterId", 0L);
             runningDataDTO.setCharacterId(characterId);
@@ -262,7 +254,7 @@ public class RunningActivity extends AppCompatActivity {
             });
         }else{
             runningData.setTranslation(false);
-            addRunningData(runningData);
+            runningService.addRunningData(runningData);
             Log.d("데이터 전송", "인터넷 연결 안 됨");
         }
         super.onDestroy();

@@ -1,13 +1,9 @@
 package com.dallim.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
@@ -31,8 +27,6 @@ import java.util.concurrent.Executors;
 public class SelectActivity extends ComponentActivity {
 
     private ActivitySelectBinding binding;
-    private final Executor executor = Executors.newSingleThreadExecutor();
-    private AppDatabase db;
     private RunningService runningService;
     private WearableRecyclerView recyclerView;
     private MenuAdapter menuAdapter;
@@ -64,10 +58,6 @@ public class SelectActivity extends ComponentActivity {
                 new CustomScrollingLayoutCallback();
         recyclerView.setLayoutManager(
                 new WearableLinearLayoutManager(this, customScrollingLayoutCallback));
-
-
-        db = AppDatabase.getDatabase(getApplicationContext());
-        Context context = SelectActivity.this;
 
         // 클릭 이벤트 처리
         menuAdapter.setOnItemClickListener(new MenuAdapter.OnItemClickListener() {

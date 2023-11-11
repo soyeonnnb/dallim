@@ -135,6 +135,16 @@ public class RunningService {
         });
     }
 
+    // 러닝 데이터 추가(메인 스레드에서 분리하기 위해서)
+    public void addRunningData(RunningData runningData) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.runningDataDAO().insert(runningData);
+            }
+        });
+    }
+
     // sqlite에서 러닝메이트 러닝 데이터 삭제
     public void deleteRunningMateRunningData() {
         executor.execute(new Runnable() {

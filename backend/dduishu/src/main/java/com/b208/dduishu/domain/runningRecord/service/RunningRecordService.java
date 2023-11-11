@@ -7,6 +7,8 @@ import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.geo.service.AddressService;
 import com.b208.dduishu.domain.planet.entity.Planet;
 import com.b208.dduishu.domain.planet.repository.PlanetRepository;
+import com.b208.dduishu.domain.rawRunningRecord.document.RawRunningRecord;
+import com.b208.dduishu.domain.rawRunningRecord.repository.RawRunningRecordRepository;
 import com.b208.dduishu.domain.runningMate.document.RunningMate;
 import com.b208.dduishu.domain.runningMate.repository.RunningMateRepository;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
@@ -57,11 +59,12 @@ public class RunningRecordService {
     private final PlanetRepository planetRepository;
     private final AddressService addressService;
 
+    private final RawRunningRecordRepository rawRunningRecordRepository;
+
     @Transactional
     public String createRunningRecord(RunningRecordInfo req) {
         updateUserState(false);
         String saveRunningRecordId = saveRunningRecord(req);
-
 
         return saveRunningRecordId;
     }
@@ -111,14 +114,15 @@ public class RunningRecordService {
         // 포인트 정산 - 이동 거리 + a
         user.addPoint(req.getTotalDistance());
 
-
         // dto to entity
-        RunningRecord res = req.toRunningRecord(user, planet, addressName,character,rivalRunningRecord);
-
-        System.out.println(req.getDate().toString());
+        RunningRecord runningRecord = req.toRunningRecord(user, planet, addressName,character,rivalRunningRecord);
 
         // runningRecord 저장
-        RunningRecord savedRunningRecord = runningRecordRepository.save(res);
+        RunningRecord savedRunningRecord = runningRecordRepository.save(runningRecord);
+
+        RawRunningRecord rawRunningRecord = req.toWatchRunningRecord(savedRunningRecord);
+
+        rawRunningRecordRepository.save(rawRunningRecord);
 
         return savedRunningRecord.getId().toString();
     }
@@ -343,29 +347,19 @@ public class RunningRecordService {
             throw new NullPointerException();
         });
 
-        List<RunningRecordOverallInfo> runningRecordOverallInfos = res.getRunningRecordInfos();
-
-        int targetSize = 200; // 줄이고 싶은 개수 (200개로 설정)
-        int step = (int) Math.floor(runningRecordOverallInfos.size() / targetSize);
-
-        List<RunningRecordOverallInfo> reducedRunningRecordOverallInfos = IntStream.range(0, runningRecordOverallInfos.size())
-                .filter(i -> i % step == 0 || i == runningRecordOverallInfos.size() - 1) // 규칙적인 간격으로 필터링
-                .mapToObj(runningRecordOverallInfos::get) // 인덱스를 기반으로 요소 가져오기
-                .collect(toList());
-
         return RunningRecordDetail.builder()
                 .id(res.getId())
                 .watchOrMobile(res.getWatchOrMobile())
                 .location(res.getLocation())
-                .secondPerSpeed(res.getSecondPerSpeed())
-                .heartRate(res.getHeartRate())
-                .pace(res.getPace())
-                .stepCount(res.getStepCount())
+//                .secondPerSpeed(res.getSecondPerSpeed())
+//                .heartRate(res.getHeartRate())
+//                .pace(res.getPace())
+//                .stepCount(res.getStepCount())
                 .user(res.getUser())
                 .character(res.getCharacter())
                 .rivalRecord(res.getRivalRecord())
                 .type(res.getType())
-                .runningRecordInfos(reducedRunningRecordOverallInfos)
+                .runningRecordInfos(res.getRunningRecordInfos())
                 .totalTime(res.getTotalTime())
                 .totalDistance(res.getTotalDistance())
                 .averageSpeed(res.getAverageSpeed())
@@ -387,11 +381,10 @@ public class RunningRecordService {
     }
 
     public WatchRunningRecordOverview getRunningRecordOverview(String id) {
-        RunningRecord record = runningRecordRepository.findById((new ObjectId(id))).orElseThrow(() -> {
-            throw new RunningRecordNotFoundException();
-        });
 
-        return WatchRunningRecordOverview.builder().runningRecord(record).build();
+        RawRunningRecord rawRunningRecord = rawRunningRecordRepository.findByRunningRecordId((id));
+
+        return WatchRunningRecordOverview.builder().rawRunningRecord(rawRunningRecord).build();
     }
 
 

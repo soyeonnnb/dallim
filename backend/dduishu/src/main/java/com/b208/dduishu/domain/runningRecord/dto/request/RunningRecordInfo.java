@@ -2,23 +2,28 @@ package com.b208.dduishu.domain.runningRecord.dto.request;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
 import com.b208.dduishu.domain.planet.entity.Planet;
+import com.b208.dduishu.domain.rawRunningRecord.document.RawRunningRecord;
 import com.b208.dduishu.domain.runningRecord.document.*;
 import com.b208.dduishu.domain.runningRecord.dto.CharacterRecordInfo;
 import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.character.entity.Character;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 
 @Data
+@NoArgsConstructor
 public class RunningRecordInfo {
 
     private static final double SLOW_WALK_THRESHOLD = (double) 6000 / 3600;
@@ -45,14 +50,45 @@ public class RunningRecordInfo {
     private double stepCount;
     private double initLatitude;
     private double initLongitude;
+    private WinOrLose winOrLose;
 
-    //러닝 데이터 받아오기
-    // 운동일시, 총 시간, 평균 속력, 이동 거리, 평균 심박수
-    // + 위치정보
-    // + 생체정보 +a
+    @Builder
+    public RunningRecordInfo(Long userId, WatchOrMobile watchOrMobile, LocalDateTime date, String formattedDate, Long characterId, RunningType type, ObjectId rivalRecordId, int totalTime, double totalDistance, double averageSpeed, double averageHeartRate, double averagePace, double stepCount, double initLatitude, double initLongitude, WinOrLose winOrLose, List<RunningRecordOverallInfo> runningRecordInfos) {
+        this.userId = userId;
+        this.watchOrMobile = watchOrMobile;
+        this.date = date;
+        this.formattedDate = formattedDate;
+        this.characterId = characterId;
+        this.type = type;
+        this.rivalRecordId = rivalRecordId;
+        this.totalTime = totalTime;
+        this.totalDistance = totalDistance;
+        this.averageSpeed = averageSpeed;
+        this.averageHeartRate = averageHeartRate;
+        this.averagePace = averagePace;
+        this.stepCount = stepCount;
+        this.initLatitude = initLatitude;
+        this.initLongitude = initLongitude;
+        this.winOrLose = winOrLose;
+        this.runningRecordInfos = runningRecordInfos;
+    }
+
     private List<RunningRecordOverallInfo> runningRecordInfos;
 
-    public RunningRecord toRunningRecord(User user, Planet planet, String addressName, Character character, RunningRecord rivalRecord){
+        public RawRunningRecord toWatchRunningRecord(RunningRecord runningRecord) {
+            List<Double> distances = this.runningRecordInfos.stream()
+                    .map(o -> o.getDistance())
+                    .collect(toList());
+
+            return RawRunningRecord.builder()
+                    .runningRecordId(runningRecord.getId().toString())
+                    .averagePace(runningRecord.getAveragePace())
+                    .totalTime(runningRecord.getTotalTime())
+                    .runningRecordInfos(distances)
+                    .build();
+        }
+
+        public RunningRecord toRunningRecord(User user, Planet planet, String addressName, Character character, RunningRecord rivalRecord){
 
         UserInfo userInfo = new UserInfo(user);
         CharacterRecordInfo characterInfo = new CharacterRecordInfo(character, planet);
@@ -61,23 +97,27 @@ public class RunningRecordInfo {
             rivalRunningRecordInfo = new RivalRunningRecordInfo(rivalRecord);
         }
 
-//        String location = getLocation();
-        List<Double> secondPerSpeed = getSecondPerSpeed(this.runningRecordInfos);
-        PaceInfo pace = getPaceInfo(this.runningRecordInfos);
-        HeartRateInfo heartRate = getHeartRateInfo(this.runningRecordInfos);
+        List<RunningRecordOverallInfo> runningRecordOverallInfos = this.runningRecordInfos;
 
+        int targetSize = 200; // 줄이고 싶은 개수 (200개로 설정)
+        int step = runningRecordOverallInfos.size() > targetSize ? (int) Math.floor(runningRecordOverallInfos.size() / targetSize) : 1;
+
+        List<RunningRecordOverallInfo> reducedRunningRecordOverallInfos = IntStream.range(0, runningRecordOverallInfos.size())
+                .filter(i -> i % step == 0 || i == runningRecordOverallInfos.size() - 1) // 규칙적인 간격으로 필터링
+                .mapToObj(runningRecordOverallInfos::get) // 인덱스를 기반으로 요소 가져오기
+                .collect(toList());
 
         RunningRecord build = RunningRecord.builder()
                 .user(userInfo)
                 .watchOrMobile(this.watchOrMobile)
-                .pace(pace)
+//                .pace(pace)
                 .location(addressName)
-                .heartRate(heartRate)
-                .secondPerSpeed(secondPerSpeed)
+//                .heartRate(heartRate)
+//                .secondPerSpeed(secondPerSpeed)
                 .character(characterInfo)
                 .type(this.type)
                 .rivalRecord(rivalRunningRecordInfo)
-                .runningRecordInfos(this.runningRecordInfos)
+                .runningRecordInfos(reducedRunningRecordOverallInfos)
                 .totalTime(this.totalTime)
                 .totalDistance(this.totalDistance)
                 .averageSpeed(this.averageSpeed)
@@ -85,9 +125,7 @@ public class RunningRecordInfo {
                 .averageHeartRate(this.averageHeartRate)
                 .createdAt(this.date)
                 .formattedDate(this.formattedDate)
-                .stepCount(this.stepCount)
-                .initLatitude(this.initLatitude)
-                .initLongitude(this.initLongitude)
+                .winOrLose(this.winOrLose)
                 .build();
 
         return build;

@@ -1,9 +1,6 @@
 package com.b208.dduishu.domain.runningRecord.controller;
 
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDetail;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
-import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
+import com.b208.dduishu.domain.runningRecord.dto.request.*;
 import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.response.RunningRecordWithRunningMate;
 import com.b208.dduishu.domain.runningRecord.dto.response.WatchRunningRecordOverview;
@@ -14,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -23,13 +21,12 @@ public class RunningRecordController {
     private final RunningRecordService runningRecordService;
 
     @GetMapping("/api/v1/running/{id}")
-    public ApiResponse<?> getRunningRecordDetail(@PathVariable String id) {
+    public ApiResponse<?> getRunningRecordDetail(@PathVariable String id, HttpServletResponse response) {
 
         try {
             System.out.println(id);
 
             RunningRecordDetail res = runningRecordService.getRunningRecordDetail(id);
-
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
             return ApiResponse.createError(e.getMessage());

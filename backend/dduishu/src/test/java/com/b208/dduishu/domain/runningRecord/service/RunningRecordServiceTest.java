@@ -16,10 +16,15 @@ import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.entity.UserLevel;
 import com.b208.dduishu.domain.user.repository.UserRepository;
 import org.bson.types.ObjectId;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -36,22 +41,20 @@ import java.util.stream.IntStream;
 
 @SpringBootTest
 class RunningRecordServiceTest {
-
     @Autowired
-    private RunningRecordRepository runningRecordRepository;
+    private RunningRecordService runningRecordService;
 
-    @Autowired
-    private CharacterRepository characterRepository;
+    @BeforeEach
+    public void setup() {
+        // 권한 부여
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(20L, null, List.of(new SimpleGrantedAuthority("USER")));
+        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+    }
 
-    @Autowired
-    private PlanetRepository planetRepository;
-
-    @Autowired
-    private UserRepository userRepository;
     @Test
-    void saveRunningRecord() {
-
-        int size = 14400 * 5;
+    void saveRunning() {
+        int size = 180;
         List<RunningRecordOverallInfo> runningRecordOverallInfos = new ArrayList<>();
         Random random = new Random();
 
@@ -80,10 +83,6 @@ class RunningRecordServiceTest {
 
             BigDecimal formattedDistance = new BigDecimal(distance).setScale(2, RoundingMode.HALF_UP);
 
-//            // distance가 증가할수록 speed와 heartRate도 증가하도록 모델링
-//            double speed = distanceChange;
-//            int heartRate = (int) (80 + (distanceChange * 100));
-
             double pace = 0.0;
             if ( speed != 0) {
                 pace = (1000 / speed);
@@ -91,17 +90,6 @@ class RunningRecordServiceTest {
 
             BigDecimal formattedPace = new BigDecimal(pace).setScale(2, RoundingMode.HALF_UP);
             double formattedPaceVal = formattedPace.doubleValue();
-
-            RunningState state = null;
-            if (speed <= 0.4) {
-                state = RunningState.STOP;
-            } else if (speed <= 1.5) {
-                state = RunningState.WALK;
-            } else if (speed <= 3.0) {
-                state = RunningState.RACEWALK;
-            } else {
-                state = RunningState.RUN;
-            }
 
             RunningRecordOverallInfo info = RunningRecordOverallInfo.builder()
                     .second(i)
@@ -113,63 +101,25 @@ class RunningRecordServiceTest {
             runningRecordOverallInfos.add(info);
         }
 
-        int targetSize = 200; // 줄이고 싶은 개수 (200개로 설정)
-        int step = (int) Math.floor(runningRecordOverallInfos.size() / targetSize);
-        int totalTime = size;
-
-        List<RunningRecordOverallInfo> reducedRunningRecordOverallInfos = IntStream.range(0, runningRecordOverallInfos.size())
-                .filter(i -> i % step == 0 || i == runningRecordOverallInfos.size() - 1) // 규칙적인 간격으로 필터링
-                .mapToObj(runningRecordOverallInfos::get) // 인덱스를 기반으로 요소 가져오기
-                .collect(toList());
-        size = reducedRunningRecordOverallInfos.size();
-
-//        List<RunningRecordOverallInfo> reducedRunningRecordOverallInfos = runningRecordOverallInfos;
-
-        BigDecimal totalDistance = new BigDecimal(reducedRunningRecordOverallInfos.get(size-1).getDistance()).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal averageSpeed = new BigDecimal(reducedRunningRecordOverallInfos.stream()
-                .mapToDouble(RunningRecordOverallInfo::getSpeed).average().orElse(0.0)).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal averageHeartRate = new BigDecimal(reducedRunningRecordOverallInfos.stream()
-                .mapToDouble(RunningRecordOverallInfo::getHeartRate).average().orElse(0.0)).setScale(2, RoundingMode.HALF_UP);
-        BigDecimal averagePace = new BigDecimal(reducedRunningRecordOverallInfos.stream()
-                .mapToDouble(RunningRecordOverallInfo::getPace).average().orElse(0.0)).setScale(2, RoundingMode.HALF_UP);
-
-        RunningRecordInfo runningRecordInfo = new RunningRecordInfo();
-        runningRecordInfo.setTotalTime(totalTime);
-        runningRecordInfo.setTotalDistance(totalDistance.doubleValue());
-
-//        List<Double> secondPerSpeed = runningRecordInfo.getSecondPerSpeed(reducedRunningRecordOverallInfos);
-//        PaceInfo paceInfo = runningRecordInfo.getPaceInfo(reducedRunningRecordOverallInfos);
-//        HeartRateInfo heartRateInfo = runningRecordInfo.getHeartRateInfo(reducedRunningRecordOverallInfos);
-
-        User user = userRepository.findByUserId(20L).orElse(null);
-        Character character = characterRepository.findById(32L).orElse(null);
-        Planet planet = planetRepository.findById(47L).orElse(null);
-        UserInfo userInfo = new UserInfo(user);
-        CharacterRecordInfo characterInfo = new CharacterRecordInfo(character,planet);
-
-//        RunningRecord rivalRecord = runningRecordRepository.findById(new ObjectId("654ce890ee843068f886b2a1")).orElse(null);
-//        RivalRunningRecordInfo rivalRunningRecordInfo = new RivalRunningRecordInfo(rivalRecord);
-
-        RunningRecord res = RunningRecord.builder()
-                .watchOrMobile(WatchOrMobile.MOBILE)
-                .location("대전 유성구 덕명동")
-                .user(userInfo)
-                .character(characterInfo)
+        RunningRecordInfo build = RunningRecordInfo.builder()
+                .userId(20L)
+                .characterId(38L)
+                .watchOrMobile(WatchOrMobile.WATCH)
+                .date(LocalDateTime.now())
+                .formattedDate("11월 11일 (토)")
                 .type(RunningType.ALONE)
-                .rivalRecord(null)
-                .runningRecordInfos(reducedRunningRecordOverallInfos)
-//                .secondPerSpeed(secondPerSpeed)
-//                .pace(paceInfo)
-//                .heartRate(heartRateInfo)
-                .averagePace(averagePace.doubleValue())
-                .totalTime(totalTime)
-                .totalDistance(totalDistance.doubleValue())
-                .averageSpeed(averageSpeed.doubleValue())
-                .averageHeartRate(averageHeartRate.doubleValue())
-                .createdAt(LocalDateTime.now())
+                .rivalRecordId(null)
+                .totalTime(10)
+                .totalDistance(100)
+                .averageSpeed(100)
+                .averageHeartRate(100)
+                .averagePace(100)
+                .initLatitude(36.3551347)
+                .initLongitude(127.2986507)
+                .winOrLose(WinOrLose.WIN)
+                .runningRecordInfos(runningRecordOverallInfos)
                 .build();
 
-        runningRecordRepository.save(res);
-
+        runningRecordService.saveRunningRecord(build);
     }
 }

@@ -37,7 +37,7 @@ public class RivalRunningRecordInfo {
         this.id = runningRecord.getId().toString();
         this.user = runningRecord.getUser();
         this.location = runningRecord.getLocation();
-        this.pace = runningRecord.getPace();
+//        this.pace = runningRecord.getPace();
         this.character = runningRecord.getCharacter();
         this.type = runningRecord.getType();
         this.runningRecordInfos = runningRecord.getRunningRecordInfos();

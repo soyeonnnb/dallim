@@ -44,7 +44,7 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
         RunningData runningData = runningDataList.get(position);
         // 데이터를 ViewHolder의 뷰에 바인딩합니다.
 
-        holder.formattedDate.setText(String.valueOf(formatDate(runningData.getDate())));
+        holder.formattedDate.setText(String.valueOf(formatDateWithDayOfWeek(runningData.getDate())));
 
         Log.e("거리", String.valueOf(runningData.getTotalDistance()));
 
@@ -126,17 +126,16 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
 
     // ms를 분:초로 변환해주는 컨버터(ex 00:00)
     public SpannableString convertTime(Long time) {
-        int hours = (int) (time / 3600);
         int minutes = (int) ((time % 3600) / 60);
         int seconds = (int) (time % 60);
 
-        String timeStr = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        String timeStr = String.format("%02d:%02d", minutes, seconds);
         return new SpannableString(timeStr);
     }
 
 
-    public String formatDate(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREAN);
+    public String formatDateWithDayOfWeek(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM월 dd일 (EEE)", Locale.KOREAN);
         return sdf.format(date);
     }
 }

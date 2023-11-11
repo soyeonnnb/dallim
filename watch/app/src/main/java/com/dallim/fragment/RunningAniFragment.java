@@ -65,8 +65,11 @@ public class RunningAniFragment extends Fragment {
                                 planetIndex == 3 ? "purple" :
                                         "red");
         int planetResId = getResources().getIdentifier(planetResourceName, "drawable", getContext().getPackageName());
-        ImageView planetView = view.findViewById(R.id.running_planet);
-        planetView.setImageResource(planetResId);
+
+        Glide.with(this)
+                .asGif()
+                .load(planetResId)
+                .into((android.widget.ImageView) view.findViewById(R.id.running_planet));
 
         // 캐릭터 이미지 설정
         String characterType = characterIndex == 0 ? "rabbit" :

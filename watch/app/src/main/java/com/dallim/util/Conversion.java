@@ -62,4 +62,29 @@ public class Conversion {
 
         return km;
     }
+
+    public static Map<String, Integer> doublePaceToPace(Double input) {
+        int totalSeconds = (int)(input * 60); // 더블 타입을 정수로 변환하여 초로 계산
+        int minutes = totalSeconds / 60; // 분 계산
+        int seconds = totalSeconds % 60; // 초 계산
+
+        // 결과를 맵에 저장
+        Map<String, Integer> resultMap = new HashMap<>();
+        resultMap.put("minutes", minutes);
+        resultMap.put("seconds", seconds);
+
+        return resultMap;
+    }
+
+    // int값인 초를 시간:분으로 변경
+    public static String secondsToTimeString(int seconds) {
+        int minutes = seconds / 60;
+        seconds = seconds % 60;
+
+        // 두 자릿수로 포맷팅
+        String minutesString = String.format("%02d", minutes);
+        String secondsString = String.format("%02d", seconds);
+
+        return minutesString + ":" + secondsString;
+    }
 }

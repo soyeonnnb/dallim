@@ -34,11 +34,11 @@ public class RunningData {
     private int evolutionStage;
     @ColumnInfo(name = "step_count")
     private double stepCount; // 발걸음
-    @ColumnInfo(name = "avgrage_pace")
+    @ColumnInfo(name = "average_pace")
     private double averagePace; // 평균 페이스
-    @ColumnInfo(name = "avgrage_speed")
+    @ColumnInfo(name = "average_speed")
     private double averageSpeed; // 평균 속력
-    @ColumnInfo(name = "avgrage_heart_rate")
+    @ColumnInfo(name = "average_heart_rate")
     private double averageHeartRate; // 평균 심박수
     @ColumnInfo(name = "type")
     private String type; // 혼자뛰었는지 같이 뛰었는지

@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { planetData } from '@/recoil/PlanetData';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
-// import BoomEffect from '@/components/common/BoomEffect';
 import CustomToast from '../common/CustomToast';
 import Planet from './PlanetBox';
 
@@ -20,9 +19,10 @@ import {
 type PlanetEditProps = {
   handleEquippedPlanetChange: (index: number) => void;
   onPlanetChange: (index: number) => void;
+  onPlanetPurchased: (index: number, cost: number) => void;
 };
 
-function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
+function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurchased }: PlanetEditProps) {
   const [userData, setUserData] = useRecoilState(userDataState);
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
   const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState,);  // 장착된 행성 인덱스
@@ -61,23 +61,20 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
   }
 
   function handlePurchaseCheck() {
-    console.log('행성을 구매할건지 체크');
     setPurchaseModalVisible(true);
   }
-
   async function handlePurchaseConfirm() {
-    console.log('구매 확인!');
     if (userPoint >= 2000) {
       try {
         const responseData = await postPlanetPurchase(selectedPlanetIndex);
         if (responseData.status === 'success' && responseData.data === true) {
-          setUserPoint(userPoint - 2000); // 포인트 차감
-          CustomToast({ type: 'success', text1: '구매 성공!' });
 
-          // test
-          setSelectedPlanetIsPurchased(true);
-          setSelectedPlanetIndex(selectedPlanetIndex);
-          setEquippedPlanetIndex(selectedPlanetIndex);
+          setTimeout(() => {
+            onPlanetPurchased(selectedPlanetIndex, 2000);
+            setSelectedPlanetIsPurchased(true);
+            setSelectedPlanetIndex(selectedPlanetIndex);
+            setEquippedPlanetIndex(selectedPlanetIndex);
+          }, 500);
 
           if (userData) {
             const newUserData = {
@@ -92,9 +89,8 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
             setUserData(newUserData);
           }
 
-          setPurchaseModalVisible(false); // 모달 닫기
-          // setShowConfetti(true); // 폭죽
-          // setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
+          CustomToast({ type: 'success', text1: '행성 구매 성공!' });
+          setPurchaseModalVisible(false);
         } else {
           CustomToast({
             type: 'error',
@@ -170,7 +166,6 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditPr
         handleConfirm={handlePurchaseConfirm}
         handleCancel={handlePurchaseCancel}
       />
-      {/* {showConfetti && <BoomEffect show={showConfetti} />} */}
     </S.Container>
   );
 }

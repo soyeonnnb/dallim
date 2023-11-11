@@ -25,12 +25,10 @@ import { postCharacterPurchase, updateEquippedCharacter } from '@/apis/EditApi';
 type CharacterEditProps = {
   handleEquippedCharacterChange: (index: number) => void;
   onCharacterChange: (index: number) => void;
+  onCharacterPurchased: (index: number, cost: number) => void;
 };
 
-function CharacterEdit({
-  handleEquippedCharacterChange,
-  onCharacterChange,
-}: CharacterEditProps) {
+function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange, onCharacterPurchased }: CharacterEditProps) {
   const [userData, setUserData] = useRecoilState(userDataState);
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
   const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
@@ -41,7 +39,6 @@ function CharacterEdit({
   // const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
   const [selectedCharacterExp, setSelectedCharacterExp] = useRecoilState(selectedCharacterExpState);
   const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] = useRecoilState(selectedCharacterIsPurchasedState);
-
   const [characterSelectModalVisible, setCharacterSelectModalVisible] = useState(false); // 캐릭터 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
   // const [showConfetti, setShowConfetti] = useState(false);
@@ -76,24 +73,23 @@ function CharacterEdit({
   }
 
   function handlePurchaseCheck() {
-    console.log('캐릭터를 구매할건지 체크');
     setPurchaseModalVisible(true);
   }
-
   async function handlePurchaseConfirm() {
-    console.log('구매 확인!');
+
     if (userPoint >= 4000) {
       try {
-        const responseData = await postCharacterPurchase(
-          selectedCharacterIndex,
-        );
+        const responseData = await postCharacterPurchase(selectedCharacterIndex);
         if (responseData.status === 'success' && responseData.data === true) {
-          setUserPoint(userPoint - 4000); // 포인트 차감
-          CustomToast({ type: 'success', text1: '구매 성공!' });
-          // test
-          setSelectedCharacterIsPurchased(true);
-          setSelectedCharacterIndex(selectedCharacterIndex);
-          setEquippedCharacterIndex(selectedCharacterIndex);
+
+          setTimeout(() => {
+            onCharacterPurchased(selectedCharacterIndex, 4000);
+
+            setSelectedCharacterIsPurchased(true);
+            setSelectedCharacterIndex(selectedCharacterIndex);
+            setEquippedCharacterIndex(selectedCharacterIndex);
+
+          }, 500);
 
           if (userData) {
             const newUserData = {
@@ -107,10 +103,11 @@ function CharacterEdit({
             };
             setUserData(newUserData);
           }
-          
-          setPurchaseModalVisible(false); // 모달 닫기
+
           // setShowConfetti(true); // 폭죽
           // setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
+          CustomToast({ type: 'success', text1: '구매 성공!' });
+          setPurchaseModalVisible(false); // 모달 닫기
         } else {
           CustomToast({
             type: 'error',
@@ -199,7 +196,6 @@ function CharacterEdit({
         toggleModal={toggleCharacterSelectModal}
         equippedCharacterChange={equippedCharacterChange}
       />
-
       <CharacterPurchaseCheckModal
         handleConfirm={handlePurchaseConfirm}
         handleCancel={handlePurchaseCancel}

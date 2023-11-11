@@ -46,9 +46,9 @@ public class UserController {
     @PatchMapping("/api/v1/user/nickname")
     public ApiResponse<?> updateUserNickname(@RequestBody UserNickName req){
         try {
-            boolean isDuplicateNickName = userSocialService.checkUserNickname(req.getNickname());
+            boolean isPossibleNickName = userSocialService.checkUserNickname(req.getNickname());
 
-            if (!isDuplicateNickName) {
+            if (isPossibleNickName) {
                 userSocialService.updateUserNickname(req.getNickname());
                 return ApiResponse.createSuccess("닉네임 변경 성공");
             }

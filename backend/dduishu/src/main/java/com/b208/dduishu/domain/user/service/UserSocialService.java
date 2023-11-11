@@ -70,7 +70,7 @@ public class UserSocialService {
 
     // 유저 닉네임 중복체크
     public boolean checkUserNickname(String nickname) {
-        return userRepository.existsByNickname(nickname);
+        return !userRepository.existsByNickname(nickname) && nickname.length() <= 5;
     }
 
     public UserPoint getUserPoint() {

@@ -20,7 +20,7 @@ import {
   meterToKMOrMeter,
 } from '@/recoil/RunningData';
 
-import Loading from '@/components/common/Loading';
+import Loading from '@/components/common/Loading_Run';
 
 interface Props {
   data?: RecordDetail;

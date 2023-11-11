@@ -1,28 +1,29 @@
 import styled from 'styled-components/native';
-import {ImageBackground, Image} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Animated} from 'react-native';
 
 export const Container = styled.View`
   flex: 1;
-`;
-
-export const BackgroundImage = styled(ImageBackground)`
-  flex: 1;
   width: 100%;
   height: 100%;
-  justify-content: center;
-  align-items: center;
 `;
+
+// export const BackgroundImage = styled.ImageBackground`
+//   flex: 1;
+//   width: 100%;
+//   height: 100%;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
 export const Body = styled.View`
   /* border-width: 1px;
   border-color: red; */
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   flex-direction: row;
   width: 100%;
-  height: 60%;
+  height: 50%;
 `;
 
 export const ThemeBox = styled.View`
@@ -31,8 +32,7 @@ export const ThemeBox = styled.View`
   justify-content: center;
   align-items: center;
   width: 20%;
-  height: 60%;
-  margin-top: 10%;
+  height: 90%;
 `;
 
 export const StyledGif = styled(FastImage)`
@@ -45,18 +45,21 @@ export const StyledGif = styled(FastImage)`
 export const Footer = styled.View`
   /* border-width: 1px;
   border-color: red; */
+  justify-content: center;
   align-items: center;
+  flex-direction: row;
   width: 100%;
-  height: 30%;
+  height: 50%;
 `;
 
-export const FooterBox = styled.View`
+export const CircleBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   justify-content: center;
+  align-items: flex-end;
   flex-direction: row;
   width: 70%;
-  height: 50%;
+  height: 80%;
 `;
 
 export const AnimatedFooterText = styled(Animated.Text)`

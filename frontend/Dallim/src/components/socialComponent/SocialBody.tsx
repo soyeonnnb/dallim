@@ -4,12 +4,13 @@ import * as S from './SocialBody.styles';
 import RankInfoBox from './RankInfoBox';
 import { fetchAllRank, fetchFriendRank } from '@/apis/SocialApi';
 import NoFriendImage from '@/assets/images/NoFriend.png';
+import Loading_Run from '../common/Loading_Run';
 
 type RankingInfo = {
   rank: number;
   userId: number;
-  characterIndex : number;
-  evolutionStage : number;
+  characterIndex: number;
+  evolutionStage: number;
   nickname: string;
   cumulativeDistance: number;
   level: number;
@@ -96,6 +97,7 @@ function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: Social
       </S.Top>
       <S.Body>
         <ScrollView>
+          {/* 수정중 */}
           {rankingData ? (
             rankingData.length > 0 ? (
               rankingData.map((info: RankingInfo, index) => (
@@ -114,16 +116,17 @@ function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: Social
                 </S.RankInfoBox>
               ))
             ) : (
-              <>
+              <S.LoadingBox>
                 <S.EmptyImage source={NoFriendImage} resizeMode="contain" />
                 <S.EmptyText style={{ marginRight: 10 }}>친구를 추가해주세요.</S.EmptyText>
-              </>
+              </S.LoadingBox>
             )
           ) : (
-            <S.LoadingView>
-              <S.AnimatedFooterText style={{ opacity: fadeAnim }}>로딩 중...</S.AnimatedFooterText>
 
-            </S.LoadingView>
+            <S.LoadingBox>
+              <Loading_Run />
+              {/* <S.AnimatedFooterText style={{ opacity: fadeAnim }}>로딩 중...</S.AnimatedFooterText> */}
+            </S.LoadingBox>
           )}
         </ScrollView>
       </S.Body>

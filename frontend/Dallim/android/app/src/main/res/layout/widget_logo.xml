@@ -11,7 +11,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:scaleType="fitStart"
-        android:src="@drawable/neondallim"
+        android:src="@drawable/calendar_character_01"
         />
 
 

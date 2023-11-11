@@ -121,15 +121,15 @@ function Main({ navigation }: MainProps) {
                 </S.Box>
                 <S.Box>
                   <S.ButtonStyle onPress={PolicyAction}>
-                    <S.PrivacyImg
+                    {/* <S.PrivacyImg
                       source={privacyPolicyIcon}
                       resizeMode="contain"
-                    />
-                    {/*  */}
-                    {/* <PrivacyPolicyIcon
-                      width={15}
-                      height={15}
-                      color="white"></PrivacyPolicyIcon> */}
+                    /> */}
+
+                    <PrivacyPolicyIcon
+                      width={35}
+                      height={35}
+                      color="white"></PrivacyPolicyIcon>
                   </S.ButtonStyle>
                 </S.Box>
               </S.GuideBox>

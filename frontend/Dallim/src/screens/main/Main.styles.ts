@@ -61,9 +61,10 @@ export const ButtonBox = styled.View`
 export const GuideBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 20%;
+  flex-direction: row;
+  width: 25%;
   height: 100%;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-start;
 `;
 

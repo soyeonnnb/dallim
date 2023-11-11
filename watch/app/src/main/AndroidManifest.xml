@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.dallim"
-    android:versionCode="2"
-    android:versionName="0.2">
+    package="com.dallim">
+
     <!-- package: 앱의 패키지 이름을 정의합니다. -->
     <!-- versionCode: 앱의 내부 버전 번호를 정의합니다. 이 번호는 사용자에게 보이지 않으며, 앱 업데이트를 관리하는 데 사용됩니다. -->
     <!-- versionName: 앱의 버전 이름을 정의합니다. 이 이름은 사용자에게 표시됩니다. -->
-    <uses-feature android:name="android.hardware.type.watch" /> <!-- 포그라운드 서비스 활성화 -->
+    <uses-feature android:name="android.hardware.type.watch" />
+    <!-- 포그라운드 서비스 활성화 -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- 바디 센서에 접근(심박수, 발걸음) -->
     <uses-permission android:name="android.permission.BODY_SENSORS" /> <!-- 기기가 절전 모드에 못 들어가게 하는 권한 -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />

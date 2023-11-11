@@ -49,8 +49,8 @@ export const PointText = styled.Text`
 `;
 
 export const ButtonBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: space-between;
   flex-direction: row;
   width: 90%;
@@ -59,11 +59,12 @@ export const ButtonBox = styled.View`
 `;
 
 export const GuideBox = styled.View`
-  border-width: 1px;
-  border-color: red;
-  width: 20%;
+  /* border-width: 1px;
+  border-color: red; */
+  flex-direction: row;
+  width: 25%;
   height: 100%;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-start;
 `;
 

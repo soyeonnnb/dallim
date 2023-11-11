@@ -15,13 +15,19 @@ export const ModalContent = styled.View`
   height: 300px;
 `;
 
+export const TextBox = styled.View`
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: 50%;
+`;
 export const ModalHeader = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 20%;
+  height: 80%;
 `;
 
 export const TitleText = styled.Text`
@@ -30,8 +36,8 @@ export const TitleText = styled.Text`
 `;
 
 export const ModalBody = styled.View`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -40,8 +46,8 @@ export const ModalBody = styled.View`
 `;
 
 export const ModalFooter = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   justify-content: space-between;
   align-items: center;

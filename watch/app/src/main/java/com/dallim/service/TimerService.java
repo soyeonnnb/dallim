@@ -119,7 +119,7 @@ public class TimerService extends Service {
                 Log.d("메이트", String.valueOf(mateDistance));
                 Log.d("내기록", String.valueOf(curDistance));
                 runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
-                
+
                 // 이긴 경우
                 if(curDistance >= lastDistance){
                     Log.e("상태", "이김");

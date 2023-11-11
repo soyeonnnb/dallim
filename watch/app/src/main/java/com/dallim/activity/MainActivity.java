@@ -70,10 +70,10 @@ public class MainActivity extends ComponentActivity{
         // 알림을 사용하기 위한 코드(오레오 이상 버전이면 실행)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             /*새로운 알림 채널 생성
-            * id : 채널의 아이디
-            * name : 사용자에게 보여지는 채널 이름
-            * 채널의 중요도 설정
-            * */
+             * id : 채널의 아이디
+             * name : 사용자에게 보여지는 채널 이름
+             * 채널의 중요도 설정
+             * */
             NotificationChannel serviceChannel = new NotificationChannel(
                     "dallim_channel",
                     "달림 알림",
@@ -165,10 +165,10 @@ public class MainActivity extends ComponentActivity{
 
 
     /*
-    * 요청에 대한 사용자의 권한 응답(승인 or 거절)을 받으면 실행된다.
-    * onRequestPermissionsResult는 프래그먼트에서 사용되길 권장한다.
-    * 하지만 메인 액티비티에서 권한 확인을 받는 게 맞아보여서 액티비티에서 사용함.
-    */
+     * 요청에 대한 사용자의 권한 응답(승인 or 거절)을 받으면 실행된다.
+     * onRequestPermissionsResult는 프래그먼트에서 사용되길 권장한다.
+     * 하지만 메인 액티비티에서 권한 확인을 받는 게 맞아보여서 액티비티에서 사용함.
+     */
 
     // 권한 요청을 시작하는 메서드
     private void checkPermission() {

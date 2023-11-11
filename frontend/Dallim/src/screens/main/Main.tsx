@@ -1,8 +1,8 @@
 import * as S from './Main.styles';
-import { useEffect, useState } from 'react';
-import { fetchUserProfile } from '@/apis/MainApi';
-import { characterData } from '@/recoil/CharacterData';
-import { planetData } from '@/recoil/PlanetData';
+import {useEffect, useState} from 'react';
+import {fetchUserProfile} from '@/apis/MainApi';
+import {characterData} from '@/recoil/CharacterData';
+import {planetData} from '@/recoil/PlanetData';
 import GuideIcon from '@/assets/icons/WatchIcon.png';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
 import StampModal from '@/components/mainComponent/StampModal';
@@ -22,13 +22,13 @@ import {
   equippedEvolutionStageState,
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 
 interface MainProps {
   navigation: any;
 }
 
-function Main({ navigation }: MainProps) {
+function Main({navigation}: MainProps) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
   const [isGuideModalVisible, setGuideModalVisible] = useState(false); // 가이드 모달
@@ -121,11 +121,6 @@ function Main({ navigation }: MainProps) {
                 </S.Box>
                 <S.Box>
                   <S.ButtonStyle onPress={PolicyAction}>
-                    {/* <S.PrivacyImg
-                      source={privacyPolicyIcon}
-                      resizeMode="contain"
-                    /> */}
-
                     <PrivacyPolicyIcon
                       width={35}
                       height={35}
@@ -172,9 +167,12 @@ function Main({ navigation }: MainProps) {
               </S.FooterBox>
 
               <S.StartBox>
-                {/* <S.StartButton onPress={() => navigation.navigate('GameStartStack', { userId: userId })}>
+                <S.StartButton
+                  onPress={() =>
+                    navigation.navigate('GameStartStack', {userId: userId})
+                  }>
                   <S.StartText>달리기</S.StartText>
-                </S.StartButton> */}
+                </S.StartButton>
               </S.StartBox>
             </S.Footer>
 

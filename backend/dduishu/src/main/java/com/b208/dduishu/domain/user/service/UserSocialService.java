@@ -81,8 +81,8 @@ public class UserSocialService {
         return res;
     }
 
-    public String getAccessToken(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> {
+    public String getAccessToken(String email, String type) {
+        User user = userRepository.findByEmailAndAccountType(email, type).orElseThrow(() -> {
             throw new NullPointerException();
         });
 

@@ -33,7 +33,7 @@ public class UserController {
     @PostMapping("/api/v1/user/token")
     public ApiResponse<?> getAccessToken(@RequestBody UserEmail req) {
         try {
-            String token = userSocialService.getAccessToken(req.getEmail());
+            String token = userSocialService.getAccessToken(req.getEmail(), req.getType());
 
             return ApiResponse.createSuccess(token);
         } catch (Exception e) {

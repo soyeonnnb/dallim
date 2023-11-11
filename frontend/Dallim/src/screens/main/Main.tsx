@@ -1,13 +1,13 @@
 import * as S from './Main.styles';
-import {useEffect, useState} from 'react';
-import {fetchUserProfile} from '@/apis/MainApi';
-import {characterData} from '@/recoil/CharacterData';
-import {planetData} from '@/recoil/PlanetData';
+import { useEffect, useState } from 'react';
+import { fetchUserProfile } from '@/apis/MainApi';
+import { characterData } from '@/recoil/CharacterData';
+import { planetData } from '@/recoil/PlanetData';
 import GuideIcon from '@/assets/icons/WatchIcon.png';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
 import StampModal from '@/components/mainComponent/StampModal';
 import SpinAnimation from '@/components/common/SpinAnimation';
-import Loading from '@/components/common/Loading';
+import Loading from '@/components/common/Loading_Run';
 import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
 import NotificationModal from '@/components/profileComponent/profileModal/NotificationModal';
 import privacyPolicyIcon from '@/assets/icons/privacyPolicyIcon.png';
@@ -22,13 +22,13 @@ import {
   equippedEvolutionStageState,
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
-import {useRecoilState, useSetRecoilState} from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
 interface MainProps {
   navigation: any;
 }
 
-function Main({navigation}: MainProps) {
+function Main({ navigation }: MainProps) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
   const [isGuideModalVisible, setGuideModalVisible] = useState(false); // 가이드 모달
@@ -93,7 +93,13 @@ function Main({navigation}: MainProps) {
   return (
     <S.Container>
       {isLoading ? (
-        <Loading />
+        <>
+          <S.BackgroundImage
+            source={require('@/assets/images/MainBackground4.png')}
+            resizeMode="cover">
+            <Loading />
+          </S.BackgroundImage>
+        </>
       ) : (
         <>
           <S.BackgroundImage

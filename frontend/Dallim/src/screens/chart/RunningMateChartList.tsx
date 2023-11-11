@@ -5,7 +5,7 @@ import * as S from './RunningMateChartList.styles';
 import {TouchableOpacity, Dimensions} from 'react-native';
 
 // 컴포넌트
-import Loading from '@/components/common/Loading';
+import Loading from '@/components/common/Loading_Run';
 import OverviewGraph from '@/components/chartComponent/detail/overview/OverviewGraph';
 
 // 아이콘

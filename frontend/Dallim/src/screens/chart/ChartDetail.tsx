@@ -4,7 +4,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import * as S from './ChartDetail.styles';
 import {ScrollView, TouchableOpacity} from 'react-native';
 import {fetchDetailRunningData} from '@/apis/ChartApi';
-import Loading from '@/components/common/Loading';
+import Loading from '@/components/common/Loading_Run';
 
 // 컴포넌트
 import Overview from '@/components/chartComponent/detail/overview/Overview';

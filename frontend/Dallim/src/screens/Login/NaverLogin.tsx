@@ -3,7 +3,7 @@ import {View, ActivityIndicator} from 'react-native';
 import WebView from 'react-native-webview';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Loading from '@/components/common/Loading';
+import Loading from '@/components/common/Loading_Run';
 import {postFcmToken} from '@/apis/LoginApi';
 
 interface NaverLoginProps {

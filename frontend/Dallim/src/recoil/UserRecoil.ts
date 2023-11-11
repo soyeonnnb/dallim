@@ -51,7 +51,7 @@ export const userPointState = atom<number>({
 
 export const userLevelState = atom<number>({
   key: 'userLevelState',
-  default: 0,
+  default: 1,
 });
 
 export const userExpState = atom<number>({
@@ -72,7 +72,7 @@ export const equippedEvolutionStageState = atom<number>({
 
 export const equippedCharacterLevelState = atom<number>({
   key: 'equippedCharacterLevelState',
-  default: 0,
+  default: 1,
 });
 
 export const equippedPlanetIndexState = atom<number>({
@@ -88,7 +88,7 @@ export const selectedCharacterIndexState = atom<number>({
 
 export const selectedCharacterLevelState = atom<number>({
   key: 'selectedCharacterLevelState',
-  default: 0,
+  default: 1,
 });
 
 export const selectedEvolutionStageState = atom<number>({

@@ -52,6 +52,7 @@ export const ButtonBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   justify-content: space-between;
+  flex-direction: row;
   width: 90%;
   height: 10%;
   flex-direction: row;
@@ -60,9 +61,10 @@ export const ButtonBox = styled.View`
 export const GuideBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 20%;
+  flex-direction: row;
+  width: 25%;
   height: 100%;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-start;
 `;
 
@@ -87,6 +89,10 @@ export const ImageStyle = styled.Image`
   height: 100%;
 `;
 
+export const PrivacyImg = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
 export const ButtonStyle = styled.TouchableOpacity`
   width: 100%;
   height: 100%;
@@ -128,7 +134,7 @@ export const Footer = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
-  height: 25%;
+  height: 20%;
 `;
 
 export const FooterBox = styled.View`
@@ -180,5 +186,5 @@ export const TabBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
-  height: 10%;
+  height: 15%;
 `;

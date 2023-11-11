@@ -20,7 +20,7 @@ export const Header = styled.View`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 20%;
+  height: 18%;
 `;
 
 export const Body = styled.View`
@@ -35,5 +35,5 @@ export const TabBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
-  height: 10%;
+  height: 12%;
 `;

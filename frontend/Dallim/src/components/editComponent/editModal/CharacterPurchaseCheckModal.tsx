@@ -1,8 +1,8 @@
 import * as S from './CharacterPurchaseCheckModal.styles';
-import {characterData} from '@/recoil/CharacterData';
-import {Modal} from 'react-native';
+import { characterData } from '@/recoil/CharacterData';
+import { Modal } from 'react-native';
 
-import {useRecoilState} from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
   selectedCharacterIndexState,
   selectedEvolutionStageState,
@@ -14,20 +14,10 @@ type ModalProps = {
   purchaseModalVisible: boolean;
 };
 
-function CharacterPurchaseCheckModal({
-  handleConfirm,
-  handleCancel,
-  purchaseModalVisible,
-}: ModalProps) {
-  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(
-    selectedCharacterIndexState,
-  );
-  const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(
-    selectedEvolutionStageState,
-  );
-
-  const CharacterData =
-    characterData[selectedCharacterIndex].evolutions[selectedEvolutionStage];
+function CharacterPurchaseCheckModal({ handleConfirm, handleCancel, purchaseModalVisible }: ModalProps) {
+  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
+  const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
+  const CharacterData = characterData[selectedCharacterIndex].evolutions[selectedEvolutionStage];
 
   return (
     <Modal

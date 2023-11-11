@@ -160,6 +160,13 @@ export const colors = {
     confirm: '#576599',
     cancel: '#E36F6F',
   },
+  chart: {
+    record: {
+      count: '#A4D3FE',
+      distance: '#A3B4F0',
+      time: '#C3A9F6',
+    },
+  },
 };
 
 export const borderRadius = {

@@ -12,7 +12,7 @@
         android:layout_marginTop="-10dp"
         android:src="@drawable/countdown_background" />
 
-    <com.runapp.view.CountdownTimerView
+    <com.dallim.view.CountdownTimerView
         android:id="@+id/countdownTimerView"
         android:layout_width="190dp"
         android:layout_height="190dp"

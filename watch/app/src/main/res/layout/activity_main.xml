@@ -13,7 +13,6 @@
         android:layout_height="90dp"
         android:background="@drawable/start"
         android:layout_gravity="center"
-        android:layout_marginLeft="10dp"
         />
 
     <ImageView

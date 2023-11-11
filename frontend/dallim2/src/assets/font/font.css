@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Amiri:ital@1&family=Caveat:wght@400;500&family=Cormorant+Garamond&family=Hi+Melody&family=Sunflower:wght@300;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap");
+
+/* 프리텐다드 - 메인 폰트 */
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}

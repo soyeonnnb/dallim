@@ -20,7 +20,7 @@ export const Header = styled.View`
   justify-content: center;
   align-items: center;
   width: 90%;
-  height: 40%;
+  height: 38%;
 `;
 
 export const Text = styled.Text`
@@ -180,7 +180,7 @@ export const TabBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
-  height: 10%;
+  height: 12%;
 `;
 
 // 캐릭터 띄우기

@@ -47,6 +47,10 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
       await AsyncStorage.setItem('userId', String(data.uesrId));
       await AsyncStorage.setItem('accessToken', data.accessToken);
       await postFcmToken();
+      setIsLoading(false);
+      navigation.navigate('BottomTab', {
+        screen: 'Main',
+      });
     } catch (error) {
       console.error('Error during login request:', error);
       throw error;
@@ -103,7 +107,9 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
           scalesPageToFit={false}
           style={{marginTop: 30}}
           source={{
-            uri: 'https://nid.naver.com/oauth2.0/authorize?client_id=U981wCCDuUbK6_3C3WJo&response_type=code&redirect_uri=https://k9b208.p.ssafy.io/login/oauth2/code/naver', // 네이버 로그인 페이지 URL
+            uri: 'https://nid.naver.com/oauth2.0/authorize?client_id=U981wCCDuUbK6_3C3WJo&response_type=code&redirect_uri=http://localhost:8080/login/oauth2/code/naver',
+
+            // uri: 'https://nid.naver.com/oauth2.0/authorize?client_id=U981wCCDuUbK6_3C3WJo&response_type=code&redirect_uri=https://k9b208.p.ssafy.io/login/oauth2/code/naver', // 네이버 로그인 페이지 URL
             headers: {
               'Accept-Language': 'ko-KR,ko',
             },
@@ -118,7 +124,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
           onNavigationStateChange={navState => {
             parseAuthCode(navState.url);
           }}
-          // uri: 'https://nid.naver.com/oauth2.0/authorize?client_id=U981wCCDuUbK6_3C3WJo&response_type=code&redirect_uri=http://localhost:8080/login/oauth2/code/naver',
+          // uri: 'https://nid.naver.com/oauth2.0/authorize?client_id=U981wCCDuUbK6_3C3WJo&response_type=code&redirect_uri=https://k9b208.p.ssafy.io/login/oauth2/code/naver', // 네이버 로그인 페이지 URL
         />
       )}
     </View>

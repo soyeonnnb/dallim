@@ -14,7 +14,7 @@ import {colors} from '@/components/common/globalStyles';
 
 interface Props {
   data: PaceSectionType[];
-  rivalData?: PaceSectionType[];
+  rivalData: PaceSectionType[];
   second: number;
   setSecond: any;
 }
@@ -23,6 +23,7 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
   const [sectionNum, setSectionNum] = useState<number>(0);
   const [parentWidth, setParentWidth] = useState(0);
   const [parentHeight, setParentHeight] = useState(0);
+
   const onLayout = (event: any) => {
     const {width, height} = event.nativeEvent.layout;
     setParentWidth(width);
@@ -30,7 +31,7 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
   };
 
   useEffect(() => {
-    setSectionNum(data.length + 1);
+    setSectionNum(data.length);
   }, []);
 
   return (
@@ -57,7 +58,7 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
         <S.SectionBox>
           <S.SectionBar>
             <S.SectionCircles>
-              {[...new Array(sectionNum)].map((x, rowIndex) => (
+              {[...new Array(sectionNum + 1)].map((x, rowIndex) => (
                 <S.SectionCircle parentWidth={parentWidth} key={rowIndex}>
                   <S.SectionCircleText>{rowIndex}</S.SectionCircleText>
                 </S.SectionCircle>
@@ -66,14 +67,17 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
           </S.SectionBar>
         </S.SectionBox>
         <S.RecordBox>
-          {rivalData?.map((record, rowIndex) => (
-            <RecordPreviewBox
-              parentHeight={parentHeight}
-              key={rowIndex}
-              record={record}
-              color={colors.grey._300}
-            />
-          ))}
+          {rivalData?.map((record, rowIndex) => {
+            if (rowIndex < sectionNum)
+              return (
+                <RecordPreviewBox
+                  parentHeight={parentHeight}
+                  key={rowIndex}
+                  record={record}
+                  color={colors.grey._300}
+                />
+              );
+          })}
         </S.RecordBox>
       </S.ScrollInBox>
     </S.Container>

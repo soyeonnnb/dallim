@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react';
 import { planetData } from '@/recoil/PlanetData';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
-import BoomEffect from '@/components/common/BoomEffect';
+// import BoomEffect from '@/components/common/BoomEffect';
 import CustomToast from '../common/CustomToast';
 import Planet from './PlanetBox';
 
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
   userDataState,
   equippedPlanetIndexState,
@@ -22,21 +22,14 @@ type PlanetEditProps = {
   onPlanetChange: (index: number) => void;
 };
 
-function PlanetEdit({
-  onPlanetChange,
-  handleEquippedPlanetChange,
-}: PlanetEditProps) {
+function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange }: PlanetEditProps) {
   const [userData, setUserData] = useRecoilState(userDataState);
-  const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState); // 장착된 행성 인덱스
-  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(
-    selectedPlanetIndexState,
-  ); // 선택된 행성 인덱스
-  const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] =
-    useRecoilState(selectedPlanetIsPurchasedState); // 행성 구매 여부
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
+  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState,);  // 장착된 행성 인덱스
+  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(selectedPlanetIndexState,); // 선택된 행성 인덱스
+  const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] = useRecoilState(selectedPlanetIsPurchasedState); // 행성 구매 여부
 
-  const [planetSelectModalVisible, setPlanetSelectModalVisible] =
-    useState(false); // 행성 선택 확인 모달
+  const [planetSelectModalVisible, setPlanetSelectModalVisible] = useState(false); // 행성 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -45,7 +38,6 @@ function PlanetEdit({
     const planetCount = planetData.length;
     onPlanetChange(selectedPlanetIndex % planetCount);
 
-    // DB에 대표 행성 변경 정보를 전송
     try {
       const responseData = await updateEquippedPlanet(selectedPlanetIndex);
       if (responseData.status === 'success') {
@@ -82,6 +74,11 @@ function PlanetEdit({
           setUserPoint(userPoint - 2000); // 포인트 차감
           CustomToast({ type: 'success', text1: '구매 성공!' });
 
+          // test
+          setSelectedPlanetIsPurchased(true);
+          setSelectedPlanetIndex(selectedPlanetIndex);
+          setEquippedPlanetIndex(selectedPlanetIndex);
+
           if (userData) {
             const newUserData = {
               ...userData,
@@ -95,10 +92,9 @@ function PlanetEdit({
             setUserData(newUserData);
           }
 
+          setPurchaseModalVisible(false); // 모달 닫기
           // setShowConfetti(true); // 폭죽
           // setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
-          setPurchaseModalVisible(false); // 모달 닫기
-
         } else {
           CustomToast({
             type: 'error',
@@ -174,7 +170,7 @@ function PlanetEdit({
         handleConfirm={handlePurchaseConfirm}
         handleCancel={handlePurchaseCancel}
       />
-      {showConfetti && <BoomEffect show={showConfetti} />}
+      {/* {showConfetti && <BoomEffect show={showConfetti} />} */}
     </S.Container>
   );
 }

@@ -3,7 +3,7 @@ import { characterData } from '@/recoil/CharacterData';
 import { useEffect, useState } from 'react';
 import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
 import CharacterSelectModal from './editModal/CharacterSelectModal';
-import BoomEffect from '@/components/common/BoomEffect';
+// import BoomEffect from '@/components/common/BoomEffect';
 import CustomToast from '../common/CustomToast';
 import Character from './CharacterBox';
 
@@ -11,11 +11,11 @@ import { useRecoilState } from 'recoil';
 import {
   userDataState,
   equippedCharacterIndexState,
-  equippedCharacterLevelState,
-  equippedEvolutionStageState,
+  // equippedCharacterLevelState,
+  // equippedEvolutionStageState,
   selectedCharacterIndexState,
   selectedCharacterLevelState,
-  selectedEvolutionStageState,
+  // selectedEvolutionStageState,
   selectedCharacterExpState,
   selectedCharacterIsPurchasedState,
   userPointState,
@@ -32,42 +32,25 @@ function CharacterEdit({
   onCharacterChange,
 }: CharacterEditProps) {
   const [userData, setUserData] = useRecoilState(userDataState);
-  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(
-    equippedCharacterIndexState,
-  );
-  const [equippedCharacterLevel, setEquippedCharacterLevel] = useRecoilState(
-    equippedCharacterLevelState,
-  );
-  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(
-    equippedEvolutionStageState,
-  );
-  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(
-    selectedCharacterIndexState,
-  );
-  const [selectedCharacterLevel, setSelectedCharacterLevel] = useRecoilState(
-    selectedCharacterLevelState,
-  );
-  const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(
-    selectedEvolutionStageState,
-  );
-  const [selectedCharacterExp, setSelectedCharacterExp] = useRecoilState(
-    selectedCharacterExpState,
-  );
-  const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] =
-    useRecoilState(selectedCharacterIsPurchasedState);
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
+  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
+  // const [equippedCharacterLevel, setEquippedCharacterLevel] = useRecoilState(equippedCharacterLevelState);
+  // const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
+  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
+  const [selectedCharacterLevel, setSelectedCharacterLevel] = useRecoilState(selectedCharacterLevelState);
+  // const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
+  const [selectedCharacterExp, setSelectedCharacterExp] = useRecoilState(selectedCharacterExpState);
+  const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] = useRecoilState(selectedCharacterIsPurchasedState);
 
-  const [characterSelectModalVisible, setCharacterSelectModalVisible] =
-    useState(false); // 캐릭터 선택 확인 모달
+  const [characterSelectModalVisible, setCharacterSelectModalVisible] = useState(false); // 캐릭터 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
-  const [showConfetti, setShowConfetti] = useState(false);
+  // const [showConfetti, setShowConfetti] = useState(false);
 
   async function equippedCharacterChange() {
     toggleCharacterSelectModal();
     const characterCount = characterData.length;
     onCharacterChange(selectedCharacterIndex % characterCount);
 
-    // DB에 대표 행성 변경 정보를 전송
     try {
       const responseData = await updateEquippedCharacter(
         selectedCharacterIndex,
@@ -107,7 +90,10 @@ function CharacterEdit({
         if (responseData.status === 'success' && responseData.data === true) {
           setUserPoint(userPoint - 4000); // 포인트 차감
           CustomToast({ type: 'success', text1: '구매 성공!' });
+          // test
           setSelectedCharacterIsPurchased(true);
+          setSelectedCharacterIndex(selectedCharacterIndex);
+          setEquippedCharacterIndex(selectedCharacterIndex);
 
           if (userData) {
             const newUserData = {
@@ -121,11 +107,10 @@ function CharacterEdit({
             };
             setUserData(newUserData);
           }
-
+          
+          setPurchaseModalVisible(false); // 모달 닫기
           // setShowConfetti(true); // 폭죽
           // setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
-          setPurchaseModalVisible(false); // 모달 닫기
-          
         } else {
           CustomToast({
             type: 'error',
@@ -220,7 +205,7 @@ function CharacterEdit({
         handleCancel={handlePurchaseCancel}
         purchaseModalVisible={purchaseModalVisible}
       />
-      {showConfetti && <BoomEffect show={showConfetti} />}
+      {/* {showConfetti && <BoomEffect show={showConfetti} />} */}
     </S.Container>
   );
 }

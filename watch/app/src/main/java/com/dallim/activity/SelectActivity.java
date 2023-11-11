@@ -1,9 +1,15 @@
 package com.dallim.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
@@ -31,7 +37,6 @@ public class SelectActivity extends ComponentActivity {
     private WearableRecyclerView recyclerView;
     private MenuAdapter menuAdapter;
     private List<MenuItem> menuList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,16 +71,41 @@ public class SelectActivity extends ComponentActivity {
                 MenuItem clickedItem = menuList.get(position);
                 switch (clickedItem.getTitle()) {
                     case "혼자 달리기":
-                        Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
-                        // 다른 액티비티로 값을 넘길 때 쓴다. 키 밸류로 구분
-                        intent.putExtra("run_type", "ALONE");
-                        countdownActivityResultLauncher.launch(intent);
+                        LayoutInflater inflater1 = getLayoutInflater();
+                        View dialogView = inflater1.inflate(R.layout.modal, null);
+
+                        TextView text = dialogView.findViewById(R.id.text_view);
+                        text.setText("혼자 달리기\n시작하시겠습니까?");
+
+                        Button cancel = dialogView.findViewById(R.id.cancel);
+                        Button finish = dialogView.findViewById(R.id.finish);
+                        finish.setText("시작");
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SelectActivity.this);
+                        builder.setView(dialogView);
+
+                        AlertDialog dialog = builder.create();
+                        if (dialog.getWindow() != null) {
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xD0000000));
+                        }
+                        dialog.show();
+
+                        cancel.setOnClickListener(b ->{
+                            dialog.dismiss();
+                        });
+
+                        finish.setOnClickListener(b ->{
+                            Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
+                            // 다른 액티비티로 값을 넘길 때 쓴다. 키 밸류로 구분
+                            intent.putExtra("run_type", "ALONE");
+                            countdownActivityResultLauncher.launch(intent);
+                        });
                         break;
                     case "함께 달리기":
                         runningService.getRunningMate(SelectActivity.this);
                         break;
                     case "기록 보기":
-                        intent = new Intent(SelectActivity.this, MyRecordActivity.class);
+                        Intent intent = new Intent(SelectActivity.this, MyRecordActivity.class);
                         startActivity(intent);
                         break;
                     case "설정":

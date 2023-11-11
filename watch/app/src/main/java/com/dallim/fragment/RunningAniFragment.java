@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dallim.R;
 import com.dallim.databinding.FragmentRunningAniBinding;
 import com.dallim.util.Conversion;
@@ -38,8 +39,6 @@ public class RunningAniFragment extends Fragment {
     private double lastDistance;
     private List<Double> mateDistance;
     private Boolean value = false;
-    private String myCha;
-    private String mateCha;
 
     @Nullable
     @Override
@@ -51,8 +50,6 @@ public class RunningAniFragment extends Fragment {
         long planetIndex = prefs.getLong("planetIndex", 0);
         int mateEvolutionStage = prefs.getInt("mate_evolution_stage", -1);
         int mateCharacterIndex = prefs.getInt("mate_character_index", -1);
-        System.out.println(mateEvolutionStage);
-        System.out.println(mateCharacterIndex);
 
         binding = FragmentRunningAniBinding.inflate(getLayoutInflater());
         // Inflate the layout for this fragment
@@ -64,11 +61,12 @@ public class RunningAniFragment extends Fragment {
                         planetIndex == 2 ? "blue" :
                                 planetIndex == 3 ? "purple" :
                                         "red");
-        int planetResId = getResources().getIdentifier(planetResourceName, "drawable", getContext().getPackageName());
+        int planetResId = getResources().getIdentifier(planetResourceName, "raw", getContext().getPackageName());
 
         Glide.with(this)
                 .asGif()
                 .load(planetResId)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into((android.widget.ImageView) view.findViewById(R.id.running_planet));
 
         // 캐릭터 이미지 설정
@@ -78,10 +76,11 @@ public class RunningAniFragment extends Fragment {
                                 "chick";
         String evolutionSuffix = evolutionStage == 1 ? "_run" : "egg_run";
         String characterResourceName = characterType + evolutionSuffix;
-        int characterResId = getResources().getIdentifier(characterResourceName, "drawable", getContext().getPackageName());
+        int characterResId = getResources().getIdentifier(characterResourceName, "raw", getContext().getPackageName());
 
         Glide.with(this)
                 .load(characterResId)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(binding.myCha);
 
         // ViewModel의 시간 데이터를 구독하고 UI 업데이트
@@ -94,6 +93,11 @@ public class RunningAniFragment extends Fragment {
         runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance -> {
             TextView distanceView = view.findViewById(R.id.ani_distance);
             distanceView.setText(distance.toString());
+
+            TextView remainDistanceText = view.findViewById(R.id.remaining_distance);
+            Double myDistance = runningViewModel.getOriDistance().getValue();
+            Log.e("거리", String.valueOf(conversion.mToKM(lastDistance - myDistance)));
+            remainDistanceText.setText("남은 거리 : " + String.valueOf(conversion.mToKM(lastDistance - myDistance)) + "km");
         });
 
         if (value) {
@@ -122,7 +126,8 @@ public class RunningAniFragment extends Fragment {
 
         Glide.with(this)
                 .asGif()
-                .load(R.drawable.up_arrow)
+                .load(R.raw.up_arrow)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into((android.widget.ImageView) view.findViewById(R.id.up_arrow));
 
         return view;
@@ -195,7 +200,7 @@ public class RunningAniFragment extends Fragment {
 
             // 리소스 이름 생성
             String characterResourceName = characterType + evolutionSuffix;
-            int characterResId = getResources().getIdentifier(characterResourceName, "drawable", getContext().getPackageName());
+            int characterResId = getResources().getIdentifier(characterResourceName, "raw", getContext().getPackageName());
 
             // 이미지 설정
             Glide.with(this)

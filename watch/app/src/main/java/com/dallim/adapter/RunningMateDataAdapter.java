@@ -147,11 +147,11 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
                 View dialogView = inflater1.inflate(R.layout.modal, null);
 
                 TextView text = dialogView.findViewById(R.id.text_view);
-                text.setText("함께달리기\n시작하시겠습니까?");
+                text.setText("함께 달리기\n시작하시겠습니까?");
 
                 Button cancel = dialogView.findViewById(R.id.cancel);
                 Button finish = dialogView.findViewById(R.id.finish);
-                finish.setText("선택");
+                finish.setText("시작");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                 builder.setView(dialogView);

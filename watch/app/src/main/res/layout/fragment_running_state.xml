@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/running_background"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/running_background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/panda_background_running">
@@ -16,14 +16,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="5dp">
 
             <TextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:fontFamily="@font/nps_font_regular"
+                android:fontFamily="@font/oagothic_medium"
                 android:gravity="center"
                 android:text="00:00"
                 android:textColor="@color/white"
@@ -31,33 +31,11 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/oagothic_medium"
-                android:gravity="center"
-                android:text="0.00"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="55dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal"
             android:weightSum="8">
 
@@ -66,14 +44,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
                 android:layout_weight="3"
                 android:gravity="center"
+                android:layout_marginRight="-10dp"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:gravity="center"
                     android:src="@drawable/speed" />
 
@@ -82,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:fontFamily="@font/nps_font_regular"
+                    android:fontFamily="@font/oagothic_medium"
                     android:gravity="center"
                     android:text="0’00”"
                     android:textColor="@color/white"
@@ -98,10 +76,9 @@
 
                 <Button
                     android:id="@+id/btn_finish"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/round_setting_btn"
-                    android:backgroundTint="@color/purple_100"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/finish_moon"
                     android:fontFamily="@font/oagothic_medium"
                     android:text="종료"
                     android:textColor="@color/black" />
@@ -113,14 +90,47 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginRight="20dp"
                 android:layout_weight="3"
+                android:gravity="center"
+                android:layout_marginLeft="-10dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:gravity="center"
+                    android:src="@drawable/distance" />
+
+                <TextView
+                    android:id="@+id/tv_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:fontFamily="@font/oagothic_medium"
+                    android:gravity="center"
+                    android:text="1.78km"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:gravity="center"
                     android:src="@drawable/heart" />
 
@@ -135,7 +145,15 @@
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     android:textStyle="bold" />
+                <ImageView
+                    android:id="@+id/down_arrow"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:src="@raw/down_arrow"/>
             </LinearLayout>
         </LinearLayout>
+
     </LinearLayout>
 </FrameLayout>
+

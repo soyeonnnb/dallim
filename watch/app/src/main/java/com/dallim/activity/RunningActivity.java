@@ -48,10 +48,7 @@ public class RunningActivity extends AppCompatActivity {
     private ActivityRunningBinding binding;
     private RunningViewModel runningViewModel;
     private RunningMateRecordViewModel runningMateRecordViewModel;
-    private List<RunDetail> runDetailsList = new ArrayList<>();
-    private AppDatabase db;
     private RunningData runningData;
-    private final Executor executor = Executors.newSingleThreadExecutor();
     private Long totalTime = 1L;
     private int speedCountTime = 0;
     private double totalSpeed = 0;
@@ -75,10 +72,6 @@ public class RunningActivity extends AppCompatActivity {
 
         prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
 
-        db = AppDatabase.getDatabase(getApplicationContext());
-
-
-        long startTime = System.currentTimeMillis();
         runningData = new RunningData();
         runningData.setUserId(prefs.getLong("userId", 0L));
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));

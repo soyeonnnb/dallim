@@ -11,7 +11,7 @@ import SpinAnimation from '@/components/common/SpinAnimation';
 
 import { runningSessionState, secondsElapsedState, isRunningState, totalDistanceState, displayDistanceState, lastPositionState } from '@/recoil/RunningRecoil';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import ExitModal from './ExitModal';
+import RuningModal from './RuningModal';
 
 interface Props {
   isVisible: boolean;
@@ -47,63 +47,29 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const [displayDistance, setDisplayDistance] = useRecoilState(displayDistanceState);
   const [lastPosition, setLastPosition] = useRecoilState(lastPositionState);
 
+  // 페이스 상태
+  const [pace, setPace] = useState('0:00');
+
   // 확인 모달
-  const [showExitModal, setShowExitModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   // 시작 및 종료 모달 구분을 위한 상태
   const [modalType, setModalType] = useState<'start' | 'stop' | null>(null);
 
-  // 위치 권한 요청 결과를 저장하기 위한 새로운 상태
+  // 위치 권한 상태를 로컬 상태로 관리
   const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
 
-  // 위치 권한 요청 결과에 따른 처리
-  useEffect(() => {
-    if (locationPermissionGranted && modalType === 'start') {
-      startRun();
-      setModalType(null); // 모달 타입 초기화
-      setShowExitModal(false); // 모달 숨기기
-    }
-  }, [locationPermissionGranted, modalType]);
-
+  // 데이터 잘 들어가는지 확인 용도
   useEffect(() => {
     console.log("업데이트된 runningRecordInfos 배열 크기: ", runningSession.runningRecordInfos.length);
     console.log("여기 왔나?? : ", JSON.stringify(runningSession, null, 2));
 
   }, [runningSession]);
 
-  // useEffect(() => {
-  //   if (isRunning) {
-  //     startTimer();
-  //     // startTracking();
-  //   } else if (timerIdRef.current) {
-  //     clearInterval(timerIdRef.current);
-  //   }
-  // }, [isRunning]);
-
-  // 위치 권한 요청 함수 (안드로이드용)
-  async function requestLocationPermission() {
-    try {
-      if (Platform.OS === 'android') {
-        return await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          {
-            title: "위치 권한",
-            message: "이 앱은 위치 추적 기능이 필요합니다.",
-            buttonNeutral: "나중에",
-            buttonNegative: "거부",
-            buttonPositive: "허용"
-          }
-        );
-      }
-      return 'granted';
-    } catch (err) {
-      console.warn(err);
-    }
-  }
-
   // 타이머와 위치 추적을 시작하는 함수
   const startRun = () => {
-    startTimer();
     startTracking();
+    console.log("시작하나?!!!!!!")
+    startTimer();
     setIsRunning(true);
   }
 
@@ -137,10 +103,35 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       .join(':');
   };
 
+  // m/s 페이스 변환 (초/km)
+  function msToPace(speed: number) {
+    if (speed === 0) return '0:00'; // 속도가 0일 경우
+
+    const paceSeconds = 1000 / speed; // m/s를 초/km로 변환
+    const minutes = Math.floor(paceSeconds / 60);
+    const seconds = Math.round(paceSeconds % 60);
+
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  }
+
+  // 위치 초기화 && 초기 위치 설정 필수!
+  useEffect(() => {
+    if (!lastPosition) {
+      Geolocation.getCurrentPosition((position) => {
+        setLastPosition({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+      });
+    }
+  }, [lastPosition]);
+
   // 위치 추적 시작 함수
   const startTracking = () => {
     const trackId = Geolocation.watchPosition((position) => {
       let distance = 0;
+
+      console.log("여기 체크 : " + lastPosition);
       if (lastPosition) {
         distance = calculateDistance(
           lastPosition.latitude,
@@ -148,7 +139,16 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
           position.coords.latitude,
           position.coords.longitude
         );
+      } else {
+        setLastPosition({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
       }
+
+      console.log("totalDistance : " + totalDistance);
+      console.log("distance : " + distance);
+
       const newTotalDistance = totalDistance + distance;
       const displayDistance = Math.round((newTotalDistance / 1000) * 100) / 100.0;
 
@@ -156,11 +156,14 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       const speedInKmH = speed * 3.6;
       const pace = speedInKmH !== 0 ? 60 / speedInKmH : 0;
 
+      const paceValue = msToPace(speed);
+      setPace(paceValue);
+
       const newLocationData = {
         second: position.timestamp, // (Axios)
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
-        distance: distance, // 이전에 계산한 거리 (Axios)
+        distance: newTotalDistance, // 이전에 계산한 거리 (Axios)
         speed: speed, // 이전에 계산한 속도 (Axios)
         pace: pace, // 이전에 계산한 페이스 (Axios)
       };
@@ -180,11 +183,10 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       (error) => {
         console.error(error);
       },
-      { enableHighAccuracy: true, distanceFilter: 0, interval: 10000 });
+      { enableHighAccuracy: true, distanceFilter: 0, interval: 1000 });
 
     trackIdRef.current = trackId;
   };
-
 
   // Haversine 공식을 사용하여 두 지점 간의 거리를 계산하는 함수
   function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -205,36 +207,65 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   // 모달 : 시작 텍스트 클릭
   const handleStartButton = () => {
     setModalType('start');
-    setShowExitModal(true);
+    setShowModal(true);
   };
   // 모달 : 종료 텍스트 클릭
   const handleStopButton = () => {
     setModalType('stop');
-    setShowExitModal(true);
+    setShowModal(true);
   };
 
   // 모달 : "확인"을 눌렀을 때의 동작
-  const handleConfirmExit = async () => {
+  const handleConfirm = async () => {
     if (modalType === 'start') {
-      const permission = await requestLocationPermission();
-      if (permission === 'granted') {
+      if (locationPermissionGranted) {
         startRun();
+      } else {
+        const permission = await requestLocationPermission();
+        if (permission === 'granted') {
+          setLocationPermissionGranted(true);
+          startRun();
+        } else {
+          console.warn("Location permission denied");
+        }
       }
-      setShowExitModal(false);
+      setShowModal(false);
       setModalType(null); // 모달 타입 초기화
     } else if (modalType === 'stop') {
       stopRun();
-      setShowExitModal(false);
+      setShowModal(false);
       setModalType(null); // 모달 타입 초기화
+
       // axios로 모아놓은 데이터 보내주기
     }
   };
 
   // 모달 : "취소"를 눌렀을 때의 동작
-  const handleCancelExit = () => {
-    setShowExitModal(false);
+  const handleCancel = () => {
+    setShowModal(false);
     setModalType(null);
   };
+
+  // 위치 권한 요청 함수 (안드로이드용)
+  async function requestLocationPermission() {
+    try {
+      if (Platform.OS === 'android') {
+        return await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: "위치 권한",
+            message: "이 앱은 위치 추적 기능이 필요합니다.",
+            buttonNeutral: "나중에",
+            buttonNegative: "거부",
+            buttonPositive: "허용"
+          }
+        );
+      }
+      return 'granted';
+    } catch (err) {
+      console.warn(err);
+    }
+  }
 
   // 컴포넌트 렌더링 시작
   return (
@@ -271,10 +302,10 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
             <S.RecodeBox>
               <S.RecodeLeft>
                 <S.RecodeTextBox>
-                  <S.RecodeTitle>러닝 시작 상태</S.RecodeTitle>
+                  <S.RecodeTitle>페이스</S.RecodeTitle>
                 </S.RecodeTextBox>
                 <S.RecodeBottomBox>
-                  <S.RecodeText>{isRunning}</S.RecodeText>
+                  <S.RecodeText>{pace} 초/km </S.RecodeText>
                 </S.RecodeBottomBox>
               </S.RecodeLeft>
               <S.RecodeRight>
@@ -312,11 +343,11 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
         </S.ModalContainer>
       </S.BackgroundImage>
 
-      <ExitModal
-        isVisible={showExitModal}
+      <RuningModal
+        isVisible={showModal}
         modalType={modalType}
-        onConfirm={handleConfirmExit}
-        onCancel={handleCancelExit}
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
       />
     </Modal>
   );

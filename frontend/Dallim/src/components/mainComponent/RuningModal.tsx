@@ -2,14 +2,14 @@
 import React from 'react';
 import { Modal, View, Text, Button } from 'react-native';
 
-interface ExitModalProps {
+interface ModalProps {
     isVisible: boolean;
     modalType: string | null;
     onConfirm: () => void;
     onCancel: () => void;
 }
 
-const ExitModal: React.FC<ExitModalProps> = ({ isVisible, modalType, onConfirm, onCancel }) => {
+const RuningModal: React.FC<ModalProps> = ({ isVisible, modalType, onConfirm, onCancel }) => {
     return (
         <Modal visible={isVisible}>
             <View>
@@ -22,4 +22,4 @@ const ExitModal: React.FC<ExitModalProps> = ({ isVisible, modalType, onConfirm, 
     );
 };
 
-export default ExitModal;
+export default RuningModal;

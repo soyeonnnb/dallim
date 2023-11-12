@@ -78,9 +78,10 @@ export const displayDistanceState = atom<number>({
 interface Position {
   latitude: number;
   longitude: number;
-  
 }
+
 export const lastPositionState = atom<Position | null>({
   key: 'lastPositionState',
   default: null,
 });
+

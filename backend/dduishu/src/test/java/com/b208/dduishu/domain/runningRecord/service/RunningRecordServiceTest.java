@@ -1,43 +1,24 @@
 package com.b208.dduishu.domain.runningRecord.service;
 
-import com.b208.dduishu.domain.character.entity.Character;
-import com.b208.dduishu.domain.character.repository.CharacterRepository;
-import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
-import com.b208.dduishu.domain.planet.entity.Planet;
-import com.b208.dduishu.domain.planet.repository.PlanetRepository;
 import com.b208.dduishu.domain.runningRecord.document.*;
-import com.b208.dduishu.domain.runningRecord.dto.CharacterRecordInfo;
-import com.b208.dduishu.domain.runningRecord.dto.request.RivalRunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverallInfo;
-import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
-import com.b208.dduishu.domain.user.dto.request.UserInfo;
-import com.b208.dduishu.domain.user.entity.User;
-import com.b208.dduishu.domain.user.entity.UserLevel;
-import com.b208.dduishu.domain.user.repository.UserRepository;
 import org.bson.types.ObjectId;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
-import static java.util.stream.Collectors.toList;
-import static org.junit.jupiter.api.Assertions.*;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 @SpringBootTest
 class RunningRecordServiceTest {

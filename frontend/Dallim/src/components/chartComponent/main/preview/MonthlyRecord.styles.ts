@@ -28,15 +28,14 @@ export const AverageCompares = styled.View`
 export const SmallContainer = styled.View`
   width: 100%;
   flex-direction: row;
-  flex: 1;
   justify-content: space-between;
   align-items: center;
 `;
 export const SmallCircle = styled.View<{bgColor: string}>`
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   background-color: ${props => props.bgColor};
-  border-radius: 70px;
+  border-radius: 15px;
   justify-content: center;
   align-items: center;
 `;
@@ -47,6 +46,7 @@ export const SmallView = styled.View`
 `;
 export const SmallName = styled.Text`
   color: gray;
+  font-size: 13px;
 `;
 export const SmallContent = styled.Text`
   font-weight: 800;
@@ -76,11 +76,12 @@ export const FriendText = styled.View`
 
 export const FriendTitle = styled.Text`
   color: gray;
+  font-size: 13px;
 `;
 
 export const FriendName = styled.Text`
   font-weight: 800;
-  font-size: 20px;
+  font-size: 18px;
   color: black;
 `;
 

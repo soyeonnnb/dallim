@@ -27,19 +27,20 @@ export const Component = styled.View`
   align-items: center;
 `;
 export const Circle = styled.View<{bgColor: string}>`
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   background-color: ${props => props.bgColor};
   margin-bottom: 10px;
-  border-radius: 70px;
+  border-radius: 18px;
   justify-content: center;
   align-items: center;
 `;
 export const Name = styled.Text`
   color: gray;
+  font-size: 13px;
 `;
 export const Content = styled.Text`
   font-weight: 800;
-  font-size: 19px;
+  font-size: 17px;
   color: black;
 `;

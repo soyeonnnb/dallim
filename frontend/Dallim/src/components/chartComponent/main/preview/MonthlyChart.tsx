@@ -10,7 +10,7 @@ interface Props {
   };
   setSelectedYearMonth: any;
   previewMonthRankingRecords: {
-    stacks: {value: number; color: string; id: string}[];
+    stacks: {value: number; color: string; id: string; marginBottom?: number}[];
     label: string;
   }[];
 }
@@ -55,7 +55,19 @@ function MonthlyChart({previewMonthRankingRecords}: Props) {
                   barWidth={barWidth}
                   height={scrollViewHeight * 0.75}
                   hideYAxisText
-                  yAxisColor="rgba(0, 0, 0, 0)"
+                  yAxisThickness={0}
+                  barBorderRadius={4}
+                  spacing={30}
+                  xAxisColor="gray"
+                  xAxisLabelTextStyle={
+                    {
+                      // justifyContent: 'center',
+                      // textAlign: 'center',
+                      // backgroundColor: 'aqua',
+                    }
+                  }
+                  barMarginBottom={100}
+                  isAnimated={true}
                 />
               )}
               showsHorizontalScrollIndicator={false} // 가로 스크롤바 표시

@@ -18,7 +18,7 @@ interface Props {
     };
   };
   previewMonthRankingRecords: {
-    stacks: {value: number; color: string; id: string}[];
+    stacks: {value: number; color: string; id: string; marginBottom?: number}[];
     label: string;
   }[];
 }

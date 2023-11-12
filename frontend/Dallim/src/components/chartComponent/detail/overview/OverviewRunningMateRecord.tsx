@@ -8,7 +8,7 @@ import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 import {PaceChartDataType, RecordDetail, RivalRecord} from '@/apis/ChartApi';
 import {
   calculatePace,
-  secondToHourMinuteSeconds,
+  secondToMinuteSeconds,
   meterToKMOrMeter,
 } from '@/recoil/RunningData';
 import OverviewGraph from './OverviewGraph';
@@ -60,7 +60,7 @@ function OverviewRunningMateRecord({
             />
             <RecordPreview
               type="time"
-              record={secondToHourMinuteSeconds(data.totalTime)}
+              record={secondToMinuteSeconds(data.totalTime)}
             />
           </S.Records>
         </S.Info>

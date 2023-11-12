@@ -15,6 +15,7 @@ import ArrowRight from '@/assets/icons/ArrowRight';
 import {MonthlyRecords} from '@/apis/ChartApi';
 import {CalendarType, getDateObject} from '@/recoil/CalendarData';
 import {numberToTwoString} from '@/recoil/RunningData';
+import {setDay} from 'date-fns';
 
 interface Props {
   isClicked?: boolean;
@@ -41,8 +42,8 @@ function ChartCalendar({
   const [markedDates, setMarkedDates] = useState<{[key: string]: MarkType}>({});
   const [dayHaveDatas, setDayHaveDatas] = useState<string[]>([]);
 
-  const defaultSelectedColor = colors.purple._100;
-  const clickedSelectedColor = colors.purple._800;
+  const defaultSelectedColor = 'white';
+  const clickedSelectedColor = colors.purple._900;
 
   type MarkType = {
     selected?: boolean;
@@ -77,6 +78,24 @@ function ChartCalendar({
     });
     setMarkedDates(marks);
     setDayHaveDatas(keyList);
+    // setMarkedDates({
+    //   '2023-11-06': {
+    //     selected: true,
+    //     selectedTextColor: colors.purple._800,
+    //     selectedColor: defaultSelectedColor,
+    //   },
+    //   '2023-11-09': {
+    //     selected: true,
+    //     selectedTextColor: colors.purple._800,
+    //     selectedColor: defaultSelectedColor,
+    //   },
+    //   '2023-11-10': {
+    //     selected: true,
+    //     selectedTextColor: colors.purple._800,
+    //     selectedColor: defaultSelectedColor,
+    //   },
+    // });
+    // setDayHaveDatas(['2023-11-06', '2023-11-09', '2023-11-10']);
   }, []);
 
   // 달 바뀜
@@ -142,10 +161,14 @@ function ChartCalendar({
       setIsClicked(true);
     }
   };
-
+  const [calendarHeight, setCalendarHeight] = useState<number>();
+  const onLayout = (event: any) => {
+    const {height} = event.nativeEvent.layout;
+    setCalendarHeight(height);
+  };
   return (
     <S.Container>
-      <S.CalendarContainer>
+      <S.CalendarContainer onLayout={onLayout}>
         <CalendarList
           style={{
             width: Dimensions.get('window').width, // calendar scroll시 가운데로 가도록 해줌
@@ -164,18 +187,23 @@ function ChartCalendar({
           }}
           theme={{
             calendarBackground: 'transparent',
-            textDayFontSize: 20, // 날짜 폰트 크기
+            textDayFontSize: 17, // 날짜 폰트 크기
             textDayHeaderFontSize: 17,
             dayTextColor: 'white', // 날짜 폰트 색깔
-            weekVerticalMargin: 10,
+            // weekVerticalMargin: 10,
             todayTextColor: 'yellow',
             // 어쩔 수 없는 에러. 타입스크립트로 인해 발생.
+            'stylesheet.calendar.main': {
+              container: {
+                height: calendarHeight,
+              },
+            },
             'stylesheet.calendar.header': {
               header: {
                 flexDirection: 'row',
                 justifyContent: 'center',
                 alignItems: 'center',
-                marginBottom: 30,
+                // marginBottom: 30,
               },
               monthText: {
                 lineHeight: 30,
@@ -183,6 +211,15 @@ function ChartCalendar({
                 color: 'white',
                 marginLeft: 30,
                 marginRight: 30,
+              },
+            },
+            'stylesheet.day.single': {
+              base: {
+                overflow: 'hidden',
+                height: 34,
+                alignItems: 'center',
+                width: 38,
+                borderWidth: 2,
               },
             },
           }}

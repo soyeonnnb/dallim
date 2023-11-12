@@ -15,7 +15,7 @@ import ArrowLeft from '@/assets/icons/ArrowLeft';
 import {
   numberToTwoString,
   calculatePace,
-  secondToHourMinuteSeconds,
+  secondToMinuteSeconds,
   meterToKMOrMeter,
 } from '@/recoil/RunningData';
 import {PaceChartDataType, fetchRunningMateRunningList} from '@/apis/ChartApi';

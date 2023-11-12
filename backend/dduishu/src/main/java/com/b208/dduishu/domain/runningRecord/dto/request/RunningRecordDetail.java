@@ -33,7 +33,7 @@ public class RunningRecordDetail {
     private String id;
     private String location;
     private WatchOrMobile watchOrMobile;
-    private List<Double> secondPerSpeed;
+    private List<Double> distancePerSpeed;
     private HeartRateInfo heartRate;
     private PaceInfo pace;
     private double stepCount; //
@@ -52,7 +52,7 @@ public class RunningRecordDetail {
     @Builder
     public RunningRecordDetail(ObjectId id, WinOrLose winOrLose, WatchOrMobile watchOrMobile, String location, UserInfo user, CharacterRecordInfo character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed, int averageCalory, LocalDateTime createdAt) {
 
-        List<Double> secondPerSpeed = getSecondPerSpeed(runningRecordInfos);
+        List<Double> distancePerSpeed = getDistancePerSpeed(runningRecordInfos);
         PaceInfo pace = getPaceInfo(runningRecordInfos, totalTime, totalDistance);
         HeartRateInfo heartRate = getHeartRateInfo(runningRecordInfos);
 
@@ -60,7 +60,7 @@ public class RunningRecordDetail {
         this.winOrLose = winOrLose;
         this.watchOrMobile = watchOrMobile;
         this.location = location;
-        this.secondPerSpeed = secondPerSpeed;
+        this.distancePerSpeed = distancePerSpeed;
         this.heartRate = heartRate;
         this.pace = pace;
         this.user = user;
@@ -166,8 +166,8 @@ public class RunningRecordDetail {
         return paceInfo;
     }
 
-    public List<Double> getSecondPerSpeed(List<RunningRecordOverallInfo> runningRecordInfos) {
-        Double[] secondPerSpeed = {0.0, 0.0, 0.0}; // 각 속도 범주에 대한 초를 계산하기 위한 배열
+    public List<Double> getDistancePerSpeed(List<RunningRecordOverallInfo> runningRecordInfos) {
+        Double[] distancePerSpeed = {0.0, 0.0, 0.0}; // 각 속도 범주에 대한 초를 계산하기 위한 배열
 
         for (int i = 1; i < runningRecordInfos.size(); i++) {
             RunningRecordOverallInfo currentRecord = runningRecordInfos.get(i);
@@ -179,15 +179,15 @@ public class RunningRecordDetail {
             double distanceDifference = currentRecord.getDistance() - previousRecord.getDistance();
 
             if (speedKmH < SLOW_WALK_THRESHOLD) {
-                secondPerSpeed[0] += distanceDifference;
+                distancePerSpeed[0] += distanceDifference;
             } else if (speedKmH < FAST_WALK_THRESHOLD) {
-                secondPerSpeed[1] += distanceDifference;
+                distancePerSpeed[1] += distanceDifference;
             } else {
-                secondPerSpeed[2] += distanceDifference;
+                distancePerSpeed[2] += distanceDifference;
             }
         }
 
-        return Arrays.stream(secondPerSpeed)
+        return Arrays.stream(distancePerSpeed)
                 .map(speed -> new BigDecimal(speed).setScale(1, RoundingMode.HALF_UP))
                 .map(o -> o.doubleValue())
                 .collect(toList());

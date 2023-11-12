@@ -84,4 +84,3 @@ export const lastPositionState = atom<Position | null>({
   key: 'lastPositionState',
   default: null,
 });
-

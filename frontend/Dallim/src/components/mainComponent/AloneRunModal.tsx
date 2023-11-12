@@ -1,5 +1,5 @@
 import * as S from './AloneRunModal.styles';
-import { equippedCharacterIndexState, equippedEvolutionStageState, equippedPlanetIndexState } from '@/recoil/UserRecoil';
+import { equippedCharacterIndexState, equippedEvolutionStageState, equippedPlanetIndexState, userIdState } from '@/recoil/UserRecoil';
 import { PermissionsAndroid, Platform } from 'react-native';
 import { characterData } from '@/recoil/CharacterData';
 import React, { useEffect, useRef, useState } from 'react';
@@ -36,6 +36,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const timerIdRef = useRef<NodeJS.Timeout | null>(null);
   const trackIdRef = useRef<number | null>(null); // 위치 추적 ID 저장을 위한 참조 변수
 
+  const userId = useRecoilValue(userIdState);
   const equippedCharacterIndex = useRecoilValue(equippedCharacterIndexState);
   const equippedEvolutionStage = useRecoilValue(equippedEvolutionStageState);
   const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState);
@@ -131,7 +132,6 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
     const trackId = Geolocation.watchPosition((position) => {
       let distance = 0;
 
-      console.log("여기 체크 : " + lastPosition);
       if (lastPosition) {
         distance = calculateDistance(
           lastPosition.latitude,
@@ -146,11 +146,8 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
         });
       }
 
-      console.log("totalDistance : " + totalDistance);
-      console.log("distance : " + distance);
-
       const newTotalDistance = totalDistance + distance;
-      const displayDistance = Math.round((newTotalDistance / 1000) * 100) / 100.0;
+      const displayDistance = Math.round((newTotalDistance) * 100) / 100.0;
 
       const speed = position.coords.speed ?? 0;
       const speedInKmH = speed * 3.6;
@@ -160,12 +157,12 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       setPace(paceValue);
 
       const newLocationData = {
-        second: position.timestamp, // (Axios)
+        second: position.timestamp,
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
-        distance: newTotalDistance, // 이전에 계산한 거리 (Axios)
-        speed: speed, // 이전에 계산한 속도 (Axios)
-        pace: pace, // 이전에 계산한 페이스 (Axios)
+        distance: newTotalDistance, 
+        speed: speed, 
+        pace: pace, 
       };
 
       // 데이터 누적 업데이트
@@ -226,7 +223,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
           setLocationPermissionGranted(true);
           startRun();
         } else {
-          console.warn("Location permission denied");
+          console.warn("위치 권한 허용을 하셔야 함.");
         }
       }
       setShowModal(false);
@@ -235,6 +232,26 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       stopRun();
       setShowModal(false);
       setModalType(null); // 모달 타입 초기화
+
+      // 수집한 데이터를 변수에 저장
+      const endTime = secondsElapsed; // 종료 시간 (타이머 시간)
+      const endTotalDistance = totalDistance; // 총 거리
+      // 평균 속력 계산
+      const averageSpeed = endTotalDistance / endTime;
+
+      console.log("1 / initialLatitudeState(시작 위도) : " + runningSession.runningRecordInfos[0].latitude);
+      console.log("1 / initialLongitudeState(시작 경도) : " + runningSession.runningRecordInfos[0].longitude);
+      console.log("1 / watchOrMobile(모바일인가요?) : " + runningSession.watchOrMobile);
+      console.log("1 / userId(유저 Id) : " + userId);
+      console.log("1 / characterId(캐릭터 Id) : " + equippedCharacterIndex);
+      console.log("1 / type (홀로 달리기) : " + runningSession.type);
+      console.log("1 / rivalRecord(라이벌 없음) : " + runningSession.rivalRecord);
+
+      console.log("2 / totalTime(초) : " + secondsElapsed);
+      console.log("2 / totalDistance(M) : " + totalDistance);
+      console.log("2 / averageSpeed(m/s) : " + averageSpeed);
+      console.log("2 / createdAt(작성시간) : " + runningSession.createdAt);
+
 
       // axios로 모아놓은 데이터 보내주기
     }
@@ -313,7 +330,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
                   <S.RecodeTitle>총 거리</S.RecodeTitle>
                 </S.RecodeTextBox>
                 <S.RecodeBottomBox>
-                  <S.RecodeText>{displayDistance} km</S.RecodeText>
+                  <S.RecodeText>{displayDistance} 미터</S.RecodeText>
                 </S.RecodeBottomBox>
               </S.RecodeRight>
             </S.RecodeBox>

@@ -56,6 +56,31 @@ public class RunningAniFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = binding.getRoot();
 
+        Activity activity = getActivity();
+        // Activity와 동일한 ViewModel 인스턴스 가져오기
+        if (activity != null) {
+            // 액티비티를 통해 애플리케이션의 Application 객체를 가져옵니다.
+            MyApplication myApplication = (MyApplication) activity.getApplication();
+
+            // ViewModel을 초기화할 때 애플리케이션의 Application 객체를 사용합니다.
+            runningViewModel = new ViewModelProvider(myApplication).get(RunningViewModel.class);
+            value = runningViewModel.getPairCheck().getValue();
+            if (value) {
+                // 남은 시간 보여주게 설정
+                binding.remainingDistance.setVisibility(View.VISIBLE);
+                // 거리차이 보여주게 설정
+                binding.singleDifference.setVisibility(View.VISIBLE);
+                runningMateRecordViewModel = new ViewModelProvider(myApplication).get(RunningMateRecordViewModel.class);
+                mateDistance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
+                // 마지막 거리 저장
+                lastDistance = mateDistance.get(mateDistance.size() - 1);
+                kmLastDistance = conversion.mToKM(lastDistance);
+            }else{
+                // 혼자 달리기일 경우 페이스 보여주게
+                binding.singlePace.setVisibility(View.VISIBLE);
+            }
+        }
+
         // 행성 이미지 설정
         String planetResourceName = "planet" + (planetIndex == 0 ? "black" :
                 planetIndex == 1 ? "yellow" :
@@ -88,6 +113,12 @@ public class RunningAniFragment extends Fragment {
         runningViewModel.getElapsedTime().observe(getViewLifecycleOwner(), elapsedTime -> {
             TextView timeView = view.findViewById(R.id.ani_time);
             timeView.setText(elapsedTime);
+        });
+
+        // ms로 들어옴
+        runningViewModel.getMsPace().observe(getViewLifecycleOwner(), pace -> {
+            TextView paceView = view.findViewById(R.id.pace);
+            paceView.setText(pace);
         });
 
         runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance -> {
@@ -136,23 +167,6 @@ public class RunningAniFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Activity activity = getActivity();
-        // Activity와 동일한 ViewModel 인스턴스 가져오기
-        if (activity != null) {
-            // 액티비티를 통해 애플리케이션의 Application 객체를 가져옵니다.
-            MyApplication myApplication = (MyApplication) activity.getApplication();
-
-            // ViewModel을 초기화할 때 애플리케이션의 Application 객체를 사용합니다.
-            runningViewModel = new ViewModelProvider(myApplication).get(RunningViewModel.class);
-            value = runningViewModel.getPairCheck().getValue();
-            if (value) {
-                runningMateRecordViewModel = new ViewModelProvider(myApplication).get(RunningMateRecordViewModel.class);
-                mateDistance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
-                // 마지막 거리 저장
-                lastDistance = mateDistance.get(mateDistance.size() - 1);
-                kmLastDistance = conversion.mToKM(lastDistance);
-            }
-        }
     }
 
     // 미터 값을 킬로미터로 변환하고 소수점 두 자리로 포매팅하는 메소드

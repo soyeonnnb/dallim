@@ -30,7 +30,7 @@ public class RivalRunningRecordInfo {
     private CharacterRecordInfo character;
     private RunningType type;
     private List<RunningRecordOverallInfo> runningRecordInfos;
-    private double totalTime;
+    private int totalTime;
     private double totalDistance;
     private double averageSpeed;
     private double averagePace;
@@ -41,7 +41,6 @@ public class RivalRunningRecordInfo {
         this.id = runningRecord.getId().toString();
         this.user = runningRecord.getUser();
         this.location = runningRecord.getLocation();
-        this.pace = getPaceInfo(runningRecord.getRunningRecordInfos(), runningRecord.getTotalTime(), runningRecord.getTotalDistance());
         this.character = runningRecord.getCharacter();
         this.type = runningRecord.getType();
         this.runningRecordInfos = runningRecord.getRunningRecordInfos();
@@ -50,6 +49,10 @@ public class RivalRunningRecordInfo {
         this.averageSpeed = runningRecord.getAverageSpeed();
         this.averagePace = runningRecord.getAveragePace();
         this.createdAt = runningRecord.getCreatedAt();
+    }
+
+    void setPace(List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance) {
+        this.pace = getPaceInfo(runningRecordInfos, totalTime, totalDistance);
     }
 
     public PaceInfo getPaceInfo(List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance) {

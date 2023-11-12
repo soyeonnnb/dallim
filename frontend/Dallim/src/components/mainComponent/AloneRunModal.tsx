@@ -35,7 +35,6 @@ interface LocationData {
 const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const timerIdRef = useRef<NodeJS.Timeout | null>(null);
 
-
   const equippedCharacterIndex = useRecoilValue(equippedCharacterIndexState);
   const equippedEvolutionStage = useRecoilValue(equippedEvolutionStageState);
   const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState);
@@ -45,19 +44,33 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const [isRunning, setIsRunning] = useRecoilState(isRunningState);
   const [totalDistance, setTotalDistance] = useRecoilState(totalDistanceState);
   const [displayDistance, setDisplayDistance] = useRecoilState(displayDistanceState);
-  const [lastPosition, setLastPosition] = useRecoilState(lastPositionState); // Recoil 상태로 정의
+  const [lastPosition, setLastPosition] = useRecoilState(lastPositionState);
 
-  const [showStart, setShowStart] = useState(true);
-  const [watchId, setWatchId] = useState<number | null>(null);
+  // 확인 모달
+  const [showExitModal, setShowExitModal] = useState(false);
+  // 시작 및 종료 모달 구분을 위한 상태
+  const [modalType, setModalType] = useState<'start' | 'stop' | null>(null);
 
+  // 위치 권한 요청 결과를 저장하기 위한 새로운 상태
+  const [locationPermissionGranted, setLocationPermissionGranted] = useState(false);
+
+  // 위치 권한 요청 결과에 따른 처리
   useEffect(() => {
-    if (isRunning) {
-      startTimer();
-      startTracking();
-    } else if (timerIdRef.current) {
-      clearInterval(timerIdRef.current);
+    if (locationPermissionGranted && modalType === 'start') {
+      startRun();
+      setModalType(null); // 모달 타입 초기화
+      setShowExitModal(false); // 모달 숨기기
     }
-  }, [isRunning]);
+  }, [locationPermissionGranted, modalType]);
+
+  // useEffect(() => {
+  //   if (isRunning) {
+  //     startTimer();
+  //     // startTracking();
+  //   } else if (timerIdRef.current) {
+  //     clearInterval(timerIdRef.current);
+  //   }
+  // }, [isRunning]);
 
   // 위치 권한 요청 함수 (안드로이드용)
   async function requestLocationPermission() {
@@ -80,37 +93,25 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
     }
   }
 
-  // 달리기 시작
-  const StartAlone = async () => {
-    const permission = await requestLocationPermission();
-    if (permission === 'granted') {
-      startRun();
-    }
-  };
-
   // 타이머와 위치 추적을 시작하는 함수
   const startRun = () => {
     startTimer();
     startTracking();
     setIsRunning(true);
-    setShowStart(true);
   }
-
-  const stopRun = () => {
-    if (timerIdRef.current) clearInterval(timerIdRef.current);
-    setIsRunning(false); // 타이머 실행 상태를 false로 설정
-  };
-
-  // "종료" 버튼 클릭 시 실행되는 함수
-  const handleStopButton = () => {
-    handleShowExitModal(); // 종료 확인 모달 표시
-  };
 
   const startTimer = () => {
     setSecondsElapsed(0); // 타이머 초기화
     timerIdRef.current = setInterval(() => {
       setSecondsElapsed(prevSeconds => prevSeconds + 1);
     }, 1000);
+  };
+
+  const stopRun = () => {
+    setSecondsElapsed(0); // 타이머 초기화
+
+    if (timerIdRef.current) clearInterval(timerIdRef.current);
+    setIsRunning(false); // 타이머 실행 상태를 false로 설정
   };
 
   // 초를 시:분:초 형식으로 변환하는 함수
@@ -124,10 +125,9 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       .join(':');
   };
 
-
   // 위치 추적 시작 함수
   const startTracking = () => {
-    const id = Geolocation.watchPosition((position) => {
+    Geolocation.watchPosition((position) => {
       let distance = 0;
       if (lastPosition) {
         distance = calculateDistance(
@@ -137,41 +137,42 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
           position.coords.longitude
         );
       }
-      setTotalDistance(prevTotal => {
-        const newTotal = prevTotal + distance;
-        setDisplayDistance(Math.round((newTotal / 1000) * 100) / 100.0); // 여기에서 km 단위로 변환하여 표시
-        return newTotal;
-      });
-      const speed = position.coords.speed ?? 0; // speed가 null이면 0을 사용
-      const speedInKmH = speed * 3.6; // m/s를 km/h로 변환
-      const pace = speedInKmH !== 0 ? 60 / speedInKmH : 0; // 페이스 계산
+      const newTotalDistance = totalDistance + distance;
+      const displayDistance = Math.round((newTotalDistance / 1000) * 100) / 100.0;
 
-      setRunningSession(oldRecords => {
-        const newLocationData = {
-          second: position.timestamp,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          distance: distance, // 이전에 계산한 거리
-          speed: speed, // 이전에 계산한 속도
-          pace: pace, // 이전에 계산한 페이스
-        };
-        console.log("ddddddddddddddddd : " + newLocationData);
-        return {
-          ...oldRecords, // 기존 상태의 다른 속성들을 유지
-          runningRecordInfos: [...oldRecords.runningRecordInfos, newLocationData]// runningRecordInfos 배열에 새 데이터 추가
-        };
-      });
-      setLastPosition({
+      const speed = position.coords.speed ?? 0;
+      const speedInKmH = speed * 3.6;
+      const pace = speedInKmH !== 0 ? 60 / speedInKmH : 0;
+
+      const newLocationData = {
+        second: position.timestamp, // (Axios)
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
+        distance: distance, // 이전에 계산한 거리 (Axios)
+        speed: speed, // 이전에 계산한 속도 (Axios)
+        pace: pace, // 이전에 계산한 페이스 (Axios)
+      };
+
+      console.log("현재 runningRecordInfos 배열 크기: ", runningSession.runningRecordInfos.length);
+      console.log("여기 왔나?? : ", JSON.stringify(newLocationData, null, 2));
+      
+      setRunningSession(oldRecords => ({
+        ...oldRecords,
+        runningRecordInfos: [...oldRecords.runningRecordInfos, newLocationData]
+      }));
+      setTotalDistance(newTotalDistance);
+      setDisplayDistance(displayDistance);
+      setLastPosition({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
       });
     },
       (error) => {
         console.error(error);
       },
-      { enableHighAccuracy: true, distanceFilter: 0, interval: 1000 });
-    setWatchId(id); // watcher ID 저장
+      { enableHighAccuracy: true, distanceFilter: 0, interval: 10000 }); // 우선 5초
   };
+
 
   // Haversine 공식을 사용하여 두 지점 간의 거리를 계산하는 함수
   function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -189,26 +190,37 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
     return deg * (Math.PI / 180);
   }
 
-  // 종료 모달
-  const [showExitModal, setShowExitModal] = useState(false);
-  // 종료 확인 모달 표시 함수
-  const handleShowExitModal = () => {
+  // 모달 : 시작 텍스트 클릭
+  const handleStartButton = () => {
+    setModalType('start');
     setShowExitModal(true);
-    console.log("모달 뜸");
   };
-  // 모달에서 "확인"을 눌렀을 때의 동작
-  const handleConfirmExit = () => {
-    stopRun(); // 타이머 멈추고 데이터 저장
-    setShowExitModal(false);
-    console.log("확인 누름 여기에서 axios로 보낼거야");
+  // 모달 : 종료 텍스트 클릭
+  const handleStopButton = () => {
+    setModalType('stop');
+    setShowExitModal(true);
   };
-  // 모달에서 "취소"를 눌렀을 때의 동작
+
+  // 모달 : "확인"을 눌렀을 때의 동작
+  const handleConfirmExit = async () => {
+    if (modalType === 'start') {
+      const permission = await requestLocationPermission();
+      if (permission === 'granted') {
+        startRun();
+      }
+      setShowExitModal(false);
+      setModalType(null); // 모달 타입 초기화
+    } else if (modalType === 'stop') {
+      stopRun();
+      setShowExitModal(false);
+      setModalType(null); // 모달 타입 초기화
+    }
+  };
+
+  // 모달 : "취소"를 눌렀을 때의 동작
   const handleCancelExit = () => {
     setShowExitModal(false);
-    if (watchId !== null) {
-      Geolocation.clearWatch(watchId); // 위치 추적 멈추기
-    }
-    console.log("취소 누름");
+    setModalType(null);
   };
 
   // 컴포넌트 렌더링 시작
@@ -237,7 +249,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
               <S.ButtonBackground
                 source={require('@/assets/images/StartButton.png')}
                 resizeMode="contain">
-                <S.RunButton onPress={isRunning ? handleStopButton : StartAlone}>
+                <S.RunButton onPress={isRunning ? handleStopButton : handleStartButton}>
                   <S.StartText>{isRunning ? '종료' : '시작'}</S.StartText>
                 </S.RunButton>
               </S.ButtonBackground>
@@ -289,6 +301,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
       <ExitModal
         isVisible={showExitModal}
+        modalType={modalType}
         onConfirm={handleConfirmExit}
         onCancel={handleCancelExit}
       />

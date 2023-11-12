@@ -35,7 +35,6 @@ import retrofit2.Response;
 
 public class SettingActivity extends AppCompatActivity {
     private ActivitySettingBinding binding;
-    private final Executor executor = Executors.newSingleThreadExecutor();
     private SharedPreferences prefs;
     private RunningService runningService;
     private int unlinkCount = 0;
@@ -54,28 +53,29 @@ public class SettingActivity extends AppCompatActivity {
             if (unlinkCount == 0){
                 Toast.makeText(SettingActivity.this, "비연동 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
             }else{
-                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
+                LayoutInflater inflater = SettingActivity.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.unlink_data_modal, null);
 
-                LayoutInflater inflater = getLayoutInflater();
-                // unlink_user.xml을 가져와서 객체로 생성
-                View customView = inflater.inflate(R.layout.link_data, null);
+                TextView textView = dialogView.findViewById(R.id.text_view);
+                textView.setText("데이터를 동기화\n하시겠습니까?");
 
-                TextView linkDataTv = customView.findViewById(R.id.link_data_tv);
-                String format = String.format("%d개의 데이터를" + "\n" + "연동하시겠습니까?", unlinkCount);
-                linkDataTv.setText(format);
+                TextView dataCountView = dialogView.findViewById(R.id.data_count);
+                dataCountView.setText(String.valueOf(unlinkCount) + "개");
 
-                builder.setView(customView);
+                Button unlinkCancel = dialogView.findViewById(R.id.cancel);
+                Button unlinkStart = dialogView.findViewById(R.id.finish);
+                unlinkStart.setText("연동");
 
-                // builder 내용으로 AlertDialog 생성ㅇ
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+                builder.setView(dialogView);
+
                 AlertDialog dialog = builder.create();
 
-                // AlertDialog 보이기
+                if (dialog.getWindow() != null) {
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xD0000000));
+                }
                 dialog.show();
 
-                Button unlinkCancel = customView.findViewById(R.id.unlink_cancel);
-                Button unlinkStart = customView.findViewById(R.id.unlink_start);
-
-                
                 // 비연동 데이터 업데이트
                 unlinkStart.setOnClickListener(b ->{
                     runningService.getNotTranslateRunningData(new RunningService.GetResultListener() {
@@ -191,11 +191,11 @@ public class SettingActivity extends AppCompatActivity {
                 unlinkCount = count;
                 // 비연동 데이터가 있으면
                 if (unlinkCount != 0){
-                    dateView.setImageResource(R.drawable.unknown_nodata);
+                    dateView.setImageResource(R.drawable.unknown_data);
                 }
                 // 없으면
                 else{
-                    dateView.setImageResource(R.drawable.unknown_data);
+                    dateView.setImageResource(R.drawable.unknown_nodata);
                 }
             }
         });

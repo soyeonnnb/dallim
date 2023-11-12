@@ -144,17 +144,17 @@ function Overview({
             <S.WalkRecords>
               <WalkRecord
                 type={1}
-                record={data?.secondPerSpeed[0]}
+                record={data?.distancePerSpeed[0]}
                 color={colors.neon.yellow}
               />
               <WalkRecord
                 type={2}
-                record={data?.secondPerSpeed[1]}
+                record={data?.distancePerSpeed[1]}
                 color={colors.neon.green}
               />
               <WalkRecord
                 type={3}
-                record={data?.secondPerSpeed[2]}
+                record={data?.distancePerSpeed[2]}
                 color={colors.neon.red}
               />
             </S.WalkRecords>

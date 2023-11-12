@@ -5,6 +5,7 @@ import * as S from './ChartDetail.styles';
 import {ScrollView, TouchableOpacity} from 'react-native';
 import {fetchDetailRunningData} from '@/apis/ChartApi';
 import Loading from '@/components/common/Loading';
+import {Dimensions} from 'react-native';
 
 // 컴포넌트
 import Overview from '@/components/chartComponent/detail/overview/Overview';
@@ -48,7 +49,7 @@ type Props = {
 
 function ChartDetail({route, navigation}: Props) {
   const {id} = route.params;
-
+  const windowWidth = Dimensions.get('window').width;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<RecordDetail>();
   const [createdAt, setCreatedAt] = useState<{
@@ -60,13 +61,14 @@ function ChartDetail({route, navigation}: Props) {
     second?: number;
     day?: string;
   }>();
-  const [isAlone, setIsAlone] = useState<boolean>(true);
+  const [showRivals, setShowRivals] = useState<boolean>(false);
   const [paceData, setPaceData] = useState<PaceDataType>();
   const [rivalPaceData, setRivalPaceData] = useState<PaceDataType>();
   const [heartRateData, setHeartRateData] = useState<{
     chartData: HeartChartDataType[];
     secondPerHeartRateSection: number[];
   }>({chartData: [], secondPerHeartRateSection: []});
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const runningInfosToPaceChartData = (
     data: RunningRecordData[],
@@ -91,7 +93,10 @@ function ChartDetail({route, navigation}: Props) {
     try {
       const getData = await fetchDetailRunningData(id);
       setData(getData);
-      setIsAlone(getData.type === 'ALONE');
+      // 혼자 달렸거나 포기한 경우에는 rival 기록이 보이지 않게
+      setShowRivals(
+        !(getData.type === 'ALONE' || getData.winOrLose === 'GIVEUP'),
+      );
       setCreatedAt(getDateObject(getData.createdAt));
 
       // 페이스에 들어갈 데이터 처리
@@ -100,8 +105,8 @@ function ChartDetail({route, navigation}: Props) {
         sectionPace: getData.pace.section,
       });
 
-      // 같이 달린 경우, 러닝메이트 데이터 처리
-      if (getData.type === 'PAIR') {
+      // 같이 달리면서 포기하지 않은 경우, 러닝메이트 데이터 처리
+      if (getData.type === 'PAIR' && getData.winOrLose !== 'GIVEUP') {
         setRivalPaceData({
           chartData: runningInfosToPaceChartData(
             getData.rivalRecord.runningRecordInfos,
@@ -138,12 +143,15 @@ function ChartDetail({route, navigation}: Props) {
   };
 
   useEffect(() => {
-    if (data) setCreatedAt(getDateObject(data.createdAt));
-  }, [data]);
-
-  useEffect(() => {
     fetchRunningData();
   }, []);
+
+  const handleScroll = ({nativeEvent}: any) => {
+    // page index
+    const index = Math.round(nativeEvent.contentOffset.x / windowWidth);
+    setCurrentIndex(index);
+    console.log(index);
+  };
 
   return (
     <>
@@ -156,7 +164,7 @@ function ChartDetail({route, navigation}: Props) {
       ) : (
         <S.Container>
           <S.Header>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity onPress={() => navigation.pop()}>
               <ArrowLeft width={30} height={30} color="white" />
             </TouchableOpacity>
             <S.HeaderTitle>
@@ -165,7 +173,11 @@ function ChartDetail({route, navigation}: Props) {
             {/* 정렬을 맞추기 위함 */}
             <ArrowLeft width={30} height={30} color="transparent" />
           </S.Header>
-          <ScrollView horizontal pagingEnabled>
+          <ScrollView
+            horizontal
+            pagingEnabled
+            onMomentumScrollEnd={handleScroll}
+            contentOffset={{x: 0, y: 0}}>
             {data && (
               <Overview
                 data={data}
@@ -178,11 +190,14 @@ function ChartDetail({route, navigation}: Props) {
             {paceData && (
               <Pace
                 data={paceData}
-                isAlone={isAlone}
+                showRivals={showRivals}
                 rivalData={rivalPaceData}
               />
             )}
-            {heartRateData && <HeartRate data={heartRateData} />}
+            {/* mobile인 경우에는 심박수 보이지 않도록 */}
+            {heartRateData && data.watchOrMobile === 'WATCH' && (
+              <HeartRate data={heartRateData} />
+            )}
           </ScrollView>
         </S.Container>
       )}

@@ -1,6 +1,17 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+export interface DailyRecord {
+  id: string;
+  location: string; // 출발 위치
+  distance: number; // 거리
+  hour: number; // 출발 기준 시
+  minute: number; // 출발 기준 분
+  time: number; // 얼마나 걸렸는지 (시간)
+  type: 'PAIR' | 'ALONE'; // 혼자 달린건지
+}
+
+// 월별에서 사용
 export interface RunningRecord {
   id: string; // 기록 ID
   location: string; // 기록 위치
@@ -10,7 +21,6 @@ export interface RunningRecord {
   totalDistance: number; // 기록 거리
   averageSpeed: number; // 기록 평균 속력
   createdAt: string; // 기록 시간
-  winOrLose?: 'WIN' | 'LOSE' | 'GIVEUP';
 }
 
 export interface MonthlyRecords {
@@ -44,20 +54,11 @@ export interface RunningRecordDataPace {
   }[];
 }
 
-export interface DailyRecord {
-  id: string;
-  location: string; // 출발 위치
-  distance: number; // 거리
-  hour: number; // 출발 기준 시
-  minute: number; // 출발 기준 분
-  time: number; // 얼마나 걸렸는지 (시간)
-  type: 'PAIR' | 'ALONE'; // 혼자 달린건지
-}
-
 // 기본 레코드 데이터를 위한 인터페이스
 interface BasicRecord {
   id: string;
   location: string;
+  type: 'PAIR' | 'ALONE';
   createdAt: string;
   totalDistance: number;
   totalTime: number;
@@ -67,13 +68,14 @@ interface BasicRecord {
 
 // RecordDetail에서 BasicRecord 인터페이스 확장
 export interface RecordDetail extends BasicRecord {
-  secondPerSpeed: number[];
+  distancePerSpeed: number[];
+  watchOrMobile: 'WATCH' | 'MOBILE';
+  winOrLose: 'WIN' | 'LOSE' | 'GIVEUP';
   heartRate: {
     averageHeartRate: number;
     maxHeartRate: number;
     secondPerHeartRateSection: number[];
   };
-  type: 'PAIR' | 'ALONE';
   rivalRecord?: RivalRecord;
 }
 

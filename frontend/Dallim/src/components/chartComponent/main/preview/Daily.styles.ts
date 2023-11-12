@@ -1,7 +1,5 @@
 import styled from 'styled-components/native';
-import {colors} from '@/components/common/globalStyles';
 import {ImageBackground} from 'react-native';
-import {Shadow} from 'react-native-shadow-2';
 
 export const Container = styled.View<{isShow: boolean}>`
   flex: 1;

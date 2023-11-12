@@ -80,9 +80,7 @@ public class RunningRecordService {
     @Transactional
     public String saveRunningRecord(RunningRecordInfo req) {
         // user, character, rivalRunningRecord 가져오기
-        User user = userRepository.findByUserId(req.getUserId()).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
+        User user = userRepository.findByUserId(req.getUserId());
         Character character = characterRepository.findById(req.getCharacterId()).orElseThrow(() -> {
             throw new NullPointerException();
         });
@@ -185,7 +183,7 @@ public class RunningRecordService {
             return null;
         }
         Long mostFrequentUserId =  record.getUser().getUserId();
-        return userRepository.findByUserId(mostFrequentUserId).orElse(null);
+        return userRepository.findByUserId(mostFrequentUserId);
     }
 
     private double computeTotalDistance(List<RunningRecord> records) {

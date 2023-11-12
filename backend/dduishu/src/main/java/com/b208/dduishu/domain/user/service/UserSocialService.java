@@ -111,9 +111,7 @@ public class UserSocialService {
     }
 
     public UserProfile getUserProfile(Long id) {
-        User user = userRepository.findByUserId(id).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
+        User user = userRepository.findByUserId(id);
         Character mainCharacter = user.getCharacterList().stream()
                 .filter(Character::isMainCharacter)
                 .findFirst()
@@ -135,9 +133,7 @@ public class UserSocialService {
 
     public CompareUserProfile compareUserProfile(Long id) {
         User user = getUser.getUser();
-        User pair = userRepository.findByUserId(id).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
+        User pair = userRepository.findByUserId(id);
         Character myCharacter = user.getCharacterList().stream()
                 .filter(Character::isMainCharacter)
                 .findFirst()

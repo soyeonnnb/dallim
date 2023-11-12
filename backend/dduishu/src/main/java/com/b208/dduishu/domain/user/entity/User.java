@@ -49,7 +49,7 @@ public class User {
     private String accessToken;
     @Enumerated(EnumType.STRING)
     private UserState state;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_level_id")
     private UserLevel userLevel;
     @CreatedDate

@@ -80,7 +80,7 @@ public class UserController {
             List<UserRankingInfo> collect = res.getRankingInfos()
                     .stream()
                     .filter(o -> {
-                        User user = userRepository.findByUserId(o.getUserId()).orElse(null);
+                        User user = userRepository.findByUserId(o.getUserId());
                         return user != null && !user.isAdmin();
                     })
                     .collect(toList());
@@ -103,7 +103,7 @@ public class UserController {
             List<UserRankingInfo> collect = res.getRankingInfos()
                     .stream()
                     .filter(o -> {
-                        User user = userRepository.findByUserId(o.getUserId()).orElse(null);
+                        User user = userRepository.findByUserId(o.getUserId());
                         return user != null && !user.isAdmin();
                     })
                     .collect(toList());

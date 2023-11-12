@@ -48,9 +48,7 @@ public class FollowService {
             throw new CreateFollowerNotPossibleException();
         }
 
-        User toUser = userRepository.findByUserId(req.getToUserId()).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
+        User toUser = userRepository.findByUserId(req.getToUserId());
 
         Follow follow = Follow.builder()
                 .fromUser(user)

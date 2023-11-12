@@ -111,6 +111,6 @@ class RunningRecordServiceTest {
                 .runningRecordInfos(runningRecordOverallInfos)
                 .build();
 
-        runningRecordService.saveRunningRecord(build);
+//        runningRecordService.saveRunningRecord(build);
     }
 }

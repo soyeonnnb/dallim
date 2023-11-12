@@ -37,6 +37,7 @@ public class RunningAniFragment extends Fragment {
     private RunningMateRecordViewModel runningMateRecordViewModel;
     private Conversion conversion = new Conversion();
     private double lastDistance;
+    private double kmLastDistance;
     private List<Double> mateDistance;
     private Boolean value = false;
 
@@ -85,19 +86,20 @@ public class RunningAniFragment extends Fragment {
 
         // ViewModel의 시간 데이터를 구독하고 UI 업데이트
         runningViewModel.getElapsedTime().observe(getViewLifecycleOwner(), elapsedTime -> {
-            // elapsedTime은 "MM:SS" 형식의 문자열입니다.
             TextView timeView = view.findViewById(R.id.ani_time);
             timeView.setText(elapsedTime);
         });
 
         runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance -> {
             TextView distanceView = view.findViewById(R.id.ani_distance);
-            distanceView.setText(distance.toString());
+            distanceView.setText(String.valueOf(distance));
+            Log.e("내 거리", String.valueOf(distance));
+            String format = String.format("%.2f", kmLastDistance - distance);
+            Log.e("남은 거리", format);
 
+            // 남은 거리 UI
             TextView remainDistanceText = view.findViewById(R.id.remaining_distance);
-            Double myDistance = runningViewModel.getOriDistance().getValue();
-            Log.e("거리", String.valueOf(conversion.mToKM(lastDistance - myDistance)));
-            remainDistanceText.setText("남은 거리 : " + String.valueOf(conversion.mToKM(lastDistance - myDistance)) + "km");
+            remainDistanceText.setText("남은 거리 : " + format + "km");
         });
 
         if (value) {
@@ -119,7 +121,6 @@ public class RunningAniFragment extends Fragment {
                     distanceDifferenceView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                     distanceKm.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                 }
-
                 showMateCharacter(distanceDifference, mateEvolutionStage, mateCharacterIndex);
             });
         }
@@ -129,7 +130,6 @@ public class RunningAniFragment extends Fragment {
                 .load(R.raw.up_arrow)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into((android.widget.ImageView) view.findViewById(R.id.up_arrow));
-
         return view;
     }
 
@@ -150,6 +150,7 @@ public class RunningAniFragment extends Fragment {
                 mateDistance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
                 // 마지막 거리 저장
                 lastDistance = mateDistance.get(mateDistance.size() - 1);
+                kmLastDistance = conversion.mToKM(lastDistance);
             }
         }
     }

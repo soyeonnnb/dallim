@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dallim.R;
 import com.dallim.activity.MainActivity;
 import com.dallim.activity.ResultActivity;
@@ -109,6 +110,7 @@ public class RunningStateFragment extends Fragment {
         Glide.with(this)
                 .asGif()
                 .load(R.raw.down_arrow)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into((android.widget.ImageView) view.findViewById(R.id.down_arrow));
 
         binding.btnFinish.setOnClickListener(v -> {
@@ -119,7 +121,11 @@ public class RunningStateFragment extends Fragment {
             Button finish = dialogView.findViewById(R.id.finish);
 
             TextView text = dialogView.findViewById(R.id.text_view);
-            text.setText("런닝을\n종료하시겠습니까?");
+            if(value){
+                text.setText("지금 종료하면\n포기하게 됩니다.\n종료하시겠습니까?");
+            }else{
+                text.setText("종료하시겠습니까?");
+            }
             finish.setText("종료");
             
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());

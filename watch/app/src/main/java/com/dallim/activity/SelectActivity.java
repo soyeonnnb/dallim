@@ -99,6 +99,7 @@ public class SelectActivity extends ComponentActivity {
                             // 다른 액티비티로 값을 넘길 때 쓴다. 키 밸류로 구분
                             intent.putExtra("run_type", "ALONE");
                             countdownActivityResultLauncher.launch(intent);
+                            dialog.dismiss();
                         });
                         break;
                     case "함께 달리기":

@@ -49,6 +49,8 @@ public class RunningViewModel extends ViewModel {
         msPace.setValue("0’00”");
         heartCountTime.setValue(0);
         StepCount.setValue(0.0);
+        initLatitude.setValue(0.0);
+        initLongitude.setValue(0.0);
     }
 
     public void clearData(){

@@ -121,14 +121,13 @@ public class LocationService extends Service {
 
                 double latitude = location.getLatitude(); // 위도
                 double longitude = location.getLongitude(); // 경도
-                if(runningViewModel.getInitLatitude().getValue() == null && runningViewModel.getInitLongitude().getValue() == null) {
+                if(runningViewModel.getInitLatitude().getValue() == 0 && runningViewModel.getInitLongitude().getValue() == 0 && latitude != 0 && longitude != 0) {
                     runningViewModel.setInitLatitude(latitude);
                     runningViewModel.setInitLongitude(longitude);
                 }
                 runningViewModel.setLatitude(latitude);
                 runningViewModel.setLongitude(longitude);
             }
-            Log.d("자른 이동거리", String.valueOf((double) Math.round(totalDistance * 10) / 10.0));
         }
         lastLocation = location;
     }

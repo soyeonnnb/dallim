@@ -113,12 +113,15 @@ public class TimerService extends Service {
 
         // 함께달리기인 경우에만 거리 차이 계산
         if (check){
+            // 아직 상대방 시간보다 낮은 경우
             if(!overTime){
+                if(seconds >= mateRunningDetail.size() - 1){
+                    Log.e("상태", "상대 시간 초과");
+                    overTime = true;
+                }
                 if (runningViewModel.getOriDistance().getValue() != null && runningViewModel.getOriDistance().getValue() != 0) {
                     Double mateDistance = mateRunningDetail.get(seconds);
                     Double curDistance = runningViewModel.getOriDistance().getValue();
-                    Log.d("메이트", String.valueOf(mateDistance));
-                    Log.d("내기록", String.valueOf(curDistance));
                     runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
 
                     // 이긴 경우
@@ -130,7 +133,9 @@ public class TimerService extends Service {
                         localBroadcastManager.sendBroadcast(intent);
                     }
                 }
-            }else{
+            }
+            // 상대방 시간 초과한 경우
+            else{
                 Double curDistance = runningViewModel.getOriDistance().getValue();
                 // 이긴 경우
                 if(curDistance >= lastDistance){
@@ -139,15 +144,6 @@ public class TimerService extends Service {
                     Intent intent = new Intent(TIMER_BR);
                     intent.putExtra("finish_activity", true);
                     localBroadcastManager.sendBroadcast(intent);
-                }
-            }
-            // 상대방 시간을 넘지 않은 경우
-            if(!overTime){
-                // 넘은 경우
-                if(seconds >= mateRunningDetail.size() - 1){
-                    Log.e("상태", "상대 시간 초과");
-                    overTime = true;
-                    runningMateRecordViewModel.setTimeOver((Boolean) true);
                 }
             }
         }

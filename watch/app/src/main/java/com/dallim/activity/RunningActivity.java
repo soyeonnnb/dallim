@@ -20,6 +20,7 @@ import com.dallim.databinding.ActivityRunningBinding;
 import com.dallim.dto.RunningDataDTO;
 import com.dallim.model.RunDetail;
 import com.dallim.model.RunningData;
+import com.dallim.model.RunningMateRecord;
 import com.dallim.service.LocationService;
 import com.dallim.service.RunningService;
 import com.dallim.service.SensorService;
@@ -267,6 +268,7 @@ public class RunningActivity extends AppCompatActivity {
             runningService.addRunningData(runningData);
             Log.d("데이터 전송", "인터넷 연결 안 됨");
         }
+
         super.onDestroy();
     }
 }

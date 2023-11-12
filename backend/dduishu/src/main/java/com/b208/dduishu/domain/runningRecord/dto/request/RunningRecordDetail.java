@@ -53,7 +53,7 @@ public class RunningRecordDetail {
     public RunningRecordDetail(ObjectId id, WinOrLose winOrLose, WatchOrMobile watchOrMobile, String location, UserInfo user, CharacterRecordInfo character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed, int averageCalory, LocalDateTime createdAt) {
 
         List<Double> secondPerSpeed = getSecondPerSpeed(runningRecordInfos);
-        PaceInfo pace = getPaceInfo(runningRecordInfos);
+        PaceInfo pace = getPaceInfo(runningRecordInfos, totalTime, totalDistance);
         HeartRateInfo heartRate = getHeartRateInfo(runningRecordInfos);
 
         this.id = id.toString();
@@ -111,7 +111,7 @@ public class RunningRecordDetail {
     }
 
 
-    public PaceInfo getPaceInfo(List<RunningRecordOverallInfo> runningRecordInfos) {
+    public PaceInfo getPaceInfo(List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance) {
         List<PaceSectionInfo> sectionPaces = new ArrayList<>();
         PaceSectionInfo currentSection = new PaceSectionInfo();
         double nextSectionDistance = 1000.0; // 다음 구간까지의 거리
@@ -156,9 +156,7 @@ public class RunningRecordDetail {
 
         PaceInfo paceInfo = new PaceInfo();
 
-        RunningRecordOverallInfo lastRecord = runningRecordInfos.get(runningRecordInfos.size()-1);
-
-        double averagePace = ( lastRecord.getSecond() + 1 / lastRecord.getDistance() ) * 1000.0;
+        double averagePace = ( totalTime / totalDistance ) * 1000.0;
         BigDecimal formattedAverage = new BigDecimal(averagePace).setScale(2, RoundingMode.HALF_UP);
 
         paceInfo.setAveragePace(formattedAverage.doubleValue());

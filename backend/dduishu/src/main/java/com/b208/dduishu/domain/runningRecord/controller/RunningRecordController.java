@@ -21,7 +21,7 @@ public class RunningRecordController {
     private final RunningRecordService runningRecordService;
 
     @GetMapping("/api/v1/running/{id}")
-    public ApiResponse<?> getRunningRecordDetail(@PathVariable String id, HttpServletResponse response) {
+    public ApiResponse<?> getRunningRecordDetail(@PathVariable String id) {
 
         try {
             System.out.println(id);

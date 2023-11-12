@@ -130,10 +130,7 @@ public class FollowService {
 
     public List<FollowerInfo> getAllWatingFollowInfo() {
         User user = getUser.getUser();
-        Character mainCharacter = user.getCharacterList().stream()
-                .filter(Character::isMainCharacter)
-                .findFirst()
-                .orElse(null);
+
         // fromUser가 아니라 toUser 기준으로 조회하며 state가 waiting인 것만 필터링
         List<Follow> waitingFollows = followRepository.findAllByToUserUserIdAndState(user.getUserId(), FollowState.waiting);
 
@@ -143,7 +140,13 @@ public class FollowService {
                 .collect(toList());
 
         List<FollowerInfo> followDTO = followUsers.stream()
-                .map(o -> new FollowerInfo(o, mainCharacter))
+                .map(o -> {
+                    Character mainCharacter = o.getCharacterList().stream()
+                            .filter(Character::isMainCharacter)
+                            .findFirst()
+                            .orElse(null);
+                    return new FollowerInfo(o, mainCharacter);
+                })
                 .collect(toList());
         return followDTO;
     }

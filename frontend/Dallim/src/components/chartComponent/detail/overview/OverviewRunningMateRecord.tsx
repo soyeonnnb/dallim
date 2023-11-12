@@ -1,7 +1,5 @@
 import * as S from './OverviewRunningMateRecord.styles';
 import {characterData} from '@/recoil/CharacterData';
-import {useNavigation} from '@react-navigation/native';
-import SpeedIcon from '@/assets/icons/SpeedIcon';
 import DistanceIcon from '@/assets/icons/DistanceIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
@@ -12,8 +10,6 @@ import {
   meterToKMOrMeter,
 } from '@/recoil/RunningData';
 import OverviewGraph from './OverviewGraph';
-import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
-import {useState, useEffect} from 'react';
 
 interface Props {
   data: RivalRecord;

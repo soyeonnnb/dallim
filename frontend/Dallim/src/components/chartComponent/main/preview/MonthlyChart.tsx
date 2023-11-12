@@ -3,7 +3,10 @@ import {useState, useRef, useEffect} from 'react';
 import {Dimensions, ScrollView} from 'react-native';
 import {BarChart} from 'react-native-gifted-charts';
 import {FlatList} from 'react-native-gesture-handler';
-import {Shadow} from 'react-native-shadow-2';
+
+import MonthChartModal from './MonthChartModal';
+import {meterToKMOrMeter, secondToMinuteSeconds} from '@/recoil/RunningData';
+
 interface Props {
   selectedYearMonth: {
     year: number;
@@ -11,20 +14,36 @@ interface Props {
   };
   setSelectedYearMonth: any;
   previewMonthRankingRecords: {
-    stacks: {value: number; color: string; id: string; marginBottom?: number}[];
+    stacks: {value: number; color: string; marginBottom?: number}[];
     label: string;
+    info: {
+      id: string;
+      distance: number;
+      time: number;
+    };
   }[];
 }
 function MonthlyChart({previewMonthRankingRecords}: Props) {
-  const [barChartWidth, setBarChartWidth] = useState(0);
-
   const [showChartData, setShowChartData] = useState<
     {
-      stacks: {value: number; color: string; id: string}[];
+      stacks: {value: number; color: string}[];
       label: string;
+      info: {
+        id: string;
+        distance: number;
+        time: number;
+      };
     }[][]
   >();
   const [showChart, setShowChart] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [selectedItem, setSelectedItem] = useState<{
+    date: string;
+    id: string;
+    distance: string;
+    time: string;
+  }>();
+
   const barWidth = 30; // Width of each bar
 
   const [scrollViewHeight, setScrollViewHeight] = useState<number>(0);
@@ -32,10 +51,22 @@ function MonthlyChart({previewMonthRankingRecords}: Props) {
     const {height} = event.nativeEvent.layout;
     setScrollViewHeight(height);
   };
+  const handleModal = (item: any) => {
+    setSelectedItem({
+      id: item.info.id,
+      distance: meterToKMOrMeter(item.info.distance),
+      time: secondToMinuteSeconds(item.info.time),
+      date: item.label,
+    });
+    console.log('item => ', item);
+    setModalVisible(true);
+  };
+  const toggleModalVisible = () => {
+    setModalVisible(!modalVisible);
+  };
 
   useEffect(() => {
     setShowChart(false);
-    setBarChartWidth(previewMonthRankingRecords.length * barWidth * 2);
     setShowChartData([previewMonthRankingRecords]);
     setShowChart(true);
   }, [previewMonthRankingRecords]);
@@ -65,17 +96,11 @@ function MonthlyChart({previewMonthRankingRecords}: Props) {
                       hideYAxisText
                       yAxisThickness={0}
                       barBorderRadius={4}
-                      spacing={30}
+                      spacing={25}
                       xAxisColor="gray"
-                      xAxisLabelTextStyle={
-                        {
-                          // justifyContent: 'center',
-                          // textAlign: 'center',
-                          // backgroundColor: 'aqua',
-                        }
-                      }
                       barMarginBottom={100}
                       isAnimated={true}
+                      onPress={(item: any) => handleModal(item)}
                     />
                   )}
                   showsHorizontalScrollIndicator={false} // 가로 스크롤바 표시
@@ -88,6 +113,11 @@ function MonthlyChart({previewMonthRankingRecords}: Props) {
           <S.Footer />
         </S.Container>
       </S.ContainerShadow>
+      <MonthChartModal
+        modalVisible={modalVisible}
+        toggleModalVisible={toggleModalVisible}
+        item={selectedItem}
+      />
     </S.BigContainer>
   );
 }

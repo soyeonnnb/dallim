@@ -49,7 +49,15 @@ function Preview({
     },
   });
   const [runningRankingRecords, setRunningRankingRecords] = useState<
-    {stacks: {value: number; color: string; id: string}[]; label: string}[]
+    {
+      stacks: {value: number; color: string}[];
+      label: string;
+      info: {
+        id: string;
+        distance: number;
+        time: number;
+      };
+    }[]
   >([]);
 
   const snapPoints = useMemo(() => ['40%', '90%'], []); // 전체 화면에서 몇퍼센트 차지할
@@ -85,9 +93,13 @@ function Preview({
       stacks: {
         value: number;
         color: string;
-        id: string;
         marginBottom?: number;
       }[];
+      info: {
+        id: string;
+        distance: number;
+        time: number;
+      };
       label: string;
     }[] = [];
     everyRecords?.map(monthData => {
@@ -96,7 +108,6 @@ function Preview({
         monthData.month === selectedYearMonth.month
       ) {
         monthData.records.map(record => {
-          console.log('mmmm', monthData);
           newMonth.count += 1;
           newMonth.distance += record.totalDistance;
           newMonth.time += record.totalTime;
@@ -105,16 +116,19 @@ function Preview({
               {
                 value: record.totalDistance,
                 color: colors.chart.record.distance,
-                id: record.id,
               },
               {
                 value: record.totalTime,
                 color: '#C3A9F6',
-                id: record.id,
                 marginBottom: 2,
               },
             ],
             label: `${record.createdAt.slice(8, 10)}일`,
+            info: {
+              id: record.id,
+              distance: record.totalDistance,
+              time: record.totalTime,
+            },
           });
         });
         newMonth.runningMate.characterIndex =

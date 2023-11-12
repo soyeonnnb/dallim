@@ -18,8 +18,13 @@ interface Props {
     };
   };
   previewMonthRankingRecords: {
-    stacks: {value: number; color: string; id: string; marginBottom?: number}[];
+    stacks: {value: number; color: string; marginBottom?: number}[];
     label: string;
+    info: {
+      id: string;
+      distance: number;
+      time: number;
+    };
   }[];
 }
 
@@ -30,9 +35,6 @@ function PreviewMonthly({
   previewRecords,
   previewMonthRankingRecords,
 }: Props) {
-  useEffect(() => {
-    console.log(previewRecords);
-  });
   return (
     <S.Container isShow={isShow}>
       <MonthlyRecord

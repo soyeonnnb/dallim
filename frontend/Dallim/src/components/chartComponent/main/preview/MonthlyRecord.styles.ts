@@ -24,7 +24,7 @@ export const TotalCount = styled.View`
 `;
 
 export const AverageCompares = styled.View`
-  justify-content: space-between;
+  justify-content: space-evenly;
   flex: 0.7;
   align-items: flex-end;
 `;
@@ -39,7 +39,6 @@ export const SmallCircleShadow = styled(Shadow)`
   width: 45px;
   height: 45px;
   border-radius: 15px;
-  margin-bottom: 20px;
 `;
 export const SmallCircle = styled.View<{bgColor: string}>`
   width: 100%;

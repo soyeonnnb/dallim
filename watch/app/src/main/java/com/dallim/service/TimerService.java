@@ -26,7 +26,9 @@ import com.dallim.util.MyApplication;
 import com.dallim.view.RunningMateRecordViewModel;
 import com.dallim.view.RunningViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -92,7 +94,7 @@ public class TimerService extends Service {
     }
 
     public void startTimer() {
-        curTime = System.currentTimeMillis();
+        curTime = System.nanoTime();
         startTime = curTime;
         timerRunnable = new Runnable() {
             @Override

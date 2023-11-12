@@ -48,13 +48,13 @@ class RunningRecordServiceTest {
     public void setup() {
         // 권한 부여
         UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(20L, null, List.of(new SimpleGrantedAuthority("USER")));
+                new UsernamePasswordAuthenticationToken(6L, null, List.of(new SimpleGrantedAuthority("USER")));
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
     }
 
     @Test
     void saveRunning() {
-        int size = 7200;
+        int size = 3600;
         List<RunningRecordOverallInfo> runningRecordOverallInfos = new ArrayList<>();
         Random random = new Random();
 
@@ -112,13 +112,13 @@ class RunningRecordServiceTest {
         BigDecimal formattedAveragePace = new BigDecimal(averagePace).setScale(2, RoundingMode.HALF_UP);
 
         RunningRecordInfo build = RunningRecordInfo.builder()
-                .userId(20L)
-                .characterId(32L)
+                .userId(6L)
+                .characterId(10L)
                 .watchOrMobile(WatchOrMobile.WATCH)
                 .date(LocalDateTime.now())
                 .formattedDate("11월 11일 (토)")
                 .type(RunningType.PAIR)
-                .rivalRecordId(new ObjectId("654f60c075c9d615719c6165"))
+                .rivalRecordId(new ObjectId("654f9c71ba08aa7460ea2503"))
                 .totalTime(size)
                 .totalDistance(lastRecord.getDistance())
                 .averageSpeed(formattedAverageSpeed.doubleValue())
@@ -126,7 +126,7 @@ class RunningRecordServiceTest {
                 .averagePace(formattedAveragePace.doubleValue())
                 .initLatitude(36.3551347)
                 .initLongitude(127.2986507)
-                .winOrLose(WinOrLose.WIN)
+                .winOrLose(WinOrLose.GIVEUP)
                 .runningRecordInfos(runningRecordOverallInfos)
                 .build();
 

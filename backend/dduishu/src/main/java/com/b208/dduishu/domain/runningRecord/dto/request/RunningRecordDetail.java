@@ -46,16 +46,18 @@ public class RunningRecordDetail {
     private double totalDistance;
     private double averageSpeed;
     private int averageCalory; //
+    private WinOrLose winOrLose;
     private LocalDateTime createdAt;
 
     @Builder
-    public RunningRecordDetail(ObjectId id, WatchOrMobile watchOrMobile, String location, UserInfo user, CharacterRecordInfo character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed, int averageCalory, LocalDateTime createdAt) {
+    public RunningRecordDetail(ObjectId id, WinOrLose winOrLose, WatchOrMobile watchOrMobile, String location, UserInfo user, CharacterRecordInfo character, RunningType type, RivalRunningRecordInfo rivalRecord, List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance, double averageSpeed, int averageCalory, LocalDateTime createdAt) {
 
         List<Double> secondPerSpeed = getSecondPerSpeed(runningRecordInfos);
         PaceInfo pace = getPaceInfo(runningRecordInfos);
         HeartRateInfo heartRate = getHeartRateInfo(runningRecordInfos);
 
         this.id = id.toString();
+        this.winOrLose = winOrLose;
         this.watchOrMobile = watchOrMobile;
         this.location = location;
         this.secondPerSpeed = secondPerSpeed;

@@ -145,7 +145,7 @@ public class RunningRecordService {
         double averageSpeedSum = runningRecords.stream()
                 .mapToDouble(RunningRecord::getAverageSpeed)
                 .sum();
-        
+
         // 사용자의 평균 속도 업데이트
         double newAverageSpeed = (runningRecords.isEmpty()) ? averageSpeed : averageSpeedSum / runningRecords.size();
         user.updateAverageSpeed(newAverageSpeed);
@@ -364,6 +364,7 @@ public class RunningRecordService {
                 .totalDistance(res.getTotalDistance())
                 .averageSpeed(res.getAverageSpeed())
                 .createdAt(res.getCreatedAt())
+                .winOrLose(res.getWinOrLose())
                 .build();
     }
 

@@ -34,6 +34,7 @@ interface LocationData {
 
 const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const timerIdRef = useRef<NodeJS.Timeout | null>(null);
+  const trackIdRef = useRef<number | null>(null); // 위치 추적 ID 저장을 위한 참조 변수
 
   const equippedCharacterIndex = useRecoilValue(equippedCharacterIndexState);
   const equippedEvolutionStage = useRecoilValue(equippedEvolutionStageState);
@@ -62,6 +63,12 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       setShowExitModal(false); // 모달 숨기기
     }
   }, [locationPermissionGranted, modalType]);
+
+  useEffect(() => {
+    console.log("업데이트된 runningRecordInfos 배열 크기: ", runningSession.runningRecordInfos.length);
+    console.log("여기 왔나?? : ", JSON.stringify(runningSession, null, 2));
+
+  }, [runningSession]);
 
   // useEffect(() => {
   //   if (isRunning) {
@@ -110,6 +117,11 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const stopRun = () => {
     setSecondsElapsed(0); // 타이머 초기화
 
+    if (trackIdRef.current !== null) {
+      Geolocation.clearWatch(trackIdRef.current);
+      trackIdRef.current = null;
+    }
+
     if (timerIdRef.current) clearInterval(timerIdRef.current);
     setIsRunning(false); // 타이머 실행 상태를 false로 설정
   };
@@ -127,7 +139,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
   // 위치 추적 시작 함수
   const startTracking = () => {
-    Geolocation.watchPosition((position) => {
+    const trackId = Geolocation.watchPosition((position) => {
       let distance = 0;
       if (lastPosition) {
         distance = calculateDistance(
@@ -153,9 +165,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
         pace: pace, // 이전에 계산한 페이스 (Axios)
       };
 
-      console.log("현재 runningRecordInfos 배열 크기: ", runningSession.runningRecordInfos.length);
-      console.log("여기 왔나?? : ", JSON.stringify(newLocationData, null, 2));
-      
+      // 데이터 누적 업데이트
       setRunningSession(oldRecords => ({
         ...oldRecords,
         runningRecordInfos: [...oldRecords.runningRecordInfos, newLocationData]
@@ -170,7 +180,9 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       (error) => {
         console.error(error);
       },
-      { enableHighAccuracy: true, distanceFilter: 0, interval: 10000 }); // 우선 5초
+      { enableHighAccuracy: true, distanceFilter: 0, interval: 10000 });
+
+    trackIdRef.current = trackId;
   };
 
 
@@ -214,6 +226,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       stopRun();
       setShowExitModal(false);
       setModalType(null); // 모달 타입 초기화
+      // axios로 모아놓은 데이터 보내주기
     }
   };
 

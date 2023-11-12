@@ -51,6 +51,7 @@ public class RunningActivity extends AppCompatActivity {
     private RunningMateRecordViewModel runningMateRecordViewModel;
     private RunningData runningData;
     private Long totalTime = 1L;
+    private Long mateTotalTime = 0L;
     private int speedCountTime = 0;
     private double totalSpeed = 0;
     private Conversion conversion = new Conversion();
@@ -158,7 +159,7 @@ public class RunningActivity extends AppCompatActivity {
         if(runningViewModel.getSpeedCountTime().getValue() != 0){
             speedCountTime = runningViewModel.getSpeedCountTime().getValue();
         }
-        // 총 시작
+        // 총 시간
         if(runningViewModel.getTotalTime().getValue() != 0){
             totalTime = runningViewModel.getTotalTime().getValue();
         }
@@ -197,6 +198,7 @@ public class RunningActivity extends AppCompatActivity {
 
         // 같이 달리기인 경우
         if(type.equals("PAIR")){
+            Log.e("같이달리기", "들어옴");
             // 거리
             List<Double> distance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
             // 상대방 최종 거리
@@ -210,10 +212,20 @@ public class RunningActivity extends AppCompatActivity {
                     runningData.setWinOrLose("GIVEUP");
                 }else{
                     runningData.setWinOrLose("LOSE");
+                    // 상대방의 전체 시간 가져옴
+                    mateTotalTime = runningMateRecordViewModel.getMateRecord().getValue().getTotalTime();
+                    // 시간의 차이 구함
+                    Long timeDifference = mateTotalTime - totalTime;
+                    runningData.setTimeDifference(timeDifference);
                 }
             }
             // 이긴 경우
-            else if (lastDistance <= totalDistance){
+            else{
+                // 상대방의 전체 시간 가져옴
+                mateTotalTime = runningMateRecordViewModel.getMateRecord().getValue().getTotalTime();
+                // 시간의 차이 구함
+                Long timeDifference = mateTotalTime - totalTime;
+                runningData.setTimeDifference(timeDifference);
                 // 시간을 초과한 경우
                 if (runningMateRecordViewModel.getMateRecord().getValue().getTotalTime() <= totalTime - 1){
                     runningData.setWinOrLose("LOSE");
@@ -256,7 +268,6 @@ public class RunningActivity extends AppCompatActivity {
                         Toast.makeText(RunningActivity.this, "기록 저장 실패", Toast.LENGTH_SHORT).show();
                     }
                 }
-
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
                     Log.e("달리기 기록 저장 실패(서버)", t.getMessage());

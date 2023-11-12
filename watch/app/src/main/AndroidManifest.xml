@@ -28,11 +28,11 @@
         <activity
             android:name="com.dallim.activity.ResultActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/AppTheme.NoSwipeToDismiss" />
         <activity
             android:name="com.dallim.activity.LoadingActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/AppTheme.NoSwipeToDismiss" />
         <activity
             android:name="com.dallim.activity.UnlinkActivity"
             android:exported="false"

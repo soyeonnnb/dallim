@@ -57,6 +57,8 @@ public class RunningData {
     @TypeConverters(RunningDataConverters.class)
     @ColumnInfo(name = "running_record_infos")
     private List<RunDetail> runningRecordInfos;
+    @ColumnInfo(name = "time_difference")
+    private Long timeDifference;
 
     public RunningData() {
         this.date = new Date();
@@ -246,6 +248,14 @@ public class RunningData {
 
     public void setEvolutionStage(int evolutionStage) {
         this.evolutionStage = evolutionStage;
+    }
+
+    public Long getTimeDifference() {
+        return timeDifference;
+    }
+
+    public void setTimeDifference(Long timeDifference) {
+        this.timeDifference = timeDifference;
     }
 
     public LocalDateTime change(Long timestamp) {

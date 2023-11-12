@@ -46,12 +46,12 @@ public class TimerService extends Service {
     private boolean check = false;
     private int seconds = 0;
     private boolean overTime = false;
+    private long curTime = 0;
 
     @SuppressLint("InvalidWakeLockTag")
     @Override
     public void onCreate() {
         super.onCreate();
-        startTime = System.currentTimeMillis();
         timerHandler = new Handler();
         runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
         // check가 true면 함께달리기
@@ -92,24 +92,28 @@ public class TimerService extends Service {
     }
 
     public void startTimer() {
+        curTime = System.currentTimeMillis();
+        startTime = curTime;
         timerRunnable = new Runnable() {
             @Override
             public void run() {
-                long elapsedTime = System.currentTimeMillis() - startTime;
-                Log.d("로그", String.valueOf(elapsedTime));
+                long elapsedTime = curTime - startTime;
+                Log.e("curTime", String.valueOf(curTime));
+                Log.e("elapsedTime", String.valueOf(elapsedTime));
                 updateRunDetailList(elapsedTime);
                 Intent intent = new Intent(TIMER_BR);
                 intent.putExtra("elapsedTime", elapsedTime);
                 sendBroadcast(intent);
                 // 1초마다 현재 Runnable을 다시 실행하도록 예약
                 timerHandler.postDelayed(this, 1000);
+                curTime++;
             }
         };
         timerHandler.post(timerRunnable);
     }
 
     private void updateRunDetailList(long elapsedTime) {
-        seconds = (int) (elapsedTime / 1000);
+        seconds = (int) elapsedTime;
 
         // 함께달리기인 경우에만 거리 차이 계산
         if (check){

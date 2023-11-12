@@ -22,16 +22,16 @@
 
             <ImageView
                 android:id="@+id/btn_link_data"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/unknown_data"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="40dp"
                 ></ImageView>
 
             <ImageView
                 android:id="@+id/btn_unlink"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:src="@drawable/unlink"
                 ></ImageView>
 
@@ -45,9 +45,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="35dp"
+                android:layout_marginRight="30dp"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:textSize="10sp"
                 android:fontFamily="@font/oagothic_medium"
                 android:text="데이터 동기화">
 
@@ -58,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:textSize="10sp"
                 android:fontFamily="@font/oagothic_medium"
                 android:text="기기 연결 설정">
 

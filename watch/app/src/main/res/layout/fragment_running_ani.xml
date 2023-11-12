@@ -27,7 +27,7 @@
                 android:layout_height="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_gravity="center"
-                android:src="@drawable/up_arrow"/>
+                android:src="@raw/up_arrow"/>
 
             <TextView
                 android:id="@+id/ani_time"
@@ -37,6 +37,19 @@
                 android:text="00 : 00"
                 android:textColor="@color/white"
                 android:textSize="30dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/remaining_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="남은 거리 : 2.73km"
+                android:fontFamily="@font/oagothic_medium"
+                android:textSize="10sp"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -66,7 +79,7 @@
                         android:fontFamily="@font/oagothic_extrabold"
                         android:text="00.0"
                         android:textColor="@color/white"
-                        android:textSize="20dp" />
+                        android:textSize="15dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -78,9 +91,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/oagothic_extrabold"
-                        android:text="Km"
+                        android:text="km"
                         android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:textSize="9dp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -105,7 +118,7 @@
                         android:text="0.00"
                         android:fontFamily="@font/oagothic_extrabold"
                         android:textColor="@color/white"
-                        android:textSize="20dp">
+                        android:textSize="15dp">
                     </TextView>
                 </LinearLayout>
                 <LinearLayout
@@ -119,7 +132,7 @@
                         android:fontFamily="@font/oagothic_extrabold"
                         android:text="Km"
                         android:textColor="@color/white"
-                        android:textSize="12dp" />
+                        android:textSize="9dp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -133,7 +146,7 @@
         android:layout_height="170dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="140dp"
-        android:background="@drawable/planetyellow" />
+        android:background="@raw/planetyellow" />
 
     <ImageView
         android:id="@+id/my_cha"
@@ -141,7 +154,7 @@
         android:layout_height="66dp"
         android:layout_marginLeft="75dp"
         android:layout_marginTop="90dp"
-        android:src="@drawable/panda_run" />
+        android:src="@raw/panda_run" />
 
     <ImageView
         android:id="@+id/mate_cha1"

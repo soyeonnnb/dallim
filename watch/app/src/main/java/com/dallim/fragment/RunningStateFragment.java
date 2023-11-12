@@ -25,6 +25,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dallim.R;
 import com.dallim.activity.MainActivity;
 import com.dallim.activity.ResultActivity;
@@ -49,6 +50,7 @@ public class RunningStateFragment extends Fragment {
     private RunningMateRecordViewModel runningMateRecordViewModel;
     private double lastDistance;
     private List<Double> mateDistance;
+    private Boolean value;
 
     @Nullable
     @Override
@@ -80,7 +82,7 @@ public class RunningStateFragment extends Fragment {
         runningViewModel.getHeartRate().observe(getViewLifecycleOwner(), heartRate -> {
             // heartRate는 심박수 값입니다.
             TextView heartRateView = view.findViewById(R.id.tv_heart_rate);
-            heartRateView.setText(String.valueOf(heartRate));
+            heartRateView.setText(String.valueOf(((int) heartRate.doubleValue())));
         });
 
         // ViewModel의 시간 데이터를 구독하고 UI 업데이트
@@ -105,10 +107,11 @@ public class RunningStateFragment extends Fragment {
             }
         });
 
-//        Glide.with(this)
-//                .asGif()
-//                .load(R.drawable.down_arrow)
-//                .into((android.widget.ImageView) view.findViewById(R.id.down_arrow));
+        Glide.with(this)
+                .asGif()
+                .load(R.raw.down_arrow)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .into((android.widget.ImageView) view.findViewById(R.id.down_arrow));
 
         binding.btnFinish.setOnClickListener(v -> {
             LayoutInflater inflater1 = requireActivity().getLayoutInflater();
@@ -118,7 +121,11 @@ public class RunningStateFragment extends Fragment {
             Button finish = dialogView.findViewById(R.id.finish);
 
             TextView text = dialogView.findViewById(R.id.text_view);
-            text.setText("런닝을\n종료하시겠습니까?");
+            if(value){
+                text.setText("지금 종료하면\n포기하게 됩니다.\n종료하시겠습니까?");
+            }else{
+                text.setText("종료하시겠습니까?");
+            }
             finish.setText("종료");
             
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -131,13 +138,15 @@ public class RunningStateFragment extends Fragment {
             }
             dialog.show();
 
-            
-
             cancel.setOnClickListener(b ->{
                 dialog.dismiss();
             });
 
             finish.setOnClickListener(b ->{
+                // 만약 함께 달리기면
+                if(value){
+                    runningMateRecordViewModel.setGiveUp((Boolean) true);
+                }
                 getActivity().finish();
                 dialog.dismiss();
             });
@@ -158,7 +167,7 @@ public class RunningStateFragment extends Fragment {
             // ViewModel을 초기화할 때 애플리케이션의 Application 객체를 사용합니다.
             runningViewModel = new ViewModelProvider(myApplication).get(RunningViewModel.class);
 
-            Boolean value = runningViewModel.getPairCheck().getValue();
+            value = runningViewModel.getPairCheck().getValue();
             if (value) {
                 runningMateRecordViewModel = new ViewModelProvider(myApplication).get(RunningMateRecordViewModel.class);
                 mateDistance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();

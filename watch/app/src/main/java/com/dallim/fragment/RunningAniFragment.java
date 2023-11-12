@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dallim.R;
 import com.dallim.databinding.FragmentRunningAniBinding;
 import com.dallim.util.Conversion;
@@ -36,10 +37,9 @@ public class RunningAniFragment extends Fragment {
     private RunningMateRecordViewModel runningMateRecordViewModel;
     private Conversion conversion = new Conversion();
     private double lastDistance;
+    private double kmLastDistance;
     private List<Double> mateDistance;
     private Boolean value = false;
-    private String myCha;
-    private String mateCha;
 
     @Nullable
     @Override
@@ -51,8 +51,6 @@ public class RunningAniFragment extends Fragment {
         long planetIndex = prefs.getLong("planetIndex", 0);
         int mateEvolutionStage = prefs.getInt("mate_evolution_stage", -1);
         int mateCharacterIndex = prefs.getInt("mate_character_index", -1);
-        System.out.println(mateEvolutionStage);
-        System.out.println(mateCharacterIndex);
 
         binding = FragmentRunningAniBinding.inflate(getLayoutInflater());
         // Inflate the layout for this fragment
@@ -64,11 +62,12 @@ public class RunningAniFragment extends Fragment {
                         planetIndex == 2 ? "blue" :
                                 planetIndex == 3 ? "purple" :
                                         "red");
-        int planetResId = getResources().getIdentifier(planetResourceName, "drawable", getContext().getPackageName());
+        int planetResId = getResources().getIdentifier(planetResourceName, "raw", getContext().getPackageName());
 
         Glide.with(this)
                 .asGif()
                 .load(planetResId)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into((android.widget.ImageView) view.findViewById(R.id.running_planet));
 
         // 캐릭터 이미지 설정
@@ -78,22 +77,29 @@ public class RunningAniFragment extends Fragment {
                                 "chick";
         String evolutionSuffix = evolutionStage == 1 ? "_run" : "egg_run";
         String characterResourceName = characterType + evolutionSuffix;
-        int characterResId = getResources().getIdentifier(characterResourceName, "drawable", getContext().getPackageName());
+        int characterResId = getResources().getIdentifier(characterResourceName, "raw", getContext().getPackageName());
 
         Glide.with(this)
                 .load(characterResId)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(binding.myCha);
 
         // ViewModel의 시간 데이터를 구독하고 UI 업데이트
         runningViewModel.getElapsedTime().observe(getViewLifecycleOwner(), elapsedTime -> {
-            // elapsedTime은 "MM:SS" 형식의 문자열입니다.
             TextView timeView = view.findViewById(R.id.ani_time);
             timeView.setText(elapsedTime);
         });
 
         runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance -> {
             TextView distanceView = view.findViewById(R.id.ani_distance);
-            distanceView.setText(distance.toString());
+            distanceView.setText(String.valueOf(distance));
+            Log.e("내 거리", String.valueOf(distance));
+            String format = String.format("%.2f", kmLastDistance - distance);
+            Log.e("남은 거리", format);
+
+            // 남은 거리 UI
+            TextView remainDistanceText = view.findViewById(R.id.remaining_distance);
+            remainDistanceText.setText("남은 거리 : " + format + "km");
         });
 
         if (value) {
@@ -115,16 +121,15 @@ public class RunningAniFragment extends Fragment {
                     distanceDifferenceView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                     distanceKm.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                 }
-
                 showMateCharacter(distanceDifference, mateEvolutionStage, mateCharacterIndex);
             });
         }
 
         Glide.with(this)
                 .asGif()
-                .load(R.drawable.up_arrow)
+                .load(R.raw.up_arrow)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into((android.widget.ImageView) view.findViewById(R.id.up_arrow));
-
         return view;
     }
 
@@ -145,6 +150,7 @@ public class RunningAniFragment extends Fragment {
                 mateDistance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
                 // 마지막 거리 저장
                 lastDistance = mateDistance.get(mateDistance.size() - 1);
+                kmLastDistance = conversion.mToKM(lastDistance);
             }
         }
     }
@@ -195,7 +201,7 @@ public class RunningAniFragment extends Fragment {
 
             // 리소스 이름 생성
             String characterResourceName = characterType + evolutionSuffix;
-            int characterResId = getResources().getIdentifier(characterResourceName, "drawable", getContext().getPackageName());
+            int characterResId = getResources().getIdentifier(characterResourceName, "raw", getContext().getPackageName());
 
             // 이미지 설정
             Glide.with(this)

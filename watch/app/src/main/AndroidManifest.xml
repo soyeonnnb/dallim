@@ -64,7 +64,7 @@
         <activity
             android:name="com.dallim.activity.CountdownActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/AppTheme.NoSwipeToDismiss" />
 
         <uses-library
             android:name="com.google.android.wearable"

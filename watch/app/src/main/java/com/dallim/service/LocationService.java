@@ -117,18 +117,17 @@ public class LocationService extends Service {
                 // 원래 미터값
                 runningViewModel.setOriDistance((double) Math.round(totalDistance * 10) / 10.0);
                 // km 변환값(화면에 표시용)
-                runningViewModel.setDistance(Math.round((totalDistance / 1000) * 100) / 100.0);
+                runningViewModel.setDistance(conversion.mToKM(totalDistance));
 
                 double latitude = location.getLatitude(); // 위도
                 double longitude = location.getLongitude(); // 경도
-                if(runningViewModel.getInitLatitude().getValue() == null && runningViewModel.getInitLongitude().getValue() == null) {
+                if(runningViewModel.getInitLatitude().getValue() == 0 && runningViewModel.getInitLongitude().getValue() == 0 && latitude != 0 && longitude != 0) {
                     runningViewModel.setInitLatitude(latitude);
                     runningViewModel.setInitLongitude(longitude);
                 }
                 runningViewModel.setLatitude(latitude);
                 runningViewModel.setLongitude(longitude);
             }
-            Log.d("자른 이동거리", String.valueOf((double) Math.round(totalDistance * 10) / 10.0));
         }
         lastLocation = location;
     }
@@ -145,7 +144,6 @@ public class LocationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        System.out.println("들어옴");
         createNotificationChannel();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_round)

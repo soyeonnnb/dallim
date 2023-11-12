@@ -12,6 +12,7 @@ import SpinAnimation from '@/components/common/SpinAnimation';
 import { runningSessionState, secondsElapsedState, isRunningState, totalDistanceState, displayDistanceState, lastPositionState } from '@/recoil/RunningRecoil';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import RuningModal from './RuningModal';
+import { postRunningData } from '@/apis/MainApi';
 
 interface Props {
   isVisible: boolean;
@@ -90,7 +91,17 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
     }
 
     if (timerIdRef.current) clearInterval(timerIdRef.current);
-    setIsRunning(false); // 타이머 실행 상태를 false로 설정
+
+    // 데이터 초기화 ( 추후에 )
+    setIsRunning(false);
+    // setRunningSession({
+    //   ...runningSession,
+    //   runningRecordInfos: [],
+    // });
+    // setSecondsElapsed(0);
+    // setTotalDistance(0);
+    // setDisplayDistance(0);
+    // setLastPosition(null);
   };
 
   // 초를 시:분:초 형식으로 변환하는 함수
@@ -129,6 +140,8 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
   // 위치 추적 시작 함수
   const startTracking = () => {
+    const startTime = Date.now(); // 달리기 시작 시점의 타임스탬프
+
     const trackId = Geolocation.watchPosition((position) => {
       let distance = 0;
 
@@ -156,13 +169,15 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       const paceValue = msToPace(speed);
       setPace(paceValue);
 
+      const elapsedTime = Math.floor((position.timestamp - startTime) / 1000); // 경과 시간 계산 (초)
+
       const newLocationData = {
-        second: position.timestamp,
+        second: elapsedTime,
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
-        distance: newTotalDistance, 
-        speed: speed, 
-        pace: pace, 
+        distance: newTotalDistance,
+        speed: speed,
+        pace: pace,
       };
 
       // 데이터 누적 업데이트
@@ -236,8 +251,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       // 수집한 데이터를 변수에 저장
       const endTime = secondsElapsed; // 종료 시간 (타이머 시간)
       const endTotalDistance = totalDistance; // 총 거리
-      // 평균 속력 계산
-      const averageSpeed = endTotalDistance / endTime;
+      const averageSpeed = endTotalDistance / endTime; // 평균 속력 계산
 
       console.log("1 / initialLatitudeState(시작 위도) : " + runningSession.runningRecordInfos[0].latitude);
       console.log("1 / initialLongitudeState(시작 경도) : " + runningSession.runningRecordInfos[0].longitude);
@@ -246,14 +260,36 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       console.log("1 / characterId(캐릭터 Id) : " + equippedCharacterIndex);
       console.log("1 / type (홀로 달리기) : " + runningSession.type);
       console.log("1 / rivalRecord(라이벌 없음) : " + runningSession.rivalRecord);
+      console.log("2.runningSession.runningRecordInfos(1초단위 배열) : " + JSON.stringify(runningSession.runningRecordInfos, null, 2));
+      console.log("3 / totalTime(초) : " + secondsElapsed);
+      console.log("3 / totalDistance(M) : " + totalDistance);
+      console.log("3 / averageSpeed(m/s) : " + averageSpeed);
+      console.log("3 / createdAt(작성시간) : " + runningSession.createdAt);
 
-      console.log("2 / totalTime(초) : " + secondsElapsed);
-      console.log("2 / totalDistance(M) : " + totalDistance);
-      console.log("2 / averageSpeed(m/s) : " + averageSpeed);
-      console.log("2 / createdAt(작성시간) : " + runningSession.createdAt);
+      // 서버에 보낼 데이터 객체 생성
+      const runningData = {
+        initLatitude: runningSession.runningRecordInfos[0].latitude,
+        initLongitude: runningSession.runningRecordInfos[0].longitude,
+        watchOrMobile: runningSession.watchOrMobile,
+        userId: userId,
+        characterId: equippedCharacterIndex,
+        type: runningSession.type,
+        rivalRecord: runningSession.rivalRecord,
+        runningRecordInfos: runningSession.runningRecordInfos,
+        totalTime: endTime,
+        totalDistance: endTotalDistance,
+        averageSpeed: averageSpeed,
+        createdAt: runningSession.createdAt
+      };
 
+      // 데이터 전송
+      try {
+        const response = await postRunningData(runningData);
+        console.log("데이터 전송 성공: ", response);
+      } catch (error) {
+        console.error("데이터 전송 실패: ", error);
+      }
 
-      // axios로 모아놓은 데이터 보내주기
     }
   };
 

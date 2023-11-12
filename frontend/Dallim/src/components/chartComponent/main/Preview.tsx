@@ -52,7 +52,7 @@ function Preview({
     {stacks: {value: number; color: string; id: string}[]; label: string}[]
   >([]);
 
-  const snapPoints = useMemo(() => ['45%', '90%'], []); // 전체 화면에서 몇퍼센트 차지할
+  const snapPoints = useMemo(() => ['40%', '90%'], []); // 전체 화면에서 몇퍼센트 차지할
 
   // sheet size 수정 시 실행
   const handleSheetChanges = useCallback((index: number) => {
@@ -96,6 +96,7 @@ function Preview({
         monthData.month === selectedYearMonth.month
       ) {
         monthData.records.map(record => {
+          console.log('mmmm', monthData);
           newMonth.count += 1;
           newMonth.distance += record.totalDistance;
           newMonth.time += record.totalTime;
@@ -186,6 +187,7 @@ function Preview({
           previewRecords={previewRecords}
           previewMonthRankingRecords={runningRankingRecords}
         />
+        <S.Footer />
       </S.Container>
     </BottomSheet>
   );

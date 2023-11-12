@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import {colors} from '@/components/common/globalStyles';
 import {ImageBackground} from 'react-native';
+import {Shadow} from 'react-native-shadow-2';
 
 export const Container = styled.View<{isShow: boolean}>`
   flex: 1;
@@ -16,13 +17,14 @@ export const Title = styled.Text`
 `;
 
 export const Card = styled.TouchableOpacity<{width: number}>`
-  margin-right: 20px;
   width: ${props => props.width}px;
-  height: 90%;
+  height: 100%;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  border-radius: 20px;
+  margin-right: 20px;
 `;
+
 export const CardTitle = styled.Text`
   color: white;
   font-size: 17px;
@@ -42,7 +44,6 @@ export const CardImage = styled(ImageBackground)`
   height: 100%;
   justify-content: center;
   align-items: center;
-  z-index: -1;
   position: absolute;
   border-radius: 20px;
   overflow: hidden; // border-radius 스타일을 적용하기 위해 추가
@@ -51,11 +52,5 @@ export const CardTexts = styled.View`
   width: 90%;
   height: 90%;
   padding: 10px 20px;
-  border-radius: 20px;
   justify-content: space-evenly;
-  /* shadow-opacity: 0.9;
-  shadow-radius: 1px;
-  shadow-color: ${colors.purple._800};
-  shadow-offset: 0px 10px;
-  elevation: 10; */
 `;

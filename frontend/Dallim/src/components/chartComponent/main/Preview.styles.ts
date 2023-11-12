@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-  flex: 0.9;
+  flex: 1;
   align-items: center;
   width: 100%;
 `;
@@ -15,4 +15,8 @@ export const DownPreview = styled.View<{isShow: boolean}>`
   justify-content: space;
   flex: 0.3;
   display: ${props => (props.isShow ? 'block' : 'none')};
+`;
+
+export const Footer = styled.View`
+  height: 10%;
 `;

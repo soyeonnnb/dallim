@@ -5,11 +5,12 @@ export interface RunningRecord {
   id: string; // 기록 ID
   location: string; // 기록 위치
   type: 'PAIR' | 'ALONE'; // 기록 타입
+  watchOrMobile: 'WATCH' | 'MOBILE';
   totalTime: number; // 기록 걸린 시간
   totalDistance: number; // 기록 거리
   averageSpeed: number; // 기록 평균 속력
   createdAt: string; // 기록 시간
-  isRegistration: boolean; // ??
+  winOrLose?: 'WIN' | 'LOSE' | 'GIVEUP';
 }
 
 export interface MonthlyRecords {
@@ -31,9 +32,6 @@ export interface RunningRecordData {
   distance: number; // 그 때의 누적 거리
   speed: number; // 그 때의 속력
   pace: number; // 그 때의 초당 페이스
-  state: string;
-  latitude: number;
-  longitude: number;
 }
 
 export interface RunningRecordDataPace {

@@ -30,6 +30,9 @@ function PreviewMonthly({
   previewRecords,
   previewMonthRankingRecords,
 }: Props) {
+  useEffect(() => {
+    console.log(previewRecords);
+  });
   return (
     <S.Container isShow={isShow}>
       <MonthlyRecord

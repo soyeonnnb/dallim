@@ -69,15 +69,21 @@ export function WeeklyRecord({type, record}: RecordProps) {
 
   return (
     <S.Component>
-      <S.Circle bgColor={color}>
-        {type === 'count' ? (
-          <NumberIcon width={30} height={30} color="white" stroke={2} />
-        ) : type === 'distance' ? (
-          <RunningThinIcon width={30} height={30} color="white" stroke={2} />
-        ) : (
-          <ClockIcon width={30} height={30} color="white" />
-        )}
-      </S.Circle>
+      <S.CircleShadow
+        distance={3}
+        startColor={`${color}76`}
+        endColor={`${color}33`}
+        offset={[0, 2]}>
+        <S.Circle bgColor={color}>
+          {type === 'count' ? (
+            <NumberIcon width={30} height={30} color="white" stroke={2} />
+          ) : type === 'distance' ? (
+            <RunningThinIcon width={30} height={30} color="white" stroke={2} />
+          ) : (
+            <ClockIcon width={30} height={30} color="white" />
+          )}
+        </S.Circle>
+      </S.CircleShadow>
       <S.Name>{name}</S.Name>
       <S.Content>{content}</S.Content>
     </S.Component>

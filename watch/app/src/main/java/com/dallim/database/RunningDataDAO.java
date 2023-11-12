@@ -19,7 +19,7 @@ public interface RunningDataDAO {
     List<RunningData> getLatestTenRunningData();
 
     // 내 러닝데이터 최근 1개 가져오기
-    @Query("SELECT total_distance, total_time, average_pace, average_heart_rate FROM runningdata ORDER BY date DESC LIMIT 1")
+    @Query("SELECT total_distance, total_time, average_pace, average_heart_rate, type, win_or_lose, time_difference FROM runningdata ORDER BY date DESC LIMIT 1")
     OneRunningDataResponseDTO getLatestOneRunningData();
 
     @Query("DELETE FROM runningData")

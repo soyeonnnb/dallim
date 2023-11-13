@@ -69,11 +69,6 @@ export const totalDistanceState = atom<number>({
   default: 0,
 });
 
-// 인터페이스에 표시될 거리를 관리
-export const displayDistanceState = atom<number>({
-  key: 'displayDistanceState',
-  default: 0,
-});
 
 interface Position {
   latitude: number;

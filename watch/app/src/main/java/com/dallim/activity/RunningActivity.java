@@ -77,7 +77,7 @@ public class RunningActivity extends AppCompatActivity {
         runningData = new RunningData();
         runningData.setUserId(prefs.getLong("userId", 0L));
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
-        runningData.setCharacterId(prefs.getLong("characterIndex", 0L));
+        runningData.setCharacterIndex(prefs.getLong("characterIndex", 0L));
         runningData.setEvolutionStage(prefs.getInt("evolutionStage", 0));
 
         // 러닝 뷰 모델을 생성한다.
@@ -102,7 +102,6 @@ public class RunningActivity extends AppCompatActivity {
             Log.e("달리기", "싱글 달리기");
             runningData.setType("ALONE");
             runningViewModel.setPairCheck(false);
-            runningData.setWinOrLose(null);
         }
         
         
@@ -253,8 +252,6 @@ public class RunningActivity extends AppCompatActivity {
             runningData.setTranslation(true);
             runningService.addRunningData(runningData);
             RunningDataDTO runningDataDTO = runningData.toDTO();
-            long characterId = prefs.getLong("characterId", 0L);
-            runningDataDTO.setCharacterId(characterId);
             Log.d("보내는리스트", String.valueOf(runningDataDTO.toString()));
             ApiUtil.getApiService().postRunningData(token, runningDataDTO).enqueue(new Callback<Void>() {
                 // api 호출이 완료되면 콜백 실행

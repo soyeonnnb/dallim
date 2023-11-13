@@ -28,8 +28,8 @@ public class RunningData {
     private double totalDistance; // 총 달린 거리
     @ColumnInfo(name = "total_time")
     private Long totalTime; // 총 시간
-    @ColumnInfo(name = "character_id")
-    private Long characterId; // 어떤 캐릭터 pk인지
+    @ColumnInfo(name = "character_index")
+    private Long characterIndex; // 어떤 캐릭터 pk인지
     @ColumnInfo(name = "evolution_stage")
     private int evolutionStage;
     @ColumnInfo(name = "step_count")
@@ -66,6 +66,7 @@ public class RunningData {
         this.averageHeartRate = 0;
         this.averageSpeed = 0;
         this.watchOrMobile = "WATCH";
+        this.winOrLose = "WIN";
     }
 
     public RunningDataDTO toDTO(){
@@ -76,7 +77,7 @@ public class RunningData {
         dto.setFormattedDate(this.formattedDate);
         dto.setTotalDistance(this.totalDistance);
         dto.setTotalTime(this.totalTime);
-        dto.setCharacterId(this.characterId);
+        dto.setCharacterIndex(this.characterIndex);
         dto.setStepCount(this.stepCount);
         dto.setAverageHeartRate(this.averageHeartRate);
         dto.setType(this.type);
@@ -154,12 +155,12 @@ public class RunningData {
         this.totalTime = totalTime;
     }
 
-    public Long getCharacterId() {
-        return characterId;
+    public Long getCharacterIndex() {
+        return characterIndex;
     }
 
-    public void setCharacterId(Long characterId) {
-        this.characterId = characterId;
+    public void setCharacterIndex(Long characterIndex) {
+        this.characterIndex = characterIndex;
     }
 
     public double getStepCount() {

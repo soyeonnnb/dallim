@@ -74,26 +74,26 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
         holder.heartRate.setText(spannableHeartRate);
 
         holder.time.setText(convertTime(runningData.getTotalTime()));
-        Long characterId = runningData.getCharacterId();
+        Long characterIndex = runningData.getCharacterIndex();
         int evolutionStage = runningData.getEvolutionStage();
         if (evolutionStage == 0){
-            if(characterId == 0){
+            if(characterIndex == 0){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.rabbitegg_background_black);
-            }else if(characterId == 1){
+            }else if(characterIndex == 1){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.penguinegg_background_black);
-            }else if(characterId == 2){
+            }else if(characterIndex == 2){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.pandaegg_background_black);
-            }else if(characterId == 3){
+            }else if(characterIndex == 3){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.chickegg_background_black);
             }
         }else{
-            if(characterId == 0){
+            if(characterIndex == 0){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.rabbit_background_black);
-            }else if(characterId == 1){
+            }else if(characterIndex == 1){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.penguin_background_black);
-            }else if(characterId == 2){
+            }else if(characterIndex == 2){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.panda_background_black);
-            }else if(characterId == 3){
+            }else if(characterIndex == 3){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.chick_background_black);
             }
         }

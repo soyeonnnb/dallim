@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
 import {LineChart} from 'react-native-gifted-charts';
 import {View, Text} from 'react-native';
-import {secondToHourMinuteSeconds} from '@/recoil/RunningData';
+import {secondToMinuteSeconds} from '@/recoil/RunningData';
 
 interface Props {
   data: {
@@ -48,7 +48,7 @@ function HeartRateGraph({data, chartColor}: Props) {
       <S.DataPreviewView>
         <S.DataPreview>
           <S.DataPreviewTime>
-            {secondToHourMinuteSeconds(previewTime)}
+            {secondToMinuteSeconds(previewTime)}
           </S.DataPreviewTime>
           <S.DataPreviewHeartRate color={previewHeartRateColor}>
             {previewHeartRate}

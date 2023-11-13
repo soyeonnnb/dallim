@@ -1,4 +1,5 @@
 import styled from 'styled-components/native';
+import {Shadow} from 'react-native-shadow-2';
 
 export const Container = styled.View`
   flex: 1;
@@ -14,29 +15,36 @@ export const Title = styled.Text`
 export const View = styled.View`
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 5%;
+
+  width: 100%;
 `;
 export const TotalCount = styled.View`
-  margin-right: 13px;
+  flex: 0.3;
+  align-items: center;
 `;
 
 export const AverageCompares = styled.View`
-  justify-content: space-between;
-  flex: 1;
+  justify-content: space-evenly;
+  flex: 0.7;
+  align-items: flex-end;
 `;
 
 export const SmallContainer = styled.View`
-  width: 100%;
+  width: 90%;
   flex-direction: row;
-  flex: 1;
   justify-content: space-between;
   align-items: center;
 `;
+export const SmallCircleShadow = styled(Shadow)`
+  width: 45px;
+  height: 45px;
+  border-radius: 15px;
+`;
 export const SmallCircle = styled.View<{bgColor: string}>`
-  width: 50px;
-  height: 50px;
+  width: 100%;
+  height: 100%;
   background-color: ${props => props.bgColor};
-  border-radius: 70px;
+  border-radius: 15px;
   justify-content: center;
   align-items: center;
 `;
@@ -47,6 +55,7 @@ export const SmallView = styled.View`
 `;
 export const SmallName = styled.Text`
   color: gray;
+  font-size: 13px;
 `;
 export const SmallContent = styled.Text`
   font-weight: 800;
@@ -76,11 +85,12 @@ export const FriendText = styled.View`
 
 export const FriendTitle = styled.Text`
   color: gray;
+  font-size: 13px;
 `;
 
 export const FriendName = styled.Text`
   font-weight: 800;
-  font-size: 20px;
+  font-size: 18px;
   color: black;
 `;
 

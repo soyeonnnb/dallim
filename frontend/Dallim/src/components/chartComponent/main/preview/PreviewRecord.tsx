@@ -50,39 +50,40 @@ interface RecordProps {
 export function WeeklyRecord({type, record}: RecordProps) {
   const [name, setName] = useState('');
   const [content, setContent] = useState('');
-  const [color, setColor] = useState('red');
+  const [color, setColor] = useState('white');
   useEffect(() => {
     if (type === 'count') {
       setName('달린횟수');
       setContent(record + '번');
-      setColor(colors.depth._600);
+      setColor(colors.blue._100);
     } else if (type === 'distance') {
       setName('달린거리');
       setContent(meterToKMOrMeter(record));
-      setColor(colors.purple._200);
+      setColor('#A3B4F0');
     } else {
       setName('달린시간');
       setContent(secondToMinuteText(record));
-      setColor(colors.point.skyBluePoint);
+      setColor('#C3A9F6');
     }
   });
 
   return (
     <S.Component>
-      <S.Circle bgColor={color}>
-        {type === 'count' ? (
-          <NumberIcon width={40} height={40} color={colors.purple._100} />
-        ) : type === 'distance' ? (
-          <RunningThinIcon
-            width={40}
-            height={40}
-            color={colors.depth._600}
-            stroke={2}
-          />
-        ) : (
-          <ClockIcon width={40} height={40} color={colors.purple._100} />
-        )}
-      </S.Circle>
+      <S.CircleShadow
+        distance={3}
+        startColor={`${color}76`}
+        endColor={`${color}33`}
+        offset={[0, 2]}>
+        <S.Circle bgColor={color}>
+          {type === 'count' ? (
+            <NumberIcon width={30} height={30} color="white" stroke={2} />
+          ) : type === 'distance' ? (
+            <RunningThinIcon width={30} height={30} color="white" stroke={2} />
+          ) : (
+            <ClockIcon width={30} height={30} color="white" />
+          )}
+        </S.Circle>
+      </S.CircleShadow>
       <S.Name>{name}</S.Name>
       <S.Content>{content}</S.Content>
     </S.Component>

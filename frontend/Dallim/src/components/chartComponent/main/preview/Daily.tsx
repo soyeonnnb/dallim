@@ -53,12 +53,6 @@ function RunningCard({
   navigation: any;
   isAlone: boolean;
 }) {
-  const secondsToHoursAndMinutes = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
-    const remainingSeconds = seconds % 3600;
-    const minutes = Math.floor(remainingSeconds / 60);
-    return {hours, minutes};
-  };
   return (
     <S.Card
       width={cardWidth}
@@ -69,7 +63,7 @@ function RunningCard({
             ? require('@/assets/images/RunTogetherPanel.png') // 함께 달리기일 시
             : require('@/assets/images/RunAlonePanel.png') // 혼자 달리기일 시
         }
-        resizeMode="contain"
+        resizeMode="cover"
       />
       <S.CardTexts>
         <S.CardTitle>{item.location}</S.CardTitle>

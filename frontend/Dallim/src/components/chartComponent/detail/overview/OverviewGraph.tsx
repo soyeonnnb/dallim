@@ -3,14 +3,17 @@ import {useState, useEffect} from 'react';
 import {LineChart} from 'react-native-gifted-charts';
 import {HeartChartDataType, PaceChartDataType} from '@/apis/ChartApi';
 import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
+import {colors} from '@/components/common/globalStyles';
 
 interface Props {
   title: string;
   data?: PaceChartDataType[] | HeartChartDataType[] | itemType[];
   data2?: PaceChartDataType[] | itemType[];
+  color1: string;
+  color2?: string;
 }
 
-function OverviewGraph({title, data, data2}: Props) {
+function OverviewGraph({title, data, data2, color1, color2}: Props) {
   const [parentWidth, setParentWidth] = useState(0);
   const [parentHeight, setParentHeight] = useState(0);
   const [maxValue, setMaxValue] = useState<number>();
@@ -47,18 +50,17 @@ function OverviewGraph({title, data, data2}: Props) {
             areaChart
             curved
             data={data} // 데이터
-            startFillColor="#D96767"
-            backgroundColor="#D96767"
-            startOpacity={1}
-            endFillColor="#FF8080"
+            startFillColor={color1}
+            startOpacity={0.7}
+            endFillColor={color1}
             endOpacity={0}
-            color="#FF1B1B"
+            color={color1}
             data2={data2 ? data2 : undefined} // 같이달리기 컴포넌트
-            startFillColor2="#FFD83A"
-            startOpacity2={1}
-            endFillColor2="#FFD83A"
+            startFillColor2={color2}
+            startOpacity2={0.7}
+            endFillColor2={color2}
             endOpacity2={0}
-            color2="#FFCC00"
+            color2={color2}
             hideDataPoints // 점 숨기기
             hideYAxisText // y 라벨 없애기
             hideAxesAndRules // 내부 선 및 y선 x선 없애기

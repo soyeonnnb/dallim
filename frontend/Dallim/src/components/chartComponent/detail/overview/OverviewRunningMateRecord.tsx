@@ -1,19 +1,16 @@
 import * as S from './OverviewRunningMateRecord.styles';
 import {characterData} from '@/recoil/CharacterData';
-import {useNavigation} from '@react-navigation/native';
-import SpeedIcon from '@/assets/icons/SpeedIcon';
 import DistanceIcon from '@/assets/icons/DistanceIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 import {PaceChartDataType, RecordDetail, RivalRecord} from '@/apis/ChartApi';
 import {
   calculatePace,
-  secondToHourMinuteSeconds,
+  secondToMinuteSeconds,
   meterToKMOrMeter,
 } from '@/recoil/RunningData';
 import OverviewGraph from './OverviewGraph';
-import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
-import {useState, useEffect} from 'react';
+import {colors} from '@/components/common/globalStyles';
 
 interface Props {
   data: RivalRecord;
@@ -53,14 +50,17 @@ function OverviewRunningMateRecord({
             <RecordPreview
               type="pace"
               record={calculatePace(data.pace.averagePace)}
+              color={colors.green._500}
             />
             <RecordPreview
               type="distance"
               record={meterToKMOrMeter(data.totalDistance, 2)}
+              color={colors.yellow._500}
             />
             <RecordPreview
               type="time"
-              record={secondToHourMinuteSeconds(data.totalTime)}
+              record={secondToMinuteSeconds(data.totalTime)}
+              color={colors.red._500}
             />
           </S.Records>
         </S.Info>
@@ -68,8 +68,10 @@ function OverviewRunningMateRecord({
       {rivalPaceData && (
         <OverviewGraph
           title="페이스 비교"
-          data={paceData}
-          data2={rivalPaceData}
+          data={rivalPaceData}
+          data2={paceData}
+          color1={colors.pink._500}
+          color2={colors.blue._500}
         />
       )}
     </S.Container>
@@ -81,19 +83,21 @@ export default OverviewRunningMateRecord;
 interface RecordPreviewProps {
   type: string;
   record: string;
+  color: string;
 }
 
-function RecordPreview({type, record}: RecordPreviewProps) {
+function RecordPreview({type, record, color}: RecordPreviewProps) {
   return (
     <S.RecordPreview>
-      {type === 'pace' ? (
-        <RunningThinIcon width={30} height={30} color="white" />
-      ) : type === 'distance' ? (
-        <DistanceIcon width={30} height={30} color="white" />
-      ) : (
-        <ClockIcon width={30} height={30} color="white" />
-      )}
-
+      <S.RecordIconCircle bgColor={color}>
+        {type === 'pace' ? (
+          <RunningThinIcon width={30} height={30} color="white" />
+        ) : type === 'distance' ? (
+          <DistanceIcon width={30} height={30} color="white" />
+        ) : (
+          <ClockIcon width={30} height={30} color="white" />
+        )}
+      </S.RecordIconCircle>
       <S.RunningMateRecord>{record}</S.RunningMateRecord>
     </S.RecordPreview>
   );

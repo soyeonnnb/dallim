@@ -23,6 +23,7 @@ import {
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
 import {useRecoilState, useSetRecoilState} from 'recoil';
+import CustomToast from '@/components/common/CustomToast';
 
 interface MainProps {
   navigation: any;
@@ -88,6 +89,13 @@ function Main({navigation}: MainProps) {
   function PolicyAction() {
     console.log('공지모달 눌림');
     setPrivacyPolicyModalVisible(true);
+  }
+
+  function DummyToast() {
+    CustomToast({
+      type: 'error',
+      text1: '개발중입니다.',
+    });
   }
 
   return (
@@ -167,10 +175,13 @@ function Main({navigation}: MainProps) {
               </S.FooterBox>
 
               <S.StartBox>
-                <S.StartButton
+                {/* <S.StartButton
                   onPress={() =>
                     navigation.navigate('GameStartStack', {userId: userId})
                   }>
+                  <S.StartText>달리기</S.StartText>
+                </S.StartButton> */}
+                <S.StartButton onPress={DummyToast}>
                   <S.StartText>달리기</S.StartText>
                 </S.StartButton>
               </S.StartBox>

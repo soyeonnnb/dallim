@@ -1,5 +1,8 @@
 import styled from 'styled-components/native';
 import {Animated, TouchableOpacity} from 'react-native';
+import {Shadow} from 'react-native-shadow-2';
+import {colors} from '../common/globalStyles';
+import LinearGradient from 'react-native-linear-gradient';
 
 export const Container = styled.View`
   flex: 1;
@@ -13,7 +16,7 @@ export const Top = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  width: 90%;
+  width: 100%;
   height: 15%;
 `;
 
@@ -23,30 +26,71 @@ export const TopBox = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 70%;
-  width: 80%;
+  height: 90%;
+  width: 100%;
+`;
+export const TextBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+`;
+
+export const Text = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 50%;
+`;
+
+export const ToggleWrapperShadow = styled(Shadow)`
+  /* border-width: 1px;
+  border-color: red; */
+  /* width: 100%; */
+  /* margin: px; */
+  justify-content: center;
+  align-items: center;
+  /* color: black; */
+  /* width: 10px; */
+  /* height: 100%; */
+  border-radius: 30px;
+  /* margin-bottom: 20px; */
 `;
 
 export const ToggleButtonWrapper = styled(TouchableOpacity)`
-  border-width: 2px;
   border-radius: 100px;
-  border-color: white;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   padding: 5px;
-  width: 250px;
-  height: 80%;
-  background-color: #122937;
-`;
+  width: 280px;
+  height: 55px;
+  background-color: transparent;
 
+  /* border-width: 1px;
+  border-color: blue; */
+`;
+LinearGradient;
 export const ToggleButton = styled(Animated.View)`
-  width: 50%;
+  /* border-width: 1px;
+  border-color: blue; */
+  width: 120px;
   height: 90%;
   border-radius: 100px;
   justify-content: center;
   align-items: center;
-  margin-left: 10px;
-  background-color: #fcd116;
+  margin: 5px;
+  /* margin-left: 10px; */
+  background-color: white;
+  /* overflow: hidden; */
 `;
 
 type TextProps = {
@@ -55,14 +99,17 @@ type TextProps = {
 
 export const FixedTextLeft = styled.Text<TextProps>`
   position: absolute;
-  left: 25%;
+  /* left: 20%; */
   font-size: 15px;
-  color: ${props => (props.isFriend ? 'white' : 'black')};
+  z-index: 4;
+  color: ${props => (props.isFriend ? 'white' : 'white')};
 `;
 
 export const FixedTextRight = styled(FixedTextLeft)`
-  left: 70%;
-  color: ${props => (props.isFriend ? 'black' : 'white')};
+  /* left: 75%; */
+  /* right: -60%; */
+  z-index: 4;
+  color: ${props => (props.isFriend ? 'white' : 'white')};
 `;
 
 export const Body = styled.View`

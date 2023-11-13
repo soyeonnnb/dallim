@@ -7,16 +7,17 @@ import ArrowRight from '@/assets/icons/ArrowRight';
 import Run1Icon from '@/assets/icons/Run1Icon';
 import Run2Icon from '@/assets/icons/Run2Icon';
 import Run3Icon from '@/assets/icons/Run3Icon';
+import CircleWatchIcon from '@/assets/icons/CircleWatch';
+import MobileIcon from '@/assets/icons/MobileIcon';
 
 import {PaceDataType, RecordDetail, HeartChartDataType} from '@/apis/ChartApi';
 
 import RunningMateRecord from './OverviewRunningMateRecord';
 import OverviewGraph from './OverviewGraph';
-import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 import {
   numberToTwoString,
   calculatePace,
-  secondToHourMinuteSeconds,
+  secondToMinuteSeconds,
   meterToKMOrMeter,
 } from '@/recoil/RunningData';
 
@@ -66,7 +67,7 @@ function Overview({
         )}`,
       );
       setDistance(meterToKMOrMeter(data.totalDistance, 2));
-      setSpendTime(secondToHourMinuteSeconds(data.totalTime));
+      setSpendTime(secondToMinuteSeconds(data.totalTime));
       setAvgPace(calculatePace(data.pace.averagePace));
       setMaxPace(calculatePace(data.pace.maxPace));
       setIsLoading(false);
@@ -81,6 +82,11 @@ function Overview({
     handleSetData();
   }, []);
 
+  const [measureCircleHeight, setMeasureCircleHeight] = useState<number>(0);
+  const handleMethodCircleWidth = (event: any) => {
+    const {height} = event.nativeEvent.layout;
+    setMeasureCircleHeight(height);
+  };
   return (
     <S.Container>
       {isLoading ? (
@@ -90,8 +96,33 @@ function Overview({
           <S.ArrowContainer />
           <S.MainContent showsVerticalScrollIndicator={false}>
             <S.TitleContainer>
-              <S.Location>{data?.location}</S.Location>
-              <S.FullTime>{timeline}</S.FullTime>
+              <S.TitleContainerLeft>
+                <S.Location>{data?.location}</S.Location>
+                <S.FullTime>{timeline}</S.FullTime>
+              </S.TitleContainerLeft>
+              <S.TitleContainerRight onLayout={handleMethodCircleWidth}>
+                <S.MethodCircle
+                  size={measureCircleHeight}
+                  bgColor={
+                    data?.watchOrMobile === 'WATCH'
+                      ? colors.blue._500
+                      : colors.yellow._500
+                  }>
+                  {data?.watchOrMobile === 'WATCH' ? (
+                    <CircleWatchIcon
+                      width={measureCircleHeight * 0.8}
+                      height={measureCircleHeight * 0.8}
+                      color="white"
+                    />
+                  ) : (
+                    <MobileIcon
+                      width={measureCircleHeight * 0.8}
+                      height={measureCircleHeight * 0.8}
+                      color="white"
+                    />
+                  )}
+                </S.MethodCircle>
+              </S.TitleContainerRight>
             </S.TitleContainer>
             <S.Records>
               <S.RecordBox>
@@ -99,67 +130,78 @@ function Overview({
                   title="거리"
                   content={distance}
                   titleColor="white"
-                  contentColor={colors.neon.yellow}
+                  contentColor={colors.red._500}
                 />
                 <Record
                   title="시간"
                   content={spendTime}
+                  contentColor={colors.orange._500}
                   titleColor="white"
-                  contentColor={colors.neon.skyBlue}
                 />
               </S.RecordBox>
               <S.RecordBox>
                 <Record
                   title="평균 페이스"
                   content={avgPace}
+                  contentColor={colors.yellow._500}
                   titleColor="white"
-                  contentColor={colors.neon.green}
                 />
                 <Record
                   title="최대 페이스"
+                  contentColor={colors.green._500}
                   content={maxPace}
                   titleColor="white"
-                  contentColor={colors.neon.pink}
                 />
               </S.RecordBox>
-              <S.RecordBox>
-                <Record
-                  title="평균 심박수"
-                  content={`${
-                    data ? Math.round(data.heartRate.averageHeartRate) : 0
-                  } bpm`}
-                  titleColor="white"
-                  contentColor={colors.neon.purple}
-                />
-                <Record
-                  title="최대 심박수"
-                  content={`${
-                    data ? Math.round(data.heartRate.maxHeartRate) : 0
-                  } bpm`}
-                  titleColor="white"
-                  contentColor={colors.neon.red}
-                />
-              </S.RecordBox>
+              {/* 워치일 경우에만 심박수 존재 */}
+              {data?.watchOrMobile === 'WATCH' && (
+                <S.RecordBox>
+                  <Record
+                    title="평균 심박수"
+                    content={`${
+                      data ? Math.round(data.heartRate.averageHeartRate) : 0
+                    } bpm`}
+                    titleColor="white"
+                    contentColor={colors.blue._500}
+                  />
+                  <Record
+                    title="최대 심박수"
+                    content={`${
+                      data ? Math.round(data.heartRate.maxHeartRate) : 0
+                    } bpm`}
+                    contentColor={colors.purple._500}
+                    titleColor="white"
+                  />
+                </S.RecordBox>
+              )}
             </S.Records>
             <S.WalkRecords>
               <WalkRecord
                 type={1}
-                record={data?.secondPerSpeed[0]}
-                color={colors.neon.yellow}
+                record={data?.distancePerSpeed[0]}
+                color={colors.yellow._500}
               />
               <WalkRecord
                 type={2}
-                record={data?.secondPerSpeed[1]}
-                color={colors.neon.green}
+                record={data?.distancePerSpeed[1]}
+                color={colors.green._500}
               />
               <WalkRecord
                 type={3}
-                record={data?.secondPerSpeed[2]}
-                color={colors.neon.red}
+                record={data?.distancePerSpeed[2]}
+                color={colors.red._400}
               />
             </S.WalkRecords>
-            <OverviewGraph title="페이스" data={paceData?.chartData} />
-            <OverviewGraph title="심박수" data={heartRateData.chartData} />
+            <OverviewGraph
+              title="페이스"
+              data={paceData?.chartData}
+              color1={colors.blue._500}
+            />
+            <OverviewGraph
+              title="심박수"
+              data={heartRateData.chartData}
+              color1={colors.red._500}
+            />
             {data?.rivalRecord ? (
               <RunningMateRecord
                 data={data.rivalRecord}
@@ -228,7 +270,7 @@ function WalkRecord({type, record, color}: WalkRecordProps) {
       )}
       <S.WalkRecordTitle>{title}</S.WalkRecordTitle>
       <S.WalkRecordContent>
-        {record && (record === 0 ? '-' : meterToKMOrMeter(record))}
+        {record ? (record === 0 ? '-' : meterToKMOrMeter(record, 2)) : '-'}
       </S.WalkRecordContent>
     </S.WalkRecordContainer>
   );

@@ -1,10 +1,11 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect, useMemo} from 'react';
 import {RouteProp, useIsFocused} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import * as S from './ChartDetail.styles';
 import {ScrollView, TouchableOpacity} from 'react-native';
 import {fetchDetailRunningData} from '@/apis/ChartApi';
-import Loading from '@/components/common/Loading_Run';
+// import Loading from '@/components/common/Loading_run';
+import {Dimensions} from 'react-native';
 
 // 컴포넌트
 import Overview from '@/components/chartComponent/detail/overview/Overview';
@@ -24,6 +25,7 @@ import {
 
 import {getDateObject} from '@/recoil/CalendarData';
 import {calculatePace} from '@/recoil/RunningData';
+import {colors} from '@/components/common/globalStyles';
 
 // 스택 내비게이션 타입을 정의
 type RootStackParamList = {
@@ -45,10 +47,9 @@ type Props = {
   route: RouteProp<{ChartDetail: {id: string}}, 'ChartDetail'>;
   navigation: ChartDetailScreenNavigationProp;
 };
-
 function ChartDetail({route, navigation}: Props) {
   const {id} = route.params;
-
+  const windowWidth = Dimensions.get('window').width;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<RecordDetail>();
   const [createdAt, setCreatedAt] = useState<{
@@ -60,13 +61,30 @@ function ChartDetail({route, navigation}: Props) {
     second?: number;
     day?: string;
   }>();
-  const [isAlone, setIsAlone] = useState<boolean>(true);
+  const [showRivals, setShowRivals] = useState<boolean>(false);
   const [paceData, setPaceData] = useState<PaceDataType>();
   const [rivalPaceData, setRivalPaceData] = useState<PaceDataType>();
   const [heartRateData, setHeartRateData] = useState<{
     chartData: HeartChartDataType[];
     secondPerHeartRateSection: number[];
   }>({chartData: [], secondPerHeartRateSection: []});
+  const [pagination, setPagination] = useState<number>(3);
+  const [indexDot, setIndexDot] = useState<number>(-1);
+  const [headerTitle, setHeaderTitle] = useState<string>('Overview');
+
+  const onChangeDot = (event: any) => {
+    const index = Math.ceil(event.nativeEvent.contentOffset.x / windowWidth);
+    if (index === 1) {
+      setHeaderTitle('페이스 차트');
+    } else if (index === 2) {
+      setHeaderTitle('심박수 차트');
+    } else {
+      setHeaderTitle(
+        `${createdAt?.month}월 ${createdAt?.date}일 (${createdAt?.day})`,
+      );
+    }
+    setIndexDot(index);
+  };
 
   const runningInfosToPaceChartData = (
     data: RunningRecordData[],
@@ -91,7 +109,11 @@ function ChartDetail({route, navigation}: Props) {
     try {
       const getData = await fetchDetailRunningData(id);
       setData(getData);
-      setIsAlone(getData.type === 'ALONE');
+      // 혼자 달렸거나 포기한 경우에는 rival 기록이 보이지 않게
+      setShowRivals(
+        !(getData.type === 'ALONE' || getData.winOrLose === 'GIVEUP'),
+      );
+      setPagination(getData.watchOrMobile === 'WATCH' ? 3 : 2);
       setCreatedAt(getDateObject(getData.createdAt));
 
       // 페이스에 들어갈 데이터 처리
@@ -100,8 +122,8 @@ function ChartDetail({route, navigation}: Props) {
         sectionPace: getData.pace.section,
       });
 
-      // 같이 달린 경우, 러닝메이트 데이터 처리
-      if (getData.type === 'PAIR') {
+      // 같이 달리면서 포기하지 않은 경우, 러닝메이트 데이터 처리
+      if (getData.type === 'PAIR' && getData.winOrLose !== 'GIVEUP') {
         setRivalPaceData({
           chartData: runningInfosToPaceChartData(
             getData.rivalRecord.runningRecordInfos,
@@ -138,12 +160,31 @@ function ChartDetail({route, navigation}: Props) {
   };
 
   useEffect(() => {
-    if (data) setCreatedAt(getDateObject(data.createdAt));
-  }, [data]);
-
-  useEffect(() => {
     fetchRunningData();
   }, []);
+  const renderPagination = useMemo(() => {
+    return (
+      <S.Pagination>
+        {Array.from({length: pagination}).map((_, index) => {
+          return (
+            <S.PaginationDot
+              distance={3}
+              startColor={
+                index === indexDot ? `${colors.lightBlue._300}83` : '#ffffff83'
+              }
+              endColor={
+                index === indexDot ? `${colors.lightBlue._300}12` : '#ffffff12'
+              }
+              paintInside={true}
+              key={index}
+              offset={[1, 0]}
+              isFocused={index === indexDot}
+            />
+          );
+        })}
+      </S.Pagination>
+    );
+  }, [indexDot]);
 
   return (
     <>
@@ -152,20 +193,27 @@ function ChartDetail({route, navigation}: Props) {
         resizeMode="cover"
       />
       {isLoading || !data ? (
-        <Loading />
+        // <Loading />
+        <S.HeaderTitle>로딩중</S.HeaderTitle>
       ) : (
         <S.Container>
           <S.Header>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <ArrowLeft width={30} height={30} color="white" />
-            </TouchableOpacity>
-            <S.HeaderTitle>
-              {createdAt?.month}월 {createdAt?.date}일 ({createdAt?.day})
-            </S.HeaderTitle>
-            {/* 정렬을 맞추기 위함 */}
-            <ArrowLeft width={30} height={30} color="transparent" />
+            <S.HeaderBox>
+              <TouchableOpacity onPress={() => navigation.pop()}>
+                <ArrowLeft width={30} height={30} color="white" />
+              </TouchableOpacity>
+              <S.HeaderTitle>{headerTitle}</S.HeaderTitle>
+              {/* 정렬을 맞추기 위함 */}
+              <ArrowLeft width={30} height={30} color="transparent" />
+            </S.HeaderBox>
+            {renderPagination}
           </S.Header>
-          <ScrollView horizontal pagingEnabled>
+          <ScrollView
+            horizontal
+            pagingEnabled
+            onMomentumScrollEnd={onChangeDot}
+            showsHorizontalScrollIndicator={false}
+            contentOffset={{x: 0, y: 0}}>
             {data && (
               <Overview
                 data={data}
@@ -178,11 +226,14 @@ function ChartDetail({route, navigation}: Props) {
             {paceData && (
               <Pace
                 data={paceData}
-                isAlone={isAlone}
+                showRivals={showRivals}
                 rivalData={rivalPaceData}
               />
             )}
-            {heartRateData && <HeartRate data={heartRateData} />}
+            {/* mobile인 경우에는 심박수 보이지 않도록 */}
+            {heartRateData && data.watchOrMobile === 'WATCH' && (
+              <HeartRate data={heartRateData} />
+            )}
           </ScrollView>
         </S.Container>
       )}

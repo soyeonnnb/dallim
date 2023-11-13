@@ -397,7 +397,9 @@ public class RunningRecordService {
 
     public WatchRunningRecordOverview getRunningRecordOverview(String id) {
 
-        RawRunningRecord rawRunningRecord = rawRunningRecordRepository.findByRunningRecordId((id));
+        RawRunningRecord rawRunningRecord = rawRunningRecordRepository.findByRunningRecordId((id)).orElseThrow(() -> {
+            throw new NullPointerException();
+        });
 
         return WatchRunningRecordOverview.builder().rawRunningRecord(rawRunningRecord).build();
     }

@@ -22,32 +22,15 @@ public class RunningRecordController {
 
     @GetMapping("/api/v1/running/{id}")
     public ApiResponse<?> getRunningRecordDetail(@PathVariable String id) {
-
-        try {
-            System.out.println(id);
-
-            RunningRecordDetail res = runningRecordService.getRunningRecordDetail(id);
-            return ApiResponse.createSuccess(res);
-        } catch (Exception e) {
-            return ApiResponse.createError(e.getMessage());
-        }
-
+        RunningRecordDetail res = runningRecordService.getRunningRecordDetail(id);
+        return ApiResponse.createSuccess(res);
     }
 
     @GetMapping("/api/v1/running/overview/{id}")
     public ApiResponse<?> getRunningRecordOverview(@PathVariable String id) {
+        WatchRunningRecordOverview res = runningRecordService.getRunningRecordOverview(id);
 
-        try {
-
-            System.out.println(id);
-
-            WatchRunningRecordOverview res = runningRecordService.getRunningRecordOverview(id);
-
-            return ApiResponse.createSuccess(res);
-        } catch (Exception e) {
-            return ApiResponse.createError(e.getMessage());
-        }
-
+        return ApiResponse.createSuccess(res);
     }
 
     @GetMapping("/api/v1/running-record/running-mate/{id}")
@@ -68,15 +51,11 @@ public class RunningRecordController {
 
     @PostMapping("/api/v1/running")
     public ApiResponse<?> createRunningRecord(@RequestBody RunningRecordInfo req) {
-        try {
             log.info(req.toString());
 
             runningRecordService.createRunningRecord(req);
 
             return ApiResponse.createSuccess(true);
-        } catch (Exception e) {
-            return ApiResponse.createError(e.getMessage());
-        }
     }
 
 

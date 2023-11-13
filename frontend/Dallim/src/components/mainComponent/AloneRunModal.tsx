@@ -57,13 +57,14 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const [totalDistance, setTotalDistance] = useRecoilState(totalDistanceState);
   const [displayDistance, setDisplayDistance] = useRecoilState(displayDistanceState);
   const [lastPosition, setLastPosition] = useRecoilState(lastPositionState);
-  
+
   // 확인 모달
   const [showModal, setShowModal] = useState(false);
 
   // 페이스 상태
-  const [pace, setPace] = useState('0:00');
-  
+  const [pace, setPace] = useState('0:00'); // 화면에 표시할 페이스
+  // const [paceStr, setPaceStr] = useState(0); // 서버로 보낼 페이스
+
   // 시작 및 종료 모달 구분을 위한 상태
   const [modalType, setModalType] = useState<'start' | 'stop' | null>(null);
 
@@ -174,14 +175,17 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
       // 1초에 몇미터 가는지
       const speed = position.coords.speed ?? 0; // m/s
-
-      // 1키로를 뛰는데 걸리는 시간 (초) 계산 : 
-      const pace = speed !== 0 ? 1000 / speed : 0;
-      const paceStr = pace.toFixed(2);
-      setPace(paceStr);
-
-      const paceValue = msToPace(speed);
-      setPace(paceValue);
+      let calculatedPace;
+      let paceValue;
+      if (speed !== 0) {
+        calculatedPace = 1000 / speed; // 속도가 0이 아닐 때만 페이스 계산
+        paceValue = msToPace(speed); // '분:초' 형식으로 페이스 변환
+      } else {
+        calculatedPace = 0; // 속도가 0일 경우 페이스를 0으로 설정
+        paceValue = '-'; // 화면에 표시할 값
+      }
+      // setPaceStr(calculatedPace); // 서버
+      setPace(paceValue); // 화면
 
       const elapsedTime = Math.floor((position.timestamp - startTime) / 1000); // 경과 시간 계산 (초)
 
@@ -191,7 +195,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
         longitude: position.coords.longitude,
         distance: newTotalDistance,
         speed: speed,
-        pace: pace,
+        pace: calculatedPace,
       };
 
       // 데이터 누적 업데이트

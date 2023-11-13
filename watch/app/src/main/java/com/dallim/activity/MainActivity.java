@@ -40,18 +40,13 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends ComponentActivity{
-    // 클래스 멤버로 Executor 정의
-    private final Executor executor = Executors.newSingleThreadExecutor();
     private ActivityMainBinding binding;
     private AppDatabase db;
-    static int MULTIPLE_PERMISSIONS_CODE = 100;
     private SharedPreferences prefs;
     private NetworkUtil networkUtil;
     private int notificationId = 5;
     private String authenticateduth;
     private UserInfo userInfo;
-    private PowerManager.WakeLock wakeLock;
-    // 권한 요청과 관련된 변수
     private int permissionIndex = 0;
     private List<String> permissionsNeeded;
     private boolean shouldShowSettings = false;

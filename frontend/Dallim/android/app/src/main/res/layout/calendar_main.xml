@@ -34,88 +34,116 @@
             android:orientation="horizontal">
 
             <!-- 일요일 -->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="500"
-                android:text="S"
-                android:fontFamily="@font/grandifloraoneregular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/day0"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.14"
+                    android:gravity="center"
+                    android:textFontWeight="500"
+                    android:text="S"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/changa_regular"
+                    android:textColor="@color/red"
+                    android:textSize="15sp" />
+
 
 
 
             <!-- 월요일 -->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="500"
-                android:text="M"
-                android:fontFamily="@font/grandifloraoneregular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/day1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.14"
+                    android:gravity="center"
+                    android:textFontWeight="500"
+                    android:text="M"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/changa_regular"
+                    android:textColor="@color/color_ffffff"
+                    android:textSize="15sp" />
             <!-- 화요일 -->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="500"
-                android:text="T"
-                android:fontFamily="@font/orbitregular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/day2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.14"
+                    android:gravity="center"
+                    android:textFontWeight="500"
+                    android:text="T"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/changa_regular"
+                    android:textColor="@color/color_ffffff"
+                    android:textSize="15sp" />
+
             <!-- 수요일 -->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="500"
-                android:text="W"
-                android:fontFamily="@font/orbitregular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/day3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.14"
+                    android:gravity="center"
+                    android:textFontWeight="500"
+                    android:text="W"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/changa_regular"
+                    android:textColor="@color/color_ffffff"
+                    android:textSize="15sp" />
+
 
             <!-- 목요일 -->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="500"
-                android:text="T"
-                android:fontFamily="@font/changa_regular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/day4"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.14"
+                    android:gravity="center"
+                    android:textFontWeight="500"
+                    android:text="T"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/changa_regular"
+                    android:textColor="@color/color_ffffff"
+                    android:textSize="15sp" />
 
             <!-- 금요일 -->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="500"
-                android:text="F"
-                android:fontFamily="@font/changa_regular"
-                android:textColor="@color/color_ffffff"
-                android:textSize="15sp" />
+
+
+                <TextView
+                    android:id="@+id/day5"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.14"
+                    android:gravity="center"
+                    android:textFontWeight="500"
+                    android:text="F"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/changa_regular"
+                    android:textColor="@color/color_ffffff"
+                    android:textSize="15sp" />
+
 
             <!-- 토요일 -->
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.14"
-                android:gravity="center"
-                android:textFontWeight="500"
-                android:text="S"
-                android:fontFamily="@font/"
-                android:textColor="@color/color_ffffff"
-                android:textSize="15sp" />
+                <TextView
+                    android:id="@+id/day6"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.14"
+                    android:gravity="center"
+                    android:textFontWeight="500"
+                    android:text="S"
+                    android:background="@color/transparent"
+                    android:fontFamily="@font/changa_regular"
+                    android:textColor="@color/color_ffffff"
+                    android:textSize="15sp" />
+
+
         </LinearLayout>
 
 
@@ -137,7 +165,7 @@
                     android:id="@+id/check_image_view_1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_check_circle"
+                    android:src="@drawable/ic_check_circle2"
                     android:background="@drawable/circle"
                     android:visibility="gone"
                     android:scaleType="centerInside"/>
@@ -161,7 +189,7 @@
                     android:id="@+id/check_image_view_2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/ic_check_circle"
+                    android:src="@drawable/ic_check_circle2"
                     android:background="@drawable/circle"
                     android:visibility="gone"
                     android:scaleType="centerInside"/>

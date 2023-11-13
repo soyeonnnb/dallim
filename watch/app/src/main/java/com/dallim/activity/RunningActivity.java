@@ -20,6 +20,7 @@ import com.dallim.databinding.ActivityRunningBinding;
 import com.dallim.dto.RunningDataDTO;
 import com.dallim.model.RunDetail;
 import com.dallim.model.RunningData;
+import com.dallim.model.RunningMateRecord;
 import com.dallim.service.LocationService;
 import com.dallim.service.RunningService;
 import com.dallim.service.SensorService;
@@ -48,11 +49,9 @@ public class RunningActivity extends AppCompatActivity {
     private ActivityRunningBinding binding;
     private RunningViewModel runningViewModel;
     private RunningMateRecordViewModel runningMateRecordViewModel;
-    private List<RunDetail> runDetailsList = new ArrayList<>();
-    private AppDatabase db;
     private RunningData runningData;
-    private final Executor executor = Executors.newSingleThreadExecutor();
     private Long totalTime = 1L;
+    private Long mateTotalTime = 0L;
     private int speedCountTime = 0;
     private double totalSpeed = 0;
     private Conversion conversion = new Conversion();
@@ -75,14 +74,10 @@ public class RunningActivity extends AppCompatActivity {
 
         prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
 
-        db = AppDatabase.getDatabase(getApplicationContext());
-
-
-        long startTime = System.currentTimeMillis();
         runningData = new RunningData();
         runningData.setUserId(prefs.getLong("userId", 0L));
         runningData.setFormattedDate(conversion.formatDate(runningData.getDate()));
-        runningData.setCharacterId(prefs.getLong("characterIndex", 0L));
+        runningData.setCharacterIndex(prefs.getLong("characterIndex", 0L));
         runningData.setEvolutionStage(prefs.getInt("evolutionStage", 0));
 
         // 러닝 뷰 모델을 생성한다.
@@ -107,7 +102,6 @@ public class RunningActivity extends AppCompatActivity {
             Log.e("달리기", "싱글 달리기");
             runningData.setType("ALONE");
             runningViewModel.setPairCheck(false);
-            runningData.setWinOrLose(null);
         }
         
         
@@ -130,15 +124,7 @@ public class RunningActivity extends AppCompatActivity {
         startForegroundService(timerServiceIntent);
     }
 
-    // 데이터 추가(메인 스레드에서 분리하기 위해서)
-    private void addRunningData(RunningData runningData) {
-        executor.execute(new Runnable() {
-            @Override
-            public void run() {
-                db.runningDataDAO().insert(runningData);
-            }
-        });
-    }
+
 
     private BroadcastReceiver finishReceiver = new BroadcastReceiver() {
         @Override
@@ -158,18 +144,21 @@ public class RunningActivity extends AppCompatActivity {
         stopService(timerServiceIntent); // 타임서비스 중지
         LocalBroadcastManager.getInstance(this).unregisterReceiver(finishReceiver);
 
-        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.001) {
-            Toast.makeText(this, "기록이 너무 짧아 저장되지 않습니다.", Toast.LENGTH_LONG).show();
+        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 100) {
+            Toast.makeText(this, "100m 이하의 기록은 저장되지 않습니다.", Toast.LENGTH_LONG).show();
             super.onDestroy();
             return; // 메서드를 여기서 종료
         }
 
+        // 전체 속도
         if(runningViewModel.getTotalSpeed().getValue() != 0){
             totalSpeed = runningViewModel.getTotalSpeed().getValue();
         }
+        // 전체 속도 카운트 횟수
         if(runningViewModel.getSpeedCountTime().getValue() != 0){
             speedCountTime = runningViewModel.getSpeedCountTime().getValue();
         }
+        // 총 시간
         if(runningViewModel.getTotalTime().getValue() != 0){
             totalTime = runningViewModel.getTotalTime().getValue();
         }
@@ -179,7 +168,6 @@ public class RunningActivity extends AppCompatActivity {
         Integer heartRateCount = runningViewModel.getHeartCountTime().getValue();
         runningData.setAverageHeartRate(Math.round((totalHeartRate/heartRateCount) * 100) / 100.0);
 
-        runningData.setRunningRecordInfos(runningViewModel.getRunDetailList().getValue());
         // 발걸음
         runningData.setStepCount(runningViewModel.getStepCount().getValue());
 
@@ -204,19 +192,45 @@ public class RunningActivity extends AppCompatActivity {
         // 최종 시간 업데이트
         runningData.setTotalTime(totalTime - 1);
 
+        // 전체 기록
+        runningData.setRunningRecordInfos(runningViewModel.getRunDetailList().getValue());
+
         // 같이 달리기인 경우
         if(type.equals("PAIR")){
+            Log.e("같이달리기", "들어옴");
+            // 거리
             List<Double> distance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
+            // 상대방 최종 거리
             Double lastDistance = distance.get(distance.size() - 1);
             Log.e("상대방 거리", String.valueOf(lastDistance));
             Log.e("내 거리", String.valueOf(totalDistance));
             // 상대방 거리보다 작을 경우
             if (lastDistance > totalDistance){
-                runningData.setWinOrLose("LOSE");
+                // 만약에 종료를 누른 상태면(포기로 간주)
+                if(runningMateRecordViewModel.getGiveUp().getValue()){
+                    runningData.setWinOrLose("GIVEUP");
+                }else{
+                    runningData.setWinOrLose("LOSE");
+                    // 상대방의 전체 시간 가져옴
+                    mateTotalTime = runningMateRecordViewModel.getMateRecord().getValue().getTotalTime();
+                    // 시간의 차이 구함
+                    Long timeDifference = mateTotalTime - totalTime;
+                    runningData.setTimeDifference(timeDifference);
+                }
             }
             // 이긴 경우
-            else if (lastDistance <= totalDistance){
-                runningData.setWinOrLose("WIN");
+            else{
+                // 상대방의 전체 시간 가져옴
+                mateTotalTime = runningMateRecordViewModel.getMateRecord().getValue().getTotalTime();
+                // 시간의 차이 구함
+                Long timeDifference = mateTotalTime - totalTime;
+                runningData.setTimeDifference(timeDifference);
+                // 시간을 초과한 경우
+                if (runningMateRecordViewModel.getMateRecord().getValue().getTotalTime() <= totalTime - 1){
+                    runningData.setWinOrLose("LOSE");
+                }else{
+                    runningData.setWinOrLose("WIN");
+                }
             }
         }
 
@@ -236,10 +250,8 @@ public class RunningActivity extends AppCompatActivity {
             * 그리고 해당 API 호출의 응답이 돌아오면 실행될 콜백 함수를 정의해놓는다.
             * */
             runningData.setTranslation(true);
-            addRunningData(runningData);
+            runningService.addRunningData(runningData);
             RunningDataDTO runningDataDTO = runningData.toDTO();
-            long characterId = prefs.getLong("characterId", 0L);
-            runningDataDTO.setCharacterId(characterId);
             Log.d("보내는리스트", String.valueOf(runningDataDTO.toString()));
             ApiUtil.getApiService().postRunningData(token, runningDataDTO).enqueue(new Callback<Void>() {
                 // api 호출이 완료되면 콜백 실행
@@ -253,7 +265,6 @@ public class RunningActivity extends AppCompatActivity {
                         Toast.makeText(RunningActivity.this, "기록 저장 실패", Toast.LENGTH_SHORT).show();
                     }
                 }
-
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
                     Log.e("달리기 기록 저장 실패(서버)", t.getMessage());
@@ -262,9 +273,10 @@ public class RunningActivity extends AppCompatActivity {
             });
         }else{
             runningData.setTranslation(false);
-            addRunningData(runningData);
+            runningService.addRunningData(runningData);
             Log.d("데이터 전송", "인터넷 연결 안 됨");
         }
+
         super.onDestroy();
     }
 }

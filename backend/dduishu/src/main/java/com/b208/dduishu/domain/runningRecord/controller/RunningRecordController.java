@@ -51,8 +51,6 @@ public class RunningRecordController {
 
     @PostMapping("/api/v1/running")
     public ApiResponse<?> createRunningRecord(@RequestBody RunningRecordInfo req) {
-            log.info(req.toString());
-
             runningRecordService.createRunningRecord(req);
 
             return ApiResponse.createSuccess(true);

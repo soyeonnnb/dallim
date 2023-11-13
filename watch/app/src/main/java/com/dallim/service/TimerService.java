@@ -26,7 +26,9 @@ import com.dallim.util.MyApplication;
 import com.dallim.view.RunningMateRecordViewModel;
 import com.dallim.view.RunningViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -92,14 +94,12 @@ public class TimerService extends Service {
     }
 
     public void startTimer() {
-        curTime = System.currentTimeMillis();
+        curTime = System.nanoTime();
         startTime = curTime;
         timerRunnable = new Runnable() {
             @Override
             public void run() {
                 long elapsedTime = curTime - startTime;
-                Log.e("curTime", String.valueOf(curTime));
-                Log.e("elapsedTime", String.valueOf(elapsedTime));
                 updateRunDetailList(elapsedTime);
                 Intent intent = new Intent(TIMER_BR);
                 intent.putExtra("elapsedTime", elapsedTime);
@@ -180,7 +180,7 @@ public class TimerService extends Service {
         if (runningViewModel.getHeartRate().getValue() != null) {
             detail.setHeartRate(runningViewModel.getHeartRate().getValue());
         }
-        detail.setSecond(runningViewModel.getTotalTime().getValue());
+        detail.setSecond(elapsedTime);
         if (runningViewModel.getLongitude().getValue() != null) {
             detail.setLongitude(runningViewModel.getLongitude().getValue());
         }

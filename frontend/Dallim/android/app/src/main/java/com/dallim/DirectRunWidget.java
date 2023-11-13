@@ -3,6 +3,7 @@ package com.dallim;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -12,48 +13,60 @@ import android.content.SharedPreferences;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 /**
  * Implementation of App Widget functionality.
  */
 public class DirectRunWidget extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    public static final String DATA_FETCH_ACTION2 = "com.dallim.DATA_FETCH_ACTION2";
+    public static final String EXTRA_ITEM2 = "com.dallim.EXTRA_ITEM2";
 
-        Log.d("DDDDDDDDDD", "DallimWidget - updateAppWidget");
+
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+                                int appWidgetId, HashMap<String,String> userData ) {
+
+        Log.d("DDDDDDDDDD", "DirectWidget ");
 
         // RemoteViews를 사용하여 위젯 UI 업데이트
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.directrun_widget);
+        Log.d("DDDDDDDDDD", "DirectWidget - userData"+userData);
 
+        int characterIndex =Integer.parseInt(userData.get("characterIndex"));
+        int evolutionStage =Integer.parseInt(userData.get("evolutionStage"));
+        Log.d("DDDDDDDDDD", "DirectWidget - updateAppWidget"+characterIndex+evolutionStage);
+        int viewImageId = context.getResources().getIdentifier("direct_character_"+characterIndex+evolutionStage, "drawable", context.getPackageName());
+
+        int id = R.id.direct_image;
+        Log.d("DDDDDDDDDD", "DirectWidget - viewImageId+id"+viewImageId+id);
+        views.setImageViewResource(id,viewImageId);
         // 기존 위젯 업데이트 코드 (필요에 따라 유지)
         appWidgetManager.updateAppWidget(appWidgetId, views);
-
-        Intent intent = new Intent(context, MainActivity.class); // 앱의 메인 액티비티로 이동
-
-// FLAG_ACTIVITY_NEW_TASK는 새로운 태스크에서 액티비티를 시작하려 할 때 필요합니다.
-// 특히 위젯과 같은 백그라운드 컴포넌트에서 액티비티를 시작할 때 사용됩니다.
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        Log.d("DDDDDDDDDD", " DirectRunWidget - intent1 end");
-
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-        Log.d("DDDDDDDDDD", "DirectRunWidget - getActivity end");
-        views.setOnClickPendingIntent(R.id.directrun, pendingIntent);
-
-// 위젯 매니저를 통해 위젯 업데이트
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-
 
 
     }
 
     @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        Log.d("DDDDDDDDDD", "DallimWidget - onUpdate");
-        // There may be multiple widgets active, so update all of them
-        for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        Log.d("DDDDDDDDDD", "DirectWidget - onReceive");
+        // 데이터 가져오기 액션을 체크
+        if (DATA_FETCH_ACTION2.equals(intent.getAction())) {
+            // 인텐트에서 데이터 가져오기
+
+            HashMap<String, String> userData = (HashMap<String, String>) intent.getSerializableExtra(EXTRA_ITEM2);
+            Log.d("DDDDDDDDDD", "DirectWidget - userData"+userData);
+            // 모든 위젯 인스턴스 업데이트
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, CalendarWidget.class));
+            for (int appWidgetId : appWidgetIds) {
+                updateAppWidget(context, appWidgetManager, appWidgetId, userData);
+            }
         }
+
     }
+
 
     @Override
     public void onEnabled(Context context) {

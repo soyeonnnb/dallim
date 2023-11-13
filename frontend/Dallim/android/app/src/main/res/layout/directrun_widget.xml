@@ -2,7 +2,7 @@
 android:id="@+id/directrun"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-android:background="@drawable/newchick"
+android:background="@drawable/directback"
 android:orientation="horizontal"
     android:layout_marginTop="25dp"
     android:layout_marginBottom="25dp"
@@ -10,5 +10,13 @@ android:orientation="horizontal"
     android:layout_marginRight="15dp"
     >
 
+<ImageView
+    android:id="@+id/direct_image"
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:paddingTop="15dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:src="@drawable/direct_character_11"/>
 
 </LinearLayout>

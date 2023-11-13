@@ -11,6 +11,7 @@ import android.util.Log;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 
 public class DirectRunWidgetModule extends ReactContextBaseJavaModule {
@@ -30,6 +31,14 @@ public class DirectRunWidgetModule extends ReactContextBaseJavaModule {
     public void showNativeMessage() {
         // 여기에 네이티브 코드 작성
 
+    }
+
+    @ReactMethod
+    public void sendAppRoute(String route) {
+        ReactApplicationContext context = getReactApplicationContext();
+        context
+                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("AppRouteEvent", route);
     }
     @ReactMethod
     public void set(String message) {

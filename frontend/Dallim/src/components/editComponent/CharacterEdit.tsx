@@ -131,7 +131,6 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange, onCha
   }
 
   function handleEquipped() {
-    console.log('시작 버튼 눌림!');
     CustomToast({ type: 'success', text1: '이미 선택된 캐릭터입니다.' });
   }
 

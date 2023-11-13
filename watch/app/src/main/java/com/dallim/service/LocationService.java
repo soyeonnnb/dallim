@@ -92,7 +92,7 @@ public class LocationService extends Service {
         if (lastLocation != null) {
             double speed = location.getSpeed();
             // 초속 0.4 이상이면 걷는 걸로 판단.
-            if(speed >= 0.001){
+            if(speed >= 0.4){
                 speed = (Math.round(speed * 100) / 100.0);
                 // m/s 저장
                 runningViewModel.setMsSpeed(speed);
@@ -113,22 +113,22 @@ public class LocationService extends Service {
                 runningViewModel.setMsPace(format);
 
                 double distance = lastLocation.distanceTo(location);
+                Log.d("거리", String.valueOf(distance));
                 totalDistance += distance;
                 // 원래 미터값
                 runningViewModel.setOriDistance((double) Math.round(totalDistance * 10) / 10.0);
                 // km 변환값(화면에 표시용)
-                runningViewModel.setDistance(Math.round((totalDistance / 1000) * 100) / 100.0);
+                runningViewModel.setDistance(conversion.mToKM(totalDistance));
 
                 double latitude = location.getLatitude(); // 위도
                 double longitude = location.getLongitude(); // 경도
-                if(runningViewModel.getInitLatitude().getValue() == null && runningViewModel.getInitLongitude().getValue() == null) {
+                if(runningViewModel.getInitLatitude().getValue() == 0 && runningViewModel.getInitLongitude().getValue() == 0 && latitude != 0 && longitude != 0) {
                     runningViewModel.setInitLatitude(latitude);
                     runningViewModel.setInitLongitude(longitude);
                 }
                 runningViewModel.setLatitude(latitude);
                 runningViewModel.setLongitude(longitude);
             }
-            Log.d("자른 이동거리", String.valueOf((double) Math.round(totalDistance * 10) / 10.0));
         }
         lastLocation = location;
     }
@@ -145,7 +145,6 @@ public class LocationService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        System.out.println("들어옴");
         createNotificationChannel();
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_round)

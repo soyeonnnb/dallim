@@ -40,7 +40,7 @@ public class RunningViewModel extends ViewModel {
         distanceDifference.setValue(0.0);
         heartRate.setValue(0.0);
         msSpeed.setValue(0.0);
-        distance.setValue(0.0);
+        distance.setValue(0.00);
         msPaceToSecond.setValue(0.0);
         oriDistance.setValue(0.0);
         totalHeartRate.setValue(0.0);
@@ -49,13 +49,15 @@ public class RunningViewModel extends ViewModel {
         msPace.setValue("0’00”");
         heartCountTime.setValue(0);
         StepCount.setValue(0.0);
+        initLatitude.setValue(0.0);
+        initLongitude.setValue(0.0);
     }
 
     public void clearData(){
         distanceDifference.setValue(0.0);
         heartRate.setValue(0.0);
         msSpeed.setValue(0.0);
-        distance.setValue(0.0);
+        distance.setValue(0.00);
         msPaceToSecond.setValue(0.0);
         oriDistance.setValue(0.0);
         totalHeartRate.setValue(0.0);

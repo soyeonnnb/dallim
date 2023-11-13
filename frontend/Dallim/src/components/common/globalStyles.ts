@@ -288,11 +288,7 @@ export const colors = {
       },
     },
     orange: {
-      linear: {
-        start: '#FFA62E',
-        end: '#F17C63',
-        opacity: 1,
-      },
+      color: '#E88C3E',
       radial: {
         start: '#FFFDFD',
         end: '#B82101',
@@ -310,11 +306,7 @@ export const colors = {
       },
     },
     green: {
-      linear: {
-        start: '#81FBB8',
-        end: '#28C76F',
-        opacity: 1,
-      },
+      color: '#64E190',
       radial: {
         start: '#FFFFFF',
         end: '#2FBE2C',
@@ -323,11 +315,7 @@ export const colors = {
       },
     },
     pink: {
-      linear: {
-        start: '#F1CEF5',
-        end: '#DDB0E3',
-        opacity: 1,
-      },
+      color: '#EBAFEE',
       radial: {
         start: '#F9CEFF',
         end: '#EF4CE9',

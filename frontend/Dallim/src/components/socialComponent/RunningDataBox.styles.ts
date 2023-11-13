@@ -39,7 +39,7 @@ export const Top = styled.View`
   border-color: red; */
   flex-direction: row;
   width: 100%;
-  height: 30%;
+  height: 33.3%;
 `;
 
 export const TopLeft = styled.View`
@@ -70,7 +70,7 @@ export const Middle = styled.View`
   border-color: blue; */
   flex-direction: row;
   width: 100%;
-  height: 40%;
+  height: 33.3%;
 `;
 
 export const MiddleLeft = styled.View`
@@ -96,7 +96,7 @@ export const Bottom = styled.View`
   border-color: green; */
   flex-direction: row;
   width: 100%;
-  height: 30%;
+  height: 33.3%;
 `;
 
 export const BottomLeft = styled.View`
@@ -121,7 +121,7 @@ export const BottomRight = styled.View`
 export const AddBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 60%;
+  width: 50%;
   height: 90%;
 `;
 
@@ -130,13 +130,13 @@ export const AddButton = styled(TouchableOpacity)`
   height: 100%;
   justify-content: center;
   align-items: center;
-  background-color: #2a2c45;
-  border-radius: 10px;
+  border-radius: 18px;
 `;
 
 export const AddText = styled.Text`
   color: white;
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: bold;
 `;
 
 export const AddButton_two = styled(TouchableOpacity)`
@@ -144,13 +144,14 @@ export const AddButton_two = styled(TouchableOpacity)`
   height: 100%;
   justify-content: center;
   align-items: center;
-  background-color: #d3d3d3;
-  border-radius: 10px;
+  background-color: ${colors.button.depth2.color};
+  border-radius: 15px;
 `;
 
 export const AddText_two = styled.Text`
   color: white;
-  font-size: 10px;
+  font-size: 12px;
+  font-weight: bold;
 `;
 
 export const Icon = styled.View`
@@ -161,8 +162,76 @@ export const Icon = styled.View`
   justify-content: center;
   align-items: center;
 `;
+export const Circle = styled.View`
+  border-width: 1px;
+  border-radius: 100px;
+  border-color: white;
+  width: 25px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+`;
 
 export const Text = styled.Text`
   font-size: 10px;
+  font-weight: normal;
   color: white;
+`;
+
+export const PlaceCircle = styled.View`
+  border-radius: 100px;
+  background-color: ${colors.all.red.color};
+  width: 25px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+`;
+export const DateCircle = styled.View`
+  border-radius: 100px;
+  background-color: ${colors.all.green.color};
+  width: 25px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const DistCircle = styled.View`
+  border-radius: 100px;
+  background-color: ${colors.all.orange.color};
+  width: 25px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const TimeCircle = styled.View`
+  border-radius: 100px;
+  background-color: ${colors.all.pink.color};
+  width: 25px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const SpeedCircle = styled.View`
+  border-radius: 100px;
+  background-color: ${colors.all.blue.color};
+  width: 25px;
+  height: 25px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const CircleShadow = styled(Shadow)`
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+`;
+
+export const ButtonShadow = styled(Shadow)`
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  width: 100%;
+  height: 100%;
 `;

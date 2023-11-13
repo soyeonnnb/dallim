@@ -138,6 +138,7 @@ export const Footer = styled.View`
   width: 65%;
   height: 20%;
   padding-left: 20px;
+  overflow: hidden;
   /* position: a; */
   /* z-index: 5; */
 `;
@@ -155,10 +156,11 @@ export const LevelBox = styled.View`
 export const ExperienceBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  align-items: flex-start;
   border-radius: 20px;
   background-color: white;
+  overflow: hidden;
   width: 100%;
   height: 30%;
 `;

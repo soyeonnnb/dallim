@@ -140,7 +140,7 @@ export const Footer = styled.View`
   /* border-width: 1px;
   border-color: yellow; */
   width: 100%;
-  height: 45%;
+  height: 40%;
   align-items: center;
 `;
 
@@ -244,7 +244,7 @@ export const RunBox = styled.View`
   width: 100%;
   height: 140px;
   border-radius: 30px;
-  margin-bottom: 15px;
+  margin-bottom: 40px;
   /* margin-left: 5%; */
   /* justify-content: center;
   align-items: center; */

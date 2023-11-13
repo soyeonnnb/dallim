@@ -3,12 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent">
+    android:background="@color/transparent"
+    android:paddingRight="10dp">
 
     <ImageView
+        android:id="@+id/calendar_character"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/calendar_character_01"
+        android:src="@drawable/calendar_character_00"
         />
 
 

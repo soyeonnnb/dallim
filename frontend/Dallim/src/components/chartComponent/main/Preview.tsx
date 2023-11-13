@@ -1,4 +1,4 @@
-import React, {useRef, useState, useMemo, useCallback, useEffect} from 'react';
+import {useRef, useState, useMemo, useCallback, useEffect} from 'react';
 import BottomSheet from '@gorhom/bottom-sheet';
 import PreviewDaily from './preview/Daily';
 import PreviewRecord from './preview/PreviewRecord';
@@ -115,7 +115,7 @@ function Preview({
             stacks: [
               {
                 value: record.totalDistance,
-                color: colors.chart.record.distance,
+                color: colors.blue._500,
               },
               {
                 value: record.totalTime,

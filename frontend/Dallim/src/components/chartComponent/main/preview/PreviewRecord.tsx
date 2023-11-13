@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import * as S from './PreviewRecord.styles';
 import {colors} from '@/components/common/globalStyles';
 
@@ -55,7 +55,7 @@ export function WeeklyRecord({type, record}: RecordProps) {
     if (type === 'count') {
       setName('달린횟수');
       setContent(record + '번');
-      setColor(colors.blue._100);
+      setColor(colors.lightBlue._400);
     } else if (type === 'distance') {
       setName('달린거리');
       setContent(meterToKMOrMeter(record));

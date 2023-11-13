@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect, useMemo} from 'react';
 import {RouteProp, useIsFocused} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import * as S from './ChartDetail.styles';
@@ -25,6 +25,7 @@ import {
 
 import {getDateObject} from '@/recoil/CalendarData';
 import {calculatePace} from '@/recoil/RunningData';
+import {colors} from '@/components/common/globalStyles';
 
 // 스택 내비게이션 타입을 정의
 type RootStackParamList = {
@@ -46,7 +47,6 @@ type Props = {
   route: RouteProp<{ChartDetail: {id: string}}, 'ChartDetail'>;
   navigation: ChartDetailScreenNavigationProp;
 };
-
 function ChartDetail({route, navigation}: Props) {
   const {id} = route.params;
   const windowWidth = Dimensions.get('window').width;
@@ -68,7 +68,23 @@ function ChartDetail({route, navigation}: Props) {
     chartData: HeartChartDataType[];
     secondPerHeartRateSection: number[];
   }>({chartData: [], secondPerHeartRateSection: []});
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [pagination, setPagination] = useState<number>(3);
+  const [indexDot, setIndexDot] = useState<number>(-1);
+  const [headerTitle, setHeaderTitle] = useState<string>('Overview');
+
+  const onChangeDot = event => {
+    const index = Math.ceil(event.nativeEvent.contentOffset.x / windowWidth);
+    if (index === 1) {
+      setHeaderTitle('페이스 차트');
+    } else if (index === 2) {
+      setHeaderTitle('심박수 차트');
+    } else {
+      setHeaderTitle(
+        `${createdAt?.month}월 ${createdAt?.date}일 (${createdAt?.day})`,
+      );
+    }
+    setIndexDot(index);
+  };
 
   const runningInfosToPaceChartData = (
     data: RunningRecordData[],
@@ -97,6 +113,7 @@ function ChartDetail({route, navigation}: Props) {
       setShowRivals(
         !(getData.type === 'ALONE' || getData.winOrLose === 'GIVEUP'),
       );
+      setPagination(getData.watchOrMobile === 'WATCH' ? 3 : 2);
       setCreatedAt(getDateObject(getData.createdAt));
 
       // 페이스에 들어갈 데이터 처리
@@ -145,13 +162,29 @@ function ChartDetail({route, navigation}: Props) {
   useEffect(() => {
     fetchRunningData();
   }, []);
-
-  const handleScroll = ({nativeEvent}: any) => {
-    // page index
-    const index = Math.round(nativeEvent.contentOffset.x / windowWidth);
-    setCurrentIndex(index);
-    console.log(index);
-  };
+  const renderPagination = useMemo(() => {
+    return (
+      <S.Pagination>
+        {Array.from({length: pagination}).map((_, index) => {
+          return (
+            <S.PaginationDot
+              distance={3}
+              startColor={
+                index === indexDot ? `${colors.lightBlue._300}83` : '#ffffff83'
+              }
+              endColor={
+                index === indexDot ? `${colors.lightBlue._300}12` : '#ffffff12'
+              }
+              paintInside={true}
+              key={index}
+              offset={[1, 0]}
+              isFocused={index === indexDot}
+            />
+          );
+        })}
+      </S.Pagination>
+    );
+  }, [indexDot]);
 
   return (
     <>
@@ -160,23 +193,26 @@ function ChartDetail({route, navigation}: Props) {
         resizeMode="cover"
       />
       {isLoading || !data ? (
-        <S.Header />
+        // <Loading />
+        <S.HeaderTitle>로딩중</S.HeaderTitle>
       ) : (
         <S.Container>
           <S.Header>
-            <TouchableOpacity onPress={() => navigation.pop()}>
-              <ArrowLeft width={30} height={30} color="white" />
-            </TouchableOpacity>
-            <S.HeaderTitle>
-              {createdAt?.month}월 {createdAt?.date}일 ({createdAt?.day})
-            </S.HeaderTitle>
-            {/* 정렬을 맞추기 위함 */}
-            <ArrowLeft width={30} height={30} color="transparent" />
+            <S.HeaderBox>
+              <TouchableOpacity onPress={() => navigation.pop()}>
+                <ArrowLeft width={30} height={30} color="white" />
+              </TouchableOpacity>
+              <S.HeaderTitle>{headerTitle}</S.HeaderTitle>
+              {/* 정렬을 맞추기 위함 */}
+              <ArrowLeft width={30} height={30} color="transparent" />
+            </S.HeaderBox>
+            {renderPagination}
           </S.Header>
           <ScrollView
             horizontal
             pagingEnabled
-            onMomentumScrollEnd={handleScroll}
+            onMomentumScrollEnd={onChangeDot}
+            showsHorizontalScrollIndicator={false}
             contentOffset={{x: 0, y: 0}}>
             {data && (
               <Overview

@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import {Dimensions, ScrollView} from 'react-native';
 import {colors} from '@/components/common/globalStyles';
+import {Shadow} from 'react-native-shadow-2';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -16,16 +17,32 @@ export const ArrowContainer = styled.View`
   width: 20px;
   margin: 10px;
 `;
-
 export const MainContent = styled(ScrollView)`
   flex: 1;
-  padding-top: 10%;
+  padding-top: 3%;
   padding-bottom: 120%;
 `;
 
 export const TitleContainer = styled.View`
   flex: 1;
   margin-bottom: 10%;
+  flex-direction: row;
+`;
+export const TitleContainerLeft = styled.View`
+  flex: 0.8;
+`;
+export const TitleContainerRight = styled.View`
+  flex: 0.2;
+  align-items: flex-end;
+`;
+
+export const MethodCircle = styled.View<{size: number; bgColor: string}>`
+  width: ${props => props.size}px;
+  height: ${props => props.size}px;
+  background-color: ${props => props.bgColor};
+  border-radius: ${props => props.size}px;
+  align-items: center;
+  justify-content: center;
 `;
 export const Location = styled.Text`
   font-size: 22px;

@@ -212,7 +212,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
     }, (error) => {
       console.error(error);
     },
-      { enableHighAccuracy: true, distanceFilter: 0, interval: 1000 });
+      { enableHighAccuracy: true, distanceFilter: 0, interval: 5000 });
 
     trackIdRef.current = trackId;
   };
@@ -277,11 +277,10 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
       // 누락 데이터 전처리
       // const filledRunningRecordInfos = fillMissingData(runningSession.runningRecordInfos);
-      const filledRunningRecordInfos = fillMissingData(accumulatedDistanceRecordInfos);
+      const filledRunningRecordInfos = fillMissingData(accumulatedDistanceRecordInfos, endTime);
 
       // runningRecordInfos에서 latitude와 longitude 제거
       const transformedRunningRecordInfos = filledRunningRecordInfos.map(({ latitude, longitude, ...rest }) => rest);
-
 
       // 한국 시간대로 변환
       const now = new Date();
@@ -364,12 +363,13 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   }
 
   // 누락된 초에 대한 데이터 전처리 ( 배열 복사 )
-  const fillMissingData = (data: GpsData[]): GpsData[] => {
+  const fillMissingData = (data: GpsData[], endTime: number): GpsData[] => {
     if (data.length === 0) return [];
     const filledData: GpsData[] = [];
     let lastData = data[0];
 
-    for (let second = 0; second <= data[data.length - 1].second; second++) {
+    // for (let second = 0; second <= data[data.length - 1].second; second++) {
+    for (let second = 0; second <= endTime; second++) {
       const currentData = data.find(d => d.second === second);
       if (currentData) {
         filledData.push(currentData);

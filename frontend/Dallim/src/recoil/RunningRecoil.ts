@@ -69,7 +69,6 @@ export const totalDistanceState = atom<number>({
   default: 0,
 });
 
-
 interface Position {
   latitude: number;
   longitude: number;

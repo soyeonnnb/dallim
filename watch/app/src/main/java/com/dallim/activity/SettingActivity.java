@@ -176,6 +176,45 @@ public class SettingActivity extends AppCompatActivity {
                 finish();
             });
         });
+
+        binding.watchReset.setOnClickListener(v -> {
+            LayoutInflater inflater = SettingActivity.this.getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.modal, null);
+
+            Button cancel = dialogView.findViewById(R.id.cancel);
+            Button finish = dialogView.findViewById(R.id.finish);
+
+            TextView text = dialogView.findViewById(R.id.text_view);
+            text.setText("내 기록을\n초기화 하시겠습니까?\n(워치에 저장된\n내 기록만 초기화됩니다)");
+            finish.setText("초기화");
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+            builder.setView(dialogView);
+
+            AlertDialog dialog = builder.create();
+
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xA0000000));
+            }
+            dialog.show();
+
+            cancel.setOnClickListener(b ->{
+                dialog.dismiss();
+            });
+
+            finish.setOnClickListener(b ->{
+                // 내 러닝 데이터 전부 삭제(sqlite 데이터)
+                runningService.deleteRunningData();
+                dialog.dismiss();
+
+                Toast.makeText(this, "기록이 초기화되었습니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(SettingActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
+            });
+
+        });
     }
 
     @Override

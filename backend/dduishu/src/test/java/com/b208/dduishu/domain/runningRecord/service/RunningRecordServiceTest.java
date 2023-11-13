@@ -94,7 +94,7 @@ class RunningRecordServiceTest {
 
         RunningRecordInfo build = RunningRecordInfo.builder()
                 .userId(6L)
-                .characterId(10L)
+                .characterIndex(1L)
                 .watchOrMobile(WatchOrMobile.WATCH)
                 .date(LocalDateTime.now())
                 .formattedDate("11월 11일 (토)")

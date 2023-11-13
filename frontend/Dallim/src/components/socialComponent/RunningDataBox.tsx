@@ -7,7 +7,11 @@ import SpeedsIcon from '@/assets/icons/SpeedsIcon';
 import {postRecordSave} from '@/apis/SocialApi';
 import CheckModal from './socialModal/CheckModal';
 import {useState} from 'react';
-import {meterToKMOrMeter} from '@/recoil/RunningData';
+import {
+  calculatePace,
+  meterToKMOrMeter,
+  secondToMinuteText,
+} from '@/recoil/RunningData';
 import LinearGradient from 'react-native-linear-gradient';
 import RadialGradient from 'react-native-radial-gradient';
 
@@ -192,7 +196,7 @@ function RunningDataBox({
                   </S.TimeCircle>
                 </S.CircleShadow>
               </S.Icon>
-              <S.Text>{formatTime(totalTime)}</S.Text>
+              <S.Text>{secondToMinuteText(totalTime)}</S.Text>
             </S.MiddleRight>
           </S.Middle>
           <S.Bottom>
@@ -223,7 +227,7 @@ function RunningDataBox({
                   </S.SpeedCircle>
                 </S.CircleShadow>
               </S.Icon>
-              <S.Text>{averageSpeed.toFixed(2)} Km/h</S.Text>
+              <S.Text>{calculatePace(averageSpeed)}</S.Text>
             </S.BottomLeft>
             <S.BottomRight>
               <S.AddBox>

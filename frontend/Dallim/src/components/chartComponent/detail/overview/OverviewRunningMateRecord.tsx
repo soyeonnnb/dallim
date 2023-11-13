@@ -1,19 +1,15 @@
 import * as S from './OverviewRunningMateRecord.styles';
 import {characterData} from '@/recoil/CharacterData';
-import {useNavigation} from '@react-navigation/native';
-import SpeedIcon from '@/assets/icons/SpeedIcon';
 import DistanceIcon from '@/assets/icons/DistanceIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 import {PaceChartDataType, RecordDetail, RivalRecord} from '@/apis/ChartApi';
 import {
   calculatePace,
-  secondToHourMinuteSeconds,
+  secondToMinuteSeconds,
   meterToKMOrMeter,
 } from '@/recoil/RunningData';
 import OverviewGraph from './OverviewGraph';
-import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
-import {useState, useEffect} from 'react';
 
 interface Props {
   data: RivalRecord;
@@ -60,7 +56,7 @@ function OverviewRunningMateRecord({
             />
             <RecordPreview
               type="time"
-              record={secondToHourMinuteSeconds(data.totalTime)}
+              record={secondToMinuteSeconds(data.totalTime)}
             />
           </S.Records>
         </S.Info>

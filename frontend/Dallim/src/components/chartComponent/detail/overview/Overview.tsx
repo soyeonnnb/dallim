@@ -16,7 +16,7 @@ import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 import {
   numberToTwoString,
   calculatePace,
-  secondToHourMinuteSeconds,
+  secondToMinuteSeconds,
   meterToKMOrMeter,
 } from '@/recoil/RunningData';
 
@@ -66,7 +66,7 @@ function Overview({
         )}`,
       );
       setDistance(meterToKMOrMeter(data.totalDistance, 2));
-      setSpendTime(secondToHourMinuteSeconds(data.totalTime));
+      setSpendTime(secondToMinuteSeconds(data.totalTime));
       setAvgPace(calculatePace(data.pace.averagePace));
       setMaxPace(calculatePace(data.pace.maxPace));
       setIsLoading(false);
@@ -144,17 +144,17 @@ function Overview({
             <S.WalkRecords>
               <WalkRecord
                 type={1}
-                record={data?.secondPerSpeed[0]}
+                record={data?.distancePerSpeed[0]}
                 color={colors.neon.yellow}
               />
               <WalkRecord
                 type={2}
-                record={data?.secondPerSpeed[1]}
+                record={data?.distancePerSpeed[1]}
                 color={colors.neon.green}
               />
               <WalkRecord
                 type={3}
-                record={data?.secondPerSpeed[2]}
+                record={data?.distancePerSpeed[2]}
                 color={colors.neon.red}
               />
             </S.WalkRecords>

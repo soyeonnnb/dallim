@@ -2,7 +2,7 @@ import * as S from './PairPace.styles';
 import React, {useEffect, useState} from 'react';
 
 // 타입 및 함수
-import {secondToHourMinuteSeconds, calculatePace} from '@/recoil/RunningData';
+import {secondToMinuteSeconds, calculatePace} from '@/recoil/RunningData';
 import {PaceSectionType} from '@/apis/ChartApi';
 
 // 아이콘
@@ -105,7 +105,7 @@ function RecordPreviewBox({
       </S.Record>
       <S.Record flex={0.8}>
         <S.RecordContent>
-          {secondToHourMinuteSeconds(record.finishTime - record.startTime)}
+          {secondToMinuteSeconds(record.finishTime - record.startTime)}
         </S.RecordContent>
         <S.RecordContent>{calculatePace(record.pace)}</S.RecordContent>
       </S.Record>

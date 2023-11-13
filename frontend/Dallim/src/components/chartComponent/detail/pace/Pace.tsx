@@ -13,10 +13,10 @@ import {
 interface Props {
   data: PaceDataType;
   rivalData?: PaceDataType;
-  isAlone: boolean;
+  showRivals: boolean;
 }
 
-function Pace({data, rivalData, isAlone}: Props) {
+function Pace({data, rivalData, showRivals}: Props) {
   const [comparePair, setcompairPair] = useState<boolean>(true);
   const [second, setSecond] = useState<number>(
     data.chartData.length > 0 ? data.chartData.length - 1 : 0,
@@ -27,7 +27,7 @@ function Pace({data, rivalData, isAlone}: Props) {
   };
 
   useEffect(() => {
-    if (isAlone) setcompairPair(false);
+    if (showRivals) setcompairPair(false);
   }, []);
   return (
     <S.Container>
@@ -39,7 +39,7 @@ function Pace({data, rivalData, isAlone}: Props) {
         rivalData={rivalData}
       />
       <S.ToggleBox>
-        {!isAlone && (
+        {!showRivals && (
           <>
             <S.ToggleText>같이 달리기 비교</S.ToggleText>
             <Switch onValueChange={handleSetIsPairToggle} value={comparePair} />

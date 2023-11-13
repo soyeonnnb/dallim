@@ -19,19 +19,19 @@ interface Props {
   onClose: () => void;
 }
 
-interface Position {
-  latitude: number;
-  longitude: number;
-}
+// interface Position {
+//   latitude: number;
+//   longitude: number;
+// }
 
-interface LocationData {
-  second: number; // 필요
-  latitude: number;
-  longitude: number;
-  distance: number; // 필요
-  speed: number; // 필요
-  pace: number; // 필요
-}
+// interface LocationData {
+//   second: number; // 필요
+//   latitude: number;
+//   longitude: number;
+//   distance: number; // 필요
+//   speed: number; // 필요
+//   pace: number; // 필요
+// }
 
 interface GpsData {
   second: number;
@@ -105,14 +105,6 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
     // 데이터 초기화 ( 추후에 )
     setIsRunning(false);
-    // setRunningSession({
-    //   ...runningSession,
-    //   runningRecordInfos: [],
-    // });
-    // setSecondsElapsed(0);
-    // setTotalDistance(0);
-    // setDisplayDistance(0);
-    // setLastPosition(null);
   };
 
   // 초를 시:분:초 형식으로 변환하는 함수
@@ -184,7 +176,6 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
         calculatedPace = 0; // 속도가 0일 경우 페이스를 0으로 설정
         paceValue = '-'; // 화면에 표시할 값
       }
-      // setPaceStr(calculatedPace); // 서버
       setPace(paceValue); // 화면
 
       const elapsedTime = Math.floor((position.timestamp - startTime) / 1000); // 경과 시간 계산 (초)
@@ -277,8 +268,10 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       // runningRecordInfos에서 latitude와 longitude 제거
       const transformedRunningRecordInfos = filledRunningRecordInfos.map(({ latitude, longitude, ...rest }) => rest);
 
-      // 한국 날짜 변환 
-      const koreaDate = convertToKST(runningSession.date);
+
+      // 한국 시간대로 변환
+      const now = new Date();
+      const kstDate = convertToKST(now.toISOString());
 
       // 서버에 보낼 데이터 객체 생성
       const runningData = {
@@ -293,7 +286,8 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
         totalTime: endTime,
         totalDistance: endTotalDistance,
         averageSpeed: averageSpeed,
-        date: koreaDate.toISOString(),
+        date: kstDate.toISOString(),
+
       };
 
       console.log("1 / initialLatitudeState(시작 위도) : " + runningSession.runningRecordInfos[0].latitude);
@@ -307,7 +301,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       console.log("3 / totalTime(초) : " + secondsElapsed);
       console.log("3 / totalDistance(M) : " + totalDistance);
       console.log("3 / averageSpeed(m/s) : " + averageSpeed);
-      console.log("3 / koreaDate(작성시간) : " + koreaDate.toISOString());
+      console.log("3 / koreaDate(작성시간) : " + kstDate.toISOString());
 
       // 데이터 전송
       try {
@@ -368,12 +362,11 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   // 한국 시간 변환
   const convertToKST = (dateString: string): Date => {
     const date = new Date(dateString);
-    const kstOffset = 9 * 60; // 한국은 UTC+9
-    const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
-    const kstDate = new Date(utc + (3600000 * kstOffset));
-
-    return kstDate;
+    const kstOffset = 9 * 60 * 60 * 1000; // UTC+9 (한국 시간대 오프셋)
+    const utcTimestamp = date.getTime(); // UTC 시간의 타임스탬프
+    return new Date(utcTimestamp + kstOffset);
   };
+
 
   // 컴포넌트 렌더링 시작
   return (

@@ -49,6 +49,7 @@ function SocialBody({
   };
 
   const [rankingData, setRankingData] = useState<RankingInfo[] | null>(null);
+  console.log(rankingData);
 
   const loadRankingData = async () => {
     try {

@@ -1,5 +1,7 @@
 import styled from 'styled-components/native';
 import {Image, TouchableOpacity} from 'react-native';
+import {colors} from '../common/globalStyles';
+import {Shadow} from 'react-native-shadow-2';
 
 export const Container = styled.View`
   flex: 1;
@@ -15,20 +17,43 @@ export const Box = styled.View<BoxProps>`
   border-color: ${props => {
     switch (props.rank) {
       case 1:
-        return '#FFED71';
+        return '#FCD116';
       case 2:
-        return '#8C8C8C';
+        return '#BAB9B9';
       case 3:
         return '#CD6035';
       default:
-        return 'black';
+        return colors.buttonColor.firstDepth;
     }
   }};
-  background-color: white;
+  /* background-color: white; */
   flex-direction: row;
   border-radius: 18px;
   width: 100%;
   height: 70px;
+`;
+
+export const BoxShadow = styled(Shadow)`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  /* margin: px; */
+  justify-content: center;
+  align-items: center;
+  /* color: black; */
+  /* width: 10px; */
+  /* height: 100%; */
+  border-radius: 30px;
+  /* margin-bottom: 20px; */
+`;
+
+export const LinearGradient = styled.View`
+  border-width: 1px;
+  border-color: blue;
+  /* width: 15%; */
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 export const Left = styled.View`
@@ -38,20 +63,23 @@ export const Left = styled.View`
   height: 100%;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 `;
 
 export const RankText = styled.Text<BoxProps>`
   font-size: 40px;
+  /* z-index: 30; */
+  /* position: absolute; */
   color: ${props => {
     switch (props.rank) {
       case 1:
-        return '#FFED71';
+        return '#FCD116';
       case 2:
-        return '#8C8C8C';
+        return '#BAB9B9';
       case 3:
         return '#CD6035';
       default:
-        return 'black';
+        return '#FFFFFF';
     }
   }};
 `;
@@ -73,7 +101,7 @@ export const Header = styled.View`
 
 export const DistanceText = styled.Text`
   font-size: 12px;
-  color: #626262;
+  color: #adadad;
 `;
 
 export const Body = styled.View`
@@ -88,13 +116,13 @@ export const Body = styled.View`
 
 export const NickNameText = styled.Text`
   font-size: 20px;
-  font-weight: bold;
-  color: black;
+  font-weight: normal;
+  color: #ffffff;
 `;
 
 export const LevelText = styled.Text`
   font-size: 10px;
-  color: #474a65;
+  color: #adadad;
   margin-left: 8px;
 `;
 

@@ -4,7 +4,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import * as S from './ChartDetail.styles';
 import {ScrollView, TouchableOpacity} from 'react-native';
 import {fetchDetailRunningData} from '@/apis/ChartApi';
-import Loading from '@/components/common/Loading_run';
+// import Loading from '@/components/common/Loading_run';
 import {Dimensions} from 'react-native';
 
 // 컴포넌트
@@ -160,7 +160,7 @@ function ChartDetail({route, navigation}: Props) {
         resizeMode="cover"
       />
       {isLoading || !data ? (
-        <Loading />
+        <S.Header />
       ) : (
         <S.Container>
           <S.Header>

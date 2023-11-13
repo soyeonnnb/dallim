@@ -89,7 +89,11 @@ interface RecordPreviewProps {
 function RecordPreview({type, record, color}: RecordPreviewProps) {
   return (
     <S.RecordPreview>
-      <S.RecordIconCircle bgColor={color}>
+      <S.RecordIconCircle
+        bgColor={color}
+        startColor={`${color}84`}
+        endColor={`${color}14`}
+        distance={5}>
         {type === 'pace' ? (
           <RunningThinIcon width={30} height={30} color="white" />
         ) : type === 'distance' ? (

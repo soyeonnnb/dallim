@@ -69,7 +69,7 @@ function ChartDetail({route, navigation}: Props) {
     secondPerHeartRateSection: number[];
   }>({chartData: [], secondPerHeartRateSection: []});
   const [pagination, setPagination] = useState<number>(3);
-  const [indexDot, setIndexDot] = useState<number>(-1);
+  const [indexDot, setIndexDot] = useState<number>(0);
   const [headerTitle, setHeaderTitle] = useState<string>('Overview');
 
   const onChangeDot = event => {
@@ -113,6 +113,7 @@ function ChartDetail({route, navigation}: Props) {
       setShowRivals(
         !(getData.type === 'ALONE' || getData.winOrLose === 'GIVEUP'),
       );
+
       setPagination(getData.watchOrMobile === 'WATCH' ? 3 : 2);
       setCreatedAt(getDateObject(getData.createdAt));
 
@@ -185,6 +186,12 @@ function ChartDetail({route, navigation}: Props) {
       </S.Pagination>
     );
   }, [indexDot]);
+
+  useEffect(() => {
+    setHeaderTitle(
+      `${createdAt?.month}월 ${createdAt?.date}일 (${createdAt?.day})`,
+    );
+  }, [createdAt]);
 
   return (
     <>

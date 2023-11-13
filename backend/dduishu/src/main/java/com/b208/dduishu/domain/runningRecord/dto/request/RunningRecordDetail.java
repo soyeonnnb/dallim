@@ -66,7 +66,6 @@ public class RunningRecordDetail {
         this.user = user;
         this.character = character;
         this.type = type;
-        rivalRecord.setPace(rivalRecord.getRunningRecordInfos(), rivalRecord.getTotalTime(), rivalRecord.getTotalDistance());
         this.rivalRecord = rivalRecord;
         this.runningRecordInfos = runningRecordInfos;
         this.totalTime = totalTime;

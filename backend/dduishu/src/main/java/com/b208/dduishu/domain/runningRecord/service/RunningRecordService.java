@@ -345,6 +345,11 @@ public class RunningRecordService {
             throw new NullPointerException();
         });
 
+
+        if ( res.getRivalRecord() != null) {
+            res.getRivalRecord().setPace(res.getRivalRecord().getRunningRecordInfos(), res.getRivalRecord().getTotalTime(), res.getRivalRecord().getTotalDistance());
+        }
+
         return RunningRecordDetail.builder()
                 .id(res.getId())
                 .watchOrMobile(res.getWatchOrMobile())

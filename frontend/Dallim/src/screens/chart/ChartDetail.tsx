@@ -5,7 +5,7 @@ import * as S from './ChartDetail.styles';
 import {ScrollView, TouchableOpacity} from 'react-native';
 import {fetchDetailRunningData} from '@/apis/ChartApi';
 // import Loading from '@/components/common/Loading_run';
-import {Dimensions} from 'react-native';
+import {Dimensions, View, Text} from 'react-native';
 
 // 컴포넌트
 import Overview from '@/components/chartComponent/detail/overview/Overview';
@@ -47,6 +47,15 @@ type Props = {
   route: RouteProp<{ChartDetail: {id: string}}, 'ChartDetail'>;
   navigation: ChartDetailScreenNavigationProp;
 };
+
+const customLabel = (val: string) => {
+  return (
+    <View style={{width: 40}}>
+      <Text style={{color: 'white'}}>{val}</Text>
+    </View>
+  );
+};
+
 function ChartDetail({route, navigation}: Props) {
   const {id} = route.params;
   const windowWidth = Dimensions.get('window').width;
@@ -72,7 +81,7 @@ function ChartDetail({route, navigation}: Props) {
   const [indexDot, setIndexDot] = useState<number>(0);
   const [headerTitle, setHeaderTitle] = useState<string>('Overview');
 
-  const onChangeDot = event => {
+  const onChangeDot = (event: any) => {
     const index = Math.ceil(event.nativeEvent.contentOffset.x / windowWidth);
     if (index === 1) {
       setHeaderTitle('페이스 차트');
@@ -90,7 +99,7 @@ function ChartDetail({route, navigation}: Props) {
     data: RunningRecordData[],
   ): PaceChartDataType[] => {
     const cData: PaceChartDataType[] = [];
-    data.map((record: any) => {
+    data.map((record: any, index: number) => {
       const value: PaceChartDataType = {
         second: record.second,
         value: record.speed,
@@ -98,9 +107,11 @@ function ChartDetail({route, navigation}: Props) {
           record.distance == 0
             ? "0' 0''" // 총 이동 거리가 0이면 0으로 나누어야 해서 NaN 발생
             : calculatePace(record.second, record.distance),
+        distance: record.distance,
       };
       cData.push(value);
     });
+    console.log(cData);
     return cData;
   };
 

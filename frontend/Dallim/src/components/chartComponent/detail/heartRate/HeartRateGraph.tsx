@@ -56,53 +56,55 @@ function HeartRateGraph({data, chartColor}: Props) {
         </S.DataPreview>
       </S.DataPreviewView>
       <S.ChartView>
-        <S.ChartBox onLayout={onLayout}>
-          {data && (
-            <LineChart
-              width={parentWidth * 0.9}
-              height={parentHeight * 0.9}
-              areaChart
-              curved
-              // 혼자 달리기 그래프
-              // data={chartData} // 혼자 달리기 컴포넌트
-              data={data}
-              startFillColor="#D96767"
-              startOpacity={1}
-              endFillColor="#FF8080"
-              endOpacity={0}
-              color="#FF1B1B"
-              dashGap={0}
-              rulesColor="rgba(255, 255, 255, 0.3)"
-              noOfSections={4}
-              xAxisColor={'rgba(255, 255, 255, 0.3)'}
-              yAxisColor={'rgba(255, 255, 255, 0)'}
-              hideDataPoints // 점 숨기기
-              initialSpacing={0}
-              yAxisTextStyle={{color: 'white'}}
-              adjustToWidth // width에 데이터 크기 맞추기
-              xAxisLabelTexts={['0%', '25%', '50%', '75%', '100%']}
-              pointerConfig={{
-                pointerStripHeight: parentHeight,
-                pointerStripColor: 'lightgray',
-                pointerStripWidth: 2,
-                pointerColor: 'lightgray',
-                radius: 3,
-                activatePointersOnLongPress: true,
-                autoAdjustPointerLabelPosition: false,
-              }}
-              getPointerProps={({pointerIndex}: {pointerIndex: number}) => {
-                if (pointerIndex === -1) return;
-                console.log(pointerIndex, 'Ddd');
-                return (
-                  <Label
-                    items={data[pointerIndex]}
-                    handlePreviewData={handlePreviewData}
-                  />
-                );
-              }}
-            />
-          )}
-        </S.ChartBox>
+        <PanGestureHandler>
+          <S.ChartBox onLayout={onLayout}>
+            {data && (
+              <LineChart
+                width={parentWidth * 0.9}
+                height={parentHeight * 0.9}
+                areaChart
+                curved
+                // 혼자 달리기 그래프
+                // data={chartData} // 혼자 달리기 컴포넌트
+                data={data}
+                startFillColor="#D96767"
+                startOpacity={1}
+                endFillColor="#FF8080"
+                endOpacity={0}
+                color="#FF1B1B"
+                dashGap={0}
+                rulesColor="rgba(255, 255, 255, 0.3)"
+                noOfSections={4}
+                xAxisColor={'rgba(255, 255, 255, 0.3)'}
+                yAxisColor={'rgba(255, 255, 255, 0)'}
+                hideDataPoints // 점 숨기기
+                initialSpacing={0}
+                yAxisTextStyle={{color: 'white'}}
+                adjustToWidth // width에 데이터 크기 맞추기
+                xAxisLabelTexts={['0%', '25%', '50%', '75%', '100%']}
+                pointerConfig={{
+                  pointerStripHeight: parentHeight,
+                  pointerStripColor: 'lightgray',
+                  pointerStripWidth: 2,
+                  pointerColor: 'lightgray',
+                  radius: 3,
+                  activatePointersOnLongPress: true,
+                  autoAdjustPointerLabelPosition: false,
+                }}
+                getPointerProps={({pointerIndex}: {pointerIndex: number}) => {
+                  if (pointerIndex === -1) return;
+                  console.log(pointerIndex, 'Ddd');
+                  return (
+                    <Label
+                      items={data[pointerIndex]}
+                      handlePreviewData={handlePreviewData}
+                    />
+                  );
+                }}
+              />
+            )}
+          </S.ChartBox>
+        </PanGestureHandler>
       </S.ChartView>
     </S.Container>
   );

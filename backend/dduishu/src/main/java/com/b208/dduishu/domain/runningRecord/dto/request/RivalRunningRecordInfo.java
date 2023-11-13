@@ -51,7 +51,7 @@ public class RivalRunningRecordInfo {
         this.createdAt = runningRecord.getCreatedAt();
     }
 
-    void setPace(List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance) {
+    public void setPace(List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance) {
         this.pace = getPaceInfo(runningRecordInfos, totalTime, totalDistance);
     }
 

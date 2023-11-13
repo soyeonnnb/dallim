@@ -81,9 +81,7 @@ public class RunningRecordService {
     public String saveRunningRecord(RunningRecordInfo req) {
         // user, character, rivalRunningRecord 가져오기
         User user = userRepository.findByUserId(req.getUserId());
-        Character character = characterRepository.findById(req.getCharacterId()).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
+        Character character = characterRepository.findByUserUserIdAndCharacterInfoId(user.getUserId(), req.getCharacterIndex() + 1);
         RunningRecord rivalRunningRecord = null;
         if (req.getRivalRecordId() != null) {
             rivalRunningRecord = runningRecordRepository.findById(req.getRivalRecordId()).orElseThrow(() -> {

@@ -39,7 +39,7 @@ public class RunningRecordInfo {
     private WatchOrMobile watchOrMobile;
     private LocalDateTime date;
     private String formattedDate;
-    private Long characterId;
+    private Long characterIndex;
     private RunningType type;
     private ObjectId rivalRecordId;
     private int totalTime;
@@ -53,12 +53,12 @@ public class RunningRecordInfo {
     private WinOrLose winOrLose;
 
     @Builder
-    public RunningRecordInfo(Long userId, WatchOrMobile watchOrMobile, LocalDateTime date, String formattedDate, Long characterId, RunningType type, ObjectId rivalRecordId, int totalTime, double totalDistance, double averageSpeed, double averageHeartRate, double averagePace, double stepCount, double initLatitude, double initLongitude, WinOrLose winOrLose, List<RunningRecordOverallInfo> runningRecordInfos) {
+    public RunningRecordInfo(Long userId, WatchOrMobile watchOrMobile, LocalDateTime date, String formattedDate, Long characterIndex, RunningType type, ObjectId rivalRecordId, int totalTime, double totalDistance, double averageSpeed, double averageHeartRate, double averagePace, double stepCount, double initLatitude, double initLongitude, WinOrLose winOrLose, List<RunningRecordOverallInfo> runningRecordInfos) {
         this.userId = userId;
         this.watchOrMobile = watchOrMobile;
         this.date = date;
         this.formattedDate = formattedDate;
-        this.characterId = characterId;
+        this.characterIndex = characterIndex;
         this.type = type;
         this.rivalRecordId = rivalRecordId;
         this.totalTime = totalTime;

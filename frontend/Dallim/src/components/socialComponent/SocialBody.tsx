@@ -36,7 +36,7 @@ function SocialBody({
 
   const handleToggle = () => {
     Animated.timing(animatedValue, {
-      toValue: isFriend ? 0 : toggleWidth * 0.4,
+      toValue: isFriend ? 0 : toggleWidth * 0.5,
       duration: 100,
       easing: Easing.bounce,
       useNativeDriver: true,
@@ -86,8 +86,8 @@ function SocialBody({
         <S.TopBox>
           <S.ToggleWrapperShadow
             distance={1}
-            startColor="rgba(255, 255, 255, 0.5)"
-            endColor="rgba(255, 255, 255, 0.5)"
+            startColor="rgba(255, 255, 255, 0.75)"
+            endColor="rgba(150, 148, 166,0.9)"
             offset={[0, 0]}>
             <S.ToggleButtonWrapper onPress={handleToggle}>
               <S.ToggleButton

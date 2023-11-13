@@ -24,39 +24,46 @@ export const TopBox = styled.View`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 70%;
-  width: 80%;
+  height: 90%;
+  width: 100%;
 `;
 
 export const ToggleWrapperShadow = styled(Shadow)`
-  width: 100%;
+  /* border-color: red; */
+  /* width: 100%; */
+  /* margin: px; */
   justify-content: center;
+  align-items: center;
   /* color: black; */
   /* width: 10px; */
-  height: 100%;
-  /* border-radius: 18px; */
+  /* height: 100%; */
+  border-radius: 30px;
   /* margin-bottom: 20px; */
 `;
 
 export const ToggleButtonWrapper = styled(TouchableOpacity)`
-  border-width: 2px;
   border-radius: 100px;
-  border-color: white;
   flex-direction: row;
-  align-items: center;
+  /* align-items: center; */
+  /* justify-content: center; */
   padding: 5px;
-  width: 250px;
-  height: 80%;
+  width: 280px;
+  height: 55px;
   background-color: #122937;
+
+  /* border-width: 1px;
+  border-color: blue; */
 `;
 
 export const ToggleButton = styled(Animated.View)`
-  width: 50%;
+  border-width: 1px;
+  border-color: blue;
+  width: 130px;
   height: 90%;
   border-radius: 100px;
   justify-content: center;
   align-items: center;
-  margin-left: 10px;
+  /* margin-left: 10px; */
   background-color: #fcd116;
 `;
 
@@ -66,7 +73,7 @@ type TextProps = {
 
 export const FixedTextLeft = styled.Text<TextProps>`
   position: absolute;
-  left: 25%;
+  left: 20%;
   font-size: 15px;
   color: ${props => (props.isFriend ? 'white' : 'black')};
 `;

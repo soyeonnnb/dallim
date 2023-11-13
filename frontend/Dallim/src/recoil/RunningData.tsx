@@ -17,23 +17,17 @@ export const calculatePace = (
   return `${paceMinutes}' ${paceSeconds}''`;
 };
 
-export const secondToHourMinuteSeconds = (data: number) => {
-  const hours = Math.floor(data / 3600); // 시간 계산
-  const minutes = Math.floor((data % 3600) / 60); // 분 계산
-  const seconds = data % 60; // 초 계산
+export const secondToMinuteSeconds = (data: number) => {
+  const minutes = Math.floor(data / 60); // 분 계산
+  const seconds = Math.round(data % 60); // 초 계산
 
-  return `${numberToTwoString(hours)}:${numberToTwoString(
-    minutes,
-  )}:${numberToTwoString(seconds)}`;
+  return `${numberToTwoString(minutes)}:${numberToTwoString(seconds)}`;
 };
 
 export const secondToMinuteText = (time: number) => {
-  const hours = Math.floor(time / 3600); // 시간 계산
-  const minutes = Math.floor((time % 3600) / 60); // 분 계산
+  const minutes = Math.floor(time / 60); // 분 계산
   const seconds = Math.round(time % 60); // 초 계산
-  if (time >= 3600) {
-    return `${hours}시간 ${minutes}분`;
-  } else if (time >= 60) {
+  if (time >= 60) {
     return `${minutes}분 ${seconds}초`;
   } else {
     return `${seconds}초`;

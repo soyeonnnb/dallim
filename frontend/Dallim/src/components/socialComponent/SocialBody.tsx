@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Easing, ScrollView } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {Animated, Easing, ScrollView} from 'react-native';
 import * as S from './SocialBody.styles';
 import RankInfoBox from './RankInfoBox';
-import { fetchAllRank, fetchFriendRank } from '@/apis/SocialApi';
+import {fetchAllRank, fetchFriendRank} from '@/apis/SocialApi';
 import NoFriendImage from '@/assets/images/NoFriend.png';
 import Loading_Run from '../common/Loading_Run';
 
@@ -14,7 +14,7 @@ type RankingInfo = {
   nickname: string;
   cumulativeDistance: number;
   level: number;
-  follower: boolean
+  follower: boolean;
 };
 
 type SocialBodyProps = {
@@ -24,8 +24,12 @@ type SocialBodyProps = {
   onUpdateDateInfo: (month: number, week: number) => void;
 };
 
-function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: SocialBodyProps) {
-
+function SocialBody({
+  navigation,
+  isFriend,
+  onToggle,
+  onUpdateDateInfo,
+}: SocialBodyProps) {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
   const toggleWidth = 250;
@@ -57,7 +61,7 @@ function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: Social
     loadRankingData();
   }, [isFriend]);
 
-  const [fadeAnim] = useState(new Animated.Value(0));  // 초기 투명도는 0
+  const [fadeAnim] = useState(new Animated.Value(0)); // 초기 투명도는 0
 
   useEffect(() => {
     Animated.loop(
@@ -80,19 +84,25 @@ function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: Social
     <S.Container>
       <S.Top>
         <S.TopBox>
-          <S.ToggleButtonWrapper onPress={handleToggle}>
-            <S.ToggleButton
-              style={{
-                transform: [
-                  {
-                    translateX: animatedValue,
-                  },
-                ],
-              }}
-            />
-            <S.FixedTextLeft isFriend={isFriend}>전체</S.FixedTextLeft>
-            <S.FixedTextRight isFriend={isFriend}>친구</S.FixedTextRight>
-          </S.ToggleButtonWrapper>
+          <S.ToggleWrapperShadow
+            distance={1}
+            startColor="rgba(255, 255, 255, 0.5)"
+            endColor="rgba(255, 255, 255, 0.5)"
+            offset={[0, 0]}>
+            <S.ToggleButtonWrapper onPress={handleToggle}>
+              <S.ToggleButton
+                style={{
+                  transform: [
+                    {
+                      translateX: animatedValue,
+                    },
+                  ],
+                }}
+              />
+              <S.FixedTextLeft isFriend={isFriend}>전체</S.FixedTextLeft>
+              <S.FixedTextRight isFriend={isFriend}>친구</S.FixedTextRight>
+            </S.ToggleButtonWrapper>
+          </S.ToggleWrapperShadow>
         </S.TopBox>
       </S.Top>
       <S.Body>
@@ -118,11 +128,12 @@ function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: Social
             ) : (
               <S.LoadingBox>
                 <S.EmptyImage source={NoFriendImage} resizeMode="contain" />
-                <S.EmptyText style={{ marginRight: 10 }}>친구를 추가해주세요.</S.EmptyText>
+                <S.EmptyText style={{marginRight: 10}}>
+                  친구를 추가해주세요.
+                </S.EmptyText>
               </S.LoadingBox>
             )
           ) : (
-
             <S.LoadingBox>
               <Loading_Run />
               {/* <S.AnimatedFooterText style={{ opacity: fadeAnim }}>로딩 중...</S.AnimatedFooterText> */}
@@ -130,10 +141,8 @@ function SocialBody({ navigation, isFriend, onToggle, onUpdateDateInfo }: Social
           )}
         </ScrollView>
       </S.Body>
-
     </S.Container>
-
   );
-};
+}
 
 export default SocialBody;

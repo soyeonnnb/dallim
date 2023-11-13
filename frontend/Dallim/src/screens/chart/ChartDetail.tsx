@@ -149,7 +149,7 @@ function ChartDetail({route, navigation}: Props) {
       await getData.runningRecordInfos.map((record: any) => {
         const value: HeartChartDataType = {
           second: record.second,
-          value: record.heartRate,
+          value: Math.floor(record.heartRate),
         };
         hData.push(value);
       });

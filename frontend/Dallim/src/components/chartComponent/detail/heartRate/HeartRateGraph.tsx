@@ -28,7 +28,7 @@ function HeartRateGraph({data, chartColor}: Props) {
 
   const handlePreviewData = (item: {value: number; second: number}) => {
     setPreviewTime(secondToMinuteSeconds(item.second));
-    setPreviewHeartRate(Math.floor(item.value));
+    setPreviewHeartRate(item.value);
 
     if (item.value < 137) setHeartRateColor(chartColor[0]);
     else if (item.value < 150) setHeartRateColor(chartColor[1]);

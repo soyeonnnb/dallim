@@ -63,7 +63,6 @@ function SocialHeader({month, week}: SocialHeaderProps) {
                   width: '100%',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  // opacity: 0.8,
                 }}
                 start={{x: 0, y: 0}}
                 end={{x: 0, y: 1}}>
@@ -71,9 +70,6 @@ function SocialHeader({month, week}: SocialHeaderProps) {
                   height={25}
                   width={25}
                   color="white"></FriendListIcon>
-                {/* <S.AnimatedManageText style={{opacity: buttonFadeAnim}}>
-                친구관리
-              </S.AnimatedManageText> */}
               </LinearGradient>
             </S.ManageButton>
           </S.HeaderRight>
@@ -96,27 +92,10 @@ function SocialHeader({month, week}: SocialHeaderProps) {
         onClose={() => setModalVisible(false)}
       />
 
-      {/* <AwesomeAlert
-        show={showAlert}
-        showProgress={false}
-        title="안내사항"
-        message={'누적 거리 기준 랭킹입니다.'}
-        closeOnTouchOutside={true}
-        onDismiss={() => {
-          setShowAlert(false);
-        }}
-        closeOnHardwareBackPress={false}
-        showConfirmButton={true}
-        confirmText="확인"
-        confirmButtonColor="blue"
-        onConfirmPressed={() => {
-          setShowAlert(false);
-        }}
-      /> */}
       <GuideModal
         text="랭킹은 거리순입니다."
         modalVisible={showGuideModal}
-        toggleModal={() => setShowGuideModal(false)} // Pass the function to close the modal
+        toggleModal={() => setShowGuideModal(false)}
       />
     </S.Container>
   );

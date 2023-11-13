@@ -9,8 +9,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dallim.R;
+import com.dallim.databinding.ActivityLoadingBinding;
+import com.dallim.databinding.ActivityMainBinding;
 import com.dallim.model.RunningMateRecord;
 import com.dallim.service.RunningService;
 import com.dallim.util.MyApplication;
@@ -24,13 +29,18 @@ public class LoadingActivity extends AppCompatActivity {
     private Intent intent;
     private RunningMateRecordViewModel viewModel;
     private String runningRecordId;
+    private ActivityLoadingBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityLoadingBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
         prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
         SharedPreferences.Editor edit = prefs.edit();
-        setContentView(R.layout.activity_loading);
+
         runningService = new RunningService(getApplicationContext());
         viewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningMateRecordViewModel.class);
 
@@ -41,13 +51,23 @@ public class LoadingActivity extends AppCompatActivity {
             edit.apply();
         }
 
+
         intent = getIntent();
         runningRecordId = intent.getStringExtra("running_record_id");
-        edit.putString("runningRecordId", runningRecordId);
-        edit.apply();
-        // 러닝메이트 기록 가져와서 sqlite에 저장
-        loadData();
+        if(runningRecordId.equals(null)){
 
+        }else{
+            edit.putString("runningRecordId", runningRecordId);
+            edit.apply();
+            // 러닝메이트 기록 가져와서 sqlite에 저장
+            loadData();
+        }
+
+        Glide.with(this)
+                .asGif()
+                .load(R.raw.panda_run)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .into((android.widget.ImageView) view.findViewById(R.id.loading));
     }
 
     private void loadData() {
@@ -56,7 +76,6 @@ public class LoadingActivity extends AppCompatActivity {
             @Override
             public void onDataLoaded(RunningMateRecord record) {
                 viewModel.setMateRecord(record);
-                System.out.println(viewModel.getMateRecord().getValue().getDistance());
                 startCountdownActivity();
             }
         });

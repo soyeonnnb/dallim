@@ -26,7 +26,9 @@ import com.dallim.util.MyApplication;
 import com.dallim.view.RunningMateRecordViewModel;
 import com.dallim.view.RunningViewModel;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,19 +41,19 @@ public class TimerService extends Service {
     public static final String TIMER_BR = "com.runapp.service.timerbroadcast";
     private RunningViewModel runningViewModel;
     private RunningMateRecordViewModel runningMateRecordViewModel;
-    private Long totalTime = 1L;
     private int speedCountTime = 0;
     private double totalSpeed = 0;
     private List<Double> mateRunningDetail = new ArrayList<>();
     private Double lastDistance;
     private boolean check = false;
     private int seconds = 0;
+    private boolean overTime = false;
+    private long curTime = 0;
 
     @SuppressLint("InvalidWakeLockTag")
     @Override
     public void onCreate() {
         super.onCreate();
-        startTime = System.currentTimeMillis();
         timerHandler = new Handler();
         runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
         // check가 true면 함께달리기
@@ -92,34 +94,53 @@ public class TimerService extends Service {
     }
 
     public void startTimer() {
+        curTime = System.nanoTime();
+        startTime = curTime;
         timerRunnable = new Runnable() {
             @Override
             public void run() {
-                long elapsedTime = System.currentTimeMillis() - startTime;
-                Log.d("로그", String.valueOf(elapsedTime));
+                long elapsedTime = curTime - startTime;
                 updateRunDetailList(elapsedTime);
                 Intent intent = new Intent(TIMER_BR);
                 intent.putExtra("elapsedTime", elapsedTime);
                 sendBroadcast(intent);
                 // 1초마다 현재 Runnable을 다시 실행하도록 예약
                 timerHandler.postDelayed(this, 1000);
+                curTime++;
             }
         };
         timerHandler.post(timerRunnable);
     }
 
     private void updateRunDetailList(long elapsedTime) {
-        seconds = (int) (elapsedTime / 1000);
+        seconds = (int) elapsedTime;
 
         // 함께달리기인 경우에만 거리 차이 계산
         if (check){
-            if (runningViewModel.getOriDistance().getValue() != null && runningViewModel.getOriDistance().getValue() != 0) {
-                Double mateDistance = mateRunningDetail.get(seconds);
-                Double curDistance = runningViewModel.getOriDistance().getValue();
-                Log.d("메이트", String.valueOf(mateDistance));
-                Log.d("내기록", String.valueOf(curDistance));
-                runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
+            // 아직 상대방 시간보다 낮은 경우
+            if(!overTime){
+                if(seconds >= mateRunningDetail.size() - 1){
+                    Log.e("상태", "상대 시간 초과");
+                    overTime = true;
+                }
+                if (runningViewModel.getOriDistance().getValue() != null && runningViewModel.getOriDistance().getValue() != 0) {
+                    Double mateDistance = mateRunningDetail.get(seconds);
+                    Double curDistance = runningViewModel.getOriDistance().getValue();
+                    runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
 
+                    // 이긴 경우
+                    if(curDistance >= lastDistance){
+                        Log.e("상태", "이김");
+                        LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
+                        Intent intent = new Intent(TIMER_BR);
+                        intent.putExtra("finish_activity", true);
+                        localBroadcastManager.sendBroadcast(intent);
+                    }
+                }
+            }
+            // 상대방 시간 초과한 경우
+            else{
+                Double curDistance = runningViewModel.getOriDistance().getValue();
                 // 이긴 경우
                 if(curDistance >= lastDistance){
                     Log.e("상태", "이김");
@@ -128,14 +149,6 @@ public class TimerService extends Service {
                     intent.putExtra("finish_activity", true);
                     localBroadcastManager.sendBroadcast(intent);
                 }
-            }
-            // Broadcast an intent to update the timer in the activity.
-            if(seconds == mateRunningDetail.size() - 1){
-                Log.e("상태", "상대 시간 초과");
-                LocalBroadcastManager localBroadcastManager = LocalBroadcastManager.getInstance(this);
-                Intent intent = new Intent(TIMER_BR);
-                intent.putExtra("finish_activity", true);
-                localBroadcastManager.sendBroadcast(intent);
             }
         }
 
@@ -167,7 +180,7 @@ public class TimerService extends Service {
         if (runningViewModel.getHeartRate().getValue() != null) {
             detail.setHeartRate(runningViewModel.getHeartRate().getValue());
         }
-        detail.setSecond(runningViewModel.getTotalTime().getValue());
+        detail.setSecond(elapsedTime);
         if (runningViewModel.getLongitude().getValue() != null) {
             detail.setLongitude(runningViewModel.getLongitude().getValue());
         }

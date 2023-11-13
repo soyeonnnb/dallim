@@ -2,12 +2,14 @@ package com.dallim.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
@@ -31,13 +33,10 @@ import java.util.concurrent.Executors;
 public class SelectActivity extends ComponentActivity {
 
     private ActivitySelectBinding binding;
-    private final Executor executor = Executors.newSingleThreadExecutor();
-    private AppDatabase db;
     private RunningService runningService;
     private WearableRecyclerView recyclerView;
     private MenuAdapter menuAdapter;
     private List<MenuItem> menuList;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,10 +64,6 @@ public class SelectActivity extends ComponentActivity {
         recyclerView.setLayoutManager(
                 new WearableLinearLayoutManager(this, customScrollingLayoutCallback));
 
-
-        db = AppDatabase.getDatabase(getApplicationContext());
-        Context context = SelectActivity.this;
-
         // 클릭 이벤트 처리
         menuAdapter.setOnItemClickListener(new MenuAdapter.OnItemClickListener() {
             @Override
@@ -76,32 +71,30 @@ public class SelectActivity extends ComponentActivity {
                 MenuItem clickedItem = menuList.get(position);
                 switch (clickedItem.getTitle()) {
                     case "혼자 달리기":
-//                         AlertDialog.Builder 인스턴스 생성
-                        AlertDialog.Builder builder = new AlertDialog.Builder(SelectActivity.this, R.style.CustomDialogTheme);
+                        LayoutInflater inflater1 = getLayoutInflater();
+                        View dialogView = inflater1.inflate(R.layout.modal, null);
 
-                        LayoutInflater inflater = getLayoutInflater();
-                        // single_popup.xml을 가져와서 객체로 생성
-                        View customView = inflater.inflate(R.layout.single_popup, null);
+                        TextView text = dialogView.findViewById(R.id.text_view);
+                        text.setText("혼자 달리기\n시작하시겠습니까?");
 
-                        builder.setView(customView);
+                        Button cancel = dialogView.findViewById(R.id.cancel);
+                        Button finish = dialogView.findViewById(R.id.finish);
+                        finish.setText("시작");
 
-                        // builder 내용으로 AlertDialog 생성
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SelectActivity.this);
+                        builder.setView(dialogView);
+
                         AlertDialog dialog = builder.create();
-
-                        // AlertDialog 보이기
+                        if (dialog.getWindow() != null) {
+                            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xD0000000));
+                        }
                         dialog.show();
 
-                        Button btnCancel = customView.findViewById(R.id.single_cancel);
-                        Button btnStart = customView.findViewById(R.id.single_start);
-
-                        // 취소 버튼에 대한 클릭 리스너
-                        btnCancel.setOnClickListener(b -> {
+                        cancel.setOnClickListener(b ->{
                             dialog.dismiss();
                         });
 
-                        // 확인 버튼에 대한 클릭 리스너
-                        btnStart.setOnClickListener(b -> {
-                            // 확인 버튼을 누르면 카운트다운 액티비티로 넘어감.
+                        finish.setOnClickListener(b ->{
                             Intent intent = new Intent(SelectActivity.this, CountdownActivity.class);
                             // 다른 액티비티로 값을 넘길 때 쓴다. 키 밸류로 구분
                             intent.putExtra("run_type", "ALONE");

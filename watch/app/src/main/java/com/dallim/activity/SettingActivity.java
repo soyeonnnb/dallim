@@ -3,6 +3,7 @@ package com.dallim.activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +35,6 @@ import retrofit2.Response;
 
 public class SettingActivity extends AppCompatActivity {
     private ActivitySettingBinding binding;
-    private final Executor executor = Executors.newSingleThreadExecutor();
     private SharedPreferences prefs;
     private RunningService runningService;
     private int unlinkCount = 0;
@@ -45,6 +45,7 @@ public class SettingActivity extends AppCompatActivity {
         binding = ActivitySettingBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
         runningService = new RunningService(getApplicationContext());
 
         // 비연동 데이터 연동하기
@@ -52,28 +53,29 @@ public class SettingActivity extends AppCompatActivity {
             if (unlinkCount == 0){
                 Toast.makeText(SettingActivity.this, "비연동 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
             }else{
-                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
+                LayoutInflater inflater = SettingActivity.this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.unlink_data_modal, null);
 
-                LayoutInflater inflater = getLayoutInflater();
-                // unlink_user.xml을 가져와서 객체로 생성
-                View customView = inflater.inflate(R.layout.link_data, null);
+                TextView textView = dialogView.findViewById(R.id.text_view);
+                textView.setText("데이터를 동기화\n하시겠습니까?");
 
-                TextView linkDataTv = customView.findViewById(R.id.link_data_tv);
-                String format = String.format("%d개의 데이터를" + "\n" + "연동하시겠습니까?", unlinkCount);
-                linkDataTv.setText(format);
+                TextView dataCountView = dialogView.findViewById(R.id.data_count);
+                dataCountView.setText(String.valueOf(unlinkCount) + "개");
 
-                builder.setView(customView);
+                Button unlinkCancel = dialogView.findViewById(R.id.cancel);
+                Button unlinkStart = dialogView.findViewById(R.id.finish);
+                unlinkStart.setText("연동");
 
-                // builder 내용으로 AlertDialog 생성ㅇ
+                AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+                builder.setView(dialogView);
+
                 AlertDialog dialog = builder.create();
 
-                // AlertDialog 보이기
+                if (dialog.getWindow() != null) {
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xD0000000));
+                }
                 dialog.show();
 
-                Button unlinkCancel = customView.findViewById(R.id.unlink_cancel);
-                Button unlinkStart = customView.findViewById(R.id.unlink_start);
-
-                
                 // 비연동 데이터 업데이트
                 unlinkStart.setOnClickListener(b ->{
                     runningService.getNotTranslateRunningData(new RunningService.GetResultListener() {
@@ -119,59 +121,60 @@ public class SettingActivity extends AppCompatActivity {
 
         // 연동해제 버튼 누르면
         binding.btnUnlink.setOnClickListener(v ->{
-            Intent intent = new Intent(SettingActivity.this, UnlinkActivity.class);
-            startActivity(intent);
 
-//            String email = prefs.getString("email", null);
-//            String nickname = prefs.getString("nickname", null);
-//            int level = prefs.getInt("level", 0);
+            String email = prefs.getString("email", null);
+            String nickname = prefs.getString("nickname", null);
+            String type = prefs.getString("type", null);
 
-//            // AlertDialog.Builder 인스턴스 생성
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialogTheme);
-//
-//            LayoutInflater inflater = getLayoutInflater();
-//            // unlink_user.xml을 가져와서 객체로 생성
-//            View customView = inflater.inflate(R.layout.unlink_user, null);
-//
-//            TextView userEmail = customView.findViewById(R.id.user_email);
-//            userEmail.setText("이메일:" + email);
-//            TextView userNickname = customView.findViewById(R.id.nickname);
-//            userNickname.setText("닉네임:" + nickname);
-//            TextView userLevel = customView.findViewById(R.id.level);
-//            userLevel.setText("레벨:" + String.valueOf(level) + " LV");
-//
-//            builder.setView(customView);
-//
-//            // builder 내용으로 AlertDialog 생성
-//            AlertDialog dialog = builder.create();
-//
-//            // AlertDialog 보이기
-//            dialog.show();
-//
-//            Button btnCancel = customView.findViewById(R.id.unlink_cancel);
-//            Button btnStart = customView.findViewById(R.id.unlink_start);
-//
-//            // 취소 버튼에 대한 클릭 리스너
-//            btnCancel.setOnClickListener(b ->{
-//                dialog.dismiss();
-//            });
-//
-//            // 확인 버튼에 대한 클릭 리스너
-//            btnStart.setOnClickListener(b-> {
-//                prefs.edit().clear().apply();
-//                runningService.deleteRunningMateData();
-//                runningService.deleteRunningData();
-//                Toast.makeText(SettingActivity.this, "연동을 해제하였습니다.", Toast.LENGTH_SHORT).show();
-//                dialog.dismiss();
-//
-//                // 모든 액티비티를 종료하고 메인 액티비티로 이동하는 인텐트 생성
-//                Intent intent = new Intent(SettingActivity.this, MainActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intent);
-//
-//                // 현재 액티비티 종료
-//                finish();
-//            });
+            LayoutInflater inflater = SettingActivity.this.getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.unlink_modal, null);
+
+            TextView text = dialogView.findViewById(R.id.text_view);
+            Button cancel = dialogView.findViewById(R.id.cancel);
+            Button unlinkBtn = dialogView.findViewById(R.id.finish);
+            TextView nicknameTv = dialogView.findViewById(R.id.nickname);
+            TextView emailTv = dialogView.findViewById(R.id.email);
+            ImageView typeIv = dialogView.findViewById(R.id.social_type);
+
+            nicknameTv.setText(nickname);
+            text.setText("연동을 해제하시겠습니까?");
+            emailTv.setText(email);
+            if("kakao".equals(type)){
+                typeIv.setImageResource(R.drawable.kakao);
+            }else{
+                typeIv.setImageResource(R.drawable.naver);
+            }
+            unlinkBtn.setText("해제");
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+            builder.setView(dialogView);
+
+            AlertDialog dialog = builder.create();
+
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xD0000000));
+            }
+            dialog.show();
+
+            cancel.setOnClickListener(b ->{
+                dialog.dismiss();
+            });
+
+            unlinkBtn.setOnClickListener(b ->{
+                prefs.edit().clear().apply();
+                runningService.deleteRunningMateData();
+                runningService.deleteRunningData();
+                Toast.makeText(SettingActivity.this, "연동을 해제하였습니다.", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+
+                // 모든 액티비티를 종료하고 메인 액티비티로 이동하는 인텐트 생성
+                Intent intent = new Intent(SettingActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
+                // 현재 액티비티 종료
+                finish();
+            });
         });
     }
 
@@ -188,17 +191,13 @@ public class SettingActivity extends AppCompatActivity {
                 unlinkCount = count;
                 // 비연동 데이터가 있으면
                 if (unlinkCount != 0){
-                    dateView.setImageResource(R.drawable.unknown_nodata);
+                    dateView.setImageResource(R.drawable.unknown_data);
                 }
                 // 없으면
                 else{
-                    dateView.setImageResource(R.drawable.unknown_data);
+                    dateView.setImageResource(R.drawable.unknown_nodata);
                 }
             }
         });
-
-//        String email = prefs.getString("email", null);
-//        TextView viewEmail = binding.email;
-//        viewEmail.setText(email);
     }
 }

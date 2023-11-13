@@ -38,7 +38,7 @@ public class RunningMateInfo {
         this.averagePace = runningMate.getRivalRecord().getAveragePace();
         this.totalDistance = runningMate.getRivalRecord().getTotalDistance();
         this.totalTime = runningMate.getRivalRecord().getTotalTime();
-        this.isClear = false;
+        this.isClear = runningMate.isHasWin();
         this.createdAt = runningMate.getCreatedAt();
     }
 }

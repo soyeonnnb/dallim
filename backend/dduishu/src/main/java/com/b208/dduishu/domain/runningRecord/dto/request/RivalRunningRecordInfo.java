@@ -1,16 +1,14 @@
 package com.b208.dduishu.domain.runningRecord.dto.request;
 
 import com.b208.dduishu.domain.character.dto.request.CharacterOverview;
-import com.b208.dduishu.domain.runningRecord.document.PaceInfo;
-import com.b208.dduishu.domain.runningRecord.document.PaceSectionInfo;
-import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
-import com.b208.dduishu.domain.runningRecord.document.RunningType;
+import com.b208.dduishu.domain.runningRecord.document.*;
 import com.b208.dduishu.domain.runningRecord.dto.CharacterRecordInfo;
 import com.b208.dduishu.domain.user.dto.request.UserInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RivalRunningRecordInfo {
 
-    private String id;
+    private ObjectId id;
     private String location;
     private PaceInfo pace;
     private UserInfo user;
@@ -35,10 +33,11 @@ public class RivalRunningRecordInfo {
     private double averageSpeed;
     private double averagePace;
     private LocalDateTime createdAt;
+    private WinOrLose winOrLose;
 
     @Builder
     public RivalRunningRecordInfo(RunningRecord runningRecord) {
-        this.id = runningRecord.getId().toString();
+        this.id = runningRecord.getId();
         this.user = runningRecord.getUser();
         this.location = runningRecord.getLocation();
         this.character = runningRecord.getCharacter();

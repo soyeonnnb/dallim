@@ -12,6 +12,7 @@ import com.b208.dduishu.domain.rawRunningRecord.repository.RawRunningRecordRepos
 import com.b208.dduishu.domain.runningMate.document.RunningMate;
 import com.b208.dduishu.domain.runningMate.repository.RunningMateRepository;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
+import com.b208.dduishu.domain.runningRecord.document.WinOrLose;
 import com.b208.dduishu.domain.runningRecord.dto.request.*;
 import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.response.RunningRecordWithRunningMate;
@@ -109,6 +110,8 @@ public class RunningRecordService {
         user.getUserLevel().addExp(req.getTotalDistance());
         // 포인트 정산 - 이동 거리 + a
         user.addPoint(req.getTotalDistance());
+        // 런닝 메이트 승패 여부 추가
+        updateRunningMateWinStatus(user.getUserId(), req.getRivalRecordId(), req.getWinOrLose());
 
         // dto to entity
         RunningRecord runningRecord = req.toRunningRecord(user, planet, addressName,character,rivalRunningRecord);
@@ -121,6 +124,16 @@ public class RunningRecordService {
         rawRunningRecordRepository.save(rawRunningRecord);
 
         return savedRunningRecord.getId().toString();
+    }
+
+    public void updateRunningMateWinStatus(Long userId, ObjectId rivalRecordId, WinOrLose winOrLose) {
+        if (rivalRecordId != null && winOrLose == WinOrLose.WIN) {
+            RunningMate runningMate = runningMateRepository.findByUserUserIdAndRivalRecordId(userId, rivalRecordId);
+            if (runningMate != null) {
+                RunningMate build = RunningMate.builder().id(runningMate.getId()).user(runningMate.getUser()).rivalRecord(runningMate.getRivalRecord()).hasWin(true).build();
+                runningMateRepository.save(build);
+            }
+        }
     }
 
     private void computeCumulativeRunningDays(User user, List<RunningRecord> runningRecords) {
@@ -164,7 +177,7 @@ public class RunningRecordService {
     private String findMostFrequentRunningMateId(List<RunningRecord> records) {
         return records.stream()
                 .filter(o -> o.getRivalRecord() != null)
-                .map(o -> o.getRivalRecord().getId())
+                .map(o -> o.getRivalRecord().getId().toString())
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet().stream()
                 .max(Map.Entry.comparingByValue())

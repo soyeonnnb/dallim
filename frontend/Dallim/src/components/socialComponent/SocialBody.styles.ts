@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {Animated, TouchableOpacity} from 'react-native';
+import {Shadow} from 'react-native-shadow-2';
 
 export const Container = styled.View`
   flex: 1;
@@ -25,6 +26,16 @@ export const TopBox = styled.View`
   align-items: center;
   height: 70%;
   width: 80%;
+`;
+
+export const ToggleWrapperShadow = styled(Shadow)`
+  width: 100%;
+  justify-content: center;
+  /* color: black; */
+  /* width: 10px; */
+  height: 100%;
+  /* border-radius: 18px; */
+  /* margin-bottom: 20px; */
 `;
 
 export const ToggleButtonWrapper = styled(TouchableOpacity)`

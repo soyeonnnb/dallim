@@ -167,6 +167,18 @@ export const colors = {
       time: '#C3A9F6',
     },
   },
+  buttonColor: {
+    firstDepth: 'rgba(59, 54, 112, 0.8)',
+    depthOneMore: '#625D9D',
+    exp: 'linear-gradient(to bottom right, #585864, #2C2C46)',
+    point: 'rgba(42, 44, 69, 0.7)',
+    firstPoint:
+      'linear-gradient(to bottom right, #CB5CFD, #4737D9), radial-gradient(circle at center, #FFFFFF 0%, #3D2FBF 100%) 20%',
+  },
+  // defaultButton:{
+  //   background: 'linear-gradient(to bottom, #6A63BE, #241F5A)',
+  // opacity: '0.8'
+  // }
 };
 
 export const borderRadius = {

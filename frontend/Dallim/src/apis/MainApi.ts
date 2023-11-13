@@ -65,8 +65,8 @@ export const fetchUserCalendar = async () => {
 
 interface RunningRecordInfo {
   second: number;
-  latitude: number;
-  longitude: number;
+  // latitude: number;
+  // longitude: number;
   distance: number;
   speed: number;
   pace: number;
@@ -77,14 +77,14 @@ interface RunningData {
   initLongitude: number;
   watchOrMobile: string;
   userId: number;
-  characterId: number;
+  characterIndex: number;
   type: string;
-  rivalRecord: number | null;
+  rivalRecord: null;
   runningRecordInfos: RunningRecordInfo[];
   totalTime: number;
   totalDistance: number;
   averageSpeed: number;
-  createdAt: string;
+  date: string;
 }
 
 // 혼자 달리기 데이터 보내기

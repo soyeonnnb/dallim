@@ -33,6 +33,15 @@ interface LocationData {
   pace: number; // 필요
 }
 
+interface GpsData {
+  second: number;
+  latitude: number;
+  longitude: number;
+  distance: number;
+  speed: number;
+  pace: number;
+}
+
 const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const timerIdRef = useRef<NodeJS.Timeout | null>(null);
   const trackIdRef = useRef<number | null>(null); // 위치 추적 ID 저장을 위한 참조 변수
@@ -48,12 +57,13 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const [totalDistance, setTotalDistance] = useRecoilState(totalDistanceState);
   const [displayDistance, setDisplayDistance] = useRecoilState(displayDistanceState);
   const [lastPosition, setLastPosition] = useRecoilState(lastPositionState);
+  
+  // 확인 모달
+  const [showModal, setShowModal] = useState(false);
 
   // 페이스 상태
   const [pace, setPace] = useState('0:00');
-
-  // 확인 모달
-  const [showModal, setShowModal] = useState(false);
+  
   // 시작 및 종료 모달 구분을 위한 상태
   const [modalType, setModalType] = useState<'start' | 'stop' | null>(null);
 
@@ -162,9 +172,13 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       const newTotalDistance = totalDistance + distance;
       const displayDistance = Math.round((newTotalDistance) * 100) / 100.0;
 
-      const speed = position.coords.speed ?? 0;
-      const speedInKmH = speed * 3.6;
-      const pace = speedInKmH !== 0 ? 60 / speedInKmH : 0;
+      // 1초에 몇미터 가는지
+      const speed = position.coords.speed ?? 0; // m/s
+
+      // 1키로를 뛰는데 걸리는 시간 (초) 계산 : 
+      const pace = speed !== 0 ? 1000 / speed : 0;
+      const paceStr = pace.toFixed(2);
+      setPace(paceStr);
 
       const paceValue = msToPace(speed);
       setPace(paceValue);
@@ -253,18 +267,14 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       const endTotalDistance = totalDistance; // 총 거리
       const averageSpeed = endTotalDistance / endTime; // 평균 속력 계산
 
-      console.log("1 / initialLatitudeState(시작 위도) : " + runningSession.runningRecordInfos[0].latitude);
-      console.log("1 / initialLongitudeState(시작 경도) : " + runningSession.runningRecordInfos[0].longitude);
-      console.log("1 / watchOrMobile(모바일인가요?) : " + runningSession.watchOrMobile);
-      console.log("1 / userId(유저 Id) : " + userId);
-      console.log("1 / characterId(캐릭터 Id) : " + equippedCharacterIndex);
-      console.log("1 / type (홀로 달리기) : " + runningSession.type);
-      console.log("1 / rivalRecord(라이벌 없음) : " + runningSession.rivalRecord);
-      console.log("2.runningSession.runningRecordInfos(1초단위 배열) : " + JSON.stringify(runningSession.runningRecordInfos, null, 2));
-      console.log("3 / totalTime(초) : " + secondsElapsed);
-      console.log("3 / totalDistance(M) : " + totalDistance);
-      console.log("3 / averageSpeed(m/s) : " + averageSpeed);
-      console.log("3 / createdAt(작성시간) : " + runningSession.createdAt);
+      // 누락 데이터 전처리
+      const filledRunningRecordInfos = fillMissingData(runningSession.runningRecordInfos);
+
+      // runningRecordInfos에서 latitude와 longitude 제거
+      const transformedRunningRecordInfos = filledRunningRecordInfos.map(({ latitude, longitude, ...rest }) => rest);
+
+      // 한국 날짜 변환 
+      const koreaDate = convertToKST(runningSession.date);
 
       // 서버에 보낼 데이터 객체 생성
       const runningData = {
@@ -272,15 +282,28 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
         initLongitude: runningSession.runningRecordInfos[0].longitude,
         watchOrMobile: runningSession.watchOrMobile,
         userId: userId,
-        characterId: equippedCharacterIndex,
+        characterIndex: equippedCharacterIndex,
         type: runningSession.type,
         rivalRecord: runningSession.rivalRecord,
-        runningRecordInfos: runningSession.runningRecordInfos,
+        runningRecordInfos: transformedRunningRecordInfos,
         totalTime: endTime,
         totalDistance: endTotalDistance,
         averageSpeed: averageSpeed,
-        createdAt: runningSession.createdAt
+        date: koreaDate.toISOString(),
       };
+
+      console.log("1 / initialLatitudeState(시작 위도) : " + runningSession.runningRecordInfos[0].latitude);
+      console.log("1 / initialLongitudeState(시작 경도) : " + runningSession.runningRecordInfos[0].longitude);
+      console.log("1 / watchOrMobile(모바일인가요?) : " + runningSession.watchOrMobile);
+      console.log("1 / userId(유저 Id) : " + userId);
+      console.log("1 / characterIndex(캐릭터 Id) : " + equippedCharacterIndex);
+      console.log("1 / type (홀로 달리기) : " + runningSession.type);
+      console.log("1 / rivalRecord(라이벌 없음) : " + runningSession.rivalRecord);
+      console.log("2.runningSession.runningRecordInfos(1초단위 배열) : " + JSON.stringify(transformedRunningRecordInfos, null, 2));
+      console.log("3 / totalTime(초) : " + secondsElapsed);
+      console.log("3 / totalDistance(M) : " + totalDistance);
+      console.log("3 / averageSpeed(m/s) : " + averageSpeed);
+      console.log("3 / koreaDate(작성시간) : " + koreaDate.toISOString());
 
       // 데이터 전송
       try {
@@ -320,6 +343,34 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
     }
   }
 
+  // 누락된 초에 대한 데이터 전처리 ( 복사 )
+  const fillMissingData = (data: GpsData[]): GpsData[] => {
+    if (data.length === 0) return [];
+    const filledData: GpsData[] = [];
+    let lastData = data[0];
+
+    for (let second = 0; second <= data[data.length - 1].second; second++) {
+      const currentData = data.find(d => d.second === second);
+      if (currentData) {
+        filledData.push(currentData);
+        lastData = currentData;
+      } else {
+        filledData.push({ ...lastData, second });
+      }
+    }
+    return filledData;
+  };
+
+  // 한국 시간 변환
+  const convertToKST = (dateString: string): Date => {
+    const date = new Date(dateString);
+    const kstOffset = 9 * 60; // 한국은 UTC+9
+    const utc = date.getTime() + (date.getTimezoneOffset() * 60000);
+    const kstDate = new Date(utc + (3600000 * kstOffset));
+
+    return kstDate;
+  };
+
   // 컴포넌트 렌더링 시작
   return (
     <Modal
@@ -358,7 +409,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
                   <S.RecodeTitle>페이스</S.RecodeTitle>
                 </S.RecodeTextBox>
                 <S.RecodeBottomBox>
-                  <S.RecodeText>{pace} 초/km </S.RecodeText>
+                  <S.RecodeText>{pace} ( 분 : 초 ) </S.RecodeText>
                 </S.RecodeBottomBox>
               </S.RecodeLeft>
               <S.RecodeRight>

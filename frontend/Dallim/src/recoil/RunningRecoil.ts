@@ -40,14 +40,14 @@ export const runningSessionState = atom({
     initLongitude: 0, // 시작 경도
     watchOrMobile: 'MOBILE',
     userId: 0,
-    characterId: 0,
+    characterIndex: 0,
     type: 'ALONE',
     rivalRecord: null,
     runningRecordInfos: [] as LocationData[],
     totalTime: 0,
     totalDistance: 0,
     averageSpeed: 0,
-    createdAt: new Date().toISOString(),
+    date: new Date().toISOString(),
   },
 });
 

@@ -141,7 +141,7 @@ export const RecodeBottomBox = styled.View`
 export const RecodeText = styled.Text`
   border-width: 1px;
   border-color: red;
-  font-size: 40px;
+  font-size: 20px;
   font-weight: bold;
   color: white;
 `;

@@ -163,15 +163,17 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
               <S.CloseButton onPress={() => navigation.navigate('Social')}>
                 <S.CloseImage source={CloseIcon} />
               </S.CloseButton>
+              <S.EmptyBox></S.EmptyBox>
               <S.HeaderBox>
                 <S.DetailText>상세보기</S.DetailText>
               </S.HeaderBox>
+              <S.EmptyBox></S.EmptyBox>
               <S.VersusBox>
-                <S.VersusButton onPress={handleSend}>
+                {/* <S.VersusButton onPress={handleSend}>
                   <S.AnimatedVersusText style={{opacity: buttonFadeAnim}}>
                     비교하기
                   </S.AnimatedVersusText>
-                </S.VersusButton>
+                </S.VersusButton> */}
               </S.VersusBox>
             </S.Header>
             <S.Body>

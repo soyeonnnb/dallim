@@ -1,18 +1,36 @@
 import styled from 'styled-components/native';
 import {Image, TouchableOpacity} from 'react-native';
+import {colors} from '../common/globalStyles';
+import {Shadow} from 'react-native-shadow-2';
 
 export const Container = styled.View`
   flex: 1;
-  padding: 5px;
+  /* border-width: 1px;
+  border-color: red; */
+  /* padding: 5px; */
+`;
+
+export const BoxShadow = styled(Shadow)`
+  /* border-width: 1px;
+  border-color: red; */
+  /* width: 100%; */
+  /* margin: px; */
+  justify-content: center;
+  align-items: center;
+  /* color: black; */
+  /* width: 10px; */
+  /* height: 100%; */
+  border-radius: 30px;
+  /* margin-bottom: 20px; */
 `;
 
 export const Box = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: ${colors.buttonColor.firstDepth};
   width: 100%;
   height: 100%;
-  background-color: white;
-  border-radius: 10px;
+  background-color: ${colors.buttonColor.firstDepth};
+  border-radius: 18px;
   padding: 10px;
 `;
 
@@ -112,7 +130,7 @@ export const AddButton = styled(TouchableOpacity)`
   height: 100%;
   justify-content: center;
   align-items: center;
-  background-color: #2A2C45;
+  background-color: #2a2c45;
   border-radius: 10px;
 `;
 
@@ -146,5 +164,5 @@ export const Icon = styled.View`
 
 export const Text = styled.Text`
   font-size: 10px;
-  color: black;
+  color: white;
 `;

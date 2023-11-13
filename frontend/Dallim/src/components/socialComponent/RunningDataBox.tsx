@@ -8,6 +8,7 @@ import {postRecordSave} from '@/apis/SocialApi';
 import CheckModal from './socialModal/CheckModal';
 import {useState} from 'react';
 import {meterToKMOrMeter} from '@/recoil/RunningData';
+import LinearGradient from 'react-native-linear-gradient';
 
 interface RunningDataBoxProps {
   id: string;
@@ -67,57 +68,63 @@ function RunningDataBox({
 
   return (
     <S.Container>
-      <S.Box>
-        <S.Top>
-          <S.TopLeft>
-            <S.Icon>
-              <S.IconImage source={PlaceIcon} />
-            </S.Icon>
-            <S.Text>{location}</S.Text>
-          </S.TopLeft>
-          <S.TopRight>
-            <S.Icon>
-              <S.IconImage source={DateIcon} />
-            </S.Icon>
-            <S.Text>{formatDate(createdAt)}</S.Text>
-          </S.TopRight>
-        </S.Top>
-        <S.Middle>
-          <S.MiddleLeft>
-            <S.Icon>
-              <S.IconImage source={DistIcon} />
-            </S.Icon>
-            <S.Text>{meterToKMOrMeter(totalDistance)}</S.Text>
-          </S.MiddleLeft>
-          <S.MiddleRight>
-            <S.Icon>
-              <S.IconImage source={TimeIcon} />
-            </S.Icon>
-            <S.Text>{formatTime(totalTime)}</S.Text>
-          </S.MiddleRight>
-        </S.Middle>
-        <S.Bottom>
-          <S.BottomLeft>
-            <S.Icon>
-              <S.IconImage source={SpeedIcon} />
-            </S.Icon>
-            <S.Text>{averageSpeed.toFixed(2)} Km/h</S.Text>
-          </S.BottomLeft>
-          <S.BottomRight>
-            <S.AddBox>
-              {!registration ? (
-                <S.AddButton onPress={toggleCheckModal}>
-                  <S.AddText>등록하기</S.AddText>
-                </S.AddButton>
-              ) : (
-                <S.AddButton_two disabled>
-                  <S.AddText_two>등록됨</S.AddText_two>
-                </S.AddButton_two>
-              )}
-            </S.AddBox>
-          </S.BottomRight>
-        </S.Bottom>
-      </S.Box>
+      <S.BoxShadow
+        distance={3}
+        startColor="rgba(0, 0, 0, 0.25)"
+        endColor="rgba(0, 0, 0, 0.25)"
+        offset={[0, 3]}>
+        <S.Box>
+          <S.Top>
+            <S.TopLeft>
+              <S.Icon>
+                <S.IconImage source={PlaceIcon} />
+              </S.Icon>
+              <S.Text>{location}</S.Text>
+            </S.TopLeft>
+            <S.TopRight>
+              <S.Icon>
+                <S.IconImage source={DateIcon} />
+              </S.Icon>
+              <S.Text>{formatDate(createdAt)}</S.Text>
+            </S.TopRight>
+          </S.Top>
+          <S.Middle>
+            <S.MiddleLeft>
+              <S.Icon>
+                <S.IconImage source={DistIcon} />
+              </S.Icon>
+              <S.Text>{meterToKMOrMeter(totalDistance)}</S.Text>
+            </S.MiddleLeft>
+            <S.MiddleRight>
+              <S.Icon>
+                <S.IconImage source={TimeIcon} />
+              </S.Icon>
+              <S.Text>{formatTime(totalTime)}</S.Text>
+            </S.MiddleRight>
+          </S.Middle>
+          <S.Bottom>
+            <S.BottomLeft>
+              <S.Icon>
+                <S.IconImage source={SpeedIcon} />
+              </S.Icon>
+              <S.Text>{averageSpeed.toFixed(2)} Km/h</S.Text>
+            </S.BottomLeft>
+            <S.BottomRight>
+              <S.AddBox>
+                {!registration ? (
+                  <S.AddButton onPress={toggleCheckModal}>
+                    <S.AddText>등록하기</S.AddText>
+                  </S.AddButton>
+                ) : (
+                  <S.AddButton_two disabled>
+                    <S.AddText_two>등록됨</S.AddText_two>
+                  </S.AddButton_two>
+                )}
+              </S.AddBox>
+            </S.BottomRight>
+          </S.Bottom>
+        </S.Box>
+      </S.BoxShadow>
 
       <CheckModal
         checkModalVisible={checkModalVisible}

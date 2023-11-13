@@ -52,6 +52,8 @@ function RankInfoBox({
     }
   }, []);
 
+  // console.log(rank);
+
   return (
     <S.Container>
       <S.BoxShadow

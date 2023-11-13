@@ -16,3 +16,7 @@ export const DownPreview = styled.View<{isShow: boolean}>`
   flex: 0.3;
   display: ${props => (props.isShow ? 'block' : 'none')};
 `;
+
+export const Footer = styled.View`
+  height: 10%;
+`;

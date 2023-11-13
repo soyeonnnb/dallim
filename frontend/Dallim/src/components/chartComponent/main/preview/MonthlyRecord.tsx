@@ -47,7 +47,8 @@ function MonthlyRecord({selectedYearMonth, previewRecords}: Props) {
         </S.AverageCompares>
       </S.View>
       <S.FriendView>
-        {previewRecords.runningMate.nickname != '' ? (
+        {previewRecords.runningMate.nickname &&
+        previewRecords.runningMate.nickname != '' ? (
           <>
             <S.CharacterView>
               <S.CharacterImage
@@ -83,7 +84,10 @@ interface SmallRecordProps {
 function SmallRecord({type, record, count}: SmallRecordProps) {
   const [avg, setAvg] = useState<string>('');
   const [total, setTotal] = useState<string>('');
+  const [color, setColor] = useState<string>('#A3B4F0');
+
   useEffect(() => {
+    setColor(type == 'm' ? '#A3B4F0' : '#C3A9F6');
     if (count === 0) {
       setTotal('0' + type);
       setAvg('0' + type);
@@ -98,14 +102,19 @@ function SmallRecord({type, record, count}: SmallRecordProps) {
   }, [record, count]);
   return (
     <S.SmallContainer>
-      <S.SmallCircle
-        bgColor={type == 'm' ? colors.purple._200 : colors.point.skyBluePoint}>
-        {type == 'm' ? (
-          <RunningThinIcon width={25} height={25} color={colors.depth._600} />
-        ) : (
-          <ClockIcon width={25} height={25} color={colors.purple._100} />
-        )}
-      </S.SmallCircle>
+      <S.SmallCircleShadow
+        distance={3}
+        startColor={`${color}76`}
+        endColor={`${color}33`}
+        offset={[0, 2]}>
+        <S.SmallCircle bgColor={color}>
+          {type == 'm' ? (
+            <RunningThinIcon width={25} height={25} color="white" />
+          ) : (
+            <ClockIcon width={25} height={25} color="white" />
+          )}
+        </S.SmallCircle>
+      </S.SmallCircleShadow>
       <S.SmallView>
         <S.SmallName>달린{type === 'm' ? '거리' : '시간'}</S.SmallName>
         <S.SmallContent>{total}</S.SmallContent>

@@ -26,8 +26,6 @@ export const BoxShadow = styled(Shadow)`
 `;
 
 export const ModalHeader = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
   justify-content: center;
   align-items: center;
   width: 100%;

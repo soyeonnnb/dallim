@@ -172,6 +172,7 @@ const VersusModal: React.FC<Props> = ({userId, isVisible, onClose}) => {
               <S.FooterBox>
                 <S.FooterTextBox>
                   <S.LeftTextBox>
+                    {/* 초 */}
                     <S.RateLeftText>{myTime.toFixed(1)}시간</S.RateLeftText>
                   </S.LeftTextBox>
                   <S.MiddleTextBox>
@@ -192,6 +193,7 @@ const VersusModal: React.FC<Props> = ({userId, isVisible, onClose}) => {
               <S.FooterBox>
                 <S.FooterTextBox>
                   <S.LeftTextBox>
+                    {/* 미터 */}
                     <S.RateLeftText>{myDistance.toFixed(1)}km</S.RateLeftText>
                   </S.LeftTextBox>
                   <S.MiddleTextBox>
@@ -214,10 +216,11 @@ const VersusModal: React.FC<Props> = ({userId, isVisible, onClose}) => {
               <S.FooterBox>
                 <S.FooterTextBox>
                   <S.LeftTextBox>
-                    <S.RateLeftText>{mySpeed.toFixed(1)}km/h</S.RateLeftText>
+                    {/*  초 */}
+                    <S.RateLeftText>{mySpeed.toFixed(1)}m/s</S.RateLeftText>
                   </S.LeftTextBox>
                   <S.MiddleTextBox>
-                    <S.FooterText>속도</S.FooterText>
+                    <S.FooterText>페이스</S.FooterText>
                   </S.MiddleTextBox>
                   <S.RightTextBox>
                     <S.RateRightText>

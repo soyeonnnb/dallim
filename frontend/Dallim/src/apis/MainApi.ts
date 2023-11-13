@@ -62,3 +62,47 @@ export const fetchUserCalendar = async () => {
     throw error;
   }
 };
+
+interface RunningRecordInfo {
+  second: number;
+  // latitude: number;
+  // longitude: number;
+  distance: number;
+  speed: number;
+  pace: number;
+}
+
+interface RunningData {
+  initLatitude: number;
+  initLongitude: number;
+  watchOrMobile: string;
+  userId: number;
+  characterIndex: number;
+  type: string;
+  rivalRecord: null;
+  runningRecordInfos: RunningRecordInfo[];
+  totalTime: number;
+  totalDistance: number;
+  averageSpeed: number;
+  date: string;
+}
+
+// 혼자 달리기 데이터 보내기
+export const postRunningData = async (runningData: RunningData) => {
+  const accessToken = await getToken();
+  const url = `${BASE_URL}/api/v1/running`;
+
+  try {
+    const response = await axios.post(url, runningData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log('RunningApi 성공 : ', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('RunningApi 실패 ', error);
+    throw error;
+  }
+};

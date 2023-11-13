@@ -220,6 +220,28 @@ export const colors = {
     cancel: '#E36F6F',
   },
   all: {
+    goldMedal: {
+      linear: {
+        start: '#D3B532',
+        end: 'rgba(59, 54, 112, 0.5)',
+        opacity: 0.6,
+      },
+    },
+    silverMedal: {
+      linear: {
+        start: '#FFFFFF',
+        end: 'rgba(59, 54, 112, 0.5)',
+        opacity: 0.6,
+      },
+    },
+    bronzeMedal: {
+      linear: {
+        start: '#CD6035',
+        end: 'rgba(59, 54, 112, 0.5)',
+        opacity: 0.6,
+      },
+    },
+
     firstPoint: {
       linear: {
         start: '#CB5CFD',
@@ -315,7 +337,7 @@ export const colors = {
     },
   },
   buttonColor: {
-    firstDepth: 'rgba(59, 54, 112, 0.8)',
+    firstDepth: 'rgba(76, 54, 112, 0.8)',
     depthOneMore: '#625D9D',
     exp: 'linear-gradient(to bottom right, #585864, #2C2C46)',
     point: 'rgba(42, 44, 69, 0.7)',

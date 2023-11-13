@@ -2,12 +2,13 @@ import {useState, useEffect} from 'react';
 import * as S from './PaceChart.styles';
 import {secondToMinuteSeconds} from '@/recoil/RunningData';
 import {LineChart} from 'react-native-gifted-charts';
-import {View, Text} from 'react-native';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
 
-import {PaceChartDataType, PaceDataType} from '@/apis/ChartApi';
+import {PaceDataType} from '@/apis/ChartApi';
 import {meterToKMOrMeter} from '@/recoil/RunningData';
 import {colors} from '@/components/common/globalStyles';
+
+import DataPreview from '../DataPreview';
 
 interface Props {
   comparePair: boolean;
@@ -18,7 +19,14 @@ interface Props {
   showRivals: boolean;
 }
 
-function PaceChart({comparePair, data, rivalData, second, setSecond}: Props) {
+function PaceChart({
+  comparePair,
+  data,
+  rivalData,
+  showRivals,
+  second,
+  setSecond,
+}: Props) {
   const [previewWidth, setPreviewWidth] = useState<number>(0);
   const [previewTime, setPreviewTime] = useState<string>();
   const [previewPace, setPreviewPace] = useState<string>();
@@ -46,7 +54,7 @@ function PaceChart({comparePair, data, rivalData, second, setSecond}: Props) {
     if (pointerIndex === -1) return;
     setPreviewTime(secondToMinuteSeconds(data.chartData[pointerIndex].second));
     setPreviewPace(data.chartData[pointerIndex].fromZeroPace);
-    if (rivalData) {
+    if (showRivals && rivalData) {
       setPreviewTime2(
         secondToMinuteSeconds(rivalData.chartData[pointerIndex].second),
       );
@@ -83,15 +91,15 @@ function PaceChart({comparePair, data, rivalData, second, setSecond}: Props) {
         <DataPreview
           width={previewWidth}
           color={colors.blue._500}
-          time={previewTime}
-          pace={previewPace}
+          upper={previewTime}
+          lower={previewPace}
         />
         {comparePair && (
           <DataPreview
             width={previewWidth}
             color={colors.pink._500}
-            time={previewTime2}
-            pace={previewPace2}
+            upper={previewTime2}
+            lower={previewPace2}
           />
         )}
       </S.DataPreviewView>
@@ -174,28 +182,6 @@ function PaceChart({comparePair, data, rivalData, second, setSecond}: Props) {
   );
 }
 export default PaceChart;
-
-interface DataPreviewProps {
-  width: number;
-  color: string;
-  time?: string;
-  pace?: string;
-}
-
-function DataPreview({width, color, time, pace}: DataPreviewProps) {
-  return (
-    <S.DataPreviewBox width={width / 2.5}>
-      <S.DataPreview
-        color={color}
-        startColor={`${color}85`}
-        endColor={`${color}12`}
-        distance={6}>
-        <S.DataPreviewTime>{time}</S.DataPreviewTime>
-        <S.DataPreviewPace>{pace}</S.DataPreviewPace>
-      </S.DataPreview>
-    </S.DataPreviewBox>
-  );
-}
 
 function Label({
   data,

@@ -111,7 +111,6 @@ function ChartDetail({route, navigation}: Props) {
       };
       cData.push(value);
     });
-    console.log(cData);
     return cData;
   };
 
@@ -217,7 +216,10 @@ function ChartDetail({route, navigation}: Props) {
         <S.Container>
           <S.Header>
             <S.HeaderBox>
-              <TouchableOpacity onPress={() => navigation.pop()}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (navigation.canGoBack()) navigation.goBack();
+                }}>
                 <ArrowLeft width={30} height={30} color="white" />
               </TouchableOpacity>
               <S.HeaderTitle>{headerTitle}</S.HeaderTitle>

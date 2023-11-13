@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RivalRunningRecordInfo {
 
-    private ObjectId id;
+    private String id;
     private String location;
     private PaceInfo pace;
     private UserInfo user;
@@ -37,7 +37,7 @@ public class RivalRunningRecordInfo {
 
     @Builder
     public RivalRunningRecordInfo(RunningRecord runningRecord) {
-        this.id = runningRecord.getId();
+        this.id = runningRecord.getId().toString();
         this.user = runningRecord.getUser();
         this.location = runningRecord.getLocation();
         this.character = runningRecord.getCharacter();

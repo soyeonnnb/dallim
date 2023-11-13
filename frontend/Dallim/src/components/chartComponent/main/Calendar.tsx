@@ -71,8 +71,8 @@ function ChartCalendar({
         borderRadius: 100,
         elevation: 10,
         shadowOffset: {
-          width: 60,
-          height: 60,
+          width: 0,
+          height: -1,
         },
         shadowColor: 'white',
         shadowOpacity: 1,

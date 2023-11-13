@@ -1,5 +1,5 @@
 import * as S from './PairPace.styles';
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 
 // 타입 및 함수
 import {secondToMinuteSeconds, calculatePace} from '@/recoil/RunningData';
@@ -48,7 +48,7 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
               key={rowIndex}
               record={record}
               color={
-                rivalData && rivalData[rowIndex].pace >= record.pace
+                rivalData && rivalData[0].pace >= record.pace
                   ? '#96B986'
                   : '#E4A4A4'
               }

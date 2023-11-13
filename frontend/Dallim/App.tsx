@@ -44,22 +44,22 @@ function App() {
 
   // 배경쏭
   useEffect(() => {
-    // Sound.setCategory('Playback'); // 배경음악 재생 설정
-    // const bgm = new Sound('bgm2.mp3', Sound.MAIN_BUNDLE, error => {
-    //   if (error) {
-    //     console.log('오디오 로드 실패:', error);
-    //     return;
-    //   }
-    //   bgm.setNumberOfLoops(-1); // 무한 반복
-    //   bgm.play(success => {
-    //     if (!success) {
-    //       console.log('오디오 재생 실패:');
-    //     }
-    //   });
-    // });
-    // return () => {
-    //   bgm.release();
-    // };
+    Sound.setCategory('Playback'); // 배경음악 재생 설정
+    const bgm = new Sound('bgm2.mp3', Sound.MAIN_BUNDLE, error => {
+      if (error) {
+        console.log('오디오 로드 실패:', error);
+        return;
+      }
+      bgm.setNumberOfLoops(-1); // 무한 반복
+      bgm.play(success => {
+        if (!success) {
+          console.log('오디오 재생 실패:');
+        }
+      });
+    });
+    return () => {
+      bgm.release();
+    };
   }, []);
 
   useEffect(() => {

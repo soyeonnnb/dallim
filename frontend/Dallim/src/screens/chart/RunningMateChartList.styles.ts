@@ -1,6 +1,8 @@
 import styled from 'styled-components/native';
 import {DeviceEventEmitter, ImageBackground} from 'react-native';
 import {ChartSheet} from '@/components/chartComponent/main/preview/MonthlyChart.styles';
+import {Shadow} from 'react-native-shadow-2';
+import {colors} from '@/components/common/globalStyles';
 
 export const Container = styled.View`
   flex: 1;
@@ -25,7 +27,7 @@ export const Header = styled.View`
 `;
 export const HeaderTitle = styled.Text`
   color: white;
-  font-size: 25px;
+  font-size: 23px;
 `;
 export const Middle = styled.View`
   flex: 0.7;
@@ -50,33 +52,34 @@ export const ChartBox = styled.View`
   padding: 0px 30px;
 `;
 
-export const RunningDate = styled.TouchableOpacity<{
-  width: number;
-  selected: boolean;
-}>`
-  flex: 1;
-  width: ${props => props.width}px;
-  margin-right: ${props => props.width * 0.2}px;
-  justify-content: space-between;
-  padding: 12px 0;
+export const RunningDateShadow = styled(Shadow)`
+  width: 100%;
+  height: 100%;
+  justify-content: center;
   align-items: center;
   border-radius: 15px;
-  background-color: ${props =>
-    props.selected ? '#FFE67B' : 'rgba(255, 255, 255, 0.2)'};
 `;
+
+export const RunningDateBox = styled.View`
+  width: 100%;
+  height: 60%;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const RunningDateDay = styled.Text<{selected: boolean}>`
   font-weight: 800;
-  font-size: 17px;
+  font-size: 15px;
   color: ${props => (props.selected ? 'black' : 'white')};
 `;
 export const RunningDateDate = styled.Text<{selected: boolean}>`
   font-weight: 800;
-  font-size: 40px;
+  font-size: 38px;
   color: ${props => (props.selected ? 'black' : 'white')};
 `;
 export const RunningDateMonth = styled.Text<{selected: boolean}>`
   font-weight: 800;
-  font-size: 20px;
+  font-size: 19px;
   color: ${props => (props.selected ? 'black' : 'white')};
 `;
 export const ChartHeader = styled.View`
@@ -87,7 +90,7 @@ export const ChartHeader = styled.View`
 `;
 export const ChartName = styled.Text`
   color: white;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 700;
 `;
 export const ChartNavi = styled.TouchableOpacity``;
@@ -110,11 +113,23 @@ export const RecordContainer = styled.View`
 
 export const RecordTitle = styled.Text<{color: string}>`
   color: ${props => props.color};
-  font-size: 18px;
-  margin-bottom: 5px;
+  font-size: 15px;
+  margin-bottom: 2%;
 `;
 export const RecordContent = styled.Text<{color: string}>`
   color: ${props => props.color};
-  font-size: 30px;
-  font-weight: 800;
+  font-size: 25px;
+  font-weight: 700;
+`;
+
+export const RunningDate = styled.TouchableOpacity<{
+  width: number;
+  selected: boolean;
+}>`
+  height: 90%;
+  width: ${props => props.width}px;
+  margin-right: ${props => props.width * 0.3}px;
+  border-radius: 15px;
+  background-color: ${props =>
+    props.selected ? colors.yellow._500 : `${colors.grey._50}00`};
 `;

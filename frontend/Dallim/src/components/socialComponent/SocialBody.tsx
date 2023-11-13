@@ -5,6 +5,9 @@ import RankInfoBox from './RankInfoBox';
 import {fetchAllRank, fetchFriendRank} from '@/apis/SocialApi';
 import NoFriendImage from '@/assets/images/NoFriend.png';
 import Loading_Run from '../common/Loading_Run';
+import LinearGradient from 'react-native-linear-gradient';
+import {colors} from '../common/globalStyles';
+import RadialGradient from 'react-native-radial-gradient';
 
 type RankingInfo = {
   rank: number;
@@ -32,11 +35,11 @@ function SocialBody({
 }: SocialBodyProps) {
   const animatedValue = useRef(new Animated.Value(0)).current;
 
-  const toggleWidth = 250;
+  const toggleWidth = 270;
 
   const handleToggle = () => {
     Animated.timing(animatedValue, {
-      toValue: isFriend ? 0 : toggleWidth * 0.4,
+      toValue: isFriend ? 0 : toggleWidth * 0.5,
       duration: 100,
       easing: Easing.bounce,
       useNativeDriver: true,
@@ -85,22 +88,56 @@ function SocialBody({
       <S.Top>
         <S.TopBox>
           <S.ToggleWrapperShadow
-            distance={1}
-            startColor="rgba(255, 255, 255, 0.5)"
-            endColor="rgba(255, 255, 255, 0.5)"
+            distance={3}
+            startColor="rgba(255, 255, 255, 0)"
+            endColor="rgba(160, 158, 173,1)"
             offset={[0, 0]}>
             <S.ToggleButtonWrapper onPress={handleToggle}>
-              <S.ToggleButton
-                style={{
-                  transform: [
-                    {
-                      translateX: animatedValue,
-                    },
-                  ],
-                }}
-              />
-              <S.FixedTextLeft isFriend={isFriend}>전체</S.FixedTextLeft>
-              <S.FixedTextRight isFriend={isFriend}>친구</S.FixedTextRight>
+              <S.TextBox>
+                <S.Text>
+                  <S.FixedTextLeft isFriend={isFriend}>전체</S.FixedTextLeft>
+                  <S.ToggleButton
+                    style={{
+                      transform: [
+                        {
+                          translateX: animatedValue,
+                        },
+                      ],
+                    }}>
+                    <LinearGradient
+                      colors={[
+                        colors.all.firstPoint.linear.start,
+                        colors.all.firstPoint.linear.end,
+                      ]}
+                      style={{
+                        borderRadius: 50,
+                        height: '100%',
+                        width: '100%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        flex: 1,
+                        overflow: 'hidden',
+                      }}
+                      start={{x: 1, y: 0}}
+                      end={{x: 0.5, y: 1}}>
+                      <RadialGradient
+                        style={{
+                          width: 200,
+                          height: 200,
+                          borderRadius: 50,
+                          opacity: 0.2,
+                        }}
+                        colors={['#ffffff', '#3D2FBF']}
+                        stops={[0.04, 0.2]}
+                        radius={500}
+                        center={[100, 100]}></RadialGradient>
+                    </LinearGradient>
+                  </S.ToggleButton>
+                </S.Text>
+                <S.Text>
+                  <S.FixedTextRight isFriend={isFriend}>친구</S.FixedTextRight>
+                </S.Text>
+              </S.TextBox>
             </S.ToggleButtonWrapper>
           </S.ToggleWrapperShadow>
         </S.TopBox>

@@ -2,6 +2,7 @@ package com.b208.dduishu.domain.user.dto.response;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.planet.entity.Planet;
+import com.b208.dduishu.domain.user.entity.BaseLevel;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.util.Util;
 import lombok.Builder;
@@ -18,6 +19,7 @@ public class WatchUserInfo {
     private String type;
     private String email;
     private int level;
+    private int userExp;
 
     @Builder
     public WatchUserInfo(User user, Character character, Planet planet) {
@@ -29,5 +31,7 @@ public class WatchUserInfo {
         this.type = user.getAccountType();
         this.email = user.getEmail();
         this.level = user.getUserLevel().getLevel();
+        BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(user.getUserLevel().getExp());
+        this.userExp = levelInfo.getExp();
     }
 }

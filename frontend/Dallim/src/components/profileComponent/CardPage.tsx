@@ -1,12 +1,13 @@
 import * as S from './CardPage.styles';
-import { planetData } from '@/recoil/PlanetData';
-import { characterData } from '@/recoil/CharacterData';
+import {planetData} from '@/recoil/PlanetData';
+import {characterData} from '@/recoil/CharacterData';
 
 // Icon
 import DistIcon from '@/assets/icons/DistIcon.png';
 import TimeIcon from '@/assets/icons/TimeIcon.png';
 import SpeedIcon from '@/assets/icons/SpeedIcon.png';
 import ClearIcon from '@/assets/icons/ClearIcon.png';
+import {meterToKMOrMeter} from '@/recoil/RunningData';
 
 interface ICardPage {
   item: {
@@ -24,9 +25,10 @@ interface ICardPage {
   // style: ViewStyle;
 }
 
-export default function CardPage({ item }: ICardPage) {
+export default function CardPage({item}: ICardPage) {
   const selectedCharacter = characterData[item.characterIndex];
-  const selectedCharacterLevelData = selectedCharacter.evolutions[item.evolutionStage];
+  const selectedCharacterLevelData =
+    selectedCharacter.evolutions[item.evolutionStage];
 
   const getFormattedDate = (isoDate: string) => {
     const date = new Date(isoDate);
@@ -76,39 +78,30 @@ export default function CardPage({ item }: ICardPage) {
                 <S.IconImage source={DistIcon} />
               </S.Icon>
               <S.FooterText>
-                {item.totalDistance.toFixed(2)} 키로미터
+                {meterToKMOrMeter(item.totalDistance)}
               </S.FooterText>
             </S.TopBox>
             <S.MiddleBox>
               <S.Icon>
                 <S.IconImage source={TimeIcon} />
               </S.Icon>
-              <S.FooterText>
-                {formatTime(item.totalTime)}
-              </S.FooterText>
+              <S.FooterText>{formatTime(item.totalTime)}</S.FooterText>
             </S.MiddleBox>
             <S.BottomBox>
               <S.Icon>
                 <S.IconImage source={SpeedIcon} />
               </S.Icon>
-              <S.FooterText>
-                {speed.toFixed(2)} Km/h
-              </S.FooterText>
+              <S.FooterText>{speed.toFixed(2)} Km/h</S.FooterText>
             </S.BottomBox>
           </S.Footer>
 
           {/* 클리어 도장 */}
           <S.ClearBox>
             {item.clear && (
-              <S.ClearImage
-                source={ClearIcon}
-                resizeMode="contain"
-              />
+              <S.ClearImage source={ClearIcon} resizeMode="contain" />
             )}
           </S.ClearBox>
-
         </S.StyledImage>
-
       </S.ImageWrapper>
 
       {/* 캐릭터 */}
@@ -118,7 +111,6 @@ export default function CardPage({ item }: ICardPage) {
           resizeMode="contain"
         />
       </S.BodyBottomCharacterImageBox>
-
     </S.PageItem>
   );
 }

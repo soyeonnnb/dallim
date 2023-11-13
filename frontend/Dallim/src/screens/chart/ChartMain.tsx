@@ -5,8 +5,9 @@ import * as S from './ChartMain.styles';
 // 컴포넌트
 import Calendar from '../../components/chartComponent/main/Calendar';
 import Preview from '../../components/chartComponent/main/Preview';
-import Loading from '@/components/common/Loading';
+import Loading from '@/components/common/Loading_Run';
 
+//
 // API
 import {MonthlyRecords, fetchUserCalendarChart} from '@/apis/ChartApi';
 import {CalendarType} from '@/recoil/CalendarData';

@@ -259,7 +259,6 @@ function Label2({
   setPreviewPace2: any;
 }) {
   useEffect(() => {
-    console.log(pointerIndex);
     const items = data.chartData[pointerIndex];
     setPreviewTime(secondToHourMinuteSeconds(items.second));
     setPreviewPace(items.fromZeroPace);

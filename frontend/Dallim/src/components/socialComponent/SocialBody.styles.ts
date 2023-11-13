@@ -70,6 +70,17 @@ export const Body = styled.View`
   border-color: blue; */
   width: 90%;
   height: 85%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const LoadingBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 50%;
+  min-height: 400px;
+  max-height: 500px;
 `;
 
 export const RankInfoBox = styled.View`
@@ -93,7 +104,7 @@ export const EmptyText = styled.Text`
   text-align: center;
 `;
 
-export const LordingText = styled.Text`
+export const LoadingText = styled.Text`
   font-size: 20px;
   color: red;
 `;

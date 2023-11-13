@@ -20,7 +20,7 @@ import {
   meterToKMOrMeter,
 } from '@/recoil/RunningData';
 
-import Loading from '@/components/common/Loading';
+import Loading from '@/components/common/Loading_Run';
 
 interface Props {
   data?: RecordDetail;
@@ -228,7 +228,7 @@ function WalkRecord({type, record, color}: WalkRecordProps) {
       )}
       <S.WalkRecordTitle>{title}</S.WalkRecordTitle>
       <S.WalkRecordContent>
-        {record && meterToKMOrMeter(record)}
+        {record && (record === 0 ? '-' : meterToKMOrMeter(record))}
       </S.WalkRecordContent>
     </S.WalkRecordContainer>
   );

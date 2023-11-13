@@ -3,7 +3,7 @@ import { characterData } from '@/recoil/CharacterData';
 import { useEffect, useState } from 'react';
 import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
 import CharacterSelectModal from './editModal/CharacterSelectModal';
-import BoomEffect from '@/components/common/BoomEffect';
+// import BoomEffect from '@/components/common/BoomEffect';
 import CustomToast from '../common/CustomToast';
 import Character from './CharacterBox';
 
@@ -11,11 +11,11 @@ import { useRecoilState } from 'recoil';
 import {
   userDataState,
   equippedCharacterIndexState,
-  equippedCharacterLevelState,
-  equippedEvolutionStageState,
+  // equippedCharacterLevelState,
+  // equippedEvolutionStageState,
   selectedCharacterIndexState,
   selectedCharacterLevelState,
-  selectedEvolutionStageState,
+  // selectedEvolutionStageState,
   selectedCharacterExpState,
   selectedCharacterIsPurchasedState,
   userPointState,
@@ -25,49 +25,29 @@ import { postCharacterPurchase, updateEquippedCharacter } from '@/apis/EditApi';
 type CharacterEditProps = {
   handleEquippedCharacterChange: (index: number) => void;
   onCharacterChange: (index: number) => void;
+  onCharacterPurchased: (index: number, cost: number) => void;
 };
 
-function CharacterEdit({
-  handleEquippedCharacterChange,
-  onCharacterChange,
-}: CharacterEditProps) {
+function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange, onCharacterPurchased }: CharacterEditProps) {
   const [userData, setUserData] = useRecoilState(userDataState);
-  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(
-    equippedCharacterIndexState,
-  );
-  const [equippedCharacterLevel, setEquippedCharacterLevel] = useRecoilState(
-    equippedCharacterLevelState,
-  );
-  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(
-    equippedEvolutionStageState,
-  );
-  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(
-    selectedCharacterIndexState,
-  );
-  const [selectedCharacterLevel, setSelectedCharacterLevel] = useRecoilState(
-    selectedCharacterLevelState,
-  );
-  const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(
-    selectedEvolutionStageState,
-  );
-  const [selectedCharacterExp, setSelectedCharacterExp] = useRecoilState(
-    selectedCharacterExpState,
-  );
-  const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] =
-    useRecoilState(selectedCharacterIsPurchasedState);
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
-
-  const [characterSelectModalVisible, setCharacterSelectModalVisible] =
-    useState(false); // 캐릭터 선택 확인 모달
+  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
+  // const [equippedCharacterLevel, setEquippedCharacterLevel] = useRecoilState(equippedCharacterLevelState);
+  // const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
+  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
+  const [selectedCharacterLevel, setSelectedCharacterLevel] = useRecoilState(selectedCharacterLevelState);
+  // const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
+  const [selectedCharacterExp, setSelectedCharacterExp] = useRecoilState(selectedCharacterExpState);
+  const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] = useRecoilState(selectedCharacterIsPurchasedState);
+  const [characterSelectModalVisible, setCharacterSelectModalVisible] = useState(false); // 캐릭터 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
-  const [showConfetti, setShowConfetti] = useState(false);
+  // const [showConfetti, setShowConfetti] = useState(false);
 
   async function equippedCharacterChange() {
     toggleCharacterSelectModal();
     const characterCount = characterData.length;
     onCharacterChange(selectedCharacterIndex % characterCount);
 
-    // DB에 대표 행성 변경 정보를 전송
     try {
       const responseData = await updateEquippedCharacter(
         selectedCharacterIndex,
@@ -93,21 +73,23 @@ function CharacterEdit({
   }
 
   function handlePurchaseCheck() {
-    console.log('캐릭터를 구매할건지 체크');
     setPurchaseModalVisible(true);
   }
-
   async function handlePurchaseConfirm() {
-    console.log('구매 확인!');
+
     if (userPoint >= 4000) {
       try {
-        const responseData = await postCharacterPurchase(
-          selectedCharacterIndex,
-        );
+        const responseData = await postCharacterPurchase(selectedCharacterIndex);
         if (responseData.status === 'success' && responseData.data === true) {
-          setUserPoint(userPoint - 4000); // 포인트 차감
-          CustomToast({ type: 'success', text1: '구매 성공!' });
-          setSelectedCharacterIsPurchased(true);
+
+          setTimeout(() => {
+            onCharacterPurchased(selectedCharacterIndex, 4000);
+
+            setSelectedCharacterIsPurchased(true);
+            setSelectedCharacterIndex(selectedCharacterIndex);
+            setEquippedCharacterIndex(selectedCharacterIndex);
+
+          }, 500);
 
           if (userData) {
             const newUserData = {
@@ -124,8 +106,8 @@ function CharacterEdit({
 
           // setShowConfetti(true); // 폭죽
           // setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
+          CustomToast({ type: 'success', text1: '구매 성공!' });
           setPurchaseModalVisible(false); // 모달 닫기
-          
         } else {
           CustomToast({
             type: 'error',
@@ -214,13 +196,12 @@ function CharacterEdit({
         toggleModal={toggleCharacterSelectModal}
         equippedCharacterChange={equippedCharacterChange}
       />
-
       <CharacterPurchaseCheckModal
         handleConfirm={handlePurchaseConfirm}
         handleCancel={handlePurchaseCancel}
         purchaseModalVisible={purchaseModalVisible}
       />
-      {showConfetti && <BoomEffect show={showConfetti} />}
+      {/* {showConfetti && <BoomEffect show={showConfetti} />} */}
     </S.Container>
   );
 }

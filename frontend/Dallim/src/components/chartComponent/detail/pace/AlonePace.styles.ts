@@ -8,6 +8,7 @@ export const Container = styled.ScrollView``;
 export const Text = styled.Text`
   font-size: 30px;
   margin-bottom: 20px;
+  flex: 0.5;
 `;
 export const ScrollInBox = styled.View<{height: number}>`
   flex: 1;

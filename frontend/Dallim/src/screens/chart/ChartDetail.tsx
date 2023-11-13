@@ -72,7 +72,7 @@ function ChartDetail({route, navigation}: Props) {
   const [indexDot, setIndexDot] = useState<number>(-1);
   const [headerTitle, setHeaderTitle] = useState<string>('Overview');
 
-  const onChangeDot = event => {
+  const onChangeDot = (event: any) => {
     const index = Math.ceil(event.nativeEvent.contentOffset.x / windowWidth);
     if (index === 1) {
       setHeaderTitle('페이스 차트');

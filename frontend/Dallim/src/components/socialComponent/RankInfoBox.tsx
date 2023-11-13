@@ -50,7 +50,6 @@ function RankInfoBox({
       setStartColor(colors.all.bronzeMedal.linear.start);
       setEndColor(colors.all.bronzeMedal.linear.end);
     }
-    //  else setStartColor(colors.all.secondPoint.linear.start);
   }, []);
 
   return (

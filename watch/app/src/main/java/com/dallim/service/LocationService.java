@@ -113,6 +113,7 @@ public class LocationService extends Service {
                 runningViewModel.setMsPace(format);
 
                 double distance = lastLocation.distanceTo(location);
+                Log.d("거리", String.valueOf(distance));
                 totalDistance += distance;
                 // 원래 미터값
                 runningViewModel.setOriDistance((double) Math.round(totalDistance * 10) / 10.0);

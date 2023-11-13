@@ -100,8 +100,6 @@ public class TimerService extends Service {
             @Override
             public void run() {
                 long elapsedTime = curTime - startTime;
-                Log.e("curTime", String.valueOf(curTime));
-                Log.e("elapsedTime", String.valueOf(elapsedTime));
                 updateRunDetailList(elapsedTime);
                 Intent intent = new Intent(TIMER_BR);
                 intent.putExtra("elapsedTime", elapsedTime);
@@ -182,7 +180,7 @@ public class TimerService extends Service {
         if (runningViewModel.getHeartRate().getValue() != null) {
             detail.setHeartRate(runningViewModel.getHeartRate().getValue());
         }
-        detail.setSecond(runningViewModel.getTotalTime().getValue());
+        detail.setSecond(elapsedTime);
         if (runningViewModel.getLongitude().getValue() != null) {
             detail.setLongitude(runningViewModel.getLongitude().getValue());
         }

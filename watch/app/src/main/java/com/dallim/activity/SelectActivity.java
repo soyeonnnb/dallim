@@ -68,7 +68,7 @@ public class SelectActivity extends ComponentActivity {
         menuAdapter.setOnItemClickListener(new MenuAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                MenuItem clickedItem = menuList.get(position);
+                MenuItem clickedItem = menuList.get(position - 2);
                 switch (clickedItem.getTitle()) {
                     case "혼자 달리기":
                         LayoutInflater inflater1 = getLayoutInflater();

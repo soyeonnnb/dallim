@@ -33,12 +33,12 @@ public class UserInfo {
                     SharedPreferences.Editor edit = prefs.edit();
                     edit.putString("nickname", response.body().getData().getNickName());
                     edit.putString("email", response.body().getData().getEmail());
-                    edit.putLong("userId", response.body().getData().getUserId());
                     edit.putLong("planetIndex", response.body().getData().getPlanetIndex());
                     edit.putInt("level", response.body().getData().getLevel());
                     edit.putLong("characterIndex", response.body().getData().getCharacterIndex());
                     edit.putInt("evolutionStage", response.body().getData().getEvolutionStage());
                     edit.putString("type", response.body().getData().getType());
+                    edit.putInt("userExp", response.body().getData().getUserExp());
                     edit.apply();
                     callback.onSuccess();
                 } else {

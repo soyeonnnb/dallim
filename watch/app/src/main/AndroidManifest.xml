@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" /><!-- 기기가 인터넷에 접속이 가능하도록 허용 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 활동 상태를 감지하는 권한 허용 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 사용자의 보다 정확한 위치에 접근, 수십 미터 정도의 위치 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- 백그라운드에서 위치 정보 얻도록 허용 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -31,10 +31,6 @@
             android:name="com.dallim.activity.LoadingActivity"
             android:exported="false"
             android:theme="@style/AppTheme.NoSwipeToDismiss" />
-        <activity
-            android:name="com.dallim.activity.UnlinkActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name="com.dallim.activity.SettingActivity"
             android:exported="false"

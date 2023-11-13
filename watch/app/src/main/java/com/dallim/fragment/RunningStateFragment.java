@@ -2,35 +2,24 @@ package com.dallim.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dallim.R;
-import com.dallim.activity.MainActivity;
-import com.dallim.activity.ResultActivity;
-import com.dallim.activity.SelectActivity;
-import com.dallim.databinding.FragmentRunningAniBinding;
 import com.dallim.databinding.FragmentRunningStateBinding;
 import com.dallim.util.PreferencesUtil;
 import com.dallim.view.RunningMateRecordViewModel;
@@ -38,15 +27,16 @@ import com.dallim.view.RunningViewModel;
 import com.dallim.util.Conversion;
 import com.dallim.util.MyApplication;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
 public class RunningStateFragment extends Fragment {
 
     private RunningViewModel runningViewModel;
     private FragmentRunningStateBinding binding;
     private SharedPreferences prefs;
-    private Conversion conversion = new Conversion();
     private RunningMateRecordViewModel runningMateRecordViewModel;
     private double lastDistance;
     private List<Double> mateDistance;
@@ -127,7 +117,7 @@ public class RunningStateFragment extends Fragment {
                 text.setText("종료하시겠습니까?");
             }
             finish.setText("종료");
-            
+
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setView(dialogView);
 
@@ -176,5 +166,15 @@ public class RunningStateFragment extends Fragment {
             }
         }
     }
+    // 현재 시간을 표시하는 메서드 정의
+    private void updateTime(TextView timeView) {
+        // 현재 시간을 가져오는 코드
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        String currentTime = dateFormat.format(new Date());
+
+        // TextView에 현재 시간 설정
+        timeView.setText(currentTime);
+    }
+
 
 }

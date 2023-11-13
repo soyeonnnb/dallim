@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
 import * as S from './UserDetailStack.styles';
-import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
+// import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
+import DirectionLeftIcon from '@/assets/icons/DirectionLeftIcon';
 
 import RunningDataBox from '@/components/socialComponent/RunningDataBox';
 import VersusModal from '@/components/socialComponent/socialModal/VersusModal';
@@ -161,7 +162,7 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
           <>
             <S.Header>
               <S.CloseButton onPress={() => navigation.navigate('Social')}>
-                <S.CloseImage source={CloseIcon} />
+                <DirectionLeftIcon width={30} height={30}></DirectionLeftIcon>
               </S.CloseButton>
               <S.EmptyBox></S.EmptyBox>
               <S.HeaderBox>

@@ -11,7 +11,6 @@ import lombok.Data;
 public class WatchUserInfo {
 
     private Long userId;
-    private Long characterId;
     private int characterIndex;
     private int evolutionStage;
     private int planetIndex;
@@ -23,7 +22,6 @@ public class WatchUserInfo {
     @Builder
     public WatchUserInfo(User user, Character character, Planet planet) {
         this.userId = user.getUserId();
-        this.characterId = character.getId();
         this.characterIndex = Util.getCharacterIndexByCharacter(character);
         this.evolutionStage = Util.getEvolutionStage(character.getCharacterLevel().getLevel());
         this.planetIndex = Util.getMainPlanetIndex(planet);

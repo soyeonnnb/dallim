@@ -17,6 +17,7 @@ import com.dallim.R;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -28,7 +29,11 @@ public class UpdateWidgetService extends IntentService {
 
     // Retrofit 관련 멤버 변수
     private Retrofit retrofit;
+
+    private Retrofit retrofitRep;
     private AttendanceApiService service;
+
+    private UserDataApiService service1;
 
     public UpdateWidgetService() {
         super("UpdateWidgetService");
@@ -56,7 +61,19 @@ public class UpdateWidgetService extends IntentService {
                         return chain.proceed(newRequest);
                     })
                     .build();
-            Log.d("DDDDDDDDDD", "UpdateWidgetService - onCreate - okHttpClient");
+
+            Log.d("DDDDDDDDDD", "UpdateWidgetService - onCreate - okHttpClient"+OkHttpClient.class);
+            OkHttpClient okHttpClient1 = new OkHttpClient.Builder()
+                    .addInterceptor(chain -> {
+                        Request originalRequest = chain.request();
+                        Request newRequest = originalRequest.newBuilder()
+                                .header("Authorization", "Bearer " + accessToken)
+                                .build();
+                        return chain.proceed(newRequest);
+                    })
+                    .build();
+
+            Log.d("DDDDDDDDDD", "UpdateWidgetService - onCreate - okHttpClient1"+OkHttpClient.class);
 // Retrofit 인스턴스 생성
             retrofit = new Retrofit.Builder()
                     .baseUrl("https://k9b208.p.ssafy.io/api/v1/attendance/")
@@ -64,7 +81,14 @@ public class UpdateWidgetService extends IntentService {
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             Log.d("DDDDDDDDDD", "UpdateWidgetService - onCreate - retrofit");
+            retrofitRep = new Retrofit.Builder()
+                    .baseUrl("https://k9b208.p.ssafy.io/api/v1/user/main/")
+                    .client(okHttpClient1)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            Log.d("DDDDDDDDDD", "UpdateWidgetService - onCreate - retrofitRep");
             service = retrofit.create(AttendanceApiService.class);
+            service1 = retrofitRep.create(UserDataApiService.class);
             Log.d("DDDDDDDDDD", "UpdateWidgetService - onCreate - Retrofit build successful");
         } catch (Exception e) {
             Log.e("DDDDDDDDDD", "UpdateWidgetService - onCreate - Retrofit build failed", e);
@@ -84,10 +108,15 @@ public class UpdateWidgetService extends IntentService {
         Log.d("DDDDDDDDDD", "UpdateWidgetService - onHandleIntent");
         // Retrofit 호출과 위젯 업데이트 처리
         try {
+            boolean check = false;
+            boolean check1 = false;
             Log.d("DDDDDDDDDD", "UpdateWidgetService - onHandleIntent response");
             Response<AttendanceResponse> response = service.getAttendanceDates().execute();
+            Response<UserDataResponse> response1 = service1.getUserData().execute();
             Log.d("DDDDDDDDDD", "UpdateWidgetService - onHandleIntent service"+response.message());
             Log.d("DDDDDDDDDD", "UpdateWidgetService - onHandleIntent service"+(response.body().getData().getAttendances()));
+            Intent updateIntent = new Intent(this, CalendarWidget.class);
+            Intent updateIntent1 = new Intent(this, DirectRunWidget.class);
             if (response.isSuccessful() && response.body() != null) {
                 Log.d("DDDDDDDDDD", "UpdateWidgetService - onHandleIntent isSuccessful");
                 String[] attendances = response.body().getData().getAttendances();
@@ -95,14 +124,53 @@ public class UpdateWidgetService extends IntentService {
 
                 // 위젯 업데이트 로직을 브로드캐스트를 통해 처리
                 if (attendances != null) {
-                    Intent updateIntent = new Intent(this, CalendarWidget.class);
-                    updateIntent.setAction(CalendarWidget.DATA_FETCH_ACTION);
+
                     updateIntent.putExtra(CalendarWidget.EXTRA_ITEM, attendances);
-                    sendBroadcast(updateIntent);
+                    check =true;
                 }
             } else {
                 Log.d("DDDDDDDDDD", "UpdateWidgetService - wrong response");
             }
+            Log.d("DDDDDDDDDD", "UpdateWidgetService - check response1");
+            if(response1.isSuccessful()&&response1.body()!=null){
+                HashMap<String,String> map = new HashMap<>();
+
+                map.put("nickName",response1.body().getData().getNickName());
+                map.put("userLevel",Integer.toString(response1.body().getData().getUserLevel()));
+                map.put("characterIndex",Integer.toString(response1.body().getData().getCharacterIndex()));
+                map.put("evolutionStage",Integer.toString(response1.body().getData().getEvolutionStage()));
+                Log.d("DDDDDDDDDD", "UpdateWidgetService - userdata" +map);
+                if(map!=null&&map.size()!=0){
+                    updateIntent.putExtra(CalendarWidget.EXTRA_ITEM1,map);
+                    check =true;
+                }
+            }     Log.d("DDDDDDDDDD", "UpdateWidgetService - 1@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            if(check){
+                updateIntent.setAction(CalendarWidget.DATA_FETCH_ACTION);
+                sendBroadcast(updateIntent);
+            }      Log.d("DDDDDDDDDD", "UpdateWidgetService - 2@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            if(response1.isSuccessful()&&response1.body()!=null){
+                HashMap<String,String> map = new HashMap<>();
+                Log.d("DDDDDDDDDD", "UpdateWidgetService -DirectRunWidget- userdata" +map);
+                map.put("nickName",response1.body().getData().getNickName());
+                map.put("userLevel",Integer.toString(response1.body().getData().getUserLevel()));
+                map.put("characterIndex",Integer.toString(response1.body().getData().getCharacterIndex()));
+                map.put("evolutionStage",Integer.toString(response1.body().getData().getEvolutionStage()));
+                Log.d("DDDDDDDDDD", "UpdateWidgetService - userdata" +map);
+                if(map!=null&&map.size()!=0){
+                    updateIntent1.putExtra(DirectRunWidget.EXTRA_ITEM2,map);
+                    check1 =true;
+                    Log.d("DDDDDDDDDD", "UpdateWidgetService -updateIntent1" +map);
+                }
+
+                if(check1){
+                    updateIntent.setAction(DirectRunWidget.DATA_FETCH_ACTION2);
+                    sendBroadcast(updateIntent1);
+                    Log.d("DDDDDDDDDD", "UpdateWidgetService -sendBroadcast" +updateIntent1);
+                }
+            }
+
+            Log.d("DDDDDDDDDD", "UpdateWidgetService -bye" );
         } catch (IOException e) {
             // Handle the IOException
             e.printStackTrace();

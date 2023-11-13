@@ -44,7 +44,7 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
         RunningData runningData = runningDataList.get(position);
         // 데이터를 ViewHolder의 뷰에 바인딩합니다.
 
-        holder.formattedDate.setText(String.valueOf(formatDate(runningData.getDate())));
+        holder.formattedDate.setText(String.valueOf(formatDateWithDayOfWeek(runningData.getDate())));
 
         Log.e("거리", String.valueOf(runningData.getTotalDistance()));
 
@@ -74,26 +74,26 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
         holder.heartRate.setText(spannableHeartRate);
 
         holder.time.setText(convertTime(runningData.getTotalTime()));
-        Long characterId = runningData.getCharacterId();
+        Long characterIndex = runningData.getCharacterIndex();
         int evolutionStage = runningData.getEvolutionStage();
         if (evolutionStage == 0){
-            if(characterId == 0){
+            if(characterIndex == 0){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.rabbitegg_background_black);
-            }else if(characterId == 1){
+            }else if(characterIndex == 1){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.penguinegg_background_black);
-            }else if(characterId == 2){
+            }else if(characterIndex == 2){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.pandaegg_background_black);
-            }else if(characterId == 3){
+            }else if(characterIndex == 3){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.chickegg_background_black);
             }
         }else{
-            if(characterId == 0){
+            if(characterIndex == 0){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.rabbit_background_black);
-            }else if(characterId == 1){
+            }else if(characterIndex == 1){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.penguin_background_black);
-            }else if(characterId == 2){
+            }else if(characterIndex == 2){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.panda_background_black);
-            }else if(characterId == 3){
+            }else if(characterIndex == 3){
                 holder.myRecordCharacter.setBackgroundResource(R.drawable.chick_background_black);
             }
         }
@@ -126,17 +126,16 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
 
     // ms를 분:초로 변환해주는 컨버터(ex 00:00)
     public SpannableString convertTime(Long time) {
-        int hours = (int) (time / 3600);
         int minutes = (int) ((time % 3600) / 60);
         int seconds = (int) (time % 60);
 
-        String timeStr = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        String timeStr = String.format("%02d:%02d", minutes, seconds);
         return new SpannableString(timeStr);
     }
 
 
-    public String formatDate(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy년 MM월 dd일", Locale.KOREAN);
+    public String formatDateWithDayOfWeek(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM월 dd일 (EEE)", Locale.KOREAN);
         return sdf.format(date);
     }
 }

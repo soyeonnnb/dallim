@@ -107,12 +107,12 @@ public class AuthActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ApiResponseDTO<AuthCodeResponseDTO>> call, Response<ApiResponseDTO<AuthCodeResponseDTO>> response) {
                 if (response.isSuccessful()) {
+                    Log.d("인증번호 생성 요청 성공", response.body().getData().getAuthCode().toString());
                     binding.codeTextView.setText(response.body().getData().getAuthCode());
                 } else {
                     try {
                         String string = response.errorBody().string();
-                        System.out.println(string);
-                        Log.d("error", "실패");
+                        Log.e("인증번호 생성 요청 실패", response.errorBody().toString());
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -121,7 +121,7 @@ public class AuthActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ApiResponseDTO<AuthCodeResponseDTO>> call, Throwable t) {
-                Log.d("error", "실패2");
+                Log.e("인증번호 생성 요청 실패(서버)", t.getMessage().toString());
             }
         });
     }

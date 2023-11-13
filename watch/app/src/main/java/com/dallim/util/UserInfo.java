@@ -32,7 +32,6 @@ public class UserInfo {
                     Log.d("유저 정보 가져오기 성공", String.valueOf(response.body().getData().toString()));
                     SharedPreferences.Editor edit = prefs.edit();
                     edit.putString("nickname", response.body().getData().getNickName());
-                    edit.putLong("characterId", response.body().getData().getCharacterId());
                     edit.putString("email", response.body().getData().getEmail());
                     edit.putLong("userId", response.body().getData().getUserId());
                     edit.putLong("planetIndex", response.body().getData().getPlanetIndex());

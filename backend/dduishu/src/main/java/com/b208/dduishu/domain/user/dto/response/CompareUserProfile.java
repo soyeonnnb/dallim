@@ -46,8 +46,12 @@ public class CompareUserProfile {
         this.pairTime = pair.getCumulativeRunningTime();
         this.myDistance = user.getCumulativeDistance();
         this.pairDistance = pair.getCumulativeDistance();
-        this.mySpeed = user.getAverageSpeed();
-        this.pairSpeed = pair.getAverageSpeed();
+        this.mySpeed = toPace(user.getAverageSpeed());
+        this.pairSpeed = toPace(pair.getAverageSpeed());
+    }
+
+    private double toPace(double speed) {
+        return 1000 / speed;
     }
 
     private int getPercent(double me, double pair) {

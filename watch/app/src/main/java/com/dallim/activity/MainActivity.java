@@ -197,7 +197,7 @@ public class MainActivity extends ComponentActivity{
     private void showSettingsAlert() {
         new AlertDialog.Builder(this)
                 .setTitle("권한 설정 필요")
-                .setMessage("앱의 모든 기능을 사용하려면 필요한 권한을 설정에서 승인해야 합니다.")
+                .setMessage("달림의 모든 기능을 사용하려면 필요한 권한(위치, 알림, 센서)을 설정에서 승인해야 합니다.")
                 .setPositiveButton("설정으로 이동", (dialog, which) -> goToSettings())
                 .setNegativeButton("취소", (dialog, which) -> finish())
                 .create().show();

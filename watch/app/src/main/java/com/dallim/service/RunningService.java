@@ -177,22 +177,26 @@ public class RunningService {
     }
 
     // sqlite에서 러닝메이트 러닝 기록 가져오기
-    public void getRunningMateRunningData(DataCallback callback) {
-        long startTime = System.currentTimeMillis();
+    public void getRunningMateRunningData(RunningMateDataRecordCallback callback) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                RunningMateRecord records = db.runningMateRecordDAO().getRunningMateRunningRecord();
-                long endTime = System.currentTimeMillis();
-                System.out.println("데이터" + records);
-                Log.d("시간", "걸린 시간" + (endTime - startTime));
-                // 메인 스레드에서 콜백을 실행합니다.
-                new Handler(Looper.getMainLooper()).post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onDataLoaded(records);
-                    }
-                });
+                try {
+                    RunningMateRecord records = db.runningMateRecordDAO().getRunningMateRunningRecord();
+                    // 메인 스레드에서 콜백을 실행합니다.
+                    new Handler(Looper.getMainLooper()).post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (records != null){
+                                callback.onDataLoaded(records);
+                            } else {
+                                callback.onError("인터넷 연결을 확인해주세요");
+                            }
+                        }
+                    });
+                }catch (Exception e){
+                    callback.onError("인터넷 연결을 확인해주세요");
+                }
             }
         });
     }
@@ -236,32 +240,30 @@ public class RunningService {
                     callback.onSuccess();
                 }else{
                     Log.e("내 러닝메이트 리스트(실패) ", response.errorBody().toString());
-                    callback.onError("내 러닝메이트 리스트 가져오기 실패");
+                    callback.onError("인터넷 연결을 확인해주세요");
                 }
             }
             @Override
             public void onFailure(Call<ApiResponseListDTO<RunningMateResponseDTO>> call, Throwable t) {
                 Log.e("내 러닝메이트 리스트(응답실패)", t.getMessage());
-                callback.onError("서버 에러(인터넷을 확인해주세요)");
+                callback.onError("인터넷 연결을 확인해주세요");
             }
         });
     }
 
     // 내 러닝메이트 달리기 기록 가져오기
-    public void getRunningMateRunningRecord(Activity currentActivity, String objectId, DataCallback callback){
+    public void getRunningMateRunningRecord(Activity currentActivity, String objectId, RunningMateDataRecordCallback callback){
         // 기존에 있던 러닝메이트 달리기 기록 삭제
         deleteRunningMateRunningData();
 
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
-        long start = System.currentTimeMillis();
         Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call = ApiUtil.getApiService().getRunningMateRecord(token, objectId);
         call.enqueue(new Callback<ApiResponseDTO<RunningMateRunningRecordDTO>>() {
             @Override
             public void onResponse(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Response<ApiResponseDTO<RunningMateRunningRecordDTO>> response) {
                 if (response.isSuccessful() && response != null){
                     long end1 = System.currentTimeMillis();
-                    Log.d("스프링api", String.valueOf(end1-start));
                     RunningMateRunningRecordDTO mateRunningData = response.body().getData();
                     RunningMateRecord runningMateRecord = new RunningMateRecord();
                     runningMateRecord.setDistance(mateRunningData.getDistance());
@@ -271,32 +273,37 @@ public class RunningService {
 
                     // 러닝메이트 기록 추가
                     addRunningMateRunningData(runningMateRecord);
-                    long end2 = System.currentTimeMillis();
-                    Log.d("sqlite", String.valueOf(end2-start));
+//                    runningMateRecordViewModel= new ViewModelProvider((MyApplication) context).get(RunningMateRecordViewModel .class);
 
-                    runningMateRecordViewModel= new ViewModelProvider((MyApplication) context).get(RunningMateRecordViewModel .class);
                     callback.onDataLoaded(runningMateRecord);
                 }else{
                     Log.e("러닝메이트 기록 가져오기(실패)", response.errorBody().toString());
-                    // 에러처리
+                    callback.onError("인터넷 연결을 확인해주세요");
                 }
             }
             @Override
             public void onFailure(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Throwable t) {
                 Log.e("러닝메이트 기록 가져오기(응답실패)", t.getMessage());
+                callback.onError("인터넷 연결을 확인해주세요");
             }
         });
     }
 
+    // 비연동 데이터 개수 리스너
     public interface CountResultListener {
         void onResult(int count);
     }
+
     public interface GetResultListener {
         void onResult(List<RunningData> runningDataList);
     }
-    public interface DataCallback {
+
+    // 러닝메이트 달리기 기록 가져오기
+    public interface RunningMateDataRecordCallback  {
         void onDataLoaded(RunningMateRecord records);
+        void onError(String message);
     }
+
     // 내 최근 러닝데이터 기록 가져오기
     public interface RecentRunningDataCallback {
         void onRecentRunningDataLoaded(OneRunningDataResponseDTO recentRunningData);
@@ -307,4 +314,6 @@ public class RunningService {
         void onSuccess();
         void onError(String message);
     }
+
+    //
 }

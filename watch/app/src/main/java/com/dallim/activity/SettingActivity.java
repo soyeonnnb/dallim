@@ -183,7 +183,7 @@ public class SettingActivity extends AppCompatActivity {
             Button finish = dialogView.findViewById(R.id.finish);
 
             TextView text = dialogView.findViewById(R.id.text_view);
-            text.setText("내 기록을\n초기화 하시겠습니까?\n(워치에 저장된\n내 기록만 초기화됩니다)");
+            text.setText("내 기록을\n초기화 하시겠습니까?\n(워치에 저장된 내 기록과\n비연동 데이터가\n초기화됩니다)");
             finish.setText("초기화");
 
             AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);

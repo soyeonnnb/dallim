@@ -81,10 +81,9 @@
 
             <Button
                 android:id="@+id/watch_reset"
-                android:layout_width="wrap_content"
+                android:layout_width="100dp"
                 android:layout_height="30dp"
-                android:background="@drawable/round_check_btn"
-                android:backgroundTint="@color/purple_200"
+                android:background="@drawable/menu_button"
                 android:text="워치 기록 초기화"
                 android:textColor="@color/white"
                 android:textStyle="bold"

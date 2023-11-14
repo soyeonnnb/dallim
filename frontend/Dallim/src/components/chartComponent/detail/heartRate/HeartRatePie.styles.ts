@@ -4,7 +4,7 @@ import {Dimensions} from 'react-native';
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 export const Container = styled.View`
-  flex: 0.5;
+  flex: 0.47;
   background-color: white;
   width: 100%;
   align-items: center;
@@ -13,9 +13,8 @@ export const Container = styled.View`
 
 export const Middle = styled.View`
   width: 100%;
-  flex: 1;
+  flex: 0.8;
   flex-direction: row;
-  margin-top: 10%;
   padding: 5% 0;
 `;
 export const ChartSection = styled.View`
@@ -29,7 +28,7 @@ export const ChartInfos = styled.View`
 `;
 
 export const Footer = styled.View`
-  height: 60px;
+  flex: 0.2;
 `;
 export const ChartInfo = styled.View`
   flex-direction: row;
@@ -41,7 +40,7 @@ export const ChartInfoColor = styled.View<{size: number; bgColor: string}>`
   height: ${props => props.size}px;
   width: ${props => props.size}px;
   background-color: ${props => props.bgColor};
-  margin-right: 5%;
+  margin-right: 12%;
   border-radius: ${props => props.size / 5}px;
 `;
 export const ChartInfoText = styled.View`

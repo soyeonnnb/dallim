@@ -1,7 +1,6 @@
 import * as S from './HeartRatePie.styles';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {PieChart} from 'react-native-gifted-charts';
-import {useEvent} from 'react-native-reanimated';
 
 interface Props {
   data: {

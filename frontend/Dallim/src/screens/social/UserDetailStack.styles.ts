@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import {ImageBackground, TouchableOpacity} from 'react-native';
 import {Animated} from 'react-native';
+import {colors} from '@/components/common/globalStyles';
 
 export const Container = styled.View`
   flex: 1;
@@ -11,7 +12,7 @@ export const BackgroundImage = styled(ImageBackground)`
   height: 100%;
 `;
 
-export const ModalContent = styled.View` 
+export const ModalContent = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
@@ -27,10 +28,19 @@ export const Header = styled.View`
   width: 100%;
   height: 10%;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 `;
 
 export const CloseButton = styled.TouchableOpacity`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 10%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const EmptyBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 20%;
@@ -49,10 +59,10 @@ export const CloseImage = styled.Image`
 export const HeaderBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 50%;
+  width: 40%;
   height: 100%;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 `;
 
 export const DetailText = styled.Text`
@@ -63,7 +73,7 @@ export const DetailText = styled.Text`
 export const VersusBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 30%;
+  width: 10%;
   height: 100%;
 `;
 
@@ -92,15 +102,16 @@ export const Body = styled.View`
   /* border-width: 1px;
   border-color: blue; */
   flex-direction: row;
+  justify-content: center;
   width: 100%;
-  height: 30%;
+  height: 35%;
 `;
 
 export const ProfileBox = styled.View`
   /* border-width: 1px;
   border-color: green; */
-  width: 100%;
-  height: 80%;
+  width: 90%;
+  height: 90%;
 `;
 
 export const ImageBox = styled.View`
@@ -109,7 +120,7 @@ export const ImageBox = styled.View`
   width: 35%;
   height: 25%;
   position: absolute;
-  top: 18%;
+  top: 20%;
   left: 65%;
 `;
 
@@ -129,7 +140,7 @@ export const Footer = styled.View`
   /* border-width: 1px;
   border-color: yellow; */
   width: 100%;
-  height: 50%;
+  height: 40%;
   align-items: center;
 `;
 
@@ -144,10 +155,10 @@ export const FooterTop = styled.View`
 export const RecordTitleBox = styled.View`
   /* border-width: 1px;
   border-color: blue; */
-  width: 30%;
+  width: 25%;
   height: 100%;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 export const RecordTitle = styled.Text`
@@ -158,13 +169,13 @@ export const RecordTitle = styled.Text`
 export const FooterLine = styled.View`
   /* border-width: 1px;
   border-color: blue; */
-  width: 45%;
+  width: 50%;
   height: 100%;
   padding-top: 3%;
 `;
 
 export const Line = styled.View`
-  border-bottom-color: gray;
+  border-bottom-color: white;
   border-bottom-width: 1px;
   width: 100%;
   height: 50%;
@@ -183,7 +194,7 @@ export const Sort = styled.TouchableOpacity`
   position: relative;
   /* border-width: 1px;
   border-color: red; */
-  width: 85px;
+  /* width: 85px; */
   height: 80%;
   border-radius: 10px;
   justify-content: center;
@@ -223,18 +234,18 @@ export const FooterList = styled.View`
   border-color: red; */
   justify-content: center;
   align-items: center;
-  width: 100%;
-  height: 85%;
+  width: 90%;
+  height: 100%;
 `;
 
 export const RunBox = styled.View`
-  border-width: 1px;
-  border-color: gray;
-  width: 90%;
+  /* border-width: 1px;
+  border-color: gray; */
+  width: 100%;
   height: 140px;
-  border-radius: 15px;
-  margin-bottom: 15px;
-  margin-left: 5%;
+  border-radius: 30px;
+  margin-bottom: 40px;
+  /* margin-left: 5%; */
   /* justify-content: center;
   align-items: center; */
 `;

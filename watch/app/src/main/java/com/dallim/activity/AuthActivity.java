@@ -1,6 +1,7 @@
 package com.dallim.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -81,6 +82,8 @@ public class AuthActivity extends AppCompatActivity {
                         public void onSuccess() {
                             Toast.makeText(AuthActivity.this, "연동이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                             setResult(Activity.RESULT_OK);
+                            Intent intent = new Intent(AuthActivity.this, SleepStateActivity.class);
+                            startActivity(intent);
                             finish();
                         }
                         @Override

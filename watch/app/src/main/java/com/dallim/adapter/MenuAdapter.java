@@ -18,7 +18,6 @@ import java.util.List;
 
 public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private Context context;
     private List<MenuItem> menuItems;
     private OnItemClickListener listener;
     private static final int TYPE_LOGO = 0;
@@ -27,7 +26,6 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private SharedPreferences prefs;
 
     public MenuAdapter(Context context, List<MenuItem> menuItems) {
-        this.context = context;
         this.menuItems = menuItems;
         prefs = PreferencesUtil.getEncryptedSharedPreferences(context);
     }

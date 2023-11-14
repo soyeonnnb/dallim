@@ -60,7 +60,6 @@ function RunningDataBox({
     setCheckModalVisible(!checkModalVisible);
   }
 
-  // 시간 변환 함수 ( 60분 이상 경우에 )
   const formatTime = (totalMinutes: number) => {
     if (totalMinutes >= 60) {
       const hours = Math.floor(totalMinutes / 60);

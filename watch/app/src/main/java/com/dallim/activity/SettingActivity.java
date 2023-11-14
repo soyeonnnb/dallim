@@ -24,6 +24,7 @@ import com.dallim.util.AccessToken;
 import com.dallim.util.ApiUtil;
 import com.dallim.util.NetworkUtil;
 import com.dallim.util.PreferencesUtil;
+import com.dallim.util.VibrateDevice;
 
 import java.util.List;
 

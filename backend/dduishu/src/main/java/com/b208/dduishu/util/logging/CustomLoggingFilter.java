@@ -27,6 +27,8 @@ public class CustomLoggingFilter extends OncePerRequestFilter {
         filterChain.doFilter(wrappingRequest, response);
 
         long endTime = System.currentTimeMillis();
+
+        log.info("HTTP Method : {}, URI : {}", request.getMethod(), request.getRequestURI());
         log.info("API 응답 시간 (ms) : {}", endTime - startTime);
     }
 }

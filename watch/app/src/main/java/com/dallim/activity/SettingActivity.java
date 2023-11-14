@@ -26,8 +26,6 @@ import com.dallim.util.NetworkUtil;
 import com.dallim.util.PreferencesUtil;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;

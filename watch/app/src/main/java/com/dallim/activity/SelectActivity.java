@@ -3,7 +3,6 @@ package com.dallim.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import androidx.wear.widget.WearableRecyclerView;
 
 import com.dallim.R;
 import com.dallim.adapter.MenuAdapter;
-import com.dallim.database.AppDatabase;
 import com.dallim.databinding.ActivitySelectBinding;
 import com.dallim.model.MenuItem;
 import com.dallim.service.RunningService;
@@ -27,8 +25,6 @@ import com.dallim.util.CustomScrollingLayoutCallback;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class SelectActivity extends ComponentActivity {
 

@@ -1,7 +1,5 @@
 package com.dallim.adapter;
 
-import static androidx.activity.result.ActivityResultCallerKt.registerForActivityResult;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -26,7 +24,6 @@ import com.dallim.R;
 import com.dallim.activity.LoadingActivity;
 import com.dallim.model.RunningMate;
 import com.dallim.service.RunningService;
-import com.dallim.util.AccessToken;
 import com.dallim.util.Conversion;
 import com.dallim.util.PreferencesUtil;
 
@@ -40,24 +37,19 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
 
     private List<RunningMate> runningMateList;
     private Conversion conversion = new Conversion();
-    private static RunningService runningService;
-    private Context context;
     private static SharedPreferences prefs;
     private static Activity activity;
 
     public RunningMateDataAdapter(Context context, List<RunningMate> runningMateList, Activity activity) {
         this.runningMateList = runningMateList;
-        this.context = context;
         this.activity = activity;
         prefs = PreferencesUtil.getEncryptedSharedPreferences(context);
-        runningService = new RunningService(context);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_running_mate_data, parent, false);
-        runningService = new RunningService(parent.getContext());
         return new ViewHolder(view, activity);
     }
 

@@ -15,7 +15,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dallim.R;
 import com.dallim.databinding.ActivityLoadingBinding;
-import com.dallim.databinding.ActivityMainBinding;
 import com.dallim.model.RunningMateRecord;
 import com.dallim.service.RunningService;
 import com.dallim.util.MyApplication;

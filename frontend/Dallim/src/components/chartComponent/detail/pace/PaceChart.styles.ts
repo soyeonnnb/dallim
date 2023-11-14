@@ -1,10 +1,10 @@
 import styled from 'styled-components/native';
 import {Dimensions} from 'react-native';
-
-const {width: SCREEN_WIDTH} = Dimensions.get('window');
+import {Shadow} from 'react-native-shadow-2';
+import {colors} from '@/components/common/globalStyles';
 
 export const Container = styled.View`
-  flex: 0.5;
+  flex: 0.53;
   width: 100%;
   padding-bottom: 20px;
 `;
@@ -14,29 +14,10 @@ export const Text = styled.Text`
   margin-bottom: 20px;
 `;
 export const DataPreviewView = styled.View`
-  flex: 0.3;
+  flex: 0.2;
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
-`;
-export const DataPreview = styled.View<{width: number; borderColor: string}>`
-  width: ${props => props.width}px;
-  height: 80%;
-  border-radius: 15px;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid ${props => props.borderColor};
-`;
-
-export const DataPreviewTime = styled.Text`
-  font-size: 18px;
-  font-weight: 800;
-  color: white;
-`;
-export const DataPreviewPace = styled.Text`
-  font-size: 35px;
-  font-weight: 800;
-  color: white;
 `;
 
 export const ChartView = styled.View`
@@ -52,4 +33,28 @@ export const ChartBox = styled.View`
   align-content: center;
   justify-content: center;
   /* background-color: aliceblue; */
+`;
+export const ChartDistanceView = styled.View`
+  flex: 0.1;
+  justify-content: center;
+  align-items: center;
+`;
+export const ChartDistanceTitle = styled.Text`
+  font-size: 14px;
+  color: ${`${colors.grey._50}85`};
+`;
+
+export const ChartDistance = styled.Text`
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+`;
+export const ChartTotalDistance = styled.Text`
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  vertical-align: bottom;
+  margin-left: 3%;
+`;
+export const ChartDistanceTexts = styled.View`
+  flex-direction: row;
 `;

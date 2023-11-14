@@ -38,6 +38,7 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
     <S.Container
       contentContainerStyle={{
         alignItems: 'center',
+        justifyContent: 'center',
       }}
       onLayout={onLayout}>
       <S.ScrollInBox height={(parentHeight / 2) * sectionNum}>
@@ -49,8 +50,8 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
               record={record}
               color={
                 rivalData && rivalData[0].pace >= record.pace
-                  ? '#96B986'
-                  : '#E4A4A4'
+                  ? colors.green._600
+                  : colors.red._300
               }
             />
           ))}

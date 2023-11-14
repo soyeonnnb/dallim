@@ -178,57 +178,54 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
         longitude: position.coords.longitude
       };
 
-      let incrementalDistance = 0;
-      console.log("incrementalDistance 확인해보자잉 " + incrementalDistance);
+
       // 이전 위치와 현재 위치 사이의 거리 계산 test
       // const incrementalDistance = calculateIncrementalDistance(lastPosition, currentPosition);
       // 첫 번째 업데이트가 아닌 경우에만 거리 계산
-      console.log("isFirstUpdate : " + isFirstUpdate);
+      let incrementalDistance = 0;
       if (!isFirstUpdate) {
         incrementalDistance = calculateIncrementalDistance(lastPosition, currentPosition);
+        console.log("계산 후 incrementalDistance" + incrementalDistance)
       } else {
-        isFirstUpdate = false; // 첫 번째 업데이트 처리 완료
+        // 첫 번째 업데이트 처리 완료
+        isFirstUpdate = false;
       }
 
-
+      // 누적 거리 계산
       // 이전 누적 거리와 새로운 증가분을 미터단위로
-      if (incrementalDistance > 0 || isFirstUpdate) {
-        // 누적 거리 계산
-        setTotalDistance(prevDistance => prevDistance + incrementalDistance)
+      setTotalDistance(prevDistance => prevDistance + incrementalDistance);
 
-        // 속도와 페이스 계산
-        const speed = position.coords.speed ?? 0; // 초당 미터(m/s)
-        const calculatedPace = speed !== 0 ? 1000 / speed : 0; // 분당 킬로미터(min/km) 단위
-        // 화면에 출력하는 페이스 업데이트
-        const paceValue = speed !== 0 ? msToPace(speed) : '-';
-        setPace(paceValue);
+      // 속도와 페이스 계산
+      const speed = position.coords.speed ?? 0; // 초당 미터(m/s)
+      const calculatedPace = speed !== 0 ? 1000 / speed : 0; // 분당 킬로미터(min/km) 단위
+      // 화면에 출력하는 페이스 업데이트
+      const paceValue = speed !== 0 ? msToPace(speed) : '-';
+      setPace(paceValue);
 
-        // 경과 시간 계산 (초)
-        const elapsedTime = Math.floor((position.timestamp - trackStart) / 1000);
+      // 경과 시간 계산 (초)
+      const elapsedTime = Math.floor((position.timestamp - trackStart) / 1000);
 
-        // 위치 어베이트
-        setLastPosition({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude
-        });
+      // 위치 어베이트
+      setLastPosition({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      });
 
-        // 새 위치 데이터 생성
-        const newLocationData = {
-          second: elapsedTime,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          distance: incrementalDistance,
-          speed: speed,
-          pace: calculatedPace,
-        };
+      // 새 위치 데이터 생성
+      const newLocationData = {
+        second: elapsedTime,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        distance: incrementalDistance, 
+        speed: speed,
+        pace: calculatedPace,
+      };
 
-        // 데이터 누적 업데이트
-        setRunningSession(oldRecords => ({
-          ...oldRecords,
-          runningRecordInfos: [...oldRecords.runningRecordInfos, newLocationData]
-        }));
-      }
-      // }
+      // 데이터 누적 업데이트
+      setRunningSession(oldRecords => ({
+        ...oldRecords,
+        runningRecordInfos: [...oldRecords.runningRecordInfos, newLocationData]
+      }));
     }, (error) => {
       console.error(error);
     },
@@ -292,19 +289,20 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       const averageSpeed = endTotalDistance / endTime; // 평균 속력 계산
 
       // 옵션 1: 누락된 데이터 채우기 → 누적 거리 계산 ( 연속성 보장 but, 전처리 데이터가 합해짐)
-      // 옵션 2: 누적 거리 계산 → 누락된 데이터 채우기  (현재 이 방식으로 )
+      // 옵션 2: 누적 거리 계산 → 누락된 데이터 채우기 
 
-      // 누적 거리 계산
-      const accumulatedDistanceRecordInfos = calculateAccumulatedDistance(runningSession.runningRecordInfos);
-      // const accumulatedDistanceRecordInfos = calculateAccumulatedDistance(filledRunningRecordInfos);
-      
       // 누락 데이터 전처리
-      const filledRunningRecordInfos = fillMissingData(accumulatedDistanceRecordInfos, endTime);
-      // const filledRunningRecordInfos = fillMissingData(runningSession.runningRecordInfos, endTime);
+      // const filledRunningRecordInfos = fillMissingData(accumulatedDistanceRecordInfos, endTime);
+      const filledRunningRecordInfos = fillMissingData(runningSession.runningRecordInfos, endTime);
       
+      // 누적 거리 계산
+      // const accumulatedDistanceRecordInfos = calculateAccumulatedDistance(runningSession.runningRecordInfos);
+      const accumulatedDistanceRecordInfos = calculateAccumulatedDistance(filledRunningRecordInfos);
+
+
       // runningRecordInfos에서 latitude와 longitude 제거
-      const transformedRunningRecordInfos = filledRunningRecordInfos.map(({ latitude, longitude, ...rest }) => rest);
-      // const transformedRunningRecordInfos = accumulatedDistanceRecordInfos.map(({ latitude, longitude, ...rest }) => rest);
+      // const transformedRunningRecordInfos = filledRunningRecordInfos.map(({ latitude, longitude, ...rest }) => rest);
+      const transformedRunningRecordInfos = accumulatedDistanceRecordInfos.map(({ latitude, longitude, ...rest }) => rest);
 
       // 한국 시간대로 변환
       const now = new Date();

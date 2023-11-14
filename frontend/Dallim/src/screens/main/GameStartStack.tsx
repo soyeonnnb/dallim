@@ -36,9 +36,6 @@ function GameStartStack({ navigation }: GameStartStackProps) {
       topOffset: 10,
     });
   }
-  // function closeTogetherRunModal() {
-  //   setTogetherModalVisible(false);
-  // }
 
   return (
     <S.Container>
@@ -91,7 +88,7 @@ function GameStartStack({ navigation }: GameStartStackProps) {
 
       {/* 모달 */}
       <AloneRunModal isVisible={isAloneModalVisible} onClose={closeAloneRunModal} />
-      {/* <TogetherRunModal isVisible={isTogetherModalVisible} onClose={closeTogetherRunModal} /> */}
+
     </S.Container >
   );
 };

@@ -3,15 +3,14 @@ import { useEffect, useState } from 'react';
 import { fetchUserProfile } from '@/apis/MainApi';
 import { characterData } from '@/recoil/CharacterData';
 import { planetData } from '@/recoil/PlanetData';
-// import StampWhiteIcon from '@/assets/icons/StampWhiteIcon.png';
-import StampModal from '@/components/mainComponent/StampModal';
-import SpinAnimation from '@/components/common/SpinAnimation';
-import Loading from '@/components/common/Loading_Run';
-import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
 import NotificationModal from '@/components/profileComponent/profileModal/NotificationModal';
-
+import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
+import AloneRunModal from '@/components/mainComponent/AloneRunModal';
+import StampModal from '@/components/mainComponent/StampModal';
 import RadialGradient from 'react-native-radial-gradient';
 import LinearGradient from 'react-native-linear-gradient';
+import Loading from '@/components/common/Loading_Run';
+
 // svg Icon
 import GuideIcon from '@/assets/icons/GuideIcon';
 import PrivacyPolicyIcon from '@/assets/icons/PrivacyPolicyIcon';
@@ -28,16 +27,16 @@ import {
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import CustomToast from '@/components/common/CustomToast';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon';
+
 interface MainProps {
   navigation: any;
 }
-
 function Main({ navigation }: MainProps) {
+
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
   const [isGuideModalVisible, setGuideModalVisible] = useState(false); // 가이드 모달
-  const [isPrivacyPolicyModalVisible, setPrivacyPolicyModalVisible] =
-    useState(false); //공지모달
+  const [isPrivacyPolicyModalVisible, setPrivacyPolicyModalVisible] = useState(false); //공지모달
 
   const [userId, setUserId] = useRecoilState(userIdState); // 유저 아이디
   const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
@@ -53,6 +52,16 @@ function Main({ navigation }: MainProps) {
   const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(
     equippedPlanetIndexState,
   );
+
+  // 달리기 모달
+  const [isAloneModalVisible, setAloneModalVisible] = useState(false);
+  function RunningAlone() {
+    console.log("혼자 달리기 버튼이 눌렸습니다.");
+    setAloneModalVisible(true);
+  }
+  function closeAloneRunModal() {
+    setAloneModalVisible(false);
+  }
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -220,9 +229,11 @@ function Main({ navigation }: MainProps) {
 
               <S.StartBox>
                 <S.StartButton
-                  onPress={() =>
-                    navigation.navigate('GameStartStack', { userId: userId })
-                  }>
+                  // onPress={() =>
+                  //   navigation.navigate('GameStartStack', { userId: userId })
+                  // }
+                  onPress={RunningAlone}
+                  >
                   <LinearGradient
                     start={{ x: 0.5, y: 0 }}
                     end={{ x: 0.5, y: 1 }}
@@ -275,6 +286,10 @@ function Main({ navigation }: MainProps) {
           />
         </>
       )}
+
+      {/* 모달 */}
+      <AloneRunModal isVisible={isAloneModalVisible} onClose={closeAloneRunModal} />
+
     </S.Container>
   );
 }

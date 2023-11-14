@@ -32,6 +32,7 @@ public class LogInterceptor implements HandlerInterceptor {
                 log.info("로깅 필터가 정상적으로 동작하지 않았습니다.");
                 return;
             }
+            log.info("API 요청 성공!!");
             log.info(LogForm.SUCCESS_LOGGING_FORM, request.getMethod(), request.getRequestURI(),
                     StringUtils.hasText(request.getHeader("Authorization")),
                     objectMapper.readTree(cachingRequest.getContentAsByteArray()));

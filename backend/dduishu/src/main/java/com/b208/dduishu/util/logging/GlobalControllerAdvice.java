@@ -27,13 +27,14 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(Exception.class)
     public void handleException(final HttpServletRequest request, final HttpServletResponse response, Exception e, final ContentCachingRequestWrapper cachingRequest) throws IOException {
 
-            log.info(LogForm.FAILED_LOGGING_FORM,
-                    request.getMethod(),
-                    request.getRequestURI(),
-                    StringUtils.hasText(request.getHeader("Authorization")),
-                    objectMapper.readTree(cachingRequest.getContentAsByteArray()),
-                    e.getMessage());
-            log.debug("Stack trace: ", e);
+        log.info("API 요청 실패!!");
+        log.info(LogForm.FAILED_LOGGING_FORM,
+                request.getMethod(),
+                request.getRequestURI(),
+                StringUtils.hasText(request.getHeader("Authorization")),
+                objectMapper.readTree(cachingRequest.getContentAsByteArray()),
+                e.getMessage());
+        log.debug("Stack trace: ", e);
 
         String apiResponse = objectMapper.writeValueAsString(ApiResponse.createError(e.getMessage()));
 

@@ -17,6 +17,12 @@ import org.springframework.web.util.ContentCachingRequestWrapper;
 public class CustomLoggingFilter extends OncePerRequestFilter {
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+        return path.startsWith("/actuator/prometheus");
+    }
+
+    @Override
     protected void doFilterInternal(@NotNull final HttpServletRequest request,
                                     @NotNull final HttpServletResponse response,
                                     final FilterChain filterChain)
@@ -28,7 +34,6 @@ public class CustomLoggingFilter extends OncePerRequestFilter {
 
         long endTime = System.currentTimeMillis();
 
-        log.info("HTTP Method : {}, URI : {}", request.getMethod(), request.getRequestURI());
         log.info("API 응답 시간 (ms) : {}", endTime - startTime);
     }
 }

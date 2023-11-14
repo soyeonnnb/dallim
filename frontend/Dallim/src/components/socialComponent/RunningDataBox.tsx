@@ -21,7 +21,7 @@ interface RunningDataBoxProps {
   createdAt: string;
   totalDistance: number;
   totalTime: number;
-  averageSpeed: number;
+  averagePace: number;
   registration: boolean;
   onUpdateRegistration: (id: string) => void;
 }
@@ -32,7 +32,7 @@ function RunningDataBox({
   createdAt,
   totalDistance,
   totalTime,
-  averageSpeed,
+  averagePace,
   registration,
   onUpdateRegistration,
 }: RunningDataBoxProps) {
@@ -227,7 +227,7 @@ function RunningDataBox({
                   </S.SpeedCircle>
                 </S.CircleShadow>
               </S.Icon>
-              <S.Text>{calculatePace(averageSpeed)}</S.Text>
+              <S.Text>{calculatePace(averagePace)}</S.Text>
             </S.BottomLeft>
             <S.BottomRight>
               <S.AddBox>

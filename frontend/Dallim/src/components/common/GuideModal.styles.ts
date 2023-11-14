@@ -53,7 +53,7 @@ export const ModalHeader = styled.View`
   justify-content: center;
   align-items: center;
 
-  width: 100%;
+  width: 90%;
   height: 50%;
 `;
 

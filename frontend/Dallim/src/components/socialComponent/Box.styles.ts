@@ -85,6 +85,7 @@ export const Middle_Wait = styled.View`
   height: 100%;
   justify-content: center;
   gap: 5px;
+  padding-left: 3%;
 `;
 
 export const NicknameText = styled.Text`
@@ -162,10 +163,22 @@ export const DeleteButton = styled(TouchableOpacity)`
 `;
 
 export const Button_Wait = styled(TouchableOpacity)`
-  /* border-width: 1px;
-  border-color: blue; */
-  width: 90%;
-  height: 90%;
+  border-width: 1px;
+  border-color: ${colors.button.depth1.color};
+  background-color: ${colors.button.depth1.color};
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+`;
+export const Button_Delete = styled(TouchableOpacity)`
+  border-width: 1px;
+  border-color: #eb4242;
+  background-color: #f45252;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   justify-content: center;
   align-items: center;
 `;

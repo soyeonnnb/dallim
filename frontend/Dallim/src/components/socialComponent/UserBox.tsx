@@ -5,6 +5,7 @@ import {characterData} from '@/recoil/CharacterData';
 import {useState} from 'react';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import FriendAddIcon from '@/assets/icons/FriendAddIcon';
+import GuideModal from '../common/GuideModal';
 
 type UserBoxProps = {
   userId: number;
@@ -33,7 +34,7 @@ function UserBox({
       const result = await postAddFriend(userId);
       if (result) {
         console.log('친구 요청이 성공적으로 완료');
-        setAlertMessage('친구 요청이 성공적으로 완료되었습니다.');
+        setAlertMessage('친구 요청이 완료되었습니다.');
         setShowAlert(true);
       } else {
         setAlertMessage('친구의 수락을 기다려주세요!');
@@ -85,7 +86,13 @@ function UserBox({
           )}
         </S.Right>
       </S.Box>
-      <AwesomeAlert
+      <GuideModal
+        modalVisible={showAlert}
+        text={alertMessage}
+        toggleModal={() => {
+          setShowAlert(false);
+        }}></GuideModal>
+      {/* <AwesomeAlert
         show={showAlert}
         showProgress={false}
         title="안내사항"
@@ -101,7 +108,7 @@ function UserBox({
         onConfirmPressed={() => {
           setShowAlert(false);
         }}
-      />
+      /> */}
     </S.Container>
   );
 }

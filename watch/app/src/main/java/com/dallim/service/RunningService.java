@@ -10,10 +10,12 @@ import android.util.Log;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import com.dallim.activity.ResultActivity;
 import com.dallim.activity.RunningMateActivity;
 import com.dallim.database.AppDatabase;
 import com.dallim.dto.response.ApiResponseDTO;
 import com.dallim.dto.response.ApiResponseListDTO;
+import com.dallim.dto.response.OneRunningDataResponseDTO;
 import com.dallim.dto.response.RunningMateResponseDTO;
 import com.dallim.dto.response.RunningMateRunningRecordDTO;
 import com.dallim.model.RunningData;
@@ -131,6 +133,35 @@ public class RunningService {
                 long end = System.currentTimeMillis();
                 Log.d("시간", String.valueOf(end - start));
                 Log.d("sqlite에 러닝메이트 기록 추가", "성공");
+            }
+        });
+    }
+
+    // 러닝 데이터 추가(메인 스레드에서 분리하기 위해서)
+    public void addRunningData(RunningData runningData) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.runningDataDAO().insert(runningData);
+
+                // 러닝 데이터가 추가된 후에 결과 액티비티를 호출
+                Intent intent = new Intent(context, ResultActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+    }
+
+    // sqlite에서 가장 최근 내기록 가져오기
+    public void getRecentRunningData(RecentRunningDataCallback callback) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                // 최근 내 기록을 데이터베이스에서 가져오는 로직을 구현하고, 가져온 데이터를 callback으로 전달
+                OneRunningDataResponseDTO latestOneRunningData = db.runningDataDAO().getLatestOneRunningData();
+
+                // callback을 통해 가져온 데이터를 전달
+                callback.onRecentRunningDataLoaded(latestOneRunningData);
             }
         });
     }
@@ -268,5 +299,9 @@ public class RunningService {
     }
     public interface DataCallback {
         void onDataLoaded(RunningMateRecord records);
+    }
+    // 내 최근 러닝데이터 기록 가져오기
+    public interface RecentRunningDataCallback {
+        void onRecentRunningDataLoaded(OneRunningDataResponseDTO recentRunningData);
     }
 }

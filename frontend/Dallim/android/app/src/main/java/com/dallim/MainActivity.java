@@ -59,6 +59,9 @@ public class MainActivity extends ReactActivity {
       CalendarWidgetModule widgetModule = new CalendarWidgetModule((ReactApplicationContext) getReactInstanceManager().getCurrentReactContext());
       Log.d("DDDDDDDDDD", "MainActivity - handleIntent sendAppRoute");
       widgetModule.sendAppRoute(route);
+      DirectRunWidgetModule widgetModule1 = new DirectRunWidgetModule((ReactApplicationContext) getReactInstanceManager().getCurrentReactContext());
+      Log.d("DDDDDDDDDD", "MainActivity - handleIntent sendAppRoute1");
+      widgetModule1.sendAppRoute(route);
     }
   }
 }

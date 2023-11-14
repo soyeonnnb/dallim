@@ -100,7 +100,6 @@ public class SensorService extends Service {
                     }
                     heartRate = (Math.round(heartRate * 100) / 100.0);
                     runningViewModel.setHeartRate(heartRate);
-                    Log.d("심박수", String.valueOf(heartRate));
                 } else if (sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
                     double currentTotalSteps = sensorEvent.values[0];
                     if (initialStepCount == 0) {
@@ -108,7 +107,6 @@ public class SensorService extends Service {
                     }
                     double sessionSteps = currentTotalSteps - initialStepCount;
                     runningViewModel.setStepCount(sessionSteps);
-                    Log.d("발걸음", String.valueOf(sessionSteps));
                 }
             }
 

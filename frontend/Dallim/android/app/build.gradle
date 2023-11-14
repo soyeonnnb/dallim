@@ -34,7 +34,7 @@ react {
     // bundleConfig = file(../rn-cli.config.js)
     //
     //   The name of the generated asset file containing your JS bundle
-    // bundleAssetName = "MyApplication.android.bundle"
+    // bundleAssetName = "MyApplication.android.bundle"a
     //
     //   The entry file for bundle generation. Default is 'index.android.js' or 'index.js'
     // entryFile = file("../js/MyApplication.android.js")
@@ -80,8 +80,8 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
 
-        versionCode 12
-        versionName "1.1.2"
+        versionCode 16
+        versionName "1.1.6"
 
     }
     signingConfigs {

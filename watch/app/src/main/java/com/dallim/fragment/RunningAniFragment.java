@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.dallim.R;
 import com.dallim.databinding.FragmentRunningAniBinding;
 import com.dallim.util.Conversion;
@@ -36,10 +37,9 @@ public class RunningAniFragment extends Fragment {
     private RunningMateRecordViewModel runningMateRecordViewModel;
     private Conversion conversion = new Conversion();
     private double lastDistance;
+    private double kmLastDistance;
     private List<Double> mateDistance;
     private Boolean value = false;
-    private String myCha;
-    private String mateCha;
 
     @Nullable
     @Override
@@ -51,12 +51,35 @@ public class RunningAniFragment extends Fragment {
         long planetIndex = prefs.getLong("planetIndex", 0);
         int mateEvolutionStage = prefs.getInt("mate_evolution_stage", -1);
         int mateCharacterIndex = prefs.getInt("mate_character_index", -1);
-        System.out.println(mateEvolutionStage);
-        System.out.println(mateCharacterIndex);
 
         binding = FragmentRunningAniBinding.inflate(getLayoutInflater());
         // Inflate the layout for this fragment
         View view = binding.getRoot();
+
+        Activity activity = getActivity();
+        // Activity와 동일한 ViewModel 인스턴스 가져오기
+        if (activity != null) {
+            // 액티비티를 통해 애플리케이션의 Application 객체를 가져옵니다.
+            MyApplication myApplication = (MyApplication) activity.getApplication();
+
+            // ViewModel을 초기화할 때 애플리케이션의 Application 객체를 사용합니다.
+            runningViewModel = new ViewModelProvider(myApplication).get(RunningViewModel.class);
+            value = runningViewModel.getPairCheck().getValue();
+            if (value) {
+                // 남은 시간 보여주게 설정
+                binding.remainingDistance.setVisibility(View.VISIBLE);
+                // 거리차이 보여주게 설정
+                binding.singleDifference.setVisibility(View.VISIBLE);
+                runningMateRecordViewModel = new ViewModelProvider(myApplication).get(RunningMateRecordViewModel.class);
+                mateDistance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
+                // 마지막 거리 저장
+                lastDistance = mateDistance.get(mateDistance.size() - 1);
+                kmLastDistance = conversion.mToKM(lastDistance);
+            }else{
+                // 혼자 달리기일 경우 페이스 보여주게
+                binding.singlePace.setVisibility(View.VISIBLE);
+            }
+        }
 
         // 행성 이미지 설정
         String planetResourceName = "planet" + (planetIndex == 0 ? "black" :
@@ -64,9 +87,13 @@ public class RunningAniFragment extends Fragment {
                         planetIndex == 2 ? "blue" :
                                 planetIndex == 3 ? "purple" :
                                         "red");
-        int planetResId = getResources().getIdentifier(planetResourceName, "drawable", getContext().getPackageName());
-        ImageView planetView = view.findViewById(R.id.running_planet);
-        planetView.setImageResource(planetResId);
+        int planetResId = getResources().getIdentifier(planetResourceName, "raw", getContext().getPackageName());
+
+        Glide.with(this)
+                .asGif()
+                .load(planetResId)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .into((android.widget.ImageView) view.findViewById(R.id.running_planet));
 
         // 캐릭터 이미지 설정
         String characterType = characterIndex == 0 ? "rabbit" :
@@ -75,22 +102,35 @@ public class RunningAniFragment extends Fragment {
                                 "chick";
         String evolutionSuffix = evolutionStage == 1 ? "_run" : "egg_run";
         String characterResourceName = characterType + evolutionSuffix;
-        int characterResId = getResources().getIdentifier(characterResourceName, "drawable", getContext().getPackageName());
+        int characterResId = getResources().getIdentifier(characterResourceName, "raw", getContext().getPackageName());
 
         Glide.with(this)
                 .load(characterResId)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(binding.myCha);
 
         // ViewModel의 시간 데이터를 구독하고 UI 업데이트
         runningViewModel.getElapsedTime().observe(getViewLifecycleOwner(), elapsedTime -> {
-            // elapsedTime은 "MM:SS" 형식의 문자열입니다.
             TextView timeView = view.findViewById(R.id.ani_time);
             timeView.setText(elapsedTime);
         });
 
+        // ms로 들어옴
+        runningViewModel.getMsPace().observe(getViewLifecycleOwner(), pace -> {
+            TextView paceView = view.findViewById(R.id.pace);
+            paceView.setText(pace);
+        });
+
         runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance -> {
             TextView distanceView = view.findViewById(R.id.ani_distance);
-            distanceView.setText(distance.toString());
+            distanceView.setText(String.valueOf(distance));
+            Log.e("내 거리", String.valueOf(distance));
+            String format = String.format("%.2f", kmLastDistance - distance);
+            Log.e("남은 거리", format);
+
+            // 남은 거리 UI
+            TextView remainDistanceText = view.findViewById(R.id.remaining_distance);
+            remainDistanceText.setText("남은 거리 : " + format + "km");
         });
 
         if (value) {
@@ -112,38 +152,21 @@ public class RunningAniFragment extends Fragment {
                     distanceDifferenceView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                     distanceKm.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                 }
-
                 showMateCharacter(distanceDifference, mateEvolutionStage, mateCharacterIndex);
             });
         }
 
         Glide.with(this)
                 .asGif()
-                .load(R.drawable.up_arrow)
+                .load(R.raw.up_arrow)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into((android.widget.ImageView) view.findViewById(R.id.up_arrow));
-
         return view;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Activity activity = getActivity();
-        // Activity와 동일한 ViewModel 인스턴스 가져오기
-        if (activity != null) {
-            // 액티비티를 통해 애플리케이션의 Application 객체를 가져옵니다.
-            MyApplication myApplication = (MyApplication) activity.getApplication();
-
-            // ViewModel을 초기화할 때 애플리케이션의 Application 객체를 사용합니다.
-            runningViewModel = new ViewModelProvider(myApplication).get(RunningViewModel.class);
-            value = runningViewModel.getPairCheck().getValue();
-            if (value) {
-                runningMateRecordViewModel = new ViewModelProvider(myApplication).get(RunningMateRecordViewModel.class);
-                mateDistance = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
-                // 마지막 거리 저장
-                lastDistance = mateDistance.get(mateDistance.size() - 1);
-            }
-        }
     }
 
     // 미터 값을 킬로미터로 변환하고 소수점 두 자리로 포매팅하는 메소드
@@ -166,18 +189,30 @@ public class RunningAniFragment extends Fragment {
         ImageView mateView = null;
 
         // 거리 차이에 따른 캐릭터 선택
-        if (distanceDifference > -250 && distanceDifference <= 0) {
-            mateView = binding.mateCha4;
-        } else if (distanceDifference > -500 && distanceDifference <= -250) {
-            mateView = binding.mateCha5;
-        } else if (distanceDifference <= -500) {
-            mateView = binding.mateCha6;
-        } else if (distanceDifference < 250 && distanceDifference >= 0) {
-            mateView = binding.mateCha3;
-        } else if (distanceDifference < 500 && distanceDifference <= 250) {
-            mateView = binding.mateCha2;
-        } else if (distanceDifference >= 500) {
+        if (distanceDifference > -200 && distanceDifference <= 0) {
+            mateView = binding.mateCha7;
+        } else if (distanceDifference > -400 && distanceDifference <= -200) {
+            mateView = binding.mateCha8;
+        }  else if (distanceDifference > -600 && distanceDifference <= -400) {
+            mateView = binding.mateCha9;
+        } else if (distanceDifference > -800 && distanceDifference <= -600) {
+            mateView = binding.mateCha10;
+        } else if (distanceDifference > -1000 && distanceDifference <= -800) {
+            mateView = binding.mateCha11;
+        } else if (distanceDifference <= -1000) {
+            mateView = binding.mateCha12;
+        } else if (distanceDifference < 200 && distanceDifference >= 0) {
             mateView = binding.mateCha1;
+        } else if (distanceDifference < 400 && distanceDifference >= 200) {
+            mateView = binding.mateCha2;
+        } else if (distanceDifference < 600 && distanceDifference >= 400) {
+            mateView = binding.mateCha3;
+        } else if (distanceDifference < 800 && distanceDifference >= 600) {
+            mateView = binding.mateCha4;
+        } else if (distanceDifference < 1000 && distanceDifference <= 800) {
+            mateView = binding.mateCha5;
+        } else if (distanceDifference >= 1000) {
+            mateView = binding.mateCha6;
         }
 
         // 상대방 캐릭터의 이미지 설정
@@ -192,7 +227,7 @@ public class RunningAniFragment extends Fragment {
 
             // 리소스 이름 생성
             String characterResourceName = characterType + evolutionSuffix;
-            int characterResId = getResources().getIdentifier(characterResourceName, "drawable", getContext().getPackageName());
+            int characterResId = getResources().getIdentifier(characterResourceName, "raw", getContext().getPackageName());
 
             // 이미지 설정
             Glide.with(this)
@@ -209,5 +244,11 @@ public class RunningAniFragment extends Fragment {
         binding.mateCha4.setVisibility(View.INVISIBLE);
         binding.mateCha5.setVisibility(View.INVISIBLE);
         binding.mateCha6.setVisibility(View.INVISIBLE);
+        binding.mateCha7.setVisibility(View.INVISIBLE);
+        binding.mateCha8.setVisibility(View.INVISIBLE);
+        binding.mateCha9.setVisibility(View.INVISIBLE);
+        binding.mateCha10.setVisibility(View.INVISIBLE);
+        binding.mateCha11.setVisibility(View.INVISIBLE);
+        binding.mateCha12.setVisibility(View.INVISIBLE);
     }
 }

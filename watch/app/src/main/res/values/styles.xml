@@ -6,6 +6,7 @@
     <style name="CustomDialogTheme" parent="Theme.AppCompat.Dialog">
         <!-- 배경 투명하게 설정 -->
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:src">@drawable/modal</item>
 
         <!-- 다른 스타일 속성 -->
     </style>

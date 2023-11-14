@@ -12,7 +12,7 @@ public class RunningDataDTO {
     private String formattedDate;
     private double totalDistance;
     private Long totalTime;
-    private Long characterId;
+    private Long characterIndex;
     private double stepCount;
     private double averagePace;
     private double averageSpeed;
@@ -67,12 +67,12 @@ public class RunningDataDTO {
         this.totalTime = totalTime;
     }
 
-    public Long getCharacterId() {
-        return characterId;
+    public Long getCharacterIndex() {
+        return characterIndex;
     }
 
-    public void setCharacterId(Long characterId) {
-        this.characterId = characterId;
+    public void setCharacterIndex(Long characterIndex) {
+        this.characterIndex = characterIndex;
     }
 
     public double getStepCount() {
@@ -172,7 +172,7 @@ public class RunningDataDTO {
                 ", formattedDate='" + formattedDate + '\'' +
                 ", totalDistance=" + totalDistance +
                 ", totalTime=" + totalTime +
-                ", characterId=" + characterId +
+                ", characterIndex=" + characterIndex +
                 ", stepCount=" + stepCount +
                 ", averagePace=" + averagePace +
                 ", averageSpeed=" + averageSpeed +

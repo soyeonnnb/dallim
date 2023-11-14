@@ -38,3 +38,22 @@ export const meterToKMOrMeter = (meter: number, fixed: number = 1) => {
   if (meter >= 1000) return `${(meter / 1000).toFixed(fixed)}km`;
   else return `${Math.floor(meter)}m`;
 };
+
+export const secondToHourMinuteSecondText = (time: number) => {
+  const hours = Math.floor(time / 3600); // 시간 계산
+  const minutes = Math.floor((time % 3600) / 60); // 남은 시간으로부터 분 계산
+  const seconds = Math.round(time % 60); // 초 계산
+
+  let timeText = '';
+
+  if (hours > 0) {
+    timeText += `${hours}시간 `;
+  }
+  if (minutes > 0 || hours > 0) {
+    // 시간이 있을 경우 0분도 표시
+    timeText += `${minutes}분 `;
+  }
+  timeText += `${seconds}초`;
+
+  return timeText;
+};

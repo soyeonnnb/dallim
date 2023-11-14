@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -31,13 +32,49 @@ public class CalendarWidget extends AppWidgetProvider {
 
     public static SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
     public static final String DATA_FETCH_ACTION = "com.dallim.DATA_FETCH_ACTION";
+    public static final String DATA_FETCH_ACTION1 = "com.dallim.DATA_FETCH_ACTION1";
     public static final String EXTRA_ITEM = "com.dallim.EXTRA_ITEM";
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, String[] attendances) {
+
+    public static final String EXTRA_ITEM1= "com.dallim.EXTRA_ITEM1";
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId, String[] attendances, HashMap<String,String> userData) {
         Log.d("DDDDDDDDDD", "Widget - updateAppWidget1");
         // RemoteViews를 사용하여 위젯 UI 업데이트
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.calendar_widget);
         Log.d("DDDDDDDDDD", "Widget - updateAppWidget2");
 // 출석 데이터 리스트 예시
+//
+//        int repCharacter = 1; // 대표 캐릭터(펭귄) - 0 토끼 1 펭귄 2 병알 3 판다
+//        int[] runningDay ={0,1,2,3} ;// 운동 요일(일, 화, 금) - 0~6 일월화수목금토
+//
+////        // 운동 설정 요일 체크
+//        for (int runDay : runningDay) {
+//
+//                int textViewId = context.getResources().getIdentifier("day" + runDay, "id", context.getPackageName());
+//
+//                Log.d("DDDDDDDDDD", "updateAppWidget"+" textViewId"+textViewId+" runday" +runDay); // 체크 이미지 ID 구성하기 - 예시: R.id.check_image_view_1, R.id.check_image_view_2, ...
+//                int checkImageViewId = context.getResources().getIdentifier("check_day" + runDay, "id", context.getPackageName());
+//                Log.d("DDDDDDDDDD", "updateAppWidget"+" checkImageViewId"+checkImageViewId+" runday" +runDay);
+//
+//                // 운동 요일 체크
+////                views.setTextColor(textViewId, Color.parseColor("#FF000000")); // 출석한 날짜의 글자 색 변경
+//
+//            views.setInt(textViewId, "setBackgroundResource", R.drawable.daytest7);
+//            views.setTextColor(textViewId, Color.parseColor("#FF000000")); // 출석한 날짜의 글자 색 변경
+//
+//
+//        }
+
+
+        int characterIndex = Integer.parseInt(userData.get("characterIndex"));// 대표 캐릭터(펭귄) - 0 토끼 1 펭귄 2 병알 3 판다
+        int evolutionStage =  Integer.parseInt(userData.get("evolutionStage")); // 진화 여부 - 0 알 1 진화
+
+        Log.d("DDDDDDDDDD", "Widget - characterIndex + evolutionStage"+characterIndex+evolutionStage);
+
+        int repImageId = context.getResources().getIdentifier("calendar_character_" + characterIndex+evolutionStage, "drawable", context.getPackageName());
+        int imageViewId = R.id.calendar_character;
+        Log.d("DDDDDDDDDD", "Widget - repImageId + imageViewId"+repImageId+"//"+imageViewId);
+
+        views.setImageViewResource(imageViewId,repImageId);
 
 
 
@@ -90,7 +127,7 @@ public class CalendarWidget extends AppWidgetProvider {
             if (dayText != null && Integer.parseInt(dayText) == todayDate) {
                 int textViewId = context.getResources().getIdentifier("cal" + (i + 1), "id", context.getPackageName());
                 Log.d("DDDDDDDDDD", "updateAppWidget - todayDate: " + (i+1));
-                views.setInt(textViewId, "setBackgroundResource", R.drawable.border); // 오늘이면
+                views.setInt(textViewId, "setBackgroundResource", R.drawable.roundborder); // 오늘이면
                 todayId = textViewId;
             }
         }
@@ -156,13 +193,16 @@ public class CalendarWidget extends AppWidgetProvider {
             // 인텐트에서 데이터 가져오기
             String[] attendances = intent.getStringArrayExtra(EXTRA_ITEM);
 
+            HashMap<String, String> userData = (HashMap<String, String>) intent.getSerializableExtra(EXTRA_ITEM1);
+            Log.d("DDDDDDDDDD", "Widget - userData"+userData);
             // 모든 위젯 인스턴스 업데이트
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(context, CalendarWidget.class));
             for (int appWidgetId : appWidgetIds) {
-                updateAppWidget(context, appWidgetManager, appWidgetId, attendances);
+                updateAppWidget(context, appWidgetManager, appWidgetId, attendances,userData);
             }
         }
+
     }
 
 

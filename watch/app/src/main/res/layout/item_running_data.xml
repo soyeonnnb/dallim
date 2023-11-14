@@ -80,13 +80,13 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:background="@drawable/speed"></ImageView>
 
                 <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:background="@drawable/heart"></ImageView>
             </LinearLayout>
 
@@ -115,9 +115,9 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/lineseedkr_rg"
                         android:text="Speed"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="5dp"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginBottom="7dp"
                         android:textColor="@color/white"
                         android:textSize="10sp"
                         android:textStyle="bold" />

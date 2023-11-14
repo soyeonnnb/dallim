@@ -20,7 +20,7 @@ export const planetData: PlanetType[] = [
     Card: require('@/assets/planets/CardBlack.png'),
     watch: require('@/assets/planets/WatchBlack.png'),
     Cardtwo: require('@/assets/planets/ColumnCard/blackColumnCard.png'),
-    Rotate: require('@/assets/planets/Rotate/테스트_행성.gif'),
+    Rotate: require('@/assets/planets/Rotate/PlanetBlack.gif'),
   },
   {
     Planet: require('@/assets/planets/PlanetYellow.png'),
@@ -28,7 +28,7 @@ export const planetData: PlanetType[] = [
     Card: require('@/assets/planets/CardYellow.png'),
     watch: require('@/assets/planets/WatchYellow.png'),
     Cardtwo: require('@/assets/planets/ColumnCard/yellowColumnCard.png'),
-    Rotate: require('@/assets/planets/Rotate/테스트_행성.gif'),
+    Rotate: require('@/assets/planets/Rotate/PlanetBlack.gif'),
   },
   {
     Planet: require('@/assets/planets/PlanetBlue.png'),
@@ -36,7 +36,7 @@ export const planetData: PlanetType[] = [
     Card: require('@/assets/planets/CardBlue.png'),
     watch: require('@/assets/planets/WatchBlue.png'),
     Cardtwo: require('@/assets/planets/ColumnCard/blueColumnCard.png'),
-    Rotate: require('@/assets/planets/Rotate/테스트_행성.gif'),
+    Rotate: require('@/assets/planets/Rotate/PlanetBlack.gif'),
   },
   {
     Planet: require('@/assets/planets/PlanetPurple.png'),
@@ -44,7 +44,7 @@ export const planetData: PlanetType[] = [
     Card: require('@/assets/planets/CardPurple.png'),
     watch: require('@/assets/planets/WatchPurple.png'),
     Cardtwo: require('@/assets/planets/ColumnCard/purpleColumnCard.png'),
-    Rotate: require('@/assets/planets/Rotate/테스트_행성.gif'),
+    Rotate: require('@/assets/planets/Rotate/PlanetBlack.gif'),
   },
   {
     Planet: require('@/assets/planets/PlanetRed.png'),
@@ -52,6 +52,6 @@ export const planetData: PlanetType[] = [
     Card: require('@/assets/planets/CardRed.png'),
     watch: require('@/assets/planets/WatchRed.png'),
     Cardtwo: require('@/assets/planets/ColumnCard/redColumnCard.png'),
-    Rotate: require('@/assets/planets/Rotate/테스트_행성.gif'),
+    Rotate: require('@/assets/planets/Rotate/PlanetBlack.gif'),
   },
 ];

@@ -13,6 +13,7 @@ import com.dallim.dto.response.OneRunningDataResponseDTO;
 import com.dallim.service.RunningService;
 import com.dallim.util.Conversion;
 import com.dallim.util.PreferencesUtil;
+import com.dallim.util.VibrateDevice;
 
 import java.util.Map;
 
@@ -28,6 +29,8 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        VibrateDevice vibrateDevice = new VibrateDevice();
+        vibrateDevice.vibrateDevice(getApplicationContext());
         binding = ActivityResultBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         runningService = new RunningService(getApplicationContext());

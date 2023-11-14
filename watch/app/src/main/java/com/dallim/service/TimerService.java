@@ -217,6 +217,7 @@ public class TimerService extends Service {
             Log.e("출력", runningMateRecordJson);
             mateRunningDetail = RunningDataConverters.doubleFromString(runningMateRecordJson);
         }
+        Log.d("알림 로그", "들어옴");
         startForeground(NOTIFICATION_ID, getNotification());
         startTimer();
 

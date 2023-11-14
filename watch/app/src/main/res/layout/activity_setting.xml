@@ -81,12 +81,13 @@
 
             <Button
                 android:id="@+id/watch_reset"
-                android:layout_width="140dp"
-                android:layout_height="40dp"
-                android:background="@drawable/button"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:background="@drawable/menu_button"
                 android:text="워치 기록 초기화"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textSize="10sp"
                 android:fontFamily="@font/oagothic_medium"/>
         </LinearLayout>
     </LinearLayout>

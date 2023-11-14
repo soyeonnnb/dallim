@@ -228,7 +228,7 @@ export const FooterTextBox = styled.View`
 export const LeftTextBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 35%;
+  width: 40%;
   height: 100%;
   justify-content: flex-end;
   align-items: flex-start;
@@ -236,7 +236,7 @@ export const LeftTextBox = styled.View`
 export const MiddleTextBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 30%;
+  width: 20%;
   height: 100%;
   justify-content: center;
   align-items: center;
@@ -244,7 +244,7 @@ export const MiddleTextBox = styled.View`
 export const RightTextBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 35%;
+  width: 40%;
   height: 100%;
   justify-content: flex-end;
   align-items: flex-end;

@@ -109,10 +109,7 @@ public class FollowService {
         List<Follow> toUserFollows = followRepository.findAllByToUserUserIdAndState(user.getUserId(), FollowState.accept);
         // fromUser로서의 팔로우 리스트
         List<Follow> fromUserFollows = followRepository.findAllByFromUserUserIdAndState(user.getUserId(), FollowState.accept);
-        Character mainCharacter = user.getCharacterList().stream()
-                .filter(Character::isMainCharacter)
-                .findFirst()
-                .orElse(null);
+
         // 두 리스트를 합쳐 중복을 제거한 User Set을 생성
         Set<User> allFriends = new HashSet<>();
 
@@ -121,7 +118,13 @@ public class FollowService {
 
         // Set 내의 모든 사용자를 FollowerInfo 리스트로 변환
         return allFriends.stream()
-                .map(o -> new FollowerInfo(o, mainCharacter))
+                .map(o -> {
+                    Character mainCharacter = o.getCharacterList().stream()
+                            .filter(Character::isMainCharacter)
+                            .findFirst()
+                            .orElse(null);
+                    return new FollowerInfo(o, mainCharacter);
+                })
                 .collect(Collectors.toList());
     }
 

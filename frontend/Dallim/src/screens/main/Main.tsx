@@ -117,7 +117,17 @@ function Main({ navigation }: MainProps) {
             source={require('@/assets/images/MainBackground4.png')}
             resizeMode="cover">
             <S.Header>
-              <S.HeaderLeft></S.HeaderLeft>
+              <S.HeaderLeft>
+                <S.Box>
+                  <S.ButtonStyle onPress={PolicyAction}>
+                    <PrivacyPolicyIcon
+                      width={20}
+                      height={20}
+                      color="white" />
+                  </S.ButtonStyle>
+                </S.Box>
+                <S.LevelText>LV .{userLevel} </S.LevelText>
+              </S.HeaderLeft>
               <S.HeaderRight>
                 <S.PointText>{userPoint} P</S.PointText>
               </S.HeaderRight>
@@ -138,7 +148,6 @@ function Main({ navigation }: MainProps) {
                     start={{ x: 0, y: 0 }}
                     end={{ x: 0, y: 1 }}>
                     <S.ButtonStyle onPress={GuideAction}>
-                      {/* <S.ImageStyle source={GuideIcon} resizeMode="contain" /> */}
                       <GuideIcon
                         width={20}
                         height={20}

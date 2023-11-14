@@ -29,8 +29,10 @@ export const HeaderLeft = styled.View`
   border-color: yellow;
   width: 40%;
   height: 100%;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: flex-start;
   align-items: flex-end;
+  gap: 10px;
 `;
 
 export const HeaderRight = styled.View`
@@ -66,6 +68,7 @@ export const GuideBox = styled.View`
   height: 100%;
   justify-content: flex-start;
   align-items: center;
+  gap: 10px;
 `;
 
 export const StampBox = styled.View`
@@ -79,12 +82,11 @@ export const StampBox = styled.View`
 
 export const Box = styled.View`
   border-width: 1px;
-  border-color: blue;
+  border-color: white;
   width: 40px;
   height: 40px;
   justify-content: center;
   align-items: center;
-  margin-left: 10px;
 `;
 
 export const ImageStyle = styled.Image`
@@ -103,6 +105,8 @@ export const ButtonStyle = styled.TouchableOpacity`
   height: 80%;
   justify-content: center;
   align-items: center;
+  padding-bottom: 5%;
+  padding-left: 10%;
 `;
 
 export const Body = styled.View`
@@ -121,12 +125,13 @@ export const NicknameBox = styled.View`
   align-items: center;
   width: 100%;
   height: 20%;
+  margin-bottom: 30%;
 `;
 
 export const StartBox = styled.View`
   border-width: 1px;
   border-color: blue;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 20%;
@@ -165,6 +170,7 @@ export const CharacterGif = styled(FastImage)`
   border-color: red;
   width: 50%;
   height: 50%;
+  bottom: 30%;
   position: absolute;
 `;
 

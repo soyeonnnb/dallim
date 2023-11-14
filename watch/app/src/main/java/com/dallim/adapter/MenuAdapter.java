@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,7 +49,7 @@ public class MenuAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return new LogoViewHolder(view);
         } else if(viewType == TYPE_USER_INFO){
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_info, parent, false);
-            return new LogoViewHolder(view);
+            return new UserInfoViewHolder(view);
         }else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_select_menu, parent, false);
             return new MenuItemViewHolder(view);

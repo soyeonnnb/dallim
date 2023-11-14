@@ -187,8 +187,7 @@
         android:layout_width="170dp"
         android:layout_height="170dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="140dp"
-        android:background="@raw/planetyellow" />
+        android:layout_marginTop="140dp" />
 
     <ImageView
         android:id="@+id/mate_cha6"

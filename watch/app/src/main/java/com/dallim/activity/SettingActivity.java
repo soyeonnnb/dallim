@@ -26,8 +26,6 @@ import com.dallim.util.NetworkUtil;
 import com.dallim.util.PreferencesUtil;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -111,6 +109,11 @@ public class SettingActivity extends AppCompatActivity {
                         }
                     });
                     dialog.dismiss();
+                    Toast.makeText(SettingActivity.this, "데이터 저장 완료", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(SettingActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
                 });
 
                 unlinkCancel.setOnClickListener(b ->{

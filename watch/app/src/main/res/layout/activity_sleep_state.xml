@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SleepStateActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:layout_gravity="center"
+                android:text="필수 설정 사항"
+                android:fontFamily="@font/oagothic_medium"
+                android:textColor="@color/white"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:text="순서대로 꼭 설정해주세요 "
+                android:fontFamily="@font/oagothic_medium"
+                android:textColor="@color/red"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="1. 스마트폰 갤럭시 웨어러블 어플 실행"
+                android:fontFamily="@font/oagothic_medium"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2. 워치 설정"
+                android:fontFamily="@font/oagothic_medium"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3. 배터리 및 디바이스 케어"
+                android:fontFamily="@font/oagothic_medium"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4. 배터리"
+                android:fontFamily="@font/oagothic_medium"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5. 절전 상태 앱"
+                android:fontFamily="@font/oagothic_medium"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="6. 우측 상단 메뉴 눌러서 달림 삭제"
+                android:fontFamily="@font/oagothic_medium"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
+
+            <Button
+                android:id="@+id/close_btn"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:text="확인"
+                android:fontFamily="@font/oagothic_medium"
+                android:background="@drawable/round_background"
+                android:backgroundTint="@color/cardview_dark_background"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

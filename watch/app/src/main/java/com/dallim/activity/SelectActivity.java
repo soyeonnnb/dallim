@@ -3,13 +3,13 @@ package com.dallim.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
@@ -19,7 +19,6 @@ import androidx.wear.widget.WearableRecyclerView;
 
 import com.dallim.R;
 import com.dallim.adapter.MenuAdapter;
-import com.dallim.database.AppDatabase;
 import com.dallim.databinding.ActivitySelectBinding;
 import com.dallim.model.MenuItem;
 import com.dallim.service.RunningService;
@@ -27,8 +26,6 @@ import com.dallim.util.CustomScrollingLayoutCallback;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class SelectActivity extends ComponentActivity {
 
@@ -68,7 +65,7 @@ public class SelectActivity extends ComponentActivity {
         menuAdapter.setOnItemClickListener(new MenuAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                MenuItem clickedItem = menuList.get(position);
+                MenuItem clickedItem = menuList.get(position - 2);
                 switch (clickedItem.getTitle()) {
                     case "혼자 달리기":
                         LayoutInflater inflater1 = getLayoutInflater();
@@ -103,7 +100,19 @@ public class SelectActivity extends ComponentActivity {
                         });
                         break;
                     case "함께 달리기":
-                        runningService.getRunningMate(SelectActivity.this);
+                        runningService.getRunningMate(SelectActivity.this, new RunningService.RunningMateListCallback() {
+                            @Override
+                            public void onSuccess() {
+                                // 데이터 저장 후 RunningMateActivity 시작
+                                Intent intent = new Intent(SelectActivity.this, RunningMateActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(SelectActivity.this, message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         break;
                     case "기록 보기":
                         Intent intent = new Intent(SelectActivity.this, MyRecordActivity.class);

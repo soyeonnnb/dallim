@@ -31,26 +31,28 @@ public class UserInfo {
                 if (response.isSuccessful() && response.body().getData() != null){
                     Log.d("유저 정보 가져오기 성공", String.valueOf(response.body().getData().toString()));
                     SharedPreferences.Editor edit = prefs.edit();
+                    edit.putLong("userId", response.body().getData().getUserId());
                     edit.putString("nickname", response.body().getData().getNickName());
                     edit.putString("email", response.body().getData().getEmail());
-                    edit.putLong("userId", response.body().getData().getUserId());
                     edit.putLong("planetIndex", response.body().getData().getPlanetIndex());
                     edit.putInt("level", response.body().getData().getLevel());
                     edit.putLong("characterIndex", response.body().getData().getCharacterIndex());
                     edit.putInt("evolutionStage", response.body().getData().getEvolutionStage());
                     edit.putString("type", response.body().getData().getType());
+                    edit.putInt("userExp", response.body().getData().getUserExp());
                     edit.apply();
                     callback.onSuccess();
                 } else {
                     Log.e("유저 정보 가져오기 실패", response.errorBody().toString());
                     callback.onError("유저 정보를 가져오는데 실패했습니다.");
+
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponseDTO<UserInfoResponseDTO>> call, Throwable t) {
                 Log.e("유저 정보 가져오기 실패(서버)", t.getMessage());
-                callback.onError("서버 에러 발생");
+                callback.onError("서버 에러 발생(인터넷을 확인해주세요)");
             }
         });
     }

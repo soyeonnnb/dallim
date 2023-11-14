@@ -40,6 +40,13 @@ public class RunningRecordController {
         return ApiResponse.createSuccess(res);
     }
 
+    @GetMapping("/api/v1/brotli/running/overview/{id}")
+    public ApiResponse<?> getRunningRecordOverviewWithBrotli(@PathVariable String id) {
+        WatchRunningRecordOverview res = runningRecordService.getRunningRecordOverview(id);
+
+        return ApiResponse.createSuccess(res);
+    }
+
     @GetMapping("/api/v1/running-record/running-mate/{id}")
     public ApiResponse<?> getRunningRecordWithRunningMate(@PathVariable ObjectId id) {
 

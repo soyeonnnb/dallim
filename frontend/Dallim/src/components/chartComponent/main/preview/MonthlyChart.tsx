@@ -58,7 +58,6 @@ function MonthlyChart({previewMonthRankingRecords}: Props) {
       time: secondToMinuteSeconds(item.info.time),
       date: item.label,
     });
-    console.log('item => ', item);
     setModalVisible(true);
   };
   const toggleModalVisible = () => {

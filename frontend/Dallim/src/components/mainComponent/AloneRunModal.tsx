@@ -5,9 +5,9 @@ import { characterData } from '@/recoil/CharacterData';
 import React, { useEffect, useRef, useState } from 'react';
 import { planetData } from '@/recoil/PlanetData';
 import { Modal } from 'react-native';
-import Geolocation from 'react-native-geolocation-service';
 import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
 import SpinAnimation from '@/components/common/SpinAnimation';
+import Geolocation from 'react-native-geolocation-service';
 
 import { runningSessionState, secondsElapsedState, isRunningState, totalDistanceState, lastPositionState } from '@/recoil/RunningRecoil';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -18,20 +18,6 @@ interface Props {
   isVisible: boolean;
   onClose: () => void;
 }
-
-// interface Position {
-//   latitude: number;
-//   longitude: number;
-// }
-
-// interface LocationData {
-//   second: number; // 필요
-//   latitude: number;
-//   longitude: number;
-//   distance: number; // 필요
-//   speed: number; // 필요
-//   pace: number; // 필요
-// }
 
 interface GpsData {
   second: number;
@@ -57,6 +43,9 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
   const [totalDistance, setTotalDistance] = useRecoilState(totalDistanceState);
   const [lastPosition, setLastPosition] = useRecoilState(lastPositionState);
 
+  // 러닝 시작 시간 저장
+  const [startTime, setStartTime] = useState<number | null>(null);
+
   // 확인 모달
   const [showModal, setShowModal] = useState(false);
 
@@ -71,16 +60,16 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
   // 데이터 잘 들어가는지 확인 용도
   useEffect(() => {
-    // console.log("업데이트된 runningRecordInfos 배열 크기: ", runningSession.runningRecordInfos.length);
+    console.log("업데이트된 runningRecordInfos 배열 크기: ", runningSession.runningRecordInfos.length);
     // console.log("여기 왔나?? : ", JSON.stringify(runningSession, null, 2));
-
   }, [runningSession]);
 
   // 타이머와 위치 추적을 시작하는 함수
   const startRun = () => {
+    setStartTime(Date.now());  // startTime 설정
+    setIsRunning(true);
     startTracking();
     startTimer();
-    setIsRunning(true);
   }
 
   const startTimer = () => {
@@ -92,6 +81,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
 
   const stopRun = () => {
     setSecondsElapsed(0); // 타이머 초기화
+    setStartTime(null);  // startTime 초기화
 
     if (trackIdRef.current !== null) {
       Geolocation.clearWatch(trackIdRef.current);
@@ -114,20 +104,15 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       .join(':');
   };
 
-  // m/s 페이스 변환 (초/km)
+  // m/s 페이스 변환
   function msToPace(speed: number) {
     if (speed === 0) return '0:00'; // 속도가 0일 경우
-
     const paceSeconds = 1000 / speed; // m/s를 초/km로 변환
     const minutes = Math.floor(paceSeconds / 60);
     const seconds = Math.round(paceSeconds % 60);
 
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   }
-
-  useEffect(() => {
-    console.log("Total Distance Updated: ", totalDistance);
-  }, [totalDistance]);
 
   // 위치 초기화 && 초기 위치 설정 필수!
   useEffect(() => {
@@ -137,22 +122,6 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
         });
-      });
-    }
-  }, [lastPosition]);
-
-  // 위치 추적 시작 함수
-  const startTracking = () => {
-    const startTime = Date.now(); // 달리기 시작 시점의 타임스탬프
-
-    const trackId = Geolocation.watchPosition((position) => {
-
-      if (!lastPosition) {
-        setLastPosition({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        });
-
         // 첫 위치에서는 거리를 0으로 설정
         setRunningSession(oldRecords => ({
           ...oldRecords,
@@ -165,54 +134,66 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
             pace: 0
           }]
         }));
-      } else {
-        const incrementalDistance = calculateDistance(
-          lastPosition.latitude,
-          lastPosition.longitude,
-          position.coords.latitude,
-          position.coords.longitude
-        );
+      }, (error) => {
+        console.error('Initial position error:', error);
+      });
+    }
+  }, [lastPosition]);
 
-        if (incrementalDistance > 0) {
-          // 누적 거리 계산 (이전 누적 거리와 새로운 증가분을 합산)
-          setTotalDistance(prevDistance => prevDistance + incrementalDistance)
+  // 위치 추적 시작 함수
+  const startTracking = () => {
+    if (!lastPosition) return;
+    const trackStart = startTime || Date.now(); // null 체크
 
-          // 속도와 페이스 계산
-          const speed = position.coords.speed ?? 0; // m/s
-          const calculatedPace = speed !== 0 ? 1000 / speed : 0;
-          const paceValue = speed !== 0 ? msToPace(speed) : '-';
-          setPace(paceValue); // 화면
+    const trackId = Geolocation.watchPosition((position) => {
+      const incrementalDistance = calculateDistance(
+        lastPosition.latitude,
+        lastPosition.longitude,
+        position.coords.latitude,
+        position.coords.longitude
+      );
 
-          // 경과 시간 계산 (초)
-          const elapsedTime = Math.floor((position.timestamp - startTime) / 1000); // 경과 시간 계산 (초)
+      // 이전 누적 거리와 새로운 증가분을 미터단위로
+      if (incrementalDistance > 0) {
+        // 누적 거리 계산
+        setTotalDistance(prevDistance => prevDistance + incrementalDistance)
 
-          // 위치 어베이트
-          setLastPosition({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude
-          });
+        // 속도와 페이스 계산
+        const speed = position.coords.speed ?? 0; // 초당 미터(m/s)
+        const calculatedPace = speed !== 0 ? 1000 / speed : 0; // 분당 킬로미터(min/km) 단위
+        // 화면에 출력하는 페이스 업데이트
+        const paceValue = speed !== 0 ? msToPace(speed) : '-';
+        setPace(paceValue);
 
-          // 새 위치 데이터 생성
-          const newLocationData = {
-            second: elapsedTime,
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            distance: incrementalDistance, // 증가분
-            speed: speed,
-            pace: calculatedPace,
-          };
+        // 경과 시간 계산 (초)
+        const elapsedTime = Math.floor((position.timestamp - trackStart) / 1000);
+        // 위치 어베이트
+        setLastPosition({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        });
 
-          // 데이터 누적 업데이트
-          setRunningSession(oldRecords => ({
-            ...oldRecords,
-            runningRecordInfos: [...oldRecords.runningRecordInfos, newLocationData]
-          }));
-        }
+        // 새 위치 데이터 생성
+        const newLocationData = {
+          second: elapsedTime,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          distance: incrementalDistance,
+          speed: speed,
+          pace: calculatedPace,
+        };
+
+        // 데이터 누적 업데이트
+        setRunningSession(oldRecords => ({
+          ...oldRecords,
+          runningRecordInfos: [...oldRecords.runningRecordInfos, newLocationData]
+        }));
       }
+      // }
     }, (error) => {
       console.error(error);
     },
-      { enableHighAccuracy: true, distanceFilter: 0, interval: 5000 });
+      { enableHighAccuracy: true, distanceFilter: 0, interval: 5000 }); // 정확하게 & 업데이트 주기 : 0미터, 5초
 
     trackIdRef.current = trackId;
   };
@@ -227,8 +208,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
       Math.sin(dLon / 2) * Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-    console.log("설마 음수냐 : " + R * c);
+    console.log("거리 계산해볼까 : " + (R * c));
     return R * c; // 거리(m)
   }
   function deg2rad(deg: number): number {
@@ -389,6 +369,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
     return new Date(utcTimestamp + kstOffset);
   };
 
+
   // 컴포넌트 렌더링 시작
   return (
     <Modal
@@ -435,7 +416,7 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
                   <S.RecodeTitle>총 거리</S.RecodeTitle>
                 </S.RecodeTextBox>
                 <S.RecodeBottomBox>
-                  <S.RecodeText>{totalDistance} 미터</S.RecodeText>
+                  <S.RecodeText>{totalDistance.toFixed(2)} 미터</S.RecodeText>
                 </S.RecodeBottomBox>
               </S.RecodeRight>
             </S.RecodeBox>

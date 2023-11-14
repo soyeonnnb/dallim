@@ -57,7 +57,7 @@ export const RecordBox = styled.View`
 `;
 
 export const Records = styled.View<{parentHeight: number}>`
-  background-color: ${colors.purple._200};
+  background-color: ${colors.lavendar._500};
   height: ${props => props.parentHeight / 3.5}px;
   border-radius: 10px;
   padding: 10px 0;

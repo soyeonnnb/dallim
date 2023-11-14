@@ -114,8 +114,10 @@ export const SelectorButton = styled.TouchableOpacity<{isActive: boolean}>`
   /* border-color: red;
   border-width: 1px; */
   border-radius: 10px;
-  background-color: ${({isActive}) => (isActive ? 'white' : '#625D9D')};
+  background-color: ${({isActive}) =>
+    isActive ? 'white' : 'rgba(72,66,135,1)'};
   /* z-index: ${({isActive}) => (isActive ? '4' : '-4')}; */
+  /* color: ${({isActive}) => (isActive ? 'white' : 'rgba(72,66,135,1)')}; */
   align-items: center;
   justify-content: center;
   width: 30%;
@@ -123,10 +125,11 @@ export const SelectorButton = styled.TouchableOpacity<{isActive: boolean}>`
   overflow: hidden;
 `;
 
-export const SelectorText = styled.Text`
+export const SelectorText = styled.Text<{isActive: boolean}>`
+  color: ${({isActive}) => (isActive ? 'rgba(72,66,135,1)' : 'white')};
   font-size: 15px;
   font-weight: bold;
-  color: black;
+  /* color: black; */
 `;
 
 export const Footer = styled.View`

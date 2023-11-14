@@ -155,13 +155,13 @@ export const ThemeBox = styled.View`
   position: absolute;
 `;
 
-// export const PlanetGif = styled(FastImage)`
-export const PlanetGif = styled(Image)`
+/* export const PlanetGif = styled(Image)` */
+export const PlanetGif = styled(FastImage)`
   /* border-width: 1px;
   border-color: red; */
   width: 120%;
   height: 120%;
-  bottom: -60%;
+  bottom: -50%;
   position: absolute;
 `;
 

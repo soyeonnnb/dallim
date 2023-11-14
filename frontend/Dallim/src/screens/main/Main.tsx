@@ -5,7 +5,6 @@ import { characterData } from '@/recoil/CharacterData';
 import { planetData } from '@/recoil/PlanetData';
 import NotificationModal from '@/components/profileComponent/profileModal/NotificationModal';
 import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
-import AloneRunModal from '@/components/mainComponent/AloneRunModal';
 import StampModal from '@/components/mainComponent/StampModal';
 import RadialGradient from 'react-native-radial-gradient';
 import LinearGradient from 'react-native-linear-gradient';
@@ -52,16 +51,6 @@ function Main({ navigation }: MainProps) {
   const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(
     equippedPlanetIndexState,
   );
-
-  // 달리기 모달
-  const [isAloneModalVisible, setAloneModalVisible] = useState(false);
-  function RunningAlone() {
-    console.log("혼자 달리기 버튼이 눌렸습니다.");
-    setAloneModalVisible(true);
-  }
-  function closeAloneRunModal() {
-    setAloneModalVisible(false);
-  }
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -211,7 +200,7 @@ function Main({ navigation }: MainProps) {
 
             <S.Body>
               <S.PlanetGif
-                source={planetData[equippedPlanetIndex].Planet}
+                source={planetData[equippedPlanetIndex].Rotate}
                 resizeMode="contain"
               />
               <S.CharacterGif
@@ -229,11 +218,11 @@ function Main({ navigation }: MainProps) {
 
               <S.StartBox>
                 <S.StartButton
-                  // onPress={() =>
-                  //   navigation.navigate('GameStartStack', { userId: userId })
-                  // }
-                  onPress={RunningAlone}
-                  >
+                  onPress={() =>
+                    // navigation.navigate('GameStartStack', { userId: userId })
+                    navigation.navigate('GameStartStack')
+                  }
+                >
                   <LinearGradient
                     start={{ x: 0.5, y: 0 }}
                     end={{ x: 0.5, y: 1 }}
@@ -286,9 +275,6 @@ function Main({ navigation }: MainProps) {
           />
         </>
       )}
-
-      {/* 모달 */}
-      <AloneRunModal isVisible={isAloneModalVisible} onClose={closeAloneRunModal} />
 
     </S.Container>
   );

@@ -289,20 +289,19 @@ const AloneRunModal: React.FC<Props> = ({ isVisible, onClose }) => {
       const averageSpeed = endTotalDistance / endTime; // 평균 속력 계산
 
       // 옵션 1: 누락된 데이터 채우기 → 누적 거리 계산 ( 연속성 보장 but, 전처리 데이터가 합해짐)
-      // 옵션 2: 누적 거리 계산 → 누락된 데이터 채우기 
+      // 옵션 2: 누적 거리 계산 → 누락된 데이터 채우기 ( 내 선택 : 나중 데이터 )
 
-      // 누락 데이터 전처리
-      // const filledRunningRecordInfos = fillMissingData(accumulatedDistanceRecordInfos, endTime);
-      const filledRunningRecordInfos = fillMissingData(runningSession.runningRecordInfos, endTime);
-      
       // 누적 거리 계산
-      // const accumulatedDistanceRecordInfos = calculateAccumulatedDistance(runningSession.runningRecordInfos);
-      const accumulatedDistanceRecordInfos = calculateAccumulatedDistance(filledRunningRecordInfos);
-
+      const accumulatedDistanceRecordInfos = calculateAccumulatedDistance(runningSession.runningRecordInfos);
+      // const accumulatedDistanceRecordInfos = calculateAccumulatedDistance(filledRunningRecordInfos);
+      
+      // 누락 데이터 전처리
+      const filledRunningRecordInfos = fillMissingData(accumulatedDistanceRecordInfos, endTime);
+      // const filledRunningRecordInfos = fillMissingData(runningSession.runningRecordInfos, endTime);
 
       // runningRecordInfos에서 latitude와 longitude 제거
-      // const transformedRunningRecordInfos = filledRunningRecordInfos.map(({ latitude, longitude, ...rest }) => rest);
-      const transformedRunningRecordInfos = accumulatedDistanceRecordInfos.map(({ latitude, longitude, ...rest }) => rest);
+      const transformedRunningRecordInfos = filledRunningRecordInfos.map(({ latitude, longitude, ...rest }) => rest);
+      // const transformedRunningRecordInfos = accumulatedDistanceRecordInfos.map(({ latitude, longitude, ...rest }) => rest);
 
       // 한국 시간대로 변환
       const now = new Date();

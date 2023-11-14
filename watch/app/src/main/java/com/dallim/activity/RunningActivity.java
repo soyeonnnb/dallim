@@ -117,8 +117,6 @@ public class RunningActivity extends AppCompatActivity {
         startForegroundService(timerServiceIntent);
     }
 
-
-
     private BroadcastReceiver finishReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -137,7 +135,7 @@ public class RunningActivity extends AppCompatActivity {
         stopService(timerServiceIntent); // 타임서비스 중지
         LocalBroadcastManager.getInstance(this).unregisterReceiver(finishReceiver);
 
-        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.001) {
+        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 100) {
             Toast.makeText(this, "100m 이하의 기록은 저장되지 않습니다.", Toast.LENGTH_LONG).show();
             super.onDestroy();
             return; // 메서드를 여기서 종료

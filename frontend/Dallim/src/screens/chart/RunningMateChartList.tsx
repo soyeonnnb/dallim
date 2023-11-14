@@ -10,6 +10,8 @@ import OverviewGraph from '@/components/chartComponent/detail/overview/OverviewG
 
 // 아이콘
 import ArrowLeft from '@/assets/icons/ArrowLeft';
+import ClockIcon from '@/assets/icons/ClockIcon';
+import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 
 // 함수
 import {
@@ -22,6 +24,7 @@ import {PaceChartDataType, fetchRunningMateRunningList} from '@/apis/ChartApi';
 import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 import {colors} from '@/components/common/globalStyles';
 import {useEvent} from 'react-native-reanimated';
+import {readOnlySelector} from 'recoil';
 
 // 스택 내비게이션 타입을 정의
 type RootStackParamList = {
@@ -222,41 +225,36 @@ function RunningMateChartList({route, navigation}: Props) {
                 // data가 포기이면 rivalPace 안보여줌
                 data2={data[selectedIndex].rivalPaceList}
                 color1={colors.blue._500} // 내색은 파랑
-                color2={colors.red._500}
+                color2={colors.red._200}
               />
             </S.ChartBox>
           </S.Middle>
           <S.Footer>
-            <S.Records>
-              <S.RecordBox>
-                <Record
-                  title="거리"
-                  content={data[selectedIndex].totalDistance}
-                  titleColor="black"
-                  contentColor={colors.yellow._500}
-                />
-                <Record
-                  title="시간"
-                  content={data[selectedIndex].totalTime}
-                  titleColor="black"
-                  contentColor={colors.blue._500}
-                />
-              </S.RecordBox>
-              <S.RecordBox>
-                <Record
-                  title="전체 페이스"
-                  content={data[selectedIndex].avgPace}
-                  titleColor="black"
-                  contentColor={colors.green._500}
-                />
-                <Record
-                  title="평균 심박수"
-                  content={`${data[selectedIndex].avgHeartRate} BPM`}
-                  titleColor="black"
-                  contentColor={colors.pink._500}
-                />
-              </S.RecordBox>
-            </S.Records>
+            <S.FooterHeader>
+              <S.FooterHeaderTextMy>14344m</S.FooterHeaderTextMy>
+              <S.FooterHeaderTextRival>/ 15354m</S.FooterHeaderTextRival>
+            </S.FooterHeader>
+            <S.FooterMain>
+              <S.FooterMainLeft>
+                <S.Records>
+                  <Record />
+                  <Record />
+                  <Record />
+                </S.Records>
+              </S.FooterMainLeft>
+              <S.FooterMainRight>
+                <S.FooterMainRightView>
+                  <S.FooterMainWin>
+                    {true ? (
+                      <S.FooterMainWinText>WIN</S.FooterMainWinText>
+                    ) : (
+                      <S.FooterMainWinText>LOSE</S.FooterMainWinText>
+                    )}
+                  </S.FooterMainWin>
+                  <S.FooterMainView></S.FooterMainView>
+                </S.FooterMainRightView>
+              </S.FooterMainRight>
+            </S.FooterMain>
           </S.Footer>
         </S.Container>
       )}
@@ -266,18 +264,29 @@ function RunningMateChartList({route, navigation}: Props) {
 
 export default RunningMateChartList;
 
-interface RecordProps {
-  title: string;
-  content?: string;
-  titleColor: string;
-  contentColor: string;
-}
+function Record() {
+  const [circleSize, setCircleSize] = useState<number>(0);
 
-function Record({title, content, titleColor, contentColor}: RecordProps) {
+  const onLayout = (event: any) => {
+    const {height} = event.nativeEvent.layout;
+    setCircleSize(height);
+  };
+
   return (
-    <S.RecordContainer>
-      <S.RecordTitle color={titleColor}>{title}</S.RecordTitle>
-      <S.RecordContent color={contentColor}>{content}</S.RecordContent>
-    </S.RecordContainer>
+    <S.RecordView onLayout={onLayout}>
+      <S.RecordLeft>
+        <S.RecordIconCircle size={circleSize * 0.9} color={colors.pink._500}>
+          <ClockIcon
+            width={circleSize * 0.6}
+            height={circleSize * 0.6}
+            color="white"
+          />
+        </S.RecordIconCircle>
+      </S.RecordLeft>
+      <S.RecordRight>
+        <S.RecordName>시간</S.RecordName>
+        <S.RecordContent>000:00</S.RecordContent>
+      </S.RecordRight>
+    </S.RecordView>
   );
 }

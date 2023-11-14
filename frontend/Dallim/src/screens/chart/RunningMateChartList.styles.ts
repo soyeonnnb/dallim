@@ -30,12 +30,12 @@ export const HeaderTitle = styled.Text`
   font-size: 23px;
 `;
 export const Middle = styled.View`
-  flex: 0.7;
+  flex: 0.6;
 `;
 export const Footer = styled.View`
-  flex: 0.3;
+  flex: 0.4;
   background-color: white;
-  padding: 10% 10% 15% 10%;
+  padding: 5% 10% 10% 10%;
 `;
 
 export const RunningListBox = styled.View`
@@ -98,28 +98,74 @@ export const ChartNaviText = styled.Text`
   color: rgba(255, 255, 255, 0.7);
 `;
 
-// 개인 기록 관련 스타일
-export const Records = styled.View`
-  flex: 1;
-`;
-export const RecordBox = styled.View`
-  flex: 1;
+export const FooterHeader = styled.View`
+  flex: 0.1;
   flex-direction: row;
-  margin-bottom: 20px;
+  width: 100%;
+  /* background-color: red; */
+  justify-content: center;
 `;
-export const RecordContainer = styled.View`
-  flex: 0.5%;
+export const FooterHeaderTextMy = styled.Text`
+  font-size: 20px;
+  color: ${colors.grey._900};
+  height: 100%;
+  vertical-align: bottom;
+  font-weight: 800;
+`;
+export const FooterHeaderTextRival = styled.Text`
+  margin-left: 4%;
+  vertical-align: bottom;
+  height: 100%;
+`;
+export const FooterMain = styled.View`
+  flex-direction: row;
+  flex: 0.66;
+`;
+export const FooterMainLeft = styled.View`
+  flex: 0.5;
+  height: 100%;
+  /* background-color: aqua; */
+  justify-content: flex-end;
 `;
 
-export const RecordTitle = styled.Text<{color: string}>`
-  color: ${props => props.color};
-  font-size: 15px;
-  margin-bottom: 2%;
+export const FooterMainRight = styled.View`
+  flex: 0.5;
+  height: 100%;
+  /* background-color: aquamarine; */
+  justify-content: flex-end;
 `;
-export const RecordContent = styled.Text<{color: string}>`
-  color: ${props => props.color};
-  font-size: 25px;
-  font-weight: 700;
+export const FooterMainWin = styled.View``;
+export const FooterMainWinText = styled.Text``;
+export const FooterMainView = styled.View``;
+
+// 개인 기록 관련 스타일
+export const Records = styled.View`
+  flex: 0.9;
+  height: 100%;
+  justify-content: space-between;
+`;
+
+export const RecordView = styled.View`
+  height: 30%;
+  width: 100%;
+  align-items: center;
+  flex-direction: row;
+`;
+export const RecordLeft = styled.View`
+  flex: 0.35;
+`;
+export const RecordRight = styled.View`
+  flex: 0.65;
+  height: 100%;
+  justify-content: space-between;
+`;
+export const RecordIconCircle = styled(Shadow)<{size: number; color: string}>`
+  width: ${props => props.size}px;
+  height: ${props => props.size}px;
+  border-radius: ${props => props.size}px;
+  justify-content: center;
+  align-items: center;
+  background-color: ${props => props.color};
 `;
 
 export const RunningDate = styled.TouchableOpacity<{
@@ -132,4 +178,15 @@ export const RunningDate = styled.TouchableOpacity<{
   border-radius: 15px;
   background-color: ${props =>
     props.selected ? colors.yellow._500 : `${colors.grey._50}00`};
+`;
+export const RecordName = styled.Text``;
+export const RecordContent = styled.Text`
+  color: ${colors.grey._900};
+  font-size: 25px;
+  font-weight: 700;
+`;
+
+export const FooterMainRightView = styled.View`
+  /* background-color: aliceblue; */
+  flex: 0.9;
 `;

@@ -45,13 +45,14 @@ public class UserInfo {
                 } else {
                     Log.e("유저 정보 가져오기 실패", response.errorBody().toString());
                     callback.onError("유저 정보를 가져오는데 실패했습니다.");
+
                 }
             }
 
             @Override
             public void onFailure(Call<ApiResponseDTO<UserInfoResponseDTO>> call, Throwable t) {
                 Log.e("유저 정보 가져오기 실패(서버)", t.getMessage());
-                callback.onError("서버 에러 발생");
+                callback.onError("서버 에러 발생(인터넷을 확인해주세요)");
             }
         });
     }

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
@@ -99,7 +100,19 @@ public class SelectActivity extends ComponentActivity {
                         });
                         break;
                     case "함께 달리기":
-                        runningService.getRunningMate(SelectActivity.this);
+                        runningService.getRunningMate(SelectActivity.this, new RunningService.RunningMateListCallback() {
+                            @Override
+                            public void onSuccess() {
+                                // 데이터 저장 후 RunningMateActivity 시작
+                                Intent intent = new Intent(SelectActivity.this, RunningMateActivity.class);
+                                startActivity(intent);
+                            }
+
+                            @Override
+                            public void onError(String message) {
+                                Toast.makeText(SelectActivity.this, message, Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         break;
                     case "기록 보기":
                         Intent intent = new Intent(SelectActivity.this, MyRecordActivity.class);

@@ -15,12 +15,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.dallim.adapter.ViewPagerAdapter;
-import com.dallim.database.AppDatabase;
 import com.dallim.databinding.ActivityRunningBinding;
 import com.dallim.dto.RunningDataDTO;
-import com.dallim.model.RunDetail;
 import com.dallim.model.RunningData;
-import com.dallim.model.RunningMateRecord;
 import com.dallim.service.LocationService;
 import com.dallim.service.RunningService;
 import com.dallim.service.SensorService;
@@ -34,11 +31,8 @@ import com.dallim.util.PreferencesUtil;
 import com.dallim.view.RunningMateRecordViewModel;
 import com.dallim.view.RunningViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,7 +53,6 @@ public class RunningActivity extends AppCompatActivity {
     private Intent locationIntent;
     private Intent timerServiceIntent;
     private SharedPreferences prefs;
-    private List<RunDetail> runningMateRecord = new ArrayList<>();
     private RunningService runningService;
     private String type;
 
@@ -144,7 +137,7 @@ public class RunningActivity extends AppCompatActivity {
         stopService(timerServiceIntent); // 타임서비스 중지
         LocalBroadcastManager.getInstance(this).unregisterReceiver(finishReceiver);
 
-        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 100) {
+        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.001) {
             Toast.makeText(this, "100m 이하의 기록은 저장되지 않습니다.", Toast.LENGTH_LONG).show();
             super.onDestroy();
             return; // 메서드를 여기서 종료

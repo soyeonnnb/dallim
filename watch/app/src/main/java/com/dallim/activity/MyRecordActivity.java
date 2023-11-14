@@ -6,7 +6,6 @@ import android.widget.TextView;
 
 import androidx.activity.ComponentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.dallim.R;
 import com.dallim.adapter.MyRunningDataAdapter;
@@ -23,7 +22,6 @@ public class MyRecordActivity extends ComponentActivity {
 
     private AppDatabase db;
     private Executor executor = Executors.newSingleThreadExecutor();
-    private ViewPager2 viewPager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

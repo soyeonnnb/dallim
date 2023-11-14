@@ -3,7 +3,7 @@ import {DeviceEventEmitter, ImageBackground} from 'react-native';
 import {ChartSheet} from '@/components/chartComponent/main/preview/MonthlyChart.styles';
 import {Shadow} from 'react-native-shadow-2';
 import {colors} from '@/components/common/globalStyles';
-
+import FastImage from 'react-native-fast-image';
 export const Container = styled.View`
   flex: 1;
 `;
@@ -122,22 +122,45 @@ export const FooterMain = styled.View`
   flex: 0.66;
 `;
 export const FooterMainLeft = styled.View`
-  flex: 0.5;
+  flex: 0.6;
   height: 100%;
   /* background-color: aqua; */
   justify-content: flex-end;
 `;
 
 export const FooterMainRight = styled.View`
-  flex: 0.5;
+  flex: 0.4;
   height: 100%;
   /* background-color: aquamarine; */
   justify-content: flex-end;
 `;
-export const FooterMainWin = styled.View``;
-export const FooterMainWinText = styled.Text``;
-export const FooterMainView = styled.View``;
+export const FooterMainWin = styled.View`
+  flex: 0.2;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+export const FooterMainWinText = styled.Text<{color: string}>`
+  font-size: 23px;
+  text-align: center;
+  font-weight: 800;
+  margin: 0 5%;
+  color: ${props => props.color};
+`;
+export const FooterMainView = styled.View`
+  flex: 0.8;
+`;
 
+export const FooterMainImageBox = styled.View`
+  width: 100%;
+  height: 100%;
+`;
+export const StyledGif = styled(FastImage)`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 100%;
+`;
 // 개인 기록 관련 스타일
 export const Records = styled.View`
   flex: 0.9;

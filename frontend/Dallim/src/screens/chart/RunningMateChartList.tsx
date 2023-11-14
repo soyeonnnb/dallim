@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import {RouteProp, useIsFocused, useNavigation} from '@react-navigation/native';
+import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import * as S from './RunningMateChartList.styles';
 import {TouchableOpacity, Dimensions} from 'react-native';
-
+import {characterData} from '@/recoil/CharacterData';
 // 컴포넌트
 import Loading from '@/components/common/Loading_Run';
 import OverviewGraph from '@/components/chartComponent/detail/overview/OverviewGraph';
@@ -20,11 +20,13 @@ import {
   meterToKMOrMeter,
   secondToMinuteSeconds,
 } from '@/recoil/RunningData';
-import {PaceChartDataType, fetchRunningMateRunningList} from '@/apis/ChartApi';
+import {fetchRunningMateRunningList} from '@/apis/ChartApi';
 import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 import {colors} from '@/components/common/globalStyles';
-import {useEvent} from 'react-native-reanimated';
-import {readOnlySelector} from 'recoil';
+import CrownIcon from '@/assets/icons/CrownIcon';
+import HeartIcon from '@/assets/icons/HeartIcon';
+import FlagIcon from '@/assets/icons/FlagIcon';
+import CryIcon from '@/assets/icons/CryIcon';
 
 // 스택 내비게이션 타입을 정의
 type RootStackParamList = {
@@ -62,17 +64,22 @@ interface showDataType {
   totalDistance?: string;
   totalTime?: string;
   avgPace?: string;
+  winOrLose?: 'WIN' | 'LOSE' | 'GIVEUP';
   avgHeartRate?: number;
+  rivalDistance?: string;
+  characterIndex?: number;
+  evolutionStage?: number;
 }
 
 function RunningMateChartList({route, navigation}: Props) {
   const {id} = route.params;
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [data, setData] = useState<showDataType[]>();
+  const [datas, setDatas] = useState<showDataType[]>();
+
   const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
-  const fetchRunningData = async () => {
+  const fetchRunningDatas = async () => {
     const monthList = [
       'Jan',
       'Feb',
@@ -89,7 +96,7 @@ function RunningMateChartList({route, navigation}: Props) {
     ];
     const dayList = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     try {
-      const getData: {
+      const getDatas: {
         id: string;
         createdAt: string;
         mySpeed: number[];
@@ -97,11 +104,15 @@ function RunningMateChartList({route, navigation}: Props) {
         totalTime: number;
         totalDistance: number;
         averageHeartRate: number;
+        rivalTotalDistance: number;
+        characterIndex: number;
+        evolutionStage: number;
+        winOrLose: 'WIN' | 'LOSE' | 'GIVEUP';
       }[] = await fetchRunningMateRunningList(id);
 
       const newData: showDataType[] = [];
       // 데이터 정제
-      getData.map(record => {
+      getDatas.map(record => {
         const d: showDataType = {id: ''};
         d.id = record.id;
         const date = new Date(record.createdAt);
@@ -111,16 +122,24 @@ function RunningMateChartList({route, navigation}: Props) {
         const paceList: {value: number}[] = [];
         record.mySpeed.map(s => paceList.push({value: s}));
         d.paceList = paceList;
-        const rivalPaceList: {value: number}[] = [];
-        record.rivalSpeed.map(s => rivalPaceList.push({value: s}));
-        d.rivalPaceList = rivalPaceList;
+        if (record.winOrLose !== 'GIVEUP') {
+          const rivalPaceList: {value: number}[] = [];
+          record.rivalSpeed.map(s => rivalPaceList.push({value: s}));
+          d.rivalPaceList = rivalPaceList;
+        }
         d.totalDistance = meterToKMOrMeter(record.totalDistance, 1);
         d.avgPace = calculatePace(record.totalTime, record.totalDistance);
         d.totalTime = secondToMinuteSeconds(record.totalTime);
         d.avgHeartRate = Math.round(record.averageHeartRate);
+        d.winOrLose = record.winOrLose;
+
+        d.rivalDistance = meterToKMOrMeter(record.rivalTotalDistance);
+        d.characterIndex = record.characterIndex;
+        d.evolutionStage = record.evolutionStage;
         newData.push(d);
       });
-      setData(newData);
+      setDatas(newData);
+      setSelectedIndex(0);
       console.log('ChartApi: 러닝메이트와 달리기 기록 리스트 조회 Axios 성공');
       setIsLoading(false);
     } catch (error) {
@@ -132,11 +151,11 @@ function RunningMateChartList({route, navigation}: Props) {
   };
 
   useEffect(() => {
-    fetchRunningData();
+    fetchRunningDatas();
   }, []);
 
   useEffect(() => {
-    fetchRunningData();
+    fetchRunningDatas();
   }, [id]);
 
   const handleSetSelectedIndex = (index: number) => {
@@ -149,9 +168,7 @@ function RunningMateChartList({route, navigation}: Props) {
         source={require('@/assets/images/MainBackground4.png')}
         resizeMode="cover"
       />
-      {isLoading || !data ? (
-        <Loading />
-      ) : (
+      {!isLoading && datas ? (
         <S.Container>
           <S.Header>
             <TouchableOpacity
@@ -172,7 +189,7 @@ function RunningMateChartList({route, navigation}: Props) {
                   paddingHorizontal: screenWidth * 0.1,
                   alignItems: 'center',
                 }}>
-                {data.map((record, index) => (
+                {datas.map((record, index) => (
                   <S.RunningDate
                     width={cardWidth}
                     key={index}
@@ -213,58 +230,155 @@ function RunningMateChartList({route, navigation}: Props) {
                 <S.ChartNavi
                   onPress={() =>
                     navigation.push('ChartDetail', {
-                      id: data[selectedIndex].id,
+                      id: datas[selectedIndex].id,
                     })
                   }>
                   <S.ChartNaviText>자세히보기</S.ChartNaviText>
                 </S.ChartNavi>
               </S.ChartHeader>
+
               <OverviewGraph
                 title=""
-                data={data[selectedIndex].paceList}
-                // data가 포기이면 rivalPace 안보여줌
-                data2={data[selectedIndex].rivalPaceList}
-                color1={colors.blue._500} // 내색은 파랑
+                data={datas[selectedIndex].paceList}
+                data2={datas[selectedIndex]?.rivalPaceList}
+                color1={colors.blue._500}
                 color2={colors.red._200}
               />
             </S.ChartBox>
           </S.Middle>
           <S.Footer>
             <S.FooterHeader>
-              <S.FooterHeaderTextMy>14344m</S.FooterHeaderTextMy>
-              <S.FooterHeaderTextRival>/ 15354m</S.FooterHeaderTextRival>
+              <S.FooterHeaderTextMy>
+                {datas[selectedIndex]?.totalDistance}
+              </S.FooterHeaderTextMy>
+              <S.FooterHeaderTextRival>
+                / {datas[selectedIndex]?.rivalDistance}
+              </S.FooterHeaderTextRival>
             </S.FooterHeader>
             <S.FooterMain>
               <S.FooterMainLeft>
                 <S.Records>
-                  <Record />
-                  <Record />
-                  <Record />
+                  <Record
+                    Icon={ClockIcon}
+                    title="시간"
+                    content={datas[selectedIndex]?.totalTime}
+                    color={colors.purple._500}
+                  />
+                  <Record
+                    Icon={RunningThinIcon}
+                    title="평균 페이스"
+                    content={datas[selectedIndex]?.avgPace}
+                    color={colors.lightBlue._500}
+                  />
+                  <Record
+                    Icon={HeartIcon}
+                    title="심박수"
+                    content={datas[selectedIndex]?.avgHeartRate}
+                    color={colors.pink._500}
+                  />
                 </S.Records>
               </S.FooterMainLeft>
               <S.FooterMainRight>
                 <S.FooterMainRightView>
                   <S.FooterMainWin>
-                    {true ? (
-                      <S.FooterMainWinText>WIN</S.FooterMainWinText>
+                    {datas[selectedIndex]?.winOrLose === 'WIN' ? (
+                      <>
+                        <CrownIcon
+                          width={35}
+                          height={35}
+                          color={colors.yellow._500}
+                        />
+                        <S.FooterMainWinText color={colors.yellow._500}>
+                          WIN
+                        </S.FooterMainWinText>
+                        <CrownIcon
+                          width={35}
+                          height={35}
+                          color="rgba(0, 0, 0, 0)"
+                        />
+                      </>
+                    ) : datas[selectedIndex]?.winOrLose === 'LOSE' ? (
+                      <>
+                        <CryIcon
+                          width={35}
+                          height={35}
+                          color={colors.blue._500}
+                        />
+                        <S.FooterMainWinText color={colors.blue._500}>
+                          LOSE
+                        </S.FooterMainWinText>
+                        <CryIcon
+                          width={35}
+                          height={35}
+                          color="rgba(0, 0, 0, 0)"
+                        />
+                      </>
                     ) : (
-                      <S.FooterMainWinText>LOSE</S.FooterMainWinText>
+                      <>
+                        <FlagIcon
+                          width={35}
+                          height={35}
+                          color={colors.lavendar._500}
+                        />
+                        <S.FooterMainWinText color={colors.lavendar._500}>
+                          포기
+                        </S.FooterMainWinText>
+                        <FlagIcon
+                          width={35}
+                          height={35}
+                          color="rgba(0, 0, 0, 0)"
+                        />
+                      </>
                     )}
                   </S.FooterMainWin>
-                  <S.FooterMainView></S.FooterMainView>
+                  <S.FooterMainView>
+                    <S.FooterMainImageBox>
+                      <CharacterGif
+                        index={datas ? datas[selectedIndex]?.characterIndex : 0}
+                        evolution={
+                          datas ? datas[selectedIndex]?.evolutionStage : 0
+                        }
+                      />
+                    </S.FooterMainImageBox>
+                  </S.FooterMainView>
                 </S.FooterMainRightView>
               </S.FooterMainRight>
             </S.FooterMain>
           </S.Footer>
         </S.Container>
+      ) : (
+        <Loading />
       )}
     </>
   );
 }
 
 export default RunningMateChartList;
-
-function Record() {
+function CharacterGif({
+  index = 0,
+  evolution = 0,
+}: {
+  index?: number;
+  evolution?: number;
+}) {
+  return (
+    <S.StyledGif
+      source={characterData[index].evolutions[evolution].running}
+      resizeMode="contain"
+    />
+  );
+}
+function Record({
+  Icon,
+  title,
+  content,
+  color,
+}: {
+  Icon: any;
+  title: string;
+  content?: string | number;
+  color: string;
+}) {
   const [circleSize, setCircleSize] = useState<number>(0);
 
   const onLayout = (event: any) => {
@@ -275,8 +389,13 @@ function Record() {
   return (
     <S.RecordView onLayout={onLayout}>
       <S.RecordLeft>
-        <S.RecordIconCircle size={circleSize * 0.9} color={colors.pink._500}>
-          <ClockIcon
+        <S.RecordIconCircle
+          size={circleSize * 0.9}
+          color={color}
+          startColor={`${color}85`}
+          endColor={`${color}12`}
+          distance={7}>
+          <Icon
             width={circleSize * 0.6}
             height={circleSize * 0.6}
             color="white"
@@ -284,8 +403,8 @@ function Record() {
         </S.RecordIconCircle>
       </S.RecordLeft>
       <S.RecordRight>
-        <S.RecordName>시간</S.RecordName>
-        <S.RecordContent>000:00</S.RecordContent>
+        <S.RecordName>{title}</S.RecordName>
+        <S.RecordContent>{content}</S.RecordContent>
       </S.RecordRight>
     </S.RecordView>
   );

@@ -10,6 +10,7 @@ public class UserInfoResponseDTO {
     private int level;
     private int evolutionStage;
     private String type;
+    private int userExp;
 
     public UserInfoResponseDTO() {
     }
@@ -86,6 +87,14 @@ public class UserInfoResponseDTO {
         this.type = type;
     }
 
+    public int getUserExp() {
+        return userExp;
+    }
+
+    public void setUserExp(int userExp) {
+        this.userExp = userExp;
+    }
+
     @Override
     public String toString() {
         return "UserInfoResponseDTO{" +
@@ -98,6 +107,7 @@ public class UserInfoResponseDTO {
                 ", level=" + level +
                 ", evolutionStage=" + evolutionStage +
                 ", type='" + type + '\'' +
+                ", userExp=" + userExp +
                 '}';
     }
 }

@@ -13,7 +13,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 사용자의 보다 정확한 위치에 접근, 수십 미터 정도의 위치 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.VIBRATE"/><!--진동 추가-->
+    <uses-permission android:name="android.permission.VIBRATE" /><!--진동 추가-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /><!--tts-->
 
     <application
         android:name=".util.MyApplication"

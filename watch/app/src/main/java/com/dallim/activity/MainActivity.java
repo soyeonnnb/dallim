@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -29,10 +30,12 @@ import com.dallim.databinding.ActivityMainBinding;
 import com.dallim.util.AccessToken;
 import com.dallim.util.NetworkUtil;
 import com.dallim.util.PreferencesUtil;
+import com.dallim.util.TtsUtil;
 import com.dallim.util.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends ComponentActivity{
     private ActivityMainBinding binding;
@@ -50,7 +53,7 @@ public class MainActivity extends ComponentActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
         // 리시버 인스턴스를 생성합니다.
         networkUtil = new NetworkUtil();
 
@@ -189,9 +192,6 @@ public class MainActivity extends ComponentActivity{
         if (shouldShowSettings) {
             // 모든 권한이 승인되지 않았으므로 사용자에게 설정 창으로 이동하라는 알림을 표시합니다.
             showSettingsAlert();
-        } else {
-            // 모든 권한이 승인되었습니다. 앱의 다음 흐름으로 넘어갑니다.
-            continueAppFlow();
         }
     }
     // 설정 창으로 이동하라는 알림을 표시하는 메서드
@@ -202,11 +202,6 @@ public class MainActivity extends ComponentActivity{
                 .setPositiveButton("설정으로 이동", (dialog, which) -> goToSettings())
                 .setNegativeButton("취소", (dialog, which) -> finish())
                 .create().show();
-    }
-
-    // 앱의 다음 흐름으로 넘어가는 메서드
-    private void continueAppFlow() {
-        // 모든 권한이 승인된 후에 해야 할 작업을 여기에 구현합니다.
     }
 
     // 설정 창으로 이동하는 메서드
@@ -243,7 +238,11 @@ public class MainActivity extends ComponentActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
+
+        TtsUtil ttsUtil = new TtsUtil(getApplicationContext());
+        ttsUtil.speak("여기는 메인 액티비티입니다");
+
+
 
         // 시작 버튼을 클릭하면
         binding.btnStart.setOnClickListener(v -> {
@@ -286,17 +285,8 @@ public class MainActivity extends ComponentActivity{
             // 예를 들어, 사용자에게 권한이 필요한 이유를 다시 설명하거나, 앱을 종료할 수 있습니다.
             Toast.makeText(this, "필요한 모든 권한이 승인되지 않았습니다.", Toast.LENGTH_LONG).show();
             finish(); // 앱을 종료
-        } else {
-            // 모든 권한이 승인되었다면, 앱의 흐름을 계속 진행합니다.
-            continueAppFlow();
         }
     }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -308,4 +298,6 @@ public class MainActivity extends ComponentActivity{
         Intent intent = new Intent(MainActivity.this, SelectActivity.class);
         startActivity(intent);
     }
+
+
 }

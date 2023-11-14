@@ -92,7 +92,7 @@ public class LocationService extends Service {
         if (lastLocation != null) {
             double speed = location.getSpeed();
             // 초속 0.4 이상이면 걷는 걸로 판단.
-            if(speed >= 0.4){
+            if(speed >= 0.001){
                 speed = (Math.round(speed * 100) / 100.0);
                 // m/s 저장
                 runningViewModel.setMsSpeed(speed);
@@ -120,14 +120,10 @@ public class LocationService extends Service {
                 // km 변환값(화면에 표시용)
                 runningViewModel.setDistance(conversion.mToKM(totalDistance));
 
-                double latitude = location.getLatitude(); // 위도
-                double longitude = location.getLongitude(); // 경도
-                if(runningViewModel.getInitLatitude().getValue() == 0 && runningViewModel.getInitLongitude().getValue() == 0 && latitude != 0 && longitude != 0) {
-                    runningViewModel.setInitLatitude(latitude);
-                    runningViewModel.setInitLongitude(longitude);
+                if(runningViewModel.getInitLatitude().getValue() == 0 && runningViewModel.getInitLongitude().getValue() == 0) {
+                    runningViewModel.setInitLatitude(location.getLatitude());
+                    runningViewModel.setInitLongitude(location.getLongitude());
                 }
-                runningViewModel.setLatitude(latitude);
-                runningViewModel.setLongitude(longitude);
             }
         }
         lastLocation = location;

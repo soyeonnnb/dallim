@@ -172,7 +172,7 @@ export const colors = {
   },
 
   text: {
-    black: '#211D4C',
+    black: '#35306B',
     white: '#FFFFFF',
     grey: '#ADADAD',
   },

@@ -1,6 +1,5 @@
 package com.dallim.activity;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -13,7 +12,6 @@ import com.dallim.adapter.RunningMateDataAdapter;
 import com.dallim.database.AppDatabase;
 import com.dallim.model.RunningMate;
 import com.dallim.util.CenterZoomLayoutManager;
-import com.dallim.util.PreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +22,11 @@ public class RunningMateActivity extends AppCompatActivity {
 
     private AppDatabase db;
     private Executor executor = Executors.newSingleThreadExecutor();
-    private SharedPreferences prefs;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prefs = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
         CenterZoomLayoutManager layoutManager = new CenterZoomLayoutManager(this);
         setContentView(R.layout.activity_running_mate);
 

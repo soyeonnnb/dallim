@@ -1,10 +1,11 @@
-import {HeartChartDataType} from '@/apis/ChartApi';
-import * as S from './HeartRate.styles';
+import {useState, useEffect} from 'react';
 
 import HeartRateGraph from './HeartRateGraph';
 import HeartRatePie from './HeartRatePie';
+import {HeartChartDataType} from '@/apis/ChartApi';
 
-import {useState, useEffect} from 'react';
+import * as S from './HeartRate.styles';
+import {colors} from '@/components/common/globalStyles';
 
 interface Props {
   data: {
@@ -15,11 +16,11 @@ interface Props {
 
 function HeartRate({data}: Props) {
   const chartColor: string[] = [
-    '#FF1178',
-    '#FFF205',
-    '#7CFF01',
-    '#01FFF4',
-    '#9C00FF',
+    colors.pink._500,
+    colors.yellow._500,
+    colors.green._500,
+    colors.blue._500,
+    colors.purple._500,
   ];
   const [showData, setShowData] = useState<
     {

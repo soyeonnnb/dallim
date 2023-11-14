@@ -49,8 +49,11 @@ function RankInfoBox({
     } else if (rank === 3) {
       setStartColor(colors.all.bronzeMedal.linear.start);
       setEndColor(colors.all.bronzeMedal.linear.end);
+    } else {
+      setStartColor(colors.buttonColor.firstDepth);
+      setEndColor(colors.buttonColor.firstDepth);
     }
-  }, []);
+  }, [rank]);
 
   // console.log(rank);
 

@@ -51,6 +51,6 @@ export const Name = styled.Text`
 `;
 export const Content = styled.Text`
   font-weight: 800;
-  font-size: 19px;
+  font-size: 16px;
   color: black;
 `;

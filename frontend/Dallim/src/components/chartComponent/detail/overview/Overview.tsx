@@ -193,7 +193,7 @@ function Overview({
               />
             </S.WalkRecords>
             <OverviewGraph
-              title="페이스"
+              title="속도"
               data={paceData?.chartData}
               color1={colors.blue._500}
             />
@@ -205,6 +205,7 @@ function Overview({
             {data?.rivalRecord ? (
               <RunningMateRecord
                 data={data.rivalRecord}
+                winOrLose={data.winOrLose}
                 paceData={paceData?.chartData}
                 rivalPaceData={rivalPaceData?.chartData}
                 navigation={navigation}

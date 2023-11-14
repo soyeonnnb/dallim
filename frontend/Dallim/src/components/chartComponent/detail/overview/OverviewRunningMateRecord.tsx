@@ -17,6 +17,7 @@ interface Props {
   navigation: any;
   paceData?: PaceChartDataType[];
   rivalPaceData?: PaceChartDataType[];
+  winOrLose: string;
 }
 
 function OverviewRunningMateRecord({
@@ -24,6 +25,7 @@ function OverviewRunningMateRecord({
   navigation,
   paceData,
   rivalPaceData,
+  winOrLose,
 }: Props) {
   const characterImage =
     characterData[data.character.characterIndex].evolutions[
@@ -65,9 +67,9 @@ function OverviewRunningMateRecord({
           </S.Records>
         </S.Info>
       </S.InfoContainer>
-      {rivalPaceData && (
+      {rivalPaceData && winOrLose !== 'GIVEUP' && (
         <OverviewGraph
-          title="페이스 비교"
+          title="속도 비교"
           data={rivalPaceData}
           data2={paceData}
           color1={colors.pink._500}
@@ -89,7 +91,11 @@ interface RecordPreviewProps {
 function RecordPreview({type, record, color}: RecordPreviewProps) {
   return (
     <S.RecordPreview>
-      <S.RecordIconCircle bgColor={color}>
+      <S.RecordIconCircle
+        bgColor={color}
+        startColor={`${color}84`}
+        endColor={`${color}14`}
+        distance={5}>
         {type === 'pace' ? (
           <RunningThinIcon width={30} height={30} color="white" />
         ) : type === 'distance' ? (

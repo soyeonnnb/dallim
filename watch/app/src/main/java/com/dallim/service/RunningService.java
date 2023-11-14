@@ -198,7 +198,7 @@ public class RunningService {
     }
 
     // 내 러닝메이트 리스트 가져오기
-    public void getRunningMate(Activity currentActivity){
+    public void getRunningMate(Activity currentActivity, RunningMateListCallback callback){
         // 기존 데이터 삭제
         deleteRunningMateData();
 
@@ -233,19 +233,16 @@ public class RunningService {
                     }
                     // 러닝메이트 저장
                     addRunningMateDataList(runningMates);
-                    // 데이터 저장 후 RunningMateActivity 시작
-                    Intent intent = new Intent(currentActivity, RunningMateActivity.class);
-                    currentActivity.startActivity(intent);
+                    callback.onSuccess();
                 }else{
                     Log.e("내 러닝메이트 리스트(실패) ", response.errorBody().toString());
-                    // 이후 에러처리 해야함.
+                    callback.onError("내 러닝메이트 리스트 가져오기 실패");
                 }
             }
             @Override
             public void onFailure(Call<ApiResponseListDTO<RunningMateResponseDTO>> call, Throwable t) {
                 Log.e("내 러닝메이트 리스트(응답실패)", t.getMessage());
-
-                t.printStackTrace();
+                callback.onError("서버 에러(인터넷을 확인해주세요)");
             }
         });
     }
@@ -303,5 +300,11 @@ public class RunningService {
     // 내 최근 러닝데이터 기록 가져오기
     public interface RecentRunningDataCallback {
         void onRecentRunningDataLoaded(OneRunningDataResponseDTO recentRunningData);
+    }
+
+    // 러닝메이트 리스트 가져오기 콜백
+    public interface RunningMateListCallback {
+        void onSuccess();
+        void onError(String message);
     }
 }

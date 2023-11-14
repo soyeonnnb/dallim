@@ -18,13 +18,15 @@
 
     <TextView
         android:id="@+id/tv_no_data"
-        android:layout_width="120dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginTop="86dp"
         android:layout_marginEnd="36dp"
         android:layout_marginBottom="86dp"
-        android:text="러닝메이트가 없습니다"
+        android:text="등록된 러닝메이트가\n없습니다"
+        android:fontFamily="@font/oagothic_medium"
+        android:textSize="17sp"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textStyle="bold"

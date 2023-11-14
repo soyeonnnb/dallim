@@ -33,6 +33,7 @@ function AlonePace({data}: Props) {
     <S.Container
       contentContainerStyle={{
         alignItems: 'center',
+        justifyContent: 'center',
       }}
       onLayout={onLayout}>
       <S.ScrollInBox height={(parentHeight / 2.5) * sectionNum}>

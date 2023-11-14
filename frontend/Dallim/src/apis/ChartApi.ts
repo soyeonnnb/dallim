@@ -98,9 +98,10 @@ export interface RivalRecord extends BasicRecord {
 }
 
 export interface PaceChartDataType {
-  value: number;
+  value: number; // speed
   second: number;
   fromZeroPace: string;
+  distance: number;
 }
 
 export interface PaceSectionType {

@@ -2,11 +2,9 @@ package com.dallim.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -27,7 +25,6 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.dallim.database.AppDatabase;
 import com.dallim.databinding.ActivityMainBinding;
 import com.dallim.util.AccessToken;
 import com.dallim.util.NetworkUtil;
@@ -36,22 +33,13 @@ import com.dallim.util.UserInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class MainActivity extends ComponentActivity{
-    // 클래스 멤버로 Executor 정의
-    private final Executor executor = Executors.newSingleThreadExecutor();
     private ActivityMainBinding binding;
-    private AppDatabase db;
-    static int MULTIPLE_PERMISSIONS_CODE = 100;
     private SharedPreferences prefs;
     private NetworkUtil networkUtil;
-    private int notificationId = 5;
     private String authenticateduth;
     private UserInfo userInfo;
-    private PowerManager.WakeLock wakeLock;
-    // 권한 요청과 관련된 변수
     private int permissionIndex = 0;
     private List<String> permissionsNeeded;
     private boolean shouldShowSettings = false;
@@ -61,7 +49,6 @@ public class MainActivity extends ComponentActivity{
     @SuppressLint("InvalidWakeLockTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        db = AppDatabase.getDatabase(getApplicationContext());
         super.onCreate(savedInstanceState);
 
         // 리시버 인스턴스를 생성합니다.
@@ -103,7 +90,7 @@ public class MainActivity extends ComponentActivity{
             // Code to show an alert dialog that informs the user that the main activity is blocked while in power save mode
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("절전 모드 감지");
-            builder.setMessage("절전 모드를 해제하고 어플을 다시 실행해주세요.");
+            builder.setMessage("정확한 위치 추적을 위해 절전 모드를 해제하고 어플을 다시 실행해주세요.");
             builder.setPositiveButton("설정으로 이동", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     // 사용자가 OK 버튼을 클릭했을 때 절전 모드 설정 화면으로 이동

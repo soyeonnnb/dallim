@@ -289,9 +289,11 @@ public class RunningService {
         });
     }
 
+    // 비연동 데이터 개수 리스너
     public interface CountResultListener {
         void onResult(int count);
     }
+
     public interface GetResultListener {
         void onResult(List<RunningData> runningDataList);
     }

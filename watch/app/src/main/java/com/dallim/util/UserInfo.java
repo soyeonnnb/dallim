@@ -31,6 +31,7 @@ public class UserInfo {
                 if (response.isSuccessful() && response.body().getData() != null){
                     Log.d("유저 정보 가져오기 성공", String.valueOf(response.body().getData().toString()));
                     SharedPreferences.Editor edit = prefs.edit();
+                    edit.putLong("userId", response.body().getData().getUserId());
                     edit.putString("nickname", response.body().getData().getNickName());
                     edit.putString("email", response.body().getData().getEmail());
                     edit.putLong("planetIndex", response.body().getData().getPlanetIndex());

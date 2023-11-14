@@ -14,12 +14,12 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
-public class GzipFilter extends OncePerRequestFilter {
+public class BrotliFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return path.startsWith("/");
+        return !path.startsWith("/api/v1/brotli");
     }
     @Override
     public void doFilterInternal(
@@ -60,6 +60,7 @@ public class GzipFilter extends OncePerRequestFilter {
 
             // The response body is encoded using gzip
             response.setHeader(HttpHeaders.CONTENT_ENCODING, "br");
+            response.setContentLength(compressed.length);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.setCharacterEncoding(StandardCharsets.UTF_8.displayName());
 

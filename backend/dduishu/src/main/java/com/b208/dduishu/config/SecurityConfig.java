@@ -1,6 +1,6 @@
 package com.b208.dduishu.config;
 
-import com.b208.dduishu.util.gzip.GzipFilter;
+import com.b208.dduishu.util.gzip.BrotliFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .and()
                 // jwt filters
                 .addFilterBefore(new JwtFilter(userService, jwtUtil, secretKey), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new GzipFilter(), JwtFilter.class)
+                .addFilterBefore(new BrotliFilter(), JwtFilter.class)
                 // request authorization
                 .authorizeRequests()
                 .antMatchers("/api/oauth/login", "/login/**", "/oauth2/**", "/chat-gpt/question", "/api/oauth2/code/kakao").permitAll() // 회원가입과 로그인은 언제나 가능

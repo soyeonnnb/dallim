@@ -404,19 +404,4 @@ public class RunningRecordService {
         return WatchRunningRecordOverview.builder().rawRunningRecord(rawRunningRecord).build();
     }
 
-
-//    private void saveRunningRecordDistance(RunningRecordInfo req) {
-//        List<RunningRecordDistance> collect = req.getRunningRecordDistanceInfos()
-//                .stream()
-//                .map(o -> {
-//                    return RunningRecordDistance.builder()
-//                            .second(o.getSecond())
-//                            .distance(o.getDistance())
-//                            .build();
-//                })
-//                .collect(toList());
-//        // 초당 움직인 거리 뭉탱이 저장
-//        runningRecordDistanceRepository.saveAll(collect);
-//    }
-
 }

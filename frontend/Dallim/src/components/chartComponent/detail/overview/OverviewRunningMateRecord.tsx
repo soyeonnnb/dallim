@@ -35,12 +35,12 @@ function OverviewRunningMateRecord({
     <S.Container>
       <S.TitleContainer>
         <S.Title>같이달린 러닝메이트</S.Title>
-        {/* <S.Navi
+        <S.Navi
           onPress={() =>
             navigation.push('RunningMateChartList', {id: data.id})
           }>
           <S.NaviText>더보기</S.NaviText>
-        </S.Navi> */}
+        </S.Navi>
       </S.TitleContainer>
       <S.InfoContainer>
         <S.Nickname>{data.user.nickname}</S.Nickname>

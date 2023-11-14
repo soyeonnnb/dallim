@@ -23,6 +23,7 @@ import com.dallim.databinding.ActivitySelectBinding;
 import com.dallim.model.MenuItem;
 import com.dallim.service.RunningService;
 import com.dallim.util.CustomScrollingLayoutCallback;
+import com.dallim.util.TtsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,6 +131,11 @@ public class SelectActivity extends ComponentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     // 카운트다운이 끝났을 때 콜백 메서드

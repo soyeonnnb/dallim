@@ -28,6 +28,7 @@ import com.dallim.util.Conversion;
 import com.dallim.util.MyApplication;
 import com.dallim.util.NetworkUtil;
 import com.dallim.util.PreferencesUtil;
+import com.dallim.util.TtsUtil;
 import com.dallim.view.RunningMateRecordViewModel;
 import com.dallim.view.RunningViewModel;
 
@@ -55,10 +56,12 @@ public class RunningActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     private RunningService runningService;
     private String type;
+    private TtsUtil ttsUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ttsUtil = new TtsUtil(getApplicationContext());
         LocalBroadcastManager.getInstance(this).registerReceiver(finishReceiver,
                 new IntentFilter(TimerService.TIMER_BR));
         binding = ActivityRunningBinding.inflate(getLayoutInflater());
@@ -117,6 +120,11 @@ public class RunningActivity extends AppCompatActivity {
         startForegroundService(timerServiceIntent);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     private BroadcastReceiver finishReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -135,7 +143,7 @@ public class RunningActivity extends AppCompatActivity {
         stopService(timerServiceIntent); // 타임서비스 중지
         LocalBroadcastManager.getInstance(this).unregisterReceiver(finishReceiver);
 
-        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 100) {
+        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.001) {
             Toast.makeText(this, "100m 이하의 기록은 저장되지 않습니다.", Toast.LENGTH_LONG).show();
             super.onDestroy();
             return; // 메서드를 여기서 종료

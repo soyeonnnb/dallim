@@ -13,6 +13,7 @@ import com.dallim.dto.response.OneRunningDataResponseDTO;
 import com.dallim.service.RunningService;
 import com.dallim.util.Conversion;
 import com.dallim.util.PreferencesUtil;
+import com.dallim.util.TtsUtil;
 import com.dallim.util.VibrateDevice;
 
 import java.util.Map;
@@ -25,12 +26,16 @@ public class ResultActivity extends AppCompatActivity {
     private String winOrLose = "";
     private int timeDifference;
     private String timeFormat;
+    private TtsUtil ttsUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        VibrateDevice vibrateDevice = new VibrateDevice();
-        vibrateDevice.vibrateDevice(getApplicationContext());
+        ttsUtil = new TtsUtil(getApplicationContext());
+        ttsUtil.setInitializationCallback(() -> {
+            ttsUtil.speak("달리기가 종료되었습니다. 결과를 확인해주세요");
+        });
+
         binding = ActivityResultBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         runningService = new RunningService(getApplicationContext());
@@ -106,7 +111,13 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        ttsUtil.stop();
     }
 }

@@ -215,11 +215,11 @@ export const TabBox = styled.View`
 export const ImageBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 35%;
-  height: 27%;
+  width: 40%;
+  height: 35%;
   position: absolute;
-  top: 18%;
-  left: 65%;
+  top: 10%;
+  left: 60%;
 `;
 
 export const CharacterImage = styled.Image`

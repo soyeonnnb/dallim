@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Modal} from 'react-native';
 import * as S from './NicknameChangeModal.styles';
-import CustomToast from '../../../components/common/CustomToast';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 //apis
 import {patchNicknameCheck} from '@/apis/ProfileApi';

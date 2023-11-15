@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SwipeListView } from 'react-native-swipe-list-view';
-import Toast from 'react-native-toast-message';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 //img---------------------------------------------------------------
 import MorningAlarm from '@/assets/images/MorningAlarm.png';
@@ -169,15 +169,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarmList, onRefresh }) => {
             if (rowData) {
               deleteScheduleTwo(rowData.day, rowData.hour, rowData.minute)
                 .then(() => {
-                  Toast.show({
-                    type: 'success',
-                    position: 'top',
-                    text1: '알림삭제 성공!',
-                    visibilityTime: 3000,
-                    autoHide: true,
-                    topOffset: 10,
-                  });
-
+                  CustomToast({ type: 'success', text1: '알림삭제 성공!' });
                   onRefresh();
                   if (rowMap[rowKey]) {
                     rowMap[rowKey].closeRow();

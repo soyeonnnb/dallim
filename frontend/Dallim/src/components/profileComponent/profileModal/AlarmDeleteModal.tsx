@@ -1,6 +1,6 @@
 import * as S from './RunningMateDeleteModal.styles';
 import {Modal} from 'react-native';
-import Toast from 'react-native-toast-message';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 type DeleteModalProps = {
   toggleDeleteModal: () => void;
@@ -15,15 +15,7 @@ function AlarmDeleteModal({
 }: DeleteModalProps) {
   const handleAlarmListChange = () => {
     toggleDeleteModal();
-
-    Toast.show({
-      type: 'success',
-      position: 'top',
-      text1: '삭제되었습니다 !',
-      visibilityTime: 3000,
-      autoHide: true,
-      topOffset: 10,
-    });
+    CustomToast({ type: 'success', text1: '삭제되었습니다 !' });
   };
 
   return (

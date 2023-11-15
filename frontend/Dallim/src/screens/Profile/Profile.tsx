@@ -20,7 +20,7 @@ import {fetchUserProfileCard} from '@/apis/ProfileApi';
 import {fetchCompetitorCard} from '@/apis/ProfileApi';
 
 //Toast
-import Toast from 'react-native-toast-message';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 //Recoil
 import {useRecoilState, useRecoilValue} from 'recoil';
@@ -79,14 +79,7 @@ function Profile({navigation}: ProfileProps) {
   const handleRunningMatePress = () => {
     if (competitorData.length === 0) {
       // 데이터가 없을 때의 동작
-      Toast.show({
-        type: 'error',
-        position: 'top',
-        text1: '등록된 러닝메이트가 없습니다!',
-        visibilityTime: 3000,
-        autoHide: true,
-        topOffset: 10,
-      });
+      CustomToast({ type: 'error', text1: '등록된 러닝메이트가 없습니다!' });
     } else {
       // 데이터가 있을 때의 동작
       navigation.navigate('RunningMateSetting', {

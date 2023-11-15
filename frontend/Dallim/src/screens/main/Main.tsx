@@ -25,7 +25,7 @@ import {
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
 import { useRecoilState } from 'recoil';
-import CustomToast from '@/components/common/CustomToast';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon';
 
 interface MainProps {

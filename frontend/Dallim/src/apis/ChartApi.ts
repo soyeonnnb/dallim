@@ -130,6 +130,7 @@ const getToken = async () => {
   }
 };
 
+// const BASE_URL = 'https://k9b208.p.ssafy.io';
 const BASE_URL = 'https://dallim.site';
 
 // 차트 내 달력 데이터

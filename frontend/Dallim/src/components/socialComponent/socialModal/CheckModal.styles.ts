@@ -49,8 +49,8 @@ export const ModalBody = styled.View`
 `;
 
 export const ModalButton = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: white;
+  /* border-width: 1px;
+  border-color: white; */
   border-radius: 20px;
   justify-content: center;
   align-items: center;
@@ -60,8 +60,8 @@ export const ModalButton = styled.TouchableOpacity`
 `;
 
 export const ModalCancelButton = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: white;
+  /* border-width: 1px;
+  border-color: white; */
   border-radius: 20px;
   justify-content: center;
   align-items: center;

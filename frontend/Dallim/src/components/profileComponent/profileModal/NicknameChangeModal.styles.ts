@@ -1,10 +1,12 @@
 import styled from 'styled-components/native';
-
+import {Shadow} from 'react-native-shadow-2';
 export const ModalContainer = styled.View`
   flex: 1;
   background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
+  border: 2px;
+  border-color: #2a2b48;
 `;
 
 export const ModalContent = styled.View`
@@ -35,7 +37,7 @@ export const TitleBox = styled.View`
 
 export const TitleText = styled.Text`
   font-size: 20px;
-  color: black;
+  color: #35306b;
   font-weight: bold;
 `;
 
@@ -94,19 +96,19 @@ export const ModalFooter = styled.View`
 `;
 
 export const ModalButton = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: white;
+  /* border-width: 1px;
+  border-color: white; */
   border-radius: 20px;
   justify-content: center;
   align-items: center;
-  background-color: #315182;
+  background-color: #576599;
   width: 75px;
   height: 40px;
 `;
 
 export const ModalCancelButton = styled.TouchableOpacity`
-  border-width: 1px;
-  border-color: white;
+  /* border-width: 1px;
+  border-color: white; */
   border-radius: 20px;
   justify-content: center;
   align-items: center;
@@ -118,4 +120,11 @@ export const ModalCancelButton = styled.TouchableOpacity`
 export const ModalButtonText = styled.Text`
   font-size: 15px;
   color: white;
+`;
+
+export const BoxShadow = styled(Shadow)`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
 `;

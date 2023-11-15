@@ -41,8 +41,8 @@ function CheckModal({
           <S.ModalBody>
             <S.BoxShadow
               distance={1}
-              startColor="rgba(0, 0, 0, 0.15)"
-              endColor="rgba(0, 0, 0, 0.15)"
+              startColor="rgba(0, 0, 0, 0.5)"
+              endColor="rgba(0, 0, 0, 0.5)"
               offset={[0, 1]}>
               <S.ModalButton onPress={handleSaveAndShowToast}>
                 <S.ModalButtonText>등록</S.ModalButtonText>
@@ -50,8 +50,8 @@ function CheckModal({
             </S.BoxShadow>
             <S.BoxShadow
               distance={1}
-              startColor="rgba(0, 0, 0, 0.15)"
-              endColor="rgba(0, 0, 0, 0.15)"
+              startColor="rgba(0, 0, 0, 0.5)"
+              endColor="rgba(0, 0, 0, 0.5)"
               offset={[0, 1]}>
               <S.ModalCancelButton onPress={toggleCheckModal}>
                 <S.ModalButtonText>취소</S.ModalButtonText>

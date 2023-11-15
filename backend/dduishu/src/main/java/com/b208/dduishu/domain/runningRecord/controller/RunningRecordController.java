@@ -40,7 +40,7 @@ public class RunningRecordController {
         return ApiResponse.createSuccess(res);
     }
 
-    @GetMapping("/api/v1/brotli/running/overview/{id}")
+    @GetMapping("/brotli/running/overview/{id}")
     public ApiResponse<?> getRunningRecordOverviewWithBrotli(@PathVariable String id) {
         WatchRunningRecordOverview res = runningRecordService.getRunningRecordOverview(id);
 

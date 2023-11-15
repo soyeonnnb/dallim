@@ -19,7 +19,7 @@ public class BrotliFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getRequestURI();
-        return !path.startsWith("/api/v1/brotli");
+        return path.startsWith("/");
     }
     @Override
     public void doFilterInternal(

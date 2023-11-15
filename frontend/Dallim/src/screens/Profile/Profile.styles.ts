@@ -131,7 +131,7 @@ export const ButtonSmallBox = styled.View`
 `;
 
 export const IconBox = styled.View`
-  /* border-width: 1px;
+  /* border-width: 3px;
   border-color: blue; */
   background-color: #e36f6f;
   border-radius: 300px;
@@ -217,4 +217,18 @@ export const CharacterImage = styled.Image`
   border-color: red; */
   width: 100%;
   height: 100%;
+`;
+
+export const NickNameShadow = styled(Shadow)`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
+`;
+
+export const RunningMateShadow = styled(Shadow)`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
 `;

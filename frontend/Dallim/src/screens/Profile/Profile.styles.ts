@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import {ImageBackground} from 'react-native';
 import {colors} from '@/components/common/globalStyles';
-
+import {Shadow} from 'react-native-shadow-2';
 export const Container = styled.View`
   flex: 1;
   position: relative;
@@ -64,6 +64,21 @@ export const Body = styled.View`
   width: 90%;
   height: 50%;
 `;
+export const BoxShadow = styled(Shadow)`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 150px;
+  /* margin: px; */
+  justify-content: center;
+  align-items: center;
+  /* overflow: hidden; */
+  /* color: black; */
+  /* width: 10px; */
+  /* height: 100%; */
+  border-radius: 30px;
+
+  /* margin-bottom: 20px; */
+`;
 
 export const TitleSetBox = styled.View`
   /* border-width: 1px;
@@ -100,9 +115,11 @@ export const ButtonBox = styled.TouchableOpacity`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: ${colors.button.depth1.color};
-  width: 45%;
-  height: 90%;
+  background-color: ${colors.buttonColor.firstDepth};
+  width: 100%;
+  height: 150px;
+
+  /* overflow: hidden; */
   /* margin-left: 2.5%; */
   /* margin-right: 2.5%; */
 `;
@@ -114,7 +131,7 @@ export const ButtonSmallBox = styled.View`
 `;
 
 export const IconBox = styled.View`
-  /* border-width: 1px;
+  /* border-width: 3px;
   border-color: blue; */
   background-color: #e36f6f;
   border-radius: 300px;
@@ -200,4 +217,18 @@ export const CharacterImage = styled.Image`
   border-color: red; */
   width: 100%;
   height: 100%;
+`;
+
+export const NickNameShadow = styled(Shadow)`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
+`;
+
+export const RunningMateShadow = styled(Shadow)`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
 `;

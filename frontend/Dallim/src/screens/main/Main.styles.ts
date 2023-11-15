@@ -17,16 +17,16 @@ export const BackgroundImage = styled(ImageBackground)`
 `;
 
 export const Header = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   width: 90%;
   height: 10%;
 `;
 
 export const HeaderLeft = styled.View`
-  border-width: 1px;
-  border-color: yellow;
+  /* border-width: 1px;
+  border-color: yellow; */
   width: 50%;
   height: 100%;
   flex-direction: row;
@@ -40,15 +40,15 @@ export const LevelImage = styled.Image`
 `;
 
 export const LevelBox = styled.View`
-  border-width: 1px;
-  border-color: white;
+  /* border-width: 1px;
+  border-color: white; */
   width: 100%;
   height: 100%;
 `;
 
 export const LevelText = styled.Text`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   color: white;
   top: 64%;
   left: 9%;
@@ -108,8 +108,8 @@ export const ExpBar = styled.View<ExpBarProps>`
 `;
 
 export const HeaderRight = styled.View`
-  border-width: 1px;
-  border-color: green;
+  /* border-width: 1px;
+  border-color: green; */
   flex-direction: row;
   width: 50%;
   height: 100%;
@@ -117,14 +117,22 @@ export const HeaderRight = styled.View`
   align-items: flex-end;
 `;
 
+export const PointBox = styled.View`
+  /* border-width: 1px;
+  border-color: white; */
+  height: 40px;
+  justify-content: center;
+  align-items: flex-end;
+`;
+
 export const PointText = styled.Text`
-  font-size: 20px;
+  font-size: 15px;
   color: white;
 `;
 
 export const ButtonBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -133,8 +141,8 @@ export const ButtonBox = styled.View`
 `;
 
 export const GuideBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   flex-direction: row;
   width: 50%;
   height: 100%;
@@ -153,8 +161,8 @@ export const StampBox = styled.View`
 `;
 
 export const Box = styled.View`
-  border-width: 1px;
-  border-color: white;
+  /* border-width: 1px;
+  border-color: white; */
   width: 40px;
   height: 40px;
   justify-content: center;
@@ -181,31 +189,22 @@ export const ButtonStyle = styled.TouchableOpacity`
 `;
 
 export const Body = styled.View`
-  border-width: 1px;
-  border-color: red;
-  justify-content: space-around;
+  /* border-width: 1px;
+  border-color: red; */
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
   height: 70%;
 `;
 
-export const NicknameBox = styled.View`
-  border-width: 1px;
-  border-color: blue;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-  height: 20%;
-  margin-bottom: 30%;
-`;
-
 export const StartBox = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 20%;
+margin-bottom: 15%;
 `;
 
 export const StartButton = styled.TouchableOpacity`
@@ -219,8 +218,8 @@ export const StartButton = styled.TouchableOpacity`
 `;
 
 export const ThemeBox = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 60%;
   height: 60%;
   position: absolute;
@@ -232,13 +231,13 @@ export const PlanetGif = styled(FastImage)`
   border-color: red; */
   width: 120%;
   height: 120%;
-  bottom: -50%;
+  bottom: -55%;
   position: absolute;
 `;
 
 export const CharacterGif = styled(FastImage)`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 50%;
   height: 50%;
   bottom: 30%;

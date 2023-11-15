@@ -135,15 +135,18 @@ function Main({ navigation }: MainProps) {
                 </S.LevelBox>
                 <S.LevelText>Lv. {userLevel}</S.LevelText>
                 <S.NicknameText>{userNickname}</S.NicknameText>
-
                 <S.ExpBarContainer >
                   <S.ExpBar expPercent={userExp} levelIndex={getLevelImageIndex(userLevel)}></S.ExpBar>
                 </S.ExpBarContainer>
-
               </S.HeaderLeft>
 
               <S.HeaderRight>
-                <S.PointText>{userPoint} P</S.PointText>
+                {/* <S.Box></S.Box> */}
+                <S.PointBox>
+                  <S.PointText>{userPoint} P</S.PointText>
+                </S.PointBox>
+                {/* <S.Box></S.Box> */}
+
               </S.HeaderRight>
             </S.Header>
 
@@ -228,15 +231,11 @@ function Main({ navigation }: MainProps) {
                 resizeMode="contain"
               />
 
-              <S.NicknameBox>
-                {/* <S.NicknameText>{userNickname}</S.NicknameText> */}
-              </S.NicknameBox>
-
               <S.StartBox>
                 <S.StartButton
                   onPress={() =>
-                    navigation.navigate('GameStartStack')
-                    //    DummyToast() // 개발중
+                    // navigation.navigate('GameStartStack')
+                    DummyToast() // 개발중
                   }
                 >
                   <LinearGradient

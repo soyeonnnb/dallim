@@ -66,7 +66,8 @@ public class RunningAniFragment extends Fragment {
             runningViewModel = new ViewModelProvider(myApplication).get(RunningViewModel.class);
             value = runningViewModel.getPairCheck().getValue();
             if (value) {
-                // 남은 시간 보여주게 설정
+                binding.multiRemainDistance.setVisibility(View.VISIBLE);
+                // 남은 거리 보여주게 설정
                 binding.remainingDistance.setVisibility(View.VISIBLE);
                 // 거리차이 보여주게 설정
                 binding.singleDifference.setVisibility(View.VISIBLE);
@@ -78,6 +79,7 @@ public class RunningAniFragment extends Fragment {
             }else{
                 // 혼자 달리기일 경우 페이스 보여주게
                 binding.singlePace.setVisibility(View.VISIBLE);
+                binding.singleRunDistance.setVisibility(View.VISIBLE);
             }
         }
 
@@ -109,7 +111,7 @@ public class RunningAniFragment extends Fragment {
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(binding.myCha);
 
-        // ViewModel의 시간 데이터를 구독하고 UI 업데이트
+//         ViewModel의 시간 데이터를 구독하고 UI 업데이트
         runningViewModel.getElapsedTime().observe(getViewLifecycleOwner(), elapsedTime -> {
             TextView timeView = view.findViewById(R.id.ani_time);
             timeView.setText(elapsedTime);
@@ -123,7 +125,7 @@ public class RunningAniFragment extends Fragment {
 
         runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance -> {
             TextView distanceView = view.findViewById(R.id.ani_distance);
-            distanceView.setText(String.valueOf(distance));
+            distanceView.setText(String.valueOf(distance)+"km");
             Log.e("내 거리", String.valueOf(kmLastDistance - distance));
             runningViewModel.setRemainDistance(kmLastDistance - distance);
             String format = String.format("%.2f", kmLastDistance - distance);
@@ -131,27 +133,22 @@ public class RunningAniFragment extends Fragment {
 
             // 남은 거리 UI
             TextView remainDistanceText = view.findViewById(R.id.remaining_distance);
-            remainDistanceText.setText("남은 거리 : " + format + "km");
+            remainDistanceText.setText(format+"km");
         });
 
         if (value) {
             runningViewModel.getDistanceDifference().observe(getViewLifecycleOwner(), distanceDifference -> {
                 String km = formatDistance(distanceDifference);
                 TextView distanceDifferenceView = view.findViewById(R.id.distance_difference);
-                TextView distanceKm = view.findViewById(R.id.distance_difference_km);
-                distanceDifferenceView.setText(String.valueOf(km));
+                distanceDifferenceView.setText(String.valueOf(km)+"km");
 
-                Log.d("거리 차이", km);
                 // 거리에 따라 색 변경
                 if (km.contains("+")) {
                     distanceDifferenceView.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
-                    distanceKm.setTextColor(ContextCompat.getColor(getContext(), R.color.green));
                 } else if (km.contains("-")) {
                     distanceDifferenceView.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
-                    distanceKm.setTextColor(ContextCompat.getColor(getContext(), R.color.red));
                 } else {
                     distanceDifferenceView.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
-                    distanceKm.setTextColor(ContextCompat.getColor(getContext(), R.color.white));
                 }
                 showMateCharacter(distanceDifference, mateEvolutionStage, mateCharacterIndex);
             });

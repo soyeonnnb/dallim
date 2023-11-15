@@ -73,7 +73,7 @@ public class RunningStateFragment extends Fragment {
         runningViewModel.getHeartRate().observe(getViewLifecycleOwner(), heartRate -> {
             // heartRate는 심박수 값입니다.
             TextView heartRateView = view.findViewById(R.id.tv_heart_rate);
-            heartRateView.setText(String.valueOf(((int) heartRate.doubleValue())) + "bpm");
+            heartRateView.setText(String.valueOf(((int) heartRate.doubleValue())));
         });
 
         // ViewModel의 시간 데이터를 구독하고 UI 업데이트

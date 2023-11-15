@@ -69,6 +69,7 @@ public class ResultActivity extends AppCompatActivity {
                         // 같이 달리기인 경우
                         if(type.equals("PAIR")){
                             binding.resultTx.setText("같이 달리기 결과");
+                            binding.winLoseGiveup.setVisibility(View.VISIBLE);
                             if(winOrLose.equals("WIN")){
                                 timeDifference = recentRunningData.getTime_difference().intValue();
                                 timeFormat = conversion.secondsToTimeStringTwo(timeDifference);
@@ -76,6 +77,7 @@ public class ResultActivity extends AppCompatActivity {
                                 binding.winLoseGiveup.setTextColor(getResources().getColor(R.color.green));
                                 binding.timeDifference.setText(timeFormat);
                                 binding.timeDifference.setTextColor(getResources().getColor(R.color.green));
+                                binding.timeDifference.setVisibility(View.VISIBLE);
                             }else if(winOrLose.equals("LOSE")){
                                 timeDifference = recentRunningData.getTime_difference().intValue();
                                 timeFormat = conversion.secondsToTimeStringTwo(timeDifference);
@@ -83,22 +85,20 @@ public class ResultActivity extends AppCompatActivity {
                                 binding.winLoseGiveup.setTextColor(getResources().getColor(R.color.red));
                                 binding.timeDifference.setText(timeFormat);
                                 binding.timeDifference.setTextColor(getResources().getColor(R.color.red));
+                                binding.timeDifference.setVisibility(View.VISIBLE);
                             }else if(winOrLose.equals("GIVEUP")){
                                 binding.winLoseGiveup.setText("포기");
                                 binding.winLoseGiveup.setTextColor(getResources().getColor(R.color.red));
-                                binding.timeDifference.setVisibility(View.GONE);
                             }
                         }
                         // 혼자 달리기인 경우
                         else{
                             binding.resultTx.setText("혼자 달리기 결과");
-                            binding.winLoseGiveup.setVisibility(View.GONE);
-                            binding.timeDifference.setVisibility(View.GONE);
                         }
                         binding.time.setText(totalTime);
-                        binding.distance.setText(String.valueOf(totalDistance+"km"));
+                        binding.distance.setText(String.valueOf(totalDistance+" km"));
                         binding.speed.setText(String.valueOf(minutes + "’ " + seconds + "”"));
-                        binding.heartRate.setText(String.valueOf(recentRunningData.getAverage_heart_rate()));
+                        binding.heartRate.setText(String.valueOf(recentRunningData.getAverage_heart_rate()) + " bpm");
 
                     }
                 });

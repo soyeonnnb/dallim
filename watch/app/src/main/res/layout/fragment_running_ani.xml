@@ -25,9 +25,9 @@
                 android:id="@+id/up_arrow"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginTop="10dp"
                 android:layout_gravity="center"
-                android:src="@raw/up_arrow"/>
+                android:layout_marginTop="10dp"
+                android:src="@raw/up_arrow" />
 
             <TextView
                 android:id="@+id/ani_time"
@@ -35,154 +35,145 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/oagothic_medium"
                 android:text="00 : 00"
-                android:textStyle="bold"
                 android:textColor="@color/white"
-                android:textSize="35dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/remaining_distance"
-                android:visibility="invisible"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="남은 거리 : 2.73km"
-                android:fontFamily="@font/oagothic_medium"
-                android:textSize="10sp"/>
-
+                android:textSize="35dp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="10dp"
+            android:orientation="horizontal"
             android:weightSum="2">
 
             <LinearLayout
+                android:id="@+id/multi_remain_distance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_marginLeft="-20dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:layout_marginLeft="-20dp">
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="0dp">
+                    android:gravity="center"
+                    android:fontFamily="@font/oagothic_medium"
+                    android:textColor="@color/title"
+                    android:text="남은 거리"
+                    android:textSize="10sp" />
 
-                    <TextView
-                        android:id="@+id/ani_distance"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/oagothic_medium"
-                        android:text="0.00"
-                        android:textColor="@color/white"
-                        android:textSize="15dp" />
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/remaining_distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="0dp">
+                    android:gravity="center"
+                    android:fontFamily="@font/oagothic_medium"
+                    android:textColor="@color/white"
+                    android:text="2.73km"
+                    android:textSize="15sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/oagothic_medium"
-                        android:text="km"
-                        android:textColor="@color/white"
-                        android:textSize="10dp" />
+            </LinearLayout>
 
-                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/single_run_distance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="-20dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/my_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/oagothic_medium"
+                    android:text="달린 거리"
+                    android:textColor="@color/title"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/ani_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/oagothic_medium"
+                    android:text="0.00km"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/single_difference"
-                android:visibility="gone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
                 android:layout_marginRight="-20dp"
-                android:gravity="center_horizontal">
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/distance_difference"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="0.00"
-                        android:fontFamily="@font/oagothic_medium"
-                        android:textColor="@color/white"
-                        android:textSize="15dp">
-                    </TextView>
-                </LinearLayout>
-                <LinearLayout
+                <TextView
+                    android:id="@+id/remain_distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="0dp">
-                    <TextView
-                        android:id="@+id/distance_difference_km"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/oagothic_medium"
-                        android:text="Km"
-                        android:textColor="@color/white"
-                        android:textSize="10dp" />
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/oagothic_medium"
+                    android:text="거리 차이"
+                    android:textColor="@color/title"
+                    android:textSize="10sp" />
 
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/distance_difference"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/oagothic_medium"
+                    android:text="0.00km"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"></TextView>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/single_pace"
-                android:visibility="gone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1"
                 android:layout_marginRight="-20dp"
-                android:gravity="center_horizontal">
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/pace"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="0.00"
-                        android:fontFamily="@font/oagothic_medium"
-                        android:textColor="@color/white"
-                        android:textSize="15dp">
-                    </TextView>
-                </LinearLayout>
-                <LinearLayout
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="0dp">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/oagothic_medium"
-                        android:text="페이스"
-                        android:textColor="@color/white"
-                        android:textSize="10dp" />
+                    android:fontFamily="@font/oagothic_medium"
+                    android:text="페이스"
+                    android:textColor="@color/white"
+                    android:textSize="10dp" />
 
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/pace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/oagothic_medium"
+                    android:text="0.00"
+                    android:textColor="@color/white"
+                    android:textSize="15dp"></TextView>
+
             </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
+
     <ImageView
         android:id="@+id/running_planet"
         android:layout_width="170dp"
@@ -196,103 +187,113 @@
         android:layout_height="66dp"
         android:layout_marginLeft="0dp"
         android:layout_marginTop="130dp"
-        android:rotation="-50"
-        android:elevation="6dp"/>
+        android:elevation="6dp"
+        android:rotation="-50" />
+
     <ImageView
         android:id="@+id/mate_cha5"
         android:layout_width="50dp"
         android:layout_height="66dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="120dp"
-        android:rotation="-30"
-        android:elevation="6dp"/>
+        android:elevation="6dp"
+        android:rotation="-30" />
+
     <ImageView
         android:id="@+id/mate_cha4"
         android:layout_width="50dp"
         android:layout_height="66dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="110dp"
-        android:rotation="-25"
-        android:elevation="6dp"/>
+        android:elevation="6dp"
+        android:rotation="-25" />
+
     <ImageView
         android:id="@+id/mate_cha3"
         android:layout_width="50dp"
         android:layout_height="66dp"
         android:layout_marginLeft="35dp"
         android:layout_marginTop="105dp"
-        android:rotation="-20"
-        android:elevation="6dp"/>
+        android:elevation="6dp"
+        android:rotation="-20" />
+
     <ImageView
         android:id="@+id/mate_cha2"
         android:layout_width="50dp"
         android:layout_height="66dp"
         android:layout_marginLeft="45dp"
         android:layout_marginTop="100dp"
-        android:rotation="-15"
-        android:elevation="6dp"/>
+        android:elevation="6dp"
+        android:rotation="-15" />
+
     <ImageView
         android:id="@+id/mate_cha1"
         android:layout_width="50dp"
         android:layout_height="66dp"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="95dp"
-        android:rotation="-13"
-        android:elevation="6dp"/>
+        android:elevation="6dp"
+        android:rotation="-13" />
+
     <ImageView
         android:id="@+id/my_cha"
         android:layout_width="50dp"
         android:layout_height="66dp"
         android:layout_marginLeft="75dp"
         android:layout_marginTop="95dp"
-        android:elevation="2dp"/>
+        android:elevation="2dp" />
+
     <ImageView
         android:id="@+id/mate_cha7"
         android:layout_width="50dp"
         android:layout_height="66dp"
         android:layout_marginLeft="90dp"
         android:layout_marginTop="95dp"
-        android:rotation="5"
-        android:elevation="6dp"/>
+        android:elevation="6dp"
+        android:rotation="5" />
+
     <ImageView
         android:id="@+id/mate_cha8"
         android:layout_width="50dp"
         android:layout_height="66dp"
         android:layout_marginLeft="105dp"
         android:layout_marginTop="100dp"
-        android:rotation="15"
-        android:elevation="6dp"/>
+        android:elevation="6dp"
+        android:rotation="15" />
+
     <ImageView
         android:id="@+id/mate_cha9"
         android:layout_width="50dp"
         android:layout_height="66dp"
         android:layout_marginLeft="120dp"
         android:layout_marginTop="105dp"
-        android:rotation="22"/>
+        android:rotation="22" />
+
     <ImageView
         android:id="@+id/mate_cha10"
         android:layout_width="50dp"
         android:layout_height="66dp"
         android:layout_marginLeft="135dp"
-        android:rotation="25"
-        android:elevation="6dp"/>
+        android:elevation="6dp"
+        android:rotation="25" />
+
     <ImageView
         android:id="@+id/mate_cha11"
         android:layout_width="50dp"
         android:layout_height="66dp"
         android:layout_marginLeft="145dp"
         android:layout_marginTop="120dp"
-        android:rotation="29"
-        android:elevation="6dp"/>
+        android:elevation="6dp"
+        android:rotation="29" />
+
     <ImageView
         android:id="@+id/mate_cha12"
         android:layout_width="50dp"
         android:layout_height="66dp"
         android:layout_marginLeft="155dp"
         android:layout_marginTop="130dp"
-        android:rotation="38"
-        android:elevation="6dp"/>
-
-
+        android:elevation="6dp"
+        android:rotation="38" />
 
 
 </FrameLayout>

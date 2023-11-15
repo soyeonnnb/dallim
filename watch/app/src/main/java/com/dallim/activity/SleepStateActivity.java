@@ -56,6 +56,7 @@ public class SleepStateActivity extends AppCompatActivity {
 
             finish.setOnClickListener(b ->{
                 Intent intent = new Intent(SleepStateActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 dialog.dismiss();
                 finish();

@@ -22,6 +22,37 @@ export const Top = styled.View`
   border-color: red; */
   width: 90%;
   height: 15%;
+  flex-direction: row;
+`;
+
+export const TempBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 20%;
+  height: 100%;
+`;
+
+export const TextBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 80%;
+  height: 100%;
+  align-items: flex-start;
+  justify-content: center;
+`;
+
+export const TitleText = styled.Text`
+  /* border-width: 1px;
+  border-color: red; */
+  font-size: 15px;
+  color: #35306b;
+`;
+
+export const CloseBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 20%;
+  height: 100%;
   justify-content: center;
   align-items: flex-end;
 `;
@@ -41,6 +72,6 @@ export const CloseImage = styled.Image`
 export const Middle = styled.View`
   /* border-width: 1px;
   border-color: blue; */
-  width: 100%;
-  height: 85%;
+  width: 90%;
+  height: 80%;
 `;

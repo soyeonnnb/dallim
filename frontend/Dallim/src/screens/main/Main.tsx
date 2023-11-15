@@ -115,6 +115,7 @@ function Main({ navigation }: MainProps) {
     if (points >= 100000) {
       return '99,999+';
     } else {
+      // 1000 -> 1,000
       return points.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
   };

@@ -1,6 +1,6 @@
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 import * as S from './RankInfoBox.styles';
-import {meterToKMOrMeter} from '@/recoil/RunningData';
+import {meterToKMOrMeter} from '@/recoil/data/RunningData';
 import {useState, useEffect} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import RadialGradient from 'react-native-radial-gradient';
@@ -31,7 +31,7 @@ function RankInfoBox({
 }: RankInfoBoxProps) {
   const displayDistance = Math.floor(cumulativeDistance);
   const selectedCharacter =
-    characterData[characterIndex].evolutions[evolutionStage].front;
+    characterData[characterIndex].Evolutions[evolutionStage].Main;
   const [startColor, setStartColor] = useState<string>(
     colors.buttonColor.firstDepth,
   );

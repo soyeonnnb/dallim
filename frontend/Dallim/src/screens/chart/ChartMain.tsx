@@ -10,7 +10,7 @@ import Loading from '@/components/common/Loading_Run';
 //
 // API
 import {MonthlyRecords, fetchUserCalendarChart} from '@/apis/ChartApi';
-import {CalendarType} from '@/recoil/CalendarData';
+import {CalendarType} from '@/recoil/data/CalendarData';
 
 function Chart() {
   const isFocused = useIsFocused();
@@ -47,7 +47,7 @@ function Chart() {
   return (
     <>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover"
       />
       {isLoading ? (

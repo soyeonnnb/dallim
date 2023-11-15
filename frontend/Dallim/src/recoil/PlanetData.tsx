@@ -1,6 +1,5 @@
 export type PlanetType = {
   Planet: any;
-  Theme: any;
   Card: any;
   watch: any;
   Cardtwo: any;
@@ -11,12 +10,10 @@ export const backgroundImage = {
   image: require('@/assets/images/MainBackground3.png'),
 };
 
-// Index : 색깔
-// 0: 검정, 1: 노랑, 2: 파랑, 3: 보라, 4: 빨강
+// Index(색깔) 0: Black, 1: Yellow, 2: Blue, 3: Purple, 4: Red
 export const planetData: PlanetType[] = [
   {
     Planet: require('@/assets/planets/PlanetBlack.png'),
-    Theme: require('@/assets/planets/ThemeBlack.png'),
     Card: require('@/assets/planets/CardBlack.png'),
     Cardtwo: require('@/assets/planets/ColumnCard/blackColumnCard.png'),
     watch: require('@/assets/planets/WatchBlack.png'),
@@ -24,7 +21,6 @@ export const planetData: PlanetType[] = [
   },
   {
     Planet: require('@/assets/planets/PlanetYellow.png'),
-    Theme: require('@/assets/planets/ThemeYellow.png'),
     Card: require('@/assets/planets/CardYellow.png'),
     Cardtwo: require('@/assets/planets/ColumnCard/yellowColumnCard.png'),
     watch: require('@/assets/planets/WatchYellow.png'),
@@ -32,7 +28,6 @@ export const planetData: PlanetType[] = [
   },
   {
     Planet: require('@/assets/planets/PlanetBlue.png'),
-    Theme: require('@/assets/planets/ThemeBlue.png'),
     Card: require('@/assets/planets/CardBlue.png'),
     Cardtwo: require('@/assets/planets/ColumnCard/blueColumnCard.png'),
     watch: require('@/assets/planets/WatchBlue.png'),
@@ -40,7 +35,6 @@ export const planetData: PlanetType[] = [
   },
   {
     Planet: require('@/assets/planets/PlanetPurple.png'),
-    Theme: require('@/assets/planets/ThemePurple.png'),
     Card: require('@/assets/planets/CardPurple.png'),
     Cardtwo: require('@/assets/planets/ColumnCard/purpleColumnCard.png'),
     watch: require('@/assets/planets/WatchPurple.png'),
@@ -48,7 +42,6 @@ export const planetData: PlanetType[] = [
   },
   {
     Planet: require('@/assets/planets/PlanetRed.png'),
-    Theme: require('@/assets/planets/ThemeRed.png'),
     Card: require('@/assets/planets/CardRed.png'),
     Cardtwo: require('@/assets/planets/ColumnCard/redColumnCard.png'),
     watch: require('@/assets/planets/WatchRed.png'),

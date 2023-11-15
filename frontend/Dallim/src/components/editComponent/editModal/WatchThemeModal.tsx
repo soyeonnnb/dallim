@@ -23,7 +23,7 @@ const WatchThemeModal: React.FC<Props> = ({ isVisible, onClose, index }) => {
         >
             <S.ModalContainer>
                 <S.ModalContent>
-                    <S.BackgroundImage source={planetData[index].Theme} >
+                    <S.BackgroundImage source={planetData[index].Cardtwo} >
                         <S.Header>
                             <S.HeaderSide />
                             <S.HeaderMiddle>

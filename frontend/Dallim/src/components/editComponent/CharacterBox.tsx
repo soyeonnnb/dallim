@@ -1,5 +1,5 @@
 import * as S from './CharacterBox.styles';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 
 import {useRecoilValue} from 'recoil';
 import {
@@ -16,8 +16,8 @@ function CharacterBox() {
   );
 
   const characterImage =
-    characterData[selectedCharacterIndex].evolutions[selectedEvolutionStage]
-      .front;
+    characterData[selectedCharacterIndex].Evolutions[selectedEvolutionStage]
+      .Main;
 
   return (
     <S.Container>

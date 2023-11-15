@@ -1,5 +1,5 @@
 import * as S from './SelectModal.styles';
-import { planetData } from '@/recoil/PlanetData';
+import { planetData } from '@/recoil/data/PlanetData';
 import { Modal } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
@@ -46,7 +46,7 @@ function planetSelectModal({ planetSelectModalVisible, togglePlanetSelectModal, 
                     <S.ModalBody>
 
                         <S.BoxStyle >
-                            <S.Image source={planetData[equippedPlanetIndex].Planet} resizeMode="contain" />
+                            <S.Image source={planetData[equippedPlanetIndex].Main} resizeMode="contain" />
                         </S.BoxStyle>
                         <S.ChangeBoxStyle>
                             <S.ChangeBox>
@@ -57,7 +57,7 @@ function planetSelectModal({ planetSelectModalVisible, togglePlanetSelectModal, 
                             </S.ChangeBox>
                         </S.ChangeBoxStyle>
                         <S.BoxStyle >
-                            <S.Image source={planetData[selectedPlanetIndex].Planet} resizeMode="contain" />
+                            <S.Image source={planetData[selectedPlanetIndex].Main} resizeMode="contain" />
                         </S.BoxStyle>
 
                     </S.ModalBody>

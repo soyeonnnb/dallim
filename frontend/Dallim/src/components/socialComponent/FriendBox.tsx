@@ -1,6 +1,6 @@
 import * as S from './Box.styles';
 import {deleteFriend} from '@/apis/SocialApi';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 
 import {useRecoilState} from 'recoil';
 import {friendsState} from '@/recoil/FriendRecoil';
@@ -23,7 +23,7 @@ function FriendBox({
 }: FriendBoxProps) {
   const [friends, setFriends] = useRecoilState(friendsState);
   const selectedCharacter =
-    characterData[characterIndex].evolutions[evolutionStage].profile;
+    characterData[characterIndex].Evolutions[evolutionStage].Badge;
 
   console.log('캐릭인덱스' + characterIndex);
   console.log('진화레벨' + evolutionStage);

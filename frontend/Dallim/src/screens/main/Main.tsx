@@ -1,8 +1,8 @@
 import * as S from './Main.styles';
 import { useEffect, useState } from 'react';
 import { fetchUserProfile } from '@/apis/MainApi';
-import { characterData } from '@/recoil/CharacterData';
-import { planetData } from '@/recoil/PlanetData';
+import { characterData } from '@/recoil/data/CharacterData';
+import { planetData } from '@/recoil/data/PlanetData';
 import NotificationModal from '@/components/profileComponent/profileModal/NotificationModal';
 import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
 import StampModal from '@/components/mainComponent/StampModal';
@@ -101,10 +101,10 @@ function Main({ navigation }: MainProps) {
 
   return (
     <S.Container>
-      {isLoading ? (
+      {!isLoading ? (
         <>
           <S.BackgroundImage
-            source={require('@/assets/images/MainBackground4.png')}
+            source={require('@/assets/images/MainBackground.png')}
             resizeMode="cover">
             <Loading />
           </S.BackgroundImage>
@@ -112,7 +112,7 @@ function Main({ navigation }: MainProps) {
       ) : (
         <>
           <S.BackgroundImage
-            source={require('@/assets/images/MainBackground4.png')}
+            source={require('@/assets/images/MainBackground.png')}
             resizeMode="cover">
             <S.Header>
               <S.HeaderLeft>
@@ -205,9 +205,9 @@ function Main({ navigation }: MainProps) {
               />
               <S.CharacterGif
                 source={
-                  characterData[equippedCharacterIndex].evolutions[
+                  characterData[equippedCharacterIndex].Evolutions[
                     equippedEvolutionStage
-                  ].running
+                  ].RunRight
                 }
                 resizeMode="contain"
               />

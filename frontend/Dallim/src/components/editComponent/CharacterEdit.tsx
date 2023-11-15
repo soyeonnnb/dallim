@@ -1,5 +1,5 @@
 import * as S from './CharacterEdit.styles';
-import { characterData } from '@/recoil/CharacterData';
+import { characterData } from '@/recoil/data/CharacterData';
 import { useEffect, useState } from 'react';
 import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
 import CharacterSelectModal from './editModal/CharacterSelectModal';

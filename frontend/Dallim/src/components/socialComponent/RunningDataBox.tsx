@@ -11,7 +11,7 @@ import {
   calculatePace,
   meterToKMOrMeter,
   secondToMinuteText,
-} from '@/recoil/RunningData';
+} from '@/recoil/data/RunningData';
 import LinearGradient from 'react-native-linear-gradient';
 import RadialGradient from 'react-native-radial-gradient';
 

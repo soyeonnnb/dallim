@@ -1,11 +1,11 @@
 import {useState, useEffect} from 'react';
 import * as S from './PaceChart.styles';
-import {secondToMinuteSeconds} from '@/recoil/RunningData';
+import {secondToMinuteSeconds} from '@/recoil/data/RunningData';
 import {LineChart} from 'react-native-gifted-charts';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
 
 import {PaceDataType} from '@/apis/ChartApi';
-import {meterToKMOrMeter} from '@/recoil/RunningData';
+import {meterToKMOrMeter} from '@/recoil/data/RunningData';
 import {colors} from '@/components/common/globalStyles';
 
 import DataPreview from '../DataPreview';

@@ -1,6 +1,6 @@
 import * as S from './PlanetPurchaseCheckModal.styles';
 import { Modal } from 'react-native';
-import { planetData } from '@/recoil/PlanetData';
+import { planetData } from '@/recoil/data/PlanetData';
 import SpinAnimation from '@/components/common/SpinAnimation';
 import { useRecoilValue } from 'recoil';
 import { selectedPlanetIndexState } from '@/recoil/UserRecoil';
@@ -27,7 +27,7 @@ function PlanetPurchaseCheckModal({ purchaseModalVisible, handleConfirm, handleC
                         <S.ImageBox>
                             <SpinAnimation>
                                 <S.Image
-                                    source={planetData[selectedPlanetIndex].Planet}
+                                    source={planetData[selectedPlanetIndex].Main}
                                     resizeMode="contain"
                                 />
                             </SpinAnimation>

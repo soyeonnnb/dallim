@@ -39,7 +39,7 @@ function GameStartStack2({ navigation }: GameStartStackProps) {
 
   return (
     <S.Container>
-      <S.BackgroundImage source={require('@/assets/images/MainBackground5.png')}
+      <S.BackgroundImage source={require('@/assets/images/MainBackground2.png')}
         resizeMode="cover">
         <S.Header>
           <S.CloseButton onPress={() => navigation.navigate('MainMain')}>

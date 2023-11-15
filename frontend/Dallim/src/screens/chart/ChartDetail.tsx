@@ -23,8 +23,8 @@ import {
   PaceDataType,
 } from '@/apis/ChartApi';
 
-import {getDateObject} from '@/recoil/CalendarData';
-import {calculatePace} from '@/recoil/RunningData';
+import {getDateObject} from '@/recoil/data/CalendarData';
+import {calculatePace} from '@/recoil/data/RunningData';
 import {colors} from '@/components/common/globalStyles';
 
 // 스택 내비게이션 타입을 정의
@@ -206,7 +206,7 @@ function ChartDetail({route, navigation}: Props) {
   return (
     <>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover"
       />
       {isLoading || !data ? (

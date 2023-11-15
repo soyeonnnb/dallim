@@ -1,9 +1,9 @@
 import * as S from './GameStartStack.styles';
 import { equippedCharacterIndexState, equippedEvolutionStageState, equippedPlanetIndexState, userIdState } from '@/recoil/UserRecoil';
 import { PermissionsAndroid, Platform } from 'react-native';
-import { characterData } from '@/recoil/CharacterData';
+import { characterData } from '@/recoil/data/CharacterData';
 import React, { useEffect, useRef, useState } from 'react';
-import { planetData } from '@/recoil/PlanetData';
+import { planetData } from '@/recoil/data/PlanetData';
 import { Modal } from 'react-native';
 import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
 import SpinAnimation from '@/components/common/SpinAnimation';
@@ -421,7 +421,7 @@ function GameStartStack({ navigation }: GameStartStackProps) {
   return (
     <S.Container>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground3.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover">
         <S.ModalContainer>
           <S.Header>
@@ -479,7 +479,7 @@ function GameStartStack({ navigation }: GameStartStackProps) {
           <S.ThemeBox>
             <SpinAnimation>
               <S.StyledImage
-                source={planetData[equippedPlanetIndex].Planet}
+                source={planetData[equippedPlanetIndex].Main}
                 resizeMode="contain"
               />
             </SpinAnimation>
@@ -489,9 +489,9 @@ function GameStartStack({ navigation }: GameStartStackProps) {
           <S.CharacterBox>
             <S.StyledGif
               source={
-                characterData[equippedCharacterIndex].evolutions[
+                characterData[equippedCharacterIndex].Evolutions[
                   equippedEvolutionStage
-                ].running
+                ].RunRight
               }
               resizeMode="contain"
             />

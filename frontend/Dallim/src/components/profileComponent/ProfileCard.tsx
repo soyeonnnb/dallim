@@ -1,5 +1,5 @@
 import * as S from './ProfileCard.styles';
-import {planetData} from '@/recoil/PlanetData';
+import {planetData} from '@/recoil/data/PlanetData';
 
 interface Props {
   PlanetIndex: number;

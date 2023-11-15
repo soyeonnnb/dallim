@@ -3,7 +3,7 @@ import {RouteProp} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import * as S from './RunningMateChartList.styles';
 import {TouchableOpacity, Dimensions} from 'react-native';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 // 컴포넌트
 import Loading from '@/components/common/Loading_Run';
 import OverviewGraph from '@/components/chartComponent/detail/overview/OverviewGraph';
@@ -19,7 +19,7 @@ import {
   calculatePace,
   meterToKMOrMeter,
   secondToMinuteSeconds,
-} from '@/recoil/RunningData';
+} from '@/recoil/data/RunningData';
 import {fetchRunningMateRunningList} from '@/apis/ChartApi';
 import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
 import {colors} from '@/components/common/globalStyles';
@@ -165,7 +165,7 @@ function RunningMateChartList({route, navigation}: Props) {
   return (
     <>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover"
       />
       {!isLoading && datas ? (
@@ -363,7 +363,7 @@ function CharacterGif({
 }) {
   return (
     <S.StyledGif
-      source={characterData[index].evolutions[evolution].running}
+      source={characterData[index].Evolutions[evolution].RunRight}
       resizeMode="contain"
     />
   );

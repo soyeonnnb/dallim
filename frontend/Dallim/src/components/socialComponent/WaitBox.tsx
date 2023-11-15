@@ -1,6 +1,6 @@
 import * as S from './Box.styles';
 import {postRequestAccept, postRequestReject} from '@/apis/SocialApi';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 
 import {useRecoilState} from 'recoil';
 import {friendRequestsState, friendsState} from '@/recoil/FriendRecoil';
@@ -27,7 +27,7 @@ function WaitBox({
   const [friends, setFriends] = useRecoilState(friendsState); // 친구 목록 상태
 
   const selectedCharacter =
-    characterData[characterIndex].evolutions[evolutionStage].profile;
+    characterData[characterIndex].Evolutions[evolutionStage].Badge;
 
   const handleRequestAccept = async () => {
     try {

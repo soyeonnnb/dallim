@@ -1,7 +1,7 @@
 import * as S from './PlanetEdit.styles';
 import { postPlanetPurchase, updateEquippedPlanet } from '@/apis/EditApi';
 import { useEffect, useState } from 'react';
-import { planetData } from '@/recoil/PlanetData';
+import { planetData } from '@/recoil/data/PlanetData';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
 import CustomToast from '../common/CustomToast';

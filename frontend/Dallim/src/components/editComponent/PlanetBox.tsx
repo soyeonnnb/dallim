@@ -1,5 +1,5 @@
 import * as S from './PlanetBox.styles';
-import { planetData } from '@/recoil/PlanetData';
+import { planetData } from '@/recoil/data/PlanetData';
 import { useState } from 'react';
 import WatchThemeModal from './editModal/WatchThemeModal';
 
@@ -11,7 +11,7 @@ function PlanetBox() {
   const selectedPlanetIsPurchased = useRecoilValue(selectedPlanetIsPurchasedState);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const planetImage = planetData[selectedPlanetIndex].Planet;
+  const planetImage = planetData[selectedPlanetIndex].Main;
 
   return (
     <S.Container>

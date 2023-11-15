@@ -42,14 +42,14 @@ export const StyledGif = styled(FastImage)`
   height: 100%;
 `;
 
-export const Footer = styled.View`
+export const RunBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   justify-content: center;
   align-items: center;
   flex-direction: row;
   width: 100%;
-  height: 50%;
+  height: 70%;
 `;
 
 export const CircleBox = styled.View`

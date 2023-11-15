@@ -5,7 +5,7 @@ import {BarChart} from 'react-native-gifted-charts';
 import {FlatList} from 'react-native-gesture-handler';
 
 import MonthChartModal from './MonthChartModal';
-import {meterToKMOrMeter, secondToMinuteSeconds} from '@/recoil/RunningData';
+import {meterToKMOrMeter, secondToMinuteSeconds} from '@/recoil/data/RunningData';
 
 interface Props {
   selectedYearMonth: {

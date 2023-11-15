@@ -15,6 +15,7 @@ export interface Competitor {
   totalTime: number;
   createdAt: string;
   clear: boolean;
+  location: string;
 }
 
 export const competitorDataState = atom<Competitor[]>({

@@ -117,21 +117,6 @@ function RunningDataBox({
                   offset={[0, 0]}>
                   <S.DateCircle>
                     <DateIcon width={15} height={15} />
-                    <RadialGradient
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: 100,
-                        opacity: 0.3,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        position: 'absolute',
-                        overflow: 'hidden',
-                      }}
-                      colors={['#ffffff', '#33B962']}
-                      stops={[0.03, 0.4]}
-                      radius={20}
-                      center={[7, 7]}></RadialGradient>
                   </S.DateCircle>
                 </S.CircleShadow>
               </S.Icon>

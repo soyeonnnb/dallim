@@ -42,6 +42,7 @@ public class LocationService extends Service {
     private static final int NOTIFICATION_ID = 10;
     private static final String CHANNEL_ID = "RunningService";
     private int count = 1;
+
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
@@ -92,15 +93,15 @@ public class LocationService extends Service {
         if (lastLocation != null) {
             double speed = location.getSpeed();
             // 초속 0.4 이상이면 걷는 걸로 판단.
-            if(speed >= 0.4){
+            if (speed >= 0.001) {
                 speed = (Math.round(speed * 100) / 100.0);
                 // m/s 저장
                 runningViewModel.setMsSpeed(speed);
-                if(runningViewModel.getTotalSpeed().getValue() != 0){
+                if (runningViewModel.getTotalSpeed().getValue() != 0) {
                     Double value = runningViewModel.getTotalSpeed().getValue();
                     runningViewModel.setTotalSpeed(value + speed);
                     runningViewModel.setSpeedCountTime(count++);
-                }else{
+                } else {
                     runningViewModel.setTotalSpeed(speed);
                 }
                 Map<String, Integer> result = conversion.msToPace(speed);
@@ -120,10 +121,14 @@ public class LocationService extends Service {
                 // km 변환값(화면에 표시용)
                 runningViewModel.setDistance(conversion.mToKM(totalDistance));
 
-                if(runningViewModel.getInitLatitude().getValue() == 0 && runningViewModel.getInitLongitude().getValue() == 0) {
+                if (runningViewModel.getInitLatitude().getValue() == 0 && runningViewModel.getInitLongitude().getValue() == 0) {
                     runningViewModel.setInitLatitude(location.getLatitude());
                     runningViewModel.setInitLongitude(location.getLongitude());
                 }
+            } else {
+                runningViewModel.setMsPaceToSecond(0.0);
+                runningViewModel.setMsPace("멈춤");
+                runningViewModel.setMsSpeed(0.0);
             }
         }
         lastLocation = location;
@@ -162,7 +167,7 @@ public class LocationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(locationCallback != null && fusedLocationProviderClient != null){
+        if (locationCallback != null && fusedLocationProviderClient != null) {
             fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         }
         stopForeground(true);

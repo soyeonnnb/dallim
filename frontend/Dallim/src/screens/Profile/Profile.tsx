@@ -117,49 +117,74 @@ function Profile({navigation}: ProfileProps) {
         <S.Body>
           <S.SetBox>
             <S.ButtonContainer>
-              <S.ButtonBox onPress={() => setShowNicknameChangeModal(true)}>
-                <S.IconBox>
-                  <TagsIcon width={50} height={50} color="white"></TagsIcon>
-                </S.IconBox>
-                <S.EmptyBox></S.EmptyBox>
-                <S.TextBox>
-                  <S.ButtonText>닉네임 변경</S.ButtonText>
-                </S.TextBox>
-              </S.ButtonBox>
-              <S.ButtonBox onPress={handleRunningMatePress}>
-                <S.RunningIconBox>
-                  <RunningMateIcon width={50} height={50} color="white" />
-                </S.RunningIconBox>
-                <S.TextBox>
-                  <S.ButtonText>러닝메이트</S.ButtonText>
-                </S.TextBox>
-              </S.ButtonBox>
+              <S.BoxShadow
+                distance={2}
+                startColor="rgba(0, 0, 0, 0.2)"
+                endColor="rgba(0, 0, 0, 0.2)"
+                offset={[4, 4]}>
+                <S.ButtonBox onPress={() => setShowNicknameChangeModal(true)}>
+                  <S.IconBox>
+                    <TagsIcon width={50} height={50} color="white"></TagsIcon>
+                  </S.IconBox>
+                  <S.EmptyBox></S.EmptyBox>
+                  <S.TextBox>
+                    <S.ButtonText>닉네임 변경</S.ButtonText>
+                  </S.TextBox>
+                </S.ButtonBox>
+              </S.BoxShadow>
+              <S.BoxShadow
+                distance={2}
+                startColor="rgba(0, 0, 0, 0.2)"
+                endColor="rgba(0, 0, 0, 0.2)"
+                offset={[4, 4]}>
+                <S.ButtonBox onPress={handleRunningMatePress}>
+                  <S.RunningIconBox>
+                    <RunningMateIcon width={50} height={50} color="white" />
+                  </S.RunningIconBox>
+                  <S.TextBox>
+                    <S.ButtonText>러닝메이트</S.ButtonText>
+                  </S.TextBox>
+                </S.ButtonBox>
+              </S.BoxShadow>
             </S.ButtonContainer>
             <S.ButtonContainer>
-              <S.ButtonBox onPress={() => navigation.navigate('RunningAlarm')}>
-                <S.AlarmIconBox>
-                  <RunningAlarmIcon width={50} height={50} color="white" />
-                </S.AlarmIconBox>
-                <S.TextBox>
-                  <S.ButtonText>운동알림</S.ButtonText>
-                </S.TextBox>
-              </S.ButtonBox>
-              <S.ButtonBox
-                onPress={() => navigation.navigate('WatchConnection')}>
-                <S.WatchIconBox>
-                  <WatchIcon width={50} height={50} color="white" />
-                </S.WatchIconBox>
-                <S.TextBox>
-                  <S.ButtonText>워치</S.ButtonText>
-                </S.TextBox>
-              </S.ButtonBox>
+              <S.BoxShadow
+                distance={2}
+                startColor="rgba(0, 0, 0, 0.2)"
+                endColor="rgba(0, 0, 0, 0.2)"
+                offset={[4, 4]}>
+                <S.ButtonBox
+                  onPress={() => navigation.navigate('RunningAlarm')}>
+                  <S.AlarmIconBox>
+                    <RunningAlarmIcon width={50} height={50} color="white" />
+                  </S.AlarmIconBox>
+                  <S.TextBox>
+                    <S.ButtonText>운동알림</S.ButtonText>
+                  </S.TextBox>
+                </S.ButtonBox>
+              </S.BoxShadow>
+              <S.BoxShadow
+                distance={2}
+                startColor="rgba(0, 0, 0, 0.2)"
+                endColor="rgba(0, 0, 0, 0.2)"
+                offset={[4, 4]}>
+                <S.ButtonBox
+                  onPress={() => navigation.navigate('WatchConnection')}>
+                  <S.WatchIconBox>
+                    <WatchIcon width={50} height={50} color="white" />
+                  </S.WatchIconBox>
+                  <S.TextBox>
+                    <S.ButtonText>워치</S.ButtonText>
+                  </S.TextBox>
+                </S.ButtonBox>
+              </S.BoxShadow>
             </S.ButtonContainer>
           </S.SetBox>
         </S.Body>
 
         <S.TabBox />
       </S.BackgroundImage>
-
+      {/*  */}
       <S.ImageBox>
         <S.CharacterImage
           source={selectedCharacterLevelData.front}

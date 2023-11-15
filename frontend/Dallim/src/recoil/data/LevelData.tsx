@@ -13,7 +13,7 @@ export const LevelData: LevelType[] = [
         Base: require('@/assets/images/levels/baseBadge/BaseSecond.png'),
         Name: require('@/assets/images/levels/nameBadge/NameSecond.png'),
     },
-    
+
     {
         Base: require('@/assets/images/levels/baseBadge/BaseThird.png'),
         Name: require('@/assets/images/levels/nameBadge/NameThird.png'),
@@ -27,3 +27,7 @@ export const LevelData: LevelType[] = [
         Name: require('@/assets/images/levels/nameBadge/NameFifth.png'),
     },
 ];
+
+export const PointData: any = {
+    Point: require('@/assets/images/levels/PointBox.png'),
+}

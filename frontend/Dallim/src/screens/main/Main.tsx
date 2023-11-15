@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { fetchUserProfile } from '@/apis/MainApi';
 import { characterData } from '@/recoil/data/CharacterData';
 import { planetData } from '@/recoil/data/PlanetData';
-import { LevelData } from '@/recoil/data/LevelData';
+import { LevelData, PointData } from '@/recoil/data/LevelData';
+import { PointBox } from './Main.styles';
 import NotificationModal from '@/components/profileComponent/profileModal/NotificationModal';
 import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
 import StampModal from '@/components/mainComponent/StampModal';
@@ -24,7 +25,7 @@ import {
   equippedEvolutionStageState,
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import CustomToast from '@/components/common/CustomToast';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon';
 
@@ -111,6 +112,15 @@ function Main({ navigation }: MainProps) {
   }
   const LevelImage = LevelData[getLevelImageIndex(userLevel)].Name;
 
+  const formatPoints = (points: number) => {
+    if (points >= 100000) {
+      return '99,999+';
+    } else {
+      return points.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+  };
+  const PointImage = PointData.Point;
+
   // 새로고침 버튼을 눌렀을 때 실행할 함수
   const handleReload = () => {
     setIsLoading(true);
@@ -119,12 +129,12 @@ function Main({ navigation }: MainProps) {
 
   return (
     <S.Container>
-      {!isLoading ? (
+      {isLoading ? (
         <>
           <S.BackgroundImage
             source={require('@/assets/images/MainBackground.png')}
             resizeMode="cover">
-            <Loading onReload={handleReload}/>
+            <Loading onReload={handleReload} />
           </S.BackgroundImage>
         </>
       ) : (
@@ -146,11 +156,12 @@ function Main({ navigation }: MainProps) {
               </S.HeaderLeft>
 
               <S.HeaderRight>
-                {/* <S.Box></S.Box> */}
                 <S.PointBox>
-                  <S.PointText>{userPoint} P</S.PointText>
+                  <S.PointImage
+                    source={PointImage} resizeMode='contain' />
+
+                  <S.PointText>{formatPoints(userPoint)}</S.PointText>
                 </S.PointBox>
-                {/* <S.Box></S.Box> */}
 
               </S.HeaderRight>
             </S.Header>

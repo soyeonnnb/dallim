@@ -43,8 +43,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="66.5%"
-        android:layout_marginTop="93dp"
-        android:layout_marginLeft="80dp"
+        android:layout_marginTop="110dp"
+        android:layout_marginLeft="120dp"
         android:textColor="@color/black"
         android:textSize="10sp"
         android:fontFamily="@font/oagothic_medium"
@@ -52,7 +52,7 @@
 
     <ProgressBar
         android:id="@+id/user_exp_bar"
-        android:layout_width="120dp"
+        android:layout_width="100dp"
         android:layout_height="12dp"
         android:progressDrawable="@drawable/custom_progress_bar"
         style="?android:attr/progressBarStyleHorizontal"

@@ -7,7 +7,7 @@ import NumberIcon from '@/assets/icons/NumberIcon';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 
-import {meterToKMOrMeter, secondToMinuteText} from '@/recoil/RunningData';
+import {meterToKMOrMeter, secondToMinuteText} from '@/recoil/data/RunningData';
 
 interface Props {
   type: 'week' | 'month';

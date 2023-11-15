@@ -1,14 +1,14 @@
 import * as S from './Edit.styles';
-import { characterData } from '@/recoil/CharacterData';
-import { backgroundImage } from '@/recoil/PlanetData';
-import { planetData } from '@/recoil/PlanetData';
+import { characterData } from '@/recoil/data/CharacterData';
+import { backgroundImage } from '@/recoil/data/PlanetData';
+import { planetData } from '@/recoil/data/PlanetData';
 import { useRef, useState, useEffect } from 'react';
 import { Animated, Easing } from 'react-native';
 import { fetchEditInfo } from '@/apis/EditApi';
 import CharacterEdit from '@/components/editComponent/CharacterEdit';
 import PlanetEdit from '@/components/editComponent/PlanetEdit';
-import BasicCharacter from '@/assets/characters/Rabbit.png';
-import BasicPlanet from '@/assets/planets/PlanetBlack.png';
+import BasicCharacter from '@/assets/images/characters/badge/BadgePenguinEgg.png';
+import BasicPlanet from '@/assets/images/planets/main/PlanetBlack.png';
 import Right from '@/assets/icons/DirectionRight.png';
 import Left from '@/assets/icons/DirectionLeft.png';
 import Loading from '@/components/common/Loading_Run';
@@ -175,8 +175,8 @@ function Edit() {
           <S.BackgroundImage
             source={
               isOn
-                ? backgroundImage.image
-                : characterData[selectedCharacterIndex].background
+                ? backgroundImage.Image
+                : characterData[selectedCharacterIndex].Background
             }
             resizeMode="cover">
             <S.Header>

@@ -1,5 +1,5 @@
 import * as S from './SelectModal.styles';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 import {Modal} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import Toast from 'react-native-toast-message';
@@ -65,9 +65,9 @@ function CharacterSelectModal({
             <S.BoxStyle>
               <S.Image
                 source={
-                  characterData[equippedCharacterIndex].evolutions[
+                  characterData[equippedCharacterIndex].Evolutions[
                     equippedEvolutionStage
-                  ].front
+                  ].Main
                 }
                 resizeMode="contain"
               />
@@ -83,9 +83,9 @@ function CharacterSelectModal({
             <S.BoxStyle>
               <S.Image
                 source={
-                  characterData[selectedCharacterIndex].evolutions[
+                  characterData[selectedCharacterIndex].Evolutions[
                     selectedEvolutionStage
-                  ].front
+                  ].Main
                 }
                 resizeMode="contain"
               />

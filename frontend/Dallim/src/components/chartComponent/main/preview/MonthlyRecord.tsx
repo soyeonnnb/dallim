@@ -3,9 +3,9 @@ import {WeeklyRecord} from './PreviewRecord';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 import {colors} from '@/components/common/globalStyles';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 import {useEffect, useState} from 'react';
-import {meterToKMOrMeter, secondToMinuteText} from '@/recoil/RunningData';
+import {meterToKMOrMeter, secondToMinuteText} from '@/recoil/data/RunningData';
 
 interface Props {
   selectedYearMonth: {
@@ -54,7 +54,7 @@ function MonthlyRecord({selectedYearMonth, previewRecords}: Props) {
               <S.CharacterImage
                 source={
                   characterData[previewRecords.runningMate.characterIndex]
-                    .evolutions[previewRecords.runningMate.evolutionStage].front
+                    .Evolutions[previewRecords.runningMate.evolutionStage].Main
                 }
                 resizeMode="contain"
               />

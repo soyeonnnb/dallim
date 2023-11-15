@@ -2,7 +2,7 @@ import * as S from './PairPace.styles';
 import {useEffect, useState} from 'react';
 
 // 타입 및 함수
-import {secondToMinuteSeconds, calculatePace} from '@/recoil/RunningData';
+import {secondToMinuteSeconds, calculatePace} from '@/recoil/data/RunningData';
 import {PaceSectionType} from '@/apis/ChartApi';
 
 // 아이콘

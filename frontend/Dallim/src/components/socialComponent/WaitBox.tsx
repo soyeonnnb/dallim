@@ -6,7 +6,7 @@ import {useRecoilState} from 'recoil';
 import {friendRequestsState, friendsState} from '@/recoil/FriendRecoil';
 import AccpetIcon from '@/assets/icons/AcceptIcon';
 import DenyIcon from '@/assets/icons/DenyIcon';
-import Toast from 'react-native-toast-message';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 type WaitBoxProps = {
   userId: number;
@@ -35,14 +35,7 @@ function WaitBox({
       const result = await postRequestAccept(userId);
       // console.log("userId " + userId)
       if (result) {
-        Toast.show({
-          type: 'success',
-          position: 'top',
-          text1: '친구를 수락하셨습니다.',
-          visibilityTime: 3000,
-          autoHide: true,
-          topOffset: 10,
-        });
+        CustomToast({ type: 'success', text1: '친구를 수락하셨습니다.' });
         console.log('친구 신청 수락 성공' + userId);
         // 요청 목록에서 제거합니다.
         setRequestFriends(
@@ -67,14 +60,7 @@ function WaitBox({
     try {
       const result = await postRequestReject(userId);
       if (result) {
-        Toast.show({
-          type: 'error',
-          position: 'top',
-          text1: '친구를 거절하셨습니다.',
-          visibilityTime: 3000,
-          autoHide: true,
-          topOffset: 10,
-        });
+        CustomToast({ type: 'error', text1: '친구를 거절하셨습니다.' });
         console.log('친구 신청 거절 성공' + userId);
         setRequestFriends(
           requestFriends.filter(friend => friend.userId !== userId),

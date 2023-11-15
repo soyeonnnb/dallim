@@ -61,9 +61,11 @@ export const NicknameText = styled.Text`
   font-size: 15px;
   width: 50%;
   color: white;
+  font-weight: bold;
   top: 35%;
   right: 7%;
   position: absolute;
+  text-align: center;
 `;
 
 export const ExpBarContainer = styled.View`
@@ -134,6 +136,7 @@ export const PointText = styled.Text`
   /* border-width: 1px;
   border-color: white; */
   font-size: 12px;
+  font-weight: bold;
   width: 50%;
   color: white;
   top: 40%;

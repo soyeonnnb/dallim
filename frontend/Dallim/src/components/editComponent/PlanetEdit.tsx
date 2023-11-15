@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 import { planetData } from '@/recoil/data/PlanetData';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
-import CustomToast from '../common/CustomToast';
+import { CustomToast } from '@/components/common/toast/CustomToast';
+
 import Planet from './PlanetBox';
 
 import { useRecoilState } from 'recoil';
@@ -41,7 +42,10 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurcha
     try {
       const responseData = await updateEquippedPlanet(selectedPlanetIndex);
       if (responseData.status === 'success') {
-        CustomToast({ type: 'success', text1: '대표 행성 변경 성공!' });
+        CustomToast({
+          type: 'success',
+          text1: '대표 행성 변경 성공!'
+        });
       } else {
         CustomToast({
           type: 'error',
@@ -115,7 +119,7 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurcha
 
   function handleEquipped() {
     console.log('시작 버튼 눌림!');
-    CustomToast({ type: 'success', text1: '이미 선택된 행성입니다.' });
+    CustomToast({ type: 'error', text1: '이미 선택된 행성입니다.' });
   }
 
   return (

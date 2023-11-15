@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 //component
-import CustomToast from '../common/CustomToast';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 //apis
 import {postSchedule} from '@/apis/ProfileApi';

@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {Dimensions, Text} from 'react-native';
 
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
-import Toast from 'react-native-toast-message';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 import * as S from './Calendar.styles';
 import {borderRadius, colors} from '@/components/common/globalStyles';
@@ -128,13 +128,9 @@ function ChartCalendar({
   // 특정 날짜 선택시
   const handleClickedSelectedDate = (day: CalendarType) => {
     if (!dayHaveDatas.includes(day.dateString)) {
-      Toast.show({
+      CustomToast({
         type: 'error',
-        position: 'top',
         text1: '달리기 안한날!',
-        visibilityTime: 3000,
-        autoHide: true,
-        topOffset: 10,
       });
       return;
     }
@@ -193,6 +189,7 @@ function ChartCalendar({
             weekVerticalMargin: 13,
             todayTextColor: 'yellow',
             // 어쩔 수 없는 에러. 타입스크립트로 인해 발생.
+            // @ts-ignore
             'stylesheet.calendar.main': {
               container: {
                 height: calendarHeight,

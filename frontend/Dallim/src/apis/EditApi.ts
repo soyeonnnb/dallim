@@ -18,7 +18,7 @@ const getToken = async () => {
   }
 };
 
-const BASE_URL = 'https://k9b208.p.ssafy.io';
+const BASE_URL = 'https://dallim.site';
 
 // 캐릭터 & 행성 정보 조회
 export const fetchEditInfo = async () => {

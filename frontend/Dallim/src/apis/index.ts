@@ -9,7 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // export * from './ProfileApi';
 // export * from './SocialApi';
 
-const BASE_URL = 'https://k9b208.p.ssafy.io';
+const BASE_URL = 'https://dallim.site';
 
 const privateApi = axios.create({
   baseURL: BASE_URL,

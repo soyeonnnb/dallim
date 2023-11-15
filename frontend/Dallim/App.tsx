@@ -1,13 +1,23 @@
 import * as React from 'react';
-import { requestUserPermission, NotificationListner } from './src/utils/pushnotification_helper';
-import { checkNotifications, requestNotifications } from 'react-native-permissions';
-import { CommonActions, NavigationContainer, useNavigation } from '@react-navigation/native';
-import { displayNoti } from './src/utils/pushnotification_helper';
-import { createStackNavigator } from '@react-navigation/stack';
-import { enableScreens } from 'react-native-screens';
-import { Platform, Linking } from 'react-native';
-import { RecoilRoot } from 'recoil';
-import { useEffect } from 'react';
+import {
+  requestUserPermission,
+  NotificationListner,
+} from './src/utils/pushnotification_helper';
+import {
+  checkNotifications,
+  requestNotifications,
+} from 'react-native-permissions';
+import {
+  CommonActions,
+  NavigationContainer,
+  useNavigation,
+} from '@react-navigation/native';
+import {displayNoti} from './src/utils/pushnotification_helper';
+import {createStackNavigator} from '@react-navigation/stack';
+import {enableScreens} from 'react-native-screens';
+import {Platform, Linking} from 'react-native';
+import {RecoilRoot} from 'recoil';
+import {useEffect} from 'react';
 import SystemNavigationBar from 'react-native-system-navigation-bar'; // 안드로이드 상태 표시줄과 네비게이션 바를 숨긴다.
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomTab from './src/components/common/bottomTab/BottomTab';
@@ -63,10 +73,10 @@ function App() {
 
   useEffect(() => {
     const requestNotificationPermission = async () => {
-      const { status } = await checkNotifications();
+      const {status} = await checkNotifications();
 
       if (status === 'denied') {
-        requestNotifications(['alert', 'sound']).then(({ status }) => {
+        requestNotifications(['alert', 'sound']).then(({status}) => {
           if (
             status === 'denied' &&
             Platform.OS === 'android' &&
@@ -125,33 +135,33 @@ function App() {
           <Stack.Screen
             name="AccessToken"
             component={AccessToken}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Login"
             component={Login}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="BottomTab"
             component={BottomTab}
-            options={{ headerShown: false }} // BottomTab의 헤더 숨기기
+            options={{headerShown: false}} // BottomTab의 헤더 숨기기
           />
 
           <Stack.Screen
             name="NotFound"
             component={NotFound}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Kakao"
             component={Kakao}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Naver"
             component={Naver}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
         </Stack.Navigator>
 

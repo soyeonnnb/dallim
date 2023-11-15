@@ -1,8 +1,8 @@
 import * as S from './PairPace.styles';
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 
 // 타입 및 함수
-import {secondToHourMinuteSeconds, calculatePace} from '@/recoil/RunningData';
+import {secondToMinuteSeconds, calculatePace} from '@/recoil/RunningData';
 import {PaceSectionType} from '@/apis/ChartApi';
 
 // 아이콘
@@ -38,6 +38,7 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
     <S.Container
       contentContainerStyle={{
         alignItems: 'center',
+        justifyContent: 'center',
       }}
       onLayout={onLayout}>
       <S.ScrollInBox height={(parentHeight / 2) * sectionNum}>
@@ -48,9 +49,9 @@ function PairPace({data, rivalData, second, setSecond}: Props) {
               key={rowIndex}
               record={record}
               color={
-                rivalData && rivalData[rowIndex].pace >= record.pace
-                  ? '#96B986'
-                  : '#E4A4A4'
+                rivalData && rivalData[0].pace >= record.pace
+                  ? colors.green._600
+                  : colors.red._300
               }
             />
           ))}
@@ -105,7 +106,7 @@ function RecordPreviewBox({
       </S.Record>
       <S.Record flex={0.8}>
         <S.RecordContent>
-          {secondToHourMinuteSeconds(record.finishTime - record.startTime)}
+          {secondToMinuteSeconds(record.finishTime - record.startTime)}
         </S.RecordContent>
         <S.RecordContent>{calculatePace(record.pace)}</S.RecordContent>
       </S.Record>

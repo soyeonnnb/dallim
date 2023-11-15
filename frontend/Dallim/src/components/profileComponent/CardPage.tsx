@@ -7,7 +7,7 @@ import DistIcon from '@/assets/icons/DistIcon.png';
 import TimeIcon from '@/assets/icons/TimeIcon.png';
 import SpeedIcon from '@/assets/icons/SpeedIcon.png';
 import ClearIcon from '@/assets/icons/ClearIcon.png';
-import {meterToKMOrMeter} from '@/recoil/RunningData';
+import {calculatePace, meterToKMOrMeter} from '@/recoil/RunningData';
 
 interface ICardPage {
   item: {
@@ -18,6 +18,7 @@ interface ICardPage {
     level: number;
     nickName: string;
     totalDistance: number;
+    averagePace: number;
     totalTime: number;
     createdAt: string;
     clear: boolean;
@@ -41,18 +42,27 @@ export default function CardPage({item}: ICardPage) {
   const formattedDate = getFormattedDate(item.createdAt);
 
   // 속력
-  const speed = item.totalDistance / item.totalDistance;
+  // const speed = item.totalDistance / item.totalDistance;
 
-  // 시간 변환 함수 ( 60분 이상 경우에 )
-  const formatTime = (totalMinutes: number) => {
-    if (totalMinutes >= 60) {
-      const hours = Math.floor(totalMinutes / 60);
-      const minutes = totalMinutes % 60;
-      return `${hours}시간 ${minutes}분`;
-    } else {
-      return `${totalMinutes}분`;
-    }
+  const formatTimeFromSeconds = (totalSeconds: number) => {
+    const hours = Math.floor(totalSeconds / 3600); // 총 시간을 3600으로 나눠 시간 구하기
+    const minutes = Math.floor((totalSeconds % 3600) / 60); // 남은 초를 60으로 나눠 분 구하기
+    const seconds = totalSeconds % 60; // 남은 초
+
+    // 시간, 분, 초를 문자열로 변환
+    let timeString = '';
+    if (hours > 0) timeString += `${hours}시간 `;
+    if (minutes > 0) timeString += `${minutes}분 `;
+    timeString += `${seconds}초`;
+
+    return timeString;
   };
+
+  // const formatPace = (pace: number) => {
+  //   const minutes = calculatePace(pace); // 분
+
+  //   return `{minutes}`; // 포맷팅된 문자열 반환
+  // };
 
   return (
     // <S.PageItem style={style}>
@@ -85,13 +95,15 @@ export default function CardPage({item}: ICardPage) {
               <S.Icon>
                 <S.IconImage source={TimeIcon} />
               </S.Icon>
-              <S.FooterText>{formatTime(item.totalTime)}</S.FooterText>
+              <S.FooterText>
+                {formatTimeFromSeconds(item.totalTime)}
+              </S.FooterText>
             </S.MiddleBox>
             <S.BottomBox>
               <S.Icon>
                 <S.IconImage source={SpeedIcon} />
               </S.Icon>
-              <S.FooterText>{speed.toFixed(2)} Km/h</S.FooterText>
+              <S.FooterText>{calculatePace(item.averagePace)}</S.FooterText>
             </S.BottomBox>
           </S.Footer>
 

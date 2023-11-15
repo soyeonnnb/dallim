@@ -1,7 +1,8 @@
 import {useEffect, useState} from 'react';
 import {ScrollView} from 'react-native';
 import * as S from './UserDetailStack.styles';
-import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
+// import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
+import DirectionLeftIcon from '@/assets/icons/DirectionLeftIcon';
 
 import RunningDataBox from '@/components/socialComponent/RunningDataBox';
 import VersusModal from '@/components/socialComponent/socialModal/VersusModal';
@@ -26,7 +27,7 @@ interface RunningRecord {
   createdAt: string;
   totalDistance: number;
   totalTime: number;
-  averageSpeed: number;
+  averagePace: number;
   registration: boolean;
 }
 
@@ -161,17 +162,19 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
           <>
             <S.Header>
               <S.CloseButton onPress={() => navigation.navigate('Social')}>
-                <S.CloseImage source={CloseIcon} />
+                <DirectionLeftIcon width={30} height={30}></DirectionLeftIcon>
               </S.CloseButton>
+              <S.EmptyBox></S.EmptyBox>
               <S.HeaderBox>
                 <S.DetailText>상세보기</S.DetailText>
               </S.HeaderBox>
+              <S.EmptyBox></S.EmptyBox>
               <S.VersusBox>
-                <S.VersusButton onPress={handleSend}>
+                {/* <S.VersusButton onPress={handleSend}>
                   <S.AnimatedVersusText style={{opacity: buttonFadeAnim}}>
                     비교하기
                   </S.AnimatedVersusText>
-                </S.VersusButton>
+                </S.VersusButton> */}
               </S.VersusBox>
             </S.Header>
             <S.Body>

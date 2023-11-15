@@ -1,13 +1,19 @@
 import * as S from './RunningDataBox.styles';
-import PlaceIcon from '@/assets/icons/PlaceIcon.png';
-import DateIcon from '@/assets/icons/DateIcon.png';
-import DistIcon from '@/assets/icons/DistIcon.png';
-import TimeIcon from '@/assets/icons/TimeIcon.png';
-import SpeedIcon from '@/assets/icons/SpeedIcon.png';
+import PlaceIcon from '@/assets/icons/PlaceIcon';
+import DateIcon from '@/assets/icons/DateIcon';
+import DistIcon from '@/assets/icons/DistIcon';
+import TimeIcon from '@/assets/icons/TimeIcon';
+import SpeedsIcon from '@/assets/icons/SpeedsIcon';
 import {postRecordSave} from '@/apis/SocialApi';
 import CheckModal from './socialModal/CheckModal';
 import {useState} from 'react';
-import {meterToKMOrMeter} from '@/recoil/RunningData';
+import {
+  calculatePace,
+  meterToKMOrMeter,
+  secondToMinuteText,
+} from '@/recoil/RunningData';
+import LinearGradient from 'react-native-linear-gradient';
+import RadialGradient from 'react-native-radial-gradient';
 
 interface RunningDataBoxProps {
   id: string;
@@ -15,7 +21,7 @@ interface RunningDataBoxProps {
   createdAt: string;
   totalDistance: number;
   totalTime: number;
-  averageSpeed: number;
+  averagePace: number;
   registration: boolean;
   onUpdateRegistration: (id: string) => void;
 }
@@ -26,7 +32,7 @@ function RunningDataBox({
   createdAt,
   totalDistance,
   totalTime,
-  averageSpeed,
+  averagePace,
   registration,
   onUpdateRegistration,
 }: RunningDataBoxProps) {
@@ -54,7 +60,6 @@ function RunningDataBox({
     setCheckModalVisible(!checkModalVisible);
   }
 
-  // 시간 변환 함수 ( 60분 이상 경우에 )
   const formatTime = (totalMinutes: number) => {
     if (totalMinutes >= 60) {
       const hours = Math.floor(totalMinutes / 60);
@@ -67,57 +72,204 @@ function RunningDataBox({
 
   return (
     <S.Container>
-      <S.Box>
-        <S.Top>
-          <S.TopLeft>
-            <S.Icon>
-              <S.IconImage source={PlaceIcon} />
-            </S.Icon>
-            <S.Text>{location}</S.Text>
-          </S.TopLeft>
-          <S.TopRight>
-            <S.Icon>
-              <S.IconImage source={DateIcon} />
-            </S.Icon>
-            <S.Text>{formatDate(createdAt)}</S.Text>
-          </S.TopRight>
-        </S.Top>
-        <S.Middle>
-          <S.MiddleLeft>
-            <S.Icon>
-              <S.IconImage source={DistIcon} />
-            </S.Icon>
-            <S.Text>{meterToKMOrMeter(totalDistance)}</S.Text>
-          </S.MiddleLeft>
-          <S.MiddleRight>
-            <S.Icon>
-              <S.IconImage source={TimeIcon} />
-            </S.Icon>
-            <S.Text>{formatTime(totalTime)}</S.Text>
-          </S.MiddleRight>
-        </S.Middle>
-        <S.Bottom>
-          <S.BottomLeft>
-            <S.Icon>
-              <S.IconImage source={SpeedIcon} />
-            </S.Icon>
-            <S.Text>{averageSpeed.toFixed(2)} Km/h</S.Text>
-          </S.BottomLeft>
-          <S.BottomRight>
-            <S.AddBox>
-              {!registration ? (
-                <S.AddButton onPress={toggleCheckModal}>
-                  <S.AddText>등록하기</S.AddText>
-                </S.AddButton>
-              ) : (
-                <S.AddButton_two disabled>
-                  <S.AddText_two>등록됨</S.AddText_two>
-                </S.AddButton_two>
-              )}
-            </S.AddBox>
-          </S.BottomRight>
-        </S.Bottom>
-      </S.Box>
+      <S.BoxShadow
+        distance={3}
+        startColor="rgba(0, 0, 0, 0.25)"
+        endColor="rgba(0, 0, 0, 0.25)"
+        offset={[0, 3]}>
+        <S.Box>
+          <S.Top>
+            <S.TopLeft>
+              <S.Icon>
+                <S.CircleShadow
+                  distance={2}
+                  startColor="rgba(241, 139, 153, 0.4)"
+                  endColor="rgba(232, 166, 174, 0.4)"
+                  offset={[0, 0]}>
+                  <S.PlaceCircle>
+                    <PlaceIcon width={15} height={15} />
+                    <RadialGradient
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 100,
+                        opacity: 0.25,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'absolute',
+                        overflow: 'hidden',
+                      }}
+                      colors={['#ffffff', '#F18298']}
+                      stops={[0.03, 0.4]}
+                      radius={20}
+                      center={[50, 100]}></RadialGradient>
+                  </S.PlaceCircle>
+                </S.CircleShadow>
+              </S.Icon>
+              <S.Text>{location}</S.Text>
+            </S.TopLeft>
+            <S.TopRight>
+              <S.Icon>
+                <S.CircleShadow
+                  distance={2}
+                  startColor="rgba(70, 208, 110, 0.3)"
+                  endColor="rgba(70, 208, 110, 0.5)"
+                  offset={[0, 0]}>
+                  <S.DateCircle>
+                    <DateIcon width={15} height={15} />
+                    <RadialGradient
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 100,
+                        opacity: 0.3,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'absolute',
+                        overflow: 'hidden',
+                      }}
+                      colors={['#ffffff', '#33B962']}
+                      stops={[0.03, 0.4]}
+                      radius={20}
+                      center={[7, 7]}></RadialGradient>
+                  </S.DateCircle>
+                </S.CircleShadow>
+              </S.Icon>
+              <S.Text>{formatDate(createdAt)}</S.Text>
+            </S.TopRight>
+          </S.Top>
+          <S.Middle>
+            <S.MiddleLeft>
+              <S.Icon>
+                <S.CircleShadow
+                  distance={2}
+                  startColor="rgba(239, 102, 71, 0.3)"
+                  endColor="rgba(239, 102, 71, 0.3)"
+                  offset={[0, 0]}>
+                  <S.DistCircle>
+                    <DistIcon width={18} height={18} />
+                    <RadialGradient
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 100,
+                        opacity: 0.15,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'absolute',
+                        overflow: 'hidden',
+                      }}
+                      colors={['#ffffff', '#B82101']}
+                      stops={[0.4, 1]}
+                      radius={20}
+                      center={[7, 7]}></RadialGradient>
+                  </S.DistCircle>
+                </S.CircleShadow>
+              </S.Icon>
+              <S.Text>{meterToKMOrMeter(totalDistance)}</S.Text>
+            </S.MiddleLeft>
+            <S.MiddleRight>
+              <S.Icon>
+                <S.CircleShadow
+                  distance={2}
+                  startColor="rgba(229, 163, 232, 0.3)"
+                  endColor="rgba(229, 163, 232, 0.3)"
+                  offset={[0, 0]}>
+                  <S.TimeCircle>
+                    <TimeIcon width={15} height={15} />
+                    <RadialGradient
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 100,
+                        opacity: 0.15,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'absolute',
+                        overflow: 'hidden',
+                      }}
+                      colors={['#F9CEFF', '#EF4CE9']}
+                      stops={[0.4, 1]}
+                      radius={20}
+                      center={[7, 7]}></RadialGradient>
+                  </S.TimeCircle>
+                </S.CircleShadow>
+              </S.Icon>
+              <S.Text>{secondToMinuteText(totalTime)}</S.Text>
+            </S.MiddleRight>
+          </S.Middle>
+          <S.Bottom>
+            <S.BottomLeft>
+              <S.Icon>
+                <S.CircleShadow
+                  distance={2}
+                  startColor="rgba(111, 133, 205, 0.5)"
+                  endColor="rgba(109, 166, 216, 0.5)"
+                  offset={[0, 0]}>
+                  <S.SpeedCircle>
+                    <SpeedsIcon width={13} height={13} />
+                    <RadialGradient
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: 100,
+                        opacity: 0.15,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        position: 'absolute',
+                        overflow: 'hidden',
+                      }}
+                      colors={['#F9CEFF', '#0030D9']}
+                      stops={[0.4, 1]}
+                      radius={20}
+                      center={[7, 7]}></RadialGradient>
+                  </S.SpeedCircle>
+                </S.CircleShadow>
+              </S.Icon>
+              <S.Text>{calculatePace(averagePace)}</S.Text>
+            </S.BottomLeft>
+            <S.BottomRight>
+              <S.AddBox>
+                {!registration ? (
+                  <S.ButtonShadow
+                    distance={2}
+                    startColor="rgba(0, 0, 0, 0.25)"
+                    endColor="rgba(0, 0, 0, 0.25)"
+                    offset={[0, 2]}>
+                    <S.AddButton onPress={toggleCheckModal}>
+                      <LinearGradient
+                        start={{x: 0, y: 0}}
+                        end={{x: 0, y: 1}}
+                        colors={['#6EE2F5', '#6454F0']}
+                        style={{
+                          height: '100%',
+                          width: '100%',
+                          borderRadius: 15,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+
+                          // position: 'absolute',
+                        }}>
+                        <S.AddText>등록하기</S.AddText>
+                      </LinearGradient>
+                    </S.AddButton>
+                  </S.ButtonShadow>
+                ) : (
+                  <S.ButtonShadow
+                    distance={2}
+                    startColor="rgba(0, 0, 0, 0.25)"
+                    endColor="rgba(0, 0, 0, 0.25)"
+                    offset={[0, 2]}>
+                    <S.AddButton_two disabled>
+                      <S.AddText_two>등록됨</S.AddText_two>
+                    </S.AddButton_two>
+                  </S.ButtonShadow>
+                )}
+              </S.AddBox>
+            </S.BottomRight>
+          </S.Bottom>
+        </S.Box>
+      </S.BoxShadow>
 
       <CheckModal
         checkModalVisible={checkModalVisible}

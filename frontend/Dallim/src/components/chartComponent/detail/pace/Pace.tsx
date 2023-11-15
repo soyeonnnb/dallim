@@ -2,52 +2,39 @@ import * as S from './Pace.styles';
 import {useState, useEffect} from 'react';
 import PaceChart from './PaceChart';
 import PaceRecord from './PaceRecord';
-import {Switch} from 'react-native-gesture-handler';
 
-import {
-  PaceChartDataType,
-  PaceDataType,
-  PaceSectionType,
-} from '@/apis/ChartApi';
+import {PaceDataType} from '@/apis/ChartApi';
 
 interface Props {
   data: PaceDataType;
   rivalData?: PaceDataType;
-  isAlone: boolean;
+  showRivals: boolean;
 }
 
-function Pace({data, rivalData, isAlone}: Props) {
+function Pace({data, rivalData, showRivals}: Props) {
   const [comparePair, setcompairPair] = useState<boolean>(true);
   const [second, setSecond] = useState<number>(
     data.chartData.length > 0 ? data.chartData.length - 1 : 0,
   );
 
-  const handleSetIsPairToggle = () => {
-    setcompairPair(!comparePair);
-  };
-
   useEffect(() => {
-    if (isAlone) setcompairPair(false);
+    // 같이 달리기가 아니면 같이달리기 비교 X를 default로 두기
+    if (!showRivals) setcompairPair(false);
   }, []);
   return (
     <S.Container>
       <PaceChart
-        isPair={comparePair}
+        comparePair={comparePair}
         data={data}
         second={second}
         setSecond={setSecond}
         rivalData={rivalData}
+        showRivals={showRivals}
       />
-      <S.ToggleBox>
-        {!isAlone && (
-          <>
-            <S.ToggleText>같이 달리기 비교</S.ToggleText>
-            <Switch onValueChange={handleSetIsPairToggle} value={comparePair} />
-          </>
-        )}
-      </S.ToggleBox>
       <PaceRecord
-        isPair={comparePair}
+        showRivals={showRivals}
+        comparePair={comparePair}
+        setCompairPair={setcompairPair}
         data={data.sectionPace}
         rivalData={rivalData?.sectionPace}
         second={second}

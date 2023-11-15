@@ -1,4 +1,4 @@
-import React, {useRef, useState, useMemo, useCallback, useEffect} from 'react';
+import {useRef, useState, useMemo, useCallback, useEffect} from 'react';
 import BottomSheet from '@gorhom/bottom-sheet';
 import PreviewDaily from './preview/Daily';
 import PreviewRecord from './preview/PreviewRecord';
@@ -49,7 +49,15 @@ function Preview({
     },
   });
   const [runningRankingRecords, setRunningRankingRecords] = useState<
-    {stacks: {value: number; color: string; id: string}[]; label: string}[]
+    {
+      stacks: {value: number; color: string}[];
+      label: string;
+      info: {
+        id: string;
+        distance: number;
+        time: number;
+      };
+    }[]
   >([]);
 
   const snapPoints = useMemo(() => ['40%', '90%'], []); // 전체 화면에서 몇퍼센트 차지할
@@ -82,7 +90,16 @@ function Preview({
       },
     };
     const monthNewRecords: {
-      stacks: {value: number; color: string; id: string}[];
+      stacks: {
+        value: number;
+        color: string;
+        marginBottom?: number;
+      }[];
+      info: {
+        id: string;
+        distance: number;
+        time: number;
+      };
       label: string;
     }[] = [];
     everyRecords?.map(monthData => {
@@ -98,16 +115,20 @@ function Preview({
             stacks: [
               {
                 value: record.totalDistance,
-                color: colors.chart.record.distance,
-                id: record.id,
+                color: colors.blue._500,
               },
               {
                 value: record.totalTime,
                 color: '#C3A9F6',
-                id: record.id,
+                marginBottom: 2,
               },
             ],
             label: `${record.createdAt.slice(8, 10)}일`,
+            info: {
+              id: record.id,
+              distance: record.totalDistance,
+              time: record.totalTime,
+            },
           });
         });
         newMonth.runningMate.characterIndex =
@@ -180,6 +201,7 @@ function Preview({
           previewRecords={previewRecords}
           previewMonthRankingRecords={runningRankingRecords}
         />
+        <S.Footer />
       </S.Container>
     </BottomSheet>
   );

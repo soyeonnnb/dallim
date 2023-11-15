@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import {secondToHourMinuteSeconds, calculatePace} from '@/recoil/RunningData';
+import {secondToMinuteSeconds, calculatePace} from '@/recoil/RunningData';
 import {PaceSectionType} from '@/apis/ChartApi';
 interface Props {
   data: PaceSectionType[];
@@ -33,6 +33,7 @@ function AlonePace({data}: Props) {
     <S.Container
       contentContainerStyle={{
         alignItems: 'center',
+        justifyContent: 'center',
       }}
       onLayout={onLayout}>
       <S.ScrollInBox height={(parentHeight / 2.5) * sectionNum}>
@@ -53,9 +54,7 @@ function AlonePace({data}: Props) {
               <S.Record>
                 <S.RecordName>달린 시간</S.RecordName>
                 <S.RecordContent>
-                  {secondToHourMinuteSeconds(
-                    record.finishTime - record.startTime,
-                  )}
+                  {secondToMinuteSeconds(record.finishTime - record.startTime)}
                 </S.RecordContent>
               </S.Record>
               <S.Record>

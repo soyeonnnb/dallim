@@ -4,6 +4,9 @@ import {characterData} from '@/recoil/CharacterData';
 
 import {useRecoilState} from 'recoil';
 import {friendRequestsState, friendsState} from '@/recoil/FriendRecoil';
+import AccpetIcon from '@/assets/icons/AcceptIcon';
+import DenyIcon from '@/assets/icons/DenyIcon';
+import Toast from 'react-native-toast-message';
 
 type WaitBoxProps = {
   userId: number;
@@ -25,13 +28,21 @@ function WaitBox({
   const [friends, setFriends] = useRecoilState(friendsState); // 친구 목록 상태
 
   const selectedCharacter =
-    characterData[characterIndex].evolutions[evolutionStage].front;
+    characterData[characterIndex].evolutions[evolutionStage].profile;
 
   const handleRequestAccept = async () => {
     try {
       const result = await postRequestAccept(userId);
       // console.log("userId " + userId)
       if (result) {
+        Toast.show({
+          type: 'success',
+          position: 'top',
+          text1: '친구를 수락하셨습니다.',
+          visibilityTime: 3000,
+          autoHide: true,
+          topOffset: 10,
+        });
         console.log('친구 신청 수락 성공' + userId);
         // 요청 목록에서 제거합니다.
         setRequestFriends(
@@ -56,6 +67,14 @@ function WaitBox({
     try {
       const result = await postRequestReject(userId);
       if (result) {
+        Toast.show({
+          type: 'error',
+          position: 'top',
+          text1: '친구를 거절하셨습니다.',
+          visibilityTime: 3000,
+          autoHide: true,
+          topOffset: 10,
+        });
         console.log('친구 신청 거절 성공' + userId);
         setRequestFriends(
           requestFriends.filter(friend => friend.userId !== userId),
@@ -80,27 +99,33 @@ function WaitBox({
           </S.FriendDetailButton>
         </S.Left>
         <S.Middle_Wait>
-          <S.NicknameText>{nickname}</S.NicknameText>
           <S.LevelText>Lv. {level}</S.LevelText>
+          <S.NicknameText>{nickname}</S.NicknameText>
         </S.Middle_Wait>
         <S.Right_Wait>
           {/* 수락버튼 */}
           <S.Button_AcceptWait>
-            <S.Button_Wait onPress={handleRequestAccept}>
-              <S.WaitImage
-                source={require('@/assets/icons/AcceptIcon.png')}
-                resizeMode="contain"
-              />
-            </S.Button_Wait>
+            <S.ButtonShadow
+              distance={2}
+              startColor="rgba(0, 0, 0, 0.2)"
+              endColor="rgba(0, 0, 0, 0.2)"
+              offset={[1, 2]}>
+              <S.Button_Wait onPress={handleRequestAccept}>
+                <AccpetIcon height={20} width={20} color="white"></AccpetIcon>
+              </S.Button_Wait>
+            </S.ButtonShadow>
           </S.Button_AcceptWait>
           <S.Button_DenyWait>
-            {/* 거절버튼 */}
-            <S.Button_Wait onPress={handleRequestDenied}>
-              <S.WaitImage
-                source={require('@/assets/icons/DenyIcon.png')}
-                resizeMode="contain"
-              />
-            </S.Button_Wait>
+            <S.ButtonShadow
+              distance={2}
+              startColor="rgba(0, 0, 0, 0.2)"
+              endColor="rgba(0, 0, 0, 0.2)"
+              offset={[1, 2]}>
+              {/* 거절버튼 */}
+              <S.Button_Delete onPress={handleRequestDenied}>
+                <DenyIcon height={20} width={20} color="white"></DenyIcon>
+              </S.Button_Delete>
+            </S.ButtonShadow>
           </S.Button_DenyWait>
         </S.Right_Wait>
       </S.Box>

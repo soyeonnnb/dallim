@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {ImageBackground} from 'react-native';
+import {colors} from '@/components/common/globalStyles';
 
 export const ModalContainer = styled.View`
   flex: 1;
@@ -28,8 +29,8 @@ export const Header = styled.View`
 export const HeaderLeft = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 20%;
-  height: 100%;
+  width: 10%;
+  /* height: 100%; */
   justify-content: center;
   align-items: center;
 `;
@@ -37,8 +38,8 @@ export const HeaderLeft = styled.View`
 export const CloseButton = styled.TouchableOpacity`
   /* border-width: 1px;
   border-color: red; */
-  width: 40%;
-  height: 40%;
+  width: 100%;
+  height: 100%;
   justify-content: center;
   align-items: center;
 `;
@@ -46,12 +47,20 @@ export const CloseImage = styled.Image`
   width: 100%;
   height: 100%;
 `;
+export const EmptyBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  justify-content: center;
+  width: 10%;
+  height: 100%;
+`;
 
 export const HeaderCenter = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
+  flex-direction: row;
   width: 40%;
   height: 100%;
 `;
@@ -64,19 +73,51 @@ export const Title = styled.Text`
 export const HeaderRight = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 40%;
+  justify-content: center;
+  align-items: flex-start;
+  width: 30%;
   height: 100%;
-  padding-left: 2%;
+  /* padding-left: 2%; */
+`;
+
+export const CenterLeft = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  justify-content: center;
+  align-items: center;
+  width: 10%;
+  height: 100%;
+  /* padding-left: 2%; */
+`;
+
+export const CenterBox = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  height: 100%;
+  /* padding-left: 2%; */
+`;
+export const CenterRight = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  justify-content: center;
+  align-items: center;
+  width: 10%;
+  height: 100%;
+  /* padding-left: 2%; */
 `;
 
 export const HeaderRightBox = styled.TouchableOpacity`
   /* border-width: 1px;
   border-color: red; */
-  width: 100%;
+  width: 10%;
   height: 100%;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
-  padding-top: 5%;
+  margin-top: 10px;
+  /* padding-top: ; */
 `;
 
 export const QuestionImage = styled.Image`
@@ -101,7 +142,7 @@ export const BodyBackground = styled(ImageBackground)`
 export const BodyLeft = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 50%;
+  width: 40%;
   height: 100%;
 `;
 
@@ -150,13 +191,13 @@ export const LevelText = styled.Text`
   /* border-width: 1px;
   border-color: blue; */
   font-size: 15px;
-  color: black;
+  color: white;
 `;
 
 export const BodyRigth = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 50%;
+  width: 40%;
   height: 100%;
 `;
 
@@ -187,7 +228,7 @@ export const FooterTextBox = styled.View`
 export const LeftTextBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 30%;
+  width: 40%;
   height: 100%;
   justify-content: flex-end;
   align-items: flex-start;
@@ -195,7 +236,7 @@ export const LeftTextBox = styled.View`
 export const MiddleTextBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 40%;
+  width: 20%;
   height: 100%;
   justify-content: center;
   align-items: center;
@@ -203,7 +244,7 @@ export const MiddleTextBox = styled.View`
 export const RightTextBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 30%;
+  width: 40%;
   height: 100%;
   justify-content: flex-end;
   align-items: flex-end;
@@ -243,15 +284,17 @@ export const MyDataBar = styled.View<{widthPercentage: number}>`
   position: relative;
   width: ${props => props.widthPercentage}%;
   height: 100%;
-  background-color: #fdcb86; // 내 데이터 색상
+  background-color: ${colors.button.depth1.color}; // 내 데이터 색상
+  /* align-items: center; */
+  /* border-radius: 40px; */
 `;
 
 export const OtherDataBar = styled.View<{widthPercentage: number}>`
   position: relative;
   width: ${props => props.widthPercentage}%;
   height: 100%;
-  background-color: #8da478; // 상대 데이터 색상
-  border-radius: 40px;
+  background-color: ${colors.button.depth1.color}; // 상대 데이터 색상
+  /* border-radius: 40px; */
   align-items: flex-end;
   justify-content: center;
 `;

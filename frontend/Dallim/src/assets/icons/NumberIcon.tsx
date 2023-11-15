@@ -4,34 +4,40 @@ interface Props {
   width: number;
   height: number;
   color: string;
+  stroke?: number;
 }
 
-function NumberIcon({width, height, color}: Props) {
+function NumberIcon({width, height, color, stroke = 2}: Props) {
   return (
-    <Svg width={width} height={height} viewBox="0 0 36 36" fill="none">
-      <G clip-path="url(#clip0_707_19595)">
+    <Svg width={width} height={height} viewBox="0 0 30 30" fill="none">
+      <G clip-path="url(#clip0_1778_5146)">
         <Path
-          d="M6 25.5V10.5L16.5 25.5V10.5"
+          d="M5 21.25V8.75L13.75 21.25V8.75"
           stroke={color}
-          stroke-width="2"
+          strokeWidth={stroke}
           stroke-linecap="round"
           stroke-linejoin="round"
         />
         <Path
-          d="M22.5 25.5H30"
+          d="M18.75 21.25H25"
           stroke={color}
-          stroke-width="2"
+          strokeWidth={stroke}
           stroke-linecap="round"
           stroke-linejoin="round"
         />
         <Path
-          d="M26.25 19.5C28.3211 19.5 30 17.4853 30 15C30 12.5147 28.3211 10.5 26.25 10.5C24.1789 10.5 22.5 12.5147 22.5 15C22.5 17.4853 24.1789 19.5 26.25 19.5Z"
+          d="M21.875 16.25C23.6009 16.25 25 14.5711 25 12.5C25 10.4289 23.6009 8.75 21.875 8.75C20.1491 8.75 18.75 10.4289 18.75 12.5C18.75 14.5711 20.1491 16.25 21.875 16.25Z"
           stroke={color}
-          stroke-width="2"
+          strokeWidth={stroke}
           stroke-linecap="round"
           stroke-linejoin="round"
         />
       </G>
+      <Defs>
+        <ClipPath id="clip0_1778_5146">
+          <Rect width={width} height={height} fill="white" />
+        </ClipPath>
+      </Defs>
     </Svg>
   );
 }

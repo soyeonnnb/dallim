@@ -5,7 +5,7 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 import Toast from 'react-native-toast-message';
 
 import * as S from './Calendar.styles';
-import {colors} from '@/components/common/globalStyles';
+import {borderRadius, colors} from '@/components/common/globalStyles';
 
 // 컴포넌트
 import ArrowLeft from '@/assets/icons/ArrowLeft';
@@ -15,6 +15,7 @@ import ArrowRight from '@/assets/icons/ArrowRight';
 import {MonthlyRecords} from '@/apis/ChartApi';
 import {CalendarType, getDateObject} from '@/recoil/CalendarData';
 import {numberToTwoString} from '@/recoil/RunningData';
+import {setDay} from 'date-fns';
 
 interface Props {
   isClicked?: boolean;
@@ -38,16 +39,50 @@ function ChartCalendar({
   setPreviewChartType,
 }: Props) {
   const [nowDateString, setNowDateString] = useState<string>();
-  const [markedDates, setMarkedDates] = useState<{[key: string]: MarkType}>({});
+  const [markedDates, setMarkedDates] = useState<{[key: string]: any}>({});
   const [dayHaveDatas, setDayHaveDatas] = useState<string[]>([]);
 
-  const defaultSelectedColor = colors.purple._100;
-  const clickedSelectedColor = colors.purple._800;
-
-  type MarkType = {
-    selected?: boolean;
-    selectedColor?: string;
-    selectedTextColor?: string;
+  const defaultSelectedColor = 'white';
+  const clickedSelectedColor = colors.purple._900;
+  const defaultSelectedStyle = {
+    customStyles: {
+      container: {
+        backgroundColor: 'white',
+        borderRadius: 100,
+        elevation: 10,
+        shadowOffset: {
+          width: 50,
+          height: 50,
+        },
+        shadowColor: 'white',
+        shadowOpacity: 1,
+        width: 35,
+        height: 35,
+      },
+      text: {
+        color: colors.text.black,
+      },
+    },
+  };
+  const clickedSelectedStyle = {
+    customStyles: {
+      container: {
+        backgroundColor: colors.lavendar._600,
+        borderRadius: 100,
+        elevation: 10,
+        shadowOffset: {
+          width: 0,
+          height: -1,
+        },
+        shadowColor: 'white',
+        shadowOpacity: 1,
+        width: 35,
+        height: 35,
+      },
+      text: {
+        color: colors.text.white,
+      },
+    },
   };
 
   useEffect(() => {
@@ -58,7 +93,7 @@ function ChartCalendar({
     );
 
     // 사용자가 달린 날들에 대해 체크표시 하기
-    const marks: {[key: string]: MarkType} = {};
+    const marks: {[key: string]: any} = {};
     const keyList: string[] = [];
 
     everyRecords?.map(monthData => {
@@ -67,11 +102,7 @@ function ChartCalendar({
         const recordDateString = `${recordDate.year}-${numberToTwoString(
           recordDate.month,
         )}-${numberToTwoString(recordDate.date)}`;
-        marks[recordDateString] = {
-          selected: true,
-          selectedTextColor: colors.purple._800,
-          selectedColor: defaultSelectedColor,
-        };
+        marks[recordDateString] = defaultSelectedStyle;
         keyList.push(recordDateString);
       });
     });
@@ -115,37 +146,29 @@ function ChartCalendar({
       selectedDate.dateString === day.dateString
     ) {
       // 선택 해제
-      updatedMarkedDates[day.dateString] = {
-        selected: true,
-        selectedColor: defaultSelectedColor,
-        selectedTextColor: colors.depth._600,
-      };
+      updatedMarkedDates[day.dateString] = defaultSelectedStyle;
       setMarkedDates(updatedMarkedDates);
       setSelectedDate(null);
       setIsClicked(false);
     } else {
       // 선택하기
       if (selectedDate) {
-        updatedMarkedDates[selectedDate.dateString] = {
-          selected: true,
-          selectedColor: defaultSelectedColor,
-          selectedTextColor: colors.purple._800,
-        };
+        updatedMarkedDates[selectedDate.dateString] = defaultSelectedStyle;
       }
-      updatedMarkedDates[day.dateString] = {
-        selected: true,
-        selectedColor: clickedSelectedColor,
-        selectedTextColor: 'white',
-      };
+      updatedMarkedDates[day.dateString] = clickedSelectedStyle;
       setMarkedDates(updatedMarkedDates);
       setSelectedDate(day);
       setIsClicked(true);
     }
   };
-
+  const [calendarHeight, setCalendarHeight] = useState<number>();
+  const onLayout = (event: any) => {
+    const {height} = event.nativeEvent.layout;
+    setCalendarHeight(height);
+  };
   return (
     <S.Container>
-      <S.CalendarContainer>
+      <S.CalendarContainer onLayout={onLayout}>
         <CalendarList
           style={{
             width: Dimensions.get('window').width, // calendar scroll시 가운데로 가도록 해줌
@@ -167,9 +190,14 @@ function ChartCalendar({
             textDayFontSize: 20, // 날짜 폰트 크기
             textDayHeaderFontSize: 17,
             dayTextColor: 'white', // 날짜 폰트 색깔
-            weekVerticalMargin: 10,
+            weekVerticalMargin: 13,
             todayTextColor: 'yellow',
             // 어쩔 수 없는 에러. 타입스크립트로 인해 발생.
+            'stylesheet.calendar.main': {
+              container: {
+                height: calendarHeight,
+              },
+            },
             'stylesheet.calendar.header': {
               header: {
                 flexDirection: 'row',
@@ -184,6 +212,18 @@ function ChartCalendar({
                 marginLeft: 30,
                 marginRight: 30,
               },
+            },
+            'stylesheet.day.single': {
+              base: {
+                overflow: 'hidden',
+                height: 34,
+                alignItems: 'center',
+                width: 38,
+              },
+            },
+            'stylesheet.marking': {
+              width: '30px',
+              height: '50px',
             },
           }}
           // calendar에서 month가 바뀔 때 실행하는 함수
@@ -206,6 +246,7 @@ function ChartCalendar({
           monthFormat={`yyyy년 MM월`}
           futureScrollRange={0}
           pastScrollRange={20}
+          markingType={'custom'}
         />
       </S.CalendarContainer>
     </S.Container>

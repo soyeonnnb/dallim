@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {colors} from '@/components/common/globalStyles';
+import {Shadow} from 'react-native-shadow-2';
 
 export const Container = styled.View`
   flex: 1;
@@ -42,12 +43,21 @@ export const CharacterImage = styled.Image`
 `;
 export const Records = styled.View`
   flex: 1;
-  height: 150px;
+  height: 200px;
   justify-content: space-evenly;
 `;
 export const RecordPreview = styled.View`
   flex-direction: row;
   align-items: center;
+`;
+export const RecordIconCircle = styled(Shadow)<{bgColor: string}>`
+  width: 35px;
+  height: 35px;
+  background-color: ${props => props.bgColor};
+  border-radius: 40px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 6%;
 `;
 export const Chart = styled.View``;
 export const RunningMateRecord = styled.Text`

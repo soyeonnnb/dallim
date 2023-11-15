@@ -32,6 +32,7 @@ import com.dallim.util.NetworkUtil;
 import com.dallim.util.PreferencesUtil;
 import com.dallim.util.TtsUtil;
 import com.dallim.util.UserInfo;
+import com.dallim.util.VibrateDevice;
 
 import java.util.ArrayList;
 import java.util.List;

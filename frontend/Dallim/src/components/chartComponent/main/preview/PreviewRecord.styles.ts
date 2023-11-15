@@ -1,9 +1,11 @@
+import {Shadow} from 'react-native-shadow-2';
 import styled from 'styled-components/native';
 
 export const Container = styled.View<{isShow: boolean}>`
   width: 100%;
   padding: 0 30px;
   display: ${props => (props.isShow ? 'block' : 'none')};
+  flex: 1;
 `;
 
 export const Title = styled.Text`
@@ -15,6 +17,7 @@ export const Title = styled.Text`
 
 export const View = styled.View`
   flex-direction: row;
+  flex: 1;
   justify-content: space-evenly;
 `;
 
@@ -27,19 +30,27 @@ export const Component = styled.View`
   align-items: center;
 `;
 export const Circle = styled.View<{bgColor: string}>`
-  width: 70px;
-  height: 70px;
+  width: 100%;
+  height: 100%;
   background-color: ${props => props.bgColor};
   margin-bottom: 10px;
-  border-radius: 70px;
+  border-radius: 18px;
   justify-content: center;
   align-items: center;
 `;
+
+export const CircleShadow = styled(Shadow)`
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+`;
 export const Name = styled.Text`
   color: gray;
+  font-size: 13px;
 `;
 export const Content = styled.Text`
   font-weight: 800;
-  font-size: 19px;
+  font-size: 16px;
   color: black;
 `;

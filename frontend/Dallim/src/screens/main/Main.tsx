@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { fetchUserProfile } from '@/apis/MainApi';
 import { characterData } from '@/recoil/data/CharacterData';
 import { planetData } from '@/recoil/data/PlanetData';
-import { LevelData } from '@/recoil/data/LevelData';
+import { LevelData, PointData } from '@/recoil/data/LevelData';
 import NotificationModal from '@/components/profileComponent/profileModal/NotificationModal';
 import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
 import StampModal from '@/components/mainComponent/StampModal';
@@ -24,7 +24,7 @@ import {
   equippedEvolutionStageState,
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import CustomToast from '@/components/common/CustomToast';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon';
 
@@ -53,28 +53,29 @@ function Main({ navigation }: MainProps) {
     equippedPlanetIndexState,
   );
 
-  useEffect(() => {
-    const loadUserInfo = async () => {
-      try {
-        const userInfo = await fetchUserProfile(); // API 함수 호출
-        console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
+  const loadUserInfo = async () => {
+    try {
+      const userInfo = await fetchUserProfile(); // API 함수 호출
+      console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
 
-        if (userInfo) {
-          setUserId(userInfo.userId);
-          setUserNickname(userInfo.nickName);
-          setUserPoint(userInfo.point);
-          setUserLevel(userInfo.userLevel);
-          setUserExp(userInfo.userExp);
-          setEquippedCharacterIndex(userInfo.characterIndex);
-          setEquippedEvolutionStage(userInfo.evolutionStage);
-          setEquippedPlanetIndex(userInfo.planetIndex);
+      if (userInfo) {
+        setUserId(userInfo.userId);
+        setUserNickname(userInfo.nickName);
+        setUserPoint(userInfo.point);
+        setUserLevel(userInfo.userLevel);
+        setUserExp(userInfo.userExp);
+        setEquippedCharacterIndex(userInfo.characterIndex);
+        setEquippedEvolutionStage(userInfo.evolutionStage);
+        setEquippedPlanetIndex(userInfo.planetIndex);
 
-          setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
-        }
-      } catch (error) {
-        console.error('Main : 정보 조회 Axios 실패 ');
+        setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
       }
-    };
+    } catch (error) {
+      console.error('Main : 정보 조회 Axios 실패 ');
+    }
+  };
+
+  useEffect(() => {
     loadUserInfo();
   }, []);
 
@@ -110,7 +111,20 @@ function Main({ navigation }: MainProps) {
   }
   const LevelImage = LevelData[getLevelImageIndex(userLevel)].Name;
 
+  const formatPoints = (points: number) => {
+    if (points >= 100000) {
+      return '99,999+';
+    } else {
+      return points.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+  };
+  const PointImage = PointData.Point;
 
+  // 새로고침 버튼을 눌렀을 때 실행할 함수
+  const handleReload = () => {
+    setIsLoading(true);
+    loadUserInfo();
+  };
 
   return (
     <S.Container>
@@ -119,7 +133,7 @@ function Main({ navigation }: MainProps) {
           <S.BackgroundImage
             source={require('@/assets/images/MainBackground.png')}
             resizeMode="cover">
-            <Loading />
+            <Loading onReload={handleReload} />
           </S.BackgroundImage>
         </>
       ) : (
@@ -141,11 +155,12 @@ function Main({ navigation }: MainProps) {
               </S.HeaderLeft>
 
               <S.HeaderRight>
-                {/* <S.Box></S.Box> */}
                 <S.PointBox>
-                  <S.PointText>{userPoint} P</S.PointText>
+                  <S.PointImage
+                    source={PointImage} resizeMode='contain' />
+
+                  <S.PointText>{formatPoints(userPoint)}</S.PointText>
                 </S.PointBox>
-                {/* <S.Box></S.Box> */}
 
               </S.HeaderRight>
             </S.Header>
@@ -234,8 +249,8 @@ function Main({ navigation }: MainProps) {
               <S.StartBox>
                 <S.StartButton
                   onPress={() =>
-                    // navigation.navigate('GameStartStack')
-                    DummyToast() // 개발중
+                    navigation.navigate('GameStartStack')
+                    // DummyToast() // 개발중
                   }
                 >
                   <LinearGradient

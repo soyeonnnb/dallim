@@ -14,11 +14,6 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import RuningModal from '../../components/mainComponent/RuningModal';
 import { postRunningData } from '@/apis/MainApi';
 
-// interface Props {
-//   isVisible: boolean;
-//   onClose: () => void;
-// }
-
 interface GpsData {
   second: number;
   latitude: number;
@@ -32,7 +27,6 @@ interface GameStartStackProps {
   navigation: any;
 }
 
-// const GameStartStack: React.FC<Props> = ({ isVisible, onClose }) => {
 function GameStartStack({ navigation }: GameStartStackProps) {
 
   const timerIdRef = useRef<NodeJS.Timeout | null>(null);
@@ -212,7 +206,7 @@ function GameStartStack({ navigation }: GameStartStackProps) {
         }
 
         // 각도 차이가 90도 미만인 경우에만 데이터 업데이트
-        if (angleDifference < 90 || lastBearing === null) {
+        if (angleDifference < 40 || lastBearing === null) {
           lastBearing = bearing; // 마지막 방향 업데이트
           incrementalDistance = calculateIncrementalDistance(lastPosition, currentPosition);
         }
@@ -397,7 +391,6 @@ function GameStartStack({ navigation }: GameStartStackProps) {
       } catch (error) {
         console.error("데이터 전송 실패: ", error);
       }
-
     }
   };
 
@@ -499,7 +492,7 @@ function GameStartStack({ navigation }: GameStartStackProps) {
                   <S.RecodeTitle>페이스</S.RecodeTitle>
                 </S.RecodeTextBox>
                 <S.RecodeBottomBox>
-                  <S.RecodeText>{pace} ( 분 : 초 ) </S.RecodeText>
+                  <S.RecodeText>{pace}</S.RecodeText>
                 </S.RecodeBottomBox>
               </S.RecodeLeft>
               <S.RecodeRight>
@@ -513,7 +506,7 @@ function GameStartStack({ navigation }: GameStartStackProps) {
 
 
                 <S.RecodeTextBox>
-                  <S.RecodeTitle>현재 속력</S.RecodeTitle>
+                  <S.RecodeTitle>평균 속력</S.RecodeTitle>
                 </S.RecodeTextBox>
                 <S.RecodeBottomBox>
                   <S.RecodeText>  {secondsElapsed > 0 ? (totalDistance / secondsElapsed).toFixed(2) : '0'} m/s</S.RecodeText>

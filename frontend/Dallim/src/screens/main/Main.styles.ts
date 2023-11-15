@@ -114,20 +114,32 @@ export const HeaderRight = styled.View`
   width: 50%;
   height: 100%;
   justify-content: flex-end;
-  align-items: flex-end;
+  align-items: center;
 `;
 
 export const PointBox = styled.View`
   /* border-width: 1px;
   border-color: white; */
-  height: 40px;
+  width: 120px;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
+`;
+
+export const PointImage = styled.Image`
+  width: 100%;
+  height: 100%;
 `;
 
 export const PointText = styled.Text`
-  font-size: 15px;
+  /* border-width: 1px;
+  border-color: white; */
+  font-size: 12px;
+  width: 50%;
   color: white;
+  top: 40%;
+  right: 5%;
+  position: absolute;
+  text-align: center;
 `;
 
 export const ButtonBox = styled.View`
@@ -204,7 +216,7 @@ export const StartBox = styled.View`
   align-items: center;
   width: 100%;
   height: 20%;
-margin-bottom: 15%;
+  margin-bottom: 15%;
 `;
 
 export const StartButton = styled.TouchableOpacity`

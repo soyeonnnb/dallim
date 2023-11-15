@@ -12,7 +12,7 @@ export const CustomToast = ({ type, text1 }: CustomToastProps) => {
     type: type,
     position: 'top',
     text1: text1,
-    visibilityTime: 300000,
+    visibilityTime: 3000,
     autoHide: true,
     topOffset: 70,
   });

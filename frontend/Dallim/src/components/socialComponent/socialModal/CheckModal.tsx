@@ -1,6 +1,6 @@
 import * as S from './CheckModal.styles';
-import {Modal} from 'react-native';
-import Toast from 'react-native-toast-message';
+import { Modal } from 'react-native';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 type ModalComponentProps = {
   checkModalVisible: boolean;
@@ -17,19 +17,17 @@ function CheckModal({
     try {
       // 등록 처리
       await handleModalRecordSave();
- 
-      // Toast 메시지 표시
-      Toast.show({
+
+      CustomToast({
         type: 'success',
-        position: 'top',
-        text1: '런닝메이트 등록 완료 !',
-        visibilityTime: 3000,
-        autoHide: true,
-        topOffset: 10,
+        text1: '런닝메이트 등록 완료!'
       });
       toggleCheckModal();
     } catch (error) {
-      console.error('런닝메이트 등록 오류', error);
+      CustomToast({
+        type: 'error',
+        text1: '런닝메이트 등록 실패!'
+      });
     }
   };
 

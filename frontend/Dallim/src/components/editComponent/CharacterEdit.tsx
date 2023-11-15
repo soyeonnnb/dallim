@@ -3,8 +3,8 @@ import { characterData } from '@/recoil/data/CharacterData';
 import { useEffect, useState } from 'react';
 import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
 import CharacterSelectModal from './editModal/CharacterSelectModal';
-// import BoomEffect from '@/components/common/BoomEffect';
-import CustomToast from '../common/CustomToast';
+import { CustomToast } from '@/components/common/toast/CustomToast';
+
 import Character from './CharacterBox';
 
 import { useRecoilState } from 'recoil';
@@ -55,16 +55,10 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange, onCha
       if (responseData.status === 'success') {
         CustomToast({ type: 'success', text1: '대표 캐릭터 변경 성공!' });
       } else {
-        CustomToast({
-          type: 'error',
-          text1: '통신에 실패했습니다. 다시 시도해주세요.',
-        });
+        CustomToast({ type: 'error', text1: '통신에 실패했습니다.' });
       }
     } catch (error) {
-      CustomToast({
-        type: 'error',
-        text1: '변경에 실패했습니다. 다시 시도해주세요.',
-      });
+      CustomToast({ type: 'error', text1: '변경에 실패했습니다.' });
     }
   }
 
@@ -131,7 +125,7 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange, onCha
   }
 
   function handleEquipped() {
-    CustomToast({ type: 'success', text1: '이미 선택된 캐릭터입니다.' });
+    CustomToast({ type: 'error', text1: '이미 선택된 캐릭터입니다.' });
   }
 
   return (

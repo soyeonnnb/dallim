@@ -1,6 +1,6 @@
 import * as S from './WatchConnection.styles';
-import {useState} from 'react';
-import Toast from 'react-native-toast-message';
+import { useState } from 'react';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 import InfoModal from '@/components/profileComponent/profileModal/InfoModal';
 
@@ -8,14 +8,14 @@ import InfoModal from '@/components/profileComponent/profileModal/InfoModal';
 import BackButtonIcon from '@/assets/icons/ArrowLeft';
 import DeleteIcon from '@/assets/icons/DeleteIcon';
 
-import {colors} from '@/components/common/globalStyles';
-import {postWatchConnection} from '@/apis/ProfileApi';
+import { colors } from '@/components/common/globalStyles';
+import { postWatchConnection } from '@/apis/ProfileApi';
 
 interface WatchConnectionProps {
   navigation: any;
 }
 
-function WatchConnection({navigation}: WatchConnectionProps) {
+function WatchConnection({ navigation }: WatchConnectionProps) {
   // 다음 화면 미리보기--------------------
   const [inputNums, setInputNums] = useState<string[]>([
     '',
@@ -36,46 +36,18 @@ function WatchConnection({navigation}: WatchConnectionProps) {
   const handleWatchConnect = async () => {
     // 6자리 숫자만 유효
     if (inputIter != 6) {
-      Toast.show({
-        type: 'error',
-        position: 'top',
-        text1: '6자리 숫자를 입력해주세요',
-        visibilityTime: 3000,
-        autoHide: true,
-        topOffset: 10,
-      });
+      CustomToast({ type: 'error', text1: '6자리 숫자를 입력해주세요.' });
       return;
     }
     const authCode = inputNums.join('');
     const result = await postWatchConnection(authCode);
     if (result.status === 'success') {
-      Toast.show({
-        type: 'success',
-        position: 'top',
-        text1: '연동 성공 !',
-        visibilityTime: 3000,
-        autoHide: true,
-        topOffset: 10,
-      });
+      CustomToast({ type: 'success', text1: '연동 성공 !' });
       navigation.navigate('Profile');
     } else if (result.message === '인증 기간이 만료됨') {
-      Toast.show({
-        type: 'error',
-        position: 'top',
-        text1: '인증 기간이 만료되었습니다. 재발급해주세요',
-        visibilityTime: 3000,
-        autoHide: true,
-        topOffset: 10,
-      });
+      CustomToast({ type: 'error', text1: '인증 기간이 만료되었습니다. 재발급해주세요.' });
     } else {
-      Toast.show({
-        type: 'error',
-        position: 'top',
-        text1: '숫자를 다시 확인해주세요',
-        visibilityTime: 3000,
-        autoHide: true,
-        topOffset: 10,
-      });
+      CustomToast({ type: 'error', text1: '숫자를 다시 확인해주세요.' });
     }
   };
 

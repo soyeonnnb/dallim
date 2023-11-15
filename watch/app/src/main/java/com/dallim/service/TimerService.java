@@ -22,7 +22,9 @@ import com.dallim.R;
 import com.dallim.activity.RunningActivity;
 import com.dallim.database.RunningDataConverters;
 import com.dallim.model.RunDetail;
+import com.dallim.util.Conversion;
 import com.dallim.util.MyApplication;
+import com.dallim.util.TtsUtil;
 import com.dallim.view.RunningMateRecordViewModel;
 import com.dallim.view.RunningViewModel;
 
@@ -45,15 +47,28 @@ public class TimerService extends Service {
     private double totalSpeed = 0;
     private List<Double> mateRunningDetail = new ArrayList<>();
     private Double lastDistance;
+    private Double kmLastDistance;
     private boolean check = false;
     private int seconds = 0;
+    private Conversion conversion = new Conversion();
     private boolean overTime = false;
     private long curTime = 0;
+    private TtsUtil ttsUtil;
+    private boolean tts5kmCheck = false;
+    private boolean tts3kmCheck = false;
+    private boolean tts1kmCheck = false;
+    private boolean tts0_5kmCheck = false;
+    private boolean tts0_1kmCheck = false;
+    private boolean myTts0_5kmCheck = false;
+    private double lastTtsDistance = 0.0;
+
 
     @SuppressLint("InvalidWakeLockTag")
     @Override
     public void onCreate() {
         super.onCreate();
+        ttsUtil = new TtsUtil(getApplicationContext());
+
         timerHandler = new Handler();
         runningViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningViewModel.class);
         // check가 true면 함께달리기
@@ -62,6 +77,7 @@ public class TimerService extends Service {
             runningMateRecordViewModel = new ViewModelProvider((MyApplication) getApplication()).get(RunningMateRecordViewModel.class);
             mateRunningDetail = runningMateRecordViewModel.getMateRecord().getValue().getDistance();
             lastDistance = mateRunningDetail.get(mateRunningDetail.size() - 1);
+            kmLastDistance = conversion.mToKM(lastDistance);
         }
         createNotificationChannel();
     }
@@ -117,6 +133,28 @@ public class TimerService extends Service {
 
         // 함께달리기인 경우에만 거리 차이 계산
         if (check){
+            if (runningViewModel.getDistance().getValue() != null){
+                double curDistance = kmLastDistance - runningViewModel.getDistance().getValue();
+                curDistance = Math.round(curDistance * 100.0) / 100.0;
+                Log.e("남은거리", String.valueOf(curDistance));
+                // tts 알림
+                if (curDistance == 5 && !tts5kmCheck){
+                    ttsUtil.speak("현재 남은 목표 거리는 5km 입니다.");
+                    tts5kmCheck = true;
+                } else if (curDistance == 3 && !tts3kmCheck){
+                    ttsUtil.speak("현재 남은 목표 거리는 3km 입니다.");
+                    tts3kmCheck = true;
+                } else if (curDistance == 1 && !tts1kmCheck){
+                    ttsUtil.speak("현재 남은 목표 거리는 1km 입니다.");
+                    tts1kmCheck = true;
+                }else if (curDistance == 0.5 && !tts0_5kmCheck){
+                    ttsUtil.speak("현재 남은 목표 거리는 500m 입니다.");
+                    tts0_5kmCheck = true;
+                }else if (curDistance == 0.1 && !tts0_1kmCheck){
+                    ttsUtil.speak("현재 남은 목표 거리는 100m 입니다.");
+                    tts0_1kmCheck = true;
+                }
+            }
             // 아직 상대방 시간보다 낮은 경우
             if(!overTime){
                 if(seconds >= mateRunningDetail.size() - 1){
@@ -150,6 +188,18 @@ public class TimerService extends Service {
                     localBroadcastManager.sendBroadcast(intent);
                 }
             }
+        } else {
+            if (runningViewModel.getOriDistance().getValue() != null){
+                double tempDistance = runningViewModel.getOriDistance().getValue();
+                if (tempDistance >= 500 && !myTts0_5kmCheck) {
+                    myTts0_5kmCheck = true;
+                    ttsUtil.speak("현재 달린 거리는 500m 입니다.");
+                } else if (tempDistance >= 1000  && tempDistance >= lastTtsDistance + 1000){
+                    lastTtsDistance = tempDistance;
+                    tempDistance = Math.round(tempDistance/1000);
+                    ttsUtil.speak("현재 달린 거리는 " + String.valueOf(tempDistance)+ "km 입니다.");
+                }
+            }
         }
 
         runningViewModel.setTotalTime((long) seconds);
@@ -160,6 +210,7 @@ public class TimerService extends Service {
         RunDetail detail = new RunDetail();
         if (runningViewModel.getOriDistance().getValue() != null) {
             detail.setDistance(runningViewModel.getOriDistance().getValue());
+            Log.e("오리진 거리", String.valueOf(runningViewModel.getOriDistance().getValue()));
         }
         if (runningViewModel.getMsPaceToSecond().getValue() != null) {
             detail.setPace(runningViewModel.getMsPaceToSecond().getValue());
@@ -181,12 +232,6 @@ public class TimerService extends Service {
             detail.setHeartRate(runningViewModel.getHeartRate().getValue());
         }
         detail.setSecond(elapsedTime);
-        if (runningViewModel.getLongitude().getValue() != null) {
-            detail.setLongitude(runningViewModel.getLongitude().getValue());
-        }
-        if (runningViewModel.getLatitude().getValue() != null) {
-            detail.setLatitude(runningViewModel.getLatitude().getValue());
-        }
 
         if (runningViewModel.getMsSpeed().getValue() != null) {
             speedCountTime++;
@@ -217,6 +262,7 @@ public class TimerService extends Service {
             Log.e("출력", runningMateRecordJson);
             mateRunningDetail = RunningDataConverters.doubleFromString(runningMateRecordJson);
         }
+        Log.d("알림 로그", "들어옴");
         startForeground(NOTIFICATION_ID, getNotification());
         startTimer();
 
@@ -226,6 +272,7 @@ public class TimerService extends Service {
     @Override
     public void onDestroy() {
         stopTimer();
+        ttsUtil.stop();
         super.onDestroy();
         stopForeground(true);
     }

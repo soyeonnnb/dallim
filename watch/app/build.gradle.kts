@@ -16,8 +16,8 @@ android {
         applicationId = "com.dallim"
         minSdk = 30
         targetSdk = 33
-        versionCode = 106
-        versionName = "1.0.5"
+        versionCode = 107
+        versionName = "1.0.6"
         vectorDrawables {
             useSupportLibrary = true
         }

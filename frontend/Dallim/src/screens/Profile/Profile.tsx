@@ -5,7 +5,7 @@ import ProfileCard from '../../components/profileComponent/ProfileCard';
 
 import NicknameChangeModal from '../../components/profileComponent/profileModal/NicknameChangeModal';
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 
 //icon
 import logoutIcon from '@/assets/icons/logout.png';
@@ -32,6 +32,8 @@ import {
   userNicknameState,
 } from '@/recoil/UserRecoil';
 import {competitorDataState} from '@/recoil/RunningRecoil';
+import LinearGradient from 'react-native-linear-gradient';
+import RadialGradient from 'react-native-radial-gradient';
 
 interface ProfileProps {
   navigation: any;
@@ -70,7 +72,7 @@ function Profile({navigation}: ProfileProps) {
   //dataCall ---------------------------------
   const selectedCharacter = characterData[equippedCharacterIndex];
   const selectedCharacterLevelData =
-    selectedCharacter.evolutions[equippedEvolutionStage];
+    selectedCharacter.Evolutions[equippedEvolutionStage];
 
   //actions---------
   const handleRunningMatePress = () => {
@@ -95,7 +97,7 @@ function Profile({navigation}: ProfileProps) {
   return (
     <S.Container>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover">
         <S.Header>
           <S.TitleProfileBox>
@@ -117,52 +119,155 @@ function Profile({navigation}: ProfileProps) {
         <S.Body>
           <S.SetBox>
             <S.ButtonContainer>
-              <S.ButtonBox onPress={() => setShowNicknameChangeModal(true)}>
-                <S.IconBox>
-                  <TagsIcon width={50} height={50} color="white"></TagsIcon>
-                </S.IconBox>
-                <S.EmptyBox></S.EmptyBox>
-                <S.TextBox>
-                  <S.ButtonText>닉네임 변경</S.ButtonText>
-                </S.TextBox>
-              </S.ButtonBox>
-              <S.ButtonBox onPress={handleRunningMatePress}>
-                <S.RunningIconBox>
-                  <RunningMateIcon width={50} height={50} color="white" />
-                </S.RunningIconBox>
-                <S.TextBox>
-                  <S.ButtonText>러닝메이트</S.ButtonText>
-                </S.TextBox>
-              </S.ButtonBox>
+              <S.BoxShadow
+                distance={2}
+                startColor="rgba(0, 0, 0, 0.2)"
+                endColor="rgba(0, 0, 0, 0.2)"
+                offset={[4, 4]}>
+                <S.ButtonBox onPress={() => setShowNicknameChangeModal(true)}>
+                  <S.NickNameShadow
+                    distance={4}
+                    startColor="rgba(126,76,119, 0.8)"
+                    endColor="rgba(207,100,100,0.5)"
+                    offset={[0, 0]}>
+                    <S.IconBox>
+                      <LinearGradient
+                        start={{x: 0, y: 0}}
+                        end={{x: 0, y: 1}}
+                        colors={['#F78787', '#EF5656']}
+                        style={{
+                          height: '100%',
+                          width: '100%',
+                          borderRadius: 300,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          flexDirection: 'row',
+                        }}>
+                        <RadialGradient
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: 40,
+                            opacity: 0.3,
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            overflow: 'hidden',
+                            position: 'absolute',
+                          }}
+                          colors={[
+                            'rgba(140,130,126,0.3)',
+                            'rgba(235,223,138,1)',
+                          ]}
+                          stops={[0, 0.3]}
+                          radius={500}
+                          center={[50, 60]}></RadialGradient>
+                        <TagsIcon
+                          width={50}
+                          height={50}
+                          color="white"></TagsIcon>
+                      </LinearGradient>
+                    </S.IconBox>
+                  </S.NickNameShadow>
+                  <S.EmptyBox></S.EmptyBox>
+                  <S.TextBox>
+                    <S.ButtonText>닉네임 변경</S.ButtonText>
+                  </S.TextBox>
+                </S.ButtonBox>
+              </S.BoxShadow>
+              <S.BoxShadow
+                distance={2}
+                startColor="rgba(0, 0, 0, 0.2)"
+                endColor="rgba(0, 0, 0, 0.2)"
+                offset={[4, 4]}>
+                <S.ButtonBox onPress={handleRunningMatePress}>
+                  <S.RunningMateShadow
+                    distance={2}
+                    startColor="rgba(140,130,126, 0.8)"
+                    endColor="rgba(235,223,138,0.5)"
+                    offset={[0, 0]}>
+                    <S.RunningIconBox>
+                      <LinearGradient
+                        start={{x: 0, y: 0}}
+                        end={{x: 0, y: 1}}
+                        colors={['#FDEB71', '#F8D800']}
+                        style={{
+                          height: '100%',
+                          width: '100%',
+                          borderRadius: 300,
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          flexDirection: 'row',
+                        }}>
+                        <RadialGradient
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: 40,
+                            opacity: 0.3,
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            overflow: 'hidden',
+                            position: 'absolute',
+                          }}
+                          colors={[
+                            'rgba(255,255,255,0.3)',
+                            'rgba(207,100,100,0.8)',
+                          ]}
+                          stops={[0, 0.3]}
+                          radius={500}
+                          center={[50, 60]}></RadialGradient>
+                        <RunningMateIcon width={50} height={50} color="white" />
+                      </LinearGradient>
+                    </S.RunningIconBox>
+                  </S.RunningMateShadow>
+
+                  <S.TextBox>
+                    <S.ButtonText>러닝메이트</S.ButtonText>
+                  </S.TextBox>
+                </S.ButtonBox>
+              </S.BoxShadow>
             </S.ButtonContainer>
             <S.ButtonContainer>
-              <S.ButtonBox onPress={() => navigation.navigate('RunningAlarm')}>
-                <S.AlarmIconBox>
-                  <RunningAlarmIcon width={50} height={50} color="white" />
-                </S.AlarmIconBox>
-                <S.TextBox>
-                  <S.ButtonText>운동알림</S.ButtonText>
-                </S.TextBox>
-              </S.ButtonBox>
-              <S.ButtonBox
-                onPress={() => navigation.navigate('WatchConnection')}>
-                <S.WatchIconBox>
-                  <WatchIcon width={50} height={50} color="white" />
-                </S.WatchIconBox>
-                <S.TextBox>
-                  <S.ButtonText>워치</S.ButtonText>
-                </S.TextBox>
-              </S.ButtonBox>
+              <S.BoxShadow
+                distance={2}
+                startColor="rgba(0, 0, 0, 0.2)"
+                endColor="rgba(0, 0, 0, 0.2)"
+                offset={[4, 4]}>
+                <S.ButtonBox
+                  onPress={() => navigation.navigate('RunningAlarm')}>
+                  <S.AlarmIconBox>
+                    <RunningAlarmIcon width={50} height={50} color="white" />
+                  </S.AlarmIconBox>
+                  <S.TextBox>
+                    <S.ButtonText>운동알림</S.ButtonText>
+                  </S.TextBox>
+                </S.ButtonBox>
+              </S.BoxShadow>
+              <S.BoxShadow
+                distance={2}
+                startColor="rgba(0, 0, 0, 0.2)"
+                endColor="rgba(0, 0, 0, 0.2)"
+                offset={[4, 4]}>
+                <S.ButtonBox
+                  onPress={() => navigation.navigate('WatchConnection')}>
+                  <S.WatchIconBox>
+                    <WatchIcon width={50} height={50} color="white" />
+                  </S.WatchIconBox>
+                  <S.TextBox>
+                    <S.ButtonText>워치</S.ButtonText>
+                  </S.TextBox>
+                </S.ButtonBox>
+              </S.BoxShadow>
             </S.ButtonContainer>
           </S.SetBox>
         </S.Body>
 
         <S.TabBox />
       </S.BackgroundImage>
-
+      {/*  */}
       <S.ImageBox>
         <S.CharacterImage
-          source={selectedCharacterLevelData.front}
+          source={selectedCharacterLevelData.Main}
           resizeMode="contain"
         />
       </S.ImageBox>

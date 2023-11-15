@@ -2,10 +2,10 @@ import {useState, useEffect} from 'react';
 import {Dimensions} from 'react-native';
 import * as S from './Daily.styles';
 import {FlatList} from 'react-native-gesture-handler';
-import {CalendarType} from '@/recoil/CalendarData';
+import {CalendarType} from '@/recoil/data/CalendarData';
 import {DailyRecord} from '@/apis/ChartApi';
 import {useNavigation} from '@react-navigation/native';
-import {meterToKMOrMeter, secondToMinuteText} from '@/recoil/RunningData';
+import {meterToKMOrMeter, secondToMinuteText} from '@/recoil/data/RunningData';
 
 const screenWidth = Dimensions.get('window').width;
 const cardWidth = screenWidth * 0.8;

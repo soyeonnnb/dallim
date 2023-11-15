@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 import * as S from './Loading_Run.styles';
 import {Circle} from 'react-native-progress';
 
@@ -22,7 +22,7 @@ function Loading_Run() {
 
   return (
     <S.Container>
-      <S.Body>
+      {/* <S.Body>
         <S.CircleBox>
           <Circle
             size={100}
@@ -34,34 +34,34 @@ function Loading_Run() {
             // unfilledColor='blue'
           />
         </S.CircleBox>
-      </S.Body>
+      </S.Body> */}
 
-      <S.Footer>
+      <S.RunBox>
         <S.ThemeBox>
           <S.StyledGif
-            source={characterData[0].evolutions[0].running}
+            source={characterData[0].Evolutions[0].RunRight}
             resizeMode="contain"
           />
         </S.ThemeBox>
         <S.ThemeBox>
           <S.StyledGif
-            source={characterData[1].evolutions[0].running}
+            source={characterData[1].Evolutions[0].RunRight}
             resizeMode="contain"
           />
         </S.ThemeBox>
         <S.ThemeBox>
           <S.StyledGif
-            source={characterData[2].evolutions[0].running}
+            source={characterData[2].Evolutions[0].RunRight}
             resizeMode="contain"
           />
         </S.ThemeBox>
         <S.ThemeBox>
           <S.StyledGif
-            source={characterData[3].evolutions[0].running}
+            source={characterData[3].Evolutions[0].RunRight}
             resizeMode="contain"
           />
         </S.ThemeBox>
-      </S.Footer>
+      </S.RunBox>
 
       <S.TabBox />
     </S.Container>

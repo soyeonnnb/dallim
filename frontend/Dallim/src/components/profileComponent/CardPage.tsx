@@ -1,13 +1,13 @@
 import * as S from './CardPage.styles';
-import {planetData} from '@/recoil/PlanetData';
-import {characterData} from '@/recoil/CharacterData';
+import {planetData} from '@/recoil/data/PlanetData';
+import {characterData} from '@/recoil/data/CharacterData';
 
 // Icon
 import DistIcon from '@/assets/icons/DistIcon.png';
 import TimeIcon from '@/assets/icons/TimeIcon.png';
 import SpeedIcon from '@/assets/icons/SpeedIcon.png';
 import ClearIcon from '@/assets/icons/ClearIcon.png';
-import {calculatePace, meterToKMOrMeter} from '@/recoil/RunningData';
+import {calculatePace, meterToKMOrMeter} from '@/recoil/data/RunningData';
 
 interface ICardPage {
   item: {
@@ -29,7 +29,7 @@ interface ICardPage {
 export default function CardPage({item}: ICardPage) {
   const selectedCharacter = characterData[item.characterIndex];
   const selectedCharacterLevelData =
-    selectedCharacter.evolutions[item.evolutionStage];
+    selectedCharacter.Evolutions[item.evolutionStage];
 
   const getFormattedDate = (isoDate: string) => {
     const date = new Date(isoDate);
@@ -119,7 +119,7 @@ export default function CardPage({item}: ICardPage) {
       {/* 캐릭터 */}
       <S.BodyBottomCharacterImageBox>
         <S.CharacterImage
-          source={selectedCharacterLevelData.front}
+          source={selectedCharacterLevelData.Main}
           resizeMode="contain"
         />
       </S.BodyBottomCharacterImageBox>

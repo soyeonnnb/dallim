@@ -29,18 +29,15 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
   //     await AsyncStorage.setItem('accessToken', data.accessToken);
   const sendLoginRequest = async (token: string) => {
     try {
-      const response = await axios.get(
-        'http://k9b208.p.ssafy.io/api/oauth/login',
-        {
-          params: {
-            access: token,
-          },
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      const response = await axios.get('https://dallim.site/api/oauth/login', {
+        params: {
+          access: token,
         },
-      );
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
       const data = response.data;
       console.log(data);
@@ -72,7 +69,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
       setIsLoading(true);
 
       await axios
-        .get('http://k9b208.p.ssafy.io/api/oauth2/code/naver', {
+        .get('https://dallim.site/api/oauth2/code/naver', {
           params: {
             code: authCode,
           },

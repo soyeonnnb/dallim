@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- 기타 스타일 정의 -->
-
-    <style name="CustomDialogTheme" parent="Theme.AppCompat.Dialog">
-        <!-- 배경 투명하게 설정 -->
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:src">@drawable/modal</item>
-
-        <!-- 다른 스타일 속성 -->
-    </style>
     <style name="AppTheme.NoSwipeToDismiss" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowSwipeToDismiss">false</item>
         <!-- 필요한 다른 스타일 아이템들을 여기에 추가할 수 있습니다 -->

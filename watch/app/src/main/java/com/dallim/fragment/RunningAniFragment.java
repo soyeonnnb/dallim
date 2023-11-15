@@ -124,7 +124,8 @@ public class RunningAniFragment extends Fragment {
         runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance -> {
             TextView distanceView = view.findViewById(R.id.ani_distance);
             distanceView.setText(String.valueOf(distance));
-            Log.e("내 거리", String.valueOf(distance));
+            Log.e("내 거리", String.valueOf(kmLastDistance - distance));
+            runningViewModel.setRemainDistance(kmLastDistance - distance);
             String format = String.format("%.2f", kmLastDistance - distance);
             Log.e("남은 거리", format);
 
@@ -209,7 +210,7 @@ public class RunningAniFragment extends Fragment {
             mateView = binding.mateCha3;
         } else if (distanceDifference < 800 && distanceDifference >= 600) {
             mateView = binding.mateCha4;
-        } else if (distanceDifference < 1000 && distanceDifference <= 800) {
+        } else if (distanceDifference < 1000 && distanceDifference >= 800) {
             mateView = binding.mateCha5;
         } else if (distanceDifference >= 1000) {
             mateView = binding.mateCha6;

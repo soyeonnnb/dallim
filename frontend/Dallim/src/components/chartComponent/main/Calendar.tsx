@@ -13,8 +13,8 @@ import ArrowRight from '@/assets/icons/ArrowRight';
 
 // API
 import {MonthlyRecords} from '@/apis/ChartApi';
-import {CalendarType, getDateObject} from '@/recoil/CalendarData';
-import {numberToTwoString} from '@/recoil/RunningData';
+import {CalendarType, getDateObject} from '@/recoil/data/CalendarData';
+import {numberToTwoString} from '@/recoil/data/RunningData';
 import {setDay} from 'date-fns';
 
 interface Props {

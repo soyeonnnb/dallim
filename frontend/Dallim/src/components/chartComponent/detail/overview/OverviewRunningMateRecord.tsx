@@ -1,5 +1,5 @@
 import * as S from './OverviewRunningMateRecord.styles';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 import DistanceIcon from '@/assets/icons/DistanceIcon';
 import ClockIcon from '@/assets/icons/ClockIcon';
 import RunningThinIcon from '@/assets/icons/RunningThinIcon';
@@ -8,7 +8,7 @@ import {
   calculatePace,
   secondToMinuteSeconds,
   meterToKMOrMeter,
-} from '@/recoil/RunningData';
+} from '@/recoil/data/RunningData';
 import OverviewGraph from './OverviewGraph';
 import {colors} from '@/components/common/globalStyles';
 
@@ -28,9 +28,9 @@ function OverviewRunningMateRecord({
   winOrLose,
 }: Props) {
   const characterImage =
-    characterData[data.character.characterIndex].evolutions[
+    characterData[data.character.characterIndex].Evolutions[
       data.character.evolutionStage
-    ].front;
+    ].Main;
   return (
     <S.Container>
       <S.TitleContainer>

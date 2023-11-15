@@ -1,6 +1,6 @@
 import {postAddFriend} from '@/apis/SocialApi';
 import * as S from './Box.styles';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 
 import {useState} from 'react';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -25,7 +25,7 @@ function UserBox({
   isFollower,
 }: UserBoxProps) {
   const selectedCharacter =
-    characterData[characterIndex].evolutions[evolutionStage].profile;
+    characterData[characterIndex].Evolutions[evolutionStage].Badge;
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
 

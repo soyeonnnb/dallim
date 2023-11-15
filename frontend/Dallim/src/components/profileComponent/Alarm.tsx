@@ -12,7 +12,7 @@ import NightAlarm from '@/assets/images/NightAlarm.png';
 //component-------------------------------------------------------------
 // import AlarmDeleteModal from './profileModal/AlarmDeleteModal';
 
-//api----------------------------------------------------------
+//api--------------------------------------------------------
 import {deleteScheduleTwo, patchSchedule} from '@/apis/ProfileApi';
 
 const windowWidth = Dimensions.get('window').width;

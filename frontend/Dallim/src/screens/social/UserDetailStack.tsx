@@ -27,7 +27,7 @@ interface RunningRecord {
   createdAt: string;
   totalDistance: number;
   totalTime: number;
-  averageSpeed: number;
+  averagePace: number;
   registration: boolean;
 }
 

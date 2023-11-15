@@ -325,7 +325,7 @@ export const colors = {
     },
   },
   buttonColor: {
-    firstDepth: 'rgba(93, 69, 131, 0.8)',
+    firstDepth: 'rgba(72, 66, 135, 0.8)',
     depthOneMore: '#625D9D',
     exp: 'linear-gradient(to bottom right, #585864, #2C2C46)',
     point: 'rgba(42, 44, 69, 0.7)',

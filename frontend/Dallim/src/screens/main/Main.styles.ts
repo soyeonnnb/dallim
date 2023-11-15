@@ -1,8 +1,8 @@
 import styled from 'styled-components/native';
-import {ImageBackground, Image} from 'react-native';
-import {Animated} from 'react-native';
-import {TouchableOpacity} from 'react-native';
+import {ImageBackground} from 'react-native';
 import FastImage from 'react-native-fast-image';
+import {Text} from 'react-native-svg';
+import {ViewProps} from 'react-native-svg/lib/typescript/fabric/utils';
 
 export const Container = styled.View`
   flex: 1;
@@ -27,19 +27,91 @@ export const Header = styled.View`
 export const HeaderLeft = styled.View`
   border-width: 1px;
   border-color: yellow;
-  width: 40%;
+  width: 50%;
   height: 100%;
   flex-direction: row;
   justify-content: flex-start;
   align-items: flex-end;
-  gap: 10px;
+`;
+
+export const LevelImage = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
+
+export const LevelBox = styled.View`
+  border-width: 1px;
+  border-color: white;
+  width: 100%;
+  height: 100%;
+`;
+
+export const LevelText = styled.Text`
+  border-width: 1px;
+  border-color: green;
+  color: white;
+  top: 64%;
+  left: 9%;
+  position: absolute;
+`;
+
+export const NicknameText = styled.Text`
+  /* border-width: 1px;
+  border-color: red; */
+  font-size: 15px;
+  width: 50%;
+  color: white;
+  top: 35%;
+  right: 7%;
+  position: absolute;
+`;
+
+export const ExpBarContainer = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  border-radius: 10px;
+  background-color: white;
+  width: 50%;
+  height: 10%;
+  color: white;
+  bottom: 5%;
+  right: 5%;
+
+  position: absolute;
+`;
+
+interface ExpBarProps extends ViewProps {
+  expPercent: number;
+  levelIndex: number;
+}
+const getExpBarColor = (levelIndex: number): string => {
+  switch (levelIndex) {
+    case 0:
+      return '#835343';
+    case 1:
+      return '#96ADD2';
+    case 2:
+      return '#ED9F48';
+    case 3:
+      return '#7AEDEE';
+    case 4:
+      return '#BBD9FF';
+    default:
+      return 'blue'; // 기본 색상
+  }
+};
+export const ExpBar = styled.View<ExpBarProps>`
+  width: ${props => props.expPercent}%;
+  height: 100%;
+  background-color: ${props => getExpBarColor(props.levelIndex)};
+  border-radius: 10px;
 `;
 
 export const HeaderRight = styled.View`
   border-width: 1px;
   border-color: green;
   flex-direction: row;
-  width: 60%;
+  width: 50%;
   height: 100%;
   justify-content: flex-end;
   align-items: flex-end;
@@ -106,7 +178,6 @@ export const ButtonStyle = styled.TouchableOpacity`
   justify-content: center;
   align-items: center;
   padding-bottom: 5%;
-  padding-left: 10%;
 `;
 
 export const Body = styled.View`
@@ -172,17 +243,6 @@ export const CharacterGif = styled(FastImage)`
   height: 50%;
   bottom: 30%;
   position: absolute;
-`;
-
-export const LevelText = styled.Text`
-  font-size: 20px;
-  color: white;
-  margin-right: 3%;
-`;
-
-export const NicknameText = styled.Text`
-  font-size: 20px;
-  color: white;
 `;
 
 export const StartText = styled.Text`

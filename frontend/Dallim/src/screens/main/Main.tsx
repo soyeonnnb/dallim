@@ -53,28 +53,29 @@ function Main({ navigation }: MainProps) {
     equippedPlanetIndexState,
   );
 
-  useEffect(() => {
-    const loadUserInfo = async () => {
-      try {
-        const userInfo = await fetchUserProfile(); // API 함수 호출
-        console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
+  const loadUserInfo = async () => {
+    try {
+      const userInfo = await fetchUserProfile(); // API 함수 호출
+      console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
 
-        if (userInfo) {
-          setUserId(userInfo.userId);
-          setUserNickname(userInfo.nickName);
-          setUserPoint(userInfo.point);
-          setUserLevel(userInfo.userLevel);
-          setUserExp(userInfo.userExp);
-          setEquippedCharacterIndex(userInfo.characterIndex);
-          setEquippedEvolutionStage(userInfo.evolutionStage);
-          setEquippedPlanetIndex(userInfo.planetIndex);
+      if (userInfo) {
+        setUserId(userInfo.userId);
+        setUserNickname(userInfo.nickName);
+        setUserPoint(userInfo.point);
+        setUserLevel(userInfo.userLevel);
+        setUserExp(userInfo.userExp);
+        setEquippedCharacterIndex(userInfo.characterIndex);
+        setEquippedEvolutionStage(userInfo.evolutionStage);
+        setEquippedPlanetIndex(userInfo.planetIndex);
 
-          setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
-        }
-      } catch (error) {
-        console.error('Main : 정보 조회 Axios 실패 ');
+        setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
       }
-    };
+    } catch (error) {
+      console.error('Main : 정보 조회 Axios 실패 ');
+    }
+  };
+
+  useEffect(() => {
     loadUserInfo();
   }, []);
 
@@ -110,16 +111,20 @@ function Main({ navigation }: MainProps) {
   }
   const LevelImage = LevelData[getLevelImageIndex(userLevel)].Name;
 
-
+  // 새로고침 버튼을 눌렀을 때 실행할 함수
+  const handleReload = () => {
+    setIsLoading(true);
+    loadUserInfo();
+  };
 
   return (
     <S.Container>
-      {isLoading ? (
+      {!isLoading ? (
         <>
           <S.BackgroundImage
             source={require('@/assets/images/MainBackground.png')}
             resizeMode="cover">
-            <Loading />
+            <Loading onReload={handleReload}/>
           </S.BackgroundImage>
         </>
       ) : (
@@ -234,8 +239,8 @@ function Main({ navigation }: MainProps) {
               <S.StartBox>
                 <S.StartButton
                   onPress={() =>
-                    // navigation.navigate('GameStartStack')
-                    DummyToast() // 개발중
+                    navigation.navigate('GameStartStack')
+                    // DummyToast() // 개발중
                   }
                 >
                   <LinearGradient

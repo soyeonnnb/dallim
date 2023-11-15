@@ -204,7 +204,7 @@ export const StartBox = styled.View`
   align-items: center;
   width: 100%;
   height: 20%;
-margin-bottom: 15%;
+  margin-bottom: 15%;
 `;
 
 export const StartButton = styled.TouchableOpacity`

@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {ImageBackground} from 'react-native';
+import {Shadow} from 'react-native-shadow-2';
 
 export const Container = styled.View`
   flex: 1;
@@ -55,20 +56,33 @@ export const Body = styled.View`
   height: 70%;
 `;
 
+export const ButtonShadow = styled(Shadow)`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+`;
+
 export const DeleteButtonMiddleBox = styled.TouchableOpacity`
-  border-width: 2px;
-  border-color: red;
-  border-radius: 100px;
+  border-radius: 20px;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background-color: #2a2c45;
-  width: 30%;
-  height: 70%;
+
+  width: 150px;
+  height: 50px;
 `;
+
+// export const DeleteButtonText = styled.Text`
+//   color: #ffffff; // 텍스트는 흰색. 원하는 색으로 변경 가능.
+//   font-weight: bold;
+//   /* font-weight: bold; */
+//   /* font-size: 16px; */
+// `;
 
 export const DeleteButtonText = styled.Text`
   color: #ffffff; // 텍스트는 흰색. 원하는 색으로 변경 가능.
+  /* font-weight: bold; */
   /* font-weight: bold; */
   /* font-size: 16px; */
 `;

@@ -12,6 +12,18 @@ export const BackgroundImage = styled(ImageBackground)`
   width: 100%;
   height: 100%;
 `;
+export const PointBox = styled.View`
+  /* border-width: 1px;
+  border-color: white; */
+  width: 120px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const PointImage = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
 
 export const Header = styled.View`
   /* border-width: 1px;
@@ -56,8 +68,8 @@ export const ToggleImage = styled(Image)`
 `;
 
 export const HeaderSide = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
+  border-width: 1px;
+  border-color: blue;
   flex-direction: row;
   width: 30%;
   height: 100%;

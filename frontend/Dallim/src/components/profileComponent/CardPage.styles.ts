@@ -164,9 +164,9 @@ export const ClearImage = styled.Image`
 export const BodyBottomCharacterImageBox = styled.View`
   /* border-width: 1px;
   border-color: orange; */
-  width: 60%;
-  height: 70%;
-  top: 40%;
+  width: 70%;
+  height: 65%;
+  top: 43%;
   justify-content: flex-end;
   left: 45%;
   position: absolute;

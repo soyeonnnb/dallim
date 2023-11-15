@@ -1,3 +1,4 @@
+import {Shadow} from 'react-native-shadow-2';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
@@ -8,15 +9,21 @@ export const Container = styled.View`
 `;
 
 export const Body = styled.View`
+  /* border: 3px;
+  border-color: white; */
   width: 100%;
   height: 110px;
 `;
 
 export const CardImageWrapper = styled.View`
+  /* border: 3px;
+  border-color: white; */
+  width: 100%;
+  /* height: 120px; */
   border-radius: 18px;
   overflow: hidden;
-  margin-top: 30px;
-  margin-bottom: 10px;
+  /* margin-top: 30px; */
+  /* margin-bottom: 10px; */
 `;
 
 export const CardBox = styled.ImageBackground`
@@ -107,4 +114,21 @@ export const TimeText = styled.Text`
   font-size: 20px;
   font-weight: bold;
   color: white;
+`;
+
+export const BoxShadow = styled(Shadow)`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  /* height: 150px; */
+  /* margin: px; */
+  justify-content: center;
+  align-items: center;
+  /* color: black; */
+  /* width: 10px; */
+  /* height: 100%; */
+  top: 10px;
+  border-radius: 30px;
+  /* margin-top: 20px; */
+  margin-bottom: 20px;
 `;

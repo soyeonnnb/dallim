@@ -14,6 +14,7 @@ import { CustomToast } from '@/components/common/toast/CustomToast';
 
 //apis
 import {postSchedule} from '@/apis/ProfileApi';
+import LinearGradient from 'react-native-linear-gradient';
 
 type DayOfWeek = '일' | '월' | '화' | '수' | '목' | '금' | '토';
 interface TimePickerProps {
@@ -246,7 +247,21 @@ const TimePicker: React.FC<TimePickerProps> = ({onRefresh}) => {
         </S.HeaderMiddle>
         <S.HeaderBottom>
           <S.SaveButton onPress={handleSave}>
-            <S.SaveButtonText>저장</S.SaveButtonText>
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 0, y: 1}}
+              colors={['#6EE2F5', '#6454F0']}
+              style={{
+                height: '100%',
+                width: '100%',
+                borderRadius: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+
+                // position: 'absolute',
+              }}>
+              <S.SaveButtonText>저장</S.SaveButtonText>
+            </LinearGradient>
           </S.SaveButton>
         </S.HeaderBottom>
       </S.Header>

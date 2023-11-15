@@ -27,14 +27,21 @@ public class ResultActivity extends AppCompatActivity {
     private int timeDifference;
     private String timeFormat;
     private TtsUtil ttsUtil;
+    private VibrateDevice vibrateDevice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        // tts 알림
         ttsUtil = new TtsUtil(getApplicationContext());
         ttsUtil.setInitializationCallback(() -> {
             ttsUtil.speak("달리기가 종료되었습니다. 결과를 확인해주세요");
         });
+
+        // 진동 알림
+        vibrateDevice = new VibrateDevice();
+        vibrateDevice.vibrateDevice(getApplicationContext());
 
         binding = ActivityResultBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

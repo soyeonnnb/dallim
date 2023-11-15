@@ -210,7 +210,7 @@ public class RunningAniFragment extends Fragment {
             mateView = binding.mateCha3;
         } else if (distanceDifference < 800 && distanceDifference >= 600) {
             mateView = binding.mateCha4;
-        } else if (distanceDifference < 1000 && distanceDifference <= 800) {
+        } else if (distanceDifference < 1000 && distanceDifference >= 800) {
             mateView = binding.mateCha5;
         } else if (distanceDifference >= 1000) {
             mateView = binding.mateCha6;

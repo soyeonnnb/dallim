@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiUtil {
 
-    private static final String BASE_URL = "https://k9b208.p.ssafy.io/";
+    private static final String BASE_URL = "https://dallim.site/";
     private static Retrofit retrofit = null;
 
     public static ApiService getApiService() {

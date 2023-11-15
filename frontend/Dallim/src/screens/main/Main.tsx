@@ -175,12 +175,12 @@ function Main({navigation}: MainProps) {
               </S.FooterBox>
 
               <S.StartBox>
-                <S.StartButton
+                {/* <S.StartButton
                   onPress={() =>
                     navigation.navigate('GameStartStack', {userId: userId})
                   }>
                   <S.StartText>달리기</S.StartText>
-                </S.StartButton>
+                </S.StartButton> */}
                 {/* <S.StartButton onPress={DummyToast}>
                   <S.StartText>달리기</S.StartText>
                 </S.StartButton> */}

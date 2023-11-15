@@ -193,7 +193,7 @@ const animationStyles = StyleSheet.create({
     width: '100%',
     // height: '100px',
     justifyContent: 'space-evenly',
-    backgroundColor: '#483672',
+    backgroundColor: '#484287',
     // borderTopEndRadius: 45,
     // borderTopStartRadius: 45,
     zIndex: 2,

@@ -141,7 +141,7 @@ public class TimerService extends Service {
                 if (curDistance == 5 && !tts5kmCheck){
                     ttsUtil.speak("현재 남은 목표 거리는 5km 입니다.");
                     tts5kmCheck = true;
-                } else if (curDistance == 3 && !tts1kmCheck){
+                } else if (curDistance == 3 && !tts3kmCheck){
                     ttsUtil.speak("현재 남은 목표 거리는 3km 입니다.");
                     tts3kmCheck = true;
                 } else if (curDistance == 1 && !tts1kmCheck){

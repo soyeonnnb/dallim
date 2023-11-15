@@ -49,16 +49,19 @@ function Edit() {
 
   const [isOn, setIsOn] = useRecoilState(isOnState);
   const animatedValue = useRef(new Animated.Value(0)).current;
+  const [isLoading, setIsLoading] = useState(true); // 로딩 확인
 
+  const fetchData = async () => {
+    try {
+      const data = await fetchEditInfo();
+      setUserData(data);
+
+      setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchEditInfo();
-        setUserData(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
     fetchData();
   }, []);
 
@@ -166,10 +169,22 @@ function Edit() {
     setEquippedPlanetIndex(index);
   };
 
+  // 새로고침 버튼을 눌렀을 때 실행할 함수
+  const handleReload = () => {
+    setIsLoading(true);
+    fetchData();
+  };
+
   return (
     <S.Container>
-      {userData === null ? (
-        <Loading />
+      {isLoading ? (
+        <>
+          <S.BackgroundImage
+            source={require('@/assets/images/MainBackground.png')}
+            resizeMode="cover">
+            <Loading onReload={handleReload} />
+          </S.BackgroundImage>
+        </>
       ) : (
         <>
           <S.BackgroundImage

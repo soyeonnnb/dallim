@@ -4,7 +4,6 @@ import { fetchUserProfile } from '@/apis/MainApi';
 import { characterData } from '@/recoil/data/CharacterData';
 import { planetData } from '@/recoil/data/PlanetData';
 import { LevelData, PointData } from '@/recoil/data/LevelData';
-import { PointBox } from './Main.styles';
 import NotificationModal from '@/components/profileComponent/profileModal/NotificationModal';
 import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
 import StampModal from '@/components/mainComponent/StampModal';

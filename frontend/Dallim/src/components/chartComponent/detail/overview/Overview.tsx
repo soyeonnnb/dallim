@@ -19,7 +19,7 @@ import {
   calculatePace,
   secondToMinuteSeconds,
   meterToKMOrMeter,
-} from '@/recoil/RunningData';
+} from '@/recoil/data/RunningData';
 
 import Loading from '@/components/common/Loading_Run';
 

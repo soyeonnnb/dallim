@@ -5,7 +5,7 @@ import ProfileCard from '../../components/profileComponent/ProfileCard';
 
 import NicknameChangeModal from '../../components/profileComponent/profileModal/NicknameChangeModal';
 import LogoutModal from '../../components/profileComponent/profileModal/LogoutModal';
-import {characterData} from '@/recoil/CharacterData';
+import { characterData } from '@/recoil/data/CharacterData';
 
 //icon
 import logoutIcon from '@/assets/icons/logout.png';
@@ -69,8 +69,7 @@ function Profile({navigation}: ProfileProps) {
 
   //dataCall ---------------------------------
   const selectedCharacter = characterData[equippedCharacterIndex];
-  const selectedCharacterLevelData =
-    selectedCharacter.evolutions[equippedEvolutionStage];
+  const selectedCharacterLevelData = selectedCharacter.Evolutions[equippedEvolutionStage];
 
   //actions---------
   const handleRunningMatePress = () => {
@@ -95,7 +94,7 @@ function Profile({navigation}: ProfileProps) {
   return (
     <S.Container>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover">
         <S.Header>
           <S.TitleProfileBox>
@@ -162,7 +161,7 @@ function Profile({navigation}: ProfileProps) {
 
       <S.ImageBox>
         <S.CharacterImage
-          source={selectedCharacterLevelData.front}
+          source={selectedCharacterLevelData.Main}
           resizeMode="contain"
         />
       </S.ImageBox>

@@ -4,7 +4,7 @@ import PreviewDaily from './preview/Daily';
 import PreviewRecord from './preview/PreviewRecord';
 import PreviewMonthly from './preview/Monthly';
 import * as S from './Preview.styles';
-import {CalendarType} from '@/recoil/CalendarData';
+import {CalendarType} from '@/recoil/data/CalendarData';
 import {MonthlyRecords, DailyRecord} from '@/apis/ChartApi';
 import {colors} from '@/components/common/globalStyles';
 

@@ -1,5 +1,6 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import Main from '@/screens/main/Main';
+// import GameStartStack from '@/screens/main/GameStartStack2';
 import GameStartStack from '@/screens/main/GameStartStack';
 
 const MainStack = createStackNavigator();

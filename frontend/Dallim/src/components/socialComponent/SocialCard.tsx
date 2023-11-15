@@ -1,5 +1,5 @@
 import * as S from './SocialCard.styles';
-import {planetData} from '@/recoil/PlanetData';
+import {planetData} from '@/recoil/data/PlanetData';
 // import AddIcon from '@/assets/icons/AddFriendIcon'
 import AddIcon from '@/assets/icons/AddFriendIcon';
 import {postAddFriend} from '@/apis/SocialApi';

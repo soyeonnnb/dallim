@@ -1,5 +1,5 @@
 import * as S from './WatchThemeModal.styles';
-import { planetData } from '@/recoil/PlanetData';
+import { planetData } from '@/recoil/data/PlanetData';
 import { Modal } from 'react-native';
 import CloseIcon from '@/assets/icons/CloseIcon_2.png';
 import React from 'react';
@@ -23,7 +23,7 @@ const WatchThemeModal: React.FC<Props> = ({ isVisible, onClose, index }) => {
         >
             <S.ModalContainer>
                 <S.ModalContent>
-                    <S.BackgroundImage source={planetData[index].Theme} >
+                    <S.BackgroundImage source={planetData[index].Cardtwo} >
                         <S.Header>
                             <S.HeaderSide />
                             <S.HeaderMiddle>

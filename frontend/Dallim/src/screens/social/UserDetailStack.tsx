@@ -7,7 +7,7 @@ import DirectionLeftIcon from '@/assets/icons/DirectionLeftIcon';
 import RunningDataBox from '@/components/socialComponent/RunningDataBox';
 import VersusModal from '@/components/socialComponent/socialModal/VersusModal';
 import SocialCard from '@/components/socialComponent/SocialCard';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 import {fetchUserRecord} from '@/apis/SocialApi';
 import {Animated} from 'react-native';
 
@@ -75,7 +75,7 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
 
   const selectedCharacter = characterData[selectedCharacterIndex];
   const selectedCharacterLevelData =
-    selectedCharacter.evolutions[selectedEvolutionStage];
+    selectedCharacter.Evolutions[selectedEvolutionStage];
 
   async function handleSend() {
     try {
@@ -150,7 +150,7 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
   return (
     <S.Container>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover">
         {isLoading ? (
           <S.LoadingBox>
@@ -233,7 +233,7 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
             <S.ImageBox>
               <S.CharacterTouch onPress={handleSend} activeOpacity={0.7}>
                 <S.CharacterImage
-                  source={selectedCharacterLevelData.front}
+                  source={selectedCharacterLevelData.Main}
                   resizeMode="contain"
                 />
               </S.CharacterTouch>

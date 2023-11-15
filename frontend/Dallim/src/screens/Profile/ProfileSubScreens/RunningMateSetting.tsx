@@ -76,7 +76,7 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
   return (
     <S.Container>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover">
         <S.Header>
           <S.BackButtonFlexBoxLeft

@@ -47,7 +47,7 @@ const GuideModal: React.FC<Props> = ({isVisible, onClose}) => {
       visible={isVisible}
       onRequestClose={onClose}>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover">
         <S.ModalContent>
           <S.Header>

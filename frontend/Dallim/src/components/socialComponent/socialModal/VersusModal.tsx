@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-native';
 import * as S from './VersusModal.styles';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 // import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
 import DirectionLeftIcon from '@/assets/icons/DirectionLeftIcon';
 // import QuestionIcon from '@/assets/icons/QuestionIcon.png';
@@ -16,7 +16,7 @@ import {
   meterToKMOrMeter,
   secondToHourMinuteSecondText,
   secondToMinuteText,
-} from '@/recoil/RunningData';
+} from '@/recoil/data/RunningData';
 interface Props {
   userId: number;
   isVisible: boolean;
@@ -63,9 +63,9 @@ const VersusModal: React.FC<Props> = ({userId, isVisible, onClose}) => {
   } = userData;
 
   const myCharacterImage =
-    characterData[myCharacterIndex].evolutions[myEvolutionStage].front;
+    characterData[myCharacterIndex].Evolutions[myEvolutionStage].Main;
   const pairCharacterImage =
-    characterData[pairCharacterIndex].evolutions[pairEvolutionStage].front;
+    characterData[pairCharacterIndex].Evolutions[pairEvolutionStage].Main;
 
   useEffect(() => {
     const loadUserInfo = async () => {
@@ -102,7 +102,7 @@ const VersusModal: React.FC<Props> = ({userId, isVisible, onClose}) => {
       visible={isVisible}
       onRequestClose={onClose}>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover">
         <S.ModalContainer>
           <S.ModalContent>

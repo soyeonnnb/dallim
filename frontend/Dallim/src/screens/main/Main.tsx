@@ -101,7 +101,7 @@ function Main({ navigation }: MainProps) {
 
   return (
     <S.Container>
-      {!isLoading ? (
+      {isLoading ? (
         <>
           <S.BackgroundImage
             source={require('@/assets/images/MainBackground.png')}

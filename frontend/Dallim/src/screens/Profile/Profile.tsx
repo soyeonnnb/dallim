@@ -1,5 +1,5 @@
 import * as S from './Profile.styles';
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 
 import ProfileCard from '../../components/profileComponent/ProfileCard';
 
@@ -15,14 +15,14 @@ import RunningAlarmIcon from '@/assets/icons/RunningAlarmIcon';
 import WatchIcon from '@/assets/icons/WatchIcon';
 
 //Apis
-import { fetchUserProfileCard } from '@/apis/ProfileApi';
-import { fetchCompetitorCard } from '@/apis/ProfileApi';
+import {fetchUserProfileCard} from '@/apis/ProfileApi';
+import {fetchCompetitorCard} from '@/apis/ProfileApi';
 
 //Toast
 import Toast from 'react-native-toast-message';
 
 //Recoil
-import { useRecoilState, useRecoilValue } from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import {
   equippedCharacterIndexState,
   equippedEvolutionStageState,
@@ -31,13 +31,13 @@ import {
   userLevelState,
   userNicknameState,
 } from '@/recoil/UserRecoil';
-import { competitorDataState } from '@/recoil/RunningRecoil';
+import {competitorDataState} from '@/recoil/RunningRecoil';
 
 interface ProfileProps {
   navigation: any;
 }
 
-function Profile({ navigation }: ProfileProps) {
+function Profile({navigation}: ProfileProps) {
   //State---------------------------------
 
   const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -51,7 +51,8 @@ function Profile({ navigation }: ProfileProps) {
   const equippedPlanetIndex = useRecoilValue(equippedPlanetIndexState);
 
   // 런닝메이트 데이터 저장
-  const [competitorData, setCompetitorData] = useRecoilState(competitorDataState);
+  const [competitorData, setCompetitorData] =
+    useRecoilState(competitorDataState);
 
   //useEffect---------------------------------
   useEffect(() => {
@@ -89,7 +90,7 @@ function Profile({ navigation }: ProfileProps) {
       });
     }
   };
-  
+
   return (
     <S.Container>
       <S.BackgroundImage

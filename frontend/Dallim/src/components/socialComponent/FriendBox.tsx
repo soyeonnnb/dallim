@@ -5,6 +5,8 @@ import {characterData} from '@/recoil/data/CharacterData';
 import {useRecoilState} from 'recoil';
 import {friendsState} from '@/recoil/FriendRecoil';
 import FriendRemoveIcon from '@/assets/icons/FriendRemoveIcon';
+import {useState} from 'react';
+import FriendDeleteModal from './socialModal/FriendDeleteModal';
 
 type FriendBoxProps = {
   userId: number;
@@ -41,6 +43,8 @@ function FriendBox({
     }
   };
 
+  const [isModalVisible, setModalVisible] = useState(false);
+
   return (
     <S.Container>
       <S.Box>
@@ -62,11 +66,7 @@ function FriendBox({
             startColor="rgba(0, 0, 0, 0.2)"
             endColor="rgba(0, 0, 0, 0.2)"
             offset={[1, 2]}>
-            <S.DeleteButton onPress={handleDeleteFriend}>
-              {/* <S.FriendRemoveImage
-              source={require('@/assets/icons/FriendRemoveIcon.png')}
-              resizeMode="contain"
-            /> */}
+            <S.DeleteButton onPress={() => setModalVisible(true)}>
               <FriendRemoveIcon
                 width={20}
                 height={20}
@@ -75,6 +75,12 @@ function FriendBox({
           </S.ButtonShadow>
         </S.Right>
       </S.Box>
+
+      <FriendDeleteModal
+        checkModalVisible={isModalVisible}
+        handleDeleteFriend={() => handleDeleteFriend()}
+        toggleCheckModal={() => setModalVisible(false)}
+      />
     </S.Container>
   );
 }

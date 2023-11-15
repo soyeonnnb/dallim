@@ -17,7 +17,7 @@ function CheckModal({
     try {
       // 등록 처리
       await handleModalRecordSave();
-
+ 
       // Toast 메시지 표시
       Toast.show({
         type: 'success',

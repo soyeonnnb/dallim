@@ -28,6 +28,7 @@ import com.dallim.util.Conversion;
 import com.dallim.util.MyApplication;
 import com.dallim.util.NetworkUtil;
 import com.dallim.util.PreferencesUtil;
+import com.dallim.util.TtsUtil;
 import com.dallim.view.RunningMateRecordViewModel;
 import com.dallim.view.RunningViewModel;
 
@@ -55,10 +56,15 @@ public class RunningActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     private RunningService runningService;
     private String type;
+    private TtsUtil ttsUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ttsUtil = new TtsUtil(getApplicationContext());
+        ttsUtil.setInitializationCallback(() -> {
+            ttsUtil.speak("달리기 기록을 시작합니다.");
+        });
         LocalBroadcastManager.getInstance(this).registerReceiver(finishReceiver,
                 new IntentFilter(TimerService.TIMER_BR));
         binding = ActivityRunningBinding.inflate(getLayoutInflater());
@@ -117,7 +123,10 @@ public class RunningActivity extends AppCompatActivity {
         startForegroundService(timerServiceIntent);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     private BroadcastReceiver finishReceiver = new BroadcastReceiver() {
         @Override

@@ -19,8 +19,6 @@ public class RunningViewModel extends ViewModel {
     private final MutableLiveData<Double> msSpeed = new MutableLiveData<>();
     private final MutableLiveData<Double> distance = new MutableLiveData<>();
     private final MutableLiveData<Double> StepCount = new MutableLiveData<>();
-    private final MutableLiveData<Double> latitude = new MutableLiveData<>();
-    private final MutableLiveData<Double> longitude = new MutableLiveData<>();
     private final MutableLiveData<Double> msPaceToSecond = new MutableLiveData<>();
     // 미터값
     private final MutableLiveData<Double> oriDistance = new MutableLiveData<>();
@@ -35,6 +33,7 @@ public class RunningViewModel extends ViewModel {
     private final MutableLiveData<Double> initLongitude = new MutableLiveData<>();
     private final MutableLiveData<Double> distanceDifference = new MutableLiveData<>();
     private final MutableLiveData<Boolean> pairCheck = new MutableLiveData<>();
+    private final MutableLiveData<Double> remainDistance = new MutableLiveData<>();
 
     public RunningViewModel() {
         distanceDifference.setValue(0.0);
@@ -67,8 +66,6 @@ public class RunningViewModel extends ViewModel {
         heartCountTime.setValue(0);
         StepCount.setValue(0.0);
         elapsedTime.setValue("00:00");
-        latitude.setValue(0.0);
-        longitude.setValue(0.0);
         runningData.setValue(new RunningData());
         runDetailList.setValue(new ArrayList<>());
         initLatitude.setValue(0.0);
@@ -131,23 +128,10 @@ public class RunningViewModel extends ViewModel {
         return StepCount;
     }
 
-    public MutableLiveData<Double> getLatitude() {
-        return latitude;
-    }
-
-    public MutableLiveData<Double> getLongitude() {
-        return longitude;
-    }
 
     public MutableLiveData<Double> getMsPaceToSecond() { return msPaceToSecond; }
     public void setMsPaceToSecond(double second){
         this.msPaceToSecond.setValue(second);
-    }
-    public void setLatitude(double latitude){
-        this.latitude.setValue(latitude);
-    }
-    public void setLongitude(double longitude){
-        this.longitude.setValue(longitude);
     }
     public void setOriDistance(double oriDistance){
         this.oriDistance.setValue(oriDistance);
@@ -226,5 +210,12 @@ public class RunningViewModel extends ViewModel {
     }
     public void setPairCheck(boolean value) {
         pairCheck.setValue(value);
+    }
+
+    public MutableLiveData<Double> getRemainDistance() {
+        return remainDistance;
+    }
+    public void setRemainDistance(Double value) {
+        remainDistance.setValue(value);
     }
 }

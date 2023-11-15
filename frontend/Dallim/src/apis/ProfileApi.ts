@@ -17,6 +17,7 @@ const getToken = async () => {
   }
 };
 
+// const BASE_URL = 'https://k9b208.p.ssafy.io';
 const BASE_URL = 'https://dallim.site';
 
 export const fetchUserProfileCard = async () => {

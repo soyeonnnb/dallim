@@ -14,11 +14,6 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import RuningModal from '../../components/mainComponent/RuningModal';
 import { postRunningData } from '@/apis/MainApi';
 
-// interface Props {
-//   isVisible: boolean;
-//   onClose: () => void;
-// }
-
 interface GpsData {
   second: number;
   latitude: number;
@@ -32,7 +27,6 @@ interface GameStartStackProps {
   navigation: any;
 }
 
-// const GameStartStack: React.FC<Props> = ({ isVisible, onClose }) => {
 function GameStartStack({ navigation }: GameStartStackProps) {
 
   const timerIdRef = useRef<NodeJS.Timeout | null>(null);
@@ -123,6 +117,7 @@ function GameStartStack({ navigation }: GameStartStackProps) {
   // 위치 초기화 && 초기 위치 설정 필수!
   useEffect(() => {
     if (!lastPosition) {
+
       Geolocation.getCurrentPosition((position) => {
         setLastPosition({
           latitude: position.coords.latitude,
@@ -162,9 +157,11 @@ function GameStartStack({ navigation }: GameStartStackProps) {
     );
   };
 
+  let lastBearing: number | null = null; // 마지막 방향을 저장할 변수
   // 위치 추적 시작 함수
   const startTracking = () => {
     if (!lastPosition) return;
+
     const trackStart = startTime || Date.now(); // null 체크
 
     let currentPosition = lastPosition; // 현재 위치를 로컬 변수로 관리
@@ -178,20 +175,41 @@ function GameStartStack({ navigation }: GameStartStackProps) {
       console.log("현재 위치 1 : " + position.coords.latitude);
       console.log("현재 위치 2 : " + position.coords.longitude);
 
-      // 현재 위치 객체 test
+      // 현재 위치 객체 업데이트
       currentPosition = {
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
       };
 
-
-      // 이전 위치와 현재 위치 사이의 거리 계산 test
-      // const incrementalDistance = calculateIncrementalDistance(lastPosition, currentPosition);
       // 첫 번째 업데이트가 아닌 경우에만 거리 계산
       let incrementalDistance = 0;
       if (!isFirstUpdate) {
+        // incrementalDistance = calculateIncrementalDistance(lastPosition, currentPosition);
         incrementalDistance = calculateIncrementalDistance(lastPosition, currentPosition);
-        console.log("계산 후 incrementalDistance" + incrementalDistance)
+        console.log("계산 후 incrementalDistance" + incrementalDistance);
+
+        // 방향 계산
+        const bearing = calculateBearing(
+          lastPosition.latitude,
+          lastPosition.longitude,
+          currentPosition.latitude,
+          currentPosition.longitude
+        );
+        console.log("이동 방향: " + bearing + "도");
+
+        let angleDifference = 0;
+        if (lastBearing !== null) {
+          angleDifference = Math.abs(bearing - lastBearing);
+          if (angleDifference > 180) {
+            angleDifference = 360 - angleDifference; // 각도 정규화
+          }
+        }
+
+        // 각도 차이가 90도 미만인 경우에만 데이터 업데이트
+        if (angleDifference < 40 || lastBearing === null) {
+          lastBearing = bearing; // 마지막 방향 업데이트
+          incrementalDistance = calculateIncrementalDistance(lastPosition, currentPosition);
+        }
       } else {
         // 첫 번째 업데이트 처리 완료
         isFirstUpdate = false;
@@ -236,7 +254,6 @@ function GameStartStack({ navigation }: GameStartStackProps) {
       console.error(error);
     },
       { enableHighAccuracy: true, distanceFilter: 0, interval: 5000 }); // 정확하게 && 업데이트 주기 : 0미터, 5초
-
     trackIdRef.current = trackId;
   };
 
@@ -256,6 +273,31 @@ function GameStartStack({ navigation }: GameStartStackProps) {
   function deg2rad(deg: number): number {
     return deg * (Math.PI / 180);
   }
+
+  // 방향 벡터 적용해보자
+  // 두 지점 간의 각도를 계산하는 함수
+  function calculateBearing(startLat: number, startLng: number, destLat: number, destLng: number): number {
+    const startLatRad = degreesToRadians(startLat);
+    const startLngRad = degreesToRadians(startLng);
+    const destLatRad = degreesToRadians(destLat);
+    const destLngRad = degreesToRadians(destLng);
+
+    const dLon = destLngRad - startLngRad;
+    const y = Math.sin(dLon) * Math.cos(destLatRad);
+    const x = Math.cos(startLatRad) * Math.sin(destLatRad) -
+      Math.sin(startLatRad) * Math.cos(destLatRad) * Math.cos(dLon);
+    const bearing = radiansToDegrees(Math.atan2(y, x));
+    return (bearing + 360) % 360; // 정규화
+  }
+  // 각도를 라디안으로 변환하는 함수
+  function degreesToRadians(degrees: number): number {
+    return degrees * Math.PI / 180;
+  }
+  // 라디안을 각도로 변환하는 함수
+  function radiansToDegrees(radians: number): number {
+    return radians * 180 / Math.PI;
+  }
+
 
   // 모달 : 시작 텍스트 클릭
   const handleStartButton = () => {
@@ -349,7 +391,6 @@ function GameStartStack({ navigation }: GameStartStackProps) {
       } catch (error) {
         console.error("데이터 전송 실패: ", error);
       }
-
     }
   };
 
@@ -451,7 +492,7 @@ function GameStartStack({ navigation }: GameStartStackProps) {
                   <S.RecodeTitle>페이스</S.RecodeTitle>
                 </S.RecodeTextBox>
                 <S.RecodeBottomBox>
-                  <S.RecodeText>{pace} ( 분 : 초 ) </S.RecodeText>
+                  <S.RecodeText>{pace}</S.RecodeText>
                 </S.RecodeBottomBox>
               </S.RecodeLeft>
               <S.RecodeRight>
@@ -465,7 +506,7 @@ function GameStartStack({ navigation }: GameStartStackProps) {
 
 
                 <S.RecodeTextBox>
-                  <S.RecodeTitle>현재 속력</S.RecodeTitle>
+                  <S.RecodeTitle>평균 속력</S.RecodeTitle>
                 </S.RecodeTextBox>
                 <S.RecodeBottomBox>
                   <S.RecodeText>  {secondsElapsed > 0 ? (totalDistance / secondsElapsed).toFixed(2) : '0'} m/s</S.RecodeText>

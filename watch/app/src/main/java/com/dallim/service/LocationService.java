@@ -120,14 +120,10 @@ public class LocationService extends Service {
                 // km 변환값(화면에 표시용)
                 runningViewModel.setDistance(conversion.mToKM(totalDistance));
 
-                double latitude = location.getLatitude(); // 위도
-                double longitude = location.getLongitude(); // 경도
-                if(runningViewModel.getInitLatitude().getValue() == 0 && runningViewModel.getInitLongitude().getValue() == 0 && latitude != 0 && longitude != 0) {
-                    runningViewModel.setInitLatitude(latitude);
-                    runningViewModel.setInitLongitude(longitude);
+                if(runningViewModel.getInitLatitude().getValue() == 0 && runningViewModel.getInitLongitude().getValue() == 0) {
+                    runningViewModel.setInitLatitude(location.getLatitude());
+                    runningViewModel.setInitLongitude(location.getLongitude());
                 }
-                runningViewModel.setLatitude(latitude);
-                runningViewModel.setLongitude(longitude);
             }
         }
         lastLocation = location;

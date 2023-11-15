@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {ImageBackground} from 'react-native';
+import {colors} from '@/components/common/globalStyles';
 
 export const Container = styled.View`
   flex: 1;
@@ -99,7 +100,7 @@ export const ButtonBox = styled.TouchableOpacity`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.38);
+  background-color: ${colors.button.depth1.color};
   width: 45%;
   height: 90%;
   /* margin-left: 2.5%; */

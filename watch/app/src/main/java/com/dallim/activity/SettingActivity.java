@@ -28,6 +28,7 @@ import com.dallim.util.VibrateDevice;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.BuildConfig;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

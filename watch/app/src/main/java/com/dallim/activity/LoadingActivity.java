@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -71,11 +72,16 @@ public class LoadingActivity extends AppCompatActivity {
 
     private void loadData() {
         // 서비스를 통해 데이터를 로드하고 콜백에서 ViewModel을 업데이트합니다.
-        runningService.getRunningMateRunningRecord(this, runningRecordId, new RunningService.DataCallback() {
+        runningService.getRunningMateRunningRecord(this, runningRecordId, new RunningService.RunningMateDataRecordCallback() {
             @Override
             public void onDataLoaded(RunningMateRecord record) {
                 viewModel.setMateRecord(record);
                 startCountdownActivity();
+            }
+
+            @Override
+            public void onError(String message) {
+                Toast.makeText(LoadingActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
     }

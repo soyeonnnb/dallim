@@ -46,11 +46,8 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
 
         holder.formattedDate.setText(String.valueOf(formatDateWithDayOfWeek(runningData.getDate())));
 
-        Log.e("거리", String.valueOf(runningData.getTotalDistance()));
-
         // 총 거리
         double totalDistance = conversion.mToKM(runningData.getTotalDistance());
-        Log.e("km거리", String.valueOf(totalDistance));
         String distanceText = String.valueOf(totalDistance + " km");
         SpannableString spannableDistance = new SpannableString(distanceText);
         holder.distance.setText(spannableDistance);
@@ -129,7 +126,7 @@ public class MyRunningDataAdapter extends RecyclerView.Adapter<MyRunningDataAdap
         int minutes = (int) ((time % 3600) / 60);
         int seconds = (int) (time % 60);
 
-        String timeStr = String.format("%02d:%02d", minutes, seconds);
+        String timeStr = String.format("%02d분 %02d초", minutes, seconds);
         return new SpannableString(timeStr);
     }
 

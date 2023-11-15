@@ -125,7 +125,7 @@ public class RunningAniFragment extends Fragment {
 
         runningViewModel.getDistance().observe(getViewLifecycleOwner(), distance -> {
             TextView distanceView = view.findViewById(R.id.ani_distance);
-            distanceView.setText(String.valueOf(distance)+"km");
+            distanceView.setText(String.valueOf(distance));
             Log.e("내 거리", String.valueOf(kmLastDistance - distance));
             runningViewModel.setRemainDistance(kmLastDistance - distance);
             String format = String.format("%.2f", kmLastDistance - distance);
@@ -133,14 +133,14 @@ public class RunningAniFragment extends Fragment {
 
             // 남은 거리 UI
             TextView remainDistanceText = view.findViewById(R.id.remaining_distance);
-            remainDistanceText.setText(format+"km");
+            remainDistanceText.setText(format);
         });
 
         if (value) {
             runningViewModel.getDistanceDifference().observe(getViewLifecycleOwner(), distanceDifference -> {
                 String km = formatDistance(distanceDifference);
                 TextView distanceDifferenceView = view.findViewById(R.id.distance_difference);
-                distanceDifferenceView.setText(String.valueOf(km)+"km");
+                distanceDifferenceView.setText(String.valueOf(km));
 
                 // 거리에 따라 색 변경
                 if (km.contains("+")) {

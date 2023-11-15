@@ -63,7 +63,7 @@
                     android:gravity="center"
                     android:fontFamily="@font/oagothic_medium"
                     android:textColor="@color/title"
-                    android:text="남은 거리"
+                    android:text="남은 거리(km)"
                     android:textSize="10sp" />
 
                 <TextView
@@ -82,7 +82,7 @@
                 android:id="@+id/single_run_distance"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-20dp"
+                android:layout_marginLeft="-10dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
@@ -94,7 +94,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/oagothic_medium"
-                    android:text="달린 거리"
+                    android:text="달린 거리(km)"
                     android:textColor="@color/title"
                     android:textSize="10sp" />
 
@@ -103,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/oagothic_medium"
-                    android:text="0.00km"
+                    android:text="0.0km"
                     android:textColor="@color/white"
                     android:textSize="15dp" />
 
@@ -125,7 +125,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/oagothic_medium"
-                    android:text="거리 차이"
+                    android:text="거리 차이(km)"
                     android:textColor="@color/title"
                     android:textSize="10sp" />
 
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:fontFamily="@font/oagothic_medium"
-                    android:text="0.00km"
+                    android:text="0.0km"
                     android:textColor="@color/white"
                     android:textSize="15dp"></TextView>
             </LinearLayout>
@@ -144,7 +144,7 @@
                 android:id="@+id/single_pace"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="-20dp"
+                android:layout_marginRight="-10dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"

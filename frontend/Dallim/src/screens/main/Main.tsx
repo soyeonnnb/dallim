@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { fetchUserProfile } from '@/apis/MainApi';
 import { characterData } from '@/recoil/data/CharacterData';
 import { planetData } from '@/recoil/data/PlanetData';
+import { LevelData } from '@/recoil/data/LevelData';
 import NotificationModal from '@/components/profileComponent/profileModal/NotificationModal';
 import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
 import StampModal from '@/components/mainComponent/StampModal';
@@ -41,7 +42,7 @@ function Main({ navigation }: MainProps) {
   const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
   const [userLevel, setUserLevel] = useRecoilState(userLevelState);
-  const setUserExp = useSetRecoilState(userExpState);
+  const [userExp, setUserExp] = useRecoilState(userExpState);
   const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(
     equippedCharacterIndexState,
   );
@@ -92,12 +93,24 @@ function Main({ navigation }: MainProps) {
     setPrivacyPolicyModalVisible(true);
   }
 
+  // Test Toast
   function DummyToast() {
     CustomToast({
       type: 'error',
       text1: '개발중입니다.',
     });
   }
+
+  function getLevelImageIndex(userLevel: number) {
+    if (userLevel <= 10) return 0;
+    if (userLevel <= 20) return 1;
+    if (userLevel <= 30) return 2;
+    if (userLevel <= 40) return 3;
+    return 4; // 50 이하인 경우
+  }
+  const LevelImage = LevelData[getLevelImageIndex(userLevel)].Name;
+
+
 
   return (
     <S.Container>
@@ -116,18 +129,24 @@ function Main({ navigation }: MainProps) {
             resizeMode="cover">
             <S.Header>
               <S.HeaderLeft>
-                <S.Box>
-                  <S.ButtonStyle onPress={PolicyAction}>
-                    <PrivacyPolicyIcon
-                      width={20}
-                      height={20}
-                      color="white" />
-                  </S.ButtonStyle>
-                </S.Box>
-                <S.LevelText>LV .{userLevel} </S.LevelText>
+                <S.LevelBox>
+                  <S.LevelImage
+                    source={LevelImage} resizeMode='contain' />
+                </S.LevelBox>
+                <S.LevelText>Lv. {userLevel}</S.LevelText>
+                <S.NicknameText>{userNickname}</S.NicknameText>
+                <S.ExpBarContainer >
+                  <S.ExpBar expPercent={userExp} levelIndex={getLevelImageIndex(userLevel)}></S.ExpBar>
+                </S.ExpBarContainer>
               </S.HeaderLeft>
+
               <S.HeaderRight>
-                <S.PointText>{userPoint} P</S.PointText>
+                {/* <S.Box></S.Box> */}
+                <S.PointBox>
+                  <S.PointText>{userPoint} P</S.PointText>
+                </S.PointBox>
+                {/* <S.Box></S.Box> */}
+
               </S.HeaderRight>
             </S.Header>
 
@@ -212,15 +231,11 @@ function Main({ navigation }: MainProps) {
                 resizeMode="contain"
               />
 
-              <S.NicknameBox>
-                <S.NicknameText>{userNickname}</S.NicknameText>
-              </S.NicknameBox>
-
               <S.StartBox>
                 <S.StartButton
                   onPress={() =>
-                    // navigation.navigate('GameStartStack', { userId: userId })
-                    navigation.navigate('GameStartStack')
+                    // navigation.navigate('GameStartStack')
+                    DummyToast() // 개발중
                   }
                 >
                   <LinearGradient

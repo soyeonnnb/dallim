@@ -159,7 +159,7 @@ function Profile({navigation}: ProfileProps) {
 
         <S.TabBox />
       </S.BackgroundImage>
-
+      {/*  */}
       <S.ImageBox>
         <S.CharacterImage
           source={selectedCharacterLevelData.front}

@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import {RouteProp} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import React, { useState, useEffect } from 'react';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import * as S from './RunningMateChartList.styles';
-import {TouchableOpacity, Dimensions} from 'react-native';
-import {characterData} from '@/recoil/data/CharacterData';
+import { TouchableOpacity, Dimensions } from 'react-native';
+import { characterData } from '@/recoil/data/CharacterData';
 // 컴포넌트
-import Loading from '@/components/common/Loading_Run';
 import OverviewGraph from '@/components/chartComponent/detail/overview/OverviewGraph';
 
 // 아이콘
@@ -20,13 +19,14 @@ import {
   meterToKMOrMeter,
   secondToMinuteSeconds,
 } from '@/recoil/data/RunningData';
-import {fetchRunningMateRunningList} from '@/apis/ChartApi';
-import {itemType} from 'react-native-gifted-charts/src/LineChart/types';
-import {colors} from '@/components/common/globalStyles';
+import { fetchRunningMateRunningList } from '@/apis/ChartApi';
+import { itemType } from 'react-native-gifted-charts/src/LineChart/types';
+import { colors } from '@/components/common/globalStyles';
 import CrownIcon from '@/assets/icons/CrownIcon';
 import HeartIcon from '@/assets/icons/HeartIcon';
 import FlagIcon from '@/assets/icons/FlagIcon';
 import CryIcon from '@/assets/icons/CryIcon';
+import Loading_Run from '@/components/common/Loading_Run';
 
 // 스택 내비게이션 타입을 정의
 type RootStackParamList = {
@@ -46,7 +46,7 @@ type RunningMateChartListScreenNavigationProp = StackNavigationProp<
 // 타입을 정의합니다.
 type Props = {
   route: RouteProp<
-    {RunningMateChartList: {id: string}},
+    { RunningMateChartList: { id: string } },
     'RunningMateChartList'
   >;
   navigation: RunningMateChartListScreenNavigationProp;
@@ -71,8 +71,8 @@ interface showDataType {
   evolutionStage?: number;
 }
 
-function RunningMateChartList({route, navigation}: Props) {
-  const {id} = route.params;
+function RunningMateChartList({ route, navigation }: Props) {
+  const { id } = route.params;
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [datas, setDatas] = useState<showDataType[]>();
@@ -113,18 +113,18 @@ function RunningMateChartList({route, navigation}: Props) {
       const newData: showDataType[] = [];
       // 데이터 정제
       getDatas.map(record => {
-        const d: showDataType = {id: ''};
+        const d: showDataType = { id: '' };
         d.id = record.id;
         const date = new Date(record.createdAt);
         d.date = numberToTwoString(date.getDate());
         d.month = monthList[date.getMonth()];
         d.day = dayList[date.getDay()];
-        const paceList: {value: number}[] = [];
-        record.mySpeed.map(s => paceList.push({value: s}));
+        const paceList: { value: number }[] = [];
+        record.mySpeed.map(s => paceList.push({ value: s }));
         d.paceList = paceList;
         if (record.winOrLose !== 'GIVEUP') {
-          const rivalPaceList: {value: number}[] = [];
-          record.rivalSpeed.map(s => rivalPaceList.push({value: s}));
+          const rivalPaceList: { value: number }[] = [];
+          record.rivalSpeed.map(s => rivalPaceList.push({ value: s }));
           d.rivalPaceList = rivalPaceList;
         }
         d.totalDistance = meterToKMOrMeter(record.totalDistance, 1);
@@ -160,6 +160,11 @@ function RunningMateChartList({route, navigation}: Props) {
 
   const handleSetSelectedIndex = (index: number) => {
     setSelectedIndex(index);
+  };
+  // 새로고침 버튼을 눌렀을 때 실행할 함수
+  const handleReload = () => {
+    setIsLoading(true);
+    fetchRunningDatas();
   };
 
   return (
@@ -347,7 +352,7 @@ function RunningMateChartList({route, navigation}: Props) {
           </S.Footer>
         </S.Container>
       ) : (
-        <Loading />
+        <Loading_Run onReload={handleReload} />
       )}
     </>
   );
@@ -382,7 +387,7 @@ function Record({
   const [circleSize, setCircleSize] = useState<number>(0);
 
   const onLayout = (event: any) => {
-    const {height} = event.nativeEvent.layout;
+    const { height } = event.nativeEvent.layout;
     setCircleSize(height);
   };
 

@@ -4,7 +4,7 @@ import { CustomToast } from '@/components/common/toast/CustomToast';
 
 type ModalComponentProps = {
   checkModalVisible: boolean;
-  handleDeleteFriend: () => void;
+  handleDeleteFriend: () => void; 
   toggleCheckModal: () => void;
 };
 

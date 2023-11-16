@@ -15,6 +15,7 @@ type WaitBoxProps = {
   evolutionStage: number;
   nickname: string;
   level: number;
+  onClose: () => void;
 };
 
 function WaitBox({
@@ -23,6 +24,7 @@ function WaitBox({
   evolutionStage,
   nickname,
   level,
+  onClose
 }: WaitBoxProps) {
   const [requestFriends, setRequestFriends] =
     useRecoilState(friendRequestsState);
@@ -36,7 +38,7 @@ function WaitBox({
       const result = await postRequestAccept(userId);
       if (result) {
         CustomToast({ type: 'success', text1: '친구를 수락하셨습니다.' });
-        // 요청 목록에서 제거합니다.
+        onClose(); // 전체 모달 닫기
         setRequestFriends(
           requestFriends.filter(friend => friend.userId !== userId),
         );
@@ -60,7 +62,7 @@ function WaitBox({
       const result = await postRequestReject(userId);
       if (result) {
         CustomToast({ type: 'error', text1: '친구를 거절하셨습니다.' });
-        // console.log('친구 신청 거절 성공' + userId);
+        onClose(); // 전체 모달 닫기
         setRequestFriends(
           requestFriends.filter(friend => friend.userId !== userId),
         );

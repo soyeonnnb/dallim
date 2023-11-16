@@ -174,7 +174,7 @@ const Alarm: React.FC<AlarmProps> = ({alarmList, onRefresh}) => {
                   }
                 })
                 .catch(error => {
-                  console.error('스케줄 삭제 실패', error);
+                  // console.error('스케줄 삭제 실패', error);
                   // Handle the error, maybe show a toast message
                 });
             }

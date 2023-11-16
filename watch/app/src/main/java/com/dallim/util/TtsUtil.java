@@ -19,7 +19,7 @@ public class TtsUtil {
             if (status != TextToSpeech.ERROR){
                 int result = tts.setLanguage(Locale.KOREAN); // 언어 선택
                 if(result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED){
-                    Log.e("TTS", "This Language is not supported");
+                    Log.e("TTS", "지원하지 않는 언어");
                 }else{
                     isInitialized = true;
                     if (initializationCallback != null) {
@@ -27,7 +27,7 @@ public class TtsUtil {
                     }
                 }
             }else{
-                Log.e("TTS", "Initialization Failed!");
+                Log.e("TTS", "초기화 실패");
             }
         });
     }

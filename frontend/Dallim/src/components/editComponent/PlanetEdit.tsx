@@ -198,8 +198,9 @@ function PlanetEdit({
                   alignItems: 'center',
 
                   // position: 'absolute',
-                }}></LinearGradient>
+                }}>
               <S.ButtonText>선택</S.ButtonText>
+              </LinearGradient>
             </S.ButtonBox>
           )
         ) : (

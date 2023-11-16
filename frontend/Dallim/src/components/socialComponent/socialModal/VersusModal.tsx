@@ -71,7 +71,7 @@ const VersusModal: React.FC<Props> = ({userId, isVisible, onClose}) => {
     const loadUserInfo = async () => {
       try {
         const response = await fetchCompare(userId);
-        console.log('비교 정보 조회 Axios 성공 ', response);
+        // console.log('비교 정보 조회 Axios 성공 ', response);
         setUserData(response);
       } catch (error) {
         console.error('비교 정보 조회 Axios 실패 ');

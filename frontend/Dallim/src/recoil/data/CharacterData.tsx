@@ -2,6 +2,7 @@
 export type CharacterLevel = {
   Main: any; // 정면 사진
   RunRight: any; // 오른쪽으로 러닝 gif
+  RunFront: any; // 앞으로 러닝 gif
   Badge: any; // 프로필 사진
 };
 
@@ -18,11 +19,13 @@ export const characterData: CharacterType[] = [
       {
         Main: require('@/assets/images/characters/main/RabbitEgg.png'),
         RunRight: require('@/assets/images/characters/runRight/RabbitEgg_RunRight.gif'),
+        RunFront: require('@/assets/images/characters/runFront/RabbitEgg_RunFront.gif'),
         Badge: require('@/assets/images/characters/badge/BadgeRabbitEgg.png'),
       },
       {
         Main: require('@/assets/images/characters/main/Rabbit.png'),
         RunRight: require('@/assets/images/characters/runRight/Rabbit_RunRight.gif'),
+        RunFront: require('@/assets/images/characters/runFront/Rabbit_RunFront.gif'),
         Badge: require('@/assets/images/characters/badge/BadgeRabbit.png'),
       },
     ],
@@ -33,11 +36,13 @@ export const characterData: CharacterType[] = [
       {
         Main: require('@/assets/images/characters/main/PenguinEgg.png'),
         RunRight: require('@/assets/images/characters/runRight/PenguinEgg_RunRight.gif'),
+        RunFront: require('@/assets/images/characters/runFront/PenguinEgg_RunFront.gif'),
         Badge: require('@/assets/images/characters/badge/BadgePenguinEgg.png'),
       },
       {
         Main: require('@/assets/images/characters/main/Penguin.png'),
         RunRight: require('@/assets/images/characters/runRight/Penguin_RunRight.gif'),
+        RunFront: require('@/assets/images/characters/runFront/Penguin_RunFront.gif'),
         Badge: require('@/assets/images/characters/badge/BadgePenguin.png'),
       },
     ],
@@ -48,11 +53,13 @@ export const characterData: CharacterType[] = [
       {
         Main: require('@/assets/images/characters/main/PandaEgg.png'),
         RunRight: require('@/assets/images/characters/runRight/PandaEgg_RunRight.gif'),
+        RunFront: require('@/assets/images/characters/runFront/PandaEgg_RunFront.gif'),
         Badge: require('@/assets/images/characters/badge/BadgePandaEgg.png'),
       },
       {
         Main: require('@/assets/images/characters/main/Panda.png'),
         RunRight: require('@/assets/images/characters/runRight/Panda_RunRight.gif'),
+        RunFront: require('@/assets/images/characters/runFront/Panda_RunFront.gif'),
         Badge: require('@/assets/images/characters/badge/BadgePanda.png'),
       },
     ],
@@ -63,11 +70,13 @@ export const characterData: CharacterType[] = [
       {
         Main: require('@/assets/images/characters/main/ChickEgg.png'),
         RunRight: require('@/assets/images/characters/runRight/ChickEgg_RunRight.gif'),
+        RunFront: require('@/assets/images/characters/runFront/ChickEgg_RunFront.gif'),
         Badge: require('@/assets/images/characters/badge/BadgeChickEgg.png'),
       },
       {
         Main: require('@/assets/images/characters/main/Chick.png'),
         RunRight: require('@/assets/images/characters/runRight/Chick_RunRight.gif'),
+        RunFront: require('@/assets/images/characters/runFront/Chick_RunFront.gif'),
         Badge: require('@/assets/images/characters/badge/BadgeChick.png'),
       },
     ],

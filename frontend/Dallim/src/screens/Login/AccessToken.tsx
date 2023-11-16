@@ -12,7 +12,7 @@ const AccessToken = ({navigation}: Props) => {
   useEffect(() => {
     const checkTokenAndNavigate = async () => {
       const token = await AsyncStorage.getItem('accessToken');
-      console.log('[access Token]' + token);
+      // console.log('[access Token]' + token);
       if (token) {
         navigation.navigate('BottomTab', {
           screen: 'Main',

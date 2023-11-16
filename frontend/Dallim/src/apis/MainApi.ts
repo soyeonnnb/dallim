@@ -100,7 +100,7 @@ export const postRunningData = async (runningData: RunningData) => {
         'Content-Type': 'application/json',
       },
     });
-    console.log('RunningApi 성공 : ', response.data);
+    // console.log('RunningApi 성공 : ', response.data);
     return response.data;
   } catch (error) {
     console.error('RunningApi 실패 ', error);

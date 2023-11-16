@@ -216,7 +216,7 @@ function Edit() {
       return points.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
   };
-  const PointImage = PointData.Point;
+  const PointImage = PointData.Coin;
 
   return (
     <S.Container>
@@ -251,6 +251,7 @@ function Edit() {
                     }}>
                     <S.ToggleImage
                       source={isOn ? BasicPlanet : BasicCharacter}
+                      // source={isOn ? BasicCharacter : BasicPlanet}
                     />
                   </S.ToggleButton>
                 </S.ToggleButtonWrapper>
@@ -258,7 +259,6 @@ function Edit() {
               <S.HeaderSide>
                 <S.PointBox>
                   <S.PointImage source={PointImage} resizeMode="contain" />
-
                   <S.PointText>{formatPoints(userPoint)}</S.PointText>
                 </S.PointBox>
               </S.HeaderSide>

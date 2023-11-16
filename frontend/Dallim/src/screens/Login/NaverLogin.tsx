@@ -40,7 +40,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
       });
 
       const data = response.data;
-      console.log(data);
+      // console.log(data);
       await AsyncStorage.setItem('userId', String(data.uesrId));
       await AsyncStorage.setItem('accessToken', data.accessToken);
       await postFcmToken();

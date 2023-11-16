@@ -1,13 +1,23 @@
 import * as React from 'react';
-import { requestUserPermission, NotificationListner } from './src/utils/pushnotification_helper';
-import { CommonActions, NavigationContainer, useNavigation } from '@react-navigation/native';
-import { checkNotifications, requestNotifications } from 'react-native-permissions';
-import { displayNoti } from './src/utils/pushnotification_helper';
-import { createStackNavigator } from '@react-navigation/stack';
-import { Platform, Linking, View, Text } from 'react-native';
-import { enableScreens } from 'react-native-screens';
-import { RecoilRoot } from 'recoil';
-import { useEffect } from 'react';
+import {
+  requestUserPermission,
+  NotificationListner,
+} from './src/utils/pushnotification_helper';
+import {
+  CommonActions,
+  NavigationContainer,
+  useNavigation,
+} from '@react-navigation/native';
+import {
+  checkNotifications,
+  requestNotifications,
+} from 'react-native-permissions';
+import {displayNoti} from './src/utils/pushnotification_helper';
+import {createStackNavigator} from '@react-navigation/stack';
+import {Platform, Linking, View, Text} from 'react-native';
+import {enableScreens} from 'react-native-screens';
+import {RecoilRoot} from 'recoil';
+import {useEffect} from 'react';
 import SystemNavigationBar from 'react-native-system-navigation-bar'; // 안드로이드 상태 표시줄과 네비게이션 바를 숨긴다.
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BottomTab from './src/components/common/bottomTab/BottomTab';
@@ -20,18 +30,20 @@ import Sound from 'react-native-sound';
 import AccessToken from './src/screens/login/AccessToken';
 
 import Toast from 'react-native-toast-message';
-import { SuccessToast, ErrorToast } from './src/components/common/toast/CustomToast';
+import {
+  SuccessToast,
+  ErrorToast,
+} from './src/components/common/toast/CustomToast';
 
 enableScreens();
 const Stack = createStackNavigator();
 SystemNavigationBar.stickyImmersive();
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('[Background Remote Message]', remoteMessage);
+  // console.log('[Background Remote Message]', remoteMessage);
 });
 
 function App() {
-
   // 배경쏭
   useEffect(() => {
     Sound.setCategory('Playback'); // 배경음악 재생 설정
@@ -54,8 +66,8 @@ function App() {
 
   // 토스트 커스텀
   const toastConfig = {
-    success: (internalState) => <SuccessToast text1={internalState.text1} />,
-    error: (internalState) => <ErrorToast text1={internalState.text1} />,
+    success: internalState => <SuccessToast text1={internalState.text1} />,
+    error: internalState => <ErrorToast text1={internalState.text1} />,
   };
 
   // 위치사용 허락
@@ -70,10 +82,10 @@ function App() {
 
   useEffect(() => {
     const requestNotificationPermission = async () => {
-      const { status } = await checkNotifications();
+      const {status} = await checkNotifications();
 
       if (status === 'denied') {
-        requestNotifications(['alert', 'sound']).then(({ status }) => {
+        requestNotifications(['alert', 'sound']).then(({status}) => {
           if (
             status === 'denied' &&
             Platform.OS === 'android' &&
@@ -118,7 +130,7 @@ function App() {
   useEffect(() => {
     getFcmToken();
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('[Remote Message] ', JSON.stringify(remoteMessage));
+      // console.log('[Remote Message] ', JSON.stringify(remoteMessage));
     });
     // accessToken();
 
@@ -132,33 +144,33 @@ function App() {
           <Stack.Screen
             name="AccessToken"
             component={AccessToken}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Login"
             component={Login}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="BottomTab"
             component={BottomTab}
-            options={{ headerShown: false }} // BottomTab의 헤더 숨기기
+            options={{headerShown: false}} // BottomTab의 헤더 숨기기
           />
 
           <Stack.Screen
             name="NotFound"
             component={NotFound}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Kakao"
             component={Kakao}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
           <Stack.Screen
             name="Naver"
             component={Naver}
-            options={{ headerShown: false }}
+            options={{headerShown: false}}
           />
         </Stack.Navigator>
 

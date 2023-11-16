@@ -10,18 +10,18 @@ export async function requestUserPermission() {
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
   if (enabled) {
-    console.log('Authorization status:', authStatus);
+    // console.log('Authorization status:', authStatus);
   }
 }
 
 export async function GetFCMToken() {
   let fcmtoken = await AsyncStorage.getItem('fcmtoken');
-  console.log(fcmtoken, 'old token');
+  // console.log(fcmtoken, 'old token');
   if (!fcmtoken) {
     try {
       const fcmtoken = await messaging().getToken();
       if (fcmtoken) {
-        console(fcmtoken, 'new token');
+        // console(fcmtoken, 'new token');
         await AsyncStorage.setItem('fcmtoken', fcmtoken);
       }
     } catch (error) {
@@ -52,7 +52,7 @@ export const NotificationListner = () => {
     });
 
   messaging().onMessage(async remoteMessage => {
-    console.log('notification on froground state .....', remoteMessage);
+    // console.log('notification on froground state .....', remoteMessage);
   });
 };
 

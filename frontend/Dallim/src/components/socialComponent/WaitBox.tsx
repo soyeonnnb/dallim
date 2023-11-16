@@ -1,12 +1,13 @@
 import * as S from './Box.styles';
-import {postRequestAccept, postRequestReject} from '@/apis/SocialApi';
-import {characterData} from '@/recoil/data/CharacterData';
+import { postRequestAccept, postRequestReject } from '@/apis/SocialApi';
+import { characterData } from '@/recoil/data/CharacterData';
 
-import {useRecoilState} from 'recoil';
-import {friendRequestsState, friendsState} from '@/recoil/FriendRecoil';
+import { useRecoilState } from 'recoil';
+import { friendRequestsState, friendsState } from '@/recoil/FriendRecoil';
 import AccpetIcon from '@/assets/icons/AcceptIcon';
 import DenyIcon from '@/assets/icons/DenyIcon';
 import { CustomToast } from '@/components/common/toast/CustomToast';
+import { LevelData } from '@/recoil/data/LevelData';
 
 type WaitBoxProps = {
   userId: number;
@@ -73,6 +74,15 @@ function WaitBox({
     }
   };
 
+  function getLevelImageIndex(userLevel: number) {
+    if (userLevel <= 10) return 0;
+    if (userLevel <= 20) return 1;
+    if (userLevel <= 30) return 2;
+    if (userLevel <= 40) return 3;
+    return 4; // 50 이하인 경우
+  }
+  const LevelImage = LevelData[getLevelImageIndex(level)].Base;
+
   return (
     <S.Container>
       <S.Box>
@@ -85,9 +95,19 @@ function WaitBox({
           </S.FriendDetailButton>
         </S.Left>
         <S.Middle_Wait>
-          <S.LevelText>Lv. {level}</S.LevelText>
-          <S.NicknameText>{nickname}</S.NicknameText>
+          <S.MiddleTop>
+            <S.LevelBox>
+              <S.LevelImage
+                source={LevelImage} resizeMode='contain' />
+            </S.LevelBox>
+            <S.LevelText>Lv. {level}</S.LevelText>
+          </S.MiddleTop>
+          <S.MiddleBottom>
+            <S.NicknameText>{nickname}</S.NicknameText>
+          </S.MiddleBottom>
+
         </S.Middle_Wait>
+
         <S.Right_Wait>
           {/* 수락버튼 */}
           <S.Button_AcceptWait>

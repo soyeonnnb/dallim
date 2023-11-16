@@ -48,8 +48,8 @@ export const BoxShadow = styled(Shadow)`
 `;
 
 export const LinearGradient = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   /* width: 15%; */
   height: 100%;
   justify-content: center;
@@ -95,7 +95,7 @@ export const Header = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 100%;
-  height: 45%;
+  height: 40%;
   padding-top: 10px;
 `;
 
@@ -110,20 +110,38 @@ export const Body = styled.View`
   flex-direction: row;
   align-items: flex-end;
   width: 100%;
-  height: 55%;
+  height: 60%;
   padding-bottom: 10px;
+  gap: 3px;
 `;
 
 export const NickNameText = styled.Text`
+  /* border-width: 1px;
+  border-color: red; */
   font-size: 20px;
   font-weight: normal;
   color: #ffffff;
 `;
 
+export const LevelBox = styled.View`
+  /* border-width: 1px;
+  border-color: white; */
+  width: 15px;
+  height: 15px;
+  margin-left: 2px;
+
+`;
+
+export const LevelImage = styled.Image`
+  width: 100%;
+  height: 100%;
+`;
+
 export const LevelText = styled.Text`
+  /* border-width: 1px;
+  border-color: red; */
   font-size: 10px;
   color: #adadad;
-  margin-left: 8px;
 `;
 
 export const right = styled.View`

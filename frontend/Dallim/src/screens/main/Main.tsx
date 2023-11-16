@@ -96,10 +96,7 @@ function Main({ navigation }: MainProps) {
 
   // Test Toast
   function DummyToast() {
-    CustomToast({
-      type: 'error',
-      text1: '개발중입니다.',
-    });
+    CustomToast({ type: 'error', text1: '개발중입니다.' });
   }
 
   function getLevelImageIndex(userLevel: number) {

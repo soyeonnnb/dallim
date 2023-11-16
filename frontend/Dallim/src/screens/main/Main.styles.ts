@@ -1,7 +1,6 @@
 import styled from 'styled-components/native';
 import {ImageBackground} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {Text} from 'react-native-svg';
 import {ViewProps} from 'react-native-svg/lib/typescript/fabric/utils';
 
 export const Container = styled.View`

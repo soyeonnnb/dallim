@@ -35,15 +35,15 @@ function App() {
   // 배경쏭
   useEffect(() => {
     Sound.setCategory('Playback'); // 배경음악 재생 설정
-    const bgm = new Sound('bgm2.mp3', Sound.MAIN_BUNDLE, error => {
+    const bgm = new Sound('dallimbgm.mp3', Sound.MAIN_BUNDLE, error => {
       if (error) {
-        console.log('오디오 로드 실패:', error);
+        // console.log('오디오 로드 실패:', error);
         return;
       }
       bgm.setNumberOfLoops(-1); // 무한 반복
       bgm.play(success => {
         if (!success) {
-          console.log('오디오 재생 실패:');
+          // console.log('오디오 재생 실패:');
         }
       });
     });
@@ -90,10 +90,10 @@ function App() {
   const getFcmToken = async () => {
     try {
       const fcmToken = await messaging().getToken();
-      console.log('[FCM Token] ', fcmToken);
+      // console.log('[FCM Token] ', fcmToken);
       await AsyncStorage.setItem('fcmToken', fcmToken);
     } catch (e) {
-      console.error('Failed to fetch or save FCM token', e);
+      // console.error('Failed to fetch or save FCM token', e);
     }
   };
 

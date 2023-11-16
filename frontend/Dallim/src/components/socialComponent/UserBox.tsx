@@ -1,11 +1,12 @@
-import {postAddFriend} from '@/apis/SocialApi';
+import { postAddFriend } from '@/apis/SocialApi';
 import * as S from './Box.styles';
-import {characterData} from '@/recoil/data/CharacterData';
+import { characterData } from '@/recoil/data/CharacterData';
 
-import {useState} from 'react';
+import { useState } from 'react';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import FriendAddIcon from '@/assets/icons/FriendAddIcon';
 import GuideModal from '../common/GuideModal';
+import { LevelData } from '@/recoil/data/LevelData';
 
 type UserBoxProps = {
   userId: number;
@@ -22,7 +23,7 @@ function UserBox({
   characterIndex,
   evolutionStage,
   level,
-  isFollower,
+  isFollower
 }: UserBoxProps) {
   const selectedCharacter =
     characterData[characterIndex].Evolutions[evolutionStage].Badge;
@@ -47,20 +48,33 @@ function UserBox({
     }
   };
 
+  function getLevelImageIndex(userLevel: number) {
+    if (userLevel <= 10) return 0;
+    if (userLevel <= 20) return 1;
+    if (userLevel <= 30) return 2;
+    if (userLevel <= 40) return 3;
+    return 4; // 50 이하인 경우
+  }
+  const LevelImage = LevelData[getLevelImageIndex(level)].Base;
+
   return (
     <S.Container>
       <S.Box>
         <S.Left>
-          {/* <S.FriendDetailButton onPress={() => {
-                        console.log("친구 상세 버튼 눌림확인");
-                    }}> */}
+
           <S.CharacterImage source={selectedCharacter} resizeMode="contain" />
-          {/* </S.FriendDetailButton> */}
         </S.Left>
-        {/* <S.EmptyBox></S.EmptyBox> */}
         <S.Middle>
-          <S.LevelText>Lv. {level}</S.LevelText>
-          <S.NicknameText>{nickname}</S.NicknameText>
+          <S.MiddleTop>
+            <S.LevelBox>
+              <S.LevelImage
+                source={LevelImage} resizeMode='contain' />
+            </S.LevelBox>
+            <S.LevelText>Lv. {level}</S.LevelText>
+          </S.MiddleTop>
+          <S.MiddleBottom>
+            <S.NicknameText>{nickname}</S.NicknameText>
+          </S.MiddleBottom>
         </S.Middle>
         <S.Right>
           {!isFollower && (
@@ -92,23 +106,6 @@ function UserBox({
         toggleModal={() => {
           setShowAlert(false);
         }}></GuideModal>
-      {/* <AwesomeAlert
-        show={showAlert}
-        showProgress={false}
-        title="안내사항"
-        message={alertMessage}
-        closeOnTouchOutside={true}
-        onDismiss={() => {
-          setShowAlert(false);
-        }}
-        closeOnHardwareBackPress={false}
-        showConfirmButton={true}
-        confirmText="확인"
-        confirmButtonColor="blue"
-        onConfirmPressed={() => {
-          setShowAlert(false);
-        }}
-      /> */}
     </S.Container>
   );
 }

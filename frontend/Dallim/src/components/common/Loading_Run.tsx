@@ -12,7 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import RadialGradient from 'react-native-radial-gradient';
 
 interface LoadingRunProps {
-  onReload: () => void;
+  onReload: () => void; 
 }
 function Loading_Run({ onReload }: LoadingRunProps) {
 

@@ -1,10 +1,10 @@
 import * as S from './SocialCard.styles';
-import {planetData} from '@/recoil/data/PlanetData';
+import { planetData } from '@/recoil/data/PlanetData';
 // import AddIcon from '@/assets/icons/AddFriendIcon'
 import AddIcon from '@/assets/icons/AddFriendIcon';
-import {postAddFriend} from '@/apis/SocialApi';
-import {useState} from 'react';
-import AwesomeAlert from 'react-native-awesome-alerts';
+import { postAddFriend } from '@/apis/SocialApi';
+import { useState } from 'react';
+import GuideModal from '../common/GuideModal';
 
 interface Props {
   userId: number;
@@ -19,26 +19,24 @@ function SocialCard({
   planetIndex,
   nickname,
   userLevel,
-  experiencePercentage,
+  experiencePercentage
 }: Props) {
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalText, setModalText] = useState('');
 
   const handleAddFriend = async (userId: number) => {
     try {
       const result = await postAddFriend(userId);
       if (result) {
-        console.log('친구 요청이 성공적으로 완료');
-        setAlertMessage('친구 요청이 성공적으로 완료되었습니다.');
-        setShowAlert(true);
+        setModalText('친구 요청이 성공적으로 완료되었습니다.');
       } else {
-        setAlertMessage('친구의 수락을 기다려주세요!');
-        setShowAlert(true);
+        setModalText('친구의 수락을 기다려주세요!');
       }
+      setModalVisible(true);
     } catch (error) {
-      console.error('친구 추가 중 오류가 발생', error);
-      setAlertMessage('오류가 발생했습니다. 잠시후 다시 시도해주세요!');
-      setShowAlert(true);
+      setModalText('오류가 발생했습니다. 잠시 후 다시 시도해주세요!');
+      setModalVisible(true);
     }
   };
 
@@ -82,22 +80,11 @@ function SocialCard({
         </S.CardBox>
       </S.CardImageWrapper>
       {/* </S.BoxShadow> */}
-      <AwesomeAlert
-        show={showAlert}
-        showProgress={false}
-        title="안내사항"
-        message={alertMessage}
-        closeOnTouchOutside={true}
-        onDismiss={() => {
-          setShowAlert(false);
-        }}
-        closeOnHardwareBackPress={false}
-        showConfirmButton={true}
-        confirmText="확인"
-        confirmButtonColor="blue"
-        onConfirmPressed={() => {
-          setShowAlert(false);
-        }}
+
+      <GuideModal
+        text={modalText}
+        modalVisible={modalVisible}
+        toggleModal={() => setModalVisible(false)}
       />
     </S.Container>
   );

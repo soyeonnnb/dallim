@@ -44,12 +44,12 @@ public class JobService {
     private final GetUser getUser;
 
 
-    public void scheduleJob(Long userId, List<Day> day, int hour, int minute) throws SchedulerException {
+    public void scheduleJob(Long userId, String nickName, List<Day> day, int hour, int minute) throws SchedulerException {
 
         FcmToken targetToken = fcmRepository.findByUserUserId(userId);
 
-        String title = "Dallim 운동 알림";
-        String body = String.format("%d시 %d분에 예약한 운동 알림 발송!", hour, minute);;
+        String title = "Dallim";
+        String body = String.format("%s님! 이제 달릴 시간이에요!", nickName);
         // jobKey Nameing Rule : userId:{userId}-day:{day}-{hour}-{minute}
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("targetToken", targetToken.getFcmToken());

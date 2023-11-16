@@ -30,7 +30,7 @@ public class ScheduleController {
 
             User user = getUser.getUser();
 
-            jobService.scheduleJob(user.getUserId(), req.getDay(), req.getHour(),req.getMinute());
+            jobService.scheduleJob(user.getUserId(), user.getNickname(), req.getDay(), req.getHour(),req.getMinute());
 
             return ApiResponse.createSuccess(true);
         } catch (Exception e) {

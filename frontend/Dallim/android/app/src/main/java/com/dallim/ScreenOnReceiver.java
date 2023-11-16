@@ -8,7 +8,6 @@ import android.util.Log;
 public class ScreenOnReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.d("DDDDDDDDDD", "ScreenOnReceiver - onReceive");
 
 //        if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
 //            Intent i = new Intent(context, CalendarActivity.class);

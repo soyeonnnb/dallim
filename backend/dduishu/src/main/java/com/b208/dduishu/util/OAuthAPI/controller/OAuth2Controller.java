@@ -148,6 +148,8 @@ public class  OAuth2Controller {
                     .userLevel(UserLevel.builder().level(1).exp(0).build())
                     .registDate(LocalDateTime.now())
                     .build();
+
+                System.out.println(user.toString());
                 user = userRepository.save(user);
 
                 Character character = Character.builder()
@@ -156,6 +158,7 @@ public class  OAuth2Controller {
                         .characterLevel(CharacterLevel.builder().level(1).exp(0).build())
                         .isMainCharacter(true)
                         .build();
+                System.out.println(character.toString());
                 characterRepository.save(character);
 
                 Planet planet = Planet.builder()
@@ -163,6 +166,7 @@ public class  OAuth2Controller {
                         .planetInfo(planetInfoRepository.findById(1L).orElse(null))
                         .isMainPlanet(true)
                         .build();
+                System.out.println(planet.toString());
                 planetRepository.save(planet);
 
 

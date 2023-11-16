@@ -140,7 +140,6 @@ public class  OAuth2Controller {
             User user = null;
 
             if(optionalUser.isEmpty()){
-                System.out.println("여기 들어옴?");
                 //유저 생성
 
                 UserLevel build = UserLevel.builder().level(1).exp(0).build();
@@ -157,7 +156,6 @@ public class  OAuth2Controller {
                     .registDate(LocalDateTime.now())
                     .build();
 
-                System.out.println(user.getAccountType());
                 user = userRepository.save(user);
 
                 CharacterLevel characterLevel = CharacterLevel.builder().level(1).exp(0).build();
@@ -170,7 +168,6 @@ public class  OAuth2Controller {
                         .isMainCharacter(true)
                         .build();
 
-                System.out.println(character.isMainCharacter());
                 characterRepository.save(character);
 
                 Planet planet = Planet.builder()
@@ -178,7 +175,6 @@ public class  OAuth2Controller {
                         .planetInfo(planetInfoRepository.findById(1L).orElse(null))
                         .isMainPlanet(true)
                         .build();
-                System.out.println(planet.isMainPlanet());
                 planetRepository.save(planet);
 
 
@@ -231,24 +227,32 @@ public class  OAuth2Controller {
             User user = null;
 
             if(optionalUser.isEmpty()){
+                UserLevel build = UserLevel.builder().level(1).exp(0).build();
+                UserLevel savedLevel = userLevelRepository.save(build);
+
                 user = User.builder()
-                    .accountType(provider)
-                    .email(email)
-                    .nickname(nNick())
-                    .accessToken(accessToken)
-                    .privateAccess(encoder.encode(accessToken))
-                    .state(UserState.standard)
-                    .userLevel(UserLevel.builder().level(1).exp(0).build())
-                    .registDate(LocalDateTime.now())
-                    .build();
+                        .accountType(provider)
+                        .email(email)
+                        .nickname(nNick())
+                        .accessToken(accessToken)
+                        .privateAccess(encoder.encode(accessToken))
+                        .state(UserState.standard)
+                        .userLevel(savedLevel)
+                        .registDate(LocalDateTime.now())
+                        .build();
+
                 user = userRepository.save(user);
+
+                CharacterLevel characterLevel = CharacterLevel.builder().level(1).exp(0).build();
+                CharacterLevel savedCharacterLevel = characterLevelRepository.save(characterLevel);
 
                 Character character = Character.builder()
                         .user(user)
                         .characterInfo(characterInfoRepository.findById(1L).orElse(null))
-                        .characterLevel(CharacterLevel.builder().level(1).exp(0).build())
+                        .characterLevel(savedCharacterLevel)
                         .isMainCharacter(true)
                         .build();
+
                 characterRepository.save(character);
 
                 Planet planet = Planet.builder()
@@ -257,6 +261,7 @@ public class  OAuth2Controller {
                         .isMainPlanet(true)
                         .build();
                 planetRepository.save(planet);
+
 
             }else{
 

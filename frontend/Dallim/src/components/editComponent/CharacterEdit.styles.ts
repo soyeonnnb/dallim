@@ -1,4 +1,6 @@
+import {Shadow} from 'react-native-shadow-2';
 import styled from 'styled-components/native';
+import {colors} from '../common/globalStyles';
 
 export const Container = styled.View`
   flex: 1;
@@ -15,7 +17,7 @@ export const Header = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 15%;
+  height: 10%;
 `;
 
 export const DotBox = styled.View`
@@ -42,7 +44,7 @@ export const Body = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 65%;
+  height: 70%;
 `;
 
 export const CharacterBox = styled.View`
@@ -60,38 +62,64 @@ export const Footer = styled.View`
   align-items: center;
 `;
 
+export const BoxShadow = styled(Shadow)`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+`;
+
 export const ButtonBox = styled.TouchableOpacity`
   border-width: 1px;
   border-color: white;
-  border-radius: 20px;
+  border-radius: 30px;
   justify-content: center;
   align-items: center;
-  background-color: #2a2c45;
-  width: 90%;
-  height: 50%;
+  /* background-color: #2a2c45; */
+  width: 100%;
+  height: 60%;
 `;
 
 export const LockButtonBox = styled.TouchableOpacity`
   /* border-width: 1px;
   border-color: blue; */
-  border-radius: 20px;
+  border-radius: 30px;
   justify-content: center;
   align-items: center;
   flex-direction: row;
   background-color: rgba(42, 44, 69, 0.5);
   width: 100%;
-  height: 50%;
+  height: 60%;
+`;
+
+export const ImgLeftBox = styled.View`
+  /* border-width: 1px;
+  border-color: blue; */
+  justify-content: center;
+  align-items: center;
+  left: 5%;
+  width: 30%;
+  height: 100%;
 `;
 
 export const LockedImage = styled.Image`
   width: 30px;
   height: 30px;
 `;
+export const RightBox = styled.View`
+  width: 70%;
+  /* border-width: 1px;
+  border-color: blue; */
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  right: 20%;
+`;
 
 export const LockedText = styled.Text`
   font-size: 20px;
   color: white;
-  margin-right: 5%;
+  /* margin-right: 5%; */
 `;
 
 export const LevelBox = styled.View`
@@ -101,16 +129,17 @@ export const LevelBox = styled.View`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 50%;
+  height: 40%;
 `;
 
 export const LevelText = styled.Text`
   font-size: 15px;
-  color: black;
+  color: white;
 `;
 
 export const EquippedText = styled.Text`
   font-size: 20px;
+  font-weight: bold;
   color: white;
 `;
 
@@ -128,13 +157,14 @@ type ExperienceProps = {
 };
 
 export const Experience = styled.View<ExperienceProps>`
-  background-color: black;
+  background-color: ${colors.text.black};
   width: ${props => props.percentage}%;
   height: 100%;
   border-radius: 20px;
 `;
 
 export const ButtonText = styled.Text`
-  font-size: 15px;
+  font-size: 20px;
+  font-weight: bold;
   color: white;
 `;

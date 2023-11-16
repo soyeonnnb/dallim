@@ -13,19 +13,19 @@ public class RunningRecordOverallInfo {
     private double distance;
     private double speed;
     private double pace;
-    private RunningState state;
-    private double latitude;
-    private double longitude;
+    //private RunningState state;
+    //private double latitude;
+    //private double longitude;
 
     @Builder
-    public RunningRecordOverallInfo(int second, double heartRate, double distance, double speed, double pace, RunningState state, double latitude, double longitude) {
+    public RunningRecordOverallInfo(int second, double heartRate, double distance, double speed, double pace) {
         this.second = second;
         this.heartRate = heartRate;
         this.distance = distance;
         this.speed = speed;
         this.pace = pace;
-        this.state = state;
-        this.latitude = latitude;
-        this.longitude = longitude;
+//        this.state = state;
+//        this.latitude = latitude;
+//        this.longitude = longitude;
     }
 }

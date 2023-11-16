@@ -6,7 +6,7 @@ import CharacterSelectModal from './editModal/CharacterSelectModal';
 import {CustomToast} from '@/components/common/toast/CustomToast';
 
 import Character from './CharacterBox';
-
+ 
 import {useRecoilState} from 'recoil';
 import {
   userDataState,
@@ -194,6 +194,7 @@ function CharacterEdit({
                     center={[100, 100]}></RadialGradient>
                 </LinearGradient>
                 <S.EquippedText>대표 캐릭터</S.EquippedText>
+
               </S.ButtonBox>
 
               <S.LevelBox>
@@ -207,34 +208,6 @@ function CharacterEdit({
           ) : (
             <>
               <S.ButtonBox onPress={toggleCharacterSelectModal}>
-                {/* <LinearGradient
-                  colors={[
-                    colors.all.firstPoint.linear.start,
-                    colors.all.firstPoint.linear.end,
-                  ]}
-                  style={{
-                    borderRadius: 50,
-                    height: '100%',
-                    width: '100%',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    flex: 1,
-                    overflow: 'hidden',
-                  }}
-                  start={{x: 1, y: 0}}
-                  end={{x: 0.5, y: 1}}>
-                  <RadialGradient
-                    style={{
-                      width: 200,
-                      height: 200,
-                      borderRadius: 50,
-                      opacity: 0.2,
-                    }}
-                    colors={['#ffffff', '#3D2FBF']}
-                    stops={[0.04, 0.2]}
-                    radius={500}
-                    center={[100, 100]}></RadialGradient> */}
-                {/* </LinearGradient> */}
                 <LinearGradient
                   start={{x: 0, y: 0}}
                   end={{x: 0, y: 1}}
@@ -262,12 +235,10 @@ function CharacterEdit({
           )
         ) : (
           <S.LockButtonBox onPress={handlePurchaseCheck}>
-            <S.ImgLeftBox>
               <S.LockedImage
                 source={require('@/assets/icons/LockIcon.png')}
                 resizeMode="contain"
               />
-            </S.ImgLeftBox>
             <S.RightBox>
               <S.LockedText>4000 포인트</S.LockedText>
             </S.RightBox>

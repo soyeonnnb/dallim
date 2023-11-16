@@ -50,7 +50,7 @@ export const Body = styled.View`
 export const CharacterBox = styled.View`
   /* border-width: 1px;
   border-color: green; */
-  width: 80%;
+  width: 100%;
   height: 90%;
 `;
 
@@ -77,7 +77,7 @@ export const ButtonBox = styled.TouchableOpacity`
   align-items: center;
   /* background-color: #2a2c45; */
   width: 100%;
-  height: 60%;
+  height: 50%;
 `;
 
 export const LockButtonBox = styled.TouchableOpacity`
@@ -89,23 +89,14 @@ export const LockButtonBox = styled.TouchableOpacity`
   flex-direction: row;
   background-color: rgba(42, 44, 69, 0.5);
   width: 100%;
-  height: 60%;
-`;
-
-export const ImgLeftBox = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
-  justify-content: center;
-  align-items: center;
-  left: 5%;
-  width: 30%;
-  height: 100%;
+  height: 50%;
 `;
 
 export const LockedImage = styled.Image`
   width: 30px;
   height: 30px;
 `;
+
 export const RightBox = styled.View`
   width: 70%;
   /* border-width: 1px;
@@ -113,7 +104,7 @@ export const RightBox = styled.View`
   justify-content: center;
   align-items: center;
   height: 100%;
-  right: 20%;
+  /* right: 20%; */
 `;
 
 export const LockedText = styled.Text`

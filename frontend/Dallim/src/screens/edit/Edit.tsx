@@ -243,18 +243,6 @@ function Edit() {
               <S.HeaderSide />
               <S.TopMiddle>
                 <S.ToggleButtonWrapper onPress={toggleHandle}>
-                  {/* <S.ToggleButton
-                    style={{
-                      transform: [
-                        {
-                          translateX: animatedValue,
-                        },
-                      ],
-                    }}>
-                    <S.ToggleImage
-                      source={isOn ? BasicPlanet : BasicCharacter}
-                    />
-                  </S.ToggleButton> */}
                   <S.TextBox>
                     <S.Text>
                       <S.FixedTextLeft
@@ -299,7 +287,7 @@ function Edit() {
                     onPlanetPurchased={handlePlanetPurchased}
                   />
                 ) : (
-                  <CharacterEdit
+                  <CharacterEdit 
                     handleEquippedCharacterChange={
                       handleEquippedCharacterChange
                     }

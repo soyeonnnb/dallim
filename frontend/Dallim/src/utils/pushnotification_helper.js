@@ -10,13 +10,13 @@ export async function requestUserPermission() {
     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
   if (enabled) {
-    console.log('Authorization status:', authStatus);
+    // console.log('Authorization status:', authStatus);
   }
 }
 
 export async function GetFCMToken() {
   let fcmtoken = await AsyncStorage.getItem('fcmtoken');
-  console.log(fcmtoken, 'old token');
+  // console.log(fcmtoken, 'old token');
   if (!fcmtoken) {
     try {
       const fcmtoken = await messaging().getToken();
@@ -34,25 +34,25 @@ export const NotificationListner = () => {
   // Assume a message-notification contains a "type" property in the data payload of the screen to open
 
   messaging().onNotificationOpenedApp(remoteMessage => {
-    console.log(
-      'Notification caused app to open from background state:',
-      remoteMessage.notification,
-    );
+    // console.log(
+    //   'Notification caused app to open from background state:',
+    //   remoteMessage.notification,
+    // );
   });
 
   messaging()
     .getInitialNotification()
     .then(remoteMessage => {
       if (remoteMessage) {
-        console.log(
-          'Notification caused app to open from quit state:',
-          remoteMessage.notification,
-        );
+        // console.log(
+        //   'Notification caused app to open from quit state:',
+        //   remoteMessage.notification,
+        // );
       }
     });
 
   messaging().onMessage(async remoteMessage => {
-    console.log('notification on froground state .....', remoteMessage);
+    // console.log('notification on froground state .....', remoteMessage);
   });
 };
 

@@ -1,9 +1,9 @@
 import * as S from './Main.styles';
-import { useEffect, useState } from 'react';
-import { fetchUserProfile } from '@/apis/MainApi';
-import { characterData } from '@/recoil/data/CharacterData';
-import { planetData } from '@/recoil/data/PlanetData';
-import { LevelData, PointData } from '@/recoil/data/LevelData';
+import {useEffect, useState} from 'react';
+import {fetchUserProfile} from '@/apis/MainApi';
+import {characterData} from '@/recoil/data/CharacterData';
+import {planetData} from '@/recoil/data/PlanetData';
+import {LevelData, PointData} from '@/recoil/data/LevelData';
 import NotificationModal from '@/components/profileComponent/profileModal/NotificationModal';
 import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
 import StampModal from '@/components/mainComponent/StampModal';
@@ -24,19 +24,19 @@ import {
   equippedEvolutionStageState,
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
-import { useRecoilState } from 'recoil';
-import { CustomToast } from '@/components/common/toast/CustomToast';
+import {useRecoilState} from 'recoil';
+import {CustomToast} from '@/components/common/toast/CustomToast';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon';
 
 interface MainProps {
   navigation: any;
 }
-function Main({ navigation }: MainProps) {
-
+function Main({navigation}: MainProps) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
   const [isGuideModalVisible, setGuideModalVisible] = useState(false); // 가이드 모달
-  const [isPrivacyPolicyModalVisible, setPrivacyPolicyModalVisible] = useState(false); //공지모달
+  const [isPrivacyPolicyModalVisible, setPrivacyPolicyModalVisible] =
+    useState(false); //공지모달
 
   const [userId, setUserId] = useRecoilState(userIdState); // 유저 아이디
   const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
@@ -56,7 +56,7 @@ function Main({ navigation }: MainProps) {
   const loadUserInfo = async () => {
     try {
       const userInfo = await fetchUserProfile(); // API 함수 호출
-      console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
+      // console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
 
       if (userInfo) {
         setUserId(userInfo.userId);
@@ -80,17 +80,17 @@ function Main({ navigation }: MainProps) {
   }, []);
 
   function GuideAction() {
-    console.log('사용설명서 버튼 눌림!');
+    // console.log('사용설명서 버튼 눌림!');
     setGuideModalVisible(true);
   }
 
   function StampAction() {
-    console.log('출석체크 버튼 눌림!');
+    // console.log('출석체크 버튼 눌림!');
     setStampModalVisible(true);
   }
 
   function PolicyAction() {
-    console.log('공지모달 눌림');
+    // console.log('공지모달 눌림');
     setPrivacyPolicyModalVisible(true);
   }
 
@@ -116,7 +116,7 @@ function Main({ navigation }: MainProps) {
       return '99,999+';
     } else {
       // 1000 -> 1,000
-      return points.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return points.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
   };
   const PointImage = PointData.Point;
@@ -145,24 +145,23 @@ function Main({ navigation }: MainProps) {
             <S.Header>
               <S.HeaderLeft>
                 <S.LevelBox>
-                  <S.LevelImage
-                    source={LevelImage} resizeMode='contain' />
+                  <S.LevelImage source={LevelImage} resizeMode="contain" />
                 </S.LevelBox>
                 <S.LevelText>Lv. {userLevel}</S.LevelText>
                 <S.NicknameText>{userNickname}</S.NicknameText>
-                <S.ExpBarContainer >
-                  <S.ExpBar expPercent={userExp} levelIndex={getLevelImageIndex(userLevel)}></S.ExpBar>
+                <S.ExpBarContainer>
+                  <S.ExpBar
+                    expPercent={userExp}
+                    levelIndex={getLevelImageIndex(userLevel)}></S.ExpBar>
                 </S.ExpBarContainer>
               </S.HeaderLeft>
 
               <S.HeaderRight>
                 <S.PointBox>
-                  <S.PointImage
-                    source={PointImage} resizeMode='contain' />
+                  <S.PointImage source={PointImage} resizeMode="contain" />
 
                   <S.PointText>{formatPoints(userPoint)}</S.PointText>
                 </S.PointBox>
-
               </S.HeaderRight>
             </S.Header>
 
@@ -170,7 +169,10 @@ function Main({ navigation }: MainProps) {
               <S.GuideBox>
                 <S.Box>
                   <LinearGradient
-                    colors={['rgba(106, 99, 190, 0.8)', 'rgba(36, 31, 90, 0.8)']}
+                    colors={[
+                      'rgba(106, 99, 190, 0.8)',
+                      'rgba(36, 31, 90, 0.8)',
+                    ]}
                     style={{
                       borderRadius: 18,
                       height: '100%',
@@ -178,19 +180,19 @@ function Main({ navigation }: MainProps) {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}>
+                    start={{x: 0, y: 0}}
+                    end={{x: 0, y: 1}}>
                     <S.ButtonStyle onPress={GuideAction}>
-                      <GuideIcon
-                        width={20}
-                        height={20}
-                        color="white" />
+                      <GuideIcon width={20} height={20} color="white" />
                     </S.ButtonStyle>
                   </LinearGradient>
                 </S.Box>
                 <S.Box>
                   <LinearGradient
-                    colors={['rgba(106, 99, 190, 0.8)', 'rgba(36, 31, 90, 0.8)']}
+                    colors={[
+                      'rgba(106, 99, 190, 0.8)',
+                      'rgba(36, 31, 90, 0.8)',
+                    ]}
                     style={{
                       borderRadius: 18,
                       height: '100%',
@@ -198,13 +200,10 @@ function Main({ navigation }: MainProps) {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}>
+                    start={{x: 0, y: 0}}
+                    end={{x: 0, y: 1}}>
                     <S.ButtonStyle onPress={PolicyAction}>
-                      <PrivacyPolicyIcon
-                        width={20}
-                        height={20}
-                        color="white" />
+                      <PrivacyPolicyIcon width={20} height={20} color="white" />
                     </S.ButtonStyle>
                   </LinearGradient>
                 </S.Box>
@@ -212,7 +211,10 @@ function Main({ navigation }: MainProps) {
               <S.StampBox>
                 <S.Box>
                   <LinearGradient
-                    colors={['rgba(106, 99, 190, 0.8)', 'rgba(36, 31, 90, 0.8)']}
+                    colors={[
+                      'rgba(106, 99, 190, 0.8)',
+                      'rgba(36, 31, 90, 0.8)',
+                    ]}
                     style={{
                       borderRadius: 18,
                       height: '100%',
@@ -220,13 +222,10 @@ function Main({ navigation }: MainProps) {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 0, y: 1 }}>
+                    start={{x: 0, y: 0}}
+                    end={{x: 0, y: 1}}>
                     <S.ButtonStyle onPress={StampAction}>
-                      <StampWhiteIcon
-                        width={20}
-                        height={20}
-                        color="white" />
+                      <StampWhiteIcon width={20} height={20} color="white" />
                     </S.ButtonStyle>
                   </LinearGradient>
                 </S.Box>
@@ -249,14 +248,13 @@ function Main({ navigation }: MainProps) {
 
               <S.StartBox>
                 <S.StartButton
-                  onPress={() =>
-                    navigation.navigate('GameStartStack')
+                  onPress={
+                    () => navigation.navigate('GameStartStack')
                     // DummyToast() // 개발중
-                  }
-                >
+                  }>
                   <LinearGradient
-                    start={{ x: 0.5, y: 0 }}
-                    end={{ x: 0.5, y: 1 }}
+                    start={{x: 0.5, y: 0}}
+                    end={{x: 0.5, y: 1}}
                     colors={['#6EE2F5', '#6454F0']}
                     style={{
                       height: '100%',
@@ -280,16 +278,11 @@ function Main({ navigation }: MainProps) {
                       colors={['#ffffff', '#A890FF']}
                       stops={[0, 0.3]}
                       radius={500}
-                      center={[50, 100]}>
-
-
-                    </RadialGradient>
+                      center={[50, 100]}></RadialGradient>
                   </LinearGradient>
                 </S.StartButton>
               </S.StartBox>
-
             </S.Body>
-
           </S.BackgroundImage>
 
           <GuideModal
@@ -306,7 +299,6 @@ function Main({ navigation }: MainProps) {
           />
         </>
       )}
-
     </S.Container>
   );
 }

@@ -15,14 +15,22 @@ export const BackgroundImage = styled(ImageBackground)`
 export const PointBox = styled.View`
   /* border-width: 1px;
   border-color: white; */
+  /* height: 50px; */
+  flex-direction: row;
   width: 120px;
   justify-content: center;
   align-items: center;
 `;
 
 export const PointImage = styled.Image`
-  width: 100%;
-  height: 100%;
+  /* border-width: 1px;
+  border-color: red; */
+  /* top: 22%; */
+  bottom: 7%;
+  right: 10%;
+  width: 30px;
+  height: 30px;
+  /* position: absolute; */
 `;
 
 export const Header = styled.View`
@@ -34,8 +42,8 @@ export const Header = styled.View`
 `;
 
 export const TopMiddle = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   justify-content: flex-end;
   align-items: center;
   width: 40%;
@@ -54,6 +62,8 @@ export const ToggleButtonWrapper = styled(TouchableOpacity)`
 `;
 
 export const ToggleButton = styled(Animated.View)`
+  /* border-width: 1px;
+  border-color: blue; */
   width: 60px;
   height: 40px;
   border-radius: 100px;
@@ -63,21 +73,23 @@ export const ToggleButton = styled(Animated.View)`
 `;
 
 export const ToggleImage = styled(Image)`
+  /* position: absolute; */
   width: 30px;
   height: 30px;
 `;
 
 export const HeaderSide = styled.View`
-  border-width: 1px;
-  border-color: blue;
+  /* border-width: 1px;
+  border-color: blue; */
   flex-direction: row;
   width: 30%;
   height: 100%;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: flex-end;
 `;
 
 export const PointText = styled.Text`
+  bottom: 7%;
   font-size: 20px;
   color: white;
 `;
@@ -114,8 +126,8 @@ export const BodyLeft = styled.View`
 `;
 
 export const BodyCenter = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   width: 60%;
   height: 100%;
 `;

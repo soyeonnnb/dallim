@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 public class BaseLevel {
 
-    private static int LEVEL_GAGE = 30000;
+    private static int LEVEL_GAGE = 3000;
 
     @Data
     static class Level {

@@ -1,14 +1,17 @@
 import * as S from './PlanetEdit.styles';
-import {postPlanetPurchase, updateEquippedPlanet} from '@/apis/EditApi';
-import {useEffect, useState} from 'react';
-import {planetData} from '@/recoil/data/PlanetData';
+import { postPlanetPurchase, updateEquippedPlanet } from '@/apis/EditApi';
+import { useEffect, useState } from 'react';
+import { planetData } from '@/recoil/data/PlanetData';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
-import {CustomToast} from '@/components/common/toast/CustomToast';
+import { CustomToast } from '@/components/common/toast/CustomToast';
+import LinearGradient from 'react-native-linear-gradient';
+import RadialGradient from 'react-native-radial-gradient';
+import {colors} from '../common/globalStyles';
 
 import Planet from './PlanetBox';
 
-import {useRecoilState} from 'recoil';
+import { useRecoilState } from 'recoil';
 import {
   userDataState,
   equippedPlanetIndexState,
@@ -94,7 +97,7 @@ function PlanetEdit({
               ...userData,
               planets: userData.planets.map((planet, index) => {
                 if (index === selectedPlanetIndex) {
-                  return {...planet, isPurchased: true};
+                  return { ...planet, isPurchased: true };
                 }
                 return planet;
               }),
@@ -102,7 +105,7 @@ function PlanetEdit({
             setUserData(newUserData);
           }
 
-          CustomToast({type: 'success', text1: '행성 구매 성공!'});
+          CustomToast({ type: 'success', text1: '행성 구매 성공!' });
           setPurchaseModalVisible(false);
         } else {
           CustomToast({
@@ -117,7 +120,7 @@ function PlanetEdit({
         });
       }
     } else {
-      CustomToast({type: 'error', text1: '포인트가 부족합니다.'});
+      CustomToast({ type: 'error', text1: '포인트가 부족합니다.' });
     }
   }
 
@@ -128,7 +131,7 @@ function PlanetEdit({
 
   function handleEquipped() {
     // console.log('시작 버튼 눌림!');
-    CustomToast({type: 'error', text1: '이미 선택된 행성입니다.'});
+    CustomToast({ type: 'error', text1: '이미 선택된 행성입니다.' });
   }
 
   return (
@@ -151,8 +154,37 @@ function PlanetEdit({
         {selectedPlanetIsPurchased ? (
           selectedPlanetIndex === equippedPlanetIndex ? (
             <S.ButtonBox onPress={handleEquipped}>
+              <LinearGradient
+                colors={[
+                  colors.all.firstPoint.linear.start,
+                  colors.all.firstPoint.linear.end,
+                ]}
+                style={{
+                  borderRadius: 30,
+                  height: '100%',
+                  width: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'absolute',
+                  overflow: 'hidden',
+                }}
+                start={{ x: 0.5, y: 0 }}
+                end={{ x: 0.5, y: 1 }}>
+                <RadialGradient
+                  style={{
+                    width: 300,
+                    height: 300,
+                    borderRadius: 30,
+                    opacity: 0.2,
+                  }}
+                  colors={['#ffffff', '#3D2FBF']}
+                  stops={[0.04, 0.2]}
+                  radius={500}
+                  center={[100, 100]}></RadialGradient>
+              </LinearGradient>
               <S.EquippedText>대표 행성</S.EquippedText>
             </S.ButtonBox>
+
           ) : (
             <S.ButtonBox onPress={togglePlanetSelectModal}>
               <S.ButtonText>선택</S.ButtonText>
@@ -164,7 +196,9 @@ function PlanetEdit({
               source={require('@/assets/icons/LockIcon.png')}
               resizeMode="contain"
             />
-            <S.LockedText>2000 포인트</S.LockedText>
+            <S.RightBox>
+              <S.LockedText>2000 포인트</S.LockedText>
+            </S.RightBox>
           </S.LockButtonBox>
         )}
       </S.Footer>

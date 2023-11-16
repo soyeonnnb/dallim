@@ -2,13 +2,13 @@ import * as S from './GuideModal.styles';
 import {Modal} from 'react-native';
 
 type DeleteModalProps = {
+  text: string;
   toggleModal: () => void;
   modalVisible: boolean;
-  text: string;
 };
 
 function GuideModal({text, toggleModal, modalVisible}: DeleteModalProps) {
-  return (
+  return ( 
     <Modal transparent={true} visible={modalVisible}>
       <S.ModalContainer>
         {/* <S.ContentShadow

@@ -72,7 +72,8 @@ export const postCharacterPurchase = async (characterIndex: number) => {
         },
       },
     );
-    // console.log('EditApi : 캐릭터 업데이트 Axios 성공');
+    console.log('EditApi : 캐릭터 업데이트 Axios 성공');
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log('EditApi : 캐릭터 업데이트 Axios 실패');

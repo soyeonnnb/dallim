@@ -11,7 +11,7 @@ export const ModalContent = styled.View`
   /* border-width: 1px;
   border-color: red; */
   width: 80%;
-  height: 400px;
+  height: 450px;
   background-color: #fff;
   border-radius: 10px;
   align-items: center;

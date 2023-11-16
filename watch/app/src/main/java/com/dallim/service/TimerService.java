@@ -196,7 +196,7 @@ public class TimerService extends Service {
                 } else if (tempDistance >= 1000  && tempDistance >= lastTtsDistance + 1000){
                     lastTtsDistance = tempDistance;
                     tempDistance = Math.round(tempDistance/1000);
-                    ttsUtil.speak("현재 달린 거리는 " + String.valueOf(tempDistance)+ "km 입니다.");
+                    ttsUtil.speak("현재 달린 거리는 " + String.valueOf((int) tempDistance)+ "km 입니다.");
                 }
             }
         }

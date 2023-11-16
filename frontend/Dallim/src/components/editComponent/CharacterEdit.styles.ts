@@ -4,6 +4,8 @@ export const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+  /* border-width: 1px;
+  border-color: red; */
 `;
 
 export const Header = styled.View`
@@ -30,7 +32,7 @@ export const Dot = styled.View<{isActive: boolean}>`
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  background-color: ${props => (props.isActive ? 'black' : 'white')};
+  background-color: ${props => (props.isActive ? '#675AFF' : 'white')};
   margin: 0 5px;
 `;
 
@@ -59,13 +61,13 @@ export const Footer = styled.View`
 `;
 
 export const ButtonBox = styled.TouchableOpacity`
-  /* border-width: 1px;
-  border-color: white; */
+  border-width: 1px;
+  border-color: white;
   border-radius: 20px;
   justify-content: center;
   align-items: center;
   background-color: #2a2c45;
-  width: 100%;
+  width: 90%;
   height: 50%;
 `;
 

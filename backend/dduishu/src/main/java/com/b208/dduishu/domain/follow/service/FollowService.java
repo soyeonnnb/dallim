@@ -80,8 +80,8 @@ public class FollowService {
     public void acceptFollow(AcceptFollowerinfo req) {
         User user = getUser.getUser();
 
-        Follow followToMe = followRepository.findByFromUserUserIdAndToUserUserId(req.getToUserId(), user.getUserId());
-        Follow followFromMe = followRepository.findByFromUserUserIdAndToUserUserId(user.getUserId(), req.getToUserId());
+        Follow followToMe = followRepository.findByFromUserUserIdAndToUserUserIdAndState(req.getToUserId(), user.getUserId(), FollowState.waiting);
+        Follow followFromMe = followRepository.findByFromUserUserIdAndToUserUserIdAndState(user.getUserId(), req.getToUserId(), FollowState.waiting);
         if (followToMe != null) {
             followToMe.setState(FollowState.accept);
         }

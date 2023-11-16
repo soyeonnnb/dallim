@@ -3,6 +3,7 @@ package com.dallim.activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.dallim.R;
 import com.dallim.databinding.ActivitySettingBinding;
@@ -190,6 +192,8 @@ public class SettingActivity extends AppCompatActivity {
             Button finish = dialogView.findViewById(R.id.finish);
 
             TextView text = dialogView.findViewById(R.id.text_view);
+            Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.oagothic_medium);
+            text.setTypeface(typeface);
             text.setText("내 기록을\n초기화 하시겠습니까?\n(워치에 저장된 내 기록과\n비연동 데이터가\n초기화됩니다)");
             finish.setText("초기화");
 

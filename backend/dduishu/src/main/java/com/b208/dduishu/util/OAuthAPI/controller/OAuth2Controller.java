@@ -11,6 +11,7 @@ import javax.transaction.Transactional;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.entity.CharacterLevel;
+import com.b208.dduishu.domain.character.repository.CharacterLevelRepository;
 import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
 import com.b208.dduishu.domain.characterInfo.repository.CharacterInfoRepository;
@@ -19,6 +20,7 @@ import com.b208.dduishu.domain.planet.repository.PlanetInfoRepository;
 import com.b208.dduishu.domain.planet.repository.PlanetRepository;
 import com.b208.dduishu.domain.user.entity.UserLevel;
 import com.b208.dduishu.domain.user.entity.UserState;
+import com.b208.dduishu.domain.user.repository.UserLevelRepository;
 import com.b208.dduishu.domain.user.service.UserSocialLoginService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,6 +68,8 @@ public class  OAuth2Controller {
     private final JwtUtil jwtUtil;
     private final UserSocialLoginService userSocialLoginService;
     private final BCryptPasswordEncoder encoder;
+    private final UserLevelRepository userLevelRepository;
+    private final CharacterLevelRepository characterLevelRepository;
 
     // 소셜 로그인
     // @PostMapping("oauth/login")
@@ -138,6 +142,10 @@ public class  OAuth2Controller {
             if(optionalUser.isEmpty()){
                 System.out.println("여기 들어옴?");
                 //유저 생성
+
+                UserLevel build = UserLevel.builder().level(1).exp(0).build();
+                UserLevel savedLevel = userLevelRepository.save(build);
+
                 user = User.builder()
                     .accountType(provider)
                     .email(email)
@@ -145,20 +153,24 @@ public class  OAuth2Controller {
                     .accessToken(accessToken)
                     .privateAccess(encoder.encode(accessToken))
                     .state(UserState.standard)
-                    .userLevel(UserLevel.builder().level(1).exp(0).build())
+                    .userLevel(savedLevel)
                     .registDate(LocalDateTime.now())
                     .build();
 
-                System.out.println(user.toString());
+                System.out.println(user.getAccountType());
                 user = userRepository.save(user);
+
+                CharacterLevel characterLevel = CharacterLevel.builder().level(1).exp(0).build();
+                CharacterLevel savedCharacterLevel = characterLevelRepository.save(characterLevel);
 
                 Character character = Character.builder()
                         .user(user)
                         .characterInfo(characterInfoRepository.findById(1L).orElse(null))
-                        .characterLevel(CharacterLevel.builder().level(1).exp(0).build())
+                        .characterLevel(savedCharacterLevel)
                         .isMainCharacter(true)
                         .build();
-                System.out.println(character.toString());
+
+                System.out.println(character.isMainCharacter());
                 characterRepository.save(character);
 
                 Planet planet = Planet.builder()
@@ -166,7 +178,7 @@ public class  OAuth2Controller {
                         .planetInfo(planetInfoRepository.findById(1L).orElse(null))
                         .isMainPlanet(true)
                         .build();
-                System.out.println(planet.toString());
+                System.out.println(planet.isMainPlanet());
                 planetRepository.save(planet);
 
 

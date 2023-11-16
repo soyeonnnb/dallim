@@ -23,6 +23,7 @@ public class RunningMateInfo {
     private double totalDistance;
     private double totalTime;
     private boolean isClear;
+    private String location;
     private LocalDateTime createdAt;
 
     @Builder
@@ -39,6 +40,7 @@ public class RunningMateInfo {
         this.totalDistance = runningMate.getRivalRecord().getTotalDistance();
         this.totalTime = runningMate.getRivalRecord().getTotalTime();
         this.isClear = runningMate.isHasWin();
+        this.location = runningMate.getRivalRecord().getLocation();
         this.createdAt = runningMate.getCreatedAt();
     }
 }

@@ -51,7 +51,7 @@ function SocialBody({
 
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [rankingData, setRankingData] = useState<RankingInfo[] | null>(null);
-  console.log(rankingData);
+  // console.log(rankingData);
 
   const loadRankingData = async () => {
     try {

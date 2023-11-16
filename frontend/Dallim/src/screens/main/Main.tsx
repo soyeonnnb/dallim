@@ -71,7 +71,7 @@ function Main({navigation}: MainProps) {
         setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
       }
     } catch (error) {
-      console.error('Main : 정보 조회 Axios 실패 ');
+      // console.error('Main : 정보 조회 Axios 실패 ');
     }
   };
 
@@ -244,7 +244,7 @@ function Main({navigation}: MainProps) {
               />
 
               <S.StartBox>
-                <S.StartButton
+                {/* <S.StartButton
                   onPress={
                     () => navigation.navigate('GameStartStack')
                     // DummyToast() // 개발중
@@ -277,7 +277,7 @@ function Main({navigation}: MainProps) {
                       radius={500}
                       center={[50, 100]}></RadialGradient>
                   </LinearGradient>
-                </S.StartButton>
+                </S.StartButton> */}
               </S.StartBox>
             </S.Body>
           </S.BackgroundImage>

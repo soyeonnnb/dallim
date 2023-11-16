@@ -38,7 +38,7 @@ function RunningMateDeleteModal({
       }
     } catch (error) {
       CustomToast({ type: 'error', text1: '에러발생! 다시 시도해주세요.' });
-      console.error('삭제하는데 에러발생2', error);
+      // console.error('삭제하는데 에러발생2', error);
     }
     toggleDeleteModal(); // 무조건 모달을 닫는 동작
   };

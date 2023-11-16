@@ -5,7 +5,11 @@ import {BarChart} from 'react-native-gifted-charts';
 import {FlatList} from 'react-native-gesture-handler';
 
 import MonthChartModal from './MonthChartModal';
-import {meterToKMOrMeter, secondToMinuteSeconds} from '@/recoil/data/RunningData';
+import {
+  meterToKMOrMeter,
+  secondToMinuteSeconds,
+} from '@/recoil/data/RunningData';
+import {colors} from '@/components/common/globalStyles';
 
 interface Props {
   selectedYearMonth: {
@@ -97,6 +101,9 @@ function MonthlyChart({previewMonthRankingRecords}: Props) {
                       barBorderRadius={4}
                       spacing={25}
                       xAxisColor="gray"
+                      xAxisLabelTextStyle={{
+                        color: colors.text.grey,
+                      }}
                       barMarginBottom={100}
                       isAnimated={true}
                       onPress={(item: any) => handleModal(item)}

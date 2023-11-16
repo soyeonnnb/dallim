@@ -42,7 +42,6 @@ public class DirectRunWidgetModule extends ReactContextBaseJavaModule {
     }
     @ReactMethod
     public void set(String message) {
-        Log.d("DDDDDDDDDD", "DirectRunWidgetModule - set");
 
         SharedPreferences.Editor editor = context.getSharedPreferences("DATA", Context.MODE_PRIVATE).edit();
         editor.putString("appData", message);

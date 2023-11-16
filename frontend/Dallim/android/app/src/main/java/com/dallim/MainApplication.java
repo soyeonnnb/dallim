@@ -17,60 +17,57 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  private final ReactNativeHost mReactNativeHost =
-      new DefaultReactNativeHost(this) {
-        @Override
-        public boolean getUseDeveloperSupport() {
-          return BuildConfig.DEBUG;
-        }
+    private final ReactNativeHost mReactNativeHost =
+            new DefaultReactNativeHost(this) {
+                @Override
+                public boolean getUseDeveloperSupport() {
+                    return BuildConfig.DEBUG;
+                }
 
-          @Override
-          protected List<ReactPackage> getPackages() {
-
-              Log.d("DDDDDDDDDD", "MainApplication - getPackages");
-
-              @SuppressWarnings("UnnecessaryLocalVariable")
-              List<ReactPackage> packages = new PackageList(this).getPackages();
-
-              packages.add(new CalendarWidgetModulePackage());
-              packages.add(new DirectRunWidgetModulePackage());
-              packages.add(new TokenModulePackage());
-              Log.d("DDDDDDDDDD", "MainApplication - Packages"+packages);
-              return packages;
-          }
+                @Override
+                protected List<ReactPackage> getPackages() {
 
 
-        @Override
-        protected String getJSMainModuleName() {
-          return "index";
-        }
+                    @SuppressWarnings("UnnecessaryLocalVariable")
+                    List<ReactPackage> packages = new PackageList(this).getPackages();
 
-        @Override
-        protected boolean isNewArchEnabled() {
-          return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
-        }
+                    packages.add(new CalendarWidgetModulePackage());
+                    packages.add(new DirectRunWidgetModulePackage());
+                    packages.add(new TokenModulePackage());
+                    return packages;
+                }
 
-        @Override
-        protected Boolean isHermesEnabled() {
-          return BuildConfig.IS_HERMES_ENABLED;
-        }
-      };
 
-  @Override
-  public ReactNativeHost getReactNativeHost() {
-    return mReactNativeHost;
-  }
+                @Override
+                protected String getJSMainModuleName() {
+                    return "index";
+                }
 
-  @Override
-  public void onCreate() {
+                @Override
+                protected boolean isNewArchEnabled() {
+                    return BuildConfig.IS_NEW_ARCHITECTURE_ENABLED;
+                }
 
-      Log.d("DDDDDDDDDD", "MainApplication - onCreate");
-    super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
-    if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
-      // If you opted-in for the New Architecture, we load the native entry point for this app.
-      DefaultNewArchitectureEntryPoint.load();
+                @Override
+                protected Boolean isHermesEnabled() {
+                    return BuildConfig.IS_HERMES_ENABLED;
+                }
+            };
+
+    @Override
+    public ReactNativeHost getReactNativeHost() {
+        return mReactNativeHost;
     }
-    ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
-  }
+
+    @Override
+    public void onCreate() {
+
+        super.onCreate();
+        SoLoader.init(this, /* native exopackage */ false);
+        if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
+            // If you opted-in for the New Architecture, we load the native entry point for this app.
+            DefaultNewArchitectureEntryPoint.load();
+        }
+        ReactNativeFlipper.initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    }
 }

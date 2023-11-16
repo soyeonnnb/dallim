@@ -5,6 +5,8 @@ import AddIcon from '@/assets/icons/AddFriendIcon';
 import { postAddFriend } from '@/apis/SocialApi';
 import { useState } from 'react';
 import GuideModal from '../common/GuideModal';
+import { useRecoilValue } from 'recoil';
+import { userIdState } from '@/recoil/UserRecoil';
 
 interface Props {
   userId: number;
@@ -22,6 +24,7 @@ function SocialCard({
   experiencePercentage
 }: Props) {
 
+  const myId = useRecoilValue(userIdState);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalText, setModalText] = useState('');
 
@@ -54,14 +57,16 @@ function SocialCard({
               <S.LevelText>Level {userLevel}</S.LevelText>
             </S.HeaderLeft>
             <S.HeaderRight>
-              <S.AddIcon>
-                <S.AddButton
-                  onPress={() => {
-                    handleAddFriend(userId);
-                  }}>
-                  <AddIcon width={30} height={30} />
-                </S.AddButton>
-              </S.AddIcon>
+              {myId !== userId && (
+                <S.AddIcon>
+                  <S.AddButton
+                    onPress={() => {
+                      handleAddFriend(userId);
+                    }}>
+                    <AddIcon width={30} height={30} />
+                  </S.AddButton>
+                </S.AddIcon>
+              )}
             </S.HeaderRight>
           </S.Header>
           <S.Body>

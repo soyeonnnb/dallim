@@ -190,7 +190,7 @@ const FriendManageModal: React.FC<Props> = ({isVisible, onClose}) => {
           <ScrollView>
             {friends.map(friend => (
               <S.FriendBox key={friend.userId}>
-                <FriendBox {...friend} />
+                <FriendBox {...friend} onClose={onClose}/>
               </S.FriendBox>
             ))}
           </ScrollView>
@@ -205,7 +205,7 @@ const FriendManageModal: React.FC<Props> = ({isVisible, onClose}) => {
           <ScrollView>
             {friendRequests.map(order => (
               <S.WaitBox key={order.userId}>
-                <WaitBox {...order} />
+                <WaitBox {...order} onClose={onClose}/>
               </S.WaitBox>
             ))}
           </ScrollView>

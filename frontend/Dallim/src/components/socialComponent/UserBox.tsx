@@ -1,12 +1,10 @@
-import { postAddFriend } from '@/apis/SocialApi';
 import * as S from './Box.styles';
 import { characterData } from '@/recoil/data/CharacterData';
-
+import { LevelData } from '@/recoil/data/LevelData';
+import { postAddFriend } from '@/apis/SocialApi';
 import { useState } from 'react';
-import AwesomeAlert from 'react-native-awesome-alerts';
 import FriendAddIcon from '@/assets/icons/FriendAddIcon';
 import GuideModal from '../common/GuideModal';
-import { LevelData } from '@/recoil/data/LevelData';
 
 type UserBoxProps = {
   userId: number;
@@ -27,24 +25,22 @@ function UserBox({
 }: UserBoxProps) {
   const selectedCharacter =
     characterData[characterIndex].Evolutions[evolutionStage].Badge;
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalText, setModalText] = useState('');
 
   const handleAddFriend = async (userId: number) => {
     try {
       const result = await postAddFriend(userId);
       if (result) {
-        console.log('친구 요청이 성공적으로 완료');
-        setAlertMessage('친구 요청이 완료되었습니다.');
-        setShowAlert(true);
+        setModalText('친구 요청이 성공적으로 완료되었습니다.');
       } else {
-        setAlertMessage('친구의 수락을 기다려주세요!');
-        setShowAlert(true);
+        setModalText('친구의 수락을 기다려주세요!');
       }
+      setModalVisible(true);
+
     } catch (error) {
-      console.error('친구 추가 중 오류가 발생', error);
-      setAlertMessage('오류가 발생했습니다. 잠시후 다시 시도해주세요!');
-      setShowAlert(true);
+      setModalText('오류가 발생했습니다. 잠시 후 다시 시도해주세요!');
+      setModalVisible(true);
     }
   };
 
@@ -87,10 +83,6 @@ function UserBox({
                 onPress={() => {
                   handleAddFriend(userId);
                 }}>
-                {/* <S.FriendAddImage
-                source={require('@/assets/icons/FriendAddIcon.png')}
-                resizeMode="contain"
-              /> */}
                 <FriendAddIcon
                   width={25}
                   height={25}
@@ -100,12 +92,12 @@ function UserBox({
           )}
         </S.Right>
       </S.Box>
+
       <GuideModal
-        modalVisible={showAlert}
-        text={alertMessage}
-        toggleModal={() => {
-          setShowAlert(false);
-        }}></GuideModal>
+        text={modalText}
+        modalVisible={modalVisible}
+        toggleModal={() => setModalVisible(false)}
+      />
     </S.Container>
   );
 }

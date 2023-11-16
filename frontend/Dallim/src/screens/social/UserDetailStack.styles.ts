@@ -41,8 +41,8 @@ export const CloseButton = styled.TouchableOpacity`
 `;
 
 export const EmptyBox = styled.View`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   width: 20%;
   height: 100%;
   justify-content: center;
@@ -130,8 +130,8 @@ export const CharacterImage = styled.Image`
 `;
 
 export const CharacterTouch = styled(TouchableOpacity)`
-  /* border-width: 1px;
-  border-color: red; */
+  border-width: 1px;
+  border-color: red;
   width: 100%;
   height: 100%;
 `;

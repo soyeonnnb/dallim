@@ -28,7 +28,7 @@ const LogoutModal = ({showModal, toggleModal}: ModalComponentProps) => {
           // console.log('저장된 모든 키:', keys);
         })
         .catch(error => {
-          console.log('키를 가져오는 중 오류 발생:', error);
+          // console.log('키를 가져오는 중 오류 발생:', error);
         });
       // console.log(token);
       requestWithTokenRefresh(() => {
@@ -57,7 +57,7 @@ const LogoutModal = ({showModal, toggleModal}: ModalComponentProps) => {
           }
         })
         .catch(error => {
-          console.log('통신에러발생', error);
+          // console.log('통신에러발생', error);
         });
     });
   };

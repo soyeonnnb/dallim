@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 import * as S from './Overview.styles';
-import { colors } from '@/components/common/globalStyles';
+import {colors} from '@/components/common/globalStyles';
 
 import ArrowRight from '@/assets/icons/ArrowRight';
 import Run1Icon from '@/assets/icons/Run1Icon';
@@ -10,7 +10,7 @@ import Run3Icon from '@/assets/icons/Run3Icon';
 import CircleWatchIcon from '@/assets/icons/CircleWatch';
 import MobileIcon from '@/assets/icons/MobileIcon';
 
-import { PaceDataType, RecordDetail, HeartChartDataType } from '@/apis/ChartApi';
+import {PaceDataType, RecordDetail, HeartChartDataType} from '@/apis/ChartApi';
 
 import RunningMateRecord from './OverviewRunningMateRecord';
 import OverviewGraph from './OverviewGraph';
@@ -80,7 +80,7 @@ function Overview({
 
   const [measureCircleHeight, setMeasureCircleHeight] = useState<number>(0);
   const handleMethodCircleWidth = (event: any) => {
-    const { height } = event.nativeEvent.layout;
+    const {height} = event.nativeEvent.layout;
     setMeasureCircleHeight(height);
   };
 
@@ -161,15 +161,17 @@ function Overview({
                 <S.RecordBox>
                   <Record
                     title="평균 심박수"
-                    content={`${data ? Math.round(data.heartRate.averageHeartRate) : 0
-                      } bpm`}
+                    content={`${
+                      data ? Math.round(data.heartRate.averageHeartRate) : 0
+                    } bpm`}
                     titleColor="white"
                     contentColor={colors.blue._500}
                   />
                   <Record
                     title="최대 심박수"
-                    content={`${data ? Math.round(data.heartRate.maxHeartRate) : 0
-                      } bpm`}
+                    content={`${
+                      data ? Math.round(data.heartRate.maxHeartRate) : 0
+                    } bpm`}
                     contentColor={colors.purple._500}
                     titleColor="white"
                   />
@@ -212,7 +214,7 @@ function Overview({
                 navigation={navigation}
               />
             ) : (
-              ''
+              <></>
             )}
             <S.Footer />
           </S.MainContent>
@@ -233,7 +235,7 @@ interface RecordProps {
   contentColor: string;
 }
 
-function Record({ title, content, titleColor, contentColor }: RecordProps) {
+function Record({title, content, titleColor, contentColor}: RecordProps) {
   return (
     <S.RecordContainer>
       <S.RecordTitle color={titleColor}>{title}</S.RecordTitle>
@@ -248,7 +250,7 @@ interface WalkRecordProps {
   color: string;
 }
 
-function WalkRecord({ type, record, color }: WalkRecordProps) {
+function WalkRecord({type, record, color}: WalkRecordProps) {
   const [title, setTitle] = useState<string>('');
   const [iconSize, setIconSize] = useState<number>(0);
   useEffect(() => {

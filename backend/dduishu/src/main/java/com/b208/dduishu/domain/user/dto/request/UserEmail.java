@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class UserEmail {
+    private String type;
     @ApiModelProperty(value = "이메일", example = "useremail@naver.com")
     private String email;
 }

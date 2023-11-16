@@ -8,7 +8,6 @@ function SocialBottom() {
         <S.Container>
             <S.Box>
                 <S.Manage onPress={() => {
-                    console.log("친구 관리 버튼 클릭확인");
                     setModalVisible(true);
                 }}>
                     <S.ManageText>친구 관리</S.ManageText>

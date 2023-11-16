@@ -1,11 +1,11 @@
-import { useState, useEffect, useMemo } from 'react';
-import { RouteProp, useIsFocused } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import {useState, useEffect, useMemo} from 'react';
+import {RouteProp, useIsFocused} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
 import * as S from './ChartDetail.styles';
-import { ScrollView, TouchableOpacity } from 'react-native';
-import { fetchDetailRunningData } from '@/apis/ChartApi';
+import {ScrollView, TouchableOpacity} from 'react-native';
+import {fetchDetailRunningData} from '@/apis/ChartApi';
 // import Loading from '@/components/common/Loading_run';
-import { Dimensions, View, Text } from 'react-native';
+import {Dimensions, View, Text} from 'react-native';
 
 // 컴포넌트
 import Overview from '@/components/chartComponent/detail/overview/Overview';
@@ -23,9 +23,9 @@ import {
   PaceDataType,
 } from '@/apis/ChartApi';
 
-import { getDateObject } from '@/recoil/data/CalendarData';
-import { calculatePace } from '@/recoil/data/RunningData';
-import { colors } from '@/components/common/globalStyles';
+import {getDateObject} from '@/recoil/data/CalendarData';
+import {calculatePace} from '@/recoil/data/RunningData';
+import {colors} from '@/components/common/globalStyles';
 import Loading_Run from '@/components/common/Loading_Run';
 
 // 스택 내비게이션 타입을 정의
@@ -45,20 +45,20 @@ type ChartDetailScreenNavigationProp = StackNavigationProp<
 
 // 타입을 정의합니다.
 type Props = {
-  route: RouteProp<{ ChartDetail: { id: string } }, 'ChartDetail'>;
+  route: RouteProp<{ChartDetail: {id: string}}, 'ChartDetail'>;
   navigation: ChartDetailScreenNavigationProp;
 };
 
 const customLabel = (val: string) => {
   return (
-    <View style={{ width: 40 }}>
-      <Text style={{ color: 'white' }}>{val}</Text>
+    <View style={{width: 40}}>
+      <Text style={{color: 'white'}}>{val}</Text>
     </View>
   );
 };
 
-function ChartDetail({ route, navigation }: Props) {
-  const { id } = route.params;
+function ChartDetail({route, navigation}: Props) {
+  const {id} = route.params;
   const windowWidth = Dimensions.get('window').width;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [data, setData] = useState<RecordDetail>();
@@ -77,7 +77,7 @@ function ChartDetail({ route, navigation }: Props) {
   const [heartRateData, setHeartRateData] = useState<{
     chartData: HeartChartDataType[];
     secondPerHeartRateSection: number[];
-  }>({ chartData: [], secondPerHeartRateSection: [] });
+  }>({chartData: [], secondPerHeartRateSection: []});
   const [pagination, setPagination] = useState<number>(3);
   const [indexDot, setIndexDot] = useState<number>(0);
   const [headerTitle, setHeaderTitle] = useState<string>('Overview');
@@ -178,7 +178,7 @@ function ChartDetail({ route, navigation }: Props) {
   const renderPagination = useMemo(() => {
     return (
       <S.Pagination>
-        {Array.from({ length: pagination }).map((_, index) => {
+        {Array.from({length: pagination}).map((_, index) => {
           return (
             <S.PaginationDot
               distance={3}
@@ -240,8 +240,8 @@ function ChartDetail({ route, navigation }: Props) {
             pagingEnabled
             onMomentumScrollEnd={onChangeDot}
             showsHorizontalScrollIndicator={false}
-            contentOffset={{ x: 0, y: 0 }}>
-            {data && (
+            contentOffset={{x: 0, y: 0}}>
+            {paceData && (
               <Overview
                 data={data}
                 navigation={navigation}

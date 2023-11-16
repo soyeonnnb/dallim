@@ -1,5 +1,5 @@
-import {useEffect, useState} from 'react';
-import {ScrollView} from 'react-native';
+import { useEffect, useState } from 'react';
+import { ScrollView } from 'react-native';
 import * as S from './UserDetailStack.styles';
 // import CloseIcon from '@/assets/icons/DirectionLeft_2.png';
 import DirectionLeftIcon from '@/assets/icons/DirectionLeftIcon';
@@ -7,9 +7,12 @@ import DirectionLeftIcon from '@/assets/icons/DirectionLeftIcon';
 import RunningDataBox from '@/components/socialComponent/RunningDataBox';
 import VersusModal from '@/components/socialComponent/socialModal/VersusModal';
 import SocialCard from '@/components/socialComponent/SocialCard';
-import {characterData} from '@/recoil/data/CharacterData';
-import {fetchUserRecord} from '@/apis/SocialApi';
-import {Animated} from 'react-native';
+import { characterData } from '@/recoil/data/CharacterData';
+import { fetchUserRecord } from '@/apis/SocialApi';
+import { Animated } from 'react-native';
+
+import LinearGradient from 'react-native-linear-gradient';
+import VersusIcon from '@/assets/icons/VersusIcon.png';
 
 interface UserDetailStackProps {
   navigation: any;
@@ -41,7 +44,7 @@ interface UserDetails {
   runningRecordOverviews: RunningRecord[];
 }
 
-function UserDetailStack({navigation, route}: UserDetailStackProps) {
+function UserDetailStack({ navigation, route }: UserDetailStackProps) {
   const userId = route.params.userId;
 
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
@@ -97,7 +100,7 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
     const updatedRecords = runningRecords.map(record => {
       if (record.id === idToUpdate) {
         // 일치하는 레코드의 registration 속성을 true로 업데이트
-        return {...record, registration: true};
+        return { ...record, registration: true };
       }
       return record;
     });
@@ -153,7 +156,7 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
         resizeMode="cover">
         {isLoading ? (
           <S.LoadingBox>
-            <S.AnimatedFooterText style={{opacity: fadeAnim}}>
+            <S.AnimatedFooterText style={{ opacity: fadeAnim }}>
               로딩 중...
             </S.AnimatedFooterText>
           </S.LoadingBox>
@@ -163,13 +166,34 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
               <S.CloseButton onPress={() => navigation.navigate('Social')}>
                 <DirectionLeftIcon width={30} height={30}></DirectionLeftIcon>
               </S.CloseButton>
-              <S.EmptyBox></S.EmptyBox>
+              <S.EmptyBox />
               <S.HeaderBox>
                 <S.DetailText>상세보기</S.DetailText>
               </S.HeaderBox>
-              <S.EmptyBox></S.EmptyBox>
-              <S.VersusBox>
-              </S.VersusBox>
+              <S.EmptyBox>
+                <S.VersusBox>
+                  <LinearGradient
+                    colors={[
+                      'rgba(106, 99, 190, 0.8)',
+                      'rgba(36, 31, 90, 0.8)',
+                    ]}
+                    style={{
+                      borderRadius: 18,
+                      height: '100%',
+                      width: '100%',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}>
+                    <S.ButtonStyle onPress={handleSend}>
+                      <S.VersusImage source={VersusIcon} resizeMode="contain" />
+                    </S.ButtonStyle>
+                  </LinearGradient>
+                </S.VersusBox>
+              </S.EmptyBox>
+
+              <S.EmptyBox />
             </S.Header>
             <S.Body>
               <S.ProfileBox>
@@ -196,7 +220,7 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
                     <S.SortText>{selectedSort}</S.SortText>
                   </S.Sort>
                 </S.SortBox>
-              </S.FooterTop> 
+              </S.FooterTop>
               <S.FooterList>
                 <ScrollView>
                   {runningRecords.map(
@@ -217,12 +241,10 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
             <S.TabBox />
 
             <S.ImageBox>
-              <S.CharacterTouch onPress={handleSend} activeOpacity={0.7}>
-                <S.CharacterImage
-                  source={selectedCharacterLevelData.Main}
-                  resizeMode="contain"
-                />
-              </S.CharacterTouch>
+              <S.CharacterImage
+                source={selectedCharacterLevelData.Main}
+                resizeMode="contain"
+              />
             </S.ImageBox>
 
             <VersusModal

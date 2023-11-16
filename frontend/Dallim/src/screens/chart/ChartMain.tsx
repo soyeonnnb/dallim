@@ -46,7 +46,7 @@ function Chart() {
 
   // 새로고침 버튼을 눌렀을 때 실행할 함수
   const handleReload = () => {
-    setIsLoading(true);
+    setIsLoading(true); 
     fetchCalendarData();
   };
 

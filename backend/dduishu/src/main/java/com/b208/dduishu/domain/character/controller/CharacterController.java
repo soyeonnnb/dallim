@@ -16,18 +16,6 @@ public class CharacterController {
 
     private final CharacterService characterService;
 
-//    @GetMapping("/api/v1/character")
-//    public ApiResponse<?> getAllCharacterInfo() {
-//        try {
-//
-//            CharacterInfoResult ret = characterService.getCharacterInfo();
-//
-//            return ApiResponse.createSuccess(ret);
-//        } catch (Exception e) {
-//            return ApiResponse.createError(e.getMessage());
-//        }
-//    }
-
     @GetMapping("/api/v1/character/{id}")
     public ApiResponse<?> getCharacterInfoDetail(@PathVariable Long id) {
         try {

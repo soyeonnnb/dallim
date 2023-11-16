@@ -259,7 +259,7 @@ const FriendManageModal: React.FC<Props> = ({isVisible, onClose}) => {
                 onPress={() => switchView('search')}
                 isActive={viewState === 'search'}>
                 <S.SelectorText isActive={viewState === 'search'}>
-                  유저 검색
+                  친구 검색
                 </S.SelectorText>
               </S.SelectorButton>
               <S.SelectorButton

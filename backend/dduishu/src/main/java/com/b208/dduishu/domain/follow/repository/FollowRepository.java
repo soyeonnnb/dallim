@@ -18,7 +18,7 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
 
     Follow findByFromUserUserIdAndToUserUserIdAndState(Long fromUserId, Long toUserId, FollowState state);
 
-    @Query("select f from Follow f join fetch f.toUser tu join fetch f.fromUser u join fetch u.characterList c join fetch c.characterInfo ci join fetch c.characterLevel cl join fetch u.userLevel ul where f.toUser.userId = :toUserId and f.state = :state")
+    @Query("select distinct f from Follow f join fetch f.toUser tu join fetch f.fromUser u join fetch u.characterList c join fetch c.characterInfo ci join fetch c.characterLevel cl join fetch u.userLevel ul where f.toUser.userId = :toUserId and f.state = :state")
     List<Follow> findAllByToUserUserIdAndState(Long toUserId, FollowState state);
 
     void deleteByFromUserUserIdAndToUserUserIdAndState(Long fromUserId, Long toUserId, FollowState state);

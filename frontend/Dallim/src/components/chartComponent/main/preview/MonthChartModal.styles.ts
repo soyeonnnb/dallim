@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import LinearGradient from 'react-native-linear-gradient';
+import {colors} from '@/components/common/globalStyles';
 
 export const ModalContainer = styled.View`
   flex: 1;
@@ -49,14 +50,16 @@ export const IconCircle = styled(LinearGradient)`
 export const ModalName = styled.Text`
   font-size: 18px;
   width: 40%;
+  color: ${colors.text.black};
 `;
 export const ModalItem = styled.Text`
   font-size: 18px;
+  color: ${colors.text.black};
 `;
 
 export const HeaderDeleteText = styled.Text`
   font-size: 20px;
-  color: black;
+  color: ${colors.text.black};
 `;
 
 export const ModalFooter = styled.View`

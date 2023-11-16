@@ -7,7 +7,7 @@ import PlanetSelectModal from './editModal/PlanetSelectModal';
 import { CustomToast } from '@/components/common/toast/CustomToast';
 import LinearGradient from 'react-native-linear-gradient';
 import RadialGradient from 'react-native-radial-gradient';
-import {colors} from '../common/globalStyles';
+import { colors } from '../common/globalStyles';
 
 import Planet from './PlanetBox';
 
@@ -45,7 +45,6 @@ function PlanetEdit({
   const [planetSelectModalVisible, setPlanetSelectModalVisible] =
     useState(false); // 행성 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
-  const [showConfetti, setShowConfetti] = useState(false);
 
   async function equippedPlanetChange() {
     togglePlanetSelectModal();
@@ -187,6 +186,19 @@ function PlanetEdit({
 
           ) : (
             <S.ButtonBox onPress={togglePlanetSelectModal}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                colors={['#6EE2F5', '#6454F0']}
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  borderRadius: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+
+                  // position: 'absolute',
+                }}></LinearGradient>
               <S.ButtonText>선택</S.ButtonText>
             </S.ButtonBox>
           )

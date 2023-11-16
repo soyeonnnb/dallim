@@ -1,8 +1,9 @@
+import FastImage from 'react-native-fast-image';
 import styled from 'styled-components/native';
 
 export const ModalContainer = styled.View`
   flex: 1;
-  background-color: rgba(0,0,0,0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   justify-content: center;
   align-items: center;
 `;
@@ -53,7 +54,7 @@ export const ChangeBoxStyle = styled.View`
   height: 40%;
 `;
 
-export const Image = styled.Image`
+export const Image = styled(FastImage)`
   width: 100%;
   height: 100%;
 `;

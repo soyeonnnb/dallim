@@ -32,7 +32,7 @@ public class SensorService extends Service {
     private int heartCountTime = 0;
     private static final int NOTIFICATION_ID = 10;
     private static final String CHANNEL_ID = "RunningService";
-    private SharedPreferences preferences;
+    private double lastHeartRate = 0;
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -92,14 +92,16 @@ public class SensorService extends Service {
             public void onSensorChanged(SensorEvent sensorEvent) {
                 if (sensorEvent.sensor.getType() == Sensor.TYPE_HEART_RATE) {
                     double heartRate = sensorEvent.values[0];
+                    heartRate = (Math.round(heartRate * 100) / 100.0);
+
                     if(heartRate != 0){
                         heartCountTime++;
                         runningViewModel.setHeartCountTime(heartCountTime);
                         totalHeartRate += heartRate;
                         runningViewModel.setTotalHeartRate(totalHeartRate);
+                        lastHeartRate = heartRate;
                     }
-                    heartRate = (Math.round(heartRate * 100) / 100.0);
-                    runningViewModel.setHeartRate(heartRate);
+                    runningViewModel.setHeartRate(lastHeartRate);
                 } else if (sensorEvent.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
                     double currentTotalSteps = sensorEvent.values[0];
                     if (initialStepCount == 0) {

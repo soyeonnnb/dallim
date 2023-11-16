@@ -208,10 +208,7 @@ public class RunningService {
 
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
-        Log.d("액세스", token);
         Call<ApiResponseListDTO<RunningMateResponseDTO>> call = ApiUtil.getApiService().getRunningMate(token);
-        Log.d("응답", "들어옴");
-        Log.d("call 로그", call.toString());
         call.enqueue(new Callback<ApiResponseListDTO<RunningMateResponseDTO>>() {
             @Override
             public void onResponse(Call<ApiResponseListDTO<RunningMateResponseDTO>> call, Response<ApiResponseListDTO<RunningMateResponseDTO>> response) {
@@ -233,6 +230,7 @@ public class RunningService {
                         runningMate.setLevel(dto.getLevel());
                         runningMate.setNickName(dto.getNickName());
                         runningMate.setPlanetIndex(dto.getPlanetIndex());
+                        runningMate.setEvolutionStage(dto.getEvolutionStage());
                         runningMates.add(runningMate);
                     }
                     // 러닝메이트 저장

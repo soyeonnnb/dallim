@@ -7,7 +7,7 @@ import {LevelData, PointData} from '@/recoil/data/LevelData';
 import NotificationModal from '@/components/profileComponent/profileModal/NotificationModal';
 import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
 import StampModal from '@/components/mainComponent/StampModal';
-import RadialGradient from 'react-native-radial-gradient';
+// import RadialGradient from 'react-native-radial-gradient';
 import LinearGradient from 'react-native-linear-gradient';
 import Loading from '@/components/common/Loading_Run';
 
@@ -94,10 +94,10 @@ function Main({navigation}: MainProps) {
     setPrivacyPolicyModalVisible(true);
   }
 
-  // Test Toast
-  function DummyToast() {
-    CustomToast({ type: 'error', text1: '개발중입니다.' });
-  }
+  // // Test Toast
+  // function DummyToast() {
+  //   CustomToast({ type: 'error', text1: '개발중입니다.' });
+  // }
 
   function getLevelImageIndex(userLevel: number) {
     if (userLevel <= 10) return 0;

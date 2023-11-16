@@ -39,7 +39,7 @@ public class UserSocialLoginService {
     @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String kakaoClientId;
     //    @Value("${kakao.logout-redirect-uri}")
-    private String kakaoLogoutRedirectUri = "http://k9b208.p.ssafy.io/api/oauth/logout";
+    private String kakaoLogoutRedirectUri = "https://dallim.site/api/oauth/logout";
     @Value("${jwt.secret}")
     private String secretKey;
     @Value("${spring.security.oauth2.client.registration.naver.clientId}")
@@ -193,7 +193,7 @@ public class UserSocialLoginService {
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=e9cb9f18c757bb2e5ec1c811a9fbe5d1"); // 여기에 Kakao API의 클라이언트 ID
             sb.append("&client_secret=Nk3ZroS9bxLSN9KrZ2BRrFO0KvJPYLTa"); // 여기에 Kakao API의 클라이언트 시크릿
-            sb.append("&redirect_url=http://k9b208.p.ssafy.io/login/oauth2/code/kakao"); // 여기에 리다이렉트 URI
+            sb.append("&redirect_url=http://dallim.site/login/oauth2/code/kakao"); // 여기에 리다이렉트 URI
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
@@ -297,7 +297,7 @@ public class UserSocialLoginService {
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=U981wCCDuUbK6_3C3WJo"); // 여기에 Naver API의 클라이언트 ID
             sb.append("&client_secret=D6aepx5XBX"); // 여기에 Kakao API의 클라이언트 시크릿
-            sb.append("&redirect_url=http://k9b208.p.ssafy.io/login/oauth2/code/naver"); // 여기에 리다이렉트 URI
+            sb.append("&redirect_url=http://dallim.site/login/oauth2/code/naver"); // 여기에 리다이렉트 URI
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();

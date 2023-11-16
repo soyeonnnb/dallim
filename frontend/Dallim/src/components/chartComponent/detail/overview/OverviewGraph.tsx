@@ -14,8 +14,8 @@ interface Props {
 }
 
 function OverviewGraph({title, data, data2, color1, color2}: Props) {
-  const [parentWidth, setParentWidth] = useState(0);
-  const [parentHeight, setParentHeight] = useState(0);
+  const [parentWidth, setParentWidth] = useState<number>(0);
+  const [parentHeight, setParentHeight] = useState<number>(0);
   const [maxValue, setMaxValue] = useState<number>();
 
   const onLayout = (event: any) => {

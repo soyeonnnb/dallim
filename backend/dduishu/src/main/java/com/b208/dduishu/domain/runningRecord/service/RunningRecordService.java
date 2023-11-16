@@ -1,17 +1,19 @@
 package com.b208.dduishu.domain.runningRecord.service;
 
+import com.b208.dduishu.domain.attendance.entity.Attendance;
+import com.b208.dduishu.domain.attendance.service.AttendanceService;
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.repository.CharacterRepository;
 import com.b208.dduishu.domain.geo.service.AddressService;
 import com.b208.dduishu.domain.planet.entity.Planet;
 import com.b208.dduishu.domain.planet.repository.PlanetRepository;
+import com.b208.dduishu.domain.rawRunningRecord.document.RawRunningRecord;
+import com.b208.dduishu.domain.rawRunningRecord.repository.RawRunningRecordRepository;
 import com.b208.dduishu.domain.runningMate.document.RunningMate;
 import com.b208.dduishu.domain.runningMate.repository.RunningMateRepository;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDetail;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
-import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
+import com.b208.dduishu.domain.runningRecord.document.WinOrLose;
+import com.b208.dduishu.domain.runningRecord.dto.request.*;
 import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.response.RunningRecordWithRunningMate;
 import com.b208.dduishu.domain.runningRecord.dto.response.WatchRunningRecordOverview;
@@ -38,6 +40,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 
@@ -52,15 +55,17 @@ public class RunningRecordService {
     private final UserRepository userRepository;
     private final CharacterRepository characterRepository;
     private final RunningMateRepository runningMateRepository;
+    private final AttendanceService attendanceService;
 
     private final PlanetRepository planetRepository;
     private final AddressService addressService;
+
+    private final RawRunningRecordRepository rawRunningRecordRepository;
 
     @Transactional
     public String createRunningRecord(RunningRecordInfo req) {
         updateUserState(false);
         String saveRunningRecordId = saveRunningRecord(req);
-
 
         return saveRunningRecordId;
     }
@@ -76,12 +81,8 @@ public class RunningRecordService {
     @Transactional
     public String saveRunningRecord(RunningRecordInfo req) {
         // user, character, rivalRunningRecord 가져오기
-        User user = userRepository.findByUserId(req.getUserId()).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
-        Character character = characterRepository.findById(req.getCharacterId()).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
+        User user = userRepository.findByUserId(req.getUserId());
+        Character character = characterRepository.findByUserUserIdAndCharacterInfoId(user.getUserId(), req.getCharacterIndex() + 1);
         RunningRecord rivalRunningRecord = null;
         if (req.getRivalRecordId() != null) {
             rivalRunningRecord = runningRecordRepository.findById(req.getRivalRecordId()).orElseThrow(() -> {
@@ -109,20 +110,33 @@ public class RunningRecordService {
         user.getUserLevel().addExp(req.getTotalDistance());
         // 포인트 정산 - 이동 거리 + a
         user.addPoint(req.getTotalDistance());
-
+        // 런닝 메이트 승패 여부 추가
+        updateRunningMateWinStatus(user.getUserId(), req.getRivalRecordId(), req.getWinOrLose());
 
         // dto to entity
-        RunningRecord res = req.toRunningRecord(user, planet, addressName,character,rivalRunningRecord);
-
-        System.out.println(req.getDate().toString());
+        RunningRecord runningRecord = req.toRunningRecord(user, planet, addressName,character,rivalRunningRecord);
 
         // runningRecord 저장
-        RunningRecord savedRunningRecord = runningRecordRepository.save(res);
+        RunningRecord savedRunningRecord = runningRecordRepository.save(runningRecord);
+
+        RawRunningRecord rawRunningRecord = req.toWatchRunningRecord(savedRunningRecord, req);
+
+        rawRunningRecordRepository.save(rawRunningRecord);
 
         return savedRunningRecord.getId().toString();
     }
 
-    private static void computeCumulativeRunningDays(User user, List<RunningRecord> runningRecords) {
+    public void updateRunningMateWinStatus(Long userId, ObjectId rivalRecordId, WinOrLose winOrLose) {
+        if (rivalRecordId != null && winOrLose == WinOrLose.WIN) {
+            RunningMate runningMate = runningMateRepository.findByUserUserIdAndRivalRecordId(userId, rivalRecordId);
+            if (runningMate != null) {
+                RunningMate build = RunningMate.builder().id(runningMate.getId()).user(runningMate.getUser()).rivalRecord(runningMate.getRivalRecord()).hasWin(true).build();
+                runningMateRepository.save(build);
+            }
+        }
+    }
+
+    private void computeCumulativeRunningDays(User user, List<RunningRecord> runningRecords) {
         // 오늘의 레코드 확인
         LocalDate today = LocalDateTime.now().toLocalDate();
         boolean hasTodayRecord = runningRecords.stream()
@@ -131,6 +145,7 @@ public class RunningRecordService {
         // 누적 운동 날짜 갱신
         if (!hasTodayRecord) {
             user.addCumulativeRunningDay(1);
+            attendanceService.markUserAttendance();
         }
     }
 
@@ -139,7 +154,7 @@ public class RunningRecordService {
         double averageSpeedSum = runningRecords.stream()
                 .mapToDouble(RunningRecord::getAverageSpeed)
                 .sum();
-        
+
         // 사용자의 평균 속도 업데이트
         double newAverageSpeed = (runningRecords.isEmpty()) ? averageSpeed : averageSpeedSum / runningRecords.size();
         user.updateAverageSpeed(newAverageSpeed);
@@ -162,7 +177,7 @@ public class RunningRecordService {
     private String findMostFrequentRunningMateId(List<RunningRecord> records) {
         return records.stream()
                 .filter(o -> o.getRivalRecord() != null)
-                .map(o -> o.getRivalRecord().getId())
+                .map(o -> o.getRivalRecord().getId().toString())
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet().stream()
                 .max(Map.Entry.comparingByValue())
@@ -179,7 +194,7 @@ public class RunningRecordService {
             return null;
         }
         Long mostFrequentUserId =  record.getUser().getUserId();
-        return userRepository.findByUserId(mostFrequentUserId).orElse(null);
+        return userRepository.findByUserId(mostFrequentUserId);
     }
 
     private double computeTotalDistance(List<RunningRecord> records) {
@@ -341,16 +356,19 @@ public class RunningRecordService {
             throw new NullPointerException();
         });
 
-        System.out.println(res.getId());
+
+        if ( res.getRivalRecord() != null) {
+            res.getRivalRecord().setPace(res.getRivalRecord().getRunningRecordInfos(), res.getRivalRecord().getTotalTime(), res.getRivalRecord().getTotalDistance());
+        }
 
         return RunningRecordDetail.builder()
                 .id(res.getId())
                 .watchOrMobile(res.getWatchOrMobile())
                 .location(res.getLocation())
-                .secondPerSpeed(res.getSecondPerSpeed())
-                .heartRate(res.getHeartRate())
-                .pace(res.getPace())
-                .stepCount(res.getStepCount())
+//                .secondPerSpeed(res.getSecondPerSpeed())
+//                .heartRate(res.getHeartRate())
+//                .pace(res.getPace())
+//                .stepCount(res.getStepCount())
                 .user(res.getUser())
                 .character(res.getCharacter())
                 .rivalRecord(res.getRivalRecord())
@@ -360,6 +378,7 @@ public class RunningRecordService {
                 .totalDistance(res.getTotalDistance())
                 .averageSpeed(res.getAverageSpeed())
                 .createdAt(res.getCreatedAt())
+                .winOrLose(res.getWinOrLose())
                 .build();
     }
 
@@ -377,26 +396,12 @@ public class RunningRecordService {
     }
 
     public WatchRunningRecordOverview getRunningRecordOverview(String id) {
-        RunningRecord record = runningRecordRepository.findById((new ObjectId(id))).orElseThrow(() -> {
-            throw new RunningRecordNotFoundException();
+
+        RawRunningRecord rawRunningRecord = rawRunningRecordRepository.findByRunningRecordId((id)).orElseThrow(() -> {
+            throw new NullPointerException();
         });
 
-        return WatchRunningRecordOverview.builder().runningRecord(record).build();
+        return WatchRunningRecordOverview.builder().rawRunningRecord(rawRunningRecord).build();
     }
-
-
-//    private void saveRunningRecordDistance(RunningRecordInfo req) {
-//        List<RunningRecordDistance> collect = req.getRunningRecordDistanceInfos()
-//                .stream()
-//                .map(o -> {
-//                    return RunningRecordDistance.builder()
-//                            .second(o.getSecond())
-//                            .distance(o.getDistance())
-//                            .build();
-//                })
-//                .collect(toList());
-//        // 초당 움직인 거리 뭉탱이 저장
-//        runningRecordDistanceRepository.saveAll(collect);
-//    }
 
 }

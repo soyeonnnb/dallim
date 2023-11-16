@@ -5,7 +5,10 @@ import java.util.List;
 import com.b208.dduishu.domain.user.dto.request.UserEmail;
 import com.b208.dduishu.domain.user.dto.request.UserNickName;
 import com.b208.dduishu.domain.user.dto.request.UserPoint;
+import com.b208.dduishu.domain.user.dto.request.UserRankingInfo;
 import com.b208.dduishu.domain.user.dto.response.*;
+import com.b208.dduishu.domain.user.entity.User;
+import com.b208.dduishu.domain.user.repository.UserRepository;
 import com.b208.dduishu.domain.user.service.UserRankingService;
 import com.b208.dduishu.util.response.ApiResponse;
 import io.swagger.annotations.ApiOperation;
@@ -16,18 +19,21 @@ import com.b208.dduishu.domain.user.service.UserSocialService;
 
 import lombok.RequiredArgsConstructor;
 
+import static java.util.stream.Collectors.toList;
+
 @RestController
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserSocialService userSocialService;
     private final UserRankingService userRankingService;
+    private final UserRepository userRepository;
 
     @ApiOperation(value="accessToken 토큰 발급", notes="사용자 accesstoken을 발급한다.")
     @PostMapping("/api/v1/user/token")
     public ApiResponse<?> getAccessToken(@RequestBody UserEmail req) {
         try {
-            String token = userSocialService.getAccessToken(req.getEmail());
+            String token = userSocialService.getAccessToken(req.getEmail(), req.getType());
 
             return ApiResponse.createSuccess(token);
         } catch (Exception e) {
@@ -40,9 +46,9 @@ public class UserController {
     @PatchMapping("/api/v1/user/nickname")
     public ApiResponse<?> updateUserNickname(@RequestBody UserNickName req){
         try {
-            boolean isDuplicateNickName = userSocialService.checkUserNickname(req.getNickname());
+            boolean isPossibleNickName = userSocialService.checkUserNickname(req.getNickname());
 
-            if (!isDuplicateNickName) {
+            if (isPossibleNickName) {
                 userSocialService.updateUserNickname(req.getNickname());
                 return ApiResponse.createSuccess("닉네임 변경 성공");
             }
@@ -70,6 +76,17 @@ public class UserController {
         try {
             AllUserRankingInfo res = userRankingService.getWeeklyRankingWithFollower();
 
+            // UserResponse에 setter가 있다고 가정한다면
+            List<UserRankingInfo> collect = res.getRankingInfos()
+                    .stream()
+                    .filter(o -> {
+                        User user = userRepository.findByUserId(o.getUserId());
+                        return user != null && !user.isAdmin();
+                    })
+                    .collect(toList());
+
+            res.setRankingInfos(collect);
+
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {
             return ApiResponse.createError(e.getMessage());
@@ -81,6 +98,17 @@ public class UserController {
     public ApiResponse<?> getWeeklyRankingWithAll() {
         try {
             AllUserRankingInfo res = userRankingService.getWeeklyRankingWithAll();
+
+            // UserResponse에 setter가 있다고 가정한다면
+            List<UserRankingInfo> collect = res.getRankingInfos()
+                    .stream()
+                    .filter(o -> {
+                        User user = userRepository.findByUserId(o.getUserId());
+                        return user != null && !user.isAdmin();
+                    })
+                    .collect(toList());
+
+            res.setRankingInfos(collect);
 
             return ApiResponse.createSuccess(res);
         } catch (Exception e) {

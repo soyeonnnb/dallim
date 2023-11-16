@@ -50,7 +50,7 @@ function RunningDataBox({
       await postRecordSave(id); // 서버 전송
       onUpdateRegistration(id); // 상태 업데이트
     } catch (error) {
-      console.error('런닝메이트 등록 오류', error);
+      // console.error('런닝메이트 등록 오류', error);
     }
   };
 

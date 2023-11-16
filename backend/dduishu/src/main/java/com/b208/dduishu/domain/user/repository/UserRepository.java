@@ -16,7 +16,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmailAndAccountType(String email, String provider);
 
-    Optional<User> findByUserId(Long userId);
+    @Query("select u from User u join fetch u.userLevel ul where u.userId = :userId")
+    User findByUserIdAndUserLevel(Long userId);
+    User findByUserId(Long userId);
 
     Optional<User> findByPrivateAccess(String access);
 

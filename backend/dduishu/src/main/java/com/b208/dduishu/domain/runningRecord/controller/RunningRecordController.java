@@ -1,9 +1,6 @@
 package com.b208.dduishu.domain.runningRecord.controller;
 
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordDetail;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordInfo;
-import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverview;
-import com.b208.dduishu.domain.runningRecord.dto.request.SocialRunningRecordOverview;
+import com.b208.dduishu.domain.runningRecord.dto.request.*;
 import com.b208.dduishu.domain.runningRecord.dto.response.MonthRunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.response.RunningRecordWithRunningMate;
 import com.b208.dduishu.domain.runningRecord.dto.response.WatchRunningRecordOverview;
@@ -14,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -24,33 +22,29 @@ public class RunningRecordController {
 
     @GetMapping("/api/v1/running/{id}")
     public ApiResponse<?> getRunningRecordDetail(@PathVariable String id) {
-
-        try {
-            System.out.println(id);
-
-            RunningRecordDetail res = runningRecordService.getRunningRecordDetail(id);
-
-            return ApiResponse.createSuccess(res);
-        } catch (Exception e) {
-            return ApiResponse.createError(e.getMessage());
-        }
-
+        RunningRecordDetail res = runningRecordService.getRunningRecordDetail(id);
+        return ApiResponse.createSuccess(res);
     }
+
+    @GetMapping("/api/v1/brotli/running/{id}")
+    public ApiResponse<?> getRunningRecordDetailWithBrotli(@PathVariable String id) {
+        RunningRecordDetail res = runningRecordService.getRunningRecordDetail(id);
+        return ApiResponse.createSuccess(res);
+    }
+
 
     @GetMapping("/api/v1/running/overview/{id}")
     public ApiResponse<?> getRunningRecordOverview(@PathVariable String id) {
+        WatchRunningRecordOverview res = runningRecordService.getRunningRecordOverview(id);
 
-        try {
+        return ApiResponse.createSuccess(res);
+    }
 
-            System.out.println(id);
+    @GetMapping("/brotli/running/overview/{id}")
+    public ApiResponse<?> getRunningRecordOverviewWithBrotli(@PathVariable String id) {
+        WatchRunningRecordOverview res = runningRecordService.getRunningRecordOverview(id);
 
-            WatchRunningRecordOverview res = runningRecordService.getRunningRecordOverview(id);
-
-            return ApiResponse.createSuccess(res);
-        } catch (Exception e) {
-            return ApiResponse.createError(e.getMessage());
-        }
-
+        return ApiResponse.createSuccess(res);
     }
 
     @GetMapping("/api/v1/running-record/running-mate/{id}")
@@ -71,15 +65,9 @@ public class RunningRecordController {
 
     @PostMapping("/api/v1/running")
     public ApiResponse<?> createRunningRecord(@RequestBody RunningRecordInfo req) {
-        try {
-            log.info(req.toString());
-
             runningRecordService.createRunningRecord(req);
 
             return ApiResponse.createSuccess(true);
-        } catch (Exception e) {
-            return ApiResponse.createError(e.getMessage());
-        }
     }
 
 

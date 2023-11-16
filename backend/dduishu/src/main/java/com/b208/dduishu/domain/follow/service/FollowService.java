@@ -48,9 +48,7 @@ public class FollowService {
             throw new CreateFollowerNotPossibleException();
         }
 
-        User toUser = userRepository.findByUserId(req.getToUserId()).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
+        User toUser = userRepository.findByUserId(req.getToUserId());
 
         Follow follow = Follow.builder()
                 .fromUser(user)
@@ -70,7 +68,9 @@ public class FollowService {
 
         Follow alreadyFriends1 = followRepository.findByFromUserUserIdAndToUserUserIdAndState(fromUserId, toUserId, FollowState.accept);
         Follow alreadyFriends2 = followRepository.findByFromUserUserIdAndToUserUserIdAndState(toUserId, fromUserId, FollowState.accept);
-        if (res != null || alreadyFriends1 != null || alreadyFriends2 != null) {
+        Follow alreadyFriends3 = followRepository.findByFromUserUserIdAndToUserUserIdAndState(fromUserId, toUserId, FollowState.waiting);
+        Follow alreadyFriends4 = followRepository.findByFromUserUserIdAndToUserUserIdAndState(toUserId, fromUserId, FollowState.waiting);
+        if (res != null || alreadyFriends1 != null || alreadyFriends2 != null || alreadyFriends3 != null || alreadyFriends4 != null) {
             return true;
         }
         return false;
@@ -80,8 +80,8 @@ public class FollowService {
     public void acceptFollow(AcceptFollowerinfo req) {
         User user = getUser.getUser();
 
-        Follow followToMe = followRepository.findByFromUserUserIdAndToUserUserId(req.getToUserId(), user.getUserId());
-        Follow followFromMe = followRepository.findByFromUserUserIdAndToUserUserId(user.getUserId(), req.getToUserId());
+        Follow followToMe = followRepository.findByFromUserUserIdAndToUserUserIdAndState(req.getToUserId(), user.getUserId(), FollowState.waiting);
+        Follow followFromMe = followRepository.findByFromUserUserIdAndToUserUserIdAndState(user.getUserId(), req.getToUserId(), FollowState.waiting);
         if (followToMe != null) {
             followToMe.setState(FollowState.accept);
         }
@@ -111,10 +111,7 @@ public class FollowService {
         List<Follow> toUserFollows = followRepository.findAllByToUserUserIdAndState(user.getUserId(), FollowState.accept);
         // fromUser로서의 팔로우 리스트
         List<Follow> fromUserFollows = followRepository.findAllByFromUserUserIdAndState(user.getUserId(), FollowState.accept);
-        Character mainCharacter = user.getCharacterList().stream()
-                .filter(Character::isMainCharacter)
-                .findFirst()
-                .orElse(null);
+
         // 두 리스트를 합쳐 중복을 제거한 User Set을 생성
         Set<User> allFriends = new HashSet<>();
 
@@ -123,17 +120,20 @@ public class FollowService {
 
         // Set 내의 모든 사용자를 FollowerInfo 리스트로 변환
         return allFriends.stream()
-                .map(o -> new FollowerInfo(o, mainCharacter))
+                .map(o -> {
+                    Character mainCharacter = o.getCharacterList().stream()
+                            .filter(Character::isMainCharacter)
+                            .findFirst()
+                            .orElse(null);
+                    return new FollowerInfo(o, mainCharacter);
+                })
                 .collect(Collectors.toList());
     }
 
 
     public List<FollowerInfo> getAllWatingFollowInfo() {
         User user = getUser.getUser();
-        Character mainCharacter = user.getCharacterList().stream()
-                .filter(Character::isMainCharacter)
-                .findFirst()
-                .orElse(null);
+
         // fromUser가 아니라 toUser 기준으로 조회하며 state가 waiting인 것만 필터링
         List<Follow> waitingFollows = followRepository.findAllByToUserUserIdAndState(user.getUserId(), FollowState.waiting);
 
@@ -143,7 +143,13 @@ public class FollowService {
                 .collect(toList());
 
         List<FollowerInfo> followDTO = followUsers.stream()
-                .map(o -> new FollowerInfo(o, mainCharacter))
+                .map(o -> {
+                    Character mainCharacter = o.getCharacterList().stream()
+                            .filter(Character::isMainCharacter)
+                            .findFirst()
+                            .orElse(null);
+                    return new FollowerInfo(o, mainCharacter);
+                })
                 .collect(toList());
         return followDTO;
     }

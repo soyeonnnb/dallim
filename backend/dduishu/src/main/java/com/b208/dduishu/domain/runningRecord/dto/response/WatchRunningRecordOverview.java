@@ -1,5 +1,6 @@
 package com.b208.dduishu.domain.runningRecord.dto.response;
 
+import com.b208.dduishu.domain.rawRunningRecord.document.RawRunningRecord;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.dto.request.RunningRecordOverallInfo;
 import lombok.Builder;
@@ -17,10 +18,9 @@ public class WatchRunningRecordOverview {
     private int totalTime;
 
     @Builder
-    public WatchRunningRecordOverview(RunningRecord runningRecord) {
-        this.averagePace = runningRecord.getAveragePace();
-        this.distance = runningRecord.getRunningRecordInfos().stream()
-                .map(RunningRecordOverallInfo::getDistance).collect(toList());
-        this.totalTime = runningRecord.getTotalTime();
+    public WatchRunningRecordOverview(RawRunningRecord rawRunningRecord) {
+        this.averagePace = rawRunningRecord.getAveragePace();
+        this.distance = rawRunningRecord.getRunningRecordInfos();
+        this.totalTime = rawRunningRecord.getTotalTime();
     }
 }

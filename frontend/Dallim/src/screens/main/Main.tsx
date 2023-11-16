@@ -1,9 +1,11 @@
 import * as S from './Main.styles';
-import {useEffect, useState} from 'react';
-import {fetchUserProfile} from '@/apis/MainApi';
-import {characterData} from '@/recoil/data/CharacterData';
-import {planetData} from '@/recoil/data/PlanetData';
-import {LevelData, PointData} from '@/recoil/data/LevelData';
+import React, { useRef } from 'react';
+import { Animated, TouchableWithoutFeedback } from 'react-native';
+import { useEffect, useState } from 'react';
+import { fetchUserProfile } from '@/apis/MainApi';
+import { characterData } from '@/recoil/data/CharacterData';
+import { planetData } from '@/recoil/data/PlanetData';
+import { LevelData, PointData } from '@/recoil/data/LevelData';
 import NotificationModal from '@/components/profileComponent/profileModal/NotificationModal';
 import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
 import StampModal from '@/components/mainComponent/StampModal';
@@ -24,14 +26,16 @@ import {
   equippedEvolutionStageState,
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
-import {useRecoilState} from 'recoil';
-import {CustomToast} from '@/components/common/toast/CustomToast';
+import { useRecoilState } from 'recoil';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon';
 
 interface MainProps {
   navigation: any;
 }
-function Main({navigation}: MainProps) {
+function Main({ navigation }: MainProps) {
+  const moveAnim = useRef(new Animated.Value(0)).current; // 초기 위치 값
+
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
   const [isGuideModalVisible, setGuideModalVisible] = useState(false); // 가이드 모달
@@ -52,6 +56,7 @@ function Main({navigation}: MainProps) {
   const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(
     equippedPlanetIndexState,
   );
+  const PointImage = PointData.Point;
 
   const loadUserInfo = async () => {
     try {
@@ -116,7 +121,25 @@ function Main({navigation}: MainProps) {
       return points.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
   };
-  const PointImage = PointData.Point;
+
+  // 캐릭터 날아랏~
+  const handlePress = () => {
+    Animated.sequence([
+      // 위로 이동
+      Animated.timing(moveAnim, {
+        toValue: -100, // 움직일 거리
+        duration: 500, // 지속 시간
+        useNativeDriver: true, // 네이티브 드라이버 사용
+      }),
+      // 원래 위치로 복귀
+      Animated.timing(moveAnim, {
+        toValue: 0, // 원래 위치
+        duration: 500, // 지속 시간
+        useNativeDriver: true, // 네이티브 드라이버 사용
+      }),
+    ]).start(); // 애니메이션 시작
+  };
+  const AnimatedCharacterGif = Animated.createAnimatedComponent(S.CharacterGif);
 
   // 새로고침 버튼을 눌렀을 때 실행할 함수
   const handleReload = () => {
@@ -126,7 +149,7 @@ function Main({navigation}: MainProps) {
 
   return (
     <S.Container>
-      {isLoading ? (
+      {!isLoading ? (
         <>
           <S.BackgroundImage
             source={require('@/assets/images/MainBackground.png')}
@@ -177,8 +200,8 @@ function Main({navigation}: MainProps) {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}
-                    start={{x: 0, y: 0}}
-                    end={{x: 0, y: 1}}>
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}>
                     <S.ButtonStyle onPress={GuideAction}>
                       <GuideIcon width={20} height={20} color="white" />
                     </S.ButtonStyle>
@@ -197,8 +220,8 @@ function Main({navigation}: MainProps) {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}
-                    start={{x: 0, y: 0}}
-                    end={{x: 0, y: 1}}>
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}>
                     <S.ButtonStyle onPress={PolicyAction}>
                       <PrivacyPolicyIcon width={20} height={20} color="white" />
                     </S.ButtonStyle>
@@ -219,8 +242,8 @@ function Main({navigation}: MainProps) {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}
-                    start={{x: 0, y: 0}}
-                    end={{x: 0, y: 1}}>
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}>
                     <S.ButtonStyle onPress={StampAction}>
                       <StampWhiteIcon width={20} height={20} color="white" />
                     </S.ButtonStyle>
@@ -234,14 +257,15 @@ function Main({navigation}: MainProps) {
                 source={planetData[equippedPlanetIndex].Rotate}
                 resizeMode="contain"
               />
-              <S.CharacterGif
-                source={
-                  characterData[equippedCharacterIndex].Evolutions[
-                    equippedEvolutionStage
-                  ].RunFront
-                }
-                resizeMode="contain"
-              />
+              <TouchableWithoutFeedback onPress={handlePress}>
+                <AnimatedCharacterGif
+                  style={{ transform: [{ translateY: moveAnim }] }}
+                  source={
+                    characterData[1].Evolutions[1].RunFront
+                  }
+                  resizeMode="contain"
+                />
+              </TouchableWithoutFeedback>
 
               <S.StartBox>
                 {/* <S.StartButton

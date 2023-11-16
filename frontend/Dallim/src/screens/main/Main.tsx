@@ -56,7 +56,7 @@ function Main({navigation}: MainProps) {
   const loadUserInfo = async () => {
     try {
       const userInfo = await fetchUserProfile(); // API 함수 호출
-      console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
+      // console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
 
       if (userInfo) {
         setUserId(userInfo.userId);
@@ -80,17 +80,17 @@ function Main({navigation}: MainProps) {
   }, []);
 
   function GuideAction() {
-    console.log('사용설명서 버튼 눌림!');
+    // console.log('사용설명서 버튼 눌림!');
     setGuideModalVisible(true);
   }
 
   function StampAction() {
-    console.log('출석체크 버튼 눌림!');
+    // console.log('출석체크 버튼 눌림!');
     setStampModalVisible(true);
   }
 
   function PolicyAction() {
-    console.log('공지모달 눌림');
+    // console.log('공지모달 눌림');
     setPrivacyPolicyModalVisible(true);
   }
 

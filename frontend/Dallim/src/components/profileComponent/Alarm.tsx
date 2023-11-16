@@ -72,14 +72,14 @@ const Alarm: React.FC<AlarmProps> = ({alarmList, onRefresh}) => {
     // API 호출을 위한 알람 데이터 준비
     const alarm = alarmList[index];
     const updatedState = newToggles[index];
-    console.log('가져온 알림 리스트' + alarm);
+    // console.log('가져온 알림 리스트' + alarm);
 
-    console.log('토글상태변화' + updatedState);
+    // console.log('토글상태변화' + updatedState);
 
     // API 호출하여 서버에 알람 상태 업데이트
     patchSchedule(alarm.day, alarm.hour, alarm.minute, updatedState)
       .then(response => {
-        console.log('알람 상태 업데이트 성공:', response);
+        // console.log('알람 상태 업데이트 성공:', response);
         onRefresh();
         // console.log(updatedState);
         // 필요한 경우 여기서 추가적인 상태 업데이트나 UI 반영을 할 수 있습니다.

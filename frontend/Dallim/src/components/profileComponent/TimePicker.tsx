@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 //component
-import { CustomToast } from '@/components/common/toast/CustomToast';
+import {CustomToast} from '@/components/common/toast/CustomToast';
 
 //apis
 import {postSchedule} from '@/apis/ProfileApi';
@@ -86,7 +86,7 @@ const TimePicker: React.FC<TimePickerProps> = ({onRefresh}) => {
       .filter((_, index) => selectedDays[index])
       .map(day => dayMapping[day as DayOfWeek]);
 
-    console.log(selectedDaysForRequest);
+    // console.log(selectedDaysForRequest);
 
     const hourForRequest = parseInt(selectedHour, 10);
     const minuteForRequest = parseInt(selectedMinute, 10);
@@ -133,7 +133,7 @@ const TimePicker: React.FC<TimePickerProps> = ({onRefresh}) => {
       setSelectedHour('00');
     } else {
       const newHour = hours[index];
-      console.log(newHour);
+      // console.log(newHour);
       setSelectedHour(newHour);
     }
   };
@@ -153,7 +153,7 @@ const TimePicker: React.FC<TimePickerProps> = ({onRefresh}) => {
       setSelectedMinute('00');
     } else {
       const newMinute = minutes[index];
-      console.log(newMinute);
+      // console.log(newMinute);
       setSelectedMinute(newMinute);
     }
   };

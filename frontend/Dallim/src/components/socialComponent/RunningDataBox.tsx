@@ -45,7 +45,7 @@ function RunningDataBox({
   };
 
   const handleModalRecordSave = async () => {
-    console.log('모달에서 기록 저장 버튼 클릭 확인, id:', id);
+    // console.log('모달에서 기록 저장 버튼 클릭 확인, id:', id);
     try {
       await postRecordSave(id); // 서버 전송
       onUpdateRegistration(id); // 상태 업데이트

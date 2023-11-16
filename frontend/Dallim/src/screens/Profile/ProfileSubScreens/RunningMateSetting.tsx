@@ -59,7 +59,7 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
       selectedCardNum > 0 &&
       selectedCardNum <= competitorData.length
     ) {
-      console.log('삭제버튼 눌림');
+      // console.log('삭제버튼 눌림');
       const currentCompetitorId =
         competitorData[selectedCardNum - 1]?.runningMateId;
       if (currentCompetitorId) {

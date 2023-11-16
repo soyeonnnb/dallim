@@ -1,13 +1,13 @@
 import * as S from './CharacterEdit.styles';
-import { characterData } from '@/recoil/data/CharacterData';
-import { useEffect, useState } from 'react';
+import {characterData} from '@/recoil/data/CharacterData';
+import {useEffect, useState} from 'react';
 import CharacterPurchaseCheckModal from './editModal/CharacterPurchaseCheckModal';
 import CharacterSelectModal from './editModal/CharacterSelectModal';
-import { CustomToast } from '@/components/common/toast/CustomToast';
+import {CustomToast} from '@/components/common/toast/CustomToast';
 
 import Character from './CharacterBox';
 
-import { useRecoilState } from 'recoil';
+import {useRecoilState} from 'recoil';
 import {
   userDataState,
   equippedCharacterIndexState,
@@ -20,7 +20,7 @@ import {
   selectedCharacterIsPurchasedState,
   userPointState,
 } from '@/recoil/UserRecoil';
-import { postCharacterPurchase, updateEquippedCharacter } from '@/apis/EditApi';
+import {postCharacterPurchase, updateEquippedCharacter} from '@/apis/EditApi';
 
 type CharacterEditProps = {
   handleEquippedCharacterChange: (index: number) => void;
@@ -28,18 +28,32 @@ type CharacterEditProps = {
   onCharacterPurchased: (index: number, cost: number) => void;
 };
 
-function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange, onCharacterPurchased }: CharacterEditProps) {
+function CharacterEdit({
+  handleEquippedCharacterChange,
+  onCharacterChange,
+  onCharacterPurchased,
+}: CharacterEditProps) {
   const [userData, setUserData] = useRecoilState(userDataState);
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
-  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
+  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(
+    equippedCharacterIndexState,
+  );
   // const [equippedCharacterLevel, setEquippedCharacterLevel] = useRecoilState(equippedCharacterLevelState);
   // const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
-  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(selectedCharacterIndexState);
-  const [selectedCharacterLevel, setSelectedCharacterLevel] = useRecoilState(selectedCharacterLevelState);
+  const [selectedCharacterIndex, setSelectedCharacterIndex] = useRecoilState(
+    selectedCharacterIndexState,
+  );
+  const [selectedCharacterLevel, setSelectedCharacterLevel] = useRecoilState(
+    selectedCharacterLevelState,
+  );
   // const [selectedEvolutionStage, setSelectedEvolutionStage] = useRecoilState(selectedEvolutionStageState);
-  const [selectedCharacterExp, setSelectedCharacterExp] = useRecoilState(selectedCharacterExpState);
-  const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] = useRecoilState(selectedCharacterIsPurchasedState);
-  const [characterSelectModalVisible, setCharacterSelectModalVisible] = useState(false); // 캐릭터 선택 확인 모달
+  const [selectedCharacterExp, setSelectedCharacterExp] = useRecoilState(
+    selectedCharacterExpState,
+  );
+  const [selectedCharacterIsPurchased, setSelectedCharacterIsPurchased] =
+    useRecoilState(selectedCharacterIsPurchasedState);
+  const [characterSelectModalVisible, setCharacterSelectModalVisible] =
+    useState(false); // 캐릭터 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
   // const [showConfetti, setShowConfetti] = useState(false);
 
@@ -53,12 +67,12 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange, onCha
         selectedCharacterIndex,
       );
       if (responseData.status === 'success') {
-        CustomToast({ type: 'success', text1: '대표 캐릭터 변경 성공!' });
+        CustomToast({type: 'success', text1: '대표 캐릭터 변경 성공!'});
       } else {
-        CustomToast({ type: 'error', text1: '통신에 실패했습니다.' });
+        CustomToast({type: 'error', text1: '통신에 실패했습니다.'});
       }
     } catch (error) {
-      CustomToast({ type: 'error', text1: '변경에 실패했습니다.' });
+      CustomToast({type: 'error', text1: '변경에 실패했습니다.'});
     }
   }
 
@@ -70,19 +84,18 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange, onCha
     setPurchaseModalVisible(true);
   }
   async function handlePurchaseConfirm() {
-
     if (userPoint >= 4000) {
       try {
-        const responseData = await postCharacterPurchase(selectedCharacterIndex);
+        const responseData = await postCharacterPurchase(
+          selectedCharacterIndex,
+        );
         if (responseData.status === 'success' && responseData.data === true) {
-
           setTimeout(() => {
             onCharacterPurchased(selectedCharacterIndex, 4000);
 
             setSelectedCharacterIsPurchased(true);
             setSelectedCharacterIndex(selectedCharacterIndex);
             setEquippedCharacterIndex(selectedCharacterIndex);
-
           }, 500);
 
           if (userData) {
@@ -90,7 +103,7 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange, onCha
               ...userData,
               characters: userData.characters.map((character, index) => {
                 if (index === selectedCharacterIndex) {
-                  return { ...character, isPurchased: true };
+                  return {...character, isPurchased: true};
                 }
                 return character;
               }),
@@ -100,7 +113,7 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange, onCha
 
           // setShowConfetti(true); // 폭죽
           // setTimeout(() => setShowConfetti(false), 4000); // 폭죽 타이머
-          CustomToast({ type: 'success', text1: '구매 성공!' });
+          CustomToast({type: 'success', text1: '구매 성공!'});
           setPurchaseModalVisible(false); // 모달 닫기
         } else {
           CustomToast({
@@ -115,17 +128,17 @@ function CharacterEdit({ handleEquippedCharacterChange, onCharacterChange, onCha
         });
       }
     } else {
-      CustomToast({ type: 'error', text1: '포인트가 부족합니다.' });
+      CustomToast({type: 'error', text1: '포인트가 부족합니다.'});
     }
   }
 
   function handlePurchaseCancel() {
-    console.log('구매 취소!');
+    // console.log('구매 취소!');
     setPurchaseModalVisible(false);
   }
 
   function handleEquipped() {
-    CustomToast({ type: 'error', text1: '이미 선택된 캐릭터입니다.' });
+    CustomToast({type: 'error', text1: '이미 선택된 캐릭터입니다.'});
   }
 
   return (

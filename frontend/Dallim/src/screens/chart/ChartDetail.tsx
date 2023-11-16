@@ -163,7 +163,7 @@ function ChartDetail({route, navigation}: Props) {
       };
 
       setHeartRateData(getHeartRateData);
-      console.log('ChartApi: 달리기 기록 상세 조회 Axios 성공');
+      // console.log('ChartApi: 달리기 기록 상세 조회 Axios 성공');
       setIsLoading(false);
     } catch (error) {
       console.error('ChartApi: 달리기 기록 상세 조회 Axios 실패: ', error);

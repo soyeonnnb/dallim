@@ -49,23 +49,15 @@ function Main({ navigation }: MainProps) {
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
   const [isGuideModalVisible, setGuideModalVisible] = useState(false); // 가이드 모달
-  const [isPrivacyPolicyModalVisible, setPrivacyPolicyModalVisible] =
-    useState(false); //공지모달
-
+  const [isPrivacyPolicyModalVisible, setPrivacyPolicyModalVisible] = useState(false); //공지모달
   const [userId, setUserId] = useRecoilState(userIdState); // 유저 아이디
   const [userNickname, setUserNickname] = useRecoilState(userNicknameState); // 유저 닉네임
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
   const [userLevel, setUserLevel] = useRecoilState(userLevelState);
   const [userExp, setUserExp] = useRecoilState(userExpState);
-  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(
-    equippedCharacterIndexState,
-  );
-  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(
-    equippedEvolutionStageState,
-  );
-  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(
-    equippedPlanetIndexState,
-  );
+  const [equippedCharacterIndex, setEquippedCharacterIndex] = useRecoilState(equippedCharacterIndexState);
+  const [equippedEvolutionStage, setEquippedEvolutionStage] = useRecoilState(equippedEvolutionStageState);
+  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState);
   const PointImage = PointData.Point;
 
   const loadUserInfo = async () => {
@@ -194,8 +186,7 @@ function Main({ navigation }: MainProps) {
         useNativeDriver: true,
       })
     ).start();
-  }, []);
-
+  }, [loadUserInfo]);
 
   // 회전 값 계산
   const rotate1 = rotateValue1.interpolate({
@@ -417,7 +408,7 @@ function Main({ navigation }: MainProps) {
                   </LinearGradient>
                 </S.Box>
               </S.GuideBox>
-              
+
               <S.WeatherBox>
                 <WeatherComponent />
               </S.WeatherBox>

@@ -155,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/oagothic_medium"
                     android:text="페이스"
-                    android:textColor="@color/white"
+                    android:textColor="@color/title"
                     android:textSize="10dp" />
 
                 <TextView

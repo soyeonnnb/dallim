@@ -23,6 +23,7 @@ public class RunningMateInfo {
     private double totalDistance;
     private double totalTime;
     private boolean isClear;
+    private String location;
     private LocalDateTime createdAt;
 
     @Builder
@@ -35,10 +36,11 @@ public class RunningMateInfo {
         this.evolutionStage = Util.getEvolutionStage(runningMate.getRivalRecord().getCharacter().getLevel());
         this.planetIndex = runningMate.getRivalRecord().getCharacter().getPlanetIndex();
         this.level = runningMate.getRivalRecord().getUser().getLevel();
-        this.averagePace = runningMate.getRivalRecord().getAveragePace();
+        this.averagePace =  (runningMate.getRivalRecord().getTotalTime() / runningMate.getRivalRecord().getTotalDistance()) * 1000;
         this.totalDistance = runningMate.getRivalRecord().getTotalDistance();
         this.totalTime = runningMate.getRivalRecord().getTotalTime();
-        this.isClear = false;
+        this.isClear = runningMate.isHasWin();
+        this.location = runningMate.getRivalRecord().getLocation();
         this.createdAt = runningMate.getCreatedAt();
     }
 }

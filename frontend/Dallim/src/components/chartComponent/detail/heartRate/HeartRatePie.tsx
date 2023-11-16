@@ -83,9 +83,9 @@ function PieChartInfo({index, chartInfo, color, height}: PieChartInfoProps) {
         <S.ChartInfoColor size={height} bgColor={color} />
         <S.ChartInfoName>영역 {index + 1}</S.ChartInfoName>
       </S.ChartInfoLeft>
-      <S.ChartRight>
+      <S.ChartInfoRight>
         <S.ChartInfoContent>{chartInfo}</S.ChartInfoContent>
-      </S.ChartRight>
+      </S.ChartInfoRight>
     </S.ChartInfo>
   );
 }

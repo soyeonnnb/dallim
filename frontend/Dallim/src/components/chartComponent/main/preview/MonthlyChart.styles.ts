@@ -31,7 +31,7 @@ export const Header = styled.Text`
   width: 100%;
   font-size: 18px;
   margin-top: 7%;
-  color: black;
+  color: ${colors.text.black};
   font-weight: 800;
 `;
 export const ChartSheet = styled.View`
@@ -52,4 +52,5 @@ export const NoText = styled.Text`
   font-size: 18px;
   flex: 1;
   margin-top: 20%;
+  color: ${colors.text.grey};
 `;

@@ -5,7 +5,7 @@ export const ModalContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 export const ModalContent = styled.View`
@@ -76,10 +76,10 @@ export const Body = styled.View`
 export const Watch = styled.View`
   /* border-width: 1px;
   border-color: blue; */
-  width: 240px;
-  height: 240px;
-  border-radius: 120px;
-  background-color: #17183F;
+  height: 80%;
+  width: 80%;
+  /* border-radius: 120px; */
+  /* background-color: #17183f; */
 `;
 
 export const WatchImage = styled.Image`

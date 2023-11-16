@@ -50,7 +50,6 @@ function SocialBody({
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [rankingData, setRankingData] = useState<RankingInfo[] | null>(null);
-  console.log(rankingData);
 
   const loadRankingData = async () => {
     try {
@@ -59,7 +58,7 @@ function SocialBody({
       onUpdateDateInfo(data.month, data.week); // 상위로 쏴주기
       setIsLoading(false);
     } catch (error) {
-      console.error('API 호출 중 오류 발생:', error);
+      // console.error('API 호출 중 오류 발생:', error);
     }
   };
 

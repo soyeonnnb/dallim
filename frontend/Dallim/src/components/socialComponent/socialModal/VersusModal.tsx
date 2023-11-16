@@ -74,7 +74,7 @@ const VersusModal: React.FC<Props> = ({userId, isVisible, onClose}) => {
         // console.log('비교 정보 조회 Axios 성공 ', response);
         setUserData(response);
       } catch (error) {
-        console.error('비교 정보 조회 Axios 실패 ');
+        // console.error('비교 정보 조회 Axios 실패 ');
       }
     };
     loadUserInfo();

@@ -65,7 +65,7 @@ const NicknameChangeModal = ({
         type: 'error',
         text1: '닉네임 체크 중 오류가 발생했습니다.',
       });
-      console.error('닉네임 중복 체크 실패', error);
+      // console.error('닉네임 중복 체크 실패', error);
     }
   };
 

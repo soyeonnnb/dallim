@@ -40,6 +40,9 @@ import PlanetYellow from '@/assets/images/planets/main/PlanetYellow.png';
 // 날씨
 import WeatherComponent from '@/components/mainComponent/Weather';
 
+// MP3
+import Sound from 'react-native-sound';
+
 interface MainProps {
   navigation: any;
 }
@@ -101,10 +104,22 @@ function Main({ navigation }: MainProps) {
     setPrivacyPolicyModalVisible(true);
   }
 
-  // // Test Toast
-  // function DummyToast() {
-  //   CustomToast({ type: 'error', text1: '개발중입니다.' });
-  // }
+  // 캐릭터 효과음
+  let sound: Sound | null = null;
+  useEffect(() => {
+    sound = new Sound(require('@/assets/audio/Sample_1.mp3'), Sound.MAIN_BUNDLE, (error) => {
+      if (error) {
+        console.log('오디오 로드 실패', error);
+      }
+    });
+    return () => {
+      if (sound) {
+        sound.setVolume(1.0); // 효과음 크기
+        sound.release();
+        sound = null;
+      }
+    };
+  }, []);
 
   function getLevelImageIndex(userLevel: number) {
     if (userLevel <= 10) return 0;
@@ -126,6 +141,14 @@ function Main({ navigation }: MainProps) {
 
   // 캐릭터 날아랏~
   const handlePress = () => {
+    if (sound) {
+      sound.play((success) => {
+        if (!success) {
+          console.log('재생 실패');
+        }
+      });
+    }
+
     Animated.sequence([
       // 위로 이동
       Animated.timing(moveAnim, {
@@ -141,6 +164,7 @@ function Main({ navigation }: MainProps) {
       }),
     ]).start(); // 애니메이션 시작
   };
+
   const AnimatedCharacterGif = Animated.createAnimatedComponent(S.CharacterGif);
 
   // 각 행성에 대한 회전 상태와 애니메이션 설정
@@ -431,40 +455,7 @@ function Main({ navigation }: MainProps) {
               </TouchableWithoutFeedback>
 
               <S.StartBox>
-                {/* <S.StartButton
-                  onPress={
-                    () => navigation.navigate('GameStartStack')
-                    // DummyToast() // 개발중
-                  }>
-                  <LinearGradient
-                    start={{x: 0.5, y: 0}}
-                    end={{x: 0.5, y: 1}}
-                    colors={['#6EE2F5', '#6454F0']}
-                    style={{
-                      height: '100%',
-                      width: '100%',
-                      overflow: 'hidden',
-                      borderRadius: 50,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <S.StartText>달리기</S.StartText>
-                    <RadialGradient
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: 50,
-                        opacity: 0.3,
-                        justifyContent: 'center',
-                        alignContent: 'center',
-                        overflow: 'hidden',
-                      }}
-                      colors={['#ffffff', '#A890FF']}
-                      stops={[0, 0.3]}
-                      radius={500}
-                      center={[50, 100]}></RadialGradient>
-                  </LinearGradient>
-                </S.StartButton> */}
+                {/* 모바일 러닝 임시 자리 */}
               </S.StartBox>
             </S.Body>
           </S.BackgroundImage>
@@ -481,7 +472,6 @@ function Main({ navigation }: MainProps) {
             isVisible={isPrivacyPolicyModalVisible}
             onClose={() => setPrivacyPolicyModalVisible(false)}
           />
-
         </>
       )
       }
@@ -490,3 +480,44 @@ function Main({ navigation }: MainProps) {
 }
 
 export default Main;
+
+
+
+// // Test Toast
+// function DummyToast() {
+//   CustomToast({ type: 'error', text1: '개발중입니다.' });
+// }
+{/* <S.StartButton
+  onPress={
+    () => navigation.navigate('GameStartStack')
+    // DummyToast() // 개발중
+  }>
+  <LinearGradient
+    start={{ x: 0.5, y: 0 }}
+    end={{ x: 0.5, y: 1 }}
+    colors={['#6EE2F5', '#6454F0']}
+    style={{
+      height: '100%',
+      width: '100%',
+      overflow: 'hidden',
+      borderRadius: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+    }}>
+    <S.StartText>달리기</S.StartText>
+    <RadialGradient
+      style={{
+        width: '100%',
+        height: '100%',
+        borderRadius: 50,
+        opacity: 0.3,
+        justifyContent: 'center',
+        alignContent: 'center',
+        overflow: 'hidden',
+      }}
+      colors={['#ffffff', '#A890FF']}
+      stops={[0, 0.3]}
+      radius={500}
+      center={[50, 100]}></RadialGradient>
+  </LinearGradient>
+</S.StartButton>  */}

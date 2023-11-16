@@ -34,7 +34,6 @@ function WaitBox({
   const handleRequestAccept = async () => {
     try {
       const result = await postRequestAccept(userId);
-      // console.log("userId " + userId)
       if (result) {
         CustomToast({ type: 'success', text1: '친구를 수락하셨습니다.' });
         // 요청 목록에서 제거합니다.

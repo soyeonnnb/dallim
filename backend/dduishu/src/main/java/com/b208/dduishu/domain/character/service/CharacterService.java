@@ -7,6 +7,7 @@ import com.b208.dduishu.domain.character.dto.request.CharacterInfoDetail;
 import com.b208.dduishu.domain.character.dto.request.PurchaseCharacterIndex;
 import com.b208.dduishu.domain.character.entity.CharacterLevel;
 import com.b208.dduishu.domain.character.exception.InsufficientPointsException;
+import com.b208.dduishu.domain.character.repository.CharacterLevelRepository;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
 import com.b208.dduishu.domain.characterInfo.repository.CharacterInfoRepository;
@@ -31,6 +32,7 @@ public class CharacterService {
     private final CharacterInfoRepository characterInfoRepository;
     private final PlanetService themaService;
     private final GetUser getUser;
+    private final CharacterLevelRepository characterLevelRepository;
 
     @Transactional
     public void updateMainCharacter(CharacterIndex req) {
@@ -73,10 +75,12 @@ public class CharacterService {
         int point = user.getPoint();
         if (isPossiblePurchase(price, point)) {
             user.reducePoint(price);
+            CharacterLevel characterLevel = CharacterLevel.builder().level(1).exp(0).build();
+            CharacterLevel savedCharacterLevel = characterLevelRepository.save(characterLevel);
             Character build = Character.builder()
                     .user(user)
                     .characterInfo(findCharacterInfo)
-                    .characterLevel(CharacterLevel.builder().level(1).exp(0).build())
+                    .characterLevel(savedCharacterLevel)
                     .isMainCharacter(false)
                     .build();
             characterRepository.save(build);

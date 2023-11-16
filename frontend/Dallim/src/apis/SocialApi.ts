@@ -141,7 +141,7 @@ export const fetchFriendList = async () => {
   }
 };
 
-// 유저 검색
+// 친구 검색
 export const fetchUserSearch = async (word: string) => {
   const accessToken = await getToken();
   try {

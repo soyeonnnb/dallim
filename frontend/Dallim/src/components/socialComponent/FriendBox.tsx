@@ -15,6 +15,7 @@ type FriendBoxProps = {
   evolutionStage: number;
   nickname: string;
   level: number;
+  onClose: () => void;
 };
 
 function FriendBox({
@@ -23,6 +24,7 @@ function FriendBox({
   evolutionStage,
   nickname,
   level,
+  onClose
 }: FriendBoxProps) {
   const [friends, setFriends] = useRecoilState(friendsState);
   const selectedCharacter =
@@ -45,7 +47,7 @@ function FriendBox({
 
   function getLevelImageIndex(userLevel: number) {
     if (userLevel <= 10) return 0;
-    if (userLevel <= 20) return 1;
+    if (userLevel <= 20) return 1; 
     if (userLevel <= 30) return 2;
     if (userLevel <= 40) return 3;
     return 4; // 50 이하인 경우
@@ -88,7 +90,10 @@ function FriendBox({
 
       <FriendDeleteModal
         checkModalVisible={isModalVisible}
-        handleDeleteFriend={() => handleDeleteFriend()}
+        handleDeleteFriend={() => {
+          handleDeleteFriend();
+          onClose();
+        }}
         toggleCheckModal={() => setModalVisible(false)}
       />
     </S.Container>

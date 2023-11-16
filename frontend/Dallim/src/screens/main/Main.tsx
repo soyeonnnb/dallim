@@ -1,13 +1,15 @@
 import * as S from './Main.styles';
-import {useEffect, useState} from 'react';
-import {fetchUserProfile} from '@/apis/MainApi';
-import {characterData} from '@/recoil/data/CharacterData';
-import {planetData} from '@/recoil/data/PlanetData';
-import {LevelData, PointData} from '@/recoil/data/LevelData';
+import React, { useRef } from 'react';
+import { Animated, TouchableWithoutFeedback } from 'react-native';
+import { useEffect, useState } from 'react';
+import { fetchUserProfile } from '@/apis/MainApi';
+import { characterData } from '@/recoil/data/CharacterData';
+import { planetData } from '@/recoil/data/PlanetData';
+import { LevelData, PointData } from '@/recoil/data/LevelData';
 import NotificationModal from '@/components/profileComponent/profileModal/NotificationModal';
 import GuideModal from '@/components/mainComponent/guideComponent/GuideModal';
 import StampModal from '@/components/mainComponent/StampModal';
-import RadialGradient from 'react-native-radial-gradient';
+// import RadialGradient from 'react-native-radial-gradient';
 import LinearGradient from 'react-native-linear-gradient';
 import Loading from '@/components/common/Loading_Run';
 
@@ -24,14 +26,23 @@ import {
   equippedEvolutionStageState,
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
-import {useRecoilState} from 'recoil';
-import {CustomToast} from '@/components/common/toast/CustomToast';
+import { useRecoilState } from 'recoil';
+// import { CustomToast } from '@/components/common/toast/CustomToast';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon';
+
+// 행성
+import PlanetBlack from '@/assets/images/planets/main/PlanetBlack.png';
+import PlanetPurple from '@/assets/images/planets/main/PlanetPurple.png';
+import PlanetRed from '@/assets/images/planets/main/PlanetRed.png';
+import PlanetBlue from '@/assets/images/planets/main/PlanetBlue.png';
+import PlanetYellow from '@/assets/images/planets/main/PlanetYellow.png';
 
 interface MainProps {
   navigation: any;
 }
-function Main({navigation}: MainProps) {
+function Main({ navigation }: MainProps) {
+  const moveAnim = useRef(new Animated.Value(0)).current; // 초기 위치 값
+
   const [isLoading, setIsLoading] = useState(true); // 로딩 확인
   const [isStampModalVisible, setStampModalVisible] = useState(false); // 출석 모달
   const [isGuideModalVisible, setGuideModalVisible] = useState(false); // 가이드 모달
@@ -52,6 +63,7 @@ function Main({navigation}: MainProps) {
   const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(
     equippedPlanetIndexState,
   );
+  const PointImage = PointData.Point;
 
   const loadUserInfo = async () => {
     try {
@@ -71,7 +83,7 @@ function Main({navigation}: MainProps) {
         setIsLoading(false); // 데이터를 불러온 후 로딩 상태를 false로 변경
       }
     } catch (error) {
-      console.error('Main : 정보 조회 Axios 실패 ');
+      // console.error('Main : 정보 조회 Axios 실패 ');
     }
   };
 
@@ -94,13 +106,10 @@ function Main({navigation}: MainProps) {
     setPrivacyPolicyModalVisible(true);
   }
 
-  // Test Toast
-  function DummyToast() {
-    CustomToast({
-      type: 'error',
-      text1: '개발중입니다.',
-    });
-  }
+  // // Test Toast
+  // function DummyToast() {
+  //   CustomToast({ type: 'error', text1: '개발중입니다.' });
+  // }
 
   function getLevelImageIndex(userLevel: number) {
     if (userLevel <= 10) return 0;
@@ -119,7 +128,93 @@ function Main({navigation}: MainProps) {
       return points.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
   };
-  const PointImage = PointData.Point;
+
+  // 캐릭터 날아랏~
+  const handlePress = () => {
+    Animated.sequence([
+      // 위로 이동
+      Animated.timing(moveAnim, {
+        toValue: -100, // 움직일 거리
+        duration: 500, // 지속 시간
+        useNativeDriver: true, // 네이티브 드라이버 사용
+      }),
+      // 원래 위치로 복귀
+      Animated.timing(moveAnim, {
+        toValue: 0, // 원래 위치
+        duration: 500, // 지속 시간
+        useNativeDriver: true, // 네이티브 드라이버 사용
+      }),
+    ]).start(); // 애니메이션 시작
+  };
+  const AnimatedCharacterGif = Animated.createAnimatedComponent(S.CharacterGif);
+
+  // 각 행성에 대한 회전 상태와 애니메이션 설정
+  const rotateValue1 = new Animated.Value(0);
+  const rotateValue2 = new Animated.Value(0);
+  const rotateValue3 = new Animated.Value(0);
+  const rotateValue4 = new Animated.Value(0);
+  const rotateValue5 = new Animated.Value(0);
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(rotateValue1, {
+        toValue: 1,
+        duration: 10000,
+        useNativeDriver: true,
+      })
+    ).start();
+    Animated.loop(
+      Animated.timing(rotateValue2, {
+        toValue: 1,
+        duration: 10000,
+        useNativeDriver: true,
+      })
+    ).start();
+    Animated.loop(
+      Animated.timing(rotateValue3, {
+        toValue: 1,
+        duration: 10000,
+        useNativeDriver: true,
+      })
+    ).start();
+    Animated.loop(
+      Animated.timing(rotateValue4, {
+        toValue: 1,
+        duration: 10000,
+        useNativeDriver: true,
+      })
+    ).start();
+    Animated.loop(
+      Animated.timing(rotateValue5, {
+        toValue: 1,
+        duration: 12000,
+        useNativeDriver: true,
+      })
+    ).start();
+  }, []);
+
+
+  // 회전 값 계산
+  const rotate1 = rotateValue1.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+  const rotate2 = rotateValue2.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['150deg', '510deg'],
+  });
+  const rotate3 = rotateValue3.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['180deg', '540deg'],
+  });
+  const rotate4 = rotateValue4.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['300deg', '660deg'],
+  });
+  const rotate5 = rotateValue5.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['300deg', '660deg'],
+  });
 
   // 새로고침 버튼을 눌렀을 때 실행할 함수
   const handleReload = () => {
@@ -139,9 +234,100 @@ function Main({navigation}: MainProps) {
         </>
       ) : (
         <>
+
           <S.BackgroundImage
             source={require('@/assets/images/MainBackground.png')}
             resizeMode="cover">
+
+            {/* 행성 돌리기 */}
+            <>
+              <Animated.Image
+                source={PlanetBlack}
+                style={{
+                  width: 40, // 가운데 행성의 크기를 80으로 설정
+                  height: 40, // 가운데 행성의 크기를 80으로 설정
+                  position: 'absolute',
+                  bottom: '0%', // 부모 컨테이너 중앙에 위치
+                  left: '50%', // 부모 컨테이너 중앙에 위치
+                  transform: [
+                    { translateX: -45 }, // 이미지 크기의 절반으로 이동
+                    { translateY: -45 }, // 이미지 크기의 절반으로 이동
+                    { rotate: rotate1 }, // 회전 애니메이션 적용
+                    { translateX: 200 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                    { translateY: 200 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                  ],
+                }}
+              />
+              <Animated.Image
+                source={PlanetPurple}
+                style={{
+                  width: 40, // 가운데 행성의 크기를 80으로 설정
+                  height: 40, // 가운데 행성의 크기를 80으로 설정
+                  position: 'absolute',
+                  bottom: '0%', // 부모 컨테이너 중앙에 위치
+                  left: '50%', // 부모 컨테이너 중앙에 위치
+                  transform: [
+                    { translateX: -45 }, // 이미지 크기의 절반으로 이동
+                    { translateY: -45 }, // 이미지 크기의 절반으로 이동
+                    { rotate: rotate2 }, // 회전 애니메이션 적용
+                    { translateX: 270 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                    { translateY: 270 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                  ],
+                }}
+              />
+              <Animated.Image
+                source={PlanetRed}
+                style={{
+                  width: 40, // 가운데 행성의 크기를 80으로 설정
+                  height: 40, // 가운데 행성의 크기를 80으로 설정
+                  position: 'absolute',
+                  bottom: '0%', // 부모 컨테이너 중앙에 위치
+                  left: '50%', // 부모 컨테이너 중앙에 위치
+                  transform: [
+                    { translateX: -45 }, // 이미지 크기의 절반으로 이동
+                    { translateY: -45 }, // 이미지 크기의 절반으로 이동
+                    { rotate: rotate3 }, // 회전 애니메이션 적용
+                    { translateX: 320 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                    { translateY: 320 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                  ]
+                }}
+              />
+              <Animated.Image
+                source={PlanetBlue}
+                style={{
+                  width: 40, // 가운데 행성의 크기를 80으로 설정
+                  height: 40, // 가운데 행성의 크기를 80으로 설정
+                  position: 'absolute',
+                  bottom: '0%', // 부모 컨테이너 중앙에 위치
+                  left: '50%', // 부모 컨테이너 중앙에 위치
+                  transform: [
+                    { translateX: -45 }, // 이미지 크기의 절반으로 이동
+                    { translateY: -45 }, // 이미지 크기의 절반으로 이동
+                    { rotate: rotate4 }, // 회전 애니메이션 적용
+                    { translateX: 360 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                    { translateY: 360 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                  ]
+                }}
+              />
+              <Animated.Image
+                source={PlanetYellow}
+                style={{
+                  width: 40, // 가운데 행성의 크기를 80으로 설정
+                  height: 40, // 가운데 행성의 크기를 80으로 설정
+                  position: 'absolute',
+                  bottom: '0%', // 부모 컨테이너 중앙에 위치
+                  left: '50%', // 부모 컨테이너 중앙에 위치
+                  transform: [
+                    { translateX: -45 }, // 이미지 크기의 절반으로 이동
+                    { translateY: -45 }, // 이미지 크기의 절반으로 이동
+                    { rotate: rotate5 }, // 회전 애니메이션 적용
+                    { translateX: 400 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                    { translateY: 400 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                  ]
+                }}
+              />
+            </>
+
             <S.Header>
               <S.HeaderLeft>
                 <S.LevelBox>
@@ -180,8 +366,8 @@ function Main({navigation}: MainProps) {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}
-                    start={{x: 0, y: 0}}
-                    end={{x: 0, y: 1}}>
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}>
                     <S.ButtonStyle onPress={GuideAction}>
                       <GuideIcon width={20} height={20} color="white" />
                     </S.ButtonStyle>
@@ -200,8 +386,8 @@ function Main({navigation}: MainProps) {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}
-                    start={{x: 0, y: 0}}
-                    end={{x: 0, y: 1}}>
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}>
                     <S.ButtonStyle onPress={PolicyAction}>
                       <PrivacyPolicyIcon width={20} height={20} color="white" />
                     </S.ButtonStyle>
@@ -222,8 +408,8 @@ function Main({navigation}: MainProps) {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}
-                    start={{x: 0, y: 0}}
-                    end={{x: 0, y: 1}}>
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}>
                     <S.ButtonStyle onPress={StampAction}>
                       <StampWhiteIcon width={20} height={20} color="white" />
                     </S.ButtonStyle>
@@ -237,17 +423,18 @@ function Main({navigation}: MainProps) {
                 source={planetData[equippedPlanetIndex].Rotate}
                 resizeMode="contain"
               />
-              <S.CharacterGif
-                source={
-                  characterData[equippedCharacterIndex].Evolutions[
-                    equippedEvolutionStage
-                  ].RunFront
-                }
-                resizeMode="contain"
-              />
+              <TouchableWithoutFeedback onPress={handlePress}>
+                <AnimatedCharacterGif
+                  style={{ transform: [{ translateY: moveAnim }] }}
+                  source={
+                    characterData[equippedCharacterIndex].Evolutions[equippedEvolutionStage].RunFront
+                  }
+                  resizeMode="contain"
+                />
+              </TouchableWithoutFeedback>
 
               <S.StartBox>
-                <S.StartButton
+                {/* <S.StartButton
                   onPress={
                     () => navigation.navigate('GameStartStack')
                     // DummyToast() // 개발중
@@ -280,7 +467,7 @@ function Main({navigation}: MainProps) {
                       radius={500}
                       center={[50, 100]}></RadialGradient>
                   </LinearGradient>
-                </S.StartButton>
+                </S.StartButton> */}
               </S.StartBox>
             </S.Body>
           </S.BackgroundImage>
@@ -297,6 +484,7 @@ function Main({navigation}: MainProps) {
             isVisible={isPrivacyPolicyModalVisible}
             onClose={() => setPrivacyPolicyModalVisible(false)}
           />
+
         </>
       )}
     </S.Container>

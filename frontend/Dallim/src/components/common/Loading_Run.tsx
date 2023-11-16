@@ -12,7 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import RadialGradient from 'react-native-radial-gradient';
 
 interface LoadingRunProps {
-  onReload: () => void;
+  onReload: () => void; 
 }
 function Loading_Run({ onReload }: LoadingRunProps) {
 
@@ -22,6 +22,7 @@ function Loading_Run({ onReload }: LoadingRunProps) {
   const rotateValue1 = new Animated.Value(0);
   const rotateValue2 = new Animated.Value(0);
   const rotateValue3 = new Animated.Value(0);
+  const rotateValue4 = new Animated.Value(0);
 
   useEffect(() => {
     Animated.loop(
@@ -45,6 +46,13 @@ function Loading_Run({ onReload }: LoadingRunProps) {
         useNativeDriver: true,
       })
     ).start();
+    Animated.loop(
+      Animated.timing(rotateValue4, {
+        toValue: 1,
+        duration: 10000,
+        useNativeDriver: true,
+      })
+    ).start();
   }, []);
 
   // 회전 값 계산
@@ -60,7 +68,7 @@ function Loading_Run({ onReload }: LoadingRunProps) {
     inputRange: [0, 1],
     outputRange: ['200deg', '560deg'],
   });
-  const rotate4 = rotateValue3.interpolate({
+  const rotate4 = rotateValue4.interpolate({
     inputRange: [0, 1],
     outputRange: ['300deg', '660deg'],
   });
@@ -69,7 +77,7 @@ function Loading_Run({ onReload }: LoadingRunProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowReload(true);
-    }, 5000);
+    }, 10000);
     return () => clearTimeout(timer);
   }, []);
 

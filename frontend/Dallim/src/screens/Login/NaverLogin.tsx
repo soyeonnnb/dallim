@@ -94,10 +94,16 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
     }
   };
 
+  // 새로고침 버튼을 눌렀을 때 실행할 함수
+  const handleReload = () => {
+    setIsLoading(true);
+    parseAuthCode('https://nid.naver.com/oauth2.0/authorize?client_id=U981wCCDuUbK6_3C3WJo&response_type=code&redirect_uri=http://localhost:8080/login/oauth2/code/naver');
+  };
+
   return (
     <View style={{flex: 1}}>
       {isLoading ? (
-        <Loading />
+        <Loading onReload={handleReload} />
       ) : (
         <WebView
           originWhitelist={['*']}

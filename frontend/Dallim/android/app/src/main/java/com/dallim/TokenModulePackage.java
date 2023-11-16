@@ -16,13 +16,11 @@ public class TokenModulePackage implements ReactPackage {
 
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        Log.d("DDDDDDDDDD", "WidgetModulePackage - createNativeModules TokenModule");
         return Collections.singletonList(new TokenModule(reactContext));
     }
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        Log.d("DDDDDDDDDD", "WidgetModulePackage - createViewManagers TokenModule");
         return Collections.emptyList();
     }
 }

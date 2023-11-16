@@ -22,25 +22,17 @@ public class TokenModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setToken(String token) {
-        Log.d("DDDDDDDDDD", "TokenModule - setToken");
         SharedPreferences sharedPreferences = getReactApplicationContext().getSharedPreferences("dallimPreference", Context.MODE_PRIVATE);
-        Log.d("DDDDDDDDDD", "TokenModule - setToken - dallimPreference");
         sharedPreferences.edit().putString("AccessToken", token).apply();
-        Log.d("DDDDDDDDDD", "TokenModule - setToken - AccessToken"+token);
     }
 
     @ReactMethod
     public void getToken(Promise promise) {
-        Log.d("DDDDDDDDDD", "TokenModule - getToken");
         SharedPreferences sharedPreferences = getReactApplicationContext().getSharedPreferences("dallimPreference", Context.MODE_PRIVATE);
-        Log.d("DDDDDDDDDD", "TokenModule - getToken - dallimPreference");
        String token = sharedPreferences.getString("AccessToken", null);
-        Log.d("DDDDDDDDDD", "TokenModule - getToken - AccessToken");
         if (token != null) {
-            Log.d("DDDDDDDDDD", "TokenModule - getToken -  promise.resolve(token)");
-            promise.resolve(token);
+             promise.resolve(token);
         } else {
-            Log.d("DDDDDDDDDD", "TokenModule - getToken -   promise.reject");
             promise.reject("TOKEN_NOT_FOUND", new Throwable("Token not found"));
         }
     }

@@ -11,7 +11,7 @@ import {
   calculatePace,
   meterToKMOrMeter,
   secondToMinuteText,
-} from '@/recoil/RunningData';
+} from '@/recoil/data/RunningData';
 import LinearGradient from 'react-native-linear-gradient';
 import RadialGradient from 'react-native-radial-gradient';
 
@@ -45,12 +45,12 @@ function RunningDataBox({
   };
 
   const handleModalRecordSave = async () => {
-    console.log('모달에서 기록 저장 버튼 클릭 확인, id:', id);
+    // console.log('모달에서 기록 저장 버튼 클릭 확인, id:', id);
     try {
       await postRecordSave(id); // 서버 전송
       onUpdateRegistration(id); // 상태 업데이트
     } catch (error) {
-      console.error('런닝메이트 등록 오류', error);
+      // console.error('런닝메이트 등록 오류', error);
     }
   };
 
@@ -117,21 +117,6 @@ function RunningDataBox({
                   offset={[0, 0]}>
                   <S.DateCircle>
                     <DateIcon width={15} height={15} />
-                    <RadialGradient
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: 100,
-                        opacity: 0.3,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        position: 'absolute',
-                        overflow: 'hidden',
-                      }}
-                      colors={['#ffffff', '#33B962']}
-                      stops={[0.03, 0.4]}
-                      radius={20}
-                      center={[7, 7]}></RadialGradient>
                   </S.DateCircle>
                 </S.CircleShadow>
               </S.Icon>

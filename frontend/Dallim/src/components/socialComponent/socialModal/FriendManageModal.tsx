@@ -86,7 +86,7 @@ const FriendManageModal: React.FC<Props> = ({isVisible, onClose}) => {
       const response = await fetchUserSearch(query);
       setSearchResults(response.length > 0 ? response : []);
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     } finally {
       setLoading(false);
     }
@@ -98,10 +98,10 @@ const FriendManageModal: React.FC<Props> = ({isVisible, onClose}) => {
       try {
         setLoading(true); // 로딩 상태를 true
         const friendsData = await fetchFriendList();
-        console.log(friendsData);
+        // console.log(friendsData);
         setFriends(friendsData);
       } catch (error) {
-        console.error(error);
+        // console.error(error);
       } finally {
         setLoading(false); // 데이터를 받아온 후 로딩 상태를 false
       }
@@ -118,9 +118,9 @@ const FriendManageModal: React.FC<Props> = ({isVisible, onClose}) => {
         setLoading(true);
         const waitData = await fetchFriendWaitList();
         setFriendRequests(waitData);
-        console.log('받은 요청 목록 조회 성공');
+        // console.log('받은 요청 목록 조회 성공');
       } catch (error) {
-        console.error('받은 요청 목록 조회 실패', error);
+        // console.error('받은 요청 목록 조회 실패', error);
       } finally {
         setLoading(false);
       }

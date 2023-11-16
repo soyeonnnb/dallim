@@ -1,6 +1,6 @@
 import * as S from './WatchConnection.styles';
 import {useState} from 'react';
-import Toast from 'react-native-toast-message';
+import {CustomToast} from '@/components/common/toast/CustomToast';
 
 import InfoModal from '@/components/profileComponent/profileModal/InfoModal';
 
@@ -36,46 +36,21 @@ function WatchConnection({navigation}: WatchConnectionProps) {
   const handleWatchConnect = async () => {
     // 6자리 숫자만 유효
     if (inputIter != 6) {
-      Toast.show({
-        type: 'error',
-        position: 'top',
-        text1: '6자리 숫자를 입력해주세요',
-        visibilityTime: 3000,
-        autoHide: true,
-        topOffset: 10,
-      });
+      CustomToast({type: 'error', text1: '6자리 숫자를 입력해주세요.'});
       return;
     }
     const authCode = inputNums.join('');
     const result = await postWatchConnection(authCode);
     if (result.status === 'success') {
-      Toast.show({
-        type: 'success',
-        position: 'top',
-        text1: '연동 성공 !',
-        visibilityTime: 3000,
-        autoHide: true,
-        topOffset: 10,
-      });
+      CustomToast({type: 'success', text1: '연동 성공 !'});
       navigation.navigate('Profile');
     } else if (result.message === '인증 기간이 만료됨') {
-      Toast.show({
+      CustomToast({
         type: 'error',
-        position: 'top',
-        text1: '인증 기간이 만료되었습니다. 재발급해주세요',
-        visibilityTime: 3000,
-        autoHide: true,
-        topOffset: 10,
+        text1: '인증 기간이 만료되었습니다. 재발급해주세요.',
       });
     } else {
-      Toast.show({
-        type: 'error',
-        position: 'top',
-        text1: '숫자를 다시 확인해주세요',
-        visibilityTime: 3000,
-        autoHide: true,
-        topOffset: 10,
-      });
+      CustomToast({type: 'error', text1: '숫자를 다시 확인해주세요.'});
     }
   };
 
@@ -100,7 +75,7 @@ function WatchConnection({navigation}: WatchConnectionProps) {
   // 연동 설명서 모달
   const [isInfoModalVisible, setInfoModalVisible] = useState(false);
   function ActionInfo() {
-    console.log('연동 설명서 버튼이 눌렸습니다.');
+    // console.log('연동 설명서 버튼이 눌렸습니다.');
     setInfoModalVisible(true);
   }
   // 연동 설명서 모달 열기 & 닫기
@@ -111,7 +86,7 @@ function WatchConnection({navigation}: WatchConnectionProps) {
   return (
     <S.Container>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover"
       />
       <S.Header>

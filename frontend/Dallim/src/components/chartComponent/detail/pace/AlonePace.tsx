@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Dimensions,
 } from 'react-native';
-import {secondToMinuteSeconds, calculatePace} from '@/recoil/RunningData';
+import {secondToMinuteSeconds, calculatePace} from '@/recoil/data/RunningData';
 import {PaceSectionType} from '@/apis/ChartApi';
 interface Props {
   data: PaceSectionType[];

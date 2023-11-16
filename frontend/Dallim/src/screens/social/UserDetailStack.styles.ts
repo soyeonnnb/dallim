@@ -42,12 +42,33 @@ export const CloseButton = styled.TouchableOpacity`
 
 export const EmptyBox = styled.View`
   /* border-width: 1px;
-  border-color: red; */
-  width: 20%;
+  border-color: blue; */
+  width: 10%;
   height: 100%;
   justify-content: center;
   align-items: center;
+  padding-top: 1%;
+  left: 15%;
 `;
+
+export const Box = styled.View`
+  /* border-width: 1px;
+  border-color: white; */
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const ButtonStyle = styled.TouchableOpacity`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 80%;
+  height: 80%;
+  justify-content: center;
+  align-items: center;
+`;
+
 
 export const CloseImage = styled.Image`
   /* border-width: 1px;
@@ -59,7 +80,7 @@ export const CloseImage = styled.Image`
 export const HeaderBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 40%;
+  width: 60%;
   height: 100%;
   justify-content: center;
   align-items: center;
@@ -73,22 +94,20 @@ export const DetailText = styled.Text`
 export const VersusBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 10%;
-  height: 100%;
+  width: 40px;
+  height: 40px;
 `;
 
-export const VersusButton = styled.TouchableOpacity`
+export const VersusImage = styled.Image`
+  width: 80%;
+  height: 80%;
+`;
+
+export const SideBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 100%;
+  width: 10%;
   height: 100%;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const VersusText = styled.Text`
-  font-size: 15px;
-  color: white;
 `;
 
 export const AnimatedVersusText = styled(Animated.Text)`
@@ -125,13 +144,6 @@ export const ImageBox = styled.View`
 `;
 
 export const CharacterImage = styled.Image`
-  width: 100%;
-  height: 100%;
-`;
-
-export const CharacterTouch = styled(TouchableOpacity)`
-  /* border-width: 1px;
-  border-color: red; */
   width: 100%;
   height: 100%;
 `;

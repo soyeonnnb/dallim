@@ -1,6 +1,7 @@
 package com.dallim.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class RunningMateActivity extends AppCompatActivity {
             @Override
             public void run() {
                 List<RunningMate> runningMateList = db.runningMateDAO().getAll();
+                Log.e("설정", runningMateList.toString());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

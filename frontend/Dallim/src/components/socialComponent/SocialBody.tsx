@@ -48,16 +48,17 @@ function SocialBody({
     onToggle(); // 상위 컴포넌트의 상태 변경 함수를 호출
   };
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [rankingData, setRankingData] = useState<RankingInfo[] | null>(null);
-  console.log(rankingData);
 
   const loadRankingData = async () => {
     try {
       const data = isFriend ? await fetchFriendRank() : await fetchAllRank();
       setRankingData(data.rankingInfos);
       onUpdateDateInfo(data.month, data.week); // 상위로 쏴주기
+      setIsLoading(false);
     } catch (error) {
-      console.error('API 호출 중 오류 발생:', error);
+      // console.error('API 호출 중 오류 발생:', error);
     }
   };
 
@@ -83,6 +84,12 @@ function SocialBody({
       ]),
     ).start();
   }, []);
+
+  // 새로고침 버튼을 눌렀을 때 실행할 함수
+  const handleReload = () => {
+    setIsLoading(true);
+    loadRankingData();
+  };
 
   return (
     <S.Container>
@@ -145,7 +152,6 @@ function SocialBody({
       </S.Top>
       <S.Body>
         <ScrollView>
-          {/* 수정중 */}
           {rankingData ? (
             rankingData.length > 0 ? (
               rankingData.map((info: RankingInfo, index) => (
@@ -173,7 +179,7 @@ function SocialBody({
             )
           ) : (
             <S.LoadingBox>
-              <Loading_Run />
+              <Loading_Run onReload={handleReload} />
               {/* <S.AnimatedFooterText style={{ opacity: fadeAnim }}>로딩 중...</S.AnimatedFooterText> */}
             </S.LoadingBox>
           )}

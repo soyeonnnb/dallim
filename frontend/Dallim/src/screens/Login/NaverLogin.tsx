@@ -29,21 +29,18 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
   //     await AsyncStorage.setItem('accessToken', data.accessToken);
   const sendLoginRequest = async (token: string) => {
     try {
-      const response = await axios.get(
-        'http://k9b208.p.ssafy.io/api/oauth/login',
-        {
-          params: {
-            access: token,
-          },
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      const response = await axios.get('https://dallim.site/api/oauth/login', {
+        params: {
+          access: token,
         },
-      );
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
       const data = response.data;
-      console.log(data);
+      // console.log(data);
       await AsyncStorage.setItem('userId', String(data.uesrId));
       await AsyncStorage.setItem('accessToken', data.accessToken);
       await postFcmToken();
@@ -72,7 +69,7 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
       setIsLoading(true);
 
       await axios
-        .get('http://k9b208.p.ssafy.io/api/oauth2/code/naver', {
+        .get('https://dallim.site/api/oauth2/code/naver', {
           params: {
             code: authCode,
           },
@@ -97,10 +94,16 @@ const NaverLogin = ({navigation}: NaverLoginProps) => {
     }
   };
 
+  // 새로고침 버튼을 눌렀을 때 실행할 함수
+  const handleReload = () => {
+    setIsLoading(true);
+    parseAuthCode('https://nid.naver.com/oauth2.0/authorize?client_id=U981wCCDuUbK6_3C3WJo&response_type=code&redirect_uri=http://localhost:8080/login/oauth2/code/naver');
+  };
+
   return (
     <View style={{flex: 1}}>
       {isLoading ? (
-        <Loading />
+        <Loading onReload={handleReload} />
       ) : (
         <WebView
           originWhitelist={['*']}

@@ -1,12 +1,13 @@
 import * as S from './Box.styles';
-import {postRequestAccept, postRequestReject} from '@/apis/SocialApi';
-import {characterData} from '@/recoil/CharacterData';
+import { postRequestAccept, postRequestReject } from '@/apis/SocialApi';
+import { characterData } from '@/recoil/data/CharacterData';
 
-import {useRecoilState} from 'recoil';
-import {friendRequestsState, friendsState} from '@/recoil/FriendRecoil';
+import { useRecoilState } from 'recoil';
+import { friendRequestsState, friendsState } from '@/recoil/FriendRecoil';
 import AccpetIcon from '@/assets/icons/AcceptIcon';
 import DenyIcon from '@/assets/icons/DenyIcon';
-import Toast from 'react-native-toast-message';
+import { CustomToast } from '@/components/common/toast/CustomToast';
+import { LevelData } from '@/recoil/data/LevelData';
 
 type WaitBoxProps = {
   userId: number;
@@ -28,22 +29,13 @@ function WaitBox({
   const [friends, setFriends] = useRecoilState(friendsState); // 친구 목록 상태
 
   const selectedCharacter =
-    characterData[characterIndex].evolutions[evolutionStage].profile;
+    characterData[characterIndex].Evolutions[evolutionStage].Badge;
 
   const handleRequestAccept = async () => {
     try {
       const result = await postRequestAccept(userId);
-      // console.log("userId " + userId)
       if (result) {
-        Toast.show({
-          type: 'success',
-          position: 'top',
-          text1: '친구를 수락하셨습니다.',
-          visibilityTime: 3000,
-          autoHide: true,
-          topOffset: 10,
-        });
-        console.log('친구 신청 수락 성공' + userId);
+        CustomToast({ type: 'success', text1: '친구를 수락하셨습니다.' });
         // 요청 목록에서 제거합니다.
         setRequestFriends(
           requestFriends.filter(friend => friend.userId !== userId),
@@ -56,10 +48,10 @@ function WaitBox({
           setFriends([...friends, acceptedFriend]);
         }
       } else {
-        console.log('친구 신청 수락 실패.');
+        // console.log('친구 신청 수락 실패.');
       }
     } catch (error) {
-      console.error('친구 신청 수락 중 오류가 발생하였습니다.', error);
+      // console.error('친구 신청 수락 중 오류가 발생하였습니다.', error);
     }
   };
 
@@ -67,25 +59,27 @@ function WaitBox({
     try {
       const result = await postRequestReject(userId);
       if (result) {
-        Toast.show({
-          type: 'error',
-          position: 'top',
-          text1: '친구를 거절하셨습니다.',
-          visibilityTime: 3000,
-          autoHide: true,
-          topOffset: 10,
-        });
-        console.log('친구 신청 거절 성공' + userId);
+        CustomToast({ type: 'error', text1: '친구를 거절하셨습니다.' });
+        // console.log('친구 신청 거절 성공' + userId);
         setRequestFriends(
           requestFriends.filter(friend => friend.userId !== userId),
         );
       } else {
-        console.log('친구 신청 거절 실패.');
+        // console.log('친구 신청 거절 실패.');
       }
     } catch (error) {
-      console.error('친구 신청 거절 중 오류가 발생하였습니다.', error);
+      // console.error('친구 신청 거절 중 오류가 발생하였습니다.', error);
     }
   };
+
+  function getLevelImageIndex(userLevel: number) {
+    if (userLevel <= 10) return 0;
+    if (userLevel <= 20) return 1;
+    if (userLevel <= 30) return 2;
+    if (userLevel <= 40) return 3;
+    return 4; // 50 이하인 경우
+  }
+  const LevelImage = LevelData[getLevelImageIndex(level)].Base;
 
   return (
     <S.Container>
@@ -99,9 +93,19 @@ function WaitBox({
           </S.FriendDetailButton>
         </S.Left>
         <S.Middle_Wait>
-          <S.LevelText>Lv. {level}</S.LevelText>
-          <S.NicknameText>{nickname}</S.NicknameText>
+          <S.MiddleTop>
+            <S.LevelBox>
+              <S.LevelImage
+                source={LevelImage} resizeMode='contain' />
+            </S.LevelBox>
+            <S.LevelText>Lv. {level}</S.LevelText>
+          </S.MiddleTop>
+          <S.MiddleBottom>
+            <S.NicknameText>{nickname}</S.NicknameText>
+          </S.MiddleBottom>
+
         </S.Middle_Wait>
+
         <S.Right_Wait>
           {/* 수락버튼 */}
           <S.Button_AcceptWait>

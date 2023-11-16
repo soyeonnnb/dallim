@@ -83,13 +83,14 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     public String nNick() {
         String text;
         do {
-            List<String> name = Arrays.asList("사자", "코끼리", "호랑이", "곰", "여우", "늑대", "너구리", "침팬치", "고릴라", "참새", "고슴도치", "강아지", "고양이", "거북이", "토끼", "앵무새", "하이에나", "돼지", "하마", "원숭이", "물소", "얼룩말", "치타",
-                    "악어", "기린", "수달", "염소", "다람쥐", "판다");
-            List<String> num = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
-            Collections.shuffle(name);
-            Collections.shuffle(num);
+            List<String> adjectives = Arrays.asList("잘생긴", "서운한", "즐거운", "귀여운", "용감한", "영리한", "사나운", "친절한", "조용한", "발랄한");
+            List<String> name = Arrays.asList("사자", "곰", "여우", "늑대", "참새", "토끼", "돼지", "하마", "물소", "치타", "악어", "기린", "수달", "염소", "판다");
 
-            text = name.get(0) + num.get(0) + num.get(1) + num.get(2);
+            Collections.shuffle(adjectives);
+            Collections.shuffle(name);
+
+            text =  adjectives.get(0) + name.get(0);
+
         } while (userRepository.existsByNickname(text)); // 닉네임이 이미 존재하면 다시 생성
         return text;
     }

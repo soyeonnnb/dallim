@@ -12,6 +12,7 @@ import {Dimensions} from 'react-native';
 import RunningMateDeleteModal from '@/components/profileComponent/profileModal/RunningMateDeleteModal';
 import {useRecoilValue} from 'recoil';
 import {competitorDataState} from '@/recoil/RunningRecoil';
+import LinearGradient from 'react-native-linear-gradient';
 
 interface CompetitorDataType {
   userId: number;
@@ -58,7 +59,7 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
       selectedCardNum > 0 &&
       selectedCardNum <= competitorData.length
     ) {
-      console.log('삭제버튼 눌림');
+      // console.log('삭제버튼 눌림');
       const currentCompetitorId =
         competitorData[selectedCardNum - 1]?.runningMateId;
       if (currentCompetitorId) {
@@ -76,7 +77,7 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
   return (
     <S.Container>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover">
         <S.Header>
           <S.BackButtonFlexBoxLeft
@@ -100,9 +101,26 @@ function RunningMateSetting({navigation}: RunningMateSettingProps) {
 
         <S.Footer>
           {competitorData.length > 0 && (
-            <S.DeleteButtonMiddleBox onPress={showDeleteModal}>
-              <S.DeleteButtonText>삭제</S.DeleteButtonText>
-            </S.DeleteButtonMiddleBox>
+            <S.ButtonShadow
+              distance={2}
+              startColor="rgba(255, 255, 255, 0.5)"
+              endColor="rgba(255, 255, 255, 0.5)"
+              offset={[0, 0]}>
+              <S.DeleteButtonMiddleBox onPress={showDeleteModal}>
+                <LinearGradient
+                  start={{x: 0.5, y: 0}}
+                  end={{x: 0.5, y: 1}}
+                  colors={['#C65757', '#661818']}
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    borderRadius: 20,
+                    flexDirection: 'row',
+                    position: 'absolute',
+                  }}></LinearGradient>
+                <S.DeleteButtonText>삭제</S.DeleteButtonText>
+              </S.DeleteButtonMiddleBox>
+            </S.ButtonShadow>
           )}
           <S.FooterBottomBox></S.FooterBottomBox>
         </S.Footer>

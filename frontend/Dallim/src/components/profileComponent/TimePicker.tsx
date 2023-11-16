@@ -10,10 +10,11 @@ import {
 } from 'react-native';
 
 //component
-import CustomToast from '../common/CustomToast';
+import {CustomToast} from '@/components/common/toast/CustomToast';
 
 //apis
 import {postSchedule} from '@/apis/ProfileApi';
+import LinearGradient from 'react-native-linear-gradient';
 
 type DayOfWeek = '일' | '월' | '화' | '수' | '목' | '금' | '토';
 interface TimePickerProps {
@@ -85,7 +86,7 @@ const TimePicker: React.FC<TimePickerProps> = ({onRefresh}) => {
       .filter((_, index) => selectedDays[index])
       .map(day => dayMapping[day as DayOfWeek]);
 
-    console.log(selectedDaysForRequest);
+    // console.log(selectedDaysForRequest);
 
     const hourForRequest = parseInt(selectedHour, 10);
     const minuteForRequest = parseInt(selectedMinute, 10);
@@ -110,8 +111,7 @@ const TimePicker: React.FC<TimePickerProps> = ({onRefresh}) => {
         });
       }
     } catch (error) {
-      // Handle any errors that occur during the API call
-      console.error('Schedule Save Error:', error);
+      // console.error('Schedule Save Error:', error);
       CustomToast({
         type: 'error',
         text1: '알림 등록에 실패했습니다.',
@@ -132,7 +132,7 @@ const TimePicker: React.FC<TimePickerProps> = ({onRefresh}) => {
       setSelectedHour('00');
     } else {
       const newHour = hours[index];
-      console.log(newHour);
+      // console.log(newHour);
       setSelectedHour(newHour);
     }
   };
@@ -152,7 +152,7 @@ const TimePicker: React.FC<TimePickerProps> = ({onRefresh}) => {
       setSelectedMinute('00');
     } else {
       const newMinute = minutes[index];
-      console.log(newMinute);
+      // console.log(newMinute);
       setSelectedMinute(newMinute);
     }
   };
@@ -246,7 +246,21 @@ const TimePicker: React.FC<TimePickerProps> = ({onRefresh}) => {
         </S.HeaderMiddle>
         <S.HeaderBottom>
           <S.SaveButton onPress={handleSave}>
-            <S.SaveButtonText>저장</S.SaveButtonText>
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 0, y: 1}}
+              colors={['#6EE2F5', '#6454F0']}
+              style={{
+                height: '100%',
+                width: '100%',
+                borderRadius: 15,
+                justifyContent: 'center',
+                alignItems: 'center',
+
+                // position: 'absolute',
+              }}>
+              <S.SaveButtonText>저장</S.SaveButtonText>
+            </LinearGradient>
           </S.SaveButton>
         </S.HeaderBottom>
       </S.Header>

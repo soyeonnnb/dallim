@@ -65,6 +65,8 @@ public class RunningMateDataAdapter extends RecyclerView.Adapter<RunningMateData
         // 상대방이 달린 캐릭터
         int evolutionStage = runningMate.getEvolutionStage();
         int characterIndex = runningMate.getCharacterIndex();
+        Log.e("진화상태", String.valueOf(evolutionStage));
+        Log.e("데이터", String.valueOf(runningMate.toString()));
         if (evolutionStage == 0){
             if(characterIndex == 0){
                 holder.runningMateRecordCharacter.setBackgroundResource(R.drawable.rabbitegg_background_black);

@@ -25,11 +25,9 @@ public class GetUser {
         System.out.println(principal.toString());
         Long userId = (Long) principal;
 
-        Optional<User> byUserId = Optional.ofNullable(userRepository.findByUserId(userId)
-                .orElseThrow(() -> new UserNotFoundException("pk에 해당하는 유저 존재하지 않음")));
+        Optional<User> byUserId = Optional.ofNullable(userRepository.findByUserIdAndUserLevel(userId));
 
         User user = byUserId.get();
-
 
         return user;
     }

@@ -20,12 +20,15 @@ public class RunningMate {
     private ObjectId id;
     private UserInfo user;
     private RivalRunningRecordInfo rivalRecord;
+    private boolean hasWin;
     private LocalDateTime createdAt;
 
     @Builder
-    public RunningMate(UserInfo user, RivalRunningRecordInfo rivalRecord) {
+    public RunningMate(ObjectId id, UserInfo user, RivalRunningRecordInfo rivalRecord, boolean hasWin) {
+        this.id = id;
         this.user = user;
         this.rivalRecord = rivalRecord;
+        this.hasWin = hasWin;
         this.createdAt = LocalDateTime.now();
     }
 }

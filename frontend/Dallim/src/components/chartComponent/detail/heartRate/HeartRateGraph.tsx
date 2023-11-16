@@ -2,7 +2,7 @@ import * as S from './HeartRateGraph.styles';
 import {useState, useEffect} from 'react';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
 import {LineChart} from 'react-native-gifted-charts';
-import {secondToMinuteSeconds} from '@/recoil/RunningData';
+import {secondToMinuteSeconds} from '@/recoil/data/RunningData';
 import DataPreview from '../DataPreview';
 
 interface Props {

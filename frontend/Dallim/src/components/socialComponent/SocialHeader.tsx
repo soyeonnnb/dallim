@@ -1,10 +1,8 @@
+import * as S from './SocialHeader.styles';
 import React, {useEffect, useState} from 'react';
 import {TouchableOpacity} from 'react-native';
-import * as S from './SocialHeader.styles';
-import FriendManageModal from './socialModal/FriendManageModal';
-// import QuestionIcon from '@/assets/icons/QuestionIcon.png';
-// import AwesomeAlert from 'react-native-awesome-alerts';
 import {Animated} from 'react-native';
+import FriendManageModal from './socialModal/FriendManageModal';
 import LinearGradient from 'react-native-linear-gradient';
 
 //modal
@@ -87,7 +85,7 @@ function SocialHeader({month, week}: SocialHeaderProps) {
         </S.BodySideBox>
       </S.Body>
 
-      <FriendManageModal
+      <FriendManageModal 
         isVisible={modalVisible}
         onClose={() => setModalVisible(false)}
       />

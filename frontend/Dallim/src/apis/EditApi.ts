@@ -18,7 +18,8 @@ const getToken = async () => {
   }
 };
 
-const BASE_URL = 'https://k9b208.p.ssafy.io';
+// const BASE_URL = 'https://k9b208.p.ssafy.io';
+const BASE_URL = 'https://dallim.site';
 
 // 캐릭터 & 행성 정보 조회
 export const fetchEditInfo = async () => {
@@ -29,7 +30,7 @@ export const fetchEditInfo = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log('EditApi : 캐릭터 & 행성 조회 Axios 성공');
+    // console.log('EditApi : 캐릭터 & 행성 조회 Axios 성공');
     return response.data.data;
   } catch (error) {
     console.log('EditApi :  캐릭터 & 행성 조회 Axios 실패');
@@ -50,7 +51,7 @@ export const postPlanetPurchase = async (planetIndex: number) => {
         },
       },
     );
-    console.log('EditApi : 행성 업데이트 Axios 성공');
+    // console.log('EditApi : 행성 업데이트 Axios 성공');
     return response.data;
   } catch (error) {
     console.log('EditApi : 행성 업데이트 Axios 실패');
@@ -72,6 +73,7 @@ export const postCharacterPurchase = async (characterIndex: number) => {
       },
     );
     console.log('EditApi : 캐릭터 업데이트 Axios 성공');
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log('EditApi : 캐릭터 업데이트 Axios 실패');
@@ -92,7 +94,7 @@ export const updateEquippedPlanet = async (planetIndex: number) => {
         },
       },
     );
-    console.log('EditApi : 대표 행성 변경 Axios 성공');
+    // console.log('EditApi : 대표 행성 변경 Axios 성공');
     return response.data;
   } catch (error) {
     console.log('EditApi : 대표 행성 변경 Axios 실패');
@@ -113,7 +115,7 @@ export const updateEquippedCharacter = async (characterIndex: number) => {
         },
       },
     );
-    console.log('EditApi : 대표 캐릭터 변경 Axios 성공');
+    // console.log('EditApi : 대표 캐릭터 변경 Axios 성공');
     return response.data;
   } catch (error) {
     console.log('EditApi : 대표 캐릭터 변경 Axios 실패');

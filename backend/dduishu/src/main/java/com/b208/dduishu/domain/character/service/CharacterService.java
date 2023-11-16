@@ -7,6 +7,7 @@ import com.b208.dduishu.domain.character.dto.request.CharacterInfoDetail;
 import com.b208.dduishu.domain.character.dto.request.PurchaseCharacterIndex;
 import com.b208.dduishu.domain.character.entity.CharacterLevel;
 import com.b208.dduishu.domain.character.exception.InsufficientPointsException;
+import com.b208.dduishu.domain.character.repository.CharacterLevelRepository;
 import com.b208.dduishu.domain.characterInfo.dto.CharacterName;
 import com.b208.dduishu.domain.characterInfo.entity.CharacterInfo;
 import com.b208.dduishu.domain.characterInfo.repository.CharacterInfoRepository;
@@ -31,54 +32,7 @@ public class CharacterService {
     private final CharacterInfoRepository characterInfoRepository;
     private final PlanetService themaService;
     private final GetUser getUser;
-
-
-//    public CharacterInfoResult getCharacterInfo() {
-//        User user = getUser.getUser();
-//
-//        System.out.println(user.getUserId());
-//
-//        // 나의 캐릭터 정보 가져오기
-//        List<Character> findAllCharacterInfo = characterRepository.findAllCharacterInfo(user.getUserId());
-//
-//        List<CharacterName> characterNames = findAllCharacterInfo.stream()
-//                .map(o -> o.getCharacterInfo().getName())
-//                .collect(toList());
-//
-//        // entity to dto
-//        List<CharacterOverview> characterInfos = findAllCharacterInfo.stream()
-//                .map(o -> new CharacterOverview(o))
-//                .collect(toList());
-//
-//        // mainCharacter, mainThema 찾기
-//        final Object[] names = new Object[2];
-//        names[0] = CharacterName.RABBIT;
-//        names[1] = ThemaName.EARTH;
-//        characterInfos.stream()
-//                        .forEach(o -> {
-//                            if (o.isMainCharacter() == true) {
-//                                names[0] = o.getName();
-//                            }
-//                        });
-//
-//        List<ThemaOverview> allThemaInfo = themaService.getAllThemaInfo();
-//        allThemaInfo.stream()
-//                        .forEach(o -> {
-//                            if (o.isMainThema() == true) {
-//                                names[1] = o.getName();
-//                            }
-//                        });
-//        // 기본 캐릭터 중 없는 캐릭터 넣기
-//        baseCharacterNames.stream()
-//                        .forEach(o -> {
-//                            if(!characterNames.contains(o)) {
-//                                characterInfos.add(CharacterOverview.builder().name(o).build());
-//                            }
-//                        });
-//
-//
-//        return CharacterInfoResult.builder().characterName((CharacterName) names[0]).themaName((ThemaName) names[1]).characterInfo(characterInfos).build();
-//    }
+    private final CharacterLevelRepository characterLevelRepository;
 
     @Transactional
     public void updateMainCharacter(CharacterIndex req) {
@@ -121,10 +75,12 @@ public class CharacterService {
         int point = user.getPoint();
         if (isPossiblePurchase(price, point)) {
             user.reducePoint(price);
+            CharacterLevel characterLevel = CharacterLevel.builder().level(1).exp(0).build();
+            CharacterLevel savedCharacterLevel = characterLevelRepository.save(characterLevel);
             Character build = Character.builder()
                     .user(user)
                     .characterInfo(findCharacterInfo)
-                    .characterLevel(CharacterLevel.builder().level(0).exp(0).build())
+                    .characterLevel(savedCharacterLevel)
                     .isMainCharacter(false)
                     .build();
             characterRepository.save(build);

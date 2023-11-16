@@ -19,7 +19,7 @@ import {
   calculatePace,
   secondToMinuteSeconds,
   meterToKMOrMeter,
-} from '@/recoil/RunningData';
+} from '@/recoil/data/RunningData';
 
 import Loading from '@/components/common/Loading_Run';
 
@@ -78,19 +78,22 @@ function Overview({
     handleSetData();
   }, [data]);
 
-  useEffect(() => {
-    handleSetData();
-  }, []);
-
   const [measureCircleHeight, setMeasureCircleHeight] = useState<number>(0);
   const handleMethodCircleWidth = (event: any) => {
     const {height} = event.nativeEvent.layout;
     setMeasureCircleHeight(height);
   };
+
+  // 새로고침 버튼을 눌렀을 때 실행할 함수
+  const handleReload = () => {
+    setIsLoading(true);
+    handleSetData();
+  };
+
   return (
     <S.Container>
       {isLoading ? (
-        <Loading />
+        <Loading onReload={handleReload} />
       ) : (
         <>
           <S.ArrowContainer />
@@ -211,7 +214,7 @@ function Overview({
                 navigation={navigation}
               />
             ) : (
-              ''
+              <></>
             )}
             <S.Footer />
           </S.MainContent>

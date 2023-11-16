@@ -49,20 +49,22 @@ public class User {
     private String accessToken;
     @Enumerated(EnumType.STRING)
     private UserState state;
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_level_id")
     private UserLevel userLevel;
     @CreatedDate
     private LocalDateTime registDate;
     @LastModifiedDate
     private LocalDateTime lastLoginDate;
+    private boolean isAdmin;
 
     public User() {
     }
 
     @Builder
-    public User(Long userId, UserState state, UserLevel userLevel, String accountType, String email, String nickname, int cumulativeRunningDay, float averageSpeed, float cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, String accessToken) {
+    public User(Long userId, boolean isAdmin, UserState state, UserLevel userLevel, String accountType, String email, String nickname, int cumulativeRunningDay, float averageSpeed, float cumulativeDistance,int cumulativeRunningTime,int cumulativeCalorie,int point, String privateAccess, LocalDateTime registDate, LocalDateTime lastLoginDate, String accessToken) {
         this.userId = userId;
+        this.isAdmin = isAdmin;
         this.state = state;
         this.accountType = accountType;
         this.email = email;

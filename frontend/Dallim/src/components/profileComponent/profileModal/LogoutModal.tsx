@@ -28,11 +28,11 @@ const LogoutModal = ({showModal, toggleModal}: ModalComponentProps) => {
           // console.log('저장된 모든 키:', keys);
         })
         .catch(error => {
-          console.log('키를 가져오는 중 오류 발생:', error);
+          // console.log('키를 가져오는 중 오류 발생:', error);
         });
-      console.log(token);
+      // console.log(token);
       requestWithTokenRefresh(() => {
-        return axios.get('https://k9b208.p.ssafy.io/api/oauth/social/logout', {
+        return axios.get('https://dallim.site/api/oauth/social/logout', {
           headers: {
             Authorization: 'Bearer ' + token,
           },
@@ -41,6 +41,7 @@ const LogoutModal = ({showModal, toggleModal}: ModalComponentProps) => {
       })
         .then(response => {
           if (response.data.logoutUrl) {
+            // console.log(response.data.logoutUrl);
             setLogoutUrl(response.data.logoutUrl);
             setModalVisible(true);
           } else if (response.data.naver) {
@@ -56,7 +57,7 @@ const LogoutModal = ({showModal, toggleModal}: ModalComponentProps) => {
           }
         })
         .catch(error => {
-          console.log('통신에러발생', error);
+          // console.log('통신에러발생', error);
         });
     });
   };
@@ -98,9 +99,7 @@ const LogoutModal = ({showModal, toggleModal}: ModalComponentProps) => {
               },
             }}
             onNavigationStateChange={navState => {
-              if (
-                navState.url === 'https://k9b208.p.ssafy.io/api/oauth/logout'
-              ) {
+              if (navState.url === 'https://dallim.site/api/oauth/logout') {
                 toggleModal();
                 setModalVisible(false);
                 AsyncStorage.removeItem('accessToken');

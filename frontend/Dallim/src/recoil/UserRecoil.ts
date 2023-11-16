@@ -1,5 +1,5 @@
 import {atom} from 'recoil';
-
+//
 interface UserData {
   point: number;
   mainCharacterIndex: number;

@@ -119,7 +119,7 @@ function Main({ navigation }: MainProps) {
         sound = null;
       }
     };
-  }, []);
+  }, [loadUserInfo]);
 
   function getLevelImageIndex(userLevel: number) {
     if (userLevel <= 10) return 0;

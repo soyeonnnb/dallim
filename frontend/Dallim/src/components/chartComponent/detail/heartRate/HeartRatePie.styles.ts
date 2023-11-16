@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {Dimensions} from 'react-native';
+import {colors} from '@/components/common/globalStyles';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -48,16 +49,19 @@ export const ChartInfoText = styled.View`
 `;
 
 export const ChartInfoName = styled.Text`
+  color: ${colors.text.grey};
   text-align: center;
 `;
-export const ChartInfoContent = styled.Text``;
+export const ChartInfoContent = styled.Text`
+  color: ${colors.text.grey};
+`;
 
 export const ChartInfoLeft = styled.View`
   flex-direction: row;
   flex: 0.4;
   align-items: center;
 `;
-export const ChartRight = styled.View`
+export const ChartInfoRight = styled.View`
   flex: 0.6;
   align-items: flex-end;
   justify-content: center;

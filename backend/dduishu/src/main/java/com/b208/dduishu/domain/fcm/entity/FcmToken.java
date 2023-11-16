@@ -32,4 +32,8 @@ public class FcmToken {
         this.fcmToken = fcmToken;
         this.createdAt = createdAt;
     }
+
+    public void setFcmToken(String token) {
+        this.fcmToken = token;
+    }
 }

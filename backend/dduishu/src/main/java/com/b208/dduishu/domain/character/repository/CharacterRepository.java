@@ -2,6 +2,7 @@ package com.b208.dduishu.domain.character.repository;
 
 import java.util.List;
 
+import com.b208.dduishu.domain.user.entity.User;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,6 @@ public interface CharacterRepository extends JpaRepository<Character, Long> {
 
 
     List<Character> findAllByUserUserId(Long userId);
+
+    Character findByUserUserIdAndCharacterInfoId(Long userId, Long characterInfoId);
 }

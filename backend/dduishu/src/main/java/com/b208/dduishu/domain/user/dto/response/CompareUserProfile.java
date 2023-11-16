@@ -26,10 +26,10 @@ public class CompareUserProfile {
     private int pairDay;
     private int myTime;
     private int pairTime;
-    private float myDistance;
-    private float pairDistance;
-    private float mySpeed;
-    private float pairSpeed;
+    private double myDistance;
+    private double pairDistance;
+    private double mySpeed;
+    private double pairSpeed;
 
     public CompareUserProfile(User user , Character mycharacter, User pair, Character paircharacter) {
         this.myCharacterIndex = Util.getCharacterIndexByUser(user);
@@ -40,14 +40,18 @@ public class CompareUserProfile {
         this.pairEvolutionStage = Util.getEvolutionStage(paircharacter.getCharacterLevel().getLevel());
         this.pairNickName = pair.getNickname();
         this.pairLevel = pair.getUserLevel().getLevel();
-        this.myDay = getPercent(user.getCumulativeRunningDay(), pair.getCumulativeRunningDay());
-        this.pairDay = getPercent(pair.getCumulativeRunningDay(), user.getCumulativeRunningDay());
-        this.myTime = getPercent(user.getCumulativeRunningTime(), pair.getCumulativeRunningTime());
-        this.pairTime = getPercent(pair.getCumulativeRunningTime(), user.getCumulativeRunningTime());
-        this.myDistance = getPercent(user.getCumulativeDistance(), pair.getCumulativeDistance());
-        this.pairDistance = getPercent(pair.getCumulativeDistance(), user.getCumulativeDistance());
-        this.mySpeed = getPercent(user.getAverageSpeed(), pair.getAverageSpeed());
-        this.pairSpeed = getPercent(pair.getAverageSpeed(), user.getAverageSpeed());
+        this.myDay = user.getCumulativeRunningDay();
+        this.pairDay = pair.getCumulativeRunningDay();
+        this.myTime = user.getCumulativeRunningTime();
+        this.pairTime = pair.getCumulativeRunningTime();
+        this.myDistance = user.getCumulativeDistance();
+        this.pairDistance = pair.getCumulativeDistance();
+        this.mySpeed = toPace(user.getAverageSpeed());
+        this.pairSpeed = toPace(pair.getAverageSpeed());
+    }
+
+    private double toPace(double speed) {
+        return 1000 / speed;
     }
 
     private int getPercent(double me, double pair) {

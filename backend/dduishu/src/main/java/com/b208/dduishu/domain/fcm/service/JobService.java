@@ -5,6 +5,8 @@ import com.b208.dduishu.domain.fcm.dto.ScheduleInfo;
 import com.b208.dduishu.domain.fcm.dto.UpdateScheduleInfo;
 import com.b208.dduishu.domain.fcm.entity.Day;
 import com.b208.dduishu.domain.fcm.entity.FcmMessageId;
+import com.b208.dduishu.domain.fcm.entity.FcmToken;
+import com.b208.dduishu.domain.fcm.repository.FcmRepository;
 import com.b208.dduishu.domain.user.GetUser;
 import com.b208.dduishu.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
@@ -37,16 +39,20 @@ public class JobService {
 
     private final FireBaseCloudMessageService firebaseCloudMessageService;
 
+    private final FcmRepository fcmRepository;
+
     private final GetUser getUser;
 
 
-    public void scheduleJob(String targetToken, Long userId, List<Day> day, int hour, int minute) throws SchedulerException {
+    public void scheduleJob(Long userId, String nickName, List<Day> day, int hour, int minute) throws SchedulerException {
 
-        String title = "Dallim 운동 알림";
-        String body = String.format("%d시 %d분에 예약한 운동 알림 발송!", hour, minute);;
+        FcmToken targetToken = fcmRepository.findByUserUserId(userId);
+
+        String title = "Dallim";
+        String body = String.format("%s님! 이제 달릴 시간이에요!", nickName);
         // jobKey Nameing Rule : userId:{userId}-day:{day}-{hour}-{minute}
         JobDataMap jobDataMap = new JobDataMap();
-        jobDataMap.put("targetToken", targetToken);
+        jobDataMap.put("targetToken", targetToken.getFcmToken());
         jobDataMap.put("title", title);
         jobDataMap.put("body", body);
         jobDataMap.put("firebaseCloudMessageService", firebaseCloudMessageService); // FireBaseCloudMessageService 인스턴스 저장
@@ -75,9 +81,23 @@ public class JobService {
     }
 
     public List<FcmMessageId> getScheduleJob() throws Exception {
+        User user = getUser.getUser();
+
         Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyGroup());
 
         return jobKeys.stream()
+                .filter(o -> {
+                    try {
+                        Trigger.TriggerState triggerState = scheduler.getTriggerState(new TriggerKey(o.getName()));
+                        FcmMessageId fcmMessageId = FcmMessageId.fromString(o.getName(), triggerState);
+                        if (fcmMessageId.getUserId() == user.getUserId()) {
+                            return true;
+                        }
+                    } catch (SchedulerException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return false;
+                })
                 .map(o -> {
                     try {
                         Trigger.TriggerState triggerState = scheduler.getTriggerState(new TriggerKey(o.getName()));
@@ -98,6 +118,8 @@ public class JobService {
                 .hour(req.getHour())
                 .minute(req.getMinute())
                 .build();
+
+        System.out.println(fcmMessageId.toString());
 
         scheduler.deleteJob(new JobKey(fcmMessageId.toString()));
     }

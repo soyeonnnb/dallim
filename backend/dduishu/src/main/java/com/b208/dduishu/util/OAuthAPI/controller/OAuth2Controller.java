@@ -7,6 +7,7 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 import com.b208.dduishu.domain.character.entity.Character;
 import com.b208.dduishu.domain.character.entity.CharacterLevel;
@@ -110,6 +111,7 @@ public class  OAuth2Controller {
     // 처리하기 위한 코드
     private boolean isProcessing = false;
 
+    @Transactional
     @GetMapping("oauth2/code/kakao")
     public ResponseEntity<?> exchangeKakaoCodeForAccessToken(@RequestParam("code") String code) {
         try {
@@ -134,6 +136,7 @@ public class  OAuth2Controller {
             User user = null;
 
             if(optionalUser.isEmpty()){
+                System.out.println("여기 들어옴?");
                 //유저 생성
                 user = User.builder()
                     .accountType(provider)

@@ -117,10 +117,12 @@ function Edit() {
     }
   }, [userData, setSelectedCharacterIndex]);
 
+  const toggleWidth = 115;
+
   const toggleHandle = () => {
     setIsOn(prevIsOn => {
       Animated.timing(animatedValue, {
-        toValue: prevIsOn ? 0 : 50,
+        toValue: prevIsOn ? 0 : toggleWidth * 0.5,
         duration: 100,
         easing: Easing.bounce,
         useNativeDriver: true,
@@ -241,19 +243,23 @@ function Edit() {
               <S.HeaderSide />
               <S.TopMiddle>
                 <S.ToggleButtonWrapper onPress={toggleHandle}>
-                  <S.ToggleButton
-                    style={{
-                      transform: [
-                        {
-                          translateX: animatedValue,
-                        },
-                      ],
-                    }}>
-                    <S.ToggleImage
-                      source={isOn ? BasicPlanet : BasicCharacter}
-                      // source={isOn ? BasicCharacter : BasicPlanet}
-                    />
-                  </S.ToggleButton>
+                  <S.TextBox>
+                    <S.Text>
+                      <S.FixedTextLeft
+                        source={BasicCharacter}></S.FixedTextLeft>
+                      <S.ToggleButton
+                        style={{
+                          transform: [
+                            {
+                              translateX: animatedValue,
+                            },
+                          ],
+                        }}></S.ToggleButton>
+                    </S.Text>
+                    <S.Text>
+                      <S.FixedTextRight source={BasicPlanet}></S.FixedTextRight>
+                    </S.Text>
+                  </S.TextBox>
                 </S.ToggleButtonWrapper>
               </S.TopMiddle>
               <S.HeaderSide>
@@ -281,7 +287,7 @@ function Edit() {
                     onPlanetPurchased={handlePlanetPurchased}
                   />
                 ) : (
-                  <CharacterEdit
+                  <CharacterEdit 
                     handleEquippedCharacterChange={
                       handleEquippedCharacterChange
                     }

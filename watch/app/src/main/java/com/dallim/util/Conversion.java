@@ -76,7 +76,7 @@ public class Conversion {
         return resultMap;
     }
 
-    // int값인 초를 뷴:초로 변경
+    // int값인 초를 00:00로 변경
     public String secondsToTimeString(int seconds) {
         int minutes = seconds / 60;
         seconds = seconds % 60;
@@ -86,6 +86,18 @@ public class Conversion {
         String secondsString = String.format("%02d", seconds);
 
         return minutesString + ":" + secondsString;
+    }
+
+    // int값인 초를 뷴:초로 변경
+    public String secondsToTimeStringMS(int seconds) {
+        int minutes = seconds / 60;
+        seconds = Math.abs(seconds % 60);
+
+        // 두 자릿수로 포맷팅
+        String minutesString = String.format("%02d", minutes);
+        String secondsString = String.format("%02d", seconds);
+
+        return minutesString + "분 " + secondsString + "초";
     }
 
     // int값인 초를 분:초로 변경하는데 -, + 포함

@@ -92,8 +92,8 @@ public class LocationService extends Service {
     private void onLocationUpdated(Location location) {
         if (lastLocation != null) {
             double speed = location.getSpeed();
-            // 초속 0.4 이상이면 걷는 걸로 판단.
-            if (speed >= 0.4) {
+            // 초속 0.2 이상이면 걷는 걸로 판단.
+            if (speed >= 0.001) {
                 speed = (Math.round(speed * 100) / 100.0);
                 // m/s 저장
                 runningViewModel.setMsSpeed(speed);
@@ -115,7 +115,6 @@ public class LocationService extends Service {
 
                 double distance = lastLocation.distanceTo(location);
                 totalDistance += distance;
-                Log.d("거리", String.valueOf(totalDistance));
                 // 원래 미터값
                 runningViewModel.setOriDistance((double) Math.round(totalDistance * 10) / 10.0);
                 // km 변환값(화면에 표시용)

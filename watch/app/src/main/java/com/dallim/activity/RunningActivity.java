@@ -88,7 +88,6 @@ public class RunningActivity extends AppCompatActivity {
         type = getIntent().getStringExtra("run_type");
         // 같이 달리기
         if(type.equals("PAIR")){
-            Log.e("달리기", "함께 달리기");
             runningData.setType("PAIR");
             String runningRecordId = prefs.getString("runningRecordId", null);
             runningData.setRivalRecordId(runningRecordId);
@@ -98,7 +97,6 @@ public class RunningActivity extends AppCompatActivity {
         }
         // 혼자 달리기
         else if(type.equals("ALONE")){
-            Log.e("달리기", "싱글 달리기");
             runningData.setType("ALONE");
             runningViewModel.setPairCheck(false);
         }
@@ -132,7 +130,6 @@ public class RunningActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getBooleanExtra("finish_activity", false)) {
-                System.out.println("브로드캐스트 받음");
                 finish(); // 액티비티 종료
             }
         }
@@ -146,8 +143,12 @@ public class RunningActivity extends AppCompatActivity {
         stopService(timerServiceIntent); // 타임서비스 중지
         LocalBroadcastManager.getInstance(this).unregisterReceiver(finishReceiver);
 
-        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 100) {
+        if (runningViewModel.getOriDistance().getValue() == null || runningViewModel.getOriDistance().getValue() <= 0.001) {
             Toast.makeText(this, "100m 이하의 기록은 저장되지 않습니다.", Toast.LENGTH_LONG).show();
+            runningViewModel.clearData();
+            if (runningMateRecordViewModel != null) {
+                runningMateRecordViewModel.clearData();
+            }
             super.onDestroy();
             return; // 메서드를 여기서 종료
         }

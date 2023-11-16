@@ -37,7 +37,6 @@ function WaitBox({
       // console.log("userId " + userId)
       if (result) {
         CustomToast({ type: 'success', text1: '친구를 수락하셨습니다.' });
-        console.log('친구 신청 수락 성공' + userId);
         // 요청 목록에서 제거합니다.
         setRequestFriends(
           requestFriends.filter(friend => friend.userId !== userId),
@@ -50,10 +49,10 @@ function WaitBox({
           setFriends([...friends, acceptedFriend]);
         }
       } else {
-        console.log('친구 신청 수락 실패.');
+        // console.log('친구 신청 수락 실패.');
       }
     } catch (error) {
-      console.error('친구 신청 수락 중 오류가 발생하였습니다.', error);
+      // console.error('친구 신청 수락 중 오류가 발생하였습니다.', error);
     }
   };
 
@@ -62,15 +61,15 @@ function WaitBox({
       const result = await postRequestReject(userId);
       if (result) {
         CustomToast({ type: 'error', text1: '친구를 거절하셨습니다.' });
-        console.log('친구 신청 거절 성공' + userId);
+        // console.log('친구 신청 거절 성공' + userId);
         setRequestFriends(
           requestFriends.filter(friend => friend.userId !== userId),
         );
       } else {
-        console.log('친구 신청 거절 실패.');
+        // console.log('친구 신청 거절 실패.');
       }
     } catch (error) {
-      console.error('친구 신청 거절 중 오류가 발생하였습니다.', error);
+      // console.error('친구 신청 거절 중 오류가 발생하였습니다.', error);
     }
   };
 

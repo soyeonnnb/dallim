@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Modal} from 'react-native';
 import * as S from './NicknameChangeModal.styles';
-import CustomToast from '../../../components/common/CustomToast';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 //apis
 import {patchNicknameCheck} from '@/apis/ProfileApi';
@@ -91,12 +91,24 @@ const NicknameChangeModal = ({
             </S.NoticeBox>
           </S.ModalBody>
           <S.ModalFooter>
-            <S.ModalButton onPress={handleConfirm}>
-              <S.ModalButtonText>확인</S.ModalButtonText>
-            </S.ModalButton>
-            <S.ModalCancelButton onPress={toggleModal}>
-              <S.ModalButtonText>취소</S.ModalButtonText>
-            </S.ModalCancelButton>
+            <S.BoxShadow
+              distance={1}
+              startColor="rgba(0, 0, 0, 0.5)"
+              endColor="rgba(0, 0, 0, 0.5)"
+              offset={[0, 1]}>
+              <S.ModalCancelButton onPress={toggleModal}>
+                <S.ModalButtonText>취소</S.ModalButtonText>
+              </S.ModalCancelButton>
+            </S.BoxShadow>
+            <S.BoxShadow
+              distance={1}
+              startColor="rgba(0, 0, 0, 0.5)"
+              endColor="rgba(0, 0, 0, 0.5)"
+              offset={[0, 1]}>
+              <S.ModalButton onPress={handleConfirm}>
+                <S.ModalButtonText>확인</S.ModalButtonText>
+              </S.ModalButton>
+            </S.BoxShadow>
           </S.ModalFooter>
         </S.ModalContent>
       </S.ModalContainer>

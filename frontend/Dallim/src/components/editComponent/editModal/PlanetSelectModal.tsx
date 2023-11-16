@@ -2,7 +2,7 @@ import * as S from './SelectModal.styles';
 import { planetData } from '@/recoil/data/PlanetData';
 import { Modal } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import Toast from 'react-native-toast-message';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { equippedPlanetIndexState, selectedPlanetIndexState } from '@/recoil/UserRecoil';
@@ -20,15 +20,7 @@ function planetSelectModal({ planetSelectModalVisible, togglePlanetSelectModal, 
 
     const handleEquippedPlanetChange = () => {
         setEquippedPlanetIndex(selectedPlanetIndex);
-
-        Toast.show({
-            type: 'success',
-            position: 'top',
-            text1: '대표 행성 변경 완료 !',
-            visibilityTime: 3000,
-            autoHide: true,
-            topOffset: 10,
-        });
+        CustomToast({ type: 'success', text1: '대표 행성 선택 완료!' });
         equippedPlanetChange();
     };
 

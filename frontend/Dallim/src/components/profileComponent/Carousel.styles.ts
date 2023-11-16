@@ -3,7 +3,8 @@ import styled from 'styled-components/native';
 export const CardContainer = styled.View`
   /* border-width: 1px;
   border-color: white; */
-  height: 100%;
+  top: 15%;
+  height: 85%;
 `;
 
 //전체컨테이너
@@ -32,7 +33,7 @@ export const Footer = styled.View`
   border-color: red; */
   align-items: center;
   justify-content: center;
-  height: 10%;
+  height: 5%;
 `;
 
 //페이지네이션
@@ -73,7 +74,7 @@ export const CharacterImage = styled.Image`
 `;
 
 export const EmptyBox = styled.View`
-/* border-width: 1px;
+  /* border-width: 1px;
   border-color: red; */
   width: 100%;
   height: 100%;

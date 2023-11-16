@@ -4,18 +4,18 @@ import {
   NotificationListner,
 } from './src/utils/pushnotification_helper';
 import {
-  checkNotifications,
-  requestNotifications,
-} from 'react-native-permissions';
-import {
   CommonActions,
   NavigationContainer,
   useNavigation,
 } from '@react-navigation/native';
+import {
+  checkNotifications,
+  requestNotifications,
+} from 'react-native-permissions';
 import {displayNoti} from './src/utils/pushnotification_helper';
 import {createStackNavigator} from '@react-navigation/stack';
+import {Platform, Linking, View, Text} from 'react-native';
 import {enableScreens} from 'react-native-screens';
-import {Platform, Linking} from 'react-native';
 import {RecoilRoot} from 'recoil';
 import {useEffect} from 'react';
 import SystemNavigationBar from 'react-native-system-navigation-bar'; // 안드로이드 상태 표시줄과 네비게이션 바를 숨긴다.
@@ -25,35 +25,37 @@ import messaging from '@react-native-firebase/messaging';
 import NotFound from './src/screens/notFound/NotFound';
 import Kakao from './src/screens/login/KakaoLogin';
 import Naver from './src/screens/login/NaverLogin';
-import Toast from 'react-native-toast-message';
 import Login from './src/screens/login/Login';
 import Sound from 'react-native-sound';
 import AccessToken from './src/screens/login/AccessToken';
+
+import Toast from 'react-native-toast-message';
+import {
+  SuccessToast,
+  ErrorToast,
+} from './src/components/common/toast/CustomToast';
 
 enableScreens();
 const Stack = createStackNavigator();
 SystemNavigationBar.stickyImmersive();
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('[Background Remote Message]', remoteMessage);
+  // console.log('[Background Remote Message]', remoteMessage);
 });
 
 function App() {
-  //function
-  // const navigation = useNavigation();
-
   // 배경쏭
   useEffect(() => {
     Sound.setCategory('Playback'); // 배경음악 재생 설정
-    const bgm = new Sound('bgm2.mp3', Sound.MAIN_BUNDLE, error => {
+    const bgm = new Sound('dallimbgm.mp3', Sound.MAIN_BUNDLE, error => {
       if (error) {
-        console.log('오디오 로드 실패:', error);
+        // console.log('오디오 로드 실패:', error);
         return;
       }
       bgm.setNumberOfLoops(-1); // 무한 반복
       bgm.play(success => {
         if (!success) {
-          console.log('오디오 재생 실패:');
+          // console.log('오디오 재생 실패:');
         }
       });
     });
@@ -62,11 +64,18 @@ function App() {
     };
   }, []);
 
+  // 토스트 커스텀
+  const toastConfig = {
+    success: internalState => <SuccessToast text1={internalState.text1} />,
+    error: internalState => <ErrorToast text1={internalState.text1} />,
+  };
+
+  // 위치사용 허락
   useEffect(() => {
     requestUserPermission();
     NotificationListner();
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      displayNoti(remoteMessage); // 위에서 작성한 함수로 넘겨준다
+      displayNoti(remoteMessage);
     });
     return unsubscribe;
   }, []);
@@ -93,10 +102,10 @@ function App() {
   const getFcmToken = async () => {
     try {
       const fcmToken = await messaging().getToken();
-      console.log('[FCM Token] ', fcmToken);
+      // console.log('[FCM Token] ', fcmToken);
       await AsyncStorage.setItem('fcmToken', fcmToken);
     } catch (e) {
-      console.error('Failed to fetch or save FCM token', e);
+      // console.error('Failed to fetch or save FCM token', e);
     }
   };
 
@@ -121,7 +130,7 @@ function App() {
   useEffect(() => {
     getFcmToken();
     const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('[Remote Message] ', JSON.stringify(remoteMessage));
+      // console.log('[Remote Message] ', JSON.stringify(remoteMessage));
     });
     // accessToken();
 
@@ -165,7 +174,7 @@ function App() {
           />
         </Stack.Navigator>
 
-        <Toast />
+        <Toast config={toastConfig} />
       </NavigationContainer>
     </RecoilRoot>
   );

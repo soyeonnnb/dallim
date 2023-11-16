@@ -1,13 +1,14 @@
 import * as S from './PlanetEdit.styles';
-import { postPlanetPurchase, updateEquippedPlanet } from '@/apis/EditApi';
-import { useEffect, useState } from 'react';
-import { planetData } from '@/recoil/data/PlanetData';
+import {postPlanetPurchase, updateEquippedPlanet} from '@/apis/EditApi';
+import {useEffect, useState} from 'react';
+import {planetData} from '@/recoil/data/PlanetData';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
-import CustomToast from '../common/CustomToast';
+import {CustomToast} from '@/components/common/toast/CustomToast';
+
 import Planet from './PlanetBox';
 
-import { useRecoilState } from 'recoil';
+import {useRecoilState} from 'recoil';
 import {
   userDataState,
   equippedPlanetIndexState,
@@ -22,14 +23,24 @@ type PlanetEditProps = {
   onPlanetPurchased: (index: number, cost: number) => void;
 };
 
-function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurchased }: PlanetEditProps) {
+function PlanetEdit({
+  onPlanetChange,
+  handleEquippedPlanetChange,
+  onPlanetPurchased,
+}: PlanetEditProps) {
   const [userData, setUserData] = useRecoilState(userDataState);
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
-  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState,);  // 장착된 행성 인덱스
-  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(selectedPlanetIndexState,); // 선택된 행성 인덱스
-  const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] = useRecoilState(selectedPlanetIsPurchasedState); // 행성 구매 여부
+  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(
+    equippedPlanetIndexState,
+  ); // 장착된 행성 인덱스
+  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(
+    selectedPlanetIndexState,
+  ); // 선택된 행성 인덱스
+  const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] =
+    useRecoilState(selectedPlanetIsPurchasedState); // 행성 구매 여부
 
-  const [planetSelectModalVisible, setPlanetSelectModalVisible] = useState(false); // 행성 선택 확인 모달
+  const [planetSelectModalVisible, setPlanetSelectModalVisible] =
+    useState(false); // 행성 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
   const [showConfetti, setShowConfetti] = useState(false);
 
@@ -41,7 +52,10 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurcha
     try {
       const responseData = await updateEquippedPlanet(selectedPlanetIndex);
       if (responseData.status === 'success') {
-        CustomToast({ type: 'success', text1: '대표 행성 변경 성공!' });
+        CustomToast({
+          type: 'success',
+          text1: '대표 행성 변경 성공!',
+        });
       } else {
         CustomToast({
           type: 'error',
@@ -68,7 +82,6 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurcha
       try {
         const responseData = await postPlanetPurchase(selectedPlanetIndex);
         if (responseData.status === 'success' && responseData.data === true) {
-
           setTimeout(() => {
             onPlanetPurchased(selectedPlanetIndex, 2000);
             setSelectedPlanetIsPurchased(true);
@@ -81,7 +94,7 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurcha
               ...userData,
               planets: userData.planets.map((planet, index) => {
                 if (index === selectedPlanetIndex) {
-                  return { ...planet, isPurchased: true };
+                  return {...planet, isPurchased: true};
                 }
                 return planet;
               }),
@@ -89,7 +102,7 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurcha
             setUserData(newUserData);
           }
 
-          CustomToast({ type: 'success', text1: '행성 구매 성공!' });
+          CustomToast({type: 'success', text1: '행성 구매 성공!'});
           setPurchaseModalVisible(false);
         } else {
           CustomToast({
@@ -104,18 +117,18 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurcha
         });
       }
     } else {
-      CustomToast({ type: 'error', text1: '포인트가 부족합니다.' });
+      CustomToast({type: 'error', text1: '포인트가 부족합니다.'});
     }
   }
 
   function handlePurchaseCancel() {
-    console.log('구매 취소!');
+    // console.log('구매 취소!');
     setPurchaseModalVisible(false);
   }
 
   function handleEquipped() {
-    console.log('시작 버튼 눌림!');
-    CustomToast({ type: 'success', text1: '이미 선택된 행성입니다.' });
+    // console.log('시작 버튼 눌림!');
+    CustomToast({type: 'error', text1: '이미 선택된 행성입니다.'});
   }
 
   return (

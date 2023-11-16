@@ -29,9 +29,19 @@ export const Text = styled.Text`
   color: white;
 `;
 
-export const DeleteButtonBox = styled.TouchableOpacity`
+export const LogoutBox = styled.View`
   /* border-width: 1px;
   border-color: blue; */
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 100%;
+`;
+
+export const DeleteButtonBox = styled.TouchableOpacity`
+  /* border-width: 1px; */
+  border-radius: 10px;
+  /* border-color: blue; */
 `;
 
 export const Logout = styled.Image`
@@ -205,11 +215,11 @@ export const TabBox = styled.View`
 export const ImageBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 35%;
-  height: 27%;
+  width: 40%;
+  height: 35%;
   position: absolute;
-  top: 18%;
-  left: 65%;
+  top: 10%;
+  left: 60%;
 `;
 
 export const CharacterImage = styled.Image`
@@ -227,6 +237,20 @@ export const NickNameShadow = styled(Shadow)`
 `;
 
 export const RunningMateShadow = styled(Shadow)`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
+`;
+
+export const AlarmShadow = styled(Shadow)`
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 40px;
+`;
+
+export const WatchIconShadow = styled(Shadow)`
   width: 100%;
   justify-content: center;
   align-items: center;

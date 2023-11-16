@@ -7,8 +7,8 @@
 
     <LinearLayout
         android:id="@+id/my_record_character"
-        android:layout_width="180dp"
-        android:layout_height="180dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
         android:background="@drawable/rabbitegg_background_black"
         android:orientation="vertical">
@@ -22,11 +22,11 @@
                 android:id="@+id/formatted_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="35dp"
+                android:layout_marginTop="40dp"
                 android:fontFamily="@font/lineseedkr_rg"
-                android:text="2023년 11월 18일"
-                android:textColor="@color/white"
-                android:textSize="12sp"
+                android:text="11월 16일 (목)"
+                android:textColor="@color/title"
+                android:textSize="15sp"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -34,17 +34,18 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/lineseedkr_rg"
-                android:layout_marginTop="5dp"
-                android:text="02 : 11 : 12"
+                android:fontFamily="@font/oagothic_medium"
+                android:text="15분 30초"
                 android:textColor="@color/white"
-                android:textSize="25sp"
+                android:textSize="22sp"
                 android:textStyle="bold" />
             />
         </LinearLayout>
@@ -52,87 +53,69 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp">
-
-            <TextView
-                android:id="@+id/distance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/lineseedkr_rg"
-                android:text="2.73km"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginRight="10dp">
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/distance"></ImageView>
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="2dp"
                     android:background="@drawable/speed"></ImageView>
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_marginTop="2dp"
                     android:background="@drawable/heart"></ImageView>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/distance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp">
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/oagothic_medium"
+                    android:text="2.73km"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
 
-
-                </LinearLayout>
-
-                <LinearLayout
+                <TextView
+                    android:id="@+id/speed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/oagothic_medium"
+                    android:text="Speed"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
 
-                    <TextView
-                        android:id="@+id/speed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lineseedkr_rg"
-                        android:text="Speed"
-                        android:layout_marginTop="5dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="7dp"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/heart_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/oagothic_medium"
+                    android:text="122 BPM"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
 
-                    <TextView
-                        android:id="@+id/heart_rate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/lineseedkr_rg"
-                        android:gravity="center"
-                        android:text="122 BPM"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

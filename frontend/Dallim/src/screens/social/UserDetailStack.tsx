@@ -87,8 +87,7 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
 
   // 드롭다운
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [selectedSort, setSelectedSort] = useState('최신순');
-
+  const [selectedSort, setSelectedSort] = useState('최신 순');
   // Versus 모달
   const [isVersusModalVisible, setVersusModalVisible] = useState(false);
 
@@ -170,11 +169,6 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
               </S.HeaderBox>
               <S.EmptyBox></S.EmptyBox>
               <S.VersusBox>
-                {/* <S.VersusButton onPress={handleSend}>
-                  <S.AnimatedVersusText style={{opacity: buttonFadeAnim}}>
-                    비교하기
-                  </S.AnimatedVersusText>
-                </S.VersusButton> */}
               </S.VersusBox>
             </S.Header>
             <S.Body>
@@ -200,17 +194,9 @@ function UserDetailStack({navigation, route}: UserDetailStackProps) {
                 <S.SortBox>
                   <S.Sort onPress={() => setDropdownVisible(!dropdownVisible)}>
                     <S.SortText>{selectedSort}</S.SortText>
-                    {/* 드랍다운 예정 */}
-                    {/* {dropdownVisible && (
-                                    <S.DropdownMenu>
-                                        <S.DropdownItem onPress={() => { setSelectedSort("최신순"); setDropdownVisible(false); }}><S.DropdownItemText>최신 순서</S.DropdownItemText></S.DropdownItem>
-                                        <S.DropdownItem onPress={() => { setSelectedSort("속력순"); setDropdownVisible(false); }}><S.DropdownItemText>속력 순서</S.DropdownItemText></S.DropdownItem>
-                                        <S.DropdownItem onPress={() => { setSelectedSort("운동시간순"); setDropdownVisible(false); }}><S.DropdownItemText>운동시간 순서</S.DropdownItemText></S.DropdownItem>
-                                    </S.DropdownMenu>
-                                )} */}
                   </S.Sort>
                 </S.SortBox>
-              </S.FooterTop>
+              </S.FooterTop> 
               <S.FooterList>
                 <ScrollView>
                   {runningRecords.map(

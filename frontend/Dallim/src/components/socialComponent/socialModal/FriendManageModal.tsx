@@ -98,7 +98,7 @@ const FriendManageModal: React.FC<Props> = ({isVisible, onClose}) => {
       try {
         setLoading(true); // 로딩 상태를 true
         const friendsData = await fetchFriendList();
-        console.log(friendsData);
+        // console.log(friendsData);
         setFriends(friendsData);
       } catch (error) {
         console.error(error);
@@ -118,7 +118,7 @@ const FriendManageModal: React.FC<Props> = ({isVisible, onClose}) => {
         setLoading(true);
         const waitData = await fetchFriendWaitList();
         setFriendRequests(waitData);
-        console.log('받은 요청 목록 조회 성공');
+        // console.log('받은 요청 목록 조회 성공');
       } catch (error) {
         console.error('받은 요청 목록 조회 실패', error);
       } finally {

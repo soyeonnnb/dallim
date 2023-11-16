@@ -1,6 +1,5 @@
 import * as S from './GuideModal.styles';
 import {Modal} from 'react-native';
-import Toast from 'react-native-toast-message';
 
 type DeleteModalProps = {
   toggleModal: () => void;

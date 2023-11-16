@@ -42,8 +42,8 @@ export const Header = styled.View`
 `;
 
 export const TopMiddle = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   justify-content: flex-end;
   align-items: center;
   width: 40%;
@@ -126,8 +126,8 @@ export const BodyLeft = styled.View`
 `;
 
 export const BodyCenter = styled.View`
-  border-width: 1px;
-  border-color: red;
+  /* border-width: 1px;
+  border-color: red; */
   width: 60%;
   height: 100%;
 `;

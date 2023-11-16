@@ -1,7 +1,6 @@
 import styled from 'styled-components/native';
 import {ImageBackground} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {Text} from 'react-native-svg';
 import {ViewProps} from 'react-native-svg/lib/typescript/fabric/utils';
 
 export const Container = styled.View`
@@ -240,13 +239,12 @@ export const ThemeBox = styled.View`
   position: absolute;
 `;
 
-/* export const PlanetGif = styled(Image)` */
 export const PlanetGif = styled(FastImage)`
   /* border-width: 1px;
   border-color: red; */
   width: 120%;
   height: 120%;
-  bottom: -55%;
+  bottom: -60%;
   position: absolute;
 `;
 

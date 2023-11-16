@@ -21,7 +21,7 @@ export async function GetFCMToken() {
     try {
       const fcmtoken = await messaging().getToken();
       if (fcmtoken) {
-        console(fcmtoken, 'new token');
+        // console(fcmtoken, 'new token');
         await AsyncStorage.setItem('fcmtoken', fcmtoken);
       }
     } catch (error) {

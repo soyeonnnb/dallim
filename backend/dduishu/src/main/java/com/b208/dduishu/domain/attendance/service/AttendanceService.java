@@ -8,6 +8,7 @@ import com.b208.dduishu.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -21,6 +22,7 @@ public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
     private final GetUser getUser;
 
+    @Transactional
     public void markUserAttendance() {
         User user = getUser.getUser();
 

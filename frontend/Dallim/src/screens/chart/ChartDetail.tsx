@@ -23,9 +23,10 @@ import {
   PaceDataType,
 } from '@/apis/ChartApi';
 
-import {getDateObject} from '@/recoil/CalendarData';
-import {calculatePace} from '@/recoil/RunningData';
+import {getDateObject} from '@/recoil/data/CalendarData';
+import {calculatePace} from '@/recoil/data/RunningData';
 import {colors} from '@/components/common/globalStyles';
+import Loading_Run from '@/components/common/Loading_Run';
 
 // 스택 내비게이션 타입을 정의
 type RootStackParamList = {
@@ -163,7 +164,7 @@ function ChartDetail({route, navigation}: Props) {
       };
 
       setHeartRateData(getHeartRateData);
-      console.log('ChartApi: 달리기 기록 상세 조회 Axios 성공');
+      // console.log('ChartApi: 달리기 기록 상세 조회 Axios 성공');
       setIsLoading(false);
     } catch (error) {
       console.error('ChartApi: 달리기 기록 상세 조회 Axios 실패: ', error);
@@ -173,6 +174,7 @@ function ChartDetail({route, navigation}: Props) {
   useEffect(() => {
     fetchRunningData();
   }, []);
+
   const renderPagination = useMemo(() => {
     return (
       <S.Pagination>
@@ -203,15 +205,20 @@ function ChartDetail({route, navigation}: Props) {
     );
   }, [createdAt]);
 
+  // 새로고침 버튼을 눌렀을 때 실행할 함수
+  const handleReload = () => {
+    setIsLoading(true);
+    fetchRunningData();
+  };
+
   return (
     <>
       <S.BackgroundImage
-        source={require('@/assets/images/MainBackground4.png')}
+        source={require('@/assets/images/MainBackground.png')}
         resizeMode="cover"
       />
       {isLoading || !data ? (
-        // <Loading />
-        <S.HeaderTitle>로딩중</S.HeaderTitle>
+        <Loading_Run onReload={handleReload} />
       ) : (
         <S.Container>
           <S.Header>
@@ -234,7 +241,7 @@ function ChartDetail({route, navigation}: Props) {
             onMomentumScrollEnd={onChangeDot}
             showsHorizontalScrollIndicator={false}
             contentOffset={{x: 0, y: 0}}>
-            {data && (
+            {paceData && (
               <Overview
                 data={data}
                 navigation={navigation}

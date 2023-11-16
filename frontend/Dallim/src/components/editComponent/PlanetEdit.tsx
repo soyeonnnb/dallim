@@ -1,10 +1,14 @@
 import * as S from './PlanetEdit.styles';
 import { postPlanetPurchase, updateEquippedPlanet } from '@/apis/EditApi';
 import { useEffect, useState } from 'react';
-import { planetData } from '@/recoil/PlanetData';
+import { planetData } from '@/recoil/data/PlanetData';
 import PlanetPurchaseCheckModal from './editModal/PlanetPurchaseCheckModal';
 import PlanetSelectModal from './editModal/PlanetSelectModal';
-import CustomToast from '../common/CustomToast';
+import { CustomToast } from '@/components/common/toast/CustomToast';
+import LinearGradient from 'react-native-linear-gradient';
+import RadialGradient from 'react-native-radial-gradient';
+import { colors } from '../common/globalStyles';
+
 import Planet from './PlanetBox';
 
 import { useRecoilState } from 'recoil';
@@ -22,16 +26,25 @@ type PlanetEditProps = {
   onPlanetPurchased: (index: number, cost: number) => void;
 };
 
-function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurchased }: PlanetEditProps) {
+function PlanetEdit({
+  onPlanetChange,
+  handleEquippedPlanetChange,
+  onPlanetPurchased,
+}: PlanetEditProps) {
   const [userData, setUserData] = useRecoilState(userDataState);
   const [userPoint, setUserPoint] = useRecoilState(userPointState);
-  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(equippedPlanetIndexState,);  // 장착된 행성 인덱스
-  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(selectedPlanetIndexState,); // 선택된 행성 인덱스
-  const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] = useRecoilState(selectedPlanetIsPurchasedState); // 행성 구매 여부
+  const [equippedPlanetIndex, setEquippedPlanetIndex] = useRecoilState(
+    equippedPlanetIndexState,
+  ); // 장착된 행성 인덱스
+  const [selectedPlanetIndex, setSelectedPlanetIndex] = useRecoilState(
+    selectedPlanetIndexState,
+  ); // 선택된 행성 인덱스
+  const [selectedPlanetIsPurchased, setSelectedPlanetIsPurchased] =
+    useRecoilState(selectedPlanetIsPurchasedState); // 행성 구매 여부
 
-  const [planetSelectModalVisible, setPlanetSelectModalVisible] = useState(false); // 행성 선택 확인 모달
+  const [planetSelectModalVisible, setPlanetSelectModalVisible] =
+    useState(false); // 행성 선택 확인 모달
   const [purchaseModalVisible, setPurchaseModalVisible] = useState(false); // 구매 확인 모달
-  const [showConfetti, setShowConfetti] = useState(false);
 
   async function equippedPlanetChange() {
     togglePlanetSelectModal();
@@ -41,7 +54,10 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurcha
     try {
       const responseData = await updateEquippedPlanet(selectedPlanetIndex);
       if (responseData.status === 'success') {
-        CustomToast({ type: 'success', text1: '대표 행성 변경 성공!' });
+        CustomToast({
+          type: 'success',
+          text1: '대표 행성 변경 성공!',
+        });
       } else {
         CustomToast({
           type: 'error',
@@ -68,7 +84,6 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurcha
       try {
         const responseData = await postPlanetPurchase(selectedPlanetIndex);
         if (responseData.status === 'success' && responseData.data === true) {
-
           setTimeout(() => {
             onPlanetPurchased(selectedPlanetIndex, 2000);
             setSelectedPlanetIsPurchased(true);
@@ -109,13 +124,13 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurcha
   }
 
   function handlePurchaseCancel() {
-    console.log('구매 취소!');
+    // console.log('구매 취소!');
     setPurchaseModalVisible(false);
   }
 
   function handleEquipped() {
-    console.log('시작 버튼 눌림!');
-    CustomToast({ type: 'success', text1: '이미 선택된 행성입니다.' });
+    // console.log('시작 버튼 눌림!');
+    CustomToast({ type: 'error', text1: '이미 선택된 행성입니다.' });
   }
 
   return (
@@ -138,11 +153,54 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurcha
         {selectedPlanetIsPurchased ? (
           selectedPlanetIndex === equippedPlanetIndex ? (
             <S.ButtonBox onPress={handleEquipped}>
+              <LinearGradient
+                colors={[
+                  colors.all.firstPoint.linear.start,
+                  colors.all.firstPoint.linear.end,
+                ]}
+                style={{
+                  borderRadius: 30,
+                  height: '100%',
+                  width: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'absolute',
+                  overflow: 'hidden',
+                }}
+                start={{ x: 0.5, y: 0 }}
+                end={{ x: 0.5, y: 1 }}>
+                <RadialGradient
+                  style={{
+                    width: 300,
+                    height: 300,
+                    borderRadius: 30,
+                    opacity: 0.2,
+                  }}
+                  colors={['#ffffff', '#3D2FBF']}
+                  stops={[0.04, 0.2]}
+                  radius={500}
+                  center={[100, 100]}></RadialGradient>
+              </LinearGradient>
               <S.EquippedText>대표 행성</S.EquippedText>
             </S.ButtonBox>
+
           ) : (
             <S.ButtonBox onPress={togglePlanetSelectModal}>
+              <LinearGradient
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                colors={['#6EE2F5', '#6454F0']}
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  borderRadius: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+
+                  // position: 'absolute',
+                }}>
               <S.ButtonText>선택</S.ButtonText>
+              </LinearGradient>
             </S.ButtonBox>
           )
         ) : (
@@ -151,7 +209,9 @@ function PlanetEdit({ onPlanetChange, handleEquippedPlanetChange, onPlanetPurcha
               source={require('@/assets/icons/LockIcon.png')}
               resizeMode="contain"
             />
-            <S.LockedText>2000 포인트</S.LockedText>
+            <S.RightBox>
+              <S.LockedText>2000 포인트</S.LockedText>
+            </S.RightBox>
           </S.LockButtonBox>
         )}
       </S.Footer>

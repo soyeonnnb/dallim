@@ -17,7 +17,8 @@ const getToken = async () => {
   }
 };
 
-const BASE_URL = 'https://k9b208.p.ssafy.io';
+// const BASE_URL = 'https://k9b208.p.ssafy.io';
+const BASE_URL = 'https://dallim.site';
 
 export const fetchUserProfileCard = async () => {
   const accessToken = await getToken();
@@ -28,7 +29,7 @@ export const fetchUserProfileCard = async () => {
       },
     });
 
-    console.log('response : ', response.data.data);
+    // console.log('response : ', response.data.data);
 
     return response.data.data;
   } catch (error) {
@@ -45,7 +46,7 @@ export const fetchCompetitorCard = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log('response : ', response.data.data);
+    // console.log('response : ', response.data.data);
     return response.data.data;
   } catch (error) {
     console.error('ProfileApi : 내가등록한 경쟁자 조회 실패 --> ', error); // 로깅을 추가합니다.
@@ -66,7 +67,7 @@ export const patchNicknameCheck = async (nickname: string) => {
       },
     );
 
-    console.log('response : ', response.data);
+    // console.log('response : ', response.data);
     return response.data;
   } catch (error) {
     console.error('ProfileApi : 닉네임 중복체크 axios 실패 --> ', error);
@@ -109,7 +110,7 @@ export const postWatchConnection = async (authCode: string) => {
         },
       },
     );
-    console.log('response : ', response.data);
+    // console.log('response : ', response.data);
     return response.data;
   } catch (error) {
     console.error('ProfileApi : 워치연동 axios 실패 --> ', error);
@@ -125,7 +126,7 @@ export const fetchScheduleList = async () => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    console.log('response : ', response.data.data);
+    // console.log('response : ', response.data.data);
     return response.data.data;
   } catch (error) {
     console.error('ProfileApi : 스케줄 불러오기--> ', error); // 로깅을 추가합니다.
@@ -148,10 +149,10 @@ export const deleteRunningMate = async (
       },
     );
     if (response.data.status === 'success' && response.data.data === true) {
-      console.log('ProfileApi : 런닝메이트 삭제 성공');
+      // console.log('ProfileApi : 런닝메이트 삭제 성공');
       return true;
     } else {
-      console.log('ProfileApi : 런닝메이트 삭제 실패');
+      // console.log('ProfileApi : 런닝메이트 삭제 실패');
       return false;
     }
   } catch (error) {
@@ -167,9 +168,9 @@ export const postSchedule = async (
 ) => {
   const accessToken = await getToken();
   const fcmToken = await AsyncStorage.getItem('fcmToken');
-  console.log(selectedDays);
-  console.log(hour);
-  console.log(minute);
+  // console.log(selectedDays);
+  // console.log(hour);
+  // console.log(minute);
 
   try {
     const response = await axios.post(
@@ -186,7 +187,7 @@ export const postSchedule = async (
         },
       },
     );
-    console.log('ProfileApi : 알림등록하기 성공 ', response.data.data);
+    // console.log('ProfileApi : 알림등록하기 성공 ', response.data.data);
     return response.data.data;
   } catch (error) {
     console.error('ProfileApi : 알림 등록하기--> ', error);
@@ -234,9 +235,9 @@ export const deleteScheduleTwo = async (
 ) => {
   const accessToken = await getToken();
 
-  console.log('무슨날: ' + selectedDays);
-  console.log('시: ' + hour);
-  console.log('분: ' + minute);
+  // console.log('무슨날: ' + selectedDays);
+  // console.log('시: ' + hour);
+  // console.log('분: ' + minute);
 
   try {
     const response = await axios.delete(`${BASE_URL}/api/v1/schedule`, {
@@ -251,7 +252,7 @@ export const deleteScheduleTwo = async (
       },
     });
 
-    console.log('ProfileApi : 스케줄 삭제 성공', response.data.data);
+    // console.log('ProfileApi : 스케줄 삭제 성공', response.data.data);
     return response.data.data;
   } catch (error) {
     console.error('ProfileApi : 스케줄 삭제 실패', error);
@@ -267,10 +268,10 @@ export const patchSchedule = async (
 ) => {
   const accessToken = await getToken();
 
-  console.log(`무슨날: ${selectedDays}`);
-  console.log(`시: ${hour}`);
-  console.log(`분: ${minute}`);
-  console.log(`이게 true야 false야: ${state}`);
+  // console.log(`무슨날: ${selectedDays}`);
+  // console.log(`시: ${hour}`);
+  // console.log(`분: ${minute}`);
+  // console.log(`이게 true야 false야: ${state}`);
 
   try {
     const response = await axios.patch(

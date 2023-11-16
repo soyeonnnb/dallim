@@ -1,5 +1,5 @@
 import * as S from './ProfileCard.styles';
-import {planetData} from '@/recoil/PlanetData';
+import { planetData } from '@/recoil/data/PlanetData';
 
 interface Props {
   PlanetIndex: number;
@@ -8,12 +8,7 @@ interface Props {
   experiencePercentage: number;
 }
 
-function ProfileCard({
-  PlanetIndex,
-  Nickname,
-  UserLevel,
-  experiencePercentage,
-}: Props) {
+function ProfileCard({ PlanetIndex, Nickname, UserLevel, experiencePercentage }: Props) {
   return (
     <S.Container>
       <S.CardImageWrapper>
@@ -26,13 +21,18 @@ function ProfileCard({
               <S.NicknameText>{Nickname}</S.NicknameText>
             </S.LeftBox>
             <S.RightBox>
-              <S.percentageText>{experiencePercentage}%</S.percentageText>
+              {UserLevel === 50 ? (
+                <S.percentageText>Max Level</S.percentageText>
+              ) : (
+                <S.percentageText>{experiencePercentage}%</S.percentageText>
+              )}
             </S.RightBox>
           </S.Body>
           <S.Footer>
-            <S.ExperienceBox>
-              <S.Experience percentage={experiencePercentage}></S.Experience>
-            </S.ExperienceBox>
+            {UserLevel !== 50 &&
+              <S.ExperienceBox>
+                <S.Experience percentage={experiencePercentage}></S.Experience>
+              </S.ExperienceBox>}
           </S.Footer>
         </S.CardBox>
       </S.CardImageWrapper>

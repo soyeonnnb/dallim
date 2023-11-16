@@ -18,7 +18,7 @@ public class SocialRunningRecordOverview {
     private RunningType type;
     private int totalTime;
     private double totalDistance;
-    private double averageSpeed;
+    private double averagePace;
     private LocalDateTime createdAt;
     private boolean isRegistration;
 
@@ -28,9 +28,13 @@ public class SocialRunningRecordOverview {
         this.type = runningRecord.getType();
         this.totalTime = runningRecord.getTotalTime();
         this.totalDistance = runningRecord.getTotalDistance();
-        this.averageSpeed = runningRecord.getAverageSpeed();
+        this.averagePace = (runningRecord.getTotalTime() / runningRecord.getTotalDistance()) * 1000;
         this.createdAt = runningRecord.getCreatedAt();
         this.isRegistration = runningMates.stream()
                 .anyMatch(o -> o.getRivalRecord().getId().equals(runningRecord.getId().toString()));
+    }
+
+    private double toPace(double speed) {
+        return 1000 / speed;
     }
 }

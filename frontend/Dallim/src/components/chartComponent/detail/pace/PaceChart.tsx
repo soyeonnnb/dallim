@@ -1,11 +1,11 @@
 import {useState, useEffect} from 'react';
 import * as S from './PaceChart.styles';
-import {secondToMinuteSeconds} from '@/recoil/RunningData';
+import {secondToMinuteSeconds} from '@/recoil/data/RunningData';
 import {LineChart} from 'react-native-gifted-charts';
 import {PanGestureHandler, State} from 'react-native-gesture-handler';
 
 import {PaceDataType} from '@/apis/ChartApi';
-import {meterToKMOrMeter} from '@/recoil/RunningData';
+import {meterToKMOrMeter} from '@/recoil/data/RunningData';
 import {colors} from '@/components/common/globalStyles';
 
 import DataPreview from '../DataPreview';
@@ -54,13 +54,25 @@ function PaceChart({
     if (pointerIndex === -1) return;
     setPreviewTime(secondToMinuteSeconds(data.chartData[pointerIndex].second));
     setPreviewPace(data.chartData[pointerIndex].fromZeroPace);
+    
     if (showRivals && rivalData) {
-      setPreviewTime2(
-        secondToMinuteSeconds(rivalData.chartData[pointerIndex].second),
-      );
-      setPreviewPace2(rivalData.chartData[pointerIndex].fromZeroPace);
+      if (rivalData.chartData.length <= pointerIndex) {
+        setPreviewTime2(
+          secondToMinuteSeconds(
+            rivalData.chartData[rivalData.chartData.length - 1].second,
+          ),
+        );
+        setPreviewPace2(
+          rivalData.chartData[rivalData.chartData.length - 1].fromZeroPace,
+        );
+      } else {
+        setPreviewTime2(
+          secondToMinuteSeconds(rivalData.chartData[pointerIndex].second),
+        );
+        setPreviewPace2(rivalData.chartData[pointerIndex].fromZeroPace);
+      }
     } else {
-      setPreviewTime2('');
+      setPreviewTime2(''); 
       setPreviewPace2('');
     }
   };

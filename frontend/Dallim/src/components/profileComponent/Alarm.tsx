@@ -1,9 +1,9 @@
 import * as S from './Alarm.styles';
-import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Text, Dimensions } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { SwipeListView } from 'react-native-swipe-list-view';
-import Toast from 'react-native-toast-message';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, View, Text, Dimensions} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {SwipeListView} from 'react-native-swipe-list-view';
+import {CustomToast} from '@/components/common/toast/CustomToast';
 
 //img---------------------------------------------------------------
 import MorningAlarm from '@/assets/images/MorningAlarm.png';
@@ -12,8 +12,8 @@ import NightAlarm from '@/assets/images/NightAlarm.png';
 //component-------------------------------------------------------------
 // import AlarmDeleteModal from './profileModal/AlarmDeleteModal';
 
-//api----------------------------------------------------------
-import { deleteScheduleTwo, patchSchedule } from '@/apis/ProfileApi';
+//api--------------------------------------------------------
+import {deleteScheduleTwo, patchSchedule} from '@/apis/ProfileApi';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -32,7 +32,7 @@ type DayTranslations = {
   [key: string]: string;
 };
 
-const Alarm: React.FC<AlarmProps> = ({ alarmList, onRefresh }) => {
+const Alarm: React.FC<AlarmProps> = ({alarmList, onRefresh}) => {
   //state---------------------------------------------------------------
   // const [modalVisible, setModalVisible] = useState(false);
   // const [currentIndex, setCurrentIndex] = useState<number | null>(null);
@@ -72,14 +72,14 @@ const Alarm: React.FC<AlarmProps> = ({ alarmList, onRefresh }) => {
     // API 호출을 위한 알람 데이터 준비
     const alarm = alarmList[index];
     const updatedState = newToggles[index];
-    console.log('가져온 알림 리스트' + alarm);
+    // console.log('가져온 알림 리스트' + alarm);
 
-    console.log('토글상태변화' + updatedState);
+    // console.log('토글상태변화' + updatedState);
 
     // API 호출하여 서버에 알람 상태 업데이트
     patchSchedule(alarm.day, alarm.hour, alarm.minute, updatedState)
       .then(response => {
-        console.log('알람 상태 업데이트 성공:', response);
+        // console.log('알람 상태 업데이트 성공:', response);
         onRefresh();
         // console.log(updatedState);
         // 필요한 경우 여기서 추가적인 상태 업데이트나 UI 반영을 할 수 있습니다.
@@ -107,59 +107,57 @@ const Alarm: React.FC<AlarmProps> = ({ alarmList, onRefresh }) => {
   return (
     <S.Container>
       <SwipeListView
-        style={{ width: '90%' }}
+        style={{width: '90%'}}
         data={alarmList}
         keyExtractor={(item, index) => String(index)}
-        renderItem={({ item: alarm, index }) => (
-          <S.CardImageWrapper key={index}>
-            <S.Body>
-              <S.CardBox
-                source={getImageForTime(alarm.hour)}
-                resizeMode="cover">
-                <S.BodyContainer>
-                  <S.ToggleContainer>
-                    <TouchableOpacity onPress={() => toggleAlarm(index)}>
-                      {alarm.state ? (
-                        <S.BodyTopToggleFalseButton>
-                          <S.Circle></S.Circle>
-                        </S.BodyTopToggleFalseButton>
-                      ) : (
-                        <S.BodyTopToggleButton>
-                          <S.Circle></S.Circle>
-                        </S.BodyTopToggleButton>
-                      )}
-                    </TouchableOpacity>
-                  </S.ToggleContainer>
+        renderItem={({item: alarm, index}) => (
+          <S.BoxShadow
+            distance={2}
+            startColor="rgba(0, 0, 0, 0.2)"
+            endColor="rgba(0, 0, 0, 0.2)"
+            offset={[3, 18]}>
+            <S.CardImageWrapper key={index}>
+              <S.Body>
+                <S.CardBox
+                  source={getImageForTime(alarm.hour)}
+                  resizeMode="cover">
+                  <S.BodyContainer>
+                    <S.ToggleContainer>
+                      <TouchableOpacity onPress={() => toggleAlarm(index)}>
+                        {alarm.state ? (
+                          <S.BodyTopToggleFalseButton>
+                            <S.Circle></S.Circle>
+                          </S.BodyTopToggleFalseButton>
+                        ) : (
+                          <S.BodyTopToggleButton>
+                            <S.Circle></S.Circle>
+                          </S.BodyTopToggleButton>
+                        )}
+                      </TouchableOpacity>
+                    </S.ToggleContainer>
 
-                  <S.DayContainer>
+                    <S.DayContainer>
+                      <S.DayBox>
+                        <S.DayText>{translateDays(alarm.day)}</S.DayText>
+                      </S.DayBox>
 
-                    <S.DayBox>
-                      <S.DayText>{translateDays(alarm.day)}</S.DayText>
-                    </S.DayBox>
+                      <S.TimeBox>
+                        <S.MiddleTimeTextBox>
+                          <S.TimeText>
+                            {formatHourAndMinute(alarm.hour, alarm.minute)}
+                          </S.TimeText>
 
-                    <S.TimeBox>
-
-                      <S.MiddleTimeTextBox>
-                        <S.TimeText>
-                          {formatHourAndMinute(alarm.hour, alarm.minute)}
-                        </S.TimeText>
-
-                        <S.TimeText>
-                          {getAmPm(alarm.hour)}
-                        </S.TimeText>
-                      </S.MiddleTimeTextBox>
-
-                    </S.TimeBox>
-
-                  </S.DayContainer>
-
-
-                </S.BodyContainer>
-              </S.CardBox>
-            </S.Body>
-          </S.CardImageWrapper>
+                          <S.TimeText>{getAmPm(alarm.hour)}</S.TimeText>
+                        </S.MiddleTimeTextBox>
+                      </S.TimeBox>
+                    </S.DayContainer>
+                  </S.BodyContainer>
+                </S.CardBox>
+              </S.Body>
+            </S.CardImageWrapper>
+          </S.BoxShadow>
         )}
-        renderHiddenItem={({ item, index }) => <View></View>}
+        renderHiddenItem={({item, index}) => <View></View>}
         rightOpenValue={-windowWidth}
         disableRightSwipe
         showsVerticalScrollIndicator={true}
@@ -169,22 +167,14 @@ const Alarm: React.FC<AlarmProps> = ({ alarmList, onRefresh }) => {
             if (rowData) {
               deleteScheduleTwo(rowData.day, rowData.hour, rowData.minute)
                 .then(() => {
-                  Toast.show({
-                    type: 'success',
-                    position: 'top',
-                    text1: '알림삭제 성공!',
-                    visibilityTime: 3000,
-                    autoHide: true,
-                    topOffset: 10,
-                  });
-
+                  CustomToast({type: 'success', text1: '알림삭제 성공!'});
                   onRefresh();
                   if (rowMap[rowKey]) {
                     rowMap[rowKey].closeRow();
                   }
                 })
                 .catch(error => {
-                  console.error('스케줄 삭제 실패', error);
+                  // console.error('스케줄 삭제 실패', error);
                   // Handle the error, maybe show a toast message
                 });
             }

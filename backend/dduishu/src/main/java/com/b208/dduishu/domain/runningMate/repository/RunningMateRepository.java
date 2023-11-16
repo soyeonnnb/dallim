@@ -11,4 +11,6 @@ public interface RunningMateRepository extends MongoRepository<RunningMate, Obje
     List<RunningMate> findAllByUserUserId(Long userId);
 
     boolean existsRunningMateByUserUserIdAndRivalRecordId(Long userId, ObjectId objectId);
+
+    RunningMate findByUserUserIdAndRivalRecordId(Long userId, ObjectId rivalRecordId);
 }

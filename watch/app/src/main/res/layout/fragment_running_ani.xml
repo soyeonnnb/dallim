@@ -178,14 +178,14 @@
         android:id="@+id/running_planet"
         android:layout_width="170dp"
         android:layout_height="170dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginTop="140dp" />
 
     <ImageView
         android:id="@+id/mate_cha6"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="0dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="130dp"
         android:elevation="6dp"
         android:rotation="-50" />
@@ -194,7 +194,7 @@
         android:id="@+id/mate_cha5"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="120dp"
         android:elevation="6dp"
         android:rotation="-30" />
@@ -203,7 +203,7 @@
         android:id="@+id/mate_cha4"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="110dp"
         android:elevation="6dp"
         android:rotation="-25" />
@@ -212,7 +212,7 @@
         android:id="@+id/mate_cha3"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="35dp"
+        android:layout_marginLeft="45dp"
         android:layout_marginTop="105dp"
         android:elevation="6dp"
         android:rotation="-20" />
@@ -221,7 +221,7 @@
         android:id="@+id/mate_cha2"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="45dp"
+        android:layout_marginLeft="55dp"
         android:layout_marginTop="100dp"
         android:elevation="6dp"
         android:rotation="-15" />
@@ -230,7 +230,7 @@
         android:id="@+id/mate_cha1"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="60dp"
+        android:layout_marginLeft="70dp"
         android:layout_marginTop="95dp"
         android:elevation="6dp"
         android:rotation="-13" />
@@ -239,7 +239,7 @@
         android:id="@+id/my_cha"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="75dp"
+        android:layout_marginLeft="85dp"
         android:layout_marginTop="95dp"
         android:elevation="2dp" />
 
@@ -247,7 +247,7 @@
         android:id="@+id/mate_cha7"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="90dp"
+        android:layout_marginLeft="100dp"
         android:layout_marginTop="95dp"
         android:elevation="6dp"
         android:rotation="5" />
@@ -256,7 +256,7 @@
         android:id="@+id/mate_cha8"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="105dp"
+        android:layout_marginLeft="115dp"
         android:layout_marginTop="100dp"
         android:elevation="6dp"
         android:rotation="15" />
@@ -265,7 +265,7 @@
         android:id="@+id/mate_cha9"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="120dp"
+        android:layout_marginLeft="130dp"
         android:layout_marginTop="105dp"
         android:rotation="22" />
 
@@ -273,7 +273,7 @@
         android:id="@+id/mate_cha10"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="135dp"
+        android:layout_marginLeft="145dp"
         android:elevation="6dp"
         android:rotation="25" />
 
@@ -281,7 +281,7 @@
         android:id="@+id/mate_cha11"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="145dp"
+        android:layout_marginLeft="155dp"
         android:layout_marginTop="120dp"
         android:elevation="6dp"
         android:rotation="29" />
@@ -290,7 +290,7 @@
         android:id="@+id/mate_cha12"
         android:layout_width="50dp"
         android:layout_height="66dp"
-        android:layout_marginLeft="155dp"
+        android:layout_marginLeft="165dp"
         android:layout_marginTop="130dp"
         android:elevation="6dp"
         android:rotation="38" />

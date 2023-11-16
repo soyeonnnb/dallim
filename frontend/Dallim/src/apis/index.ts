@@ -9,7 +9,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // export * from './ProfileApi';
 // export * from './SocialApi';
 
-const BASE_URL = 'https://k9b208.p.ssafy.io';
+// const BASE_URL = 'https://k9b208.p.ssafy.io';
+const BASE_URL = 'https://dallim.site';
 
 const privateApi = axios.create({
   baseURL: BASE_URL,
@@ -23,7 +24,7 @@ const privateApi = axios.create({
 privateApi.interceptors.request.use(
   async config => {
     const token = await AsyncStorage.getItem('accessToken');
-    console.log('token' + token);
+    // console.log('token' + token);
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }

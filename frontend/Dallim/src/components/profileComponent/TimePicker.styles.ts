@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {Dimensions, ImageBackground} from 'react-native';
+import {Shadow} from 'react-native-shadow-2';
 
 const screenHeight = Dimensions.get('window').height;
 
@@ -174,9 +175,9 @@ export const HeaderBottom = styled.TouchableOpacity`
 `;
 
 export const SaveButton = styled.TouchableOpacity`
-  border-color: white;
-  border-width: 2px;
-  border-radius: 30px;
+  /* border-color: white;
+  border-width: 2px; */
+  border-radius: 18px;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -185,5 +186,20 @@ export const SaveButton = styled.TouchableOpacity`
 
 export const SaveButtonText = styled.Text`
   color: white;
+  font-weight: bold;
   font-size: 20px;
+`;
+
+export const BoxShadow = styled(Shadow)`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  /* margin: px; */
+  justify-content: center;
+  align-items: center;
+  /* color: black; */
+  /* width: 10px; */
+  /* height: 100%; */
+  border-radius: 30px;
+  /* margin-bottom: 20px; */
 `;

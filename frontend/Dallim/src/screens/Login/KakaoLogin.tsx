@@ -1,33 +1,30 @@
-import React, {useState, useEffect} from 'react';
-import {View, ActivityIndicator} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, ActivityIndicator } from 'react-native';
 import WebView from 'react-native-webview';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loading from '@/components/common/Loading_Run';
-import {postFcmToken} from '@/apis/LoginApi';
+import { postFcmToken } from '@/apis/LoginApi';
 //
 interface KakaoLoginProps {
   navigation: any;
 }
 
-const KakaoLogin = ({navigation}: KakaoLoginProps) => {
+const KakaoLogin = ({ navigation }: KakaoLoginProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isCodeSent, setIsCodeSent] = useState(false);
 
   const sendLoginRequest = async (token: string) => {
     try {
-      const response = await axios.get(
-        'https://k9b208.p.ssafy.io/api/oauth/login',
-        {
-          params: {
-            access: token,
-          },
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json',
-          },
+      const response = await axios.get('https://dallim.site/api/oauth/login', {
+        params: {
+          access: token,
         },
-      );
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
       const data = response.data;
 
@@ -49,11 +46,11 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
       const authCode = url.substring(startIndex + exp.length);
 
       setIsLoading(true);
-      console.log('여기 코드 들어옴?           xxxxxxxxxxxxxxx ' + authCode);
+      // console.log('여기 코드 들어옴?           xxxxxxxxxxxxxxx ' + authCode);
 
       await axios
 
-        .get('https://k9b208.p.ssafy.io/api/oauth2/code/kakao', {
+        .get('https://dallim.site/api/oauth2/code/kakao', {
           params: {
             code: authCode,
           },
@@ -74,16 +71,23 @@ const KakaoLogin = ({navigation}: KakaoLoginProps) => {
       });
     }
   };
-  //
+
+  // 새로고침 버튼을 눌렀을 때 실행할 함수
+  const handleReload = () => {
+    setIsLoading(true);
+    parseAuthCode('https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=e9cb9f18c757bb2e5ec1c811a9fbe5d1&redirect_uri=http://localhost:8080/login/oauth2/code/kakao');
+  };
+
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       {isLoading ? (
-        <Loading />
+        <Loading onReload={handleReload} />
+
       ) : (
         <WebView
           originWhitelist={['*']}
           scalesPageToFit={false}
-          style={{marginTop: 30}}
+          style={{ marginTop: 30 }}
           source={{
             // uri: 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=e9cb9f18c757bb2e5ec1c811a9fbe5d1&redirect_uri=https://k9b208.p.ssafy.io/login/oauth2/code/kakao',
             uri: 'https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=e9cb9f18c757bb2e5ec1c811a9fbe5d1&redirect_uri=http://localhost:8080/login/oauth2/code/kakao',

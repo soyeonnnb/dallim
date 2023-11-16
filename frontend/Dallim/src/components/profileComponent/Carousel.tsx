@@ -24,7 +24,7 @@ export default function Carousel({
   const competitorData = useRecoilValue(competitorDataState);
 
   useEffect(() => {
-    console.log('데이터가 넘어옴??:' + JSON.stringify(competitorData, null, 2));
+    // console.log('데이터가 넘어옴??:' + JSON.stringify(competitorData, null, 2));
   }, [competitorData]);
 
   const [page, setPage] = useState(0);
@@ -61,7 +61,8 @@ export default function Carousel({
             data={competitorData}
             decelerationRate="fast"
             horizontal
-            keyExtractor={(item: any) => `page__${item.runnigMateId}`}
+            // keyExtractor={(item: any) => `page__${item.runnigMateId}`}
+            keyExtractor={item => item.runningRecordId}
             onScroll={onScroll}
             pagingEnabled
             renderItem={renderItem}

@@ -1,8 +1,8 @@
 import * as S from './SelectModal.styles';
-import {characterData} from '@/recoil/CharacterData';
+import {characterData} from '@/recoil/data/CharacterData';
 import {Modal} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import Toast from 'react-native-toast-message';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 import {useRecoilState} from 'recoil';
 import {
@@ -40,14 +40,8 @@ function CharacterSelectModal({
     setEquippedCharacterIndex(selectedCharacterIndex);
     setEquippedEvolutionStage(selectedEvolutionStage);
 
-    Toast.show({
-      type: 'success',
-      position: 'top',
-      text1: '대표 캐릭터 변경 완료 !',
-      visibilityTime: 3000,
-      autoHide: true,
-      topOffset: 10,
-    });
+    CustomToast({ type: 'success', text1: '대표 캐릭터 선택 완료!' });
+    
     equippedCharacterChange();
   };
 
@@ -65,9 +59,9 @@ function CharacterSelectModal({
             <S.BoxStyle>
               <S.Image
                 source={
-                  characterData[equippedCharacterIndex].evolutions[
+                  characterData[equippedCharacterIndex].Evolutions[
                     equippedEvolutionStage
-                  ].front
+                  ].Main
                 }
                 resizeMode="contain"
               />
@@ -83,9 +77,9 @@ function CharacterSelectModal({
             <S.BoxStyle>
               <S.Image
                 source={
-                  characterData[selectedCharacterIndex].evolutions[
+                  characterData[selectedCharacterIndex].Evolutions[
                     selectedEvolutionStage
-                  ].front
+                  ].Main
                 }
                 resizeMode="contain"
               />

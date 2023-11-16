@@ -64,18 +64,41 @@ export const Middle = styled.View`
   width: 60%;
   height: 100%;
   justify-content: center;
-  gap: 5px;
   padding-left: 3%;
 `;
 
 export const MiddleDelete = styled.View`
-  /* border-width: 1px;
-  border-color: blue; */
+  border-width: 1px;
+  border-color: blue;
   width: 60%;
   height: 100%;
   justify-content: center;
   gap: 5px;
   padding-left: 3%;
+`;
+
+export const MiddleTop = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 40%;
+  justify-content: flex-start;
+  align-items: flex-end;
+  flex-direction: row;
+`;
+
+export const LevelBox = styled.View`
+  /* border-width: 1px;
+  border-color: white; */
+  width: 15px;
+  height: 15px;
+  margin-left: 2px;
+
+`;
+
+export const LevelImage = styled.Image`
+  width: 100%;
+  height: 100%;
 `;
 
 export const Middle_Wait = styled.View`
@@ -88,16 +111,30 @@ export const Middle_Wait = styled.View`
   padding-left: 3%;
 `;
 
+export const MiddleBottom = styled.View`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 40%;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
 export const NicknameText = styled.Text`
+  /* border-width: 1px;
+  border-color: red; */
   font-size: 13px;
   font-weight: bold;
   color: black;
 `;
 
 export const LevelText = styled.Text`
+  /* border-width: 1px;
+  border-color: red; */
   font-size: 10px;
   font-weight: bold;
   color: #8c8c8c;
+  margin-left: 5px;
 `;
 
 export const Right = styled.View`

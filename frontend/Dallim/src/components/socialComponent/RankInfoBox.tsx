@@ -1,10 +1,11 @@
-import {characterData} from '@/recoil/CharacterData';
+import { characterData } from '@/recoil/data/CharacterData';
 import * as S from './RankInfoBox.styles';
-import {meterToKMOrMeter} from '@/recoil/RunningData';
-import {useState, useEffect} from 'react';
+import { meterToKMOrMeter } from '@/recoil/data/RunningData';
+import { useState, useEffect } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import RadialGradient from 'react-native-radial-gradient';
-import {colors} from '../common/globalStyles';
+import { colors } from '../common/globalStyles';
+import { LevelData } from '@/recoil/data/LevelData';
 
 type RankInfoBoxProps = {
   userId: number;
@@ -31,7 +32,7 @@ function RankInfoBox({
 }: RankInfoBoxProps) {
   const displayDistance = Math.floor(cumulativeDistance);
   const selectedCharacter =
-    characterData[characterIndex].evolutions[evolutionStage].front;
+    characterData[characterIndex].Evolutions[evolutionStage].Main;
   const [startColor, setStartColor] = useState<string>(
     colors.buttonColor.firstDepth,
   );
@@ -55,7 +56,15 @@ function RankInfoBox({
     }
   }, [rank]);
 
-  // console.log(rank);
+  function getLevelImageIndex(userLevel: number) {
+    if (userLevel <= 10) return 0;
+    if (userLevel <= 20) return 1;
+    if (userLevel <= 30) return 2;
+    if (userLevel <= 40) return 3;
+    return 4; // 50 이하인 경우
+  }
+  const LevelImage = LevelData[getLevelImageIndex(level)].Base;
+
 
   return (
     <S.Container>
@@ -66,8 +75,8 @@ function RankInfoBox({
         offset={[1, 4]}>
         <S.Box rank={rank}>
           <LinearGradient
-            start={{x: 1, y: 0}}
-            end={{x: 0.5, y: 1}}
+            start={{ x: 1, y: 0 }}
+            end={{ x: 0.5, y: 1 }}
             colors={[startColor, endColor]}
             style={{
               height: '100%',
@@ -80,7 +89,7 @@ function RankInfoBox({
             </S.Left>
             <S.Middle
               onPress={() =>
-                navigation.navigate('UserDetailStack', {userId: userId})
+                navigation.navigate('UserDetailStack', { userId: userId })
               }>
               <S.Header>
                 <S.DistanceText>
@@ -89,6 +98,10 @@ function RankInfoBox({
               </S.Header>
               <S.Body>
                 <S.NickNameText>{nickname}</S.NickNameText>
+                <S.LevelBox>
+                  <S.LevelImage
+                    source={LevelImage} resizeMode='contain' />
+                </S.LevelBox>
                 <S.LevelText>Lv. {level}</S.LevelText>
               </S.Body>
             </S.Middle>

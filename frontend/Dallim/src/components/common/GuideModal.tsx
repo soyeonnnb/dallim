@@ -1,15 +1,14 @@
 import * as S from './GuideModal.styles';
 import {Modal} from 'react-native';
-import Toast from 'react-native-toast-message';
 
 type DeleteModalProps = {
+  text: string;
   toggleModal: () => void;
   modalVisible: boolean;
-  text: string;
 };
 
 function GuideModal({text, toggleModal, modalVisible}: DeleteModalProps) {
-  return (
+  return ( 
     <Modal transparent={true} visible={modalVisible}>
       <S.ModalContainer>
         {/* <S.ContentShadow

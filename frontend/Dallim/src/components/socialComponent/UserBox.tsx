@@ -1,9 +1,8 @@
-import {postAddFriend} from '@/apis/SocialApi';
 import * as S from './Box.styles';
-import {characterData} from '@/recoil/CharacterData';
-
-import {useState} from 'react';
-import AwesomeAlert from 'react-native-awesome-alerts';
+import { characterData } from '@/recoil/data/CharacterData';
+import { LevelData } from '@/recoil/data/LevelData';
+import { postAddFriend } from '@/apis/SocialApi';
+import { useState } from 'react';
 import FriendAddIcon from '@/assets/icons/FriendAddIcon';
 import GuideModal from '../common/GuideModal';
 
@@ -22,45 +21,56 @@ function UserBox({
   characterIndex,
   evolutionStage,
   level,
-  isFollower,
+  isFollower
 }: UserBoxProps) {
   const selectedCharacter =
-    characterData[characterIndex].evolutions[evolutionStage].profile;
-  const [showAlert, setShowAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
+    characterData[characterIndex].Evolutions[evolutionStage].Badge;
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalText, setModalText] = useState('');
 
   const handleAddFriend = async (userId: number) => {
     try {
       const result = await postAddFriend(userId);
       if (result) {
-        console.log('친구 요청이 성공적으로 완료');
-        setAlertMessage('친구 요청이 완료되었습니다.');
-        setShowAlert(true);
+        setModalText('친구 요청이 성공적으로 완료되었습니다.');
       } else {
-        setAlertMessage('친구의 수락을 기다려주세요!');
-        setShowAlert(true);
+        setModalText('친구의 수락을 기다려주세요!');
       }
+      setModalVisible(true);
+
     } catch (error) {
-      console.error('친구 추가 중 오류가 발생', error);
-      setAlertMessage('오류가 발생했습니다. 잠시후 다시 시도해주세요!');
-      setShowAlert(true);
+      setModalText('오류가 발생했습니다. 잠시 후 다시 시도해주세요!');
+      setModalVisible(true);
     }
   };
+
+  function getLevelImageIndex(userLevel: number) {
+    if (userLevel <= 10) return 0;
+    if (userLevel <= 20) return 1;
+    if (userLevel <= 30) return 2;
+    if (userLevel <= 40) return 3;
+    return 4; // 50 이하인 경우
+  }
+  const LevelImage = LevelData[getLevelImageIndex(level)].Base;
 
   return (
     <S.Container>
       <S.Box>
         <S.Left>
-          {/* <S.FriendDetailButton onPress={() => {
-                        console.log("친구 상세 버튼 눌림확인");
-                    }}> */}
+
           <S.CharacterImage source={selectedCharacter} resizeMode="contain" />
-          {/* </S.FriendDetailButton> */}
         </S.Left>
-        {/* <S.EmptyBox></S.EmptyBox> */}
         <S.Middle>
-          <S.LevelText>Lv. {level}</S.LevelText>
-          <S.NicknameText>{nickname}</S.NicknameText>
+          <S.MiddleTop>
+            <S.LevelBox>
+              <S.LevelImage
+                source={LevelImage} resizeMode='contain' />
+            </S.LevelBox>
+            <S.LevelText>Lv. {level}</S.LevelText>
+          </S.MiddleTop>
+          <S.MiddleBottom>
+            <S.NicknameText>{nickname}</S.NicknameText>
+          </S.MiddleBottom>
         </S.Middle>
         <S.Right>
           {!isFollower && (
@@ -73,10 +83,6 @@ function UserBox({
                 onPress={() => {
                   handleAddFriend(userId);
                 }}>
-                {/* <S.FriendAddImage
-                source={require('@/assets/icons/FriendAddIcon.png')}
-                resizeMode="contain"
-              /> */}
                 <FriendAddIcon
                   width={25}
                   height={25}
@@ -86,29 +92,12 @@ function UserBox({
           )}
         </S.Right>
       </S.Box>
+
       <GuideModal
-        modalVisible={showAlert}
-        text={alertMessage}
-        toggleModal={() => {
-          setShowAlert(false);
-        }}></GuideModal>
-      {/* <AwesomeAlert
-        show={showAlert}
-        showProgress={false}
-        title="안내사항"
-        message={alertMessage}
-        closeOnTouchOutside={true}
-        onDismiss={() => {
-          setShowAlert(false);
-        }}
-        closeOnHardwareBackPress={false}
-        showConfirmButton={true}
-        confirmText="확인"
-        confirmButtonColor="blue"
-        onConfirmPressed={() => {
-          setShowAlert(false);
-        }}
-      /> */}
+        text={modalText}
+        modalVisible={modalVisible}
+        toggleModal={() => setModalVisible(false)}
+      />
     </S.Container>
   );
 }

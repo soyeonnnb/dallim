@@ -28,7 +28,8 @@ const getFcmToken = async () => {
   }
 };
 
-const BASE_URL = 'https://k9b208.p.ssafy.io';
+// const BASE_URL = 'https://k9b208.p.ssafy.io';
+const BASE_URL = 'https://dallim.site';
 
 export const postFcmToken = async () => {
   const accessToken = await getAcessToken();
@@ -47,7 +48,7 @@ export const postFcmToken = async () => {
       },
     );
     if (response.data.status === 'success' && response.data.data === true) {
-      console.log('fcmToken 전송 Axios 성공');
+      // console.log('fcmToken 전송 Axios 성공');
       return true;
     } else {
       console.log('fcmToken 전송 Axios 실패');

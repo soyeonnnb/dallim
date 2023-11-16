@@ -8,6 +8,7 @@ import com.b208.dduishu.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 
 @Service
@@ -18,16 +19,33 @@ public class FcmService {
 
     private final GetUser getUser;
 
+    @Transactional
     public void createFcmToken(FcmTokenInfo req) {
 
         User user = getUser.getUser();
 
-        FcmToken fcmToken = FcmToken.builder()
-                .user(user)
-                .fcmToken(req.getFcmToken())
-                .createdAt(LocalDateTime.now())
-                .build();
+        FcmToken fcmToken = fcmRepository.findByUserUserId(user.getUserId());
 
-        fcmRepository.save(fcmToken);
+        if (fcmToken != null) {
+            fcmToken.setFcmToken(req.getFcmToken());
+        }
+        else {
+            FcmToken build = FcmToken.builder()
+                    .user(user)
+                    .fcmToken(req.getFcmToken())
+                    .createdAt(LocalDateTime.now())
+                    .build();
+
+            fcmRepository.save(build);
+        }
+    }
+
+    private boolean isDuplicate(Long userId) {
+        FcmToken fcmToken = fcmRepository.findById(userId).orElse(null);
+
+        if (fcmToken != null) {
+            return true;
+        }
+        return false;
     }
 }

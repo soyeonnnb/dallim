@@ -26,7 +26,8 @@ const getToken = async () => {
   }
 };
 
-const BASE_URL = 'https://k9b208.p.ssafy.io';
+// const BASE_URL = 'https://k9b208.p.ssafy.io';
+const BASE_URL = 'https://dallim.site';
 
 // 유저 정보 조회
 export const fetchUserProfile = async () => {
@@ -99,7 +100,7 @@ export const postRunningData = async (runningData: RunningData) => {
         'Content-Type': 'application/json',
       },
     });
-    console.log('RunningApi 성공 : ', response.data);
+    // console.log('RunningApi 성공 : ', response.data);
     return response.data;
   } catch (error) {
     console.error('RunningApi 실패 ', error);

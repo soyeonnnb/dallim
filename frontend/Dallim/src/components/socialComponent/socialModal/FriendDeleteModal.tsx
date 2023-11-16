@@ -1,6 +1,6 @@
 import * as S from './CheckModal.styles';
 import {Modal} from 'react-native';
-import Toast from 'react-native-toast-message';
+import { CustomToast } from '@/components/common/toast/CustomToast';
 
 type ModalComponentProps = {
   checkModalVisible: boolean;
@@ -17,19 +17,10 @@ function FriendDeleteModal({
     try {
       // 등록 처리
       await handleDeleteFriend();
-
-      // Toast 메시지 표시
-      Toast.show({
-        type: 'error',
-        position: 'top',
-        text1: '친구 삭제 완료 !',
-        visibilityTime: 3000,
-        autoHide: true,
-        topOffset: 10,
-      });
+      CustomToast({ type: 'success', text1: '친구 삭제 완료 !' });
       toggleCheckModal();
     } catch (error) {
-      console.error('친구 삭제 완료', error);
+      CustomToast({ type: 'error', text1: '친구 삭제 실패 !' });
     }
   };
 

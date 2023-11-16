@@ -27,7 +27,7 @@ public class Character {
     @JoinColumn(name = "character_info_id")
     private CharacterInfo characterInfo;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "character_level_id")
     private CharacterLevel characterLevel;
 

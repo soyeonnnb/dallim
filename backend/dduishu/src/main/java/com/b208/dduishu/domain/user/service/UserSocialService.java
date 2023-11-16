@@ -70,7 +70,7 @@ public class UserSocialService {
 
     // 유저 닉네임 중복체크
     public boolean checkUserNickname(String nickname) {
-        return userRepository.existsByNickname(nickname);
+        return !userRepository.existsByNickname(nickname) && nickname.length() <= 5;
     }
 
     public UserPoint getUserPoint() {
@@ -81,8 +81,8 @@ public class UserSocialService {
         return res;
     }
 
-    public String getAccessToken(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(() -> {
+    public String getAccessToken(String email, String type) {
+        User user = userRepository.findByEmailAndAccountType(email, type).orElseThrow(() -> {
             throw new NullPointerException();
         });
 
@@ -111,9 +111,7 @@ public class UserSocialService {
     }
 
     public UserProfile getUserProfile(Long id) {
-        User user = userRepository.findByUserId(id).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
+        User user = userRepository.findByUserId(id);
         Character mainCharacter = user.getCharacterList().stream()
                 .filter(Character::isMainCharacter)
                 .findFirst()
@@ -135,9 +133,7 @@ public class UserSocialService {
 
     public CompareUserProfile compareUserProfile(Long id) {
         User user = getUser.getUser();
-        User pair = userRepository.findByUserId(id).orElseThrow(() -> {
-            throw new NullPointerException();
-        });
+        User pair = userRepository.findByUserId(id);
         Character myCharacter = user.getCharacterList().stream()
                 .filter(Character::isMainCharacter)
                 .findFirst()

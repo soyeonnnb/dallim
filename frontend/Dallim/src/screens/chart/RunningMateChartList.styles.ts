@@ -116,6 +116,7 @@ export const FooterHeaderTextRival = styled.Text`
   margin-left: 4%;
   vertical-align: bottom;
   height: 100%;
+  color: ${colors.text.grey};
 `;
 export const FooterMain = styled.View`
   flex-direction: row;

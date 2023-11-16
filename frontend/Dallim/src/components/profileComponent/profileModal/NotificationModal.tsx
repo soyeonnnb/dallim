@@ -12,7 +12,7 @@ const NotificationModal = ({ isVisible, onClose }: ModalComponentProps) => {
     const url =
       'https://gregarious-nutmeg-67b.notion.site/b5a7f52251eb4413a6ecbc607171d922';
     Linking.openURL(url).catch(err => {
-      console.error('링크를 열 수 없음', err.message);
+      // console.error('링크를 열 수 없음', err.message);
     });
   };
 

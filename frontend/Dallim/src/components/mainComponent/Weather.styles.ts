@@ -12,7 +12,7 @@ export const Container = styled.View`
 export const LeftBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 50%;
+  width: 40%;
   height: 100%;
   justify-content: center;
   align-items: center;
@@ -21,7 +21,7 @@ export const LeftBox = styled.View`
 export const RightBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 50%;
+  width: 60%;
   height: 100%;
   justify-content: center;
   align-items: flex-start;

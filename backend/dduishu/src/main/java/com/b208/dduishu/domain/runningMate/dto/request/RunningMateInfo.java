@@ -36,7 +36,7 @@ public class RunningMateInfo {
         this.evolutionStage = Util.getEvolutionStage(runningMate.getRivalRecord().getCharacter().getLevel());
         this.planetIndex = runningMate.getRivalRecord().getCharacter().getPlanetIndex();
         this.level = runningMate.getRivalRecord().getUser().getLevel();
-        this.averagePace = runningMate.getRivalRecord().getAveragePace();
+        this.averagePace =  (runningMate.getRivalRecord().getTotalTime() / runningMate.getRivalRecord().getTotalDistance()) * 1000;
         this.totalDistance = runningMate.getRivalRecord().getTotalDistance();
         this.totalTime = runningMate.getRivalRecord().getTotalTime();
         this.isClear = runningMate.isHasWin();

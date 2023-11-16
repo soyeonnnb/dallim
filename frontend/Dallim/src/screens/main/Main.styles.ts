@@ -1,7 +1,6 @@
 import styled from 'styled-components/native';
 import {ImageBackground} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {Text} from 'react-native-svg';
 import {ViewProps} from 'react-native-svg/lib/typescript/fabric/utils';
 
 export const Container = styled.View`
@@ -61,9 +60,11 @@ export const NicknameText = styled.Text`
   font-size: 15px;
   width: 50%;
   color: white;
+  font-weight: bold;
   top: 35%;
   right: 7%;
   position: absolute;
+  text-align: center;
 `;
 
 export const ExpBarContainer = styled.View`
@@ -114,20 +115,33 @@ export const HeaderRight = styled.View`
   width: 50%;
   height: 100%;
   justify-content: flex-end;
-  align-items: flex-end;
+  align-items: center;
 `;
 
 export const PointBox = styled.View`
   /* border-width: 1px;
   border-color: white; */
-  height: 40px;
+  width: 120px;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
+`;
+
+export const PointImage = styled.Image`
+  width: 100%;
+  height: 100%;
 `;
 
 export const PointText = styled.Text`
-  font-size: 15px;
+  /* border-width: 1px;
+  border-color: white; */
+  font-size: 12px;
+  font-weight: bold;
+  width: 50%;
   color: white;
+  top: 40%;
+  right: 5%;
+  position: absolute;
+  text-align: center;
 `;
 
 export const ButtonBox = styled.View`
@@ -204,7 +218,7 @@ export const StartBox = styled.View`
   align-items: center;
   width: 100%;
   height: 20%;
-margin-bottom: 15%;
+  margin-bottom: 15%;
 `;
 
 export const StartButton = styled.TouchableOpacity`
@@ -225,13 +239,12 @@ export const ThemeBox = styled.View`
   position: absolute;
 `;
 
-/* export const PlanetGif = styled(Image)` */
 export const PlanetGif = styled(FastImage)`
   /* border-width: 1px;
   border-color: red; */
   width: 120%;
   height: 120%;
-  bottom: -55%;
+  bottom: -60%;
   position: absolute;
 `;
 

@@ -30,7 +30,7 @@ const LogoutModal = ({showModal, toggleModal}: ModalComponentProps) => {
         .catch(error => {
           console.log('키를 가져오는 중 오류 발생:', error);
         });
-      console.log(token);
+      // console.log(token);
       requestWithTokenRefresh(() => {
         return axios.get('https://dallim.site/api/oauth/social/logout', {
           headers: {
@@ -41,7 +41,7 @@ const LogoutModal = ({showModal, toggleModal}: ModalComponentProps) => {
       })
         .then(response => {
           if (response.data.logoutUrl) {
-            console.log(response.data.logoutUrl);
+            // console.log(response.data.logoutUrl);
             setLogoutUrl(response.data.logoutUrl);
             setModalVisible(true);
           } else if (response.data.naver) {

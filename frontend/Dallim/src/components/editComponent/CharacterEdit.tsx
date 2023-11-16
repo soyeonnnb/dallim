@@ -21,6 +21,9 @@ import {
   userPointState,
 } from '@/recoil/UserRecoil';
 import {postCharacterPurchase, updateEquippedCharacter} from '@/apis/EditApi';
+import LinearGradient from 'react-native-linear-gradient';
+import RadialGradient from 'react-native-radial-gradient';
+import {colors} from '../common/globalStyles';
 
 type CharacterEditProps = {
   handleEquippedCharacterChange: (index: number) => void;
@@ -162,8 +165,37 @@ function CharacterEdit({
           equippedCharacterIndex === selectedCharacterIndex ? (
             <>
               <S.ButtonBox onPress={handleEquipped}>
+                <LinearGradient
+                  colors={[
+                    colors.all.firstPoint.linear.start,
+                    colors.all.firstPoint.linear.end,
+                  ]}
+                  style={{
+                    borderRadius: 30,
+                    height: '100%',
+                    width: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    position: 'absolute',
+                    overflow: 'hidden',
+                  }}
+                  start={{x: 0.5, y: 0}}
+                  end={{x: 0.5, y: 1}}>
+                  <RadialGradient
+                    style={{
+                      width: 300,
+                      height: 300,
+                      borderRadius: 30,
+                      opacity: 0.2,
+                    }}
+                    colors={['#ffffff', '#3D2FBF']}
+                    stops={[0.04, 0.2]}
+                    radius={500}
+                    center={[100, 100]}></RadialGradient>
+                </LinearGradient>
                 <S.EquippedText>대표 캐릭터</S.EquippedText>
               </S.ButtonBox>
+
               <S.LevelBox>
                 <S.LevelText>Level {selectedCharacterLevel}</S.LevelText>
                 <S.ExperienceBox>
@@ -175,7 +207,49 @@ function CharacterEdit({
           ) : (
             <>
               <S.ButtonBox onPress={toggleCharacterSelectModal}>
-                <S.ButtonText>선택</S.ButtonText>
+                {/* <LinearGradient
+                  colors={[
+                    colors.all.firstPoint.linear.start,
+                    colors.all.firstPoint.linear.end,
+                  ]}
+                  style={{
+                    borderRadius: 50,
+                    height: '100%',
+                    width: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1,
+                    overflow: 'hidden',
+                  }}
+                  start={{x: 1, y: 0}}
+                  end={{x: 0.5, y: 1}}>
+                  <RadialGradient
+                    style={{
+                      width: 200,
+                      height: 200,
+                      borderRadius: 50,
+                      opacity: 0.2,
+                    }}
+                    colors={['#ffffff', '#3D2FBF']}
+                    stops={[0.04, 0.2]}
+                    radius={500}
+                    center={[100, 100]}></RadialGradient> */}
+                {/* </LinearGradient> */}
+                <LinearGradient
+                  start={{x: 0, y: 0}}
+                  end={{x: 0, y: 1}}
+                  colors={['#6EE2F5', '#6454F0']}
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    borderRadius: 30,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+
+                    // position: 'absolute',
+                  }}>
+                  <S.ButtonText>선택</S.ButtonText>
+                </LinearGradient>
               </S.ButtonBox>
               <S.LevelBox>
                 <S.LevelText>Level {selectedCharacterLevel}</S.LevelText>
@@ -188,11 +262,15 @@ function CharacterEdit({
           )
         ) : (
           <S.LockButtonBox onPress={handlePurchaseCheck}>
-            <S.LockedImage
-              source={require('@/assets/icons/LockIcon.png')}
-              resizeMode="contain"
-            />
-            <S.LockedText>4000 포인트</S.LockedText>
+            <S.ImgLeftBox>
+              <S.LockedImage
+                source={require('@/assets/icons/LockIcon.png')}
+                resizeMode="contain"
+              />
+            </S.ImgLeftBox>
+            <S.RightBox>
+              <S.LockedText>4000 포인트</S.LockedText>
+            </S.RightBox>
           </S.LockButtonBox>
         )}
       </S.Footer>

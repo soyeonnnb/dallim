@@ -37,6 +37,9 @@ import PlanetRed from '@/assets/images/planets/main/PlanetRed.png';
 import PlanetBlue from '@/assets/images/planets/main/PlanetBlue.png';
 import PlanetYellow from '@/assets/images/planets/main/PlanetYellow.png';
 
+// 날씨
+import WeatherComponent from '@/components/mainComponent/Weather';
+
 interface MainProps {
   navigation: any;
 }
@@ -393,8 +396,6 @@ function Main({ navigation }: MainProps) {
                     </S.ButtonStyle>
                   </LinearGradient>
                 </S.Box>
-              </S.GuideBox>
-              <S.StampBox>
                 <S.Box>
                   <LinearGradient
                     colors={[
@@ -415,7 +416,12 @@ function Main({ navigation }: MainProps) {
                     </S.ButtonStyle>
                   </LinearGradient>
                 </S.Box>
-              </S.StampBox>
+              </S.GuideBox>
+              
+              <S.WeatherBox>
+                <WeatherComponent />
+              </S.WeatherBox>
+
             </S.ButtonBox>
 
             <S.Body>
@@ -486,8 +492,9 @@ function Main({ navigation }: MainProps) {
           />
 
         </>
-      )}
-    </S.Container>
+      )
+      }
+    </S.Container >
   );
 }
 

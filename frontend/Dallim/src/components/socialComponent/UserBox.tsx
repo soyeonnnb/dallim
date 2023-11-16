@@ -5,6 +5,8 @@ import { postAddFriend } from '@/apis/SocialApi';
 import { useState } from 'react';
 import FriendAddIcon from '@/assets/icons/FriendAddIcon';
 import GuideModal from '../common/GuideModal';
+import { userIdState } from '@/recoil/UserRecoil';
+import { useRecoilValue } from 'recoil';
 
 type UserBoxProps = {
   userId: number;
@@ -23,10 +25,10 @@ function UserBox({
   level,
   isFollower
 }: UserBoxProps) {
-  const selectedCharacter =
-    characterData[characterIndex].Evolutions[evolutionStage].Badge;
+  const selectedCharacter = characterData[characterIndex].Evolutions[evolutionStage].Badge;
   const [modalVisible, setModalVisible] = useState(false);
   const [modalText, setModalText] = useState('');
+  const myId = useRecoilValue(userIdState);
 
   const handleAddFriend = async (userId: number) => {
     try {
@@ -37,7 +39,6 @@ function UserBox({
         setModalText('친구의 수락을 기다려주세요!');
       }
       setModalVisible(true);
-
     } catch (error) {
       setModalText('오류가 발생했습니다. 잠시 후 다시 시도해주세요!');
       setModalVisible(true);
@@ -73,7 +74,7 @@ function UserBox({
           </S.MiddleBottom>
         </S.Middle>
         <S.Right>
-          {!isFollower && (
+          {!isFollower && (myId !== userId) && (
             <S.ButtonShadow
               distance={2}
               startColor="rgba(0, 0, 0, 0.2)"

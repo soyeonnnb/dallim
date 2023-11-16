@@ -49,11 +49,11 @@ export const ChartInfoText = styled.View`
 `;
 
 export const ChartInfoName = styled.Text`
-  color: ${colors.text.grey};
+  color: ${colors.text.black};
   text-align: center;
 `;
 export const ChartInfoContent = styled.Text`
-  color: ${colors.text.grey};
+  color: ${colors.text.black};
 `;
 
 export const ChartInfoLeft = styled.View`

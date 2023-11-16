@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import {Shadow} from 'react-native-shadow-2';
+import {colors} from '@/components/common/globalStyles';
 
 export const Container = styled.View`
   flex: 1;
@@ -54,13 +55,13 @@ export const SmallView = styled.View`
   align-items: center;
 `;
 export const SmallName = styled.Text`
-  color: gray;
+  color: ${colors.text.grey};
   font-size: 13px;
 `;
 export const SmallContent = styled.Text`
   font-weight: 800;
   font-size: 15px;
-  color: black;
+  color: ${colors.text.black};
 `;
 export const FriendView = styled.View`
   flex: 0.6;
@@ -84,7 +85,7 @@ export const FriendText = styled.View`
 `;
 
 export const FriendTitle = styled.Text`
-  color: gray;
+  color: ${colors.text.grey};
   font-size: 13px;
 `;
 
@@ -96,4 +97,5 @@ export const FriendName = styled.Text`
 
 export const NoFriendText = styled.Text`
   font-size: 18px;
+  color: ${colors.text.grey};
 `;

@@ -153,7 +153,6 @@ function SocialBody({
       </S.Top>
       <S.Body>
         <ScrollView>
-          {/* 수정중 */}
           {rankingData ? (
             rankingData.length > 0 ? (
               rankingData.map((info: RankingInfo, index) => (

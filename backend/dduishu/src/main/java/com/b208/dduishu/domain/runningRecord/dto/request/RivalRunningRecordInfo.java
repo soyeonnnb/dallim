@@ -48,6 +48,7 @@ public class RivalRunningRecordInfo {
         this.averageSpeed = runningRecord.getAverageSpeed();
         this.averagePace = runningRecord.getAveragePace();
         this.createdAt = runningRecord.getCreatedAt();
+        this.winOrLose = runningRecord.getWinOrLose();
     }
 
     public void setPace(List<RunningRecordOverallInfo> runningRecordInfos, int totalTime, double totalDistance) {

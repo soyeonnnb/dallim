@@ -54,6 +54,7 @@ function PaceChart({
     if (pointerIndex === -1) return;
     setPreviewTime(secondToMinuteSeconds(data.chartData[pointerIndex].second));
     setPreviewPace(data.chartData[pointerIndex].fromZeroPace);
+    
     if (showRivals && rivalData) {
       if (rivalData.chartData.length <= pointerIndex) {
         setPreviewTime2(
@@ -71,7 +72,7 @@ function PaceChart({
         setPreviewPace2(rivalData.chartData[pointerIndex].fromZeroPace);
       }
     } else {
-      setPreviewTime2('');
+      setPreviewTime2(''); 
       setPreviewPace2('');
     }
   };

@@ -1,19 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Geolocation from 'react-native-geolocation-service';
 import * as S from './Weather.styles';
-
-import { PermissionsAndroid, Platform } from 'react-native';
-import { check, request, PERMISSIONS, RESULTS } from 'react-native-permissions';
-
-const requestLocationPermission = async () => {
-  if (Platform.OS === 'ios') {
-    const res = await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
-    return res === RESULTS.GRANTED;
-  } else {
-    const res = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
-    return res === RESULTS.GRANTED;
-  }
-};
+import { request, PERMISSIONS, RESULTS } from 'react-native-permissions';
+import { Linking } from 'react-native';
 
 type WeatherData = {
   main: {
@@ -29,7 +18,6 @@ type WeatherData = {
     deg: number;
   };
 };
-
 const fetchWeather = async (latitude: number, longitude: number): Promise<WeatherData | null> => {
   const apiKey = 'null';
   try {
@@ -70,12 +58,36 @@ const getWeatherIcon = (condition: string) => {
   }
 };
 
+const openSettings = () => {
+  Linking.openSettings().catch((err) => console.error('Cannot open settings', err));
+};
 
+export const AppSettingsButton = () => (
+  <>
+    <S.PermissionButton onPress={openSettings}>
+      <S.WeatherText>위치 권한 요청 동의</S.WeatherText>
+    </S.PermissionButton>
+  </>
+);
+
+// 날씨 컴포넌트
 function WeatherComponent() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+  const [isPermissionDenied, setIsPermissionDenied] = useState(false);
 
+  // 권한 요청 함수
+  const requestLocationPermission = async () => {
+    const res = await request(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+    const isGranted = res === RESULTS.GRANTED;
+    setIsPermissionDenied(!isGranted);
+    return isGranted;
+  };
+
+  // 권한 요청 및 날씨 데이터 불러오기
   useEffect(() => {
-    requestLocationPermission().then(isGranted => {
+    const checkPermissionsAndGetWeather = async () => {
+      const isGranted = await requestLocationPermission();
+
       if (isGranted) {
         Geolocation.getCurrentPosition(
           async (position) => {
@@ -89,15 +101,27 @@ function WeatherComponent() {
           { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
         );
       } else {
-        console.log('Location permission denied');
+        setIsPermissionDenied(true);
       }
-    });
+    };
+    checkPermissionsAndGetWeather();
   }, []);
 
-  if (!weatherData) {
-    return <S.Container><S.WeatherText>날씨 불러오는중...</S.WeatherText></S.Container>;
+  if (isPermissionDenied) {
+    return (
+      <S.Container>
+        <AppSettingsButton />
+      </S.Container>
+    );
   }
 
+  if (!weatherData) {
+    return <S.Container>
+      <S.WeatherText>
+        날씨 불러오는중...
+      </S.WeatherText>
+    </S.Container>;
+  }
 
   const weatherIcon = getWeatherIcon(weatherData.weather[0].main);
 

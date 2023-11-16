@@ -111,8 +111,7 @@ const TimePicker: React.FC<TimePickerProps> = ({onRefresh}) => {
         });
       }
     } catch (error) {
-      // Handle any errors that occur during the API call
-      console.error('Schedule Save Error:', error);
+      // console.error('Schedule Save Error:', error);
       CustomToast({
         type: 'error',
         text1: '알림 등록에 실패했습니다.',

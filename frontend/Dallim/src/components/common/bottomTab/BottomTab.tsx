@@ -3,9 +3,9 @@ import {
   BottomTabNavigationOptions,
   createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import React, {useReducer} from 'react';
-import {StyleSheet, View, Text, LayoutChangeEvent} from 'react-native';
-import Animated, {useAnimatedStyle, withTiming} from 'react-native-reanimated';
+import React, { useReducer, useState } from 'react';
+import { StyleSheet, View, Text, LayoutChangeEvent } from 'react-native';
+import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import * as S from './BottomTab.styles';
 
 // components
@@ -28,25 +28,25 @@ import SocialStackNavigators from '../../../navigations/SocialStackNavigators';
 const Tab = createBottomTabNavigator();
 
 const AnimatedTabBar = ({
-  state: {index: activeIndex, routes},
+  state: { index: activeIndex, routes },
   navigation,
   descriptors,
 }: BottomTabBarProps) => {
-  const reducer = (state: any, action: {x: number; index: number}) => {
-    return [...state, {x: action.x, index: action.index}];
+  const reducer = (state: any, action: { x: number; index: number }) => {
+    return [...state, { x: action.x, index: action.index }];
   };
 
   const [layout, dispatch] = useReducer(reducer, []);
 
   const handleLayout = (event: LayoutChangeEvent, index: number) => {
-    dispatch({x: event.nativeEvent.layout.x, index});
+    dispatch({ x: event.nativeEvent.layout.x, index });
   };
 
   return (
     <View style={animationStyles.tabBarContainer}>
       {routes.map((route, index) => {
         const active = index === activeIndex;
-        const {options} = descriptors[route.key];
+        const { options } = descriptors[route.key];
 
         return (
           <TabBarComponent
@@ -69,15 +69,15 @@ type TabBarComponentProps = {
   onPress: () => void;
 };
 
-const TabBarComponent = ({active, options, onPress}: TabBarComponentProps) => {
+const TabBarComponent = ({ active, options, onPress }: TabBarComponentProps) => {
   const animatedComponentCircleStyles = useAnimatedStyle(() => {
     return {
       transform: [
         {
-          scale: withTiming(active ? 1 : 0, {duration: 200}),
+          scale: withTiming(active ? 1 : 0, { duration: 200 }),
         },
         {
-          translateY: withTiming(active ? -25 : 0, {duration: 200}),
+          translateY: withTiming(active ? -25 : 0, { duration: 200 }),
         },
       ],
     };
@@ -88,12 +88,13 @@ const TabBarComponent = ({active, options, onPress}: TabBarComponentProps) => {
     return {
       transform: [
         {
-          translateY: withTiming(active ? -35 : 0, {duration: 200}),
+          translateY: withTiming(active ? -35 : 0, { duration: 200 }),
         },
       ],
-      opacity: withTiming(active ? 1 : 0.5, {duration: 200}),
+      opacity: withTiming(active ? 1 : 0.5, { duration: 200 }),
     };
   });
+
 
   return (
     <S.Container>
@@ -111,7 +112,7 @@ const TabBarComponent = ({active, options, onPress}: TabBarComponentProps) => {
               // style={StyleSheet.absoluteFill}
               style={{
                 ...StyleSheet.absoluteFillObject,
-                transform: [{translateY: -5}],
+                transform: [{ translateY: -5 }],
               }}
             />
           )}
@@ -132,16 +133,17 @@ const TabBarComponent = ({active, options, onPress}: TabBarComponentProps) => {
 };
 
 function BottompTab() {
+
   return (
     <Tab.Navigator
       tabBar={props => <AnimatedTabBar {...props} />}
-      screenOptions={{headerShown: false}}
+      screenOptions={{ headerShown: false }}
       initialRouteName="Main">
       <Tab.Screen
         name="Chart"
         component={ChartStackNavigators}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <BottomTabIcon focused={focused} type="chart" />
           ),
         }}
@@ -150,7 +152,7 @@ function BottompTab() {
         name="SocialStack"
         component={SocialStackNavigators}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <BottomTabIcon focused={focused} type="social" />
           ),
         }}
@@ -159,7 +161,7 @@ function BottompTab() {
         name="Main"
         component={MainStackNavigators}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <BottomTabIcon focused={focused} type="main" />
           ),
         }}
@@ -168,7 +170,7 @@ function BottompTab() {
         name="Edit"
         component={Edit}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <BottomTabIcon focused={focused} type="edit" />
           ),
         }}
@@ -177,7 +179,7 @@ function BottompTab() {
         name="ProfileStack"
         component={ProfileStackNavigators}
         options={{
-          tabBarIcon: ({focused}) => (
+          tabBarIcon: ({ focused }) => (
             <BottomTabIcon focused={focused} type="profile" />
           ),
           unmountOnBlur: true,

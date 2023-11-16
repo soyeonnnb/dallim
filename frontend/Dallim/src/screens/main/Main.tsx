@@ -241,7 +241,7 @@ function Main({navigation}: MainProps) {
                 source={
                   characterData[equippedCharacterIndex].Evolutions[
                     equippedEvolutionStage
-                  ].RunRight
+                  ].RunFront
                 }
                 resizeMode="contain"
               />

@@ -136,7 +136,6 @@ public class TimerService extends Service {
             if (runningViewModel.getDistance().getValue() != null){
                 double curDistance = kmLastDistance - runningViewModel.getDistance().getValue();
                 curDistance = Math.round(curDistance * 100.0) / 100.0;
-                Log.e("남은거리", String.valueOf(curDistance));
                 // tts 알림
                 if (curDistance == 5 && !tts5kmCheck){
                     ttsUtil.speak("현재 남은 목표 거리는 5km 입니다.");
@@ -197,20 +196,18 @@ public class TimerService extends Service {
                 } else if (tempDistance >= 1000  && tempDistance >= lastTtsDistance + 1000){
                     lastTtsDistance = tempDistance;
                     tempDistance = Math.round(tempDistance/1000);
-                    ttsUtil.speak("현재 달린 거리는 " + String.valueOf(tempDistance)+ "km 입니다.");
+                    ttsUtil.speak("현재 달린 거리는 " + String.valueOf((int) tempDistance)+ "km 입니다.");
                 }
             }
         }
 
         runningViewModel.setTotalTime((long) seconds);
-        Log.d("총 시간", String.valueOf(seconds));
         int minutes = seconds / 60;
         seconds = seconds % 60;
 
         RunDetail detail = new RunDetail();
         if (runningViewModel.getOriDistance().getValue() != null) {
             detail.setDistance(runningViewModel.getOriDistance().getValue());
-            Log.e("오리진 거리", String.valueOf(runningViewModel.getOriDistance().getValue()));
         }
         if (runningViewModel.getMsPaceToSecond().getValue() != null) {
             detail.setPace(runningViewModel.getMsPaceToSecond().getValue());
@@ -218,9 +215,9 @@ public class TimerService extends Service {
         if (runningViewModel.getMsSpeed().getValue() != null) {
             double speed = runningViewModel.getMsSpeed().getValue();
             detail.setSpeed(speed);
-            if (speed <= 0.4) {
+            if (speed <= 0.2) {
                 detail.setState("STOP");
-            } else if (speed > 0.4 && speed <= 1.5) {
+            } else if (speed > 0.2 && speed <= 1.5) {
                 detail.setState("WALK");
             } else if (speed > 1.5 && speed <= 3.0) {
                 detail.setState("RACEWALK");

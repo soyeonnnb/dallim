@@ -27,8 +27,15 @@ import {
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
 import { useRecoilState } from 'recoil';
-import { CustomToast } from '@/components/common/toast/CustomToast';
+// import { CustomToast } from '@/components/common/toast/CustomToast';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon';
+
+// 행성
+import PlanetBlack from '@/assets/images/planets/main/PlanetBlack.png';
+import PlanetPurple from '@/assets/images/planets/main/PlanetPurple.png';
+import PlanetRed from '@/assets/images/planets/main/PlanetRed.png';
+import PlanetBlue from '@/assets/images/planets/main/PlanetBlue.png';
+import PlanetYellow from '@/assets/images/planets/main/PlanetYellow.png';
 
 interface MainProps {
   navigation: any;
@@ -141,6 +148,74 @@ function Main({ navigation }: MainProps) {
   };
   const AnimatedCharacterGif = Animated.createAnimatedComponent(S.CharacterGif);
 
+  // 각 행성에 대한 회전 상태와 애니메이션 설정
+  const rotateValue1 = new Animated.Value(0);
+  const rotateValue2 = new Animated.Value(0);
+  const rotateValue3 = new Animated.Value(0);
+  const rotateValue4 = new Animated.Value(0);
+  const rotateValue5 = new Animated.Value(0);
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.timing(rotateValue1, {
+        toValue: 1,
+        duration: 10000,
+        useNativeDriver: true,
+      })
+    ).start();
+    Animated.loop(
+      Animated.timing(rotateValue2, {
+        toValue: 1,
+        duration: 10000,
+        useNativeDriver: true,
+      })
+    ).start();
+    Animated.loop(
+      Animated.timing(rotateValue3, {
+        toValue: 1,
+        duration: 10000,
+        useNativeDriver: true,
+      })
+    ).start();
+    Animated.loop(
+      Animated.timing(rotateValue4, {
+        toValue: 1,
+        duration: 10000,
+        useNativeDriver: true,
+      })
+    ).start();
+    Animated.loop(
+      Animated.timing(rotateValue5, {
+        toValue: 1,
+        duration: 12000,
+        useNativeDriver: true,
+      })
+    ).start();
+  }, []);
+
+
+  // 회전 값 계산
+  const rotate1 = rotateValue1.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+  const rotate2 = rotateValue2.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['150deg', '510deg'],
+  });
+  const rotate3 = rotateValue3.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['180deg', '540deg'],
+  });
+  const rotate4 = rotateValue4.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['300deg', '660deg'],
+  });
+  const rotate5 = rotateValue5.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['300deg', '660deg'],
+  });
+
   // 새로고침 버튼을 눌렀을 때 실행할 함수
   const handleReload = () => {
     setIsLoading(true);
@@ -159,9 +234,100 @@ function Main({ navigation }: MainProps) {
         </>
       ) : (
         <>
+
           <S.BackgroundImage
             source={require('@/assets/images/MainBackground.png')}
             resizeMode="cover">
+
+            {/* 행성 돌리기 */}
+            <>
+              <Animated.Image
+                source={PlanetBlack}
+                style={{
+                  width: 40, // 가운데 행성의 크기를 80으로 설정
+                  height: 40, // 가운데 행성의 크기를 80으로 설정
+                  position: 'absolute',
+                  bottom: '0%', // 부모 컨테이너 중앙에 위치
+                  left: '50%', // 부모 컨테이너 중앙에 위치
+                  transform: [
+                    { translateX: -45 }, // 이미지 크기의 절반으로 이동
+                    { translateY: -45 }, // 이미지 크기의 절반으로 이동
+                    { rotate: rotate1 }, // 회전 애니메이션 적용
+                    { translateX: 200 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                    { translateY: 200 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                  ],
+                }}
+              />
+              <Animated.Image
+                source={PlanetPurple}
+                style={{
+                  width: 40, // 가운데 행성의 크기를 80으로 설정
+                  height: 40, // 가운데 행성의 크기를 80으로 설정
+                  position: 'absolute',
+                  bottom: '0%', // 부모 컨테이너 중앙에 위치
+                  left: '50%', // 부모 컨테이너 중앙에 위치
+                  transform: [
+                    { translateX: -45 }, // 이미지 크기의 절반으로 이동
+                    { translateY: -45 }, // 이미지 크기의 절반으로 이동
+                    { rotate: rotate2 }, // 회전 애니메이션 적용
+                    { translateX: 270 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                    { translateY: 270 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                  ],
+                }}
+              />
+              <Animated.Image
+                source={PlanetRed}
+                style={{
+                  width: 40, // 가운데 행성의 크기를 80으로 설정
+                  height: 40, // 가운데 행성의 크기를 80으로 설정
+                  position: 'absolute',
+                  bottom: '0%', // 부모 컨테이너 중앙에 위치
+                  left: '50%', // 부모 컨테이너 중앙에 위치
+                  transform: [
+                    { translateX: -45 }, // 이미지 크기의 절반으로 이동
+                    { translateY: -45 }, // 이미지 크기의 절반으로 이동
+                    { rotate: rotate3 }, // 회전 애니메이션 적용
+                    { translateX: 320 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                    { translateY: 320 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                  ]
+                }}
+              />
+              <Animated.Image
+                source={PlanetBlue}
+                style={{
+                  width: 40, // 가운데 행성의 크기를 80으로 설정
+                  height: 40, // 가운데 행성의 크기를 80으로 설정
+                  position: 'absolute',
+                  bottom: '0%', // 부모 컨테이너 중앙에 위치
+                  left: '50%', // 부모 컨테이너 중앙에 위치
+                  transform: [
+                    { translateX: -45 }, // 이미지 크기의 절반으로 이동
+                    { translateY: -45 }, // 이미지 크기의 절반으로 이동
+                    { rotate: rotate4 }, // 회전 애니메이션 적용
+                    { translateX: 360 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                    { translateY: 360 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                  ]
+                }}
+              />
+              <Animated.Image
+                source={PlanetYellow}
+                style={{
+                  width: 40, // 가운데 행성의 크기를 80으로 설정
+                  height: 40, // 가운데 행성의 크기를 80으로 설정
+                  position: 'absolute',
+                  bottom: '0%', // 부모 컨테이너 중앙에 위치
+                  left: '50%', // 부모 컨테이너 중앙에 위치
+                  transform: [
+                    { translateX: -45 }, // 이미지 크기의 절반으로 이동
+                    { translateY: -45 }, // 이미지 크기의 절반으로 이동
+                    { rotate: rotate5 }, // 회전 애니메이션 적용
+                    { translateX: 400 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                    { translateY: 400 }, // 도는 행성 크기의 절반으로 되돌리기 (중심점 조정)
+                  ]
+                }}
+              />
+            </>
+
             <S.Header>
               <S.HeaderLeft>
                 <S.LevelBox>
@@ -261,7 +427,7 @@ function Main({ navigation }: MainProps) {
                 <AnimatedCharacterGif
                   style={{ transform: [{ translateY: moveAnim }] }}
                   source={
-                    characterData[1].Evolutions[1].RunFront
+                    characterData[equippedCharacterIndex].Evolutions[equippedEvolutionStage].RunFront
                   }
                   resizeMode="contain"
                 />
@@ -318,6 +484,7 @@ function Main({ navigation }: MainProps) {
             isVisible={isPrivacyPolicyModalVisible}
             onClose={() => setPrivacyPolicyModalVisible(false)}
           />
+
         </>
       )}
     </S.Container>

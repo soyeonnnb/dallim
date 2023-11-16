@@ -81,9 +81,23 @@ public class JobService {
     }
 
     public List<FcmMessageId> getScheduleJob() throws Exception {
+        User user = getUser.getUser();
+
         Set<JobKey> jobKeys = scheduler.getJobKeys(GroupMatcher.anyGroup());
 
         return jobKeys.stream()
+                .filter(o -> {
+                    try {
+                        Trigger.TriggerState triggerState = scheduler.getTriggerState(new TriggerKey(o.getName()));
+                        FcmMessageId fcmMessageId = FcmMessageId.fromString(o.getName(), triggerState);
+                        if (fcmMessageId.getUserId() == user.getUserId()) {
+                            return true;
+                        }
+                    } catch (SchedulerException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return false;
+                })
                 .map(o -> {
                     try {
                         Trigger.TriggerState triggerState = scheduler.getTriggerState(new TriggerKey(o.getName()));
@@ -104,6 +118,8 @@ public class JobService {
                 .hour(req.getHour())
                 .minute(req.getMinute())
                 .build();
+
+        System.out.println(fcmMessageId.toString());
 
         scheduler.deleteJob(new JobKey(fcmMessageId.toString()));
     }

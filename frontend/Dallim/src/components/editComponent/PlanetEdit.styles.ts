@@ -88,7 +88,7 @@ export const EquippedText = styled.Text`
 `;
 
 export const ButtonText = styled.Text`
-  font-size: 15px;
+  font-size: 20px;
   color: white;
 `;
 

@@ -34,7 +34,8 @@ public class UserLevel {
     }
 
     private void setUserLevel(){
-        BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(exp);
+        BaseLevel baseLevel = new BaseLevel();
+        BaseLevel.LevelInfo levelInfo = baseLevel.getLevelInfo(exp);
 
         this.level = levelInfo.getLevel();
     }

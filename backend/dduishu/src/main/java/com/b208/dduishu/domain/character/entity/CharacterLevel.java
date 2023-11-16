@@ -33,7 +33,8 @@ public class CharacterLevel {
     }
 
     public void checkLevel(){
-        BaseLevel.LevelInfo levelInfo = BaseLevel.getLevelInfo(exp);
+        BaseLevel baseLevel = new BaseLevel();
+        BaseLevel.LevelInfo levelInfo = baseLevel.getLevelInfo(exp);
 
         this.level = levelInfo.getLevel();
     }

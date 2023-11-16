@@ -55,10 +55,21 @@ function PaceChart({
     setPreviewTime(secondToMinuteSeconds(data.chartData[pointerIndex].second));
     setPreviewPace(data.chartData[pointerIndex].fromZeroPace);
     if (showRivals && rivalData) {
-      setPreviewTime2(
-        secondToMinuteSeconds(rivalData.chartData[pointerIndex].second),
-      );
-      setPreviewPace2(rivalData.chartData[pointerIndex].fromZeroPace);
+      if (rivalData.chartData.length <= pointerIndex) {
+        setPreviewTime2(
+          secondToMinuteSeconds(
+            rivalData.chartData[rivalData.chartData.length - 1].second,
+          ),
+        );
+        setPreviewPace2(
+          rivalData.chartData[rivalData.chartData.length - 1].fromZeroPace,
+        );
+      } else {
+        setPreviewTime2(
+          secondToMinuteSeconds(rivalData.chartData[pointerIndex].second),
+        );
+        setPreviewPace2(rivalData.chartData[pointerIndex].fromZeroPace);
+      }
     } else {
       setPreviewTime2('');
       setPreviewPace2('');

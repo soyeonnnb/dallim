@@ -158,17 +158,17 @@ export const GuideBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
   flex-direction: row;
-  width: 50%;
+  width: 55%;
   height: 100%;
   justify-content: flex-start;
   align-items: center;
   gap: 10px;
 `;
 
-export const StampBox = styled.View`
+export const WeatherBox = styled.View`
   /* border-width: 1px;
   border-color: red; */
-  width: 20%;
+  width: 45%;
   height: 100%;
   justify-content: center;
   align-items: flex-end;
@@ -253,7 +253,7 @@ export const CharacterGif = styled(FastImage)`
   border-color: red; */
   width: 50%;
   height: 50%;
-  bottom: 30%;
+  bottom: 25%;
   position: absolute;
 `;
 

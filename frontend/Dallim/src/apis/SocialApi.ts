@@ -13,7 +13,7 @@ const getToken = async () => {
     const token = await AsyncStorage.getItem('accessToken');
     return token;
   } catch (error) {
-    console.error('Error fetching token:', error);
+    // console.error('Error fetching token:', error);
     throw error;
   }
 };
@@ -35,7 +35,7 @@ export const fetchAllRank = async () => {
     // );
     return response.data.data;
   } catch (error) {
-    console.log('SocialApi : 주간 랭킹 조회 ( 전체 ) 조회 Axios 실패');
+    // console.log('SocialApi : 주간 랭킹 조회 ( 전체 ) 조회 Axios 실패');
     throw error;
   }
 };
@@ -52,7 +52,7 @@ export const fetchFriendRank = async () => {
     // console.log('SocialApi : 주간 랭킹 조회 ( 친구 ) Axios 성공 ');
     return response.data.data;
   } catch (error) {
-    console.log('SocialApi : 주간 랭킹 조회 ( 친구 ) Axios 실패');
+    // console.log('SocialApi : 주간 랭킹 조회 ( 친구 ) Axios 실패');
     throw error;
   }
 };
@@ -72,7 +72,7 @@ export const fetchUserRecord = async (userId: number) => {
     // console.log('SocialApi : 유저 기록 조회 Axios 성공');
     return response.data.data;
   } catch (error) {
-    console.log('SocialApi : 유저 기록 조회 Axios 실패');
+    // console.log('SocialApi : 유저 기록 조회 Axios 실패');
     throw error;
   }
 };
@@ -99,7 +99,7 @@ export const postRecordSave = async (id: string) => {
       // console.log('SocialApi : 런닝메이트 등록 실패');
     }
   } catch (error) {
-    console.error('런닝메이트 등록 오류', error);
+    // console.error('런닝메이트 등록 오류', error);
     throw error;
   }
 };
@@ -119,7 +119,7 @@ export const fetchCompare = async (userId: number) => {
     // console.log('SocialApi : 비교 데이터 조회 Axios 성공 ');
     return response.data.data;
   } catch (error) {
-    console.log('SocialApi : 비교 데이터 조회 Axios 실패');
+    // console.log('SocialApi : 비교 데이터 조회 Axios 실패');
     throw error;
   }
 };
@@ -136,7 +136,7 @@ export const fetchFriendList = async () => {
     // console.log('SocialApi : 친구 목록 조회 Axios 성공 ');
     return response.data.data;
   } catch (error) {
-    console.log('SocialApi : 친구 목록 조회 Axios 실패');
+    // console.log('SocialApi : 친구 목록 조회 Axios 실패');
     throw error;
   }
 };
@@ -157,7 +157,7 @@ export const fetchUserSearch = async (word: string) => {
     // console.log('SocialApi : 유저 조회 Axios 성공');
     return response.data.data;
   } catch (error) {
-    console.log('SocialApi : 유저 조회 Axios 실패');
+    // console.log('SocialApi : 유저 조회 Axios 실패');
     throw error;
   }
 };
@@ -185,7 +185,7 @@ export const postAddFriend = async (userid: number): Promise<boolean> => {
       return false;
     }
   } catch (error) {
-    console.error('친구 요청 오류', error);
+    // console.error('친구 요청 오류', error);
     throw error;
   }
 };
@@ -208,7 +208,7 @@ export const deleteFriend = async (userid: number): Promise<boolean> => {
       return false;
     }
   } catch (error) {
-    console.error('친구 삭제 오류', error);
+    // console.error('친구 삭제 오류', error);
     throw error;
   }
 };
@@ -225,7 +225,7 @@ export const fetchFriendWaitList = async () => {
     // console.log('SocialApi : 친구 대기 목록 Axios 성공 ');
     return response.data.data;
   } catch (error) {
-    console.log('SocialApi : 친구 대기 목록 Axios 실패');
+    // console.log('SocialApi : 친구 대기 목록 Axios 실패');
     throw error;
   }
 };
@@ -250,11 +250,10 @@ export const postRequestAccept = async (userid: number): Promise<boolean> => {
       return true;
     } else {
       // console.log('SocialApi : 친구신청 수락 요청 실패');
-      // console.log('고칠거에요~~~~~~~~' + userid);
       return false;
     }
   } catch (error) {
-    console.error('친구신청 수락 요청 오류', error);
+    // console.error('친구신청 수락 요청 오류', error);
     throw error;
   }
 };
@@ -283,7 +282,7 @@ export const postRequestReject = async (userid: number): Promise<boolean> => {
       return false;
     }
   } catch (error) {
-    console.error('친구신청 거절 요청 오류', error);
+    // console.error('친구신청 거절 요청 오류', error);
     throw error;
   }
 };

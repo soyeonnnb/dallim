@@ -52,7 +52,7 @@ public class ResultActivity extends AppCompatActivity {
         runningService.getRecentRunningData(new RunningService.RecentRunningDataCallback() {
             @Override
             public void onRecentRunningDataLoaded(OneRunningDataResponseDTO recentRunningData) {
-                String totalTime = conversion.secondsToTimeString(recentRunningData.getTotal_time());
+                String totalTime = conversion.secondsToTimeStringMS(recentRunningData.getTotal_time());
                 double totalDistance = conversion.mToKM(recentRunningData.getTotal_distance());
                 Map<String, Integer> result = conversion.sToPace(recentRunningData.getAverage_pace());
                 int minutes = result.get("minutes");
@@ -72,18 +72,18 @@ public class ResultActivity extends AppCompatActivity {
                             binding.winLoseGiveup.setVisibility(View.VISIBLE);
                             if(winOrLose.equals("WIN")){
                                 timeDifference = recentRunningData.getTime_difference().intValue();
-                                timeFormat = conversion.secondsToTimeStringTwo(timeDifference);
+                                timeFormat = conversion.secondsToTimeStringMS(timeDifference);
                                 binding.winLoseGiveup.setText("승리");
                                 binding.winLoseGiveup.setTextColor(getResources().getColor(R.color.green));
-                                binding.timeDifference.setText(timeFormat);
+                                binding.timeDifference.setText("+ " + timeFormat);
                                 binding.timeDifference.setTextColor(getResources().getColor(R.color.green));
                                 binding.timeDifference.setVisibility(View.VISIBLE);
                             }else if(winOrLose.equals("LOSE")){
                                 timeDifference = recentRunningData.getTime_difference().intValue();
-                                timeFormat = conversion.secondsToTimeStringTwo(timeDifference);
+                                timeFormat = conversion.secondsToTimeStringMS(timeDifference);
                                 binding.winLoseGiveup.setText("패배");
                                 binding.winLoseGiveup.setTextColor(getResources().getColor(R.color.red));
-                                binding.timeDifference.setText(timeFormat);
+                                binding.timeDifference.setText("- " + timeFormat);
                                 binding.timeDifference.setTextColor(getResources().getColor(R.color.red));
                                 binding.timeDifference.setVisibility(View.VISIBLE);
                             }else if(winOrLose.equals("GIVEUP")){
@@ -98,7 +98,7 @@ public class ResultActivity extends AppCompatActivity {
                         binding.time.setText(totalTime);
                         binding.distance.setText(String.valueOf(totalDistance+" km"));
                         binding.speed.setText(String.valueOf(minutes + "’ " + seconds + "”"));
-                        binding.heartRate.setText(String.valueOf(recentRunningData.getAverage_heart_rate()) + " bpm");
+                        binding.heartRate.setText(String.valueOf(Math.round(recentRunningData.getAverage_heart_rate())) + " bpm");
 
                     }
                 });

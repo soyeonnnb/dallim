@@ -27,7 +27,7 @@ import {
   equippedPlanetIndexState,
 } from '@/recoil/UserRecoil';
 import { useRecoilState } from 'recoil';
-import { CustomToast } from '@/components/common/toast/CustomToast';
+// import { CustomToast } from '@/components/common/toast/CustomToast';
 import StampWhiteIcon from '@/assets/icons/StampWhiteIcon';
 
 // 행성
@@ -224,7 +224,7 @@ function Main({ navigation }: MainProps) {
 
   return (
     <S.Container>
-      {!isLoading ? (
+      {isLoading ? (
         <>
           <S.BackgroundImage
             source={require('@/assets/images/MainBackground.png')}
@@ -427,7 +427,7 @@ function Main({ navigation }: MainProps) {
                 <AnimatedCharacterGif
                   style={{ transform: [{ translateY: moveAnim }] }}
                   source={
-                    characterData[1].Evolutions[1].RunFront
+                    characterData[equippedCharacterIndex].Evolutions[equippedEvolutionStage].RunFront
                   }
                   resizeMode="contain"
                 />

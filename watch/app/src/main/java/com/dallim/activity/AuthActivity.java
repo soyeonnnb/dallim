@@ -17,7 +17,7 @@ import com.dallim.dto.response.AccessTokenResponseDTO;
 import com.dallim.dto.response.ApiResponseDTO;
 import com.dallim.dto.response.AuthCodeResponseDTO;
 import com.dallim.util.AccessToken;
-import com.dallim.util.ApiUtil;
+import com.dallim.util.Retrofit;
 import com.dallim.util.PreferencesUtil;
 import com.dallim.util.UserInfo;
 
@@ -65,7 +65,7 @@ public class AuthActivity extends AppCompatActivity {
     private void verifyAuthenticationCode(){
         AccessTokenRequestDTO requestDTO = new AccessTokenRequestDTO((String) binding.codeTextView.getText());
         System.out.println(requestDTO.getAuthCode());
-        Call<ApiResponseDTO<AccessTokenResponseDTO>> call = ApiUtil.getApiService().verifyCode(requestDTO);
+        Call<ApiResponseDTO<AccessTokenResponseDTO>> call = Retrofit.getApiService().verifyCode(requestDTO);
         call.enqueue(new Callback<ApiResponseDTO<AccessTokenResponseDTO>>() {
             @Override
             public void onResponse(Call<ApiResponseDTO<AccessTokenResponseDTO>> call, Response<ApiResponseDTO<AccessTokenResponseDTO>> response) {
@@ -105,7 +105,7 @@ public class AuthActivity extends AppCompatActivity {
 
     // 인증번호 생성 요청
     private void requestAuthenticationCode() {
-        Call<ApiResponseDTO<AuthCodeResponseDTO>> call = ApiUtil.getApiService().generateCode();
+        Call<ApiResponseDTO<AuthCodeResponseDTO>> call = Retrofit.getApiService().generateCode();
         call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ApiResponseDTO<AuthCodeResponseDTO>> call, Response<ApiResponseDTO<AuthCodeResponseDTO>> response) {

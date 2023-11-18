@@ -58,25 +58,6 @@ public class MainActivity extends ComponentActivity{
         // 리시버 인스턴스를 생성합니다.
         networkUtil = new NetworkUtil();
 
-        // 알림을 사용하기 위한 코드(오레오 이상 버전이면 실행)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            /*새로운 알림 채널 생성
-             * id : 채널의 아이디
-             * name : 사용자에게 보여지는 채널 이름
-             * 채널의 중요도 설정
-             * */
-            NotificationChannel serviceChannel = new NotificationChannel(
-                    "dallim_channel",
-                    "달림 알림",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-
-            // 시스템에서 매니저를 가져와서 할당
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            // 매니저를 사용해서 알림 채널을 시스템에 등록한다.
-            manager.createNotificationChannel(serviceChannel);
-        }
-
         // 바인딩 클래스를 사용해서 xml코드를 객체화시킨다. findViewById를 안 쓰고 바인딩 클래스로 편하게 사용.
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         // xml 레이아웃의 최상위 뷰를 가져옴
@@ -84,6 +65,7 @@ public class MainActivity extends ComponentActivity{
         // 액티비티의 컨텐츠 뷰로 view를 설정. 여기서 화면에 뭐가 보일지 결정
         setContentView(view);
 
+        // 권한 확인 시작
         checkPermission();
 
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
@@ -91,7 +73,7 @@ public class MainActivity extends ComponentActivity{
         boolean isIgnoringBatteryOptimizations = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && powerManager.isIgnoringBatteryOptimizations(getPackageName());
 
         if (isPowerSaveMode) {
-            // Code to show an alert dialog that informs the user that the main activity is blocked while in power save mode
+
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("절전 모드 감지");
             builder.setMessage("정확한 위치 추적을 위해 절전 모드를 해제하고 어플을 다시 실행해주세요.");
@@ -239,12 +221,6 @@ public class MainActivity extends ComponentActivity{
     @Override
     protected void onResume() {
         super.onResume();
-
-        TtsUtil ttsUtil = new TtsUtil(getApplicationContext());
-        ttsUtil.speak("여기는 메인 액티비티입니다");
-
-
-
         // 시작 버튼을 클릭하면
         binding.btnStart.setOnClickListener(v -> {
             authenticateduth = prefs.getString("accessToken", null);

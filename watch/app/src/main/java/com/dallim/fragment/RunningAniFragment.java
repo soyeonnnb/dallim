@@ -187,29 +187,29 @@ public class RunningAniFragment extends Fragment {
         ImageView mateView = null;
 
         // 거리 차이에 따른 캐릭터 선택
-        if (distanceDifference > -200 && distanceDifference <= 0) {
+        if (distanceDifference > -25 && distanceDifference <= 0) {
             mateView = binding.mateCha7;
-        } else if (distanceDifference > -400 && distanceDifference <= -200) {
+        } else if (distanceDifference > -50 && distanceDifference <= -25) {
             mateView = binding.mateCha8;
-        }  else if (distanceDifference > -600 && distanceDifference <= -400) {
+        }  else if (distanceDifference > -100 && distanceDifference <= -50) {
             mateView = binding.mateCha9;
-        } else if (distanceDifference > -800 && distanceDifference <= -600) {
+        } else if (distanceDifference > -200 && distanceDifference <= -100) {
             mateView = binding.mateCha10;
-        } else if (distanceDifference > -1000 && distanceDifference <= -800) {
+        } else if (distanceDifference > -300 && distanceDifference <= -200) {
             mateView = binding.mateCha11;
-        } else if (distanceDifference <= -1000) {
+        } else if (distanceDifference <= -300) {
             mateView = binding.mateCha12;
-        } else if (distanceDifference < 200 && distanceDifference >= 0) {
+        } else if (distanceDifference < 25 && distanceDifference >= 0) {
             mateView = binding.mateCha1;
-        } else if (distanceDifference < 400 && distanceDifference >= 200) {
+        } else if (distanceDifference < 50 && distanceDifference >= 25) {
             mateView = binding.mateCha2;
-        } else if (distanceDifference < 600 && distanceDifference >= 400) {
+        } else if (distanceDifference < 100 && distanceDifference >= 50) {
             mateView = binding.mateCha3;
-        } else if (distanceDifference < 800 && distanceDifference >= 600) {
+        } else if (distanceDifference < 200 && distanceDifference >= 100) {
             mateView = binding.mateCha4;
-        } else if (distanceDifference < 1000 && distanceDifference >= 800) {
+        } else if (distanceDifference < 300 && distanceDifference >= 200) {
             mateView = binding.mateCha5;
-        } else if (distanceDifference >= 1000) {
+        } else if (distanceDifference >= 300) {
             mateView = binding.mateCha6;
         }
 

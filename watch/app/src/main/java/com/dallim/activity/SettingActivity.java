@@ -23,14 +23,12 @@ import com.dallim.dto.RunningDataDTO;
 import com.dallim.model.RunningData;
 import com.dallim.service.RunningService;
 import com.dallim.util.AccessToken;
-import com.dallim.util.ApiUtil;
+import com.dallim.util.Retrofit;
 import com.dallim.util.NetworkUtil;
 import com.dallim.util.PreferencesUtil;
-import com.dallim.util.VibrateDevice;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.BuildConfig;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -89,7 +87,7 @@ public class SettingActivity extends AppCompatActivity {
                                 if(new NetworkUtil().isOnline(getApplicationContext())){
                                     RunningDataDTO runningDataDTO = r.toDTO();
                                     Log.d("보내는리스트", String.valueOf(runningDataDTO.toString()));
-                                    ApiUtil.getApiService().postRunningData(token, runningDataDTO).enqueue(new Callback<Void>() {
+                                    Retrofit.getApiService().postRunningData(token, runningDataDTO).enqueue(new Callback<Void>() {
                                         // api 호출이 완료되면 콜백 실행
                                         @Override
                                         public void onResponse(Call<Void> call, Response<Void> response) {

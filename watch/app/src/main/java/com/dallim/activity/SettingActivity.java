@@ -7,15 +7,22 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.InputDevice;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.InputDeviceCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewConfigurationCompat;
 
 import com.dallim.R;
 import com.dallim.databinding.ActivitySettingBinding;
@@ -54,27 +61,30 @@ public class SettingActivity extends AppCompatActivity {
                 Toast.makeText(SettingActivity.this, "비연동 데이터가 없습니다.", Toast.LENGTH_SHORT).show();
             }else{
                 LayoutInflater inflater = SettingActivity.this.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.unlink_data_modal, null);
+                ScrollView scrollView = (ScrollView) inflater.inflate(R.layout.unlink_data_modal, null);
 
-                TextView textView = dialogView.findViewById(R.id.text_view);
+                scrollView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollView.setOnGenericMotionListener((v1, event) -> false);
+                        scrollView.requestFocus();
+                    }
+                });
+
+                TextView textView = scrollView.findViewById(R.id.text_view);
                 textView.setText("데이터를 동기화\n하시겠습니까?");
 
-                TextView dataCountView = dialogView.findViewById(R.id.data_count);
+                TextView dataCountView = scrollView.findViewById(R.id.data_count);
                 dataCountView.setText(String.valueOf(unlinkCount) + "개");
 
-                Button unlinkCancel = dialogView.findViewById(R.id.cancel);
-                Button unlinkStart = dialogView.findViewById(R.id.finish);
+                Button unlinkCancel = scrollView.findViewById(R.id.cancel);
+                Button unlinkStart = scrollView.findViewById(R.id.finish);
                 unlinkStart.setText("연동");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
-                builder.setView(dialogView);
+                builder.setView(scrollView);
 
-                AlertDialog dialog = builder.create();
-
-                if (dialog.getWindow() != null) {
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xD0000000));
-                }
-                dialog.show();
+                AlertDialog dialog = showDialogWithRotaryInput(scrollView, scrollView);
 
                 // 비연동 데이터 업데이트
                 unlinkStart.setOnClickListener(b ->{
@@ -132,14 +142,22 @@ public class SettingActivity extends AppCompatActivity {
             String type = prefs.getString("type", null);
 
             LayoutInflater inflater = SettingActivity.this.getLayoutInflater();
-            View dialogView = inflater.inflate(R.layout.unlink_modal, null);
+            ScrollView scrollView = (ScrollView) inflater.inflate(R.layout.unlink_modal, null);
 
-            TextView text = dialogView.findViewById(R.id.text_view);
-            Button cancel = dialogView.findViewById(R.id.cancel);
-            Button unlinkBtn = dialogView.findViewById(R.id.finish);
-            TextView nicknameTv = dialogView.findViewById(R.id.nickname);
-            TextView emailTv = dialogView.findViewById(R.id.email);
-            ImageView typeIv = dialogView.findViewById(R.id.social_type);
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.setOnGenericMotionListener((v1, event) -> false);
+                    scrollView.requestFocus();
+                }
+            });
+
+            TextView text = scrollView.findViewById(R.id.text_view);
+            Button cancel = scrollView.findViewById(R.id.cancel);
+            Button unlinkBtn = scrollView.findViewById(R.id.finish);
+            TextView nicknameTv = scrollView.findViewById(R.id.nickname);
+            TextView emailTv = scrollView.findViewById(R.id.email);
+            ImageView typeIv = scrollView.findViewById(R.id.social_type);
 
             nicknameTv.setText(nickname);
             text.setText("연동을 해제하시겠습니까?");
@@ -152,14 +170,9 @@ public class SettingActivity extends AppCompatActivity {
             unlinkBtn.setText("해제");
 
             AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
-            builder.setView(dialogView);
+            builder.setView(scrollView);
 
-            AlertDialog dialog = builder.create();
-
-            if (dialog.getWindow() != null) {
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xD0000000));
-            }
-            dialog.show();
+            AlertDialog dialog = showDialogWithRotaryInput(scrollView, scrollView);
 
             cancel.setOnClickListener(b ->{
                 dialog.dismiss();
@@ -184,26 +197,29 @@ public class SettingActivity extends AppCompatActivity {
 
         binding.watchReset.setOnClickListener(v -> {
             LayoutInflater inflater = SettingActivity.this.getLayoutInflater();
-            View dialogView = inflater.inflate(R.layout.modal, null);
+            ScrollView scrollView = (ScrollView) inflater.inflate(R.layout.modal, null);
 
-            Button cancel = dialogView.findViewById(R.id.cancel);
-            Button finish = dialogView.findViewById(R.id.finish);
+            scrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    scrollView.setOnGenericMotionListener((v1, event) -> false);
+                    scrollView.requestFocus();
+                }
+            });
 
-            TextView text = dialogView.findViewById(R.id.text_view);
+            Button cancel = scrollView.findViewById(R.id.cancel);
+            Button finish = scrollView.findViewById(R.id.finish);
+
+            TextView text = scrollView.findViewById(R.id.text_view);
             Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.oagothic_medium);
             text.setTypeface(typeface);
             text.setText("내 기록을\n초기화 하시겠습니까?\n(워치에 저장된 내 기록과\n비연동 데이터가\n초기화됩니다)");
             finish.setText("초기화");
 
             AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
-            builder.setView(dialogView);
+            builder.setView(scrollView);
 
-            AlertDialog dialog = builder.create();
-
-            if (dialog.getWindow() != null) {
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xA0000000));
-            }
-            dialog.show();
+            AlertDialog dialog = showDialogWithRotaryInput(scrollView, scrollView);
 
             cancel.setOnClickListener(b ->{
                 dialog.dismiss();
@@ -245,5 +261,41 @@ public class SettingActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setupRotaryInputListener(ScrollView scrollView) {
+        scrollView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent ev) {
+                if (ev.getAction() == MotionEvent.ACTION_SCROLL &&
+                        ev.isFromSource(InputDeviceCompat.SOURCE_ROTARY_ENCODER)) {
+                    float delta = -ev.getAxisValue(MotionEventCompat.AXIS_SCROLL) *
+                            ViewConfigurationCompat.getScaledVerticalScrollFactor(
+                                    ViewConfiguration.get(v.getContext()), v.getContext());
+
+                    int scrollAmount = Math.round(delta * 10); // 스크롤 양 조정
+                    scrollView.scrollBy(0, scrollAmount);
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    private AlertDialog showDialogWithRotaryInput(View dialogView, ScrollView scrollView) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xD0000000));
+        }
+
+        dialog.show();
+
+        setupRotaryInputListener(scrollView);
+        scrollView.requestFocus();
+
+        return dialog;
     }
 }

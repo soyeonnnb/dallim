@@ -9,8 +9,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +22,9 @@ import androidx.activity.ComponentActivity;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.InputDeviceCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewConfigurationCompat;
 import androidx.wear.widget.WearableLinearLayoutManager;
 import androidx.wear.widget.WearableRecyclerView;
 
@@ -53,11 +59,11 @@ public class SelectActivity extends ComponentActivity {
         runningService = new RunningService(getApplicationContext());
 
         binding = ActivitySelectBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
+        setContentView(binding.getRoot());
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setEdgeItemsCenteringEnabled(true);
+        recyclerView.requestFocus();
 
         menuList = new ArrayList<>();
         // Add items to the menuList here
@@ -73,6 +79,26 @@ public class SelectActivity extends ComponentActivity {
                 new CustomScrollingLayoutCallback();
         recyclerView.setLayoutManager(
                 new WearableLinearLayoutManager(this, customScrollingLayoutCallback));
+
+        recyclerView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent ev) {
+                if (ev.getAction() == MotionEvent.ACTION_SCROLL &&
+                        ev.isFromSource(InputDeviceCompat.SOURCE_ROTARY_ENCODER)) {
+
+                    // 로터리 입력에 따라 스크롤 값을 계산
+                    float delta = -ev.getAxisValue(MotionEventCompat.AXIS_SCROLL) *
+                            ViewConfigurationCompat.getScaledVerticalScrollFactor(
+                                    ViewConfiguration.get(v.getContext()), v.getContext());
+
+                    // RecyclerView를 스크롤합니다.
+                    recyclerView.scrollBy(0, Math.round(delta));
+
+                    return true;
+                }
+                return false;
+            }
+        });
 
         // 클릭 이벤트 처리
         menuAdapter.setOnItemClickListener(new MenuAdapter.OnItemClickListener() {

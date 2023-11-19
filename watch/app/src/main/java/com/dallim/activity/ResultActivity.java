@@ -1,11 +1,17 @@
 package com.dallim.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.InputDeviceCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewConfigurationCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.Button;
+import android.widget.ScrollView;
 
 import com.dallim.R;
 import com.dallim.databinding.ActivityResultBinding;
@@ -48,6 +54,29 @@ public class ResultActivity extends AppCompatActivity {
         runningService = new RunningService(getApplicationContext());
 
         View view = binding.getRoot();
+
+        ScrollView scrollView = findViewById(R.id.result_id);
+        scrollView.requestFocus();
+
+        scrollView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent ev) {
+                if (ev.getAction() == MotionEvent.ACTION_SCROLL &&
+                        ev.isFromSource(InputDeviceCompat.SOURCE_ROTARY_ENCODER)) {
+
+                    // 로터리 입력에 따라 스크롤 값을 계산
+                    float delta = -ev.getAxisValue(MotionEventCompat.AXIS_SCROLL) *
+                            ViewConfigurationCompat.getScaledVerticalScrollFactor(
+                                    ViewConfiguration.get(v.getContext()), v.getContext());
+
+                    // RecyclerView를 스크롤합니다.
+                    scrollView.scrollBy(0, Math.round(delta));
+
+                    return true;
+                }
+                return false;
+            }
+        });
 
         runningService.getRecentRunningData(new RunningService.RecentRunningDataCallback() {
             @Override

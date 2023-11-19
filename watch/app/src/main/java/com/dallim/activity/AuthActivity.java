@@ -6,18 +6,25 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.InputDeviceCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewConfigurationCompat;
 
+import com.dallim.R;
 import com.dallim.databinding.ActivityAuthBinding;
 import com.dallim.dto.request.AccessTokenRequestDTO;
 import com.dallim.dto.response.AccessTokenResponseDTO;
 import com.dallim.dto.response.ApiResponseDTO;
 import com.dallim.dto.response.AuthCodeResponseDTO;
 import com.dallim.util.AccessToken;
-import com.dallim.util.ApiUtil;
+import com.dallim.util.Retrofit;
 import com.dallim.util.PreferencesUtil;
 import com.dallim.util.UserInfo;
 
@@ -39,6 +46,29 @@ public class AuthActivity extends AppCompatActivity {
         binding = ActivityAuthBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        ScrollView scrollView = findViewById(R.id.auth_id);
+        scrollView.requestFocus();
+
+        scrollView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent ev) {
+                if (ev.getAction() == MotionEvent.ACTION_SCROLL &&
+                        ev.isFromSource(InputDeviceCompat.SOURCE_ROTARY_ENCODER)) {
+
+                    // 로터리 입력에 따라 스크롤 값을 계산
+                    float delta = -ev.getAxisValue(MotionEventCompat.AXIS_SCROLL) *
+                            ViewConfigurationCompat.getScaledVerticalScrollFactor(
+                                    ViewConfiguration.get(v.getContext()), v.getContext());
+
+                    // RecyclerView를 스크롤합니다.
+                    scrollView.scrollBy(0, Math.round(delta));
+
+                    return true;
+                }
+                return false;
+            }
+        });
 
         pref = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
         startTimer();
@@ -65,7 +95,7 @@ public class AuthActivity extends AppCompatActivity {
     private void verifyAuthenticationCode(){
         AccessTokenRequestDTO requestDTO = new AccessTokenRequestDTO((String) binding.codeTextView.getText());
         System.out.println(requestDTO.getAuthCode());
-        Call<ApiResponseDTO<AccessTokenResponseDTO>> call = ApiUtil.getApiService().verifyCode(requestDTO);
+        Call<ApiResponseDTO<AccessTokenResponseDTO>> call = Retrofit.getApiService().verifyCode(requestDTO);
         call.enqueue(new Callback<ApiResponseDTO<AccessTokenResponseDTO>>() {
             @Override
             public void onResponse(Call<ApiResponseDTO<AccessTokenResponseDTO>> call, Response<ApiResponseDTO<AccessTokenResponseDTO>> response) {
@@ -105,7 +135,7 @@ public class AuthActivity extends AppCompatActivity {
 
     // 인증번호 생성 요청
     private void requestAuthenticationCode() {
-        Call<ApiResponseDTO<AuthCodeResponseDTO>> call = ApiUtil.getApiService().generateCode();
+        Call<ApiResponseDTO<AuthCodeResponseDTO>> call = Retrofit.getApiService().generateCode();
         call.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<ApiResponseDTO<AuthCodeResponseDTO>> call, Response<ApiResponseDTO<AuthCodeResponseDTO>> response) {

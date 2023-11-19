@@ -8,10 +8,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import com.dallim.activity.ResultActivity;
-import com.dallim.activity.RunningMateActivity;
 import com.dallim.database.AppDatabase;
 import com.dallim.dto.response.ApiResponseDTO;
 import com.dallim.dto.response.ApiResponseListDTO;
@@ -22,8 +19,7 @@ import com.dallim.model.RunningData;
 import com.dallim.model.RunningMate;
 import com.dallim.model.RunningMateRecord;
 import com.dallim.util.AccessToken;
-import com.dallim.util.ApiUtil;
-import com.dallim.util.MyApplication;
+import com.dallim.util.Retrofit;
 import com.dallim.view.RunningMateRecordViewModel;
 
 import java.util.ArrayList;
@@ -208,7 +204,7 @@ public class RunningService {
 
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
-        Call<ApiResponseListDTO<RunningMateResponseDTO>> call = ApiUtil.getApiService().getRunningMate(token);
+        Call<ApiResponseListDTO<RunningMateResponseDTO>> call = Retrofit.getApiService().getRunningMate(token);
         call.enqueue(new Callback<ApiResponseListDTO<RunningMateResponseDTO>>() {
             @Override
             public void onResponse(Call<ApiResponseListDTO<RunningMateResponseDTO>> call, Response<ApiResponseListDTO<RunningMateResponseDTO>> response) {
@@ -256,7 +252,7 @@ public class RunningService {
 
         String accessToken = AccessToken.getInstance().getAccessToken();
         String token = "Bearer " + accessToken;
-        Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call = ApiUtil.getApiService().getRunningMateRecord(token, objectId);
+        Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call = Retrofit.getApiService().getRunningMateRecord(token, objectId);
         call.enqueue(new Callback<ApiResponseDTO<RunningMateRunningRecordDTO>>() {
             @Override
             public void onResponse(Call<ApiResponseDTO<RunningMateRunningRecordDTO>> call, Response<ApiResponseDTO<RunningMateRunningRecordDTO>> response) {

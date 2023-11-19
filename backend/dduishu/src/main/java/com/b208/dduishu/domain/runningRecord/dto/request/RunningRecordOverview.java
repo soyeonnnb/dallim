@@ -4,6 +4,7 @@ import com.b208.dduishu.domain.runningMate.document.RunningMate;
 import com.b208.dduishu.domain.runningRecord.document.RunningRecord;
 import com.b208.dduishu.domain.runningRecord.document.RunningType;
 import com.b208.dduishu.domain.runningRecord.document.WatchOrMobile;
+import com.b208.dduishu.domain.runningRecord.document.WinOrLose;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class RunningRecordOverview {
     private double totalDistance;
     private double averageSpeed;
     private LocalDateTime createdAt;
+    private WinOrLose winOrLose;
 
     public RunningRecordOverview(RunningRecord runningRecord) {
         this.id = runningRecord.getId().toString();
@@ -33,5 +35,6 @@ public class RunningRecordOverview {
         this.totalDistance = runningRecord.getTotalDistance();
         this.averageSpeed = runningRecord.getAverageSpeed();
         this.createdAt = runningRecord.getCreatedAt();
+        this.winOrLose = runningRecord.getRivalRecord() != null ? runningRecord.getWinOrLose() : null;
     }
 }

@@ -22,6 +22,7 @@ import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
 import com.b208.dduishu.domain.runningRecordlog.repository.RunningRecordLogRepository;
 import com.b208.dduishu.domain.runningRecordlog.service.RunningRecordLogService;
 import com.b208.dduishu.domain.user.GetUser;
+import com.b208.dduishu.domain.user.dto.request.UserRankingInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.entity.UserState;
 import com.b208.dduishu.domain.user.exception.UserNotFoundException;
@@ -33,6 +34,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -229,6 +231,8 @@ public class RunningRecordService {
         List<RunningRecordOverview> runningRecordOverviews = records.stream()
                 .map(o -> new RunningRecordOverview(o))
                 .collect(toList());
+
+        runningRecordOverviews.sort(Comparator.comparing(RunningRecordOverview::getCreatedAt).reversed());
 
         return MonthRunningRecord.builder()
                 .year(year)

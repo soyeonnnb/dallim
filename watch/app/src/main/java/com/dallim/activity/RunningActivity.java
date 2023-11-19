@@ -193,7 +193,7 @@ public class RunningActivity extends AppCompatActivity {
         runningData.setAveragePace((60 * minute) + second);
 
         // 최종 시간 업데이트
-        runningData.setTotalTime(totalTime - 1);
+        runningData.setTotalTime(totalTime + 1);
 
         // 전체 기록
         runningData.setRunningRecordInfos(runningViewModel.getRunDetailList().getValue());

@@ -1,11 +1,18 @@
 package com.dallim.activity;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.TextView;
 
 import androidx.activity.ComponentActivity;
+import androidx.core.view.InputDeviceCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewConfigurationCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.wear.widget.WearableRecyclerView;
 
 import com.dallim.R;
 import com.dallim.adapter.MyRunningDataAdapter;
@@ -31,10 +38,33 @@ public class MyRecordActivity extends ComponentActivity {
 
         db = AppDatabase.getDatabase(this);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        WearableRecyclerView recyclerView = findViewById(R.id.my_record_id);
         recyclerView.setLayoutManager(layoutManager);
         MyRunningDataAdapter adapter = new MyRunningDataAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
+
+        recyclerView.requestFocus();
+
+
+        recyclerView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent ev) {
+                if (ev.getAction() == MotionEvent.ACTION_SCROLL &&
+                        ev.isFromSource(InputDeviceCompat.SOURCE_ROTARY_ENCODER)) {
+
+                    // 로터리 입력에 따라 스크롤 값을 계산
+                    float delta = -ev.getAxisValue(MotionEventCompat.AXIS_SCROLL) *
+                            ViewConfigurationCompat.getScaledVerticalScrollFactor(
+                                    ViewConfiguration.get(v.getContext()), v.getContext());
+
+                    // RecyclerView를 스크롤합니다.
+                    recyclerView.scrollBy(0, Math.round(delta));
+
+                    return true;
+                }
+                return false;
+            }
+        });
 
         TextView tvNoData = findViewById(R.id.tv_no_data);
 

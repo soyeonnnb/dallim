@@ -3,6 +3,13 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+tasks.register("wrapper", Wrapper::class) {
+    gradleVersion = "7.0"
+}
+
+tasks.register("prepareKotlinBuildScriptModel"){}
+
+
 android {
     namespace = "com.dallim"
     compileSdk = 34

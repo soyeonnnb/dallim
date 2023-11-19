@@ -24,7 +24,7 @@ public class UserInfo {
 
         String accessToken = AccessToken.getInstance().getAccessToken();
 
-        Call<ApiResponseDTO<UserInfoResponseDTO>> call = ApiUtil.getApiService().getUserInfo("Bearer " + accessToken);
+        Call<ApiResponseDTO<UserInfoResponseDTO>> call = Retrofit.getApiService().getUserInfo("Bearer " + accessToken);
         call.enqueue(new Callback<ApiResponseDTO<UserInfoResponseDTO>>() {
             @Override
             public void onResponse(Call<ApiResponseDTO<UserInfoResponseDTO>> call, Response<ApiResponseDTO<UserInfoResponseDTO>> response) {

@@ -66,7 +66,6 @@ function Main({ navigation }: MainProps) {
   const loadUserInfo = async () => {
     try {
       const userInfo = await fetchUserProfile(); // API 함수 호출
-      // console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
 
       if (userInfo) {
         setUserId(userInfo.userId);

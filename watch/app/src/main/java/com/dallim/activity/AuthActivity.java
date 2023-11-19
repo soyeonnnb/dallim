@@ -6,11 +6,18 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.InputDeviceCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewConfigurationCompat;
 
+import com.dallim.R;
 import com.dallim.databinding.ActivityAuthBinding;
 import com.dallim.dto.request.AccessTokenRequestDTO;
 import com.dallim.dto.response.AccessTokenResponseDTO;
@@ -39,6 +46,29 @@ public class AuthActivity extends AppCompatActivity {
         binding = ActivityAuthBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        ScrollView scrollView = findViewById(R.id.auth_id);
+        scrollView.requestFocus();
+
+        scrollView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent ev) {
+                if (ev.getAction() == MotionEvent.ACTION_SCROLL &&
+                        ev.isFromSource(InputDeviceCompat.SOURCE_ROTARY_ENCODER)) {
+
+                    // 로터리 입력에 따라 스크롤 값을 계산
+                    float delta = -ev.getAxisValue(MotionEventCompat.AXIS_SCROLL) *
+                            ViewConfigurationCompat.getScaledVerticalScrollFactor(
+                                    ViewConfiguration.get(v.getContext()), v.getContext());
+
+                    // RecyclerView를 스크롤합니다.
+                    scrollView.scrollBy(0, Math.round(delta));
+
+                    return true;
+                }
+                return false;
+            }
+        });
 
         pref = PreferencesUtil.getEncryptedSharedPreferences(getApplicationContext());
         startTimer();

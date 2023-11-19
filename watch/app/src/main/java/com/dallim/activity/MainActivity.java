@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -18,14 +20,25 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.widget.Button;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.InputDeviceCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewConfigurationCompat;
 
+import com.dallim.R;
 import com.dallim.databinding.ActivityMainBinding;
 import com.dallim.util.AccessToken;
 import com.dallim.util.NetworkUtil;
@@ -115,16 +128,43 @@ public class MainActivity extends ComponentActivity{
     }
 
     private void showAlert() {
-        new AlertDialog.Builder(this)
-                .setTitle("달림 모바일 연동")
-                .setMessage("달림을 사용하기 위해서는 인증이 필요합니다.")
-                .setPositiveButton("인증하기", (dialog, which) -> {
-                    // 인증 액티비티로 이동하는 인텐트 실행
-                    Intent intent = new Intent(MainActivity.this, AuthActivity.class);
-                    startActivity(intent);
-                })
-                .setNegativeButton("취소", (dialog, which) -> dialog.dismiss())
-                .create().show();
+        LayoutInflater inflater = this.getLayoutInflater();
+        ScrollView scrollView = (ScrollView) inflater.inflate(R.layout.modal, null); // custom_alert_dialog.xml이 커스텀 레이아웃입니다.
+
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.setOnGenericMotionListener((v1, event) -> false);
+                scrollView.requestFocus();
+            }
+        });
+
+        Button cancel = scrollView.findViewById(R.id.cancel);
+        Button finish = scrollView.findViewById(R.id.finish);
+
+        TextView text = scrollView.findViewById(R.id.text_view);
+        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.oagothic_medium);
+        text.setTypeface(typeface);
+        text.setText("달림을 사용하기 위해서는\n인증이 필요합니다.");
+        finish.setText("인증하기");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setView(scrollView);
+
+        AlertDialog dialog = showDialogWithRotaryInput(scrollView, scrollView);
+
+        cancel.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
+        scrollView.requestFocus();
+
+        finish.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AuthActivity.class);
+            startActivity(intent);
+            dialog.dismiss();
+        });
     }
 
     @Override
@@ -274,6 +314,42 @@ public class MainActivity extends ComponentActivity{
     private void startSelectActivity() {
         Intent intent = new Intent(MainActivity.this, SelectActivity.class);
         startActivity(intent);
+    }
+
+    private void setupRotaryInputListener(ScrollView scrollView) {
+        scrollView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent ev) {
+                if (ev.getAction() == MotionEvent.ACTION_SCROLL &&
+                        ev.isFromSource(InputDeviceCompat.SOURCE_ROTARY_ENCODER)) {
+                    float delta = -ev.getAxisValue(MotionEventCompat.AXIS_SCROLL) *
+                            ViewConfigurationCompat.getScaledVerticalScrollFactor(
+                                    ViewConfiguration.get(v.getContext()), v.getContext());
+
+                    int scrollAmount = Math.round(delta * 10); // 스크롤 양 조정
+                    scrollView.scrollBy(0, scrollAmount);
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    private AlertDialog showDialogWithRotaryInput(View dialogView, ScrollView scrollView) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xD0000000));
+        }
+
+        dialog.show();
+
+        setupRotaryInputListener(scrollView);
+        scrollView.requestFocus();
+
+        return dialog;
     }
 
 

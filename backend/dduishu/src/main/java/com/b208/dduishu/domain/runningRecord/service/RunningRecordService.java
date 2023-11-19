@@ -232,7 +232,7 @@ public class RunningRecordService {
                 .map(o -> new RunningRecordOverview(o))
                 .collect(toList());
 
-        runningRecordOverviews.sort(Comparator.comparing(RunningRecordOverview::getCreatedAt).reversed());
+        runningRecordOverviews.sort(Comparator.comparing(RunningRecordOverview::getCreatedAt));
 
         return MonthRunningRecord.builder()
                 .year(year)

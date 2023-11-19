@@ -102,6 +102,6 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/oagothic_medium"
             android:textColor="@color/white"
-            android:text="V 1.03"/>
+            android:text="V 2.0.1"/>
     </LinearLayout>
 </FrameLayout>

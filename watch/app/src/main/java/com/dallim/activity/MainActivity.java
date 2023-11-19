@@ -86,36 +86,9 @@ public class MainActivity extends ComponentActivity{
         boolean isIgnoringBatteryOptimizations = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && powerManager.isIgnoringBatteryOptimizations(getPackageName());
 
         if (isPowerSaveMode) {
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("절전 모드 감지");
-            builder.setMessage("정확한 위치 추적을 위해 절전 모드를 해제하고 어플을 다시 실행해주세요.");
-            builder.setPositiveButton("설정으로 이동", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // 사용자가 OK 버튼을 클릭했을 때 절전 모드 설정 화면으로 이동
-                    Intent intent;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                        intent = new Intent(Settings.ACTION_BATTERY_SAVER_SETTINGS);
-                    } else {
-                        // 이전 버전의 안드로이드에서는 절전 모드 설정을 직접 열 수 없으므로 일반 설정 화면으로 이동
-                        intent = new Intent(Settings.ACTION_SETTINGS);
-                    }
-                    startActivity(intent);
-                    finish();
-                }
-            });
-            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    // 대화 상자가 닫힐 때 액티비티를 종료
-                    finish();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-        if (!isIgnoringBatteryOptimizations) {
-            System.out.println("최적화모드 아님");
+            Intent intent = new Intent(MainActivity.this, SaveModeActivity.class);
+            startActivity(intent);
+            MainActivity.this.finish();
         }
     }
 
@@ -147,9 +120,6 @@ public class MainActivity extends ComponentActivity{
         text.setTypeface(typeface);
         text.setText("달림을 사용하기 위해서는\n인증이 필요합니다.");
         finish.setText("인증하기");
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-        builder.setView(scrollView);
 
         AlertDialog dialog = showDialogWithRotaryInput(scrollView, scrollView);
 
@@ -338,6 +308,7 @@ public class MainActivity extends ComponentActivity{
     private AlertDialog showDialogWithRotaryInput(View dialogView, ScrollView scrollView) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setView(dialogView);
+        builder.setCancelable(false);
 
         AlertDialog dialog = builder.create();
         if (dialog.getWindow() != null) {

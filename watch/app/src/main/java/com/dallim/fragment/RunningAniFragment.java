@@ -76,7 +76,7 @@ public class RunningAniFragment extends Fragment {
                 // 마지막 거리 저장
                 lastDistance = mateDistance.get(mateDistance.size() - 1);
                 kmLastDistance = conversion.mToKM(lastDistance);
-            }else{
+            } else {
                 // 혼자 달리기일 경우 페이스 보여주게
                 binding.singlePace.setVisibility(View.VISIBLE);
                 binding.singleRunDistance.setVisibility(View.VISIBLE);
@@ -187,30 +187,86 @@ public class RunningAniFragment extends Fragment {
         ImageView mateView = null;
 
         // 거리 차이에 따른 캐릭터 선택
-        if (distanceDifference > -25 && distanceDifference <= 0) {
-            mateView = binding.mateCha7;
-        } else if (distanceDifference > -50 && distanceDifference <= -25) {
-            mateView = binding.mateCha8;
-        }  else if (distanceDifference > -100 && distanceDifference <= -50) {
-            mateView = binding.mateCha9;
-        } else if (distanceDifference > -200 && distanceDifference <= -100) {
-            mateView = binding.mateCha10;
-        } else if (distanceDifference > -300 && distanceDifference <= -200) {
-            mateView = binding.mateCha11;
-        } else if (distanceDifference <= -300) {
-            mateView = binding.mateCha12;
-        } else if (distanceDifference < 25 && distanceDifference >= 0) {
+        if (distanceDifference > -10 && distanceDifference <= 0) {
+            mateView = binding.mateCha21;
+        } else if (distanceDifference > -20 && distanceDifference <= -10) {
+            mateView = binding.mateCha22;
+        } else if (distanceDifference > -30 && distanceDifference <= -20) {
+            mateView = binding.mateCha23;
+        } else if (distanceDifference > -40 && distanceDifference <= -30) {
+            mateView = binding.mateCha24;
+        } else if (distanceDifference > -50 && distanceDifference <= -40) {
+            mateView = binding.mateCha25;
+        } else if (distanceDifference > -60 && distanceDifference <= -50) {
+            mateView = binding.mateCha26;
+        } else if (distanceDifference > -70 && distanceDifference <= -60) {
+            mateView = binding.mateCha27;
+        } else if (distanceDifference > -80 && distanceDifference <= -70) {
+            mateView = binding.mateCha28;
+        } else if (distanceDifference > -90 && distanceDifference <= -80) {
+            mateView = binding.mateCha29;
+        } else if (distanceDifference > -100 && distanceDifference <= -90) {
+            mateView = binding.mateCha30;
+        } else if (distanceDifference > -110 && distanceDifference <= -100) {
+            mateView = binding.mateCha31;
+        } else if (distanceDifference > -120 && distanceDifference <= -110) {
+            mateView = binding.mateCha32;
+        } else if (distanceDifference > -130 && distanceDifference <= -120) {
+            mateView = binding.mateCha33;
+        } else if (distanceDifference > -140 && distanceDifference <= -130) {
+            mateView = binding.mateCha34;
+        } else if (distanceDifference > -150 && distanceDifference <= -140) {
+            mateView = binding.mateCha35;
+        } else if (distanceDifference > -160 && distanceDifference <= -150) {
+            mateView = binding.mateCha36;
+        } else if (distanceDifference > -170 && distanceDifference <= -160) {
+            mateView = binding.mateCha37;
+        } else if (distanceDifference > -180 && distanceDifference <= -170) {
+            mateView = binding.mateCha38;
+        } else if (distanceDifference > -190 && distanceDifference <= -180) {
+            mateView = binding.mateCha39;
+        } else if (distanceDifference <= -190) {
+            mateView = binding.mateCha40;
+        } else if (distanceDifference < 10 && distanceDifference >= 0) {
             mateView = binding.mateCha1;
-        } else if (distanceDifference < 50 && distanceDifference >= 25) {
+        } else if (distanceDifference < 20 && distanceDifference >= 10) {
             mateView = binding.mateCha2;
-        } else if (distanceDifference < 100 && distanceDifference >= 50) {
+        } else if (distanceDifference < 30 && distanceDifference >= 20) {
             mateView = binding.mateCha3;
-        } else if (distanceDifference < 200 && distanceDifference >= 100) {
+        } else if (distanceDifference < 40 && distanceDifference >= 30) {
             mateView = binding.mateCha4;
-        } else if (distanceDifference < 300 && distanceDifference >= 200) {
+        } else if (distanceDifference < 50 && distanceDifference >= 40) {
             mateView = binding.mateCha5;
-        } else if (distanceDifference >= 300) {
+        } else if (distanceDifference < 60 && distanceDifference >= 50) {
             mateView = binding.mateCha6;
+        } else if (distanceDifference < 60 && distanceDifference >= 50) {
+            mateView = binding.mateCha7;
+        } else if (distanceDifference < 70 && distanceDifference >= 60) {
+            mateView = binding.mateCha8;
+        } else if (distanceDifference < 80 && distanceDifference >= 70) {
+            mateView = binding.mateCha9;
+        } else if (distanceDifference < 90 && distanceDifference >= 80) {
+            mateView = binding.mateCha10;
+        } else if (distanceDifference < 100 && distanceDifference >= 90) {
+            mateView = binding.mateCha11;
+        } else if (distanceDifference < 110 && distanceDifference >= 100) {
+            mateView = binding.mateCha12;
+        } else if (distanceDifference < 120 && distanceDifference >= 110) {
+            mateView = binding.mateCha13;
+        } else if (distanceDifference < 130 && distanceDifference >= 120) {
+            mateView = binding.mateCha14;
+        } else if (distanceDifference < 140 && distanceDifference >= 130) {
+            mateView = binding.mateCha15;
+        } else if (distanceDifference < 150 && distanceDifference >= 140) {
+            mateView = binding.mateCha16;
+        } else if (distanceDifference < 160 && distanceDifference >= 150) {
+            mateView = binding.mateCha17;
+        } else if (distanceDifference < 170 && distanceDifference >= 160) {
+            mateView = binding.mateCha18;
+        } else if (distanceDifference < 180 && distanceDifference >= 170) {
+            mateView = binding.mateCha19;
+        } else if (distanceDifference >= 180) {
+            mateView = binding.mateCha20;
         }
 
         // 상대방 캐릭터의 이미지 설정
@@ -248,5 +304,35 @@ public class RunningAniFragment extends Fragment {
         binding.mateCha10.setVisibility(View.INVISIBLE);
         binding.mateCha11.setVisibility(View.INVISIBLE);
         binding.mateCha12.setVisibility(View.INVISIBLE);
+        binding.mateCha13.setVisibility(View.INVISIBLE);
+        binding.mateCha14.setVisibility(View.INVISIBLE);
+        binding.mateCha15.setVisibility(View.INVISIBLE);
+        binding.mateCha16.setVisibility(View.INVISIBLE);
+        binding.mateCha17.setVisibility(View.INVISIBLE);
+        binding.mateCha18.setVisibility(View.INVISIBLE);
+        binding.mateCha19.setVisibility(View.INVISIBLE);
+        binding.mateCha20.setVisibility(View.INVISIBLE);
+        binding.mateCha21.setVisibility(View.INVISIBLE);
+        binding.mateCha22.setVisibility(View.INVISIBLE);
+        binding.mateCha23.setVisibility(View.INVISIBLE);
+        binding.mateCha24.setVisibility(View.INVISIBLE);
+        binding.mateCha25.setVisibility(View.INVISIBLE);
+        binding.mateCha26.setVisibility(View.INVISIBLE);
+        binding.mateCha27.setVisibility(View.INVISIBLE);
+        binding.mateCha28.setVisibility(View.INVISIBLE);
+        binding.mateCha29.setVisibility(View.INVISIBLE);
+        binding.mateCha30.setVisibility(View.INVISIBLE);
+        binding.mateCha31.setVisibility(View.INVISIBLE);
+        binding.mateCha32.setVisibility(View.INVISIBLE);
+        binding.mateCha33.setVisibility(View.INVISIBLE);
+        binding.mateCha34.setVisibility(View.INVISIBLE);
+        binding.mateCha35.setVisibility(View.INVISIBLE);
+        binding.mateCha36.setVisibility(View.INVISIBLE);
+        binding.mateCha37.setVisibility(View.INVISIBLE);
+        binding.mateCha38.setVisibility(View.INVISIBLE);
+        binding.mateCha39.setVisibility(View.INVISIBLE);
+        binding.mateCha40.setVisibility(View.INVISIBLE);
+
+
     }
 }

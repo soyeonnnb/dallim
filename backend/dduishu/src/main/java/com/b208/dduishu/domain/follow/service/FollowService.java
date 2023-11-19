@@ -64,13 +64,11 @@ public class FollowService {
     @Transactional
     public boolean checkDuplicate(Long fromUserId, Long toUserId) {
 
-        Follow res = followRepository.findByFromUserUserIdAndToUserUserId(fromUserId, toUserId);
-
         Follow alreadyFriends1 = followRepository.findByFromUserUserIdAndToUserUserIdAndState(fromUserId, toUserId, FollowState.accept);
         Follow alreadyFriends2 = followRepository.findByFromUserUserIdAndToUserUserIdAndState(toUserId, fromUserId, FollowState.accept);
         Follow alreadyFriends3 = followRepository.findByFromUserUserIdAndToUserUserIdAndState(fromUserId, toUserId, FollowState.waiting);
         Follow alreadyFriends4 = followRepository.findByFromUserUserIdAndToUserUserIdAndState(toUserId, fromUserId, FollowState.waiting);
-        if (res != null || alreadyFriends1 != null || alreadyFriends2 != null || alreadyFriends3 != null || alreadyFriends4 != null) {
+        if (alreadyFriends1 != null || alreadyFriends2 != null || alreadyFriends3 != null || alreadyFriends4 != null) {
             return true;
         }
         return false;

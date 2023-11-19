@@ -23,7 +23,7 @@ import com.dallim.service.RunningService;
 import com.dallim.service.SensorService;
 import com.dallim.service.TimerService;
 import com.dallim.util.AccessToken;
-import com.dallim.util.ApiUtil;
+import com.dallim.util.Retrofit;
 import com.dallim.util.Conversion;
 import com.dallim.util.MyApplication;
 import com.dallim.util.NetworkUtil;
@@ -256,7 +256,7 @@ public class RunningActivity extends AppCompatActivity {
             runningService.addRunningData(runningData);
             RunningDataDTO runningDataDTO = runningData.toDTO();
             Log.d("보내는리스트", String.valueOf(runningDataDTO.toString()));
-            ApiUtil.getApiService().postRunningData(token, runningDataDTO).enqueue(new Callback<Void>() {
+            Retrofit.getApiService().postRunningData(token, runningDataDTO).enqueue(new Callback<Void>() {
                 // api 호출이 완료되면 콜백 실행
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {

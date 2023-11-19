@@ -176,10 +176,10 @@ public class RunningRecordService {
         return new LocalDateTime[]{firstDayOfMonth.atStartOfDay().minusSeconds(1), lastDayOfMonth.atTime(LocalTime.MAX)};
     }
 
-    private String findMostFrequentRunningMateId(List<RunningRecord> records) {
+    private Long findMostFrequentRunningMateId(List<RunningRecord> records) {
         return records.stream()
                 .filter(o -> o.getRivalRecord() != null)
-                .map(o -> o.getRivalRecord().getId().toString())
+                .map(o -> o.getRivalRecord().getUser().getUserId())
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet().stream()
                 .max(Map.Entry.comparingByValue())
@@ -187,16 +187,11 @@ public class RunningRecordService {
                 .orElse(null);
     }
 
-    private User findUserByRunningMateId(String runningMateId) {
+    private User findUserByRunningMateId(Long runningMateId) {
         if (runningMateId == null) {
             return null;
         }
-        RunningRecord record = runningRecordRepository.findById(new ObjectId(runningMateId)).orElse(null);
-        if (record == null) {
-            return null;
-        }
-        Long mostFrequentUserId =  record.getUser().getUserId();
-        return userRepository.findByUserId(mostFrequentUserId);
+        return userRepository.findByUserId(runningMateId);
     }
 
     private double computeTotalDistance(List<RunningRecord> records) {
@@ -215,7 +210,7 @@ public class RunningRecordService {
 
         List<RunningRecord> records = runningRecordRepository.findByUserUserIdAndCreatedAtBetween(user.getUserId(), monthRange[0], monthRange[1]);
 
-        String mostFrequentRunningMateId = findMostFrequentRunningMateId(records);
+        Long mostFrequentRunningMateId = findMostFrequentRunningMateId(records);
         User runningMate = findUserByRunningMateId(mostFrequentRunningMateId);
         Character runningMateCharacter= null;
         if (runningMate != null) {

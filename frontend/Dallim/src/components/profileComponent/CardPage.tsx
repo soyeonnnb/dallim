@@ -232,6 +232,7 @@ export default function CardPage({item}: ICardPage) {
           {/* 클리어 도장 */}
         </S.StyledImage>
       </S.ImageWrapper>
+      
       <S.ClearBox>
         {item.clear && <S.ClearImage source={ClearIcon} resizeMode="contain" />}
       </S.ClearBox>

@@ -66,7 +66,6 @@ function Main({ navigation }: MainProps) {
   const loadUserInfo = async () => {
     try {
       const userInfo = await fetchUserProfile(); // API 함수 호출
-      // console.log('Main : 정보 조회 Axios 성공 userInfo : ', userInfo);
 
       if (userInfo) {
         setUserId(userInfo.userId);
@@ -252,7 +251,6 @@ function Main({ navigation }: MainProps) {
         </>
       ) : (
         <>
-
           <S.BackgroundImage
             source={require('@/assets/images/MainBackground.png')}
             resizeMode="cover">
@@ -363,7 +361,6 @@ function Main({ navigation }: MainProps) {
               <S.HeaderRight>
                 <S.PointBox>
                   <S.PointImage source={PointImage} resizeMode="contain" />
-
                   <S.PointText>{formatPoints(userPoint)}</S.PointText>
                 </S.PointBox>
               </S.HeaderRight>

@@ -78,6 +78,7 @@ function Chart() {
             selectedYearMonth={selectedYearMonth}
             setSelectedYearMonth={setSelectedYearMonth}
             previewChartType={previewChartType}
+            
           />
         </>
       )}

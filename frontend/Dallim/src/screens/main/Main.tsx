@@ -251,7 +251,6 @@ function Main({ navigation }: MainProps) {
         </>
       ) : (
         <>
-
           <S.BackgroundImage
             source={require('@/assets/images/MainBackground.png')}
             resizeMode="cover">
@@ -362,7 +361,6 @@ function Main({ navigation }: MainProps) {
               <S.HeaderRight>
                 <S.PointBox>
                   <S.PointImage source={PointImage} resizeMode="contain" />
-
                   <S.PointText>{formatPoints(userPoint)}</S.PointText>
                 </S.PointBox>
               </S.HeaderRight>

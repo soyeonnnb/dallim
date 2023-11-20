@@ -139,7 +139,7 @@ export const PointText = styled.Text`
   width: 50%;
   color: white;
   top: 40%;
-  right: 5%;
+  right: 7%;
   position: absolute;
   text-align: center;
 `;

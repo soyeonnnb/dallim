@@ -1,6 +1,8 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
+  /* border-color: red;
+  border-width: 1px; */
   flex: 1;
   align-items: center;
   width: 100%;

@@ -1,18 +1,18 @@
-import {useRef, useState, useMemo, useCallback, useEffect} from 'react';
+import { useRef, useState, useMemo, useCallback, useEffect } from 'react';
 import BottomSheet from '@gorhom/bottom-sheet';
 import PreviewDaily from './preview/Daily';
 import PreviewRecord from './preview/PreviewRecord';
-import PreviewMonthly from './preview/Monthly';
+import PreviewMonthly from './preview/Monthly'; 
 import * as S from './Preview.styles';
-import {CalendarType} from '@/recoil/data/CalendarData';
-import {MonthlyRecords, DailyRecord} from '@/apis/ChartApi';
-import {colors} from '@/components/common/globalStyles';
+import { CalendarType } from '@/recoil/data/CalendarData';
+import { MonthlyRecords, DailyRecord } from '@/apis/ChartApi';
+import { colors } from '@/components/common/globalStyles';
 
 interface Props {
   isClicked?: boolean;
   selectedDate?: CalendarType;
   everyRecords?: MonthlyRecords[];
-  selectedYearMonth: {year: number; month: number};
+  selectedYearMonth: { year: number; month: number };
   setSelectedYearMonth?: any;
   previewChartType: 'week' | 'month';
 }
@@ -50,7 +50,7 @@ function Preview({
   });
   const [runningRankingRecords, setRunningRankingRecords] = useState<
     {
-      stacks: {value: number; color: string}[];
+      stacks: { value: number; color: string }[];
       label: string;
       info: {
         id: string;
@@ -155,16 +155,21 @@ function Preview({
       ) {
         monthData.records.map(record => {
           const recordDate = Number(record.createdAt.slice(8, 10));
+          console.log("kkkkkkkkk :" + JSON.stringify(record));
+
           if (selectedDate.day === recordDate) {
             newDailyRecords.push({
               id: record.id,
-              location: record.location,
+              location: record.location, 
               distance: record.totalDistance,
               hour: Number(record.createdAt.slice(11, 13)),
               minute: Number(record.createdAt.slice(14, 16)),
               time: record.totalTime,
               type: record.type,
+              winOrLose: record.winOrLose,
             });
+            console.log("dddddddddddd :" + recordDate);
+            console.log("sssssssssss :" + JSON.stringify(newDailyRecords));
           }
         });
       }
@@ -188,7 +193,7 @@ function Preview({
             year={selectedYearMonth.year}
             month={selectedYearMonth.month}
           />
-          <PreviewDaily
+          <PreviewDaily  
             records={dailyRecords}
             date={selectedDate}
             isShow={isClicked ? true : false}

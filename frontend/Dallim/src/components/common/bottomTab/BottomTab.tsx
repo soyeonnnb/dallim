@@ -191,7 +191,7 @@ const animationStyles = StyleSheet.create({
   tabBarContainer: {
     flexDirection: 'row',
     width: '100%',
-    // height: '100px',
+
     justifyContent: 'space-evenly',
     backgroundColor: '#484287',
     // borderTopEndRadius: 45,

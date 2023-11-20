@@ -9,6 +9,7 @@ export interface DailyRecord {
   minute: number; // 출발 기준 분
   time: number; // 얼마나 걸렸는지 (시간)
   type: 'PAIR' | 'ALONE'; // 혼자 달린건지
+  winOrLose: string | null; 
 }
 
 // 월별에서 사용
@@ -21,6 +22,7 @@ export interface RunningRecord {
   totalDistance: number; // 기록 거리
   averageSpeed: number; // 기록 평균 속력
   createdAt: string; // 기록 시간
+  winOrLose: string | null;
 }
 
 export interface MonthlyRecords {

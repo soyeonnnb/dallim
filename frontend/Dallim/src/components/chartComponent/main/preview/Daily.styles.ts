@@ -15,6 +15,9 @@ export const Title = styled.Text`
 `;
 
 export const Card = styled.TouchableOpacity<{width: number}>`
+  /* border-color: red;
+  border-width: 1px; */
+
   width: ${props => props.width}px;
   height: 100%;
   justify-content: center;
@@ -24,11 +27,15 @@ export const Card = styled.TouchableOpacity<{width: number}>`
 `;
 
 export const CardTitle = styled.Text`
+  /* border-color: red;
+  border-width: 1px; */
   color: white;
   font-size: 17px;
   font-weight: 800;
 `;
 export const CardDatas = styled.View`
+  /* border-color: red;
+  border-width: 1px; */
   flex-direction: row;
 `;
 export const CardData = styled.Text`
@@ -47,8 +54,28 @@ export const CardImage = styled(ImageBackground)`
   overflow: hidden; // border-radius 스타일을 적용하기 위해 추가
 `;
 export const CardTexts = styled.View`
+  /* border-color: red;
+  border-width: 1px; */
+
   width: 90%;
   height: 90%;
   padding: 10px 20px;
   justify-content: space-evenly;
+`;
+
+export const ClearBox = styled.View`
+  /* border-width: 1px;
+  border-color: orange; */
+  width: 50px;
+  height: 50px;
+  right: 2%;
+  top: 5%;
+  position: absolute;
+`;
+
+export const ClearImage = styled.Image`
+  /* border-width: 1px;
+  border-color: red; */
+  width: 100%;
+  height: 100%;
 `;

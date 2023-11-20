@@ -3,6 +3,13 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+tasks.register("wrapper", Wrapper::class) {
+    gradleVersion = "7.0"
+}
+
+tasks.register("prepareKotlinBuildScriptModel"){}
+
+
 android {
     namespace = "com.dallim"
     compileSdk = 34
@@ -16,8 +23,8 @@ android {
         applicationId = "com.dallim"
         minSdk = 30
         targetSdk = 33
-        versionCode = 109
-        versionName = "2.0.0"
+        versionCode = 110
+        versionName = "2.0.1"
         vectorDrawables {
             useSupportLibrary = true
         }

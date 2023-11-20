@@ -5,7 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".activity.ResultActivity">
+    tools:context=".activity.ResultActivity"
+    android:id="@+id/result_id">
+    <requestFocus
+        android:focusable="true"
+        android:focusableInTouchMode="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -18,14 +20,25 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.widget.Button;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.ComponentActivity;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.view.InputDeviceCompat;
+import androidx.core.view.MotionEventCompat;
+import androidx.core.view.ViewConfigurationCompat;
 
+import com.dallim.R;
 import com.dallim.databinding.ActivityMainBinding;
 import com.dallim.util.AccessToken;
 import com.dallim.util.NetworkUtil;
@@ -58,25 +71,6 @@ public class MainActivity extends ComponentActivity{
         // 리시버 인스턴스를 생성합니다.
         networkUtil = new NetworkUtil();
 
-        // 알림을 사용하기 위한 코드(오레오 이상 버전이면 실행)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            /*새로운 알림 채널 생성
-             * id : 채널의 아이디
-             * name : 사용자에게 보여지는 채널 이름
-             * 채널의 중요도 설정
-             * */
-            NotificationChannel serviceChannel = new NotificationChannel(
-                    "dallim_channel",
-                    "달림 알림",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-
-            // 시스템에서 매니저를 가져와서 할당
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            // 매니저를 사용해서 알림 채널을 시스템에 등록한다.
-            manager.createNotificationChannel(serviceChannel);
-        }
-
         // 바인딩 클래스를 사용해서 xml코드를 객체화시킨다. findViewById를 안 쓰고 바인딩 클래스로 편하게 사용.
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         // xml 레이아웃의 최상위 뷰를 가져옴
@@ -84,6 +78,7 @@ public class MainActivity extends ComponentActivity{
         // 액티비티의 컨텐츠 뷰로 view를 설정. 여기서 화면에 뭐가 보일지 결정
         setContentView(view);
 
+        // 권한 확인 시작
         checkPermission();
 
         PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
@@ -91,36 +86,9 @@ public class MainActivity extends ComponentActivity{
         boolean isIgnoringBatteryOptimizations = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && powerManager.isIgnoringBatteryOptimizations(getPackageName());
 
         if (isPowerSaveMode) {
-            // Code to show an alert dialog that informs the user that the main activity is blocked while in power save mode
-            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-            builder.setTitle("절전 모드 감지");
-            builder.setMessage("정확한 위치 추적을 위해 절전 모드를 해제하고 어플을 다시 실행해주세요.");
-            builder.setPositiveButton("설정으로 이동", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    // 사용자가 OK 버튼을 클릭했을 때 절전 모드 설정 화면으로 이동
-                    Intent intent;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                        intent = new Intent(Settings.ACTION_BATTERY_SAVER_SETTINGS);
-                    } else {
-                        // 이전 버전의 안드로이드에서는 절전 모드 설정을 직접 열 수 없으므로 일반 설정 화면으로 이동
-                        intent = new Intent(Settings.ACTION_SETTINGS);
-                    }
-                    startActivity(intent);
-                    finish();
-                }
-            });
-            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialogInterface) {
-                    // 대화 상자가 닫힐 때 액티비티를 종료
-                    finish();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
-        if (!isIgnoringBatteryOptimizations) {
-            System.out.println("최적화모드 아님");
+            Intent intent = new Intent(MainActivity.this, SaveModeActivity.class);
+            startActivity(intent);
+            MainActivity.this.finish();
         }
     }
 
@@ -133,16 +101,40 @@ public class MainActivity extends ComponentActivity{
     }
 
     private void showAlert() {
-        new AlertDialog.Builder(this)
-                .setTitle("달림 모바일 연동")
-                .setMessage("달림을 사용하기 위해서는 인증이 필요합니다.")
-                .setPositiveButton("인증하기", (dialog, which) -> {
-                    // 인증 액티비티로 이동하는 인텐트 실행
-                    Intent intent = new Intent(MainActivity.this, AuthActivity.class);
-                    startActivity(intent);
-                })
-                .setNegativeButton("취소", (dialog, which) -> dialog.dismiss())
-                .create().show();
+        LayoutInflater inflater = this.getLayoutInflater();
+        ScrollView scrollView = (ScrollView) inflater.inflate(R.layout.modal, null); // custom_alert_dialog.xml이 커스텀 레이아웃입니다.
+
+        scrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.setOnGenericMotionListener((v1, event) -> false);
+                scrollView.requestFocus();
+            }
+        });
+
+        Button cancel = scrollView.findViewById(R.id.cancel);
+        Button finish = scrollView.findViewById(R.id.finish);
+
+        TextView text = scrollView.findViewById(R.id.text_view);
+        Typeface typeface = ResourcesCompat.getFont(getApplicationContext(), R.font.oagothic_medium);
+        text.setTypeface(typeface);
+        text.setText("달림을 사용하기 위해서는\n인증이 필요합니다.");
+        finish.setText("인증하기");
+
+        AlertDialog dialog = showDialogWithRotaryInput(scrollView, scrollView);
+
+        cancel.setOnClickListener(v ->{
+            dialog.dismiss();
+        });
+
+        dialog.show();
+        scrollView.requestFocus();
+
+        finish.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AuthActivity.class);
+            startActivity(intent);
+            dialog.dismiss();
+        });
     }
 
     @Override
@@ -239,12 +231,6 @@ public class MainActivity extends ComponentActivity{
     @Override
     protected void onResume() {
         super.onResume();
-
-        TtsUtil ttsUtil = new TtsUtil(getApplicationContext());
-        ttsUtil.speak("여기는 메인 액티비티입니다");
-
-
-
         // 시작 버튼을 클릭하면
         binding.btnStart.setOnClickListener(v -> {
             authenticateduth = prefs.getString("accessToken", null);
@@ -298,6 +284,43 @@ public class MainActivity extends ComponentActivity{
     private void startSelectActivity() {
         Intent intent = new Intent(MainActivity.this, SelectActivity.class);
         startActivity(intent);
+    }
+
+    private void setupRotaryInputListener(ScrollView scrollView) {
+        scrollView.setOnGenericMotionListener(new View.OnGenericMotionListener() {
+            @Override
+            public boolean onGenericMotion(View v, MotionEvent ev) {
+                if (ev.getAction() == MotionEvent.ACTION_SCROLL &&
+                        ev.isFromSource(InputDeviceCompat.SOURCE_ROTARY_ENCODER)) {
+                    float delta = -ev.getAxisValue(MotionEventCompat.AXIS_SCROLL) *
+                            ViewConfigurationCompat.getScaledVerticalScrollFactor(
+                                    ViewConfiguration.get(v.getContext()), v.getContext());
+
+                    int scrollAmount = Math.round(delta * 10); // 스크롤 양 조정
+                    scrollView.scrollBy(0, scrollAmount);
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+    private AlertDialog showDialogWithRotaryInput(View dialogView, ScrollView scrollView) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setView(dialogView);
+        builder.setCancelable(false);
+
+        AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xD0000000));
+        }
+
+        dialog.show();
+
+        setupRotaryInputListener(scrollView);
+        scrollView.requestFocus();
+
+        return dialog;
     }
 
 

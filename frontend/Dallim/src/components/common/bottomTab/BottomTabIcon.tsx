@@ -18,7 +18,7 @@ interface NavIconProps {
 const getNavIconColor = (focused: boolean) => {
   let iconColor;
 
-  iconColor = focused ? 'white' : '#EBECF0';
+  iconColor = focused ? '#3d3d4e' : '#EBECF0';
   return iconColor;
 };
 

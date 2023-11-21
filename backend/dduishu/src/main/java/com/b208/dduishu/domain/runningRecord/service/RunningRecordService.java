@@ -22,6 +22,7 @@ import com.b208.dduishu.domain.runningRecord.repository.RunningRecordRepository;
 import com.b208.dduishu.domain.runningRecordlog.repository.RunningRecordLogRepository;
 import com.b208.dduishu.domain.runningRecordlog.service.RunningRecordLogService;
 import com.b208.dduishu.domain.user.GetUser;
+import com.b208.dduishu.domain.user.dto.request.UserRankingInfo;
 import com.b208.dduishu.domain.user.entity.User;
 import com.b208.dduishu.domain.user.entity.UserState;
 import com.b208.dduishu.domain.user.exception.UserNotFoundException;
@@ -33,6 +34,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -174,10 +176,10 @@ public class RunningRecordService {
         return new LocalDateTime[]{firstDayOfMonth.atStartOfDay().minusSeconds(1), lastDayOfMonth.atTime(LocalTime.MAX)};
     }
 
-    private String findMostFrequentRunningMateId(List<RunningRecord> records) {
+    private Long findMostFrequentRunningMateId(List<RunningRecord> records) {
         return records.stream()
                 .filter(o -> o.getRivalRecord() != null)
-                .map(o -> o.getRivalRecord().getId().toString())
+                .map(o -> o.getRivalRecord().getUser().getUserId())
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                 .entrySet().stream()
                 .max(Map.Entry.comparingByValue())
@@ -185,16 +187,11 @@ public class RunningRecordService {
                 .orElse(null);
     }
 
-    private User findUserByRunningMateId(String runningMateId) {
+    private User findUserByRunningMateId(Long runningMateId) {
         if (runningMateId == null) {
             return null;
         }
-        RunningRecord record = runningRecordRepository.findById(new ObjectId(runningMateId)).orElse(null);
-        if (record == null) {
-            return null;
-        }
-        Long mostFrequentUserId =  record.getUser().getUserId();
-        return userRepository.findByUserId(mostFrequentUserId);
+        return userRepository.findByUserId(runningMateId);
     }
 
     private double computeTotalDistance(List<RunningRecord> records) {
@@ -213,7 +210,7 @@ public class RunningRecordService {
 
         List<RunningRecord> records = runningRecordRepository.findByUserUserIdAndCreatedAtBetween(user.getUserId(), monthRange[0], monthRange[1]);
 
-        String mostFrequentRunningMateId = findMostFrequentRunningMateId(records);
+        Long mostFrequentRunningMateId = findMostFrequentRunningMateId(records);
         User runningMate = findUserByRunningMateId(mostFrequentRunningMateId);
         Character runningMateCharacter= null;
         if (runningMate != null) {
@@ -229,6 +226,8 @@ public class RunningRecordService {
         List<RunningRecordOverview> runningRecordOverviews = records.stream()
                 .map(o -> new RunningRecordOverview(o))
                 .collect(toList());
+
+        runningRecordOverviews.sort(Comparator.comparing(RunningRecordOverview::getCreatedAt));
 
         return MonthRunningRecord.builder()
                 .year(year)

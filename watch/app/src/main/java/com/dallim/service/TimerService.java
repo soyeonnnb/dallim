@@ -160,7 +160,7 @@ public class TimerService extends Service {
                     Log.e("상태", "상대 시간 초과");
                     overTime = true;
                 }
-                if (runningViewModel.getOriDistance().getValue() != null && runningViewModel.getOriDistance().getValue() != 0) {
+                if (runningViewModel.getOriDistance().getValue() != null) {
                     Double mateDistance = mateRunningDetail.get(seconds);
                     Double curDistance = runningViewModel.getOriDistance().getValue();
                     runningViewModel.setDistanceDifference(Math.round((curDistance - mateDistance) * 10) / 10.0);
@@ -215,9 +215,9 @@ public class TimerService extends Service {
         if (runningViewModel.getMsSpeed().getValue() != null) {
             double speed = runningViewModel.getMsSpeed().getValue();
             detail.setSpeed(speed);
-            if (speed <= 0.2) {
+            if (speed <= 0.3) {
                 detail.setState("STOP");
-            } else if (speed > 0.2 && speed <= 1.5) {
+            } else if (speed > 0.3 && speed <= 1.5) {
                 detail.setState("WALK");
             } else if (speed > 1.5 && speed <= 3.0) {
                 detail.setState("RACEWALK");

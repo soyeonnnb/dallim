@@ -115,4 +115,7 @@
         </activity>
     </application>
 
+    <queries>
+        <package android:name="com.sec.android.app.shealth" />
+    </queries>
 </manifest>

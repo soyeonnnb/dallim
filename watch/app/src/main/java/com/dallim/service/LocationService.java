@@ -93,7 +93,7 @@ public class LocationService extends Service {
         if (lastLocation != null) {
             double speed = location.getSpeed();
             // 초속 0.2 이상이면 걷는 걸로 판단.
-            if (speed >= 0.2) {
+            if (speed >= 0.3) {
                 speed = (Math.round(speed * 100) / 100.0);
                 // m/s 저장
                 runningViewModel.setMsSpeed(speed);

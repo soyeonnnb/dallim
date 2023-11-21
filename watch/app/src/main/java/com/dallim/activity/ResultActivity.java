@@ -112,7 +112,7 @@ public class ResultActivity extends AppCompatActivity {
                                 timeFormat = conversion.secondsToTimeStringMS(timeDifference);
                                 binding.winLoseGiveup.setText("패배");
                                 binding.winLoseGiveup.setTextColor(getResources().getColor(R.color.red));
-                                binding.timeDifference.setText("- " + timeFormat);
+                                binding.timeDifference.setText(timeFormat);
                                 binding.timeDifference.setTextColor(getResources().getColor(R.color.red));
                                 binding.timeDifference.setVisibility(View.VISIBLE);
                             }else if(winOrLose.equals("GIVEUP")){

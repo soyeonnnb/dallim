@@ -40,9 +40,15 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.samsung.android.sdk.healthdata.HealthConnectionErrorResult;
+import com.samsung.android.sdk.healthdata.HealthConstants;
+import com.samsung.android.sdk.healthdata.HealthDataStore;
+import com.samsung.android.sdk.healthdata.HealthPermissionManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class SelectActivity extends ComponentActivity {
 
@@ -52,6 +58,10 @@ public class SelectActivity extends ComponentActivity {
     private MenuAdapter menuAdapter;
     private List<MenuItem> menuList;
     private FusedLocationProviderClient fusedLocationProviderClient;
+    private HealthDataStore mStore;
+    private HealthConnectionErrorResult mConnError;
+    private Set<HealthPermissionManager.PermissionKey> mKeySet;
+    private static final String APP_TAG = "MyApp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +109,14 @@ public class SelectActivity extends ComponentActivity {
                 return false;
             }
         });
+
+        SelectActivity instance = this;
+        mKeySet = new HashSet<HealthPermissionManager.PermissionKey>();
+        mKeySet.add(new HealthPermissionManager.PermissionKey(HealthConstants.StepCount.HEALTH_DATA_TYPE, HealthPermissionManager.PermissionType.READ));
+        // Create a HealthDataStore instance and set its listener
+        mStore = new HealthDataStore(this, mConnectionListener);
+        // Request the connection to the health data store
+        mStore.connectService();
 
         // 클릭 이벤트 처리
         menuAdapter.setOnItemClickListener(new MenuAdapter.OnItemClickListener() {
@@ -219,4 +237,29 @@ public class SelectActivity extends ComponentActivity {
                 }
             });
 
+    private final HealthDataStore.ConnectionListener mConnectionListener = new HealthDataStore.ConnectionListener() {
+        @Override
+        public void onConnected() {
+            Log.d(APP_TAG, "Health data service is connected.");
+            HealthPermissionManager pmsManager = new HealthPermissionManager(mStore);
+            try {
+                // Check whether the permissions that this application needs are acquired
+                // Request the permission for reading step counts if it is not acquired
+
+                // Get the current step count and display it if data permission is required
+                // ...
+            } catch (Exception e) {
+                Log.e(APP_TAG, e.getClass().getName() + " - " + e.getMessage());
+                Log.e(APP_TAG, "Permission setting fails.");
+            }
+        }
+        @Override
+        public void onConnectionFailed(HealthConnectionErrorResult error) {
+            Log.d(APP_TAG, "Health data service is not available.");
+        }
+        @Override
+        public void onDisconnected() {
+            Log.d(APP_TAG, "Health data service is disconnected.");
+        }
+    };
 }

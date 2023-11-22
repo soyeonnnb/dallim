@@ -92,9 +92,10 @@ public class LocationService extends Service {
     private void onLocationUpdated(Location location) {
         if (lastLocation != null) {
             double speed = location.getSpeed();
-            // 초속 0.2 이상이면 걷는 걸로 판단.
-            if (speed >= 0.3) {
+            // 초속 0.3 이상이면 걷는 걸로 판단.
+            if (speed >= 0.3 && speed < 10) {
                 speed = (Math.round(speed * 100) / 100.0);
+                Log.d("현재 속도(m/s)", String.valueOf(speed));
                 // m/s 저장
                 runningViewModel.setMsSpeed(speed);
                 if (runningViewModel.getTotalSpeed().getValue() != 0) {
@@ -114,6 +115,7 @@ public class LocationService extends Service {
                 runningViewModel.setMsPace(format);
 
                 double distance = lastLocation.distanceTo(location);
+                Log.d("현재 달린 거리(m)", String.valueOf(distance));
                 totalDistance += distance;
                 // 원래 미터값
                 runningViewModel.setOriDistance((double) Math.round(totalDistance * 10) / 10.0);
@@ -138,7 +140,7 @@ public class LocationService extends Service {
             return;
         }
         LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(1000);
+        locationRequest.setInterval(3000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }

@@ -91,6 +91,7 @@ public class Conversion {
     // int값인 초를 뷴:초로 변경
     public String secondsToTimeStringMS(int seconds) {
         int minutes = seconds / 60;
+        minutes = Math.abs(minutes);
         seconds = Math.abs(seconds % 60);
 
         // 두 자릿수로 포맷팅

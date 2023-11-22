@@ -140,7 +140,7 @@ public class LocationService extends Service {
             return;
         }
         LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(1000);
+        locationRequest.setInterval(3000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
     }

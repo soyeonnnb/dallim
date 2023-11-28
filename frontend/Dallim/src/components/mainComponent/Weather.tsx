@@ -19,7 +19,7 @@ type WeatherData = {
   };
 };
 const fetchWeather = async (latitude: number, longitude: number): Promise<WeatherData | null> => {
-  const apiKey = '1280793a56c1419f31fdf1c5c1913c85';
+  const apiKey = 'null';
   try {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`);
     const data: WeatherData = await response.json();

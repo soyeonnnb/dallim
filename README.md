@@ -1,14 +1,14 @@
 ![메인페이지](https://github.com/Eungae-D/Dallim/assets/135101171/bd848807-e07b-49ae-99c4-970bda51e714)
 
-# 목차
-1. [소개](#-소개)
-2. [팀 구성](#-팀-구성)
-3. [주요 기능](#-주요-기능)
-4. [주요 기술](#-주요-기술)
-5. [빌드 환경](#-빌드-환경)
-6. [산출물](#-산출물) (최종발표자료, 아키텍쳐, 디자인, 요구사항 명세서, API 명세서, ERD)
+## 목차
+1. [소개](##-소개)
+2. [팀 구성](##-팀-구성)
+3. [주요 기능](##-주요-기능)
+4. [주요 기술](##-주요-기술)
+5. [빌드 환경](##-빌드-환경)
+6. [산출물](##-산출물) (최종발표자료, 아키텍쳐, 디자인, 요구사항 명세서, API 명세서, ERD)
 
-# ⌚ 소개
+## ⌚ 소개
 ### 🥇 SSAFY 9기 자율프로젝트 1위 수상 🥇 
 
 </aside>
@@ -16,7 +16,7 @@
 ⌛ 프로젝트 기간 : 2023.10.9 ~ 2023.11.17 (6주)
 
 
-## 개요
+### 개요
 
 **SSAFY 9기 2학기 자율 프로젝트**  
 
@@ -28,7 +28,7 @@
 
 <br />
 
-# 👥 팀 구성
+## 👥 팀 구성
 <table align="center">
   <tr>
     <td align="center"><a href="https://github.com/yeonchaking"><img src="https://avatars.githubusercontent.com/u/99801068?v=4" width="100px;" height="120px;" alt=""/><br /><sub><b>연제경<br>PM/Widget<br/></b></sub></a></td>
@@ -41,7 +41,7 @@
 </br>
 
 
-# 📌 주요 기능
+## 📌 주요 기능
 
 <details>
 <summary>:full_moon:<strong>메인 페이지</strong></summary>
@@ -321,7 +321,7 @@
 </details>
 <br />
 
-# 🔗 주요 기술
+## 🔗 주요 기술
 
 ### [ DALLIM ]
 - **Blender**: 독창적인 3D 모델링과 커스텀 디자인을 통한 4종의 캐릭터와 5개의 행성 제작.
@@ -366,7 +366,7 @@
 
 <br />
 
-# 🛠 빌드 환경
+## 🛠 빌드 환경
 
 | FrontEnd                | BackEnd                                      | Database   | Infra                      |
 | :---------------------- | :------------------------------------------- | :--------- | :------------------------- |
@@ -382,7 +382,7 @@
 <br>
 <br>
 
-# 📄 산출물
+## 📄 산출물
 
 #### 최종발표자료
 [😎 캔바 링크](https://www.canva.com/design/DAFz9CVPbIQ/V0Vt5LbQ50ublWIr1kfoPQ/view?utm_content=DAFz9CVPbIQ&utm_campaign=designshare&utm_medium=link&utm_source=editor)

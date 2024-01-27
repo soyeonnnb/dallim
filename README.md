@@ -1,14 +1,18 @@
 ![메인페이지](https://github.com/Eungae-D/Dallim/assets/135101171/bd848807-e07b-49ae-99c4-970bda51e714)
 
-## 목차
-1. [소개](#-소개)
+<br />
+
+## 📌 목차
+1. [서비스 소개](#-소개)
 2. [팀 구성](#-팀-구성)
 3. [주요 기능](#-주요-기능)
 4. [주요 기술](#-주요-기술)
 5. [빌드 환경](#-빌드-환경)
 6. [산출물](#-산출물) (최종발표자료, 아키텍쳐, 디자인, 요구사항 명세서, API 명세서, ERD)
 
-## ⌚ 소개
+<br />
+
+## ⌚ 서비스 소개
 ### 🥇 SSAFY 9기 자율프로젝트 1위 수상 🥇 
 
 </aside>
@@ -47,7 +51,7 @@
 <summary>:full_moon:<strong>메인 페이지</strong></summary>
 <br>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
     <th align="center" width="33%">비로그인</th>
     <th align="center" width="33%">메인</th>
@@ -65,7 +69,7 @@
   </tr>
 </table>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
     <th align="center" width="50%">달력</th>
     <th align="center" width="50%">개인정보 처리방침</th>
@@ -86,7 +90,7 @@
 <summary>:waxing_gibbous_moon:<strong>차트 페이지</strong></summary>
 <br>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
     <th align="center" width="33%">차트 메인</th>
     <th align="center" width="33%">차트 메인(하단 스크롤업)</th>
@@ -104,7 +108,7 @@
   </tr>
 </table>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
     <th align="center" width="25%">차트 메인(슬라이드)</th>
     <th align="center" width="50%">차트 기록</th>
@@ -125,7 +129,7 @@
   </tr>
 </table>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
     <th align="center" width="25%">페이스 차트 터치</th>
     <th align="center" width="25%">페이스 차트 비교</th>
@@ -152,7 +156,7 @@
 <summary>:first_quarter_moon:<strong>소셜 페이지</strong></summary>
 <br>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
     <th align="center" width="25%">소셜 메인(전체)</th>
     <th align="center" width="25%">러닝메이트 상세보기</th>
@@ -173,7 +177,7 @@
   </tr>
 </table>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
     <th align="center" width="25%">소셜 메인(친구)</th>
     <th align="center" width="50%">친구 검색</th>
@@ -195,7 +199,7 @@
 </table>
 
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
     <th align="center" width="33%">친구 목록 삭제</th>
     <th align="center" width="33%">받은 요청</th>
@@ -219,7 +223,7 @@
 <summary>:waxing_crescent_moon:<strong>편집 페이지</strong></summary>
 <br>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
     <th align="center" width="50%">편집 메인(캐릭터)</th>
     <th align="center" width="50%">캐릭터 구매</th>
@@ -240,7 +244,7 @@
   </tr>
 </table>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
     <th align="center" width="33%">편집 메인(행성)</th>
     <th align="center" width="33%">워치화면 미리보기</th>
@@ -264,7 +268,7 @@
 <summary>:new_moon:<strong>프로필 페이지</strong></summary>
 <br>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
     <th align="center" width="33%">프로필 메인</th>
     <th align="center" width="33%">닉네임 변경</th>
@@ -282,7 +286,7 @@
   </tr>
 </table>
 
-<table align="center">
+<table align="center" width="100%">
   <tr>
     <th align="center" width="33%">워치 설정</th>
     <th align="center" width="33%">운동 알림 설정</th>
@@ -306,7 +310,7 @@
 <summary>:full_moon_with_face:<strong>위젯</strong></summary>
 <br>
 
-<table>
+<table width="100%">
   <tr>
     <th align="center" width="100%">위젯</th>
   </tr>
@@ -325,12 +329,13 @@
 
 ### [ DALLIM ]
 - **Blender**: 독창적인 3D 모델링과 커스텀 디자인을 통한 4종의 캐릭터와 5개의 행성 제작.
+
 - **Gamification**: 사용자 참여 및 동기 부여를 증진시키는 게임화 요소.
-  - **CHARACTER (캐릭터)**: 선택 가능한 4종의 캐릭터, 각각 고유의 3단계 진화 과정을 경험.
-  - **PLANET (행성)**: 사용자가 5종류의 행성 중에서 선택하여 장착.
-  - **Point (포인트)**: 사용자의 활동에 따라 포인트 부여, 캐릭터 및 행성 구매에 사용.
-  - **FRIEND MANAGEMENT (친구 관리)**: 온라인 친구와의 연결, 기록 비교 및 대결 기능.
-  - **ALARM (알람)**: 정해진 시간에 러닝을 시작하도록 동기 부여, 일관된 운동 습관 형성 지원.
+    - **CHARACTER (캐릭터)**: 선택 가능한 4종의 캐릭터, 각각 고유의 3단계 진화 과정을 경험.
+    - **PLANET (행성)**: 사용자가 5종류의 행성 중에서 선택하여 장착.
+    - **Point (포인트)**: 사용자의 활동에 따라 포인트 부여, 캐릭터 및 행성 구매에 사용.
+    - **FRIEND MANAGEMENT (친구 관리)**: 온라인 친구와의 연결, 기록 비교 및 대결 기능.
+    - **ALARM (알람)**: 정해진 시간에 러닝을 시작하도록 동기 부여, 일관된 운동 습관 형성 지원.
 - **FCM(Firebase Cloud Messaging) Push**: 목표 달성 및 러닝에 대한 지속적인 관심과 참여를 유도하는 푸시 알림.
 - **Mobile Widget**: 사용자의 모바일 홈 화면에 위젯 추가로 러닝 관련 정보 표시.
 - **Location Weather**: 현재 위치 기반 날씨 정보를 제공하여 러닝 조건에 최적화된 환경 확인 및 악천후 대비 가능.
@@ -341,9 +346,10 @@
 - **React-Native**: 갤럭시워치와 안드로이드 모바일 연결에 적합한 모바일 애플리케이션 프레임워크.
 - **TypeScript**: 코드의 안정성 및 유지 보수성을 높이는 강력한 타입 시스템을 제공.
 - **Styled-Components (Atomic Design)**: React 컴포넌트에 직접 CSS 스타일을 적용하는 효율적인 방법, 코드의 가독성 및 유지 보수성 개선.
+
 - **Recoil**: React 앱의 상태 관리, atom과 selector를 통해 유연하고 효과적인 상태 관리 가능.
-  - **CSR (클라이언트 사이드 렌더링) 활용**: 상태 변경(예: 캐릭터, 행성)에 따른 컴포넌트 자동 업데이트로 동적인 UI 및 실시간 상호작용 지원.
-  - **SSR (서버 사이드 렌더링) 활용**: 초기 상태를 서버에서 설정하고 HTML을 생성하여 클라이언트로 전송, 빠른 페이지 로드.
+    - **CSR (클라이언트 사이드 렌더링) 활용**: 상태 변경(예: 캐릭터, 행성)에 따른 컴포넌트 자동 업데이트로 동적인 UI 및 실시간 상호작용 지원.
+    - **SSR (서버 사이드 렌더링) 활용**: 초기 상태를 서버에서 설정하고 HTML을 생성하여 클라이언트로 전송, 빠른 페이지 로드.
 - **Axios**: 애플리케이션에서 HTTP 통신을 쉽고 효율적으로 처리.
 - **react-native-gifted-charts**: 사용자 데이터를 시각적으로 표현하여 분석과 이해를 돕는 강력한 데이터 시각화 도구.
 
@@ -356,11 +362,27 @@
     - 갤럭시워치에서 제공한 운동 raw 데이터를 그대로 MongoDB로 저장하는 것은 불필요한 데이터로 인해 Disk가 낭비되는 문제가 발생   
     - 달림 서비스에서 운동기록을 사용하는 차트와 함께 달리기 기능에 필요한 정보만을 추출해서 저장하도록 변경
     - 불필요한 데이터를 줄이고, 조회 속도를 0.3ms로 개선
+ 
+### [ WATCH ]
+- **EncryptedSharedpreferences 라이브러리**
+    - 스마트 워치의 유저 정보를 안전하게 암호화를 통해 저장
+    - AES 256 알고리즘 사용
+
+- **Room 라이브러리**
+    - SQLite DB를 쉽고 편리하게 사용하게 해주는 라이브러리
+    - SQL에 문제가 생길 경우 컴파일단에서 에러 발생시키는 장점
+
+- **기록 측정 방법**
+    - FusedLocationProviderClient 클래스를 이용해서 위치 정보 수집.
+    - 가속도 센서, 자이로스코프, 자기장 센서 등의 여러 가지 종합적인 정보를 통해 예측 위치 서비스 제공.
+    - Location 클래스를 이용해 속도 정보를 받아서 측정.
+    - 속도, 거리, 심박수, 발걸음을 1초마다 리스트에 저장해서 달리기 종료가 되면 모든 데이터를 MongoDB로 전송.
 
 ### [ TEAM ]
 - **GitLab**: 프로젝트의 코드와 문서 관리.
+
 - **Jira**: 프로젝트 일정, 이슈 및 작업 관리.
-  - **Scrum (Agile)**: 1주 주기의 프로젝트 스프린트와 매일 5분의 스크럼미팅을 통한 통한 긴밀한 팀 협업과 소통.
+    - **Scrum (Agile)**: 1주 주기의 프로젝트 스프린트와 매일 5분의 스크럼미팅을 통한 통한 긴밀한 팀 협업과 소통.
 - **Mattermost**: 팀 내 의사소통 및 파일 공유를 지원하는 협업 도구 활용.
 - **Figma**: 프로젝트의 UI/UX 설계 및 디자인 가이드라인 구축에 활용, 팀원 간의 효과적인 디자인 커뮤니케이션 및 일관성 있는 디자인 유지.
 

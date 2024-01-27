@@ -1,4 +1,4 @@
-![메인페이지](https://github.com/Eungae-D/Dallim/assets/135101171/bd848807-e07b-49ae-99c4-970bda51e714)
+![달림메인](https://github.com/soyeonnnb/dallim/assets/71217221/9e6f1dc1-e2ec-42ba-a81d-ed59d26f57aa)
 
 <br />
 

@@ -410,19 +410,18 @@
 [😎 캔바 링크](https://www.canva.com/design/DAFz9CVPbIQ/V0Vt5LbQ50ublWIr1kfoPQ/view?utm_content=DAFz9CVPbIQ&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
 #### 아키텍쳐
-![Dallim_아키텍쳐](https://github.com/yeonchaking/dallimrepo/assets/99801068/c45eca58-fa15-485a-ba14-55d20228ad91)
+![아키텍쳐구조도](https://github.com/soyeonnnb/dallim/assets/71217221/69ef0429-0a77-4305-85c6-38471557f8ca)
 
 #### 디자인
-![image](https://github.com/yeonchaking/dallimrepo/assets/99801068/4fae7234-5730-4dee-9f52-535e20859c91)
+![디자인](https://github.com/soyeonnnb/dallim/assets/71217221/208e7f63-553c-4aa7-9a7e-75177067fffe)
 
 #### 요구사항 명세서
-![image](https://github.com/yeonchaking/dallimrepo/assets/99801068/e1b27ba1-92dd-47ad-8b4f-80e0c60509ba)
+![요구사항명세서](https://github.com/soyeonnnb/dallim/assets/71217221/3ce49661-226f-43c7-b8d8-4b6dfb06c62b)
 
 #### API 명세서
-![image](https://github.com/yeonchaking/dallimrepo/assets/99801068/2d15c28e-a9f1-4014-b4b7-0a5579057fd4)
+![API명세서](https://github.com/soyeonnnb/dallim/assets/71217221/79e9b12e-11da-408d-8709-e5dd3d716a20)
 
 #### ERD
-![image](https://github.com/yeonchaking/dallimrepo/assets/99801068/cdad5357-4aee-417b-81e7-f9aa6b4d9bdb)
-
+![erd](https://github.com/soyeonnnb/dallim/assets/71217221/80c07fba-03d5-40bc-a2e5-2508cdbf8da8)
 
 <br/>
